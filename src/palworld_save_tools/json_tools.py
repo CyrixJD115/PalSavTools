@@ -3,12 +3,9 @@ import json
 import math
 import uuid
 from palworld_save_tools.archive import UUID
-
 _BYTE_TAG = '~b'
-
 def _tag_bytes(obj: bytes) -> dict[str, str]:
     return {_BYTE_TAG: base64.b64encode(obj).decode('ascii')}
-
 def _decode_byte_tags(obj):
     if isinstance(obj, dict):
         if len(obj) == 1 and _BYTE_TAG in obj:
@@ -17,7 +14,6 @@ def _decode_byte_tags(obj):
     if isinstance(obj, list):
         return [_decode_byte_tags(v) for v in obj]
     return obj
-
 class CustomEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, UUID):

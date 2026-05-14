@@ -175,14 +175,6 @@ class MyWriter(FArchiveWriter):
         new_size_bytes = struct.pack('Q', old_size + n_bytes_more)
         bytes_concat_array[0] = bytes_concat_array[0][:parent_section_size_idx] + new_size_bytes + bytes_concat_array[0][parent_section_size_idx + 8:]
         return b''.join(bytes_concat_array)
-    def guid(self, u):
-        self.data.write(u)
-    def optional_guid(self, u):
-        if u is None:
-            self.bool(False)
-        else:
-            self.bool(True)
-            self.data.write(u)
 def fast_deepcopy(json_dict):
     return pickle.loads(pickle.dumps(json_dict, -1))
 class SkipGvasFile(GvasFile):

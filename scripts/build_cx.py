@@ -43,6 +43,8 @@ def sync_version():
 def build_with_cx_freeze():
     print('Running cx_Freeze build...')
     subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'])
+    if os.path.exists('uv.lock'):
+        os.remove('uv.lock')
     lib_folder = os.path.join('PST_standalone', 'src', 'palworld_save_tools', 'lib')
     if os.path.exists(lib_folder):
         print(f'Removing {lib_folder}...')

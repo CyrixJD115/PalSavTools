@@ -1,4 +1,5 @@
 import base64
+import copy
 import io
 import math
 import os
@@ -608,6 +609,7 @@ class FArchiveWriter:
             custom = self.custom_properties.get(property['custom_type'])
             if custom is None:
                 raise Exception(f"Unknown custom property type: {property['custom_type']}")
+            property = copy.deepcopy(property)
             return custom[1](self, property_type, property)
         handler = FArchiveWriter._WRITE_PROPERTY_DISPATCH.get(property_type)
         if handler is None:

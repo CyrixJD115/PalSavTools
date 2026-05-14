@@ -1,6 +1,27 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QFrame, QVBoxLayout, QListWidget, QListWidgetItem, QLineEdit
 from PySide6.QtCore import Qt, Signal, QPoint, QEvent, QTimer
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QKeyEvent
+class _SearchEditKeyHandler:
+    def __init__(self, search_edit, combo):
+        self._search_edit = search_edit
+        self._combo = combo
+        search_edit.installEventFilter(self)
+    def eventFilter(self, obj, event):
+        if obj == self._search_edit and event.type() == QEvent.Type.KeyPress:
+            key = event.key()
+            if key == Qt.Key_Down:
+                self._combo._select_next_item()
+                return True
+            elif key == Qt.Key_Up:
+                self._combo._select_prev_item()
+                return True
+            elif key == Qt.Key_Return or key == Qt.Key_Enter:
+                self._combo._confirm_selection()
+                return True
+            elif key == Qt.Key_Escape:
+                self._combo._hide_popup()
+                return True
+        return False
 class StyledCombo(QWidget):
     currentIndexChanged = Signal(int)
     def __init__(self, parent=None):
@@ -25,6 +46,7 @@ class StyledCombo(QWidget):
         self._search_edit.hide()
         self._search_edit.textChanged.connect(self._on_search_text_changed)
         self._search_edit.installEventFilter(self)
+        self._search_edit_key_handler = _SearchEditKeyHandler(self._search_edit, self)
         self._popup = QFrame(self, Qt.Popup)
         self._popup.setFixedWidth(300)
         self._popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
@@ -110,9 +132,31 @@ class StyledCombo(QWidget):
             pos = self._button.mapToGlobal(QPoint(0, self._button.height()))
         self._popup.move(pos)
         self._popup.show()
-        self._list.setFocus()
+        if not self._searchable:
+            self._list.setFocus()
     def _hide_popup(self):
         self._popup.hide()
+    def _select_next_item(self):
+        if not self._popup.isVisible() or self._list.count() == 0:
+            return
+        current = self._list.currentRow()
+        next_row = current + 1 if current < self._list.count() - 1 else 0
+        self._list.setCurrentRow(next_row)
+    def _select_prev_item(self):
+        if not self._popup.isVisible() or self._list.count() == 0:
+            return
+        current = self._list.currentRow()
+        prev_row = current - 1 if current > 0 else self._list.count() - 1
+        self._list.setCurrentRow(prev_row)
+    def _confirm_selection(self):
+        if not self._popup.isVisible() or self._list.count() == 0:
+            return
+        current = self._list.currentRow()
+        if current < 0:
+            current = 0
+        item = self._list.item(current)
+        if item and (item.flags() & Qt.ItemIsEnabled):
+            self._on_item_clicked(item)
     def _on_search_text_changed(self, text):
         self._filter_popup(text)
         if not self._popup.isVisible():

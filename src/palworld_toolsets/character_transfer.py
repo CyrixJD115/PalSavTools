@@ -898,6 +898,8 @@ def transfer_pals_only():
     new_oto = fast_deepcopy(src_oto['value']['Slots']['value'].get('values', []))
     remap_slots(new_oto, t_oto_id)
     tgt_oto['value']['Slots']['value']['values'] = new_oto
+    tgt_pal['value']['SlotNum']['value'] = src_pal['value']['SlotNum']['value']
+    tgt_oto['value']['SlotNum']['value'] = src_oto['value']['SlotNum']['value']
     targ_uid_str = str(targ_uid)
     t_chars = targ_lvl['CharacterSaveParameterMap']['value']
     new_map = [ch for ch in t_chars if str(get_val_safe(ch).get('OwnerPlayerUId', {}).get('value')) != targ_uid_str]

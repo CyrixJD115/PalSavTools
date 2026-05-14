@@ -612,10 +612,13 @@ class PlayerInventoryTab(QWidget):
         player_selector_layout = QHBoxLayout()
         player_selector_layout.setContentsMargins(0, 0, 0, 0)
         player_selector_layout.setSpacing(0)
+        self.player_search = QLineEdit()
+        self.player_search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
+        self.player_search.setFixedWidth(120)
+        self.player_search.textChanged.connect(self._filter_player_list)
+        player_selector_layout.addWidget(self.player_search)
         self.player_combo = StyledCombo()
-        self.player_combo.setSearchable(True)
-        self.player_combo.setSearchPlaceholder(t('inventory.search_players', default='Search players...'))
-        self.player_combo.setFixedWidth(300)
+        self.player_combo.setFixedWidth(180)
         self.player_combo.currentIndexChanged.connect(self._on_player_selected)
         player_selector_layout.addWidget(self.player_combo)
         header.addLayout(player_selector_layout)
@@ -802,6 +805,23 @@ class PlayerInventoryTab(QWidget):
                 display_name = f'{name} (Lv.{level})'
                 self.player_combo.addItem(display_name, uid)
                 self._player_list.append({'uid': uid, 'name': name, 'level': level, 'display': display_name})
+        self.player_combo.blockSignals(False)
+    def _filter_player_list(self, query: str):
+        if not query:
+            self.player_combo.blockSignals(True)
+            self.player_combo.clear()
+            self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
+            for player in self._player_list:
+                self.player_combo.addItem(player['display'], player['uid'])
+            self.player_combo.blockSignals(False)
+            return
+        query_lower = query.lower()
+        self.player_combo.blockSignals(True)
+        self.player_combo.clear()
+        self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
+        for player in self._player_list:
+            if query_lower in player['name'].lower() or query_lower in player['uid'].lower():
+                self.player_combo.addItem(player['display'], player['uid'])
         self.player_combo.blockSignals(False)
     def _on_player_selected(self, index):
         if index <= 0:

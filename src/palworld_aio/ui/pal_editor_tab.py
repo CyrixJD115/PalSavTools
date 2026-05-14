@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QSizePolicy
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QFrame, QSizePolicy
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from i18n import t
@@ -26,10 +26,13 @@ class PalEditorTab(QWidget):
         player_selector_layout = QHBoxLayout()
         player_selector_layout.setContentsMargins(0, 0, 0, 0)
         player_selector_layout.setSpacing(0)
+        self.player_search = QLineEdit()
+        self.player_search.setPlaceholderText(t('inventory.search_players'))
+        self.player_search.setFixedWidth(120)
+        self.player_search.textChanged.connect(self._filter_player_list)
+        player_selector_layout.addWidget(self.player_search)
         self.player_combo = StyledCombo()
-        self.player_combo.setSearchable(True)
-        self.player_combo.setSearchPlaceholder(t('inventory.search_players', default='Search players...'))
-        self.player_combo.setFixedWidth(300)
+        self.player_combo.setFixedWidth(180)
         self.player_combo.currentIndexChanged.connect(self._on_player_selected)
         player_selector_layout.addWidget(self.player_combo)
         header.addLayout(player_selector_layout)
@@ -61,11 +64,16 @@ class PalEditorTab(QWidget):
             self.current_player_name = None
             self._clear_editor()
             return
-        uid = self.player_combo.currentData()
-        if uid:
-            self.current_player_uid = uid
-            self.current_player_name = self.player_combo.currentText()
-            self._show_editor()
+        list_index = index - 1
+        if list_index < 0 or list_index >= len(self._player_list):
+            self.current_player_uid = None
+            self.current_player_name = None
+            self._clear_editor()
+            return
+        player_data = self._player_list[list_index]
+        self.current_player_uid = player_data['uid']
+        self.current_player_name = player_data['name']
+        self._show_editor()
     def _show_editor(self):
         if self.current_player_uid:
             self.placeholder_label.hide()
@@ -75,6 +83,23 @@ class PalEditorTab(QWidget):
         self.pal_editor_widget.hide()
         self.pal_editor_widget.clear()
         self.placeholder_label.show()
+    def _filter_player_list(self, query: str):
+        if not query:
+            self.player_combo.blockSignals(True)
+            self.player_combo.clear()
+            self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
+            for player in self._player_list:
+                self.player_combo.addItem(player['display'], player['uid'])
+            self.player_combo.blockSignals(False)
+            return
+        query_lower = query.lower()
+        self.player_combo.blockSignals(True)
+        self.player_combo.clear()
+        self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
+        for player in self._player_list:
+            if query_lower in player['name'].lower() or query_lower in player['uid'].lower():
+                self.player_combo.addItem(player['display'], player['uid'])
+        self.player_combo.blockSignals(False)
     def refresh(self):
         self._load_players()
     def _load_players(self):
@@ -96,8 +121,8 @@ class PalEditorTab(QWidget):
     def refresh_labels(self):
         if hasattr(self, 'title_label'):
             self.title_label.setText(t('pal_editor.title'))
-        if hasattr(self, 'player_combo'):
-            self.player_combo.setSearchPlaceholder(t('inventory.search_players', default='Search players...'))
+        if hasattr(self, 'player_search'):
+            self.player_search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
         if hasattr(self, 'placeholder_label'):
             self.placeholder_label.setText(t('pal_editor.select_player_hint', default='Select a player to edit their pals'))
         if hasattr(self, 'pal_editor_widget'):

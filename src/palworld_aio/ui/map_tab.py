@@ -229,6 +229,7 @@ class MapTab(QWidget):
         self.info_label = QLabel(t('map.info.select_base') if t else 'Click on a base marker or list item to view details')
         self.info_label.setWordWrap(True)
         self.info_label.setObjectName('sectionHeader')
+        self.info_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         sidebar_layout.addWidget(self.info_label)
         self._splitter = splitter
         splitter.addWidget(self._map_widget)

@@ -74,6 +74,7 @@ class SaveManager(QObject):
         self.load_started.emit()
         constants.current_save_path = d
         constants.backup_save_path = constants.current_save_path
+        backup_whole_directory(constants.backup_save_path, 'Backups/AllinOneTools')
         def load_task():
             t0 = time.perf_counter()
             constants.loaded_level_json = sav_to_gvas_wrapper(p)
@@ -164,7 +165,6 @@ class SaveManager(QObject):
         if not constants.current_save_path or not constants.loaded_level_json:
             return
         self.save_started.emit()
-        backup_whole_directory(constants.backup_save_path, 'Backups/AllinOneTools')
         level_sav_path = os.path.join(constants.current_save_path, 'Level.sav')
         def save_task():
             t0 = time.perf_counter()

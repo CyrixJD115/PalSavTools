@@ -36,7 +36,7 @@ def decode_bytes(parent_reader: FArchiveReader, c_bytes: Sequence[int]) -> Optio
             temp_data['passive_skill_list'] = reader.tarray(lambda r: r.fstring())
             temp_data['trailing_bytes'] = reader.byte_list(4)
             if not reader.eof():
-                raise Exception('Warning: EOF not reached')
+                temp_data['unknown_bytes'] = [int(b) for b in reader.read_to_end()]
             data |= temp_data
         except Exception as e:
             logger.debug(f'Failed to parse weapon data, continuing as raw data {buf!r}: {e}')
@@ -92,5 +92,7 @@ def encode_bytes(p: dict[str, Any]) -> bytes:
         writer.write(bytes(p['trailing_bytes']))
     if 'unknown_bytes' in p:
         writer.write(bytes(p['unknown_bytes']))
+    if 'trailing_bytes' in p:
+        writer.write(bytes(p['trailing_bytes']))
     encoded_bytes = writer.bytes()
     return encoded_bytes

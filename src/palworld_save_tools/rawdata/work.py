@@ -83,7 +83,7 @@ def decode_work_assign_bytes(parent_reader: FArchiveReader, b_bytes: Sequence[in
     data['fixed'] = reader.u32() > 0
     data['trailing_bytes'] = reader.byte_list(4)
     if not reader.eof():
-        raise Exception('Warning: EOF not reached')
+        data['unknown_bytes'] = [int(b) for b in reader.read_to_end()]
     return data
 def encode(writer: FArchiveWriter, property_type: str, properties: dict[str, Any]) -> int:
     if property_type != 'ArrayProperty':

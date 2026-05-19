@@ -83,5 +83,7 @@ def encode_bytes(p: dict[str, Any], module_type: str) -> bytes:
         writer.tarray(module_passive_effect_writer, p['passive_effects'])
     if 'unknown_bytes' in p:
         writer.write(bytes(p['unknown_bytes']))
+    if 'trailing_bytes' in p:
+        writer.write(bytes(p['trailing_bytes']))
     encoded_bytes = writer.bytes()
     return encoded_bytes

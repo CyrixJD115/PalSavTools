@@ -1232,7 +1232,7 @@ class MainWindow(QMainWindow):
         if not constants.loaded_level_json:
             self._show_warning(t('Error'), t('error.no_save_loaded'))
             return
-        reply = show_question(self, t('Confirm') if t else 'Confirm', t('deletion.fix_illegal_pals_confirm') if t else 'This will fix all illegal pals by setting their stats to legal maximums (level 65, IVs 100, souls 20). Continue?')
+        reply = show_question(self, t('Confirm') if t else 'Confirm', t('deletion.fix_illegal_pals_confirm') if t else 'This will fix all illegal pals by setting their stats to legal maximums (level 80, IVs 100, souls 20). Continue?')
         if not reply:
             return
         def task():
@@ -1533,19 +1533,19 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(btn_layout)
         def update_level(delta):
             current = int(level_input.text())
-            new_val = max(1, min(30, current + delta))
+            new_val = max(1, min(35, current + delta))
             level_input.setText(str(new_val))
         minus_btn.clicked.connect(lambda: update_level(-1))
         plus_btn.clicked.connect(lambda: update_level(1))
         def update_from_input():
             val = int(level_input.text())
-            level_input.setText(str(max(1, min(30, val))))
+            level_input.setText(str(max(1, min(35, val))))
         level_input.returnPressed.connect(update_from_input)
         level_input.editingFinished.connect(update_from_input)
         cancel_btn.clicked.connect(dialog.reject)
         def on_confirm():
             level = int(level_input.text())
-            if 1 <= level <= 30:
+            if 1 <= level <= 35:
                 set_guild_level(gid, level)
                 self.refresh_all()
                 self._show_info(t('success.title'), t('guild.level.set', level=level))
@@ -1776,7 +1776,7 @@ class MainWindow(QMainWindow):
         if current_level == 1 or current_level_raw == '?':
             self._show_warning(t('Error') if t else 'Error', t('player.level.set_no_level_data') if t else 'Cannot set player level - player is at level 1 or unknown')
             return
-        new_level = LevelInputDialog.get_level(t('player.set_level.title') if t else 'Set Player Level', t('player.set_level.prompt', current_level=current_level) if t else f'Current level: {current_level}\nEnter new level (2-65):', current_level, self)
+        new_level = LevelInputDialog.get_level(t('player.set_level.title') if t else 'Set Player Level', t('player.set_level.prompt', current_level=current_level) if t else f'Current level: {current_level}\nEnter new level (2-80):', current_level, self)
         if new_level is not None and new_level != current_level:
             if new_level < 2:
                 self._show_warning(t('Error') if t else 'Error', t('player.level.minimum_level') if t else 'Cannot set player level - minimum level is 2')

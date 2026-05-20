@@ -145,7 +145,7 @@ class LevelInputDialog(ThemedDialog):
         layout.addWidget(label)
         self.spin_box = QSpinBox()
         self.spin_box.setMinimum(1)
-        self.spin_box.setMaximum(65)
+        self.spin_box.setMaximum(80)
         self.spin_box.setValue(current_level)
         layout.addWidget(self.spin_box)
         button_layout = QHBoxLayout()

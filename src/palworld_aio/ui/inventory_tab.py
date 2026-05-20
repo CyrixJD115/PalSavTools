@@ -5,7 +5,7 @@ from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor
 from i18n import t
 DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQSpinBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 4px 8px;\n}\nQSpinBox:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQComboBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQComboBox:hover {\n    border-color: rgba(125,211,252,0.3);\n}\nQComboBox QAbstractItemView {\n    background-color: rgba(18,20,24,0.98);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    selection-background-color: rgba(59,142,208,0.3);\n    border-radius: 4px;\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 6px;\n    border-radius: 4px;\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n}\nQMenu {\n    background-color: rgba(18,20,24,0.95);\n    border: 1px solid rgba(125,211,252,0.3);\n    border-radius: 4px;\n    color: #e2e8f0;\n    padding: 4px;\n}\nQMenu::item {\n    padding: 6px 12px;\n    border-radius: 3px;\n}\nQMenu::item:selected {\n    background-color: rgba(59,142,208,0.3);\n}\nQMenu::separator {\n    height: 1px;\n    background: rgba(125,211,252,0.2);\n    margin: 4px 8px;\n}\nQMessageBox {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQMessageBox QLabel {\n    color: #e2e8f0;\n}\nQMessageBox QPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    min-width: 70px;\n    font-weight: 600;\n}\nQMessageBox QPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\n'
 STATS_PANEL_STYLE = '\nStatsPanelWidget {\n    background: rgba(18,20,24,0.95);\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 8px;\n}\nStatsPanelWidget QLabel {\n    color: #e2e8f0;\n}\nStatsPanelWidget QLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 4px;\n    padding: 2px 4px;\n}\nStatsPanelWidget QLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nStatsPanelWidget QPushButton {\n    background: rgba(125,211,252,0.1);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 3px;\n    font-weight: bold;\n}\nStatsPanelWidget QPushButton:hover {\n    background: rgba(125,211,252,0.2);\n}\nStatsPanelWidget QProgressBar {\n    background: rgba(255,255,255,0.05);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 3px;\n}\nStatsPanelWidget QProgressBar::chunk {\n    background: rgba(34,197,94,0.6);\n    border-radius: 2px;\n}\n'
-from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, search_items, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS
+from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, search_items, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
 from palworld_aio import constants
 from palworld_aio.ui.styled_combo import StyledCombo
 GRID_COLS = 6
@@ -194,6 +194,8 @@ class EquipmentSlotWidget(QFrame):
                 tooltip = f"<b>{t('inventory.locked', default='Locked')}</b><br>{t('inventory.unlock_hint_food', default='Click to unlock with AutoMealPouch')}"
             elif self._lock_type == 'accessory':
                 tooltip = f"<b>{t('inventory.locked', default='Locked')}</b><br>{t('inventory.unlock_hint_accessory', default='Click to unlock with Accessory Slot Item')}"
+            elif self._lock_type == 'weapon':
+                tooltip = f"<b>{t('inventory.locked', default='Locked')}</b><br>{t('inventory.unlock_hint_weapon', default='Click to unlock with Weapon Slot Item')}"
             else:
                 tooltip = f"<b>{t('inventory.locked', default='Locked')}</b>"
             QToolTip.showText(QCursor.pos(), tooltip)
@@ -203,7 +205,7 @@ class EquipmentSlotWidget(QFrame):
             tooltip = f'<b>{item_name}</b><br><i>{item_id}</i>'
             QToolTip.showText(QCursor.pos(), tooltip)
         super().enterEvent(event)
-EXP_TABLE = [0, 500, 1500, 3500, 7000, 12000, 18500, 26500, 36500, 48500, 63000, 80000, 100000, 123000, 149000, 178500, 211500, 248500, 290000, 336000, 387000, 443500, 506000, 575000, 650500, 733000, 823000, 921000, 1027500, 1143000, 1268000, 1403500, 1550000, 1708500, 1880000, 2065000, 2265000, 2481500, 2716000, 2969500, 3243500, 3539000, 3858000, 4202000, 4572500, 4971500, 5401000, 5863000, 6360000, 6894000, 7470000, 8095000, 8775000, 9515000, 10325000, 11200000, 12150000, 13185000, 14315000, 15550000, 16900000, 18375000, 20000000, 21800000, 23800000]
+EXP_TABLE = [0, 500, 1500, 3500, 7000, 12000, 18500, 26500, 36500, 48500, 63000, 80000, 100000, 123000, 149000, 178500, 211500, 248500, 290000, 336000, 387000, 443500, 506000, 575000, 650500, 733000, 823000, 921000, 1027500, 1143000, 1268000, 1403500, 1550000, 1708500, 1880000, 2065000, 2265000, 2481500, 2716000, 2969500, 3243500, 3539000, 3858000, 4202000, 4572500, 4971500, 5401000, 5863000, 6360000, 6894000, 7470000, 8095000, 8775000, 9515000, 10325000, 11200000, 12150000, 13185000, 14315000, 15550000, 16900000, 18375000, 20000000, 21800000, 23800000, 26000000, 28400000, 31000000, 33800000, 36800000, 40000000, 43400000, 47000000, 50800000, 54800000, 59000000, 63400000, 68000000, 72800000, 77800000]
 class StatsPanelWidget(QFrame):
     stats_changed = Signal()
     def __init__(self, parent=None):
@@ -299,7 +301,7 @@ class StatsPanelWidget(QFrame):
     def _on_level_input_changed(self):
         try:
             new_level = int(self.level_input.text())
-            new_level = max(1, min(65, new_level))
+            new_level = max(1, min(80, new_level))
             if new_level != self._current_level:
                 self._current_level = new_level
                 self._current_exp = EXP_TABLE[self._current_level - 1]
@@ -308,7 +310,7 @@ class StatsPanelWidget(QFrame):
         except ValueError:
             self.level_input.setText(str(self._current_level))
     def _increase_level(self):
-        if self._current_level < 65:
+        if self._current_level < 80:
             self._current_level += 1
             self._current_exp = EXP_TABLE[self._current_level - 1]
             self._update_level_display()
@@ -323,7 +325,7 @@ class StatsPanelWidget(QFrame):
         self.level_input.blockSignals(True)
         self.level_input.setText(str(self._current_level))
         self.level_input.blockSignals(False)
-        if self._current_level >= 65:
+        if self._current_level >= 80:
             self.exp_bar.setValue(100)
         else:
             current_level_exp = EXP_TABLE[self._current_level - 1]
@@ -384,7 +386,7 @@ class StatsPanelWidget(QFrame):
     def get_exp(self) -> int:
         return self._current_exp
     def set_level(self, level: int, exp_percent: int):
-        self._current_level = max(1, min(65, level))
+        self._current_level = max(1, min(80, level))
         self._current_exp = EXP_TABLE[self._current_level - 1]
         self._update_level_display()
     def refresh_labels(self):
@@ -660,7 +662,7 @@ class PlayerInventoryTab(QWidget):
         self.stats_panel = StatsPanelWidget()
         self.stats_panel.setFixedWidth(180)
         self.stats_panel.stats_changed.connect(self._on_stats_changed)
-        stats_tab_layout.addWidget(self.stats_panel, alignment=Qt.AlignTop)
+        stats_tab_layout.addWidget(self.stats_panel, alignment=Qt.AlignCenter)
         self.inv_tabs.addTab(self.stats_tab, t('inventory.stats', default='Stats'))
         left_layout.addWidget(self.inv_tabs)
         inner_content.addWidget(self.left_panel, 2)
@@ -692,11 +694,17 @@ class PlayerInventoryTab(QWidget):
         weapon_header.setStyleSheet('font-size: 9px; font-weight: bold; color: #aaa;')
         left_col.addWidget(weapon_header)
         self.equip_headers['weapon'] = weapon_header
-        for i in range(1, 5):
-            slot = EquipmentSlotWidget(f'weapon{i}', f'W{i}')
-            self.equip_slots[f'weapon{i}'] = slot
+        weapon_grid = QGridLayout()
+        weapon_grid.setSpacing(2)
+        weapon_grid.setContentsMargins(0, 0, 0, 0)
+        for i, (row, col) in enumerate([(0, 0), (1, 0), (2, 0), (3, 0), (0, 1), (1, 1)]):
+            slot = EquipmentSlotWidget(f'weapon{i + 1}', f'W{i + 1}')
+            self.equip_slots[f'weapon{i + 1}'] = slot
             slot.context_menu_requested.connect(self._show_equip_context_menu)
-            left_col.addWidget(slot)
+            slot.unlock_requested.connect(self._on_slot_unlock_request)
+            weapon_grid.addWidget(slot, row, col)
+        weapon_grid.setAlignment(Qt.AlignLeft)
+        left_col.addLayout(weapon_grid)
         left_col.addSpacing(8)
         acc_header = QLabel(t('inventory.accessory', default='Accessory'))
         acc_header.setStyleSheet('font-size: 9px; font-weight: bold; color: #aaa;')
@@ -722,10 +730,7 @@ class PlayerInventoryTab(QWidget):
         food_grid.setSpacing(2)
         food_grid.setContentsMargins(0, 0, 0, 0)
         for i in range(5):
-            if i < 3:
-                row, col = (0, i)
-            else:
-                row, col = (1, i - 3)
+            row, col = (0, i)
             slot = EquipmentSlotWidget(f'food{i + 1}', f'F{i + 1}')
             self.equip_slots[f'food{i + 1}'] = slot
             slot.context_menu_requested.connect(self._show_equip_context_menu)
@@ -875,6 +880,13 @@ class PlayerInventoryTab(QWidget):
                 slot_widget = self.equip_slots[slot_name]
                 is_locked = i > unlocked_accessory_slots
                 slot_widget.set_locked(is_locked, lock_type='accessory' if is_locked else None)
+        unlocked_weapon_slots = self.inventory.get_unlocked_weapon_slots() if self.inventory else 4
+        for i in range(5, 7):
+            slot_name = f'weapon{i}'
+            if slot_name in self.equip_slots:
+                slot_widget = self.equip_slots[slot_name]
+                is_locked = i > unlocked_weapon_slots
+                slot_widget.set_locked(is_locked, lock_type='weapon' if is_locked else None)
         equipment = self.inventory.get_equipment()
         for slot_name, item in equipment.items():
             if slot_name in self.equip_slots:
@@ -905,6 +917,16 @@ class PlayerInventoryTab(QWidget):
                 self._themed_message_box(QMessageBox.Information, t('inventory.unlock_failed', default='Unlock Failed'), t('inventory.max_accessory_slots', default='All accessory slots are already unlocked!'), QMessageBox.Ok)
                 return
             slot_type = 'accessory'
+        elif slot_name.startswith('weapon'):
+            unlocked_weapon = self.inventory.get_unlocked_weapon_slots()
+            unlock_index = unlocked_weapon - 4
+            if unlock_index < len(WEAPON_UNLOCK_ITEMS):
+                unlock_item_id = WEAPON_UNLOCK_ITEMS[unlock_index]
+                unlock_item_name = f'Weapon Slot Unlock {unlock_index + 1}'
+            else:
+                self._themed_message_box(QMessageBox.Information, t('inventory.unlock_failed', default='Unlock Failed'), t('inventory.max_weapon_slots', default='All weapon slots are already unlocked!'), QMessageBox.Ok)
+                return
+            slot_type = 'weapon'
         else:
             return
         slot_display = slot_name.replace('_', ' ').title()

@@ -23,10 +23,13 @@ def extract_guild_bases_from_save():
         guild_name = g_val['RawData']['value'].get('guild_name', 'Unknown Guild')
         admin_uid = str(g_val['RawData']['value'].get('admin_player_uid', ''))
         leader_name = 'Unknown'
-        for p in g_val['RawData']['value'].get('players', []):
+        players_list = g_val['RawData']['value'].get('players', [])
+        for p in players_list:
             if str(p.get('player_uid', '')) == admin_uid:
                 leader_name = p.get('player_info', {}).get('player_name', admin_uid)
                 break
+        if leader_name == 'Unknown' and players_list:
+            leader_name = players_list[0].get('player_info', {}).get('player_name', 'Unknown')
         for bid in g_val['RawData']['value'].get('base_ids', []):
             bid_str = str(bid).replace('-', '')
             if bid_str in base_map:

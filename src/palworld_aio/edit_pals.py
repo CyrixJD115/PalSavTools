@@ -1026,7 +1026,7 @@ class PalEditorWidget(QWidget):
         level_layout.addWidget(QLabel(t('edit_pals.level') + ':'))
         tab.level_spin = QSpinBox()
         tab.level_spin.setObjectName('editPalsSpin')
-        tab.level_spin.setRange(1, 65)
+        tab.level_spin.setRange(1, 80)
         tab.level_spin.setValue(1)
         tab.level_spin.setFixedWidth(60)
         level_layout.addWidget(tab.level_spin)
@@ -2461,7 +2461,7 @@ class PalEditorWidget(QWidget):
         else:
             return
         if hasattr(tab, 'level_spin'):
-            tab.level_spin.setValue(65)
+            tab.level_spin.setValue(80)
             self._update_tab_pal_display(tab, getattr(tab, 'selected_pal_index', -1))
     def _max_trust_all(self):
         tab_index = self.tabs.currentIndex()

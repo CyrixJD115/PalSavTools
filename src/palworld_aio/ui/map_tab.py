@@ -353,10 +353,13 @@ class MapTab(QWidget):
                 g_val = entry['value']
                 admin_uid = str(g_val['RawData']['value'].get('admin_player_uid', ''))
                 leader_name = None
-                for p in g_val['RawData']['value'].get('players', []):
+                players_list = g_val['RawData']['value'].get('players', [])
+                for p in players_list:
                     if str(p.get('player_uid', '')) == admin_uid:
                         leader_name = p.get('player_info', {}).get('player_name', admin_uid)
                         break
+                if not leader_name and players_list:
+                    leader_name = players_list[0].get('player_info', {}).get('player_name', admin_uid)
                 if not leader_name:
                     leader_name = admin_uid if admin_uid else t('map.unknown.leader') if t else 'Unknown'
                 if leader_name == (t('map.unknown.leader') if t else 'Unknown'):

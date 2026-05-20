@@ -348,7 +348,7 @@ def rename_guild(guild_id, new_name):
 def set_guild_level(guild_id, level):
     if not constants.loaded_level_json:
         return False
-    level = max(1, min(30, level))
+    level = max(1, min(35, level))
     wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
     for g in wsd['GroupSaveDataMap']['value']:
         if are_equal_uuids(g['key'], guild_id):

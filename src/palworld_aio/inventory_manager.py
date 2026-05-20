@@ -148,7 +148,8 @@ class InventoryContainer:
 INVENTORY_EXPANSION_ITEMS = ['AdditionalInventory_001', 'AdditionalInventory_002', 'AdditionalInventory_003', 'AdditionalInventory_004']
 FOOD_POUCH_ITEMS = ['AutoMealPouch_Tier1', 'AutoMealPouch_Tier2', 'AutoMealPouch_Tier3', 'AutoMealPouch_Tier4', 'AutoMealPouch_Tier5']
 ACCESSORY_UNLOCK_ITEMS = ['UnlockEquipmentSlot_Accessory_01', 'UnlockEquipmentSlot_Accessory_02']
-UI_SLOT_BINDINGS = [{'slot_name': 'weapon1', 'container': 'weapons', 'index': 0}, {'slot_name': 'weapon2', 'container': 'weapons', 'index': 1}, {'slot_name': 'weapon3', 'container': 'weapons', 'index': 2}, {'slot_name': 'weapon4', 'container': 'weapons', 'index': 3}, {'slot_name': 'head', 'container': 'armor', 'index': 0}, {'slot_name': 'body', 'container': 'armor', 'index': 1}, {'slot_name': 'accessory1', 'container': 'armor', 'index': 2}, {'slot_name': 'accessory2', 'container': 'armor', 'index': 3}, {'slot_name': 'shield', 'container': 'armor', 'index': 4}, {'slot_name': 'glider', 'container': 'armor', 'index': 5}, {'slot_name': 'accessory3', 'container': 'armor', 'index': 6}, {'slot_name': 'accessory4', 'container': 'armor', 'index': 7}, {'slot_name': 'sphere_mod', 'container': 'armor', 'index': 8}, {'slot_name': 'food1', 'container': 'foodbag', 'index': 0}, {'slot_name': 'food2', 'container': 'foodbag', 'index': 1}, {'slot_name': 'food3', 'container': 'foodbag', 'index': 2}, {'slot_name': 'food4', 'container': 'foodbag', 'index': 3}, {'slot_name': 'food5', 'container': 'foodbag', 'index': 4}]
+WEAPON_UNLOCK_ITEMS = ['UnlockEquipmentSlot_Weapon_01', 'UnlockEquipmentSlot_Weapon_02']
+UI_SLOT_BINDINGS = [{'slot_name': 'weapon1', 'container': 'weapons', 'index': 0}, {'slot_name': 'weapon2', 'container': 'weapons', 'index': 1}, {'slot_name': 'weapon3', 'container': 'weapons', 'index': 2}, {'slot_name': 'weapon4', 'container': 'weapons', 'index': 3}, {'slot_name': 'weapon5', 'container': 'weapons', 'index': 4}, {'slot_name': 'weapon6', 'container': 'weapons', 'index': 5}, {'slot_name': 'head', 'container': 'armor', 'index': 0}, {'slot_name': 'body', 'container': 'armor', 'index': 1}, {'slot_name': 'accessory1', 'container': 'armor', 'index': 2}, {'slot_name': 'accessory2', 'container': 'armor', 'index': 3}, {'slot_name': 'shield', 'container': 'armor', 'index': 4}, {'slot_name': 'glider', 'container': 'armor', 'index': 5}, {'slot_name': 'accessory3', 'container': 'armor', 'index': 6}, {'slot_name': 'accessory4', 'container': 'armor', 'index': 7}, {'slot_name': 'sphere_mod', 'container': 'armor', 'index': 8}, {'slot_name': 'food1', 'container': 'foodbag', 'index': 0}, {'slot_name': 'food2', 'container': 'foodbag', 'index': 1}, {'slot_name': 'food3', 'container': 'foodbag', 'index': 2}, {'slot_name': 'food4', 'container': 'foodbag', 'index': 3}, {'slot_name': 'food5', 'container': 'foodbag', 'index': 4}]
 class PlayerInventory:
     def __init__(self, player_uid: str):
         self.player_uid = player_uid
@@ -253,6 +254,16 @@ class PlayerInventory:
             for slot in key_container.slots:
                 item_id = slot.get('item_id', '')
                 if item_id in ACCESSORY_UNLOCK_ITEMS:
+                    unlock_count += 1
+        return base_slots + unlock_count
+    def get_unlocked_weapon_slots(self) -> int:
+        base_slots = 4
+        unlock_count = 0
+        key_container = self.containers.get('key')
+        if key_container:
+            for slot in key_container.slots:
+                item_id = slot.get('item_id', '')
+                if item_id in WEAPON_UNLOCK_ITEMS:
                     unlock_count += 1
         return base_slots + unlock_count
     def add_key_item(self, item_id: str, quantity: int=1) -> bool:

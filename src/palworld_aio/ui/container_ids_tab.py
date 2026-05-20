@@ -6,9 +6,9 @@ from PySide6.QtGui import QPixmap, QCursor, QFont
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.inventory_manager import ItemData
-CONTAINER_TYPE_MAP = {4: 'WeaponLoadOutContainerId', 9: 'PlayerEquipArmorContainerId', 5: 'FoodEquipContainerId', 42: 'CommonContainerId'}
+CONTAINER_TYPE_MAP = {4: 'WeaponLoadOutContainerId', 6: 'WeaponLoadOutContainerId', 9: 'PlayerEquipArmorContainerId', 5: 'FoodEquipContainerId', 42: 'CommonContainerId'}
 def get_container_type_display(slot_count):
-    if slot_count == 4:
+    if slot_count in (4, 6):
         return 'Weapons'
     elif slot_count == 9:
         return 'Armor'
@@ -19,7 +19,7 @@ def get_container_type_display(slot_count):
     else:
         return f'Container ({slot_count} slots)'
 def get_container_icon(slot_count):
-    if slot_count == 4:
+    if slot_count in (4, 6):
         return '⚔️'
     elif slot_count == 9:
         return '🛡️'

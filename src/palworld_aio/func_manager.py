@@ -181,6 +181,9 @@ def delete_empty_guilds(parent=None):
             else:
                 uid = str(p)
             uid = uid.replace('-', '')
+            if not uid:
+                all_invalid = False
+                break
             level = constants.player_levels.get(uid, None)
             if is_valid_level(level):
                 all_invalid = False
@@ -216,6 +219,9 @@ def delete_inactive_players(days_threshold, parent=None):
         for player in original_players:
             uid_obj = player.get('player_uid', '')
             uid = str(uid_obj.get('value', '') if isinstance(uid_obj, dict) else uid_obj).replace('-', '')
+            if not uid:
+                keep_players.append(player)
+                continue
             if uid in excluded_players:
                 keep_players.append(player)
                 continue
@@ -308,6 +314,9 @@ def delete_duplicated_players(parent=None):
         for player in players:
             uid_raw = player.get('player_uid', '')
             uid = str(uid_raw.get('value', '') if isinstance(uid_raw, dict) else uid_raw).replace('-', '')
+            if not uid:
+                filtered_players.append(player)
+                continue
             last_online = player.get('player_info', {}).get('last_online_real_time') or 0
             player_name = player.get('player_info', {}).get('player_name', 'Unknown')
             days_inactive = (tick_now - last_online) / 864000000000 if last_online else float('inf')
@@ -1627,7 +1636,7 @@ def check_is_illegal_pal(raw):
                 return (False, [])
         illegal_markers = []
         level = extract_value(sp, 'Level', 1)
-        if level > 65:
+        if level > 80:
             illegal_markers.append('Level')
         talent_hp = extract_value(sp, 'Talent_HP', 0)
         talent_shot = extract_value(sp, 'Talent_Shot', 0)
@@ -1729,10 +1738,10 @@ def _process_dps_file_worker(args):
                 active_skills_list = [s for s in active_skills if s and s.strip()] if isinstance(active_skills, list) else []
                 illegal_info = {'name': pal_name, 'nickname': nick, 'cid': cid, 'level': level, 'talent_hp': talent_hp, 'talent_shot': talent_shot, 'talent_defense': talent_defense, 'rank_hp': rank_hp, 'rank_attack': rank_attack, 'rank_defense': rank_defense, 'rank_craftspeed': rank_craftspeed, 'rank': rank, 'passive_count': passive_count, 'active_count': active_count, 'passive_skills': passive_skills_list, 'active_skills': active_skills_list, 'illegal_markers': illegal_markers, 'instance_id': inst_id, 'container_id': container_id, 'owner_uid': owner_uid, 'location': 'DPS Storage', 'filename': filename, 'player_uid_from_file': player_uid_from_file}
                 illegal_entries_list.append(illegal_info)
-                if level > 65:
-                    sp['Level'] = {'id': None, 'type': 'IntProperty', 'value': 65}
+                if level > 80:
+                    sp['Level'] = {'id': None, 'type': 'IntProperty', 'value': 80}
                     try:
-                        exp = PAL_EXP_TABLE['65']['PalTotalEXP']
+                        exp = PAL_EXP_TABLE['80']['PalTotalEXP']
                     except:
                         exp = 0
                     sp['Exp'] = {'id': None, 'type': 'Int64Property', 'value': exp}
@@ -1923,10 +1932,10 @@ def fix_illegal_pals_in_save(parent=None):
                 illegal_info = {'name': pal_name, 'nickname': nick, 'cid': cid, 'level': level, 'talent_hp': talent_hp, 'talent_shot': talent_shot, 'talent_defense': talent_defense, 'rank_hp': rank_hp, 'rank_attack': rank_attack, 'rank_defense': rank_defense, 'rank_craftspeed': rank_craftspeed, 'rank': rank, 'passive_count': passive_count, 'active_count': active_count, 'passive_skills': passive_skills_list, 'active_skills': active_skills_list, 'learned_skills': learned_skills_list, 'illegal_markers': illegal_markers, 'instance_id': inst_id, 'container_id': container_id, 'owner_uid': owner_uid, 'location': location}
                 illegal_pals_by_owner[uid_str].append(illegal_info)
                 changed = False
-                if level > 65:
-                    sp['Level'] = {'id': None, 'type': 'IntProperty', 'value': 65}
+                if level > 80:
+                    sp['Level'] = {'id': None, 'type': 'IntProperty', 'value': 80}
                     try:
-                        exp = PAL_EXP_TABLE['65']['PalTotalEXP']
+                        exp = PAL_EXP_TABLE['80']['PalTotalEXP']
                     except:
                         exp = 0
                     sp['Exp'] = {'id': None, 'type': 'Int64Property', 'value': exp}
@@ -2390,7 +2399,7 @@ def extract_player_container_ids_from_level(player_uid):
             if cont_id in assigned_containers:
                 continue
             slot_count = info['slot_count']
-            if 'WeaponLoadOutContainerId' not in container_ids and slot_count == 4:
+            if 'WeaponLoadOutContainerId' not in container_ids and slot_count in (4, 6):
                 container_ids['WeaponLoadOutContainerId'] = cont_id
                 assigned_containers.add(cont_id)
                 continue

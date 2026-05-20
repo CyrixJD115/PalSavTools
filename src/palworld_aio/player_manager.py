@@ -91,14 +91,14 @@ def unlock_viewing_cage(player_uid):
         print(f'Error unlocking viewing cage: {e}')
         return False
 def get_level_from_exp(exp):
-    for level in range(65, 0, -1):
+    for level in range(80, 0, -1):
         if exp >= EXP_DATA[str(level)]['TotalEXP']:
             return level
     return 1
 def set_player_level(player_uid, new_level):
     if not constants.loaded_level_json:
         return False
-    if new_level < 1 or new_level > 65:
+    if new_level < 1 or new_level > 80:
         return False
     uid_clean = str(player_uid).replace('-', '')
     wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
@@ -213,7 +213,7 @@ def set_player_stats(player_uid, stat_changes, unused_stat_points=None):
             return True
     return False
 def adjust_player_level(player_uid, target_level):
-    if target_level < 1 or target_level > 65:
+    if target_level < 1 or target_level > 80:
         return False
     current_level = constants.player_levels.get(str(player_uid).replace('-', ''), 1)
     if current_level == target_level:

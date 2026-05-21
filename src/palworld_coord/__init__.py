@@ -5,6 +5,14 @@ __scale_old = 459
 __transl_x_new = 276020
 __transl_y_new = -15000
 __scale_new = 724
+__treemap_transl_x = 485699
+__treemap_transl_y = 681305
+__treemap_scale = 724
+__treemap_pixel_offset_x = 1760
+__treemap_pixel_offset_y = 2571
+__treemap_cursor_offset_x = -1075
+__treemap_cursor_offset_y = 1568
+__treemap_coord_range = 2500
 Point = namedtuple('Point', ['x', 'y'])
 def sav_to_map(x: float, y: float, new: bool=False) -> Point:
     if new:
@@ -29,6 +37,21 @@ def treemap_to_sav(x: int, y: int) -> Point:
     newX = y * __treemap_scale
     newY = x * __treemap_scale
     return Point(x=newX - __treemap_transl_x, y=newY + __treemap_transl_y)
+def treemap_to_pixel(x_world: int, y_world: int, width: int, height: int) -> tuple[int, int]:
+    x_min, x_max = (-__treemap_coord_range, __treemap_coord_range)
+    y_min, y_max = (-__treemap_coord_range, __treemap_coord_range)
+    x_scale = width / (x_max - x_min)
+    y_scale = height / (y_max - y_min)
+    img_x = int((x_world - x_min) * x_scale) + __treemap_pixel_offset_x
+    img_y = int((y_max - y_world) * y_scale) + __treemap_pixel_offset_y
+    return (max(0, min(width - 1, img_x)), max(0, min(height - 1, img_y)))
+def treemap_pixel_to_cursor(img_x: float, img_y: float, width: int, height: int) -> tuple[float, float]:
+    coord_range = __treemap_coord_range
+    x_world = img_x / width * (coord_range * 2) - coord_range + __treemap_cursor_offset_x
+    y_world = coord_range - img_y / height * (coord_range * 2) + __treemap_cursor_offset_y
+    return (x_world, y_world)
+def get_treemap_coord_range() -> int:
+    return __treemap_coord_range
 def map_to_sav(x: int, y: int, new: bool=False) -> Point:
     if new:
         transl_x = __transl_x_new

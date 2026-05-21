@@ -116,10 +116,6 @@ def generate_world_map(output_path=None, map_type='world'):
     font.setPointSize(font_size)
     painter.setFont(font)
     coord_range = 2500 if map_type == 'tree' else 1000
-    tree_marker_offset_x = 1760
-    tree_marker_offset_y = 2571
-    tree_cursor_offset_x = -1075
-    tree_cursor_offset_y = 1568
     def to_image_coordinates(x_world, y_world):
         x_min, x_max = (-coord_range, coord_range)
         y_min, y_max = (-coord_range, coord_range)
@@ -128,8 +124,8 @@ def generate_world_map(output_path=None, map_type='world'):
         x_img = int((x_world - x_min) * x_scale)
         y_img = int((y_max - y_world) * y_scale)
         if map_type == 'tree':
-            x_img += tree_marker_offset_x
-            y_img += tree_marker_offset_y
+            img_x, img_y = palworld_coord.treemap_to_pixel(x_world, y_world, base_map.width(), base_map.height())
+            return (img_x, img_y)
         return (x_img, y_img)
     map_z_threshold = 5000
     base_count = 0

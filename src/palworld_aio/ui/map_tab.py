@@ -19,7 +19,6 @@ from .map_effects import DeleteEffect, ImportEffect, ExportEffect
 from .map_items import ExclusionZoneItem, PolygonExclusionZoneItem, BaseRadiusRing, ZonePreviewItem
 from .map_view import MapGraphicsView
 MAP_Z_THRESHOLD = 5000
-MAP_TREEMAP_RANGE = 2500
 class MapTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -302,7 +301,7 @@ class MapTab(QWidget):
         self.map_item.setZValue(-1)
         self.scene.addItem(self.map_item)
         self.scene.setSceneRect(self.map_item.boundingRect())
-        coord_range = MAP_TREEMAP_RANGE if map_type == 'tree' else 1000
+        coord_range = palworld_coord.get_treemap_coord_range() if map_type == 'tree' else 1000
         self.view.set_map_type(map_type, coord_range)
         if self.map_width > 0 and self.map_height > 0:
             viewport = self.view.viewport()
@@ -351,31 +350,33 @@ class MapTab(QWidget):
             self.toggle_map_type.setText(t('map.toggle.tree_map') if checked else t('map.toggle.world_map'))
         else:
             self.toggle_map_type.setText('Tree Map' if checked else 'World Map')
-        self.view.set_map_type(self.current_map, MAP_TREEMAP_RANGE if checked else 1000)
+        self.view.set_map_type(self.current_map, palworld_coord.get_treemap_coord_range() if checked else 1000)
         self._recalc_img_coords()
         self._load_map(self.current_map)
         self._update_markers()
         self._update_tree()
     def _recalc_img_coords(self):
         is_tree = self.current_map == 'tree'
-        coord_range = MAP_TREEMAP_RANGE if is_tree else 1000
+        coord_range = palworld_coord.get_treemap_coord_range() if is_tree else 1000
         for guild in self.guilds_data.values():
             for base in guild['bases']:
                 if 'raw_x' in base:
                     if is_tree:
                         pt = palworld_coord.sav_to_treemap(base['raw_x'], base['raw_y'])
+                        ix, iy = palworld_coord.treemap_to_pixel(pt.x, pt.y, self.map_width, self.map_height)
                     else:
                         pt = palworld_coord.sav_to_map(base['raw_x'], base['raw_y'], new=True)
-                    ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range, is_tree)
+                        ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range)
                     base['img_coords'] = (ix, iy)
         for player in self.players_data:
             if 'save_coords' in player:
-                rx, ry = player['save_coords'][0], player['save_coords'][1]
+                rx, ry = (player['save_coords'][0], player['save_coords'][1])
                 if is_tree:
                     pt = palworld_coord.sav_to_treemap(rx, ry)
+                    ix, iy = palworld_coord.treemap_to_pixel(pt.x, pt.y, self.map_width, self.map_height)
                 else:
                     pt = palworld_coord.sav_to_map(rx, ry, new=True)
-                ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range, is_tree)
+                    ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range)
                 player['img_coords'] = (ix, iy)
                 player['coords'] = (pt.x, pt.y)
     def _on_tab_changed(self, index):
@@ -488,7 +489,7 @@ class MapTab(QWidget):
                 x, y, z = (translation.get('x', 0), translation.get('y', 0), translation.get('z', 0))
                 bx, by = palworld_coord.sav_to_map(x, y, new=True)
                 if bx is not None:
-                    img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height, 1000, False)
+                    img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
                     save_x, save_y = palworld_coord.map_to_sav(bx, by, new=True)
                     old_bx, old_by = palworld_coord.sav_to_map(save_x, save_y, new=False)
                     pal_count = constants.PLAYER_PAL_COUNTS.get(player_uid, 0)
@@ -497,16 +498,13 @@ class MapTab(QWidget):
             except Exception as e:
                 continue
         return players
-    def _to_image_coordinates(self, x_world, y_world, width, height, coord_range=1000, is_tree=False):
+    def _to_image_coordinates(self, x_world, y_world, width, height, coord_range=1000):
         x_min, x_max = (-coord_range, coord_range)
         y_min, y_max = (-coord_range, coord_range)
         x_scale = width / (x_max - x_min)
         y_scale = height / (y_max - y_min)
         img_x = int((x_world - x_min) * x_scale)
         img_y = int((y_max - y_world) * y_scale)
-        if is_tree:
-            img_x += 1760
-            img_y += 2571
         img_x = max(0, min(width - 1, img_x))
         img_y = max(0, min(height - 1, img_y))
         return (img_x, img_y)

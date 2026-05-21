@@ -221,4 +221,81 @@ if removed_count:
 else:
     print("  No stale icons to remove")
 
+# Convert PNG icons to smaller WEBP format
+print("\n=== Optimizing icons (PNG -> WEBP) ===")
+try:
+    from PIL import Image
+    optimized = 0
+    saved_bytes = 0
+    for subdir in ['pals', 'items', 'structures', 'technologies', 'passives', 'npcs', 'elements']:
+        subdir_path = ICONS_DIR / subdir
+        if not subdir_path.exists():
+            continue
+        for f in subdir_path.iterdir():
+            if f.is_file() and f.suffix.lower() == '.png':
+                webp_path = f.with_suffix('.webp')
+                # Skip if WEBP already exists and is newer
+                if webp_path.exists():
+                    png_size = f.stat().st_size
+                    webp_size = webp_path.stat().st_size
+                    if webp_size < png_size:
+                        f.unlink()
+                        optimized += 1
+                        saved_bytes += png_size - webp_size
+                    continue
+                try:
+                    img = Image.open(str(f))
+                    # Convert RGBA/PAlette to RGB if no transparency (smaller WEBP)
+                    if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
+                        img.save(str(webp_path), 'WEBP', quality=85, lossless=False)
+                    else:
+                        img = img.convert('RGB')
+                        img.save(str(webp_path), 'WEBP', quality=90)
+                    png_size = f.stat().st_size
+                    webp_size = webp_path.stat().st_size
+                    f.unlink()
+                    optimized += 1
+                    saved_bytes += png_size - webp_size
+                except Exception as e:
+                    pass
+    if optimized:
+        print(f"  Optimized {optimized} icons, saved {saved_bytes / 1024:.0f} KB")
+        # Update JSON references from .png to .webp
+        updated_refs = 0
+        for fname in json_files:
+            fpath = RESOURCES_DIR / fname
+            if not fpath.exists():
+                continue
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except:
+                continue
+            modified = False
+            if isinstance(data, dict):
+                for key, entries in data.items():
+                    if isinstance(entries, list):
+                        for entry in entries:
+                            if isinstance(entry, dict) and 'icon' in entry:
+                                icon = entry['icon']
+                                if icon.endswith('.png'):
+                                    webp_icon = icon[:-4] + '.webp'
+                                    # Check if the WEBP file exists
+                                    webp_path = RESOURCES_DIR / webp_icon.lstrip('/')
+                                    if webp_path.exists():
+                                        entry['icon'] = webp_icon
+                                        modified = True
+                                        updated_refs += 1
+            if modified:
+                with open(fpath, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, indent=4, ensure_ascii=False)
+        if updated_refs:
+            print(f"  Updated {updated_refs} icon references in data files")
+    else:
+        print("  No icons to optimize")
+except ImportError:
+    print("  Pillow not available, skipping optimization")
+except Exception as e:
+    print(f"  Optimization error: {e}")
+
 print("\n=== Done ===")

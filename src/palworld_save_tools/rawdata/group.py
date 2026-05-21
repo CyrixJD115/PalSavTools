@@ -63,13 +63,12 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
                 count = pr.i32()
                 if 0 <= count <= 1000:
                     nplayers = []
-                    admin_uid_str = str(guild['admin_player_uid'])
                     for _ in range(count):
                         try:
                             lo = pr.i64()
                             nm = pr.fstring()
                             pr.byte_list(31)
-                            nplayers.append({'player_uid': admin_uid_str, 'player_info': {'last_online_real_time': lo, 'player_name': nm}})
+                            nplayers.append({'player_uid': '', 'player_info': {'last_online_real_time': lo, 'player_name': nm}})
                         except Exception:
                             break
                     guild['players'] = nplayers
@@ -81,8 +80,10 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
         if '_format_version' not in guild or guild.get('players', []) == []:
             try:
                 old_r = FArchiveReader(remaining, debug=False)
-                guild['admin_player_uid'] = old_r.guid()
                 guild['_opaque_players_bytes'] = remaining
+                if len(remaining) >= 4 and remaining[:4] == b'\x00\x00\x00\x00':
+                    guild['unknown_guild_field'] = old_r.byte_list(4)
+                guild['admin_player_uid'] = old_r.guid()
                 nplayers = []
                 count = old_r.u32()
                 if 0 <= count <= 1000:

@@ -103,7 +103,6 @@ class GvasFile:
         writer.properties(self.properties)
         writer.write(self.trailer)
         return writer.bytes()
-
 def _enrich_guild_player_uids(properties: dict[str, Any]) -> None:
     wsd = properties.get('worldSaveData', {}).get('value')
     if not wsd:
@@ -138,7 +137,7 @@ def _enrich_guild_player_uids(properties: dict[str, Any]) -> None:
         players = g.get('value', {}).get('RawData', {}).get('value', {}).get('players', [])
         for player in players:
             uid = player.get('player_uid', '')
-            if not uid or (isinstance(uid, str) and not uid.strip()):
+            if not uid or (isinstance(uid, str) and (not uid.strip())):
                 pname = player.get('player_info', {}).get('player_name', '')
                 if pname:
                     direct = name_to_uid.get(pname)

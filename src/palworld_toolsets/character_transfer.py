@@ -84,16 +84,12 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
         return pal_count
     except Exception:
         return 0
-level_sav_path, host_sav_path, t_level_sav_path, t_host_sav_path = (None, None, None, None)
+level_sav_path, t_level_sav_path = (None, None)
 level_json, host_json, targ_lvl, targ_json = (None, None, None, None)
-target_section_ranges, target_save_type, target_raw_gvas, targ_json_gvas = (None, None, None, None)
+target_gvas_file, targ_json_gvas = (None, None)
 selected_source_player, selected_target_player = (None, None)
 source_guild_dict, target_guild_dict = (dict(), dict())
-source_section_load_handle, target_section_load_handle = (None, None)
 source_world_tick, target_world_tick = (0, 0)
-STRUCT_START = b'\x0f\x00\x00\x00StructProperty\x00'
-MAP_START = b'\x0c\x00\x00\x00MapProperty\x00'
-ARRAY_START = b'\x0e\x00\x00\x00ArrayProperty\x00'
 def safe_uuid_str(u):
     if isinstance(u, str):
         return u
@@ -107,96 +103,8 @@ def as_uuid(val):
     return str(val).lower() if val else ''
 def are_equal_uuids(a, b):
     return as_uuid(a) == as_uuid(b)
-class MyReader(FArchiveReader):
-    def __init__(self, data, type_hints=None, custom_properties=None, debug=False, allow_nan=True):
-        super().__init__(data, type_hints=type_hints or {}, custom_properties=custom_properties or {}, debug=debug, allow_nan=allow_nan)
-        self.orig_data = data
-        self.data = io.BytesIO(data)
-    def curr_property(self, path=''):
-        properties = {}
-        name = self.fstring()
-        type_name = self.fstring()
-        size = self.u64()
-        properties[name] = self.property(type_name, size, f'{path}.{name}')
-        return properties
-    def load_section(self, property_name, type_start=STRUCT_START, path='.worldSaveData', reverse=False):
-        def encode_property_name(name):
-            return struct.pack('i', len(name) + 1) + name.encode('ascii') + b'\x00'
-        def find_property_start(data, property_name, type_start, reverse):
-            target = encode_property_name(property_name) + type_start
-            return data.rfind(target) if reverse else data.find(target)
-        start_index = find_property_start(self.orig_data, property_name, type_start, reverse)
-        self.data.seek(start_index)
-        return (self.curr_property(path=path), (start_index, self.data.tell()))
-    def load_sections(self, prop_types, path='.worldSaveData', reverse=False):
-        def encode_property_name(name):
-            return struct.pack('i', len(name) + 1) + name.encode('ascii') + b'\x00'
-        def find_property_start(data, property_name, type_start, offset=0, reverse=False):
-            target = encode_property_name(property_name) + type_start
-            return data.rfind(target, offset) if reverse else data.find(target, offset)
-        properties = {}
-        end_idx = 0
-        section_ranges = []
-        for prop, type_start in prop_types:
-            start_idx = find_property_start(self.orig_data, prop, type_start, offset=end_idx, reverse=reverse)
-            if start_idx == -1:
-                raise ValueError(f'Property {prop} not found')
-            self.data.seek(start_idx)
-            properties.update(self.curr_property(path=path))
-            end_idx = self.data.tell()
-            section_ranges.append((start_idx, end_idx))
-        return (properties, section_ranges)
-class MyWriter(FArchiveWriter):
-    def __init__(self, custom_properties=None, debug=False):
-        super().__init__(custom_properties=custom_properties or {}, debug=debug)
-        self.data = io.BytesIO()
-    def curr_properties(self, properties):
-        for key in properties:
-            if key not in ['custom_type', 'skip_type']:
-                self.fstring(key)
-                self.property(properties[key])
-    def write_sections(self, props, section_ranges, bytes_data, parent_section_size_idx):
-        props = [{k: v} for k, v in props.items()]
-        prop_bytes = []
-        for prop in props:
-            self.curr_properties(prop)
-            prop_bytes.append(self.bytes())
-            self.data = io.BytesIO()
-        bytes_concat_array = []
-        last_end = 0
-        n_bytes_more = 0
-        old_size = struct.unpack('Q', bytes_data[parent_section_size_idx:parent_section_size_idx + 8])[0]
-        for prop_byte, (section_start, section_end) in zip(prop_bytes, section_ranges):
-            bytes_concat_array.append(bytes_data[last_end:section_start])
-            bytes_concat_array.append(prop_byte)
-            n_bytes_more += len(prop_byte) - (section_end - section_start)
-            last_end = section_end
-        bytes_concat_array.append(bytes_data[last_end:])
-        new_size_bytes = struct.pack('Q', old_size + n_bytes_more)
-        bytes_concat_array[0] = bytes_concat_array[0][:parent_section_size_idx] + new_size_bytes + bytes_concat_array[0][parent_section_size_idx + 8:]
-        return b''.join(bytes_concat_array)
 def fast_deepcopy(json_dict):
     return pickle.loads(pickle.dumps(json_dict, -1))
-class SkipGvasFile(GvasFile):
-    header: GvasHeader
-    properties: dict[str, Any]
-    trailer: bytes
-    @staticmethod
-    def read(data: bytes, type_hints: dict[str, str]={}, custom_properties: dict[str, tuple[Callable, Callable]]={}, allow_nan: bool=True) -> 'GvasFile':
-        gvas_file = SkipGvasFile()
-        with MyReader(data, type_hints=type_hints, custom_properties=custom_properties, allow_nan=allow_nan) as reader:
-            gvas_file.header = GvasHeader.read(reader)
-            gvas_file.properties = reader.properties_until_end()
-            gvas_file.trailer = reader.read_to_end()
-            if gvas_file.trailer != b'\x00\x00\x00\x00':
-                print(f'{len(gvas_file.trailer)} bytes of trailer data,file may not have fully parsed')
-        return gvas_file
-    def write(self, custom_properties: dict[str, tuple[Callable, Callable]]={}) -> bytes:
-        writer = FArchiveWriter(custom_properties)
-        self.header.write(writer)
-        writer.properties(self.properties)
-        writer.write(self.trailer)
-        return writer.bytes()
 def center_window(win):
     screen = QApplication.primaryScreen().availableGeometry()
     geo = win.frameGeometry()
@@ -224,13 +132,13 @@ class CharacterTransferWindow(QWidget):
         current_selection_label = self.current_selection_label
     def closeEvent(self, event):
         global level_json, host_json, targ_lvl, targ_json
-        global target_raw_gvas, targ_json_gvas, player_list_cache
+        global target_gvas_file, targ_json_gvas, player_list_cache
         global modified_target_players, modified_targets_data
         level_json = None
         host_json = None
         targ_lvl = None
         targ_json = None
-        target_raw_gvas = None
+        target_gvas_file = None
         targ_json_gvas = None
         player_list_cache = []
         modified_target_players = set()
@@ -953,49 +861,25 @@ def _process_player_file_worker(args):
             return (True, target_player, f'DPS source file missing: {src_dps_path}')
     except Exception as e:
         return (False, target_player, f'Error processing {target_player}: {e}')
-def save_and_backup():
-    def task():
-        print(t('Now saving the data...'))
-        WORLDSAVESIZEPREFIX = b'\x0e\x00\x00\x00worldSaveData\x00\x0f\x00\x00\x00StructProperty\x00'
-        size_idx = target_raw_gvas.find(WORLDSAVESIZEPREFIX) + len(WORLDSAVESIZEPREFIX)
-        output_data = MyWriter(custom_properties=PALWORLD_CUSTOM_PROPERTIES).write_sections(targ_lvl, target_section_ranges, target_raw_gvas, size_idx)
-        tmp_world = t_level_sav_path + '.tmp'
-        gvas_to_sav(tmp_world, output_data)
-        os.replace(tmp_world, t_level_sav_path)
-        src_players_folder = os.path.join(os.path.dirname(level_sav_path), 'Players')
-        tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
-        args_list = [(target_player, json_data, gvas_obj, source_guid, src_players_folder, tgt_players_folder) for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items()]
-        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-            futures = {executor.submit(_process_player_file_worker, args): args[0] for args in args_list}
-            for future in as_completed(futures):
-                success, player, msg = future.result()
-                if success:
-                    print(msg)
-                else:
-                    print(f'⚠ {msg}')
-        return True
-    def on_finished(success):
-        if success:
-            show_information(None, t('Success'), t('Transfer complete and backup created!'))
-            print('Done saving all modified target players!')
-    run_with_loading(on_finished, task)
-def sav_to_gvas(file):
-    with open(file, 'rb') as f:
-        data = f.read()
-        raw_gvas, save_type = decompress_sav_to_gvas(data)
-    return (raw_gvas, save_type)
-def gvas_to_sav(file, gvas_data):
-    sav_file_data = compress_gvas_to_sav(gvas_data, target_save_type)
-    with open(file, 'wb') as out:
-        out.write(sav_file_data)
+def finalize_save_task():
+    print(t('Now saving the data...'))
+    tmp_world = t_level_sav_path + '.tmp'
+    gvasfile_to_sav(target_gvas_file, tmp_world)
+    os.replace(tmp_world, t_level_sav_path)
+    src_players_folder = os.path.join(os.path.dirname(level_sav_path), 'Players')
+    tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
+    args_list = [(target_player, json_data, gvas_obj, source_guid, src_players_folder, tgt_players_folder) for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items()]
+    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        futures = {executor.submit(_process_player_file_worker, args): args[0] for args in args_list}
+        for future in as_completed(futures):
+            success, player, msg = future.result()
+            if success:
+                print(msg)
+            else:
+                print(f'⚠ {msg}')
+    return True
 def select_file():
     return QFileDialog.getOpenFileName(None, 'Select Palworld Save File', '', 'Palworld Saves(*.sav *.json);;All Files(*)')[0]
-def load_file(path):
-    global status_label, root
-    loaded_file, save_type = (None, None)
-    if path.endswith('.sav'):
-        loaded_file, save_type = sav_to_gvas(path)
-    return (loaded_file, save_type)
 def load_player_file(level_sav_path, player_uid, use_source_folder=False):
     base_folder = os.path.dirname(level_sav_path)
     if use_source_folder:
@@ -1036,12 +920,8 @@ def load_players(save_json, is_source):
             last_seen = format_last_seen(last_online_time, current_tick)
             item = QTreeWidgetItem([safe_uuid_str(guild_id), playerUId, player_name, str(player_level), str(player_pals_count), last_seen])
             list_box.addTopLevelItem(item)
-def load_all_source_sections_async(group_save_section, reader):
-    global level_json
-    level_json, _ = reader.load_sections([('CharacterSaveParameterMap', MAP_START), ('ItemContainerSaveData', MAP_START), ('DynamicItemSaveData', ARRAY_START), ('CharacterContainerSaveData', MAP_START)], path='.worldSaveData')
-    level_json.update(group_save_section)
 def source_level_file():
-    global level_sav_path, level_json, selected_source_player, source_section_load_handle
+    global level_sav_path, level_json, selected_source_player
     tmp = select_file()
     if not tmp:
         return
@@ -1053,41 +933,30 @@ def source_level_file():
     gc.collect()
     def task():
         global source_world_tick
-        raw_gvas, save_type = load_file(tmp)
-        if not raw_gvas:
-            return None
         print('Now loading the data from Source Save...')
-        reader = MyReader(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES)
+        gvas_file = sav_to_gvasfile(tmp)
+        wsd = gvas_file.properties['worldSaveData']['value']
         try:
-            temp_lvl, _ = reader.load_sections([('GameTimeSaveData', STRUCT_START)], path='.worldSaveData')
-            source_world_tick = temp_lvl['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
+            source_world_tick = wsd['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
         except:
             source_world_tick = 0
-        group_save_section, _ = reader.load_section('GroupSaveDataMap', MAP_START, reverse=True)
-        source_section_load_handle = threading.Thread(target=load_all_source_sections_async, args=(group_save_section, reader))
-        source_section_load_handle.start()
-        source_section_load_handle.join()
-        return (tmp, group_save_section)
+        return (tmp, wsd)
     def on_finished(result):
-        global level_sav_path, selected_source_player
+        global level_sav_path, level_json, selected_source_player
         if result is None:
             show_warning(None, t('Error!'), t('Invalid file,must be Level.sav!'))
             return
-        path, group_section = result
+        path, wsd = result
         level_sav_path = path
+        level_json = wsd
         source_level_path_label.setText(path)
         selected_source_player = None
-        load_players(group_section, True)
+        load_players(wsd, True)
         current_selection_label.setText(f'Source: {selected_source_player},Target: {selected_target_player}')
         print('Done loading the data from Source Save!')
     run_with_loading(on_finished, task)
-def load_all_target_sections_async(group_save_section, group_save_section_range, reader):
-    global targ_lvl, target_section_ranges
-    targ_lvl, target_section_ranges = reader.load_sections([('CharacterSaveParameterMap', MAP_START), ('ItemContainerSaveData', MAP_START), ('DynamicItemSaveData', ARRAY_START), ('CharacterContainerSaveData', MAP_START)], path='.worldSaveData')
-    targ_lvl.update(group_save_section)
-    target_section_ranges.append(group_save_section_range)
 def target_level_file():
-    global t_level_sav_path, targ_lvl, target_section_ranges, target_raw_gvas, target_save_type, selected_target_player, target_section_load_handle
+    global t_level_sav_path, targ_lvl, target_gvas_file, selected_target_player
     global modified_target_players, modified_targets_data
     tmp = select_file()
     if not tmp:
@@ -1096,41 +965,34 @@ def target_level_file():
         show_warning(None, t('Error!'), t('This is NOT Level.sav.Please select Level.sav file.'))
         return
     targ_lvl = None
-    target_raw_gvas = None
+    target_gvas_file = None
     modified_target_players = set()
     modified_targets_data = {}
     import gc
     gc.collect()
     def task():
         global target_world_tick
-        raw_gvas, target_save_type_ = load_file(tmp)
-        if not raw_gvas:
-            return None
         print('Now loading the data from Target Save...')
-        reader = MyReader(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES)
+        gvas_file = sav_to_gvasfile(tmp)
+        wsd = gvas_file.properties['worldSaveData']['value']
         try:
-            temp_lvl, _ = reader.load_sections([('GameTimeSaveData', STRUCT_START)], path='.worldSaveData')
-            target_world_tick = temp_lvl['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
+            target_world_tick = wsd['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
         except:
             target_world_tick = 0
-        group_save_section, group_save_section_range = reader.load_section('GroupSaveDataMap', MAP_START, reverse=True)
-        target_section_load_handle = threading.Thread(target=load_all_target_sections_async, args=(group_save_section, group_save_section_range, reader))
-        target_section_load_handle.start()
-        target_section_load_handle.join()
-        return (tmp, raw_gvas, target_save_type_, group_save_section)
+        return (tmp, gvas_file, wsd)
     def on_finished(result):
-        global t_level_sav_path, target_raw_gvas, target_save_type, selected_target_player
+        global t_level_sav_path, targ_lvl, target_gvas_file, selected_target_player
         if result is None:
             show_warning(None, t('Error!'), t('Invalid file,must be Level.sav!'))
             return
-        path, raw_gvas, save_type, group_section = result
+        path, gvas_file, wsd = result
         t_level_sav_path = path
-        target_raw_gvas = raw_gvas
-        target_save_type = save_type
+        target_gvas_file = gvas_file
+        targ_lvl = wsd
         target_level_path_label.setText(path)
         backup_whole_directory(os.path.dirname(path), 'Backups/Character Transfer')
         selected_target_player = None
-        load_players(group_section, False)
+        load_players(wsd, False)
         current_selection_label.setText(f'Source: {selected_source_player},Target: {selected_target_player}')
         print('Done loading the data from Target Save!')
     run_with_loading(on_finished, task)
@@ -1172,7 +1034,11 @@ def filter_treeview(tree, query, is_source):
             tree.detach(row)
 def finalize_save(window):
     try:
-        save_and_backup()
+        def on_finished(success):
+            if success:
+                show_information(None, t('Success'), t('Transfer complete and backup created!'))
+                print('Done saving all modified target players!')
+        run_with_loading(on_finished, finalize_save_task)
     except Exception as e:
         print(f'Exception in finalize_save: {e}')
 def character_transfer():

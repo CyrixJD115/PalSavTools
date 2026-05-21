@@ -157,7 +157,57 @@ The `admin_player_uid` in v1.0 guild data is NOT the player's CharacterSaveParam
 
 ---
 
-## Detailed Binary Structure Reference
+## Issue 5: Character Transfer Refactored to Use Core Library (`character_transfer.py`)
+
+### Root Cause
+
+The Character Transfer tool (`src/palworld_toolsets/character_transfer.py`) had its **own separate binary parsing system** instead of using `palworld_save_tools` like every other tool. It used:
+
+| Component | What It Did |
+|-----------|------------|
+| `MyReader(FArchiveReader)` | Binary-search for specific properties in raw decompressed bytes using magic markers |
+| `MyWriter(FArchiveWriter)` | Surgically patch byte ranges instead of re-serializing the whole save |
+| `SkipGvasFile(GvasFile)` | Custom GvasFile subclass with `MyReader` |
+| `sav_to_gvas()` / `gvas_to_sav()` | Raw decompress/recompress, no property parsing |
+
+This meant every binary structure change (like the guild format fixes in Issues 1–4) required **separate manual updates** to the character transfer's custom parsing code. The tool also couldn't benefit from automatic enrichment (`_enrich_guild_player_uids()`) or the correct guild format detection in `group.py`.
+
+### Changes Made
+
+**Removed (~250 lines of custom binary machinery):**
+- `MyReader` class — binary property-by-marker search
+- `MyWriter` class — byte-range surgical patching
+- `SkipGvasFile` class — custom read/write bypassing standard parsing
+- `STRUCT_START`, `MAP_START`, `ARRAY_START` constants
+- `sav_to_gvas()`, `gvas_to_sav()`, `load_file()` — raw byte helpers
+- `save_and_backup()` — binary patch + recompress flow
+- `load_all_source_sections_async()`, `load_all_target_sections_async()` — thread-based section loaders
+
+**Replaced with standard `palworld_save_tools` approach:**
+- `source_level_file()` uses `sav_to_gvasfile()` → `GvasFile.read()` → accesses `gvas_file.properties['worldSaveData']['value']`
+- `target_level_file()` uses the same pattern + stores `target_gvas_file` for later save
+- `finalize_save()` calls `gvasfile_to_sav(target_gvas_file, path)` → full serialize + recompress
+- All transfer functions (`transfer_guild`, `transfer_pals_only`, etc.) work on the same dict reference — no changes needed
+
+**Globals simplified:**
+
+| Removed | Replaced With |
+|---------|---------------|
+| `host_sav_path`, `t_host_sav_path` | *(not needed)* |
+| `target_section_ranges` | *(not needed — no binary patching)* |
+| `target_save_type` | *(inferred from header by `gvasfile_to_sav`)* |
+| `target_raw_gvas` | `target_gvas_file` (full `GvasFile` object) |
+| `source_section_load_handle`, `target_section_load_handle` | *(not needed — synchronous load)* |
+
+### Key Improvements
+
+1. **Automatic guild format support** — `group.py.decode_bytes()` handles OldSave, PylarSave, NewSave, and PrimaSave formats. No custom parsing needed.
+2. **Automatic player UID enrichment** — `_enrich_guild_player_uids()` runs inside `GvasFile.read()`. The NEW format's empty `player_uid` fields are filled from `CharacterSaveParameterMap` _before_ any transfer logic runs.
+3. **Single source of truth** — Future binary format changes only need fixes in `palworld_save_tools`; the character transfer tool benefits automatically.
+4. **Full save serialization** — Instead of surgically patching byte ranges, the entire `GvasFile` is serialized using the standard encoder pipeline. Round-trip correctness is guaranteed by the core library's encoder tests (verified for all 4 formats).
+5. **Simpler code** — ~250 lines of fragile binary search/patch code removed. The load/save flow mirrors `slot_injector.py` and `fix_host_save.py`.
+
+---
 
 ### Pre-v1.0 (OldSave) — 58 bytes
 ```

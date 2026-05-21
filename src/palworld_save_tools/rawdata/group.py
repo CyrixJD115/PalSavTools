@@ -106,7 +106,6 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
             guild['players'] = []
             guild['trailing_bytes'] = []
             guild['_format_version'] = 'opaque_full'
-        
         group_data |= guild
     if group_type == 'EPalGroupType::IndependentGuild':
         guild: dict[str, Any] = {'base_camp_level': reader.i32(), 'map_object_instance_ids_base_camp_points': reader.tarray(uuid_reader), 'guild_name': reader.fstring()}

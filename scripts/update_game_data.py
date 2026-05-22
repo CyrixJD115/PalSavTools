@@ -1057,6 +1057,46 @@ def update_lab_research_data():
         print('  No lab research rows found. Skipping.')
         return
     save_resource_json('labresearchdata.json', all_rows)
+MAP_EXPORT_DIR = EXPORT_TEXTURES_DIR / 'UI' / 'Map'
+def update_map_data():
+    print('\n=== Updating Map Textures ===')
+    map_files = ['T_TreeMap.png', 'T_WorldMap.png']
+    try:
+        from PIL import Image
+        has_pil = True
+    except ImportError:
+        has_pil = False
+        print('  Pillow not available, will copy PNG as-is')
+    for fname in map_files:
+        src = MAP_EXPORT_DIR / fname
+        if not src.exists():
+            print(f'  WARNING: Map file not found: {fname}')
+            continue
+        stem = src.stem
+        target_webp = BASE_DIR / 'resources' / f'{stem}.webp'
+        target_png = BASE_DIR / 'resources' / f'{stem}.png'
+        if target_webp.exists() and src.stat().st_mtime <= target_webp.stat().st_mtime:
+            print(f'  Skipping {stem}.webp (up to date)')
+            target_png.exists() and os.remove(target_png)
+            continue
+        if has_pil:
+            try:
+                img = Image.open(str(src))
+                img.save(str(target_webp), 'WEBP', quality=90)
+                print(f'  Converted {fname} -> {stem}.webp')
+            except Exception as e:
+                print(f'  ERROR converting {fname}: {e}')
+        else:
+            try:
+                shutil.copy2(str(src), str(target_png))
+                print(f'  Copied {fname} -> {stem}.png')
+            except Exception as e:
+                print(f'  ERROR copying {fname}: {e}')
+        if has_pil and target_png.exists():
+            try:
+                os.remove(target_png)
+            except Exception:
+                pass
 def main():
     print('=' * 60)
     print('  Palworld Save Tools - Game Data Resource Updater')
@@ -1085,11 +1125,13 @@ def main():
     update_items_psp()
     update_pal_passive_data()
     update_lab_research_data()
+    update_map_data()
     print('\n' + '=' * 60)
     print('  Update complete!')
     print('=' * 60)
     print('\nNote: Existing entries that are not found in new exports are preserved.')
     print('Icon files from exports are copied to resources/game_data/icons/')
+    print('Map textures from exports are converted to WEBP in resources/')
     print('Run this script every time you get updated Palworld exports.')
 if __name__ == '__main__':
     main()

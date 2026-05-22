@@ -25,7 +25,7 @@
             "type": "boss"
         },
         {
-            "name": "Blast-Resistant Undershirt",
+            "name": "Explosion-Resistant Undershirt",
             "asset": "Accessory_ExplosionResist",
             "icon": "/icons/technologies/T_itemicon_Accessory_ExplosionResist.webp",
             "type": "standard"
@@ -91,25 +91,25 @@
             "type": "boss"
         },
         {
-            "name": "[WIP] Ancient Armor",
+            "name": "Ancient Armor",
             "asset": "AncientArmor",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmor.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Cold Resistant Ancient Armor",
+            "name": "Cold-Resistant Ancient Armor",
             "asset": "AncientArmorCold",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorCold.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Heat Resistant Ancient Armor",
+            "name": "Heat-Resistant Ancient Armor",
             "asset": "AncientArmorHeat",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorHeat.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Lightweight Ancient Armor",
+            "name": "Lightweight Ancient Armor",
             "asset": "AncientArmorWeight",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorWeight.webp",
             "type": "standard"
@@ -133,19 +133,19 @@
             "type": "standard"
         },
         {
-            "name": "Ancient Cultivator",
+            "name": "Ancient Farm",
             "asset": "AncientFarmBlock",
             "icon": "/icons/technologies/T_icon_buildObject_AncientFarmBlock.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Ancient Helmet",
+            "name": "Ancient Helm",
             "asset": "AncientHelmet",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientHelmet.webp",
             "type": "standard"
         },
         {
-            "name": "Ancient Fabricator",
+            "name": "Ancient Material Manifester",
             "asset": "AncientMultiProduct",
             "icon": "/icons/technologies/T_icon_buildObject_AncientMultiProduct.webp",
             "type": "standard"
@@ -163,7 +163,7 @@
             "type": "standard"
         },
         {
-            "name": "Ancient_Clinic",
+            "name": "Ancient Clinic",
             "asset": "Ancient_Clinic",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_Clinic.webp",
             "type": "standard"
@@ -175,13 +175,13 @@
             "type": "standard"
         },
         {
-            "name": "ancient_medicalpalbed",
+            "name": "Ancient Pal Bed",
             "asset": "Ancient_MedicalPalBed",
             "icon": "/icons/technologies/Ancient_MedicalPalBed.webp",
             "type": "standard"
         },
         {
-            "name": "Ancient_Spa",
+            "name": "Ancient Hot Spring",
             "asset": "Ancient_Spa",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_Spa.webp",
             "type": "standard"
@@ -259,13 +259,13 @@
             "type": "standard"
         },
         {
-            "name": "BaseCampWorkHard02",
+            "name": "High Quality Monitoring Stand",
             "asset": "BaseCampWorkHard02",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard02.webp",
             "type": "standard"
         },
         {
-            "name": "BaseCampWorkHard03",
+            "name": "Ancient Monitoring Stand",
             "asset": "BaseCampWorkHard03",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard03.webp",
             "type": "standard"
@@ -673,7 +673,7 @@
             "type": "standard"
         },
         {
-            "name": "Bio Coolant",
+            "name": "Bio Coolant EX",
             "asset": "Bio_Coolant",
             "icon": "/icons/technologies/T_itemicon_Material_Bio_Coolant.webp",
             "type": "standard"
@@ -691,7 +691,7 @@
             "type": "boss"
         },
         {
-            "name": "Worn-Out Sword",
+            "name": "Primitive Sword",
             "asset": "BronzeSword",
             "icon": "/icons/technologies/T_itemicon_Weapon_BronzeSword.webp",
             "type": "standard"
@@ -703,25 +703,25 @@
             "type": "standard"
         },
         {
-            "name": "Cake02",
+            "name": "Mushroom Cake",
             "asset": "Cake02",
             "icon": "/icons/technologies/T_itemicon_food_Cake02.webp",
             "type": "standard"
         },
         {
-            "name": "Cake03",
+            "name": "Vegetable Cake",
             "asset": "Cake03",
             "icon": "/icons/technologies/T_itemicon_food_Cake03.webp",
             "type": "standard"
         },
         {
-            "name": "Cake04",
+            "name": "Extravagant Vegetable Cake",
             "asset": "Cake04",
             "icon": "/icons/technologies/T_itemicon_food_Cake04.webp",
             "type": "standard"
         },
         {
-            "name": "Cake05",
+            "name": "Special Cake",
             "asset": "Cake05",
             "icon": "/icons/technologies/T_itemicon_food_Cake05.webp",
             "type": "standard"
@@ -895,13 +895,13 @@
             "type": "standard"
         },
         {
-            "name": "Arc Assault Rifle",
+            "name": "Plasma Rifle",
             "asset": "ElectricArcAssaultRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_ElectricArcAssaultRifle.webp",
             "type": "standard"
         },
         {
-            "name": "Arc Assault Rifle Ammo",
+            "name": "Plasma Rifle Ammo",
             "asset": "ElectricArcAssaultRifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_ElectricArcAssaultRifleBullet.webp",
             "type": "standard"
@@ -1363,7 +1363,7 @@
             "type": "standard"
         },
         {
-            "name": "Gas Mask",
+            "name": "Corrosive Mist Mask",
             "asset": "GasMask",
             "icon": "/icons/technologies/T_itemicon_Accessory_GasMask.webp",
             "type": "standard"
@@ -1453,7 +1453,7 @@
             "type": "standard"
         },
         {
-            "name": "Fine Wood Plank",
+            "name": "High Quality Wooden Board",
             "asset": "HighGrade_Processed_Wood",
             "icon": "/icons/technologies/T_itemicon_Material_HighGrade_Processed_Wood.webp",
             "type": "standard"
@@ -1483,7 +1483,7 @@
             "type": "standard"
         },
         {
-            "name": "IceHorseStatue",
+            "name": "Frostallion Statue",
             "asset": "IceHorseStatue",
             "icon": "/icons/technologies/T_icon_buildObject_IceHorseStatue.webp",
             "type": "standard"
@@ -1567,7 +1567,7 @@
             "type": "standard"
         },
         {
-            "name": "JetDragonStatue",
+            "name": "Jetragon Statue",
             "asset": "JetDragonStatue",
             "icon": "/icons/technologies/T_icon_buildObject_JetDragonStatue.webp",
             "type": "standard"
@@ -1633,7 +1633,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Laser Mining Gun",
+            "name": "Plasma Multicutter",
             "asset": "LaserMiningTool",
             "icon": "/icons/technologies/T_itemicon_Weapon_LaserMiningTool.webp",
             "type": "standard"
@@ -1753,7 +1753,7 @@
             "type": "boss"
         },
         {
-            "name": "Ancient Breeder",
+            "name": "Ancient Hatchery",
             "asset": "MultiElectricHatchingPalEggWithBreed",
             "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp",
             "type": "boss"
@@ -1879,7 +1879,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Anceint Sphere 2",
+            "name": "Ancient Sphere",
             "asset": "PalSphere_Ancient_2",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_2.webp",
             "type": "standard"
@@ -1915,7 +1915,7 @@
             "type": "standard"
         },
         {
-            "name": "Wood Plank",
+            "name": "Wooden Board",
             "asset": "Processed_Wood",
             "icon": "/icons/technologies/T_itemicon_Material_Processed_Wood.webp",
             "type": "standard"
@@ -2095,7 +2095,7 @@
             "type": "standard"
         },
         {
-            "name": "StationDeforest3",
+            "name": "High Quality Wood Logging Site",
             "asset": "Product_StationDeforest2",
             "icon": "/icons/technologies/T_icon_buildObject_StationDeforest3.webp",
             "type": "boss"
@@ -2155,7 +2155,7 @@
             "type": "standard"
         },
         {
-            "name": "Repair Kit",
+            "name": "Structure Repair Kit",
             "asset": "RepairKit",
             "icon": "/icons/technologies/T_itemicon_Material_RepairKit.webp",
             "type": "standard"
@@ -2371,7 +2371,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_BlueSkyDragon",
+            "name": "Shaolong Saddle",
             "asset": "SkillUnlock_BlueSkyDragon",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2419,7 +2419,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_DomeArmorDragon",
+            "name": "Aegidron Saddle",
             "asset": "SkillUnlock_DomeArmorDragon",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2515,13 +2515,13 @@
             "type": "standard"
         },
         {
-            "name": "Eidrolon Zen Saddle",
+            "name": "Eidrolon Saddle",
             "asset": "SkillUnlock_GhostDragon",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Eidrolon Vex Saddle",
+            "name": "Eidrolon Ignis Saddle",
             "asset": "SkillUnlock_GhostDragon_Fire",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2539,7 +2539,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Dualith Noct Saddle",
+            "name": "Dualith Noct Saddle",
             "asset": "SkillUnlock_GrassGolem_Dark",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2641,7 +2641,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_IceSeal_Ground",
+            "name": "Polapup Terra Saddle",
             "asset": "SkillUnlock_IceSeal_Ground",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2683,7 +2683,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Solmora Lux Saddle",
+            "name": "Solmora Lux Saddle",
             "asset": "SkillUnlock_KingSunfish_Thunder",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2695,7 +2695,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_Kirin_Ice",
+            "name": "Univolt Cryst Saddle",
             "asset": "SkillUnlock_Kirin_Ice",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2731,7 +2731,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_LotusDragon",
+            "name": "Ophydia Saddle",
             "asset": "SkillUnlock_LotusDragon",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2755,7 +2755,7 @@
             "type": "standard"
         },
         {
-            "name": "Tanzee Ignis' Assault Rifle",
+            "name": "Tanzee Ignis's Assault Rifle",
             "asset": "SkillUnlock_Monkey_Fire",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_AssaultRifle.webp",
             "type": "standard"
@@ -2797,7 +2797,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Starryon Primo Saddle",
+            "name": "Starryon Primo Saddle",
             "asset": "SkillUnlock_NightBlueHorse_Neutral",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2833,13 +2833,13 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_PyramidTurtle",
+            "name": "Pharapace Saddle",
             "asset": "SkillUnlock_PyramidTurtle",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_PyramidTurtle_Neutral",
+            "name": "Pharapace Primo Saddle",
             "asset": "SkillUnlock_PyramidTurtle_Neutral",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2899,7 +2899,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_SumoDog",
+            "name": "Bulldosu Saddle",
             "asset": "SkillUnlock_SumoDog",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2917,7 +2917,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_ThiefBird",
+            "name": "Roujay Saddle",
             "asset": "SkillUnlock_ThiefBird",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2929,7 +2929,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Beakon Cryst Saddle",
+            "name": "Beakon Cryst Saddle",
             "asset": "SkillUnlock_ThunderBird_Ice",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2947,7 +2947,7 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_Thunderdog_Ice",
+            "name": "Rayhound Cryst Saddle",
             "asset": "SkillUnlock_Thunderdog_Ice",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -2983,13 +2983,13 @@
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_VolcanoDragon",
+            "name": "Moldron Saddle",
             "asset": "SkillUnlock_VolcanoDragon",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
         },
         {
-            "name": "SkillUnlock_VolcanoDragon_Ice",
+            "name": "Moldron Cryst Saddle",
             "asset": "SkillUnlock_VolcanoDragon_Ice",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -3019,7 +3019,7 @@
             "type": "standard"
         },
         {
-            "name": "[WIP] Celesdir Noct Saddle",
+            "name": "Celesdir Noct Saddle",
             "asset": "SkillUnlock_WhiteDeer_Dark",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard"
@@ -3049,43 +3049,43 @@
             "type": "standard"
         },
         {
-            "name": "Sunreach Assault Rifle",
+            "name": "Heavy Assault Rifle",
             "asset": "SkyAssaultRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyAssaultRifle.webp",
             "type": "standard"
         },
         {
-            "name": "SkyAssaultRifleBullet",
+            "name": "Heavy Assault Rifle Ammo",
             "asset": "SkyAssaultRifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkyAssaultRifleBullet.webp",
             "type": "standard"
         },
         {
-            "name": "Sunreach Beam Sword",
+            "name": "Laser Sword",
             "asset": "SkyBeamSword",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyBeamSword.webp",
             "type": "standard"
         },
         {
-            "name": "Sunreach Bow",
+            "name": "Mechanical Bow",
             "asset": "SkyBow",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyBow.webp",
             "type": "standard"
         },
         {
-            "name": "SkyBowArrow",
+            "name": "Mechanical Bow Ammo",
             "asset": "SkyBowArrow",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkyBowArrow.webp",
             "type": "standard"
         },
         {
-            "name": "Sunreach Grenade Launcher",
+            "name": "Tactical Grenade Launcher",
             "asset": "SkyGrenadeLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyGrenadeLauncher.webp",
             "type": "standard"
         },
         {
-            "name": "SkyGrenadeLauncherBullet",
+            "name": "Tactical Grenade Launcher Ammo",
             "asset": "SkyGrenadeLauncherBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkyGrenadeLauncherBullet.webp",
             "type": "standard"
@@ -3103,25 +3103,25 @@
             "type": "boss"
         },
         {
-            "name": "Sunreach Shotgun",
+            "name": "Prototype Shotgun",
             "asset": "SkyShotgun",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyShotgun.webp",
             "type": "standard"
         },
         {
-            "name": "SkyShotgunBullet",
+            "name": "Prototype Shotgun Ammo",
             "asset": "SkyShotgunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkyShotgunBullet.webp",
             "type": "standard"
         },
         {
-            "name": "Sunreach SMG",
+            "name": "Compact SMG",
             "asset": "SkySubmachineGun",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkySubmachineGun.webp",
             "type": "standard"
         },
         {
-            "name": "SkySubmachineGunBullet",
+            "name": "Compact SMG Ammo",
             "asset": "SkySubmachineGunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkySubmachineGunBullet.webp",
             "type": "standard"
@@ -3181,7 +3181,7 @@
             "type": "standard"
         },
         {
-            "name": "Enhanced Lily's Spear",
+            "name": "Lily's Spear (Enhanced)",
             "asset": "Spear_ForestBoss2",
             "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss2.webp",
             "type": "standard"
@@ -3409,13 +3409,13 @@
             "type": "standard"
         },
         {
-            "name": "Weapon Holster Extension",
+            "name": "Extra Weapon Holster",
             "asset": "UnlockEquipmentSlot_Weapon_01",
             "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_01.webp",
             "type": "boss"
         },
         {
-            "name": "Weapon Holster Extension2",
+            "name": "Extra Weapon Holster 2",
             "asset": "UnlockEquipmentSlot_Weapon_02",
             "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_02.webp",
             "type": "boss"
@@ -3463,25 +3463,25 @@
             "type": "standard"
         },
         {
-            "name": "Piercing Shotgun",
+            "name": "Beam Scatter",
             "asset": "WidePenetrateShotgun",
             "icon": "/icons/technologies/T_itemicon_Weapon_WidePenetrateShotgun.webp",
             "type": "standard"
         },
         {
-            "name": "Piercing Shotgun Ammo",
+            "name": "Beam Scatter Ammo",
             "asset": "WidePenetrateShotgunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_WidePenetrateShotgunBullet.webp",
             "type": "standard"
         },
         {
-            "name": "[WIP] Wing Glider",
+            "name": "Wing Pack",
             "asset": "WingGlider",
             "icon": "/icons/technologies/T_itemicon_Glider_WingGlider.webp",
             "type": "boss"
         },
         {
-            "name": "[WIP] Wing Glider Fuel",
+            "name": "Wing Cell",
             "asset": "WingGlider_Fuel",
             "icon": "/icons/technologies/T_itemicon_Material_WingGlider_Fuel.webp",
             "type": "standard"

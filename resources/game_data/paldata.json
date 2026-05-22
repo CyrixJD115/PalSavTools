@@ -9720,7 +9720,7 @@
         {
             "name": "Rayhound Cryst (Boss)",
             "asset": "BOSS_ThunderDog_Ice",
-            "icon": "/icons/pals/T_ThunderDog_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_Thunderdog_Ice_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",

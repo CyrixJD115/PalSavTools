@@ -286,7 +286,7 @@ class MapTab(QWidget):
         self.player_hover_overlay.hide_overlay()
     def _load_map(self, map_type='world'):
         base_dir = constants.get_base_path()
-        map_filename = 'T_WorldMap.png' if map_type == 'world' else 'T_TreeMap.png'
+        map_filename = 'T_WorldMap.webp' if map_type == 'world' else 'T_TreeMap.webp'
         map_path = os.path.join(base_dir, 'resources', map_filename)
         if os.path.exists(map_path):
             pixmap = QPixmap(map_path)

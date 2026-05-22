@@ -41,7 +41,6 @@ class RarityBorderDelegate(QStyledItemDelegate):
         rect = option.rect.adjusted(1, 1, -1, -1)
         painter.drawRoundedRect(rect, 4, 4)
         painter.restore()
-
 class GuildItemPickerDialog(QDialog):
     item_action_selected = Signal(str, str, list)
     def __init__(self, parent=None):

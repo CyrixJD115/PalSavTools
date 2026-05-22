@@ -8,5 +8,6 @@ py7zr
 pydantic
 loguru
 orjson
+Pillow
 
 git+https://github.com/oMaN-Rod/pyooz.git#egg=pyooz

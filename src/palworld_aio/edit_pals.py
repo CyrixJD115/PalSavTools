@@ -12,6 +12,15 @@ from loading_manager import show_information, show_warning, show_question
 import nerdfont as nf
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, extract_value, format_character_key, json_to_sav, calculate_max_hp, get_pal_data, safe_dict_get, safe_nested_get, resolve_name
+def _load_pal_exp_table():
+    try:
+        base_dir = constants.get_base_path()
+        path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+        return json_tools.load(path)
+    except Exception as e:
+        print(f'Error loading PAL_EXP_TABLE: {e}')
+        return {}
+PAL_EXP_TABLE = _load_pal_exp_table()
 class FramelessDialog(QDialog):
     def __init__(self, title_key='edit_pals.title', parent=None):
         super().__init__(parent)
@@ -136,7 +145,6 @@ _ICON_CACHE = {}
 _PIXMAP_CACHE = {}
 _CACHE_LOCK = threading.Lock()
 def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
-    """Look up an icon path in paldata.json and npcdata.json by asset name."""
     try:
         paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
         paldata = json_tools.load(paldata_path)
@@ -158,15 +166,12 @@ def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
     except Exception:
         pass
     return None
-
-
 def _get_pal_icon_path(character_id):
     base_dir = constants.get_base_path()
     cid_lower = character_id.lower()
     with _CACHE_LOCK:
         if cid_lower in _ICON_CACHE:
             return _ICON_CACHE[cid_lower]
-    # Try original CID first, then stripped (for BOSS_ variants)
     icon_path = _lookup_icon_in_data(cid_lower, base_dir)
     if not icon_path or not os.path.exists(icon_path):
         cid_stripped = cid_lower.replace('boss_', '').replace('b_o_s_s_', '')
@@ -237,7 +242,6 @@ class PalIcon(QFrame):
             cid_lower = cid.lower()
             icon_path = None
             if cid_lower not in _ICON_CACHE:
-                # Try original CID first, then stripped (for BOSS_ variants)
                 icon_path = _lookup_icon_in_data(cid_lower, base_dir)
                 if not icon_path or not os.path.exists(icon_path):
                     cid_stripped = cid_lower.replace('boss_', '').replace('b_o_s_s_', '')
@@ -342,7 +346,7 @@ class PalIcon(QFrame):
         self.boss_label.setParent(self)
         self.boss_label.setAttribute(Qt.WA_TransparentForMouseEvents)
         self.boss_label.raise_()
-        self.awake_label = QLabel('\U0001f525', self)
+        self.awake_label = QLabel('🔥', self)
         self.awake_label.setStyleSheet('\n            color: #FF6B35;\n            font-size: 14px;\n            font-weight: bold;\n            background: transparent;\n        ')
         self.awake_label.setFixedSize(20, 20)
         self.awake_label.setAlignment(Qt.AlignCenter)
@@ -1011,7 +1015,7 @@ class PalEditorWidget(QWidget):
         rare_toggle_btn.setFixedSize(32, 28)
         rare_toggle_btn.setStyleSheet('QPushButton { background-color: #333; border: 1px solid #666; } QPushButton:checked { background-color: #555; } QPushButton:hover { background-color: #555; }')
         name_layout.addWidget(rare_toggle_btn)
-        awake_toggle_btn = QPushButton('\U0001f525')
+        awake_toggle_btn = QPushButton('🔥')
         awake_toggle_btn.setIconSize(QSize(24, 24))
         awake_toggle_btn.setCheckable(True)
         awake_toggle_btn.setFixedSize(32, 28)
@@ -2040,9 +2044,6 @@ class PalEditorWidget(QWidget):
             rank_hp = extract_value(raw, 'Rank_HP', 0)
             is_boss = cid.upper().startswith('BOSS_')
             is_lucky = extract_value(raw, 'IsRarePal', False)
-            base_dir = constants.get_base_path()
-            exp_table_path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
-            PAL_EXP_TABLE = json_tools.load(exp_table_path)
             try:
                 exp = PAL_EXP_TABLE[str(value)]['PalTotalEXP']
             except Exception:

@@ -291,7 +291,7 @@ class SaveManager(QObject):
             if is_worker and target_id not in owner_nicknames:
                 owner_nicknames[target_id] = f'Base_{base}'
             cid = raw.get('CharacterID', {}).get('value', '')
-            if cid and not resolve_name(cid, NAMEMAP):
+            if cid and (not resolve_name(cid, NAMEMAP)):
                 miss['Pals'].add(cid)
                 pal_name = cid
                 invalid_objects['Invalid Pals'][pal_name] += 1

@@ -1513,7 +1513,7 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "AvoidDurationUp_EquipSkill_2",
+            "name": "Extends the invincibility period granted from dodging.",
             "asset": "AvoidDurationUp_EquipSkill_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -3919,7 +3919,7 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Defuser_ExplosiveSpore_EquipSkill",
+            "name": "Reduces damage taken from explosions.",
             "asset": "Defuser_ExplosiveSpore_EquipSkill",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -6367,7 +6367,7 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "FriendshipPoint_Increase_EquipSkill",
+            "name": "Boosts the bonds of Pals in party.",
             "asset": "FriendshipPoint_Increase_EquipSkill",
             "rank": -1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -8377,25 +8377,25 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "MutationPal_Babysitter",
+            "name": "Babysitter",
             "asset": "MutationPal_Babysitter",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "MutationPal_ExplosionResist",
+            "name": "Heavily Armored",
             "asset": "MutationPal_ExplosionResist",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "MutationPal_Immortal",
+            "name": "Immortality",
             "asset": "MutationPal_Immortal",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "MutationPal_Mutant",
+            "name": "Idiosyncratic",
             "asset": "MutationPal_Mutant",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -8461,7 +8461,7 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Nocturnal",
+            "name": "Sleepyhead",
             "asset": "NightOwl",
             "rank": -1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -9217,13 +9217,13 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "RideJumpCount_Increase1",
+            "name": "Lightfooted",
             "asset": "RideJumpCount_Increase1",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "RideJumpCount_Increase2",
+            "name": "Skymarcher",
             "asset": "RideJumpCount_Increase2",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -9343,19 +9343,19 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "SelfDeathAddItemDrop_up_1",
+            "name": "Sharing is Caring",
             "asset": "SelfDeathAddItemDrop_up_1",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "SelfDeathAddItemDrop_up_2",
+            "name": "Service-Minded",
             "asset": "SelfDeathAddItemDrop_up_2",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "SelfDeathAddItemDrop_up_3",
+            "name": "Lavish Hospitality",
             "asset": "SelfDeathAddItemDrop_up_3",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -9787,31 +9787,31 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Mining +1",
+            "name": "Mining Yield Up Lv. 1",
             "asset": "StonDrop_Boost_1",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Mining +2",
+            "name": "Mining Yield Up Lv. 2",
             "asset": "StonDrop_Boost_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Mining +3",
+            "name": "Mining Yield Up Lv. 3",
             "asset": "StonDrop_Boost_3",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Mining +4",
+            "name": "Mining Yield Up Lv. 4",
             "asset": "StonDrop_Boost_4",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Mining +5",
+            "name": "Mining Yield Up Lv. 5",
             "asset": "StonDrop_Boost_5",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -10801,31 +10801,31 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Logging +1",
+            "name": "Logging Yield Up Lv. 1",
             "asset": "WoodDrop_Boost_1",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Logging +2",
+            "name": "Logging Yield Up Lv. 2",
             "asset": "WoodDrop_Boost_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Logging +3",
+            "name": "Logging Yield Up Lv. 3",
             "asset": "WoodDrop_Boost_3",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Logging +4",
+            "name": "Logging Yield Up Lv. 4",
             "asset": "WoodDrop_Boost_4",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "Logging +5",
+            "name": "Logging Yield Up Lv. 5",
             "asset": "WoodDrop_Boost_5",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
@@ -11083,13 +11083,13 @@
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "WorkSuitabilityAddRank_MonsterFarm_1",
+            "name": "Farmhand",
             "asset": "WorkSuitabilityAddRank_MonsterFarm_1",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
         },
         {
-            "name": "WorkSuitabilityAddRank_MonsterFarm_2",
+            "name": "Farm Head",
             "asset": "WorkSuitabilityAddRank_MonsterFarm_2",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"

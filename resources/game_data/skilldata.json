@@ -99,7 +99,7 @@
             "cooldown": 30.0
         },
         {
-            "name": "Bubble March",
+            "name": "Creeping Bubble",
             "asset": "CreepingBubble",
             "element": "Water",
             "power": 200,
@@ -820,28 +820,28 @@
             "cooldown": 2.0
         },
         {
-            "name": "Blazing Wild Fang",
+            "name": "Fierce Fang (Fire)",
             "asset": "Unique_AmaterasuWolf_Bite",
             "element": "Fire",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Blazing Double Fang",
+            "name": "Double Fang (Fire)",
             "asset": "Unique_AmaterasuWolf_BiteV2",
             "element": "Fire",
             "power": 40,
             "cooldown": 2.0
         },
         {
-            "name": "Umbral Wild Fang",
+            "name": "Fierce Fang (Dark)",
             "asset": "Unique_AmaterasuWolf_Dark_Bite",
             "element": "Dark",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Umbral Double Fang",
+            "name": "Double Fang (Dark)",
             "asset": "Unique_AmaterasuWolf_Dark_BiteV2",
             "element": "Dark",
             "power": 40,
@@ -939,14 +939,14 @@
             "cooldown": 20.0
         },
         {
-            "name": "Umbral Wild Fang",
+            "name": "Fierce Fang (Dark)",
             "asset": "Unique_BlackPuppy_Bite",
             "element": "Dark",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Umbral Double Fang",
+            "name": "Double Fang (Dark)",
             "asset": "Unique_BlackPuppy_BiteV2",
             "element": "Dark",
             "power": 40,
@@ -1121,7 +1121,7 @@
             "cooldown": 4.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Missile Burst",
             "asset": "Unique_DomeArmorDragon_ExplosiveMissile",
             "element": "Earth",
             "power": 700,
@@ -1156,21 +1156,21 @@
             "cooldown": 24.0
         },
         {
-            "name": "Electirc Wild Fang",
+            "name": "Fierce Fang (Electric)",
             "asset": "Unique_ElecPomeranian_Bite",
             "element": "Electricity",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Electirc Double Fang",
+            "name": "Double Fang (Electric)",
             "asset": "Unique_ElecPomeranian_BiteV2",
             "element": "Electricity",
             "power": 40,
             "cooldown": 2.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Shell Charge",
             "asset": "Unique_ElecSnail_ShellCharge",
             "element": "Electricity",
             "power": 500,
@@ -1240,14 +1240,14 @@
             "cooldown": 4.0
         },
         {
-            "name": "en",
+            "name": "Toxic Dance",
             "asset": "Unique_FlowerPrince_PoisonGasDance",
             "element": "Dark",
             "power": 800,
             "cooldown": 30.0
         },
         {
-            "name": "en",
+            "name": "Poison Promenade",
             "asset": "Unique_FlowerPrince_PoisonGasTackle",
             "element": "Dark",
             "power": 700,
@@ -1289,28 +1289,28 @@
             "cooldown": 16.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Blazing Beam",
             "asset": "Unique_GhostDragon_PhosphorousBeam",
             "element": "Dragon",
             "power": 700,
             "cooldown": 30.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Tail Slash",
             "asset": "Unique_GhostDragon_TailSlash",
             "element": "Dragon",
             "power": 550,
             "cooldown": 24.0
         },
         {
-            "name": "Seismic Wild Fang",
+            "name": "Fierce Fang (Ground)",
             "asset": "Unique_GoldenHorse_Bite",
             "element": "Earth",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Seismic Double Fang",
+            "name": "Double Fang (Ground)",
             "asset": "Unique_GoldenHorse_BiteV2",
             "element": "Earth",
             "power": 40,
@@ -1366,28 +1366,28 @@
             "cooldown": 16.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Raging Bull Rush",
             "asset": "Unique_GrassMinotaur_BullRush",
             "element": "Leaf",
             "power": 650,
             "cooldown": 30.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Bull Rush",
             "asset": "Unique_GrassMinotaur_BullRush_Lower",
             "element": "Leaf",
             "power": 250,
             "cooldown": 12.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Raging Snow Rush",
             "asset": "Unique_GrassMinotaur_Ice_BullRush",
             "element": "Ice",
             "power": 650,
             "cooldown": 30.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Snow Rush",
             "asset": "Unique_GrassMinotaur_Ice_BullRush_Lower",
             "element": "Ice",
             "power": 250,
@@ -1422,7 +1422,7 @@
             "cooldown": 24.0
         },
         {
-            "name": "Wild Fang",
+            "name": "Fierce Fang",
             "asset": "Unique_GuardianDog_Bite",
             "element": "Normal",
             "power": 50,
@@ -1541,7 +1541,7 @@
             "cooldown": 30.0
         },
         {
-            "name": "Marine Blade",
+            "name": "Aqua Blade",
             "asset": "Unique_KingWhale_AquaBlade",
             "element": "Water",
             "power": 300,
@@ -1702,7 +1702,7 @@
             "cooldown": 4.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Lotus Bloom",
             "asset": "Unique_LotusDragon_LotusBloom",
             "element": "Leaf",
             "power": 700,
@@ -1758,14 +1758,14 @@
             "cooldown": 16.0
         },
         {
-            "name": "en",
+            "name": "Giant Spore",
             "asset": "Unique_Mothman_GiantSpore",
             "element": "Leaf",
             "power": 700,
             "cooldown": 30.0
         },
         {
-            "name": "en",
+            "name": "Spore Burst",
             "asset": "Unique_Mothman_SporeScatter",
             "element": "Leaf",
             "power": 800,
@@ -1849,7 +1849,7 @@
             "cooldown": 8.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Rapid Kick",
             "asset": "Unique_PandaGirl_RapidKick",
             "element": "Leaf",
             "power": 250,
@@ -1912,7 +1912,7 @@
             "cooldown": 12.0
         },
         {
-            "name": "en",
+            "name": "Flower Stamp",
             "asset": "Unique_RedFlowerBird_JumpKick",
             "element": "Leaf",
             "power": 550,
@@ -1975,28 +1975,28 @@
             "cooldown": 12.0
         },
         {
-            "name": "Seismic Wild Fang",
+            "name": "Fierce Fang (Ground)",
             "asset": "Unique_SamuraiDog_Bite",
             "element": "Earth",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Seismic Double Fang",
+            "name": "Double Fang (Ground)",
             "asset": "Unique_SamuraiDog_BiteV2",
             "element": "Earth",
             "power": 40,
             "cooldown": 2.0
         },
         {
-            "name": "[WIP] Try-Hard Slash",
+            "name": "Persistent Slash",
             "asset": "Unique_SamuraiDog_DashSlash",
             "element": "Earth",
             "power": 90,
             "cooldown": 4.0
         },
         {
-            "name": "Upper Flash",
+            "name": "Thunder Uppercut",
             "asset": "Unique_ScorpionMan_Erectric_UpperThunder",
             "element": "Electricity",
             "power": 600,
@@ -2038,7 +2038,7 @@
             "cooldown": 20.0
         },
         {
-            "name": "en",
+            "name": "Poison Scatter",
             "asset": "Unique_SnakeGirl_SnakeShot",
             "element": "Dark",
             "power": 600,
@@ -2073,7 +2073,7 @@
             "cooldown": 16.0
         },
         {
-            "name": "Dosukoi Stomp",
+            "name": "Sumo Stomp",
             "asset": "Unique_SumoDog_SumoStomp",
             "element": "Earth",
             "power": 550,
@@ -2101,35 +2101,35 @@
             "cooldown": 8.0
         },
         {
-            "name": "Electirc Wild Fang",
+            "name": "Fierce Fang (Electric)",
             "asset": "Unique_ThunderDog_Bite",
             "element": "Electricity",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Electirc Double Fang",
+            "name": "Double Fang (Electric)",
             "asset": "Unique_ThunderDog_BiteV2",
             "element": "Electricity",
             "power": 40,
             "cooldown": 2.0
         },
         {
-            "name": "Glacial Wild Fang",
+            "name": "Fierce Fang (Ice)",
             "asset": "Unique_ThunderDog_Ice_Bite",
             "element": "Ice",
             "power": 50,
             "cooldown": 2.0
         },
         {
-            "name": "Glacial Double Fang",
+            "name": "Double Fang (Ice)",
             "asset": "Unique_ThunderDog_Ice_BiteV2",
             "element": "Ice",
             "power": 40,
             "cooldown": 2.0
         },
         {
-            "name": "Winter’s Call",
+            "name": "Frostcall",
             "asset": "Unique_ThunderDog_Ice_KoriShorai",
             "element": "Ice",
             "power": 300,

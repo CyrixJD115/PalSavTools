@@ -1,4 +1,5 @@
 import os
+import json
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QScrollArea, QLabel, QPushButton, QFrame, QDialog, QLineEdit, QListWidget, QListWidgetItem, QSpinBox, QMessageBox, QTabWidget, QSizePolicy, QAbstractItemView, QMenu, QToolTip, QListView, QProgressBar, QComboBox, QApplication
 from PySide6.QtCore import Qt, QSize, Signal, QPoint, QTimer
 from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QColor, QPainter, QPen
@@ -61,15 +62,15 @@ class ItemSlotWidget(QFrame):
         self._apply_rarity_style(rarity)
     def _apply_rarity_style(self, rarity: int):
         if rarity <= 0:
-            color = '#aaaaaa'  # Common - White/Gray
+            color = '#aaaaaa'
         elif rarity <= 1:
-            color = '#4ade80'  # Uncommon - Green
+            color = '#4ade80'
         elif rarity <= 2:
-            color = '#60a5fa'  # Rare - Blue
+            color = '#60a5fa'
         elif rarity <= 3:
-            color = '#a855f7'  # Epic - Purple
+            color = '#a855f7'
         else:
-            color = '#fbbf24'  # Legendary+ - Yellow/Gold
+            color = '#fbbf24'
         self.setStyleSheet(f'ItemSlotWidget {{ background-color: rgba(30, 30, 40, 200); border: 2px solid {color}; border-radius: 4px; }} ItemSlotWidget:hover {{ background-color: rgba(60, 60, 70, 220); border: 2px solid {color}; }}')
     def clear_item(self):
         self.slot_data = None
@@ -223,7 +224,18 @@ class EquipmentSlotWidget(QFrame):
             tooltip = f'<b>{item_name}</b><br><i>{item_id}</i>'
             QToolTip.showText(QCursor.pos(), tooltip)
         super().enterEvent(event)
-EXP_TABLE = [0, 500, 1500, 3500, 7000, 12000, 18500, 26500, 36500, 48500, 63000, 80000, 100000, 123000, 149000, 178500, 211500, 248500, 290000, 336000, 387000, 443500, 506000, 575000, 650500, 733000, 823000, 921000, 1027500, 1143000, 1268000, 1403500, 1550000, 1708500, 1880000, 2065000, 2265000, 2481500, 2716000, 2969500, 3243500, 3539000, 3858000, 4202000, 4572500, 4971500, 5401000, 5863000, 6360000, 6894000, 7470000, 8095000, 8775000, 9515000, 10325000, 11200000, 12150000, 13185000, 14315000, 15550000, 16900000, 18375000, 20000000, 21800000, 23800000, 26000000, 28400000, 31000000, 33800000, 36800000, 40000000, 43400000, 47000000, 50800000, 54800000, 59000000, 63400000, 68000000, 72800000, 77800000]
+def _load_exp_table():
+    try:
+        base_dir = constants.get_base_path()
+        path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        levels = sorted(data.keys(), key=int)
+        return [data[lvl]['TotalEXP'] for lvl in levels]
+    except Exception as e:
+        print(f'Error loading EXP table: {e}')
+        return [0]
+EXP_TABLE = _load_exp_table()
 class StatsPanelWidget(QFrame):
     stats_changed = Signal()
     def __init__(self, parent=None):
@@ -543,7 +555,6 @@ class RarityBorderDelegate(QStyledItemDelegate):
         rect = option.rect.adjusted(1, 1, -1, -1)
         painter.drawRoundedRect(rect, 4, 4)
         painter.restore()
-
 class ItemPickerDialog(QDialog):
     item_selected = Signal(str, int)
     def __init__(self, parent=None):

@@ -80,7 +80,7 @@ def generate_world_map(output_path=None, map_type='world'):
     guild_bases = extract_guild_bases_from_save()
     stats = extract_stats_from_save()
     font_family = get_cjk_font()
-    map_filename = 'T_WorldMap.png' if map_type == 'world' else 'T_TreeMap.png'
+    map_filename = 'T_WorldMap.webp' if map_type == 'world' else 'T_TreeMap.webp'
     worldmap_path = os.path.join(base_dir, 'resources', map_filename)
     marker_path = os.path.join(base_dir, 'resources', 'baseicon.png')
     if not os.path.exists(worldmap_path):

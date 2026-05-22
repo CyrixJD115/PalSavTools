@@ -1,10 +1,10 @@
 import os, sys, subprocess, configparser
 from palworld_save_tools import json_tools
 APP_NAME = 'PalworldSaveTools'
-APP_VERSION = '1.1.88'
-APP_BETA_VERSION = '1.1.89'
+APP_VERSION = '1.1.89'
+APP_BETA_VERSION = '1.1.90'
 BETA_SUBVERSION = '1'
-GAME_VERSION = '0.7.3'
+GAME_VERSION = '1.0'
 BRANCH_VERSION = 'main'
 def get_base_directory():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

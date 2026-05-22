@@ -7073,7 +7073,7 @@
         {
             "name": "Elec Snail Fire (Boss)",
             "asset": "BOSS_ElecSnail_Fire",
-            "icon": "/icons/pals/ElecSnail_Fire_icon_normal.webp",
+            "icon": "/icons/pals/T_ElecSnail_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -8520,7 +8520,7 @@
         {
             "name": "Monkey Ice (Boss)",
             "asset": "BOSS_Monkey_Ice",
-            "icon": "/icons/pals/Monkey_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_Monkey_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -9005,7 +9005,7 @@
         {
             "name": "Gumoss (Boss)",
             "asset": "BOSS_PlantSlime_Flower",
-            "icon": "/icons/pals/PlantSlime_Flower_icon_normal.webp",
+            "icon": "/icons/pals/T_PlantSlime_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",

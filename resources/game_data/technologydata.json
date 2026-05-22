@@ -2155,12 +2155,6 @@
             "type": "standard"
         },
         {
-            "name": "Structure Repair Kit",
-            "asset": "RepairKit",
-            "icon": "/icons/technologies/T_itemicon_Material_RepairKit.webp",
-            "type": "standard"
-        },
-        {
             "name": "Rifle Ammo",
             "asset": "RifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_RifleBullet.webp",

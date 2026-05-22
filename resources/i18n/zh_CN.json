@@ -1331,5 +1331,13 @@
   "inventory.unlock_hint_weapon": "单击以使用武器槽物品解锁",
   "inventory.max_weapon_slots": "所有武器槽位均已解锁！",
   "map.toggle.world_map": "世界地图",
-  "map.toggle.tree_map": "树图"
+  "map.toggle.tree_map": "树图",
+  "calibrate.button": "校准",
+  "calibrate.label": "Base {n}/{total}：old({ox},{oy}) - 单击应在的位置（右键单击=撤消）",
+  "calibrate.computing": "从 {n} 个点计算常量...",
+  "calibrate.done": "完毕！常量：scale={s}、tx={tx}、ty={ty}",
+  "calibrate.no_bases": "未找到用于校准的碱基",
+  "calibrate.need_points": "至少需要1分",
+  "calibrate.complete_title": "校准完成",
+  "calibrate.complete_msg": "常数更新了！ scale={s} transl_x={tx} transl_y={ty} 重启即可应用。"
 }

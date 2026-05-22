@@ -1329,5 +1329,13 @@
   "inventory.unlock_hint_weapon": "クリックして武器スロットアイテムのロックを解除します",
   "inventory.max_weapon_slots": "すべての武器スロットはすでにロック解除されています。",
   "map.toggle.world_map": "世界地図",
-  "map.toggle.tree_map": "ツリーマップ"
+  "map.toggle.tree_map": "ツリーマップ",
+  "calibrate.button": "校正する",
+  "calibrate.label": "ベース {n}/{total}:​​ old({ox},{oy}) - 必要な場所をクリックします (右クリック = 元に戻す)",
+  "calibrate.computing": "{n} 点から定数を計算しています...",
+  "calibrate.done": "終わり！定数:scale={s}、tx={tx}、ty={ty}",
+  "calibrate.no_bases": "キャリブレーション用の塩基が見つかりません",
+  "calibrate.need_points": "最低1点必要",
+  "calibrate.complete_title": "校正完了",
+  "calibrate.complete_msg": "定数が更新されました! scale={s} transl_x={tx} transl_y={ty} 再起動して適用します。"
 }

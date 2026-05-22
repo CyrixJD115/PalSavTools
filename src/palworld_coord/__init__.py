@@ -2,9 +2,9 @@ from collections import namedtuple
 __transl_x_old = 123888
 __transl_y_old = 158000
 __scale_old = 459
-__transl_x_new = 367571
-__transl_y_new = 652
-__scale_new = 706
+__transl_x_new = 374886
+__transl_y_new = 63
+__scale_new = 725
 __treemap_transl_x = 485699
 __treemap_transl_y = 681305
 __treemap_scale = 724

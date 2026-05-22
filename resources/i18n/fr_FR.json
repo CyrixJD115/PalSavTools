@@ -1311,5 +1311,13 @@
   "inventory.unlock_hint_weapon": "Cliquez pour débloquer avec l'objet d'emplacement d'arme",
   "inventory.max_weapon_slots": "Tous les emplacements d'armes sont déjà débloqués !",
   "map.toggle.world_map": "Carte du monde",
-  "map.toggle.tree_map": "Carte des arbres"
+  "map.toggle.tree_map": "Carte des arbres",
+  "calibrate.button": "Étalonner",
+  "calibrate.label": "Base {n}/{total} : old({ox},{oy}) - cliquez là où il devrait être (clic droit=annuler)",
+  "calibrate.computing": "Calcul des constantes à partir de {n} points...",
+  "calibrate.done": "Fait! Constantes : scale={s}, tx={tx}, ty={ty}",
+  "calibrate.no_bases": "Aucune base trouvée pour l'étalonnage",
+  "calibrate.need_points": "Besoin d'au moins 1 point",
+  "calibrate.complete_title": "Étalonnage terminé",
+  "calibrate.complete_msg": "Constantes mises à jour ! scale={s} transl_x={tx} transl_y={ty} Redémarrez pour appliquer."
 }

@@ -1327,5 +1327,13 @@
   "inventory.unlock_hint_weapon": "Нажмите, чтобы разблокировать с помощью предмета из слота для оружия.",
   "inventory.max_weapon_slots": "Все слоты для оружия уже разблокированы!",
   "map.toggle.world_map": "Карта мира",
-  "map.toggle.tree_map": "Карта дерева"
+  "map.toggle.tree_map": "Карта дерева",
+  "calibrate.button": "Калибровка",
+  "calibrate.label": "База {n}/{total}: ​​old({ox},{oy}) — щелкните там, где должно быть (щелчок правой кнопкой мыши = отменить)",
+  "calibrate.computing": "Вычисление констант из {n} точек...",
+  "calibrate.done": "Сделанный! Константы: масштаб={s}, tx={tx}, ty={ty}",
+  "calibrate.no_bases": "Базы для калибровки не найдены",
+  "calibrate.need_points": "Нужен хотя бы 1 балл",
+  "calibrate.complete_title": "Калибровка завершена",
+  "calibrate.complete_msg": "Константы обновлены! масштаб={s} transl_x={tx} transl_y={ty} Перезапустите, чтобы применить."
 }

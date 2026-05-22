@@ -1618,5 +1618,13 @@
   "inventory.unlock_hint_weapon": "Click to unlock with Weapon Slot Item",
   "inventory.max_weapon_slots": "All weapon slots are already unlocked!",
   "map.toggle.world_map": "World Map",
-  "map.toggle.tree_map": "Tree Map"
+  "map.toggle.tree_map": "Tree Map",
+  "calibrate.button": "Calibrate",
+  "calibrate.label": "Base {n}/{total}: old({ox},{oy}) - click where it should be  (right-click=undo)",
+  "calibrate.computing": "Computing constants from {n} points...",
+  "calibrate.done": "Done! Constants: scale={s}, tx={tx}, ty={ty}",
+  "calibrate.no_bases": "No bases found for calibration",
+  "calibrate.need_points": "Need at least 1 point",
+  "calibrate.complete_title": "Calibration Complete",
+  "calibrate.complete_msg": "Constants updated! scale={s}  transl_x={tx}  transl_y={ty}  Restart to apply."
 }

@@ -1353,5 +1353,13 @@
   "inventory.unlock_hint_weapon": "Klicken Sie hier, um den Waffenslot-Gegenstand freizuschalten",
   "inventory.max_weapon_slots": "Alle Waffenplätze sind bereits freigeschaltet!",
   "map.toggle.world_map": "Weltkarte",
-  "map.toggle.tree_map": "Baumkarte"
+  "map.toggle.tree_map": "Baumkarte",
+  "calibrate.button": "Kalibrieren",
+  "calibrate.label": "Basis {n}/{total}: ​​old({ox},{oy}) – klicken Sie auf die Stelle, an der es sein sollte (Rechtsklick = Rückgängig machen)",
+  "calibrate.computing": "Konstanten aus {n} Punkten berechnen...",
+  "calibrate.done": "Erledigt! Konstanten: scale={s}, tx={tx}, ty={ty}",
+  "calibrate.no_bases": "Keine Basen für die Kalibrierung gefunden",
+  "calibrate.need_points": "Benötige mindestens 1 Punkt",
+  "calibrate.complete_title": "Kalibrierung abgeschlossen",
+  "calibrate.complete_msg": "Konstanten aktualisiert! scale={s} transl_x={tx} transl_y={ty} Zur Anwendung neu starten."
 }

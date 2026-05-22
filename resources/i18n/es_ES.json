@@ -1322,5 +1322,13 @@
   "inventory.unlock_hint_weapon": "Haga clic para desbloquear con el elemento de ranura para arma",
   "inventory.max_weapon_slots": "¡Todas las ranuras para armas ya están desbloqueadas!",
   "map.toggle.world_map": "Mapa mundial",
-  "map.toggle.tree_map": "Mapa de árbol"
+  "map.toggle.tree_map": "Mapa de árbol",
+  "calibrate.button": "Calibrar",
+  "calibrate.label": "Base {n}/{total}: ​​old({ox},{oy}) - haga clic donde debería estar (clic derecho=deshacer)",
+  "calibrate.computing": "Calculando constantes desde {n} puntos...",
+  "calibrate.done": "¡Hecho! Constantes: escala={s}, tx={tx}, ty={ty}",
+  "calibrate.no_bases": "No se encontraron bases para la calibración.",
+  "calibrate.need_points": "Necesito al menos 1 punto",
+  "calibrate.complete_title": "Calibración completa",
+  "calibrate.complete_msg": "¡Constantes actualizadas! scale={s} transl_x={tx} transl_y={ty} Reiniciar para aplicar."
 }

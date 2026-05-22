@@ -20,9 +20,11 @@ class MapGraphicsView(QGraphicsView):
     polygon_point_added = Signal(QPointF)
     polygon_closed = Signal(list)
     zoom_changed = Signal(float)
+    calibration_clicked = Signal(float, float)
     def __init__(self, config):
         super().__init__()
         self.config = config
+        self.calibration_mode = False
         self.setRenderHint(QPainter.Antialiasing)
         self.setRenderHint(QPainter.SmoothPixmapTransform)
         self.setBackgroundBrush(Qt.transparent)
@@ -140,6 +142,10 @@ class MapGraphicsView(QGraphicsView):
             self.empty_space_right_clicked.emit(event.globalPosition())
             return
         elif event.button() == Qt.LeftButton:
+            if self.calibration_mode:
+                scene_pos = self.mapToScene(event.pos())
+                self.calibration_clicked.emit(scene_pos.x(), scene_pos.y())
+                return
             if self.zone_drawing_mode and self.zone_shape_type == 'polygon' and self.polygon_preview_item:
                 scene_pos = self.mapToScene(event.pos())
                 self.polygon_points.append(scene_pos)
@@ -194,6 +200,8 @@ class MapGraphicsView(QGraphicsView):
                 self.zone_double_clicked.emit(item)
                 return
         super().mouseDoubleClickEvent(event)
+    def set_calibration_mode(self, enabled):
+        self.calibration_mode = enabled
     def set_map_type(self, map_type, coord_range=1000):
         self.current_map = map_type
         self.coord_range = coord_range

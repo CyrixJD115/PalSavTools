@@ -15,7 +15,7 @@ from palworld_aio.dialogs import RadiusInputDialog, InputDialog, ZoneManagementD
 from palworld_aio.utils import sav_to_gvasfile
 from palworld_aio.save_manager import save_manager
 from .map_markers import BaseMarker, PlayerMarker
-from .map_effects import DeleteEffect, ImportEffect, ExportEffect
+from .map_effects import DeleteEffect, ImportEffect, ExportEffect, CalibrationEffect
 from .map_items import ExclusionZoneItem, PolygonExclusionZoneItem, BaseRadiusRing, ZonePreviewItem
 from .map_view import MapGraphicsView
 MAP_Z_THRESHOLD = 5000
@@ -66,6 +66,18 @@ class MapTab(QWidget):
                 self.toggle_map_type.setText(t('map.toggle.tree_map') if self.current_map == 'tree' else t('map.toggle.world_map'))
             else:
                 self.toggle_map_type.setText('Tree Map' if self.current_map == 'tree' else 'World Map')
+        if hasattr(self, 'btn_calibrate'):
+            self.btn_calibrate.setText(t('calibrate.button'))
+        if hasattr(self, '_calibration_label') and self._calibration_label.isVisible():
+            n = len(self._calibration_points)
+            total = len(self._calibration_bases)
+            if n < total:
+                base = self._calibration_bases[n]
+                rx, ry = (base.get('raw_x', 0), base.get('raw_y', 0))
+                ox = round((ry - 158000) / 459)
+                oy = round((rx + 123888) / 459)
+                self._calibration_label.setText(t('calibrate.label', n=n + 1, total=total, ox=ox, oy=oy))
+                self._calibration_label.adjustSize()
         if hasattr(self, 'base_tree'):
             self.base_tree.setHeaderLabels([t('map.header.guild') if t else 'Guild', t('map.header.leader') if t else 'Leader', t('map.header.lastseen') if t else 'Last Seen', t('map.header.bases') if t else 'Bases'])
         if hasattr(self, 'player_tree'):
@@ -157,6 +169,12 @@ class MapTab(QWidget):
         overlay_layout = QHBoxLayout(self.map_overlay)
         overlay_layout.setContentsMargins(0, 0, 0, 0)
         overlay_layout.addStretch()
+        self.btn_calibrate = QPushButton(t('calibrate.button'))
+        self.btn_calibrate.setCheckable(True)
+        self.btn_calibrate.setChecked(False)
+        self.btn_calibrate.clicked.connect(self._on_calibrate_toggle)
+        self.btn_calibrate.setStyleSheet('\n            QPushButton {\n                color: white;\n                background: rgba(200, 80, 0, 150);\n                padding: 4px 8px;\n                border-radius: 4px;\n                border: none;\n            }\n            QPushButton:checked {\n                color: white;\n                background: rgba(255, 120, 0, 200);\n                border: 1px solid #ff8800;\n            }\n        ')
+        overlay_layout.addWidget(self.btn_calibrate)
         self.toggle_map_bases = QCheckBox(t('map.toggle.bases') if t else 'Bases')
         self.toggle_map_bases.setChecked(True)
         self.toggle_map_bases.stateChanged.connect(self._on_toggle_changed)
@@ -185,6 +203,14 @@ class MapTab(QWidget):
         overlay_layout.addWidget(self.toggle_map_type)
         overlay_layout.addStretch()
         self.view.overlay_position_callback = self._reposition_map_overlay
+        self._calibration_points = []
+        self._calibration_bases = []
+        self._calibration_markers = []
+        self._calibration_label = QLabel('', self.view)
+        self._calibration_label.setStyleSheet('background: rgba(0,0,0,180); color: #ff8800; padding: 6px 12px; border-radius: 4px; font-size: 12px;')
+        self._calibration_effect = None
+        self._calibration_label.move(10, 50)
+        self._calibration_label.setVisible(False)
         self._sidebar_widget = QWidget()
         self._sidebar_widget.setAttribute(Qt.WA_StyledBackground, True)
         sidebar_layout = QVBoxLayout(self._sidebar_widget)
@@ -355,6 +381,155 @@ class MapTab(QWidget):
         self._load_map(self.current_map)
         self._update_markers()
         self._update_tree()
+    def _on_calibrate_toggle(self, checked):
+        if checked:
+            self._calibration_points = []
+            self._calibration_bases = []
+            for guild in self.guilds_data.values():
+                for base in guild['bases']:
+                    if 'raw_x' in base:
+                        self._calibration_bases.append(base)
+            if not self._calibration_bases:
+                show_information(self, t('calibrate.complete_title'), t('calibrate.no_bases'))
+                self.btn_calibrate.setChecked(False)
+                return
+            self.view.set_calibration_mode(True)
+            self.view.calibration_clicked.connect(self._on_calibration_click)
+            self.view.empty_space_right_clicked.connect(self._on_calibration_undo)
+            self._calibration_label.setVisible(True)
+            self._update_calibration_label()
+        else:
+            self.view.set_calibration_mode(False)
+            try:
+                self.view.calibration_clicked.disconnect(self._on_calibration_click)
+            except:
+                pass
+            try:
+                self.view.empty_space_right_clicked.disconnect(self._on_calibration_undo)
+            except:
+                pass
+            if self._calibration_effect:
+                self._calibration_effect.stop()
+                self.scene.removeItem(self._calibration_effect)
+                self._calibration_effect = None
+            self._clear_calibration_markers()
+            self._calibration_label.setVisible(False)
+    def _clear_calibration_markers(self):
+        for m in self._calibration_markers:
+            self.scene.removeItem(m)
+        self._calibration_markers.clear()
+    def _on_calibration_undo(self, pos=None):
+        if not self._calibration_points:
+            return
+        if self._calibration_effect:
+            self._calibration_effect.stop()
+            self.scene.removeItem(self._calibration_effect)
+            self._calibration_effect = None
+        self._calibration_points.pop()
+        if self._calibration_markers:
+            for _ in range(2):
+                m = self._calibration_markers.pop()
+                self.scene.removeItem(m)
+        self._update_calibration_label()
+    def _update_calibration_label(self):
+        n = len(self._calibration_points)
+        total = len(self._calibration_bases)
+        if n < total:
+            base = self._calibration_bases[n]
+            rx, ry = (base.get('raw_x', 0), base.get('raw_y', 0))
+            ox = round((ry - 158000) / 459)
+            oy = round((rx + 123888) / 459)
+            pt = palworld_coord.sav_to_map(rx, ry, new=True)
+            self._calibration_label.setText(t('calibrate.label', n=n + 1, total=total, ox=ox, oy=oy))
+            self._calibration_label.adjustSize()
+            sx = (pt.x + 1000) * self.map_width / 2000
+            sy = (1000 - pt.y) * self.map_height / 2000
+            self.view.animate_to_coords(sx, sy)
+            self._calibration_effect = CalibrationEffect(sx, sy)
+            self.scene.addItem(self._calibration_effect)
+        else:
+            self._calibration_label.setText(t('calibrate.computing', n=n))
+            self._calibration_label.adjustSize()
+            self._compute_calibration()
+    def _on_calibration_click(self, scene_x, scene_y):
+        if self._calibration_effect:
+            self._calibration_effect.stop()
+            self.scene.removeItem(self._calibration_effect)
+            self._calibration_effect = None
+        px, py = (int(scene_x), int(scene_y))
+        idx = len(self._calibration_points)
+        base = self._calibration_bases[idx]
+        self._calibration_points.append((base['raw_x'], base['raw_y'], px, py))
+        marker = self.scene.addEllipse(px - 4, py - 4, 8, 8, QPen(QColor('#ff8800'), 2), QBrush(QColor(255, 136, 0, 80)))
+        self._calibration_markers.append(marker)
+        label = self.scene.addSimpleText(f'{idx + 1}', QFont('Arial', 10))
+        label.setPos(px + 6, py - 8)
+        label.setBrush(QBrush(QColor('#ff8800')))
+        self._calibration_markers.append(label)
+        self._update_calibration_label()
+    def _compute_calibration(self):
+        import numpy as np
+        from PySide6.QtWidgets import QMessageBox
+        pts = self._calibration_points
+        if len(pts) < 1:
+            show_information(self, t('calibrate.complete_title'), t('calibrate.need_points'))
+            self.btn_calibrate.setChecked(False)
+            self._calibration_label.setVisible(False)
+            return
+        W = float(self.map_width) if self.map_width > 0 else 8192.0
+        H = float(self.map_height) if self.map_height > 0 else 8192.0
+        if len(pts) == 1:
+            s = 706.0
+            rx, ry, px, py = pts[0]
+            wx = px * 2000.0 / W - 1000.0
+            wy = 1000.0 - py * 2000.0 / H
+            ty = ry - wx * s
+            tx = wy * s - rx
+        else:
+            A_y, b_y, A_x, b_x = ([], [], [], [])
+            for rx, ry, px, py in pts:
+                wx = px * 2000.0 / W - 1000.0
+                wy = 1000.0 - py * 2000.0 / H
+                A_y.append([wx, 1])
+                b_y.append(ry)
+                A_x.append([wy, 1])
+                b_x.append(rx)
+            py_res = np.linalg.lstsq(np.array(A_y), np.array(b_y), rcond=None)[0]
+            px_res = np.linalg.lstsq(np.array(A_x), np.array(b_x), rcond=None)[0]
+            s = (py_res[0] + px_res[0]) / 2.0
+            ty = float(np.mean([ry - wx * s for rx, ry, px, py in pts for wx in [px * 2000.0 / W - 1000.0]]))
+            tx = float(np.mean([wy * s - rx for rx, ry, px, py in pts for wy in [1000.0 - py * 2000.0 / H]]))
+        import os, palworld_coord
+        coord_path = os.path.join(os.path.dirname(palworld_coord.__file__), '__init__.py')
+        with open(coord_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        import re
+        content = re.sub('__transl_x_new = -?\\d+', f'__transl_x_new = {round(tx)}', content)
+        content = re.sub('__transl_y_new = -?\\d+', f'__transl_y_new = {round(ty)}', content)
+        content = re.sub('__scale_new = \\d+', f'__scale_new = {round(s)}', content)
+        with open(coord_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        self._calibration_label.setText(t('calibrate.done', s=round(s), tx=round(tx), ty=round(ty)))
+        self._calibration_label.adjustSize()
+        self.view.set_calibration_mode(False)
+        try:
+            self.view.calibration_clicked.disconnect(self._on_calibration_click)
+        except:
+            pass
+        try:
+            self.view.empty_space_right_clicked.disconnect(self._on_calibration_undo)
+        except:
+            pass
+        if self._calibration_effect:
+            self._calibration_effect.stop()
+            self.scene.removeItem(self._calibration_effect)
+            self._calibration_effect = None
+        self._clear_calibration_markers()
+        self.btn_calibrate.setChecked(False)
+        msg = QMessageBox(parent=self)
+        msg.setWindowTitle(t('calibrate.complete_title'))
+        msg.setText(t('calibrate.complete_msg', s=round(s), tx=round(tx), ty=round(ty)))
+        msg.exec()
     def _recalc_img_coords(self):
         is_tree = self.current_map == 'tree'
         coord_range = palworld_coord.get_treemap_coord_range() if is_tree else 1000
@@ -387,6 +562,7 @@ class MapTab(QWidget):
     def refresh(self):
         if not constants.loaded_level_json:
             return
+        self._hide_all_radius_rings()
         self.guilds_data = self._get_guild_bases()
         self.filtered_guilds = self.guilds_data
         self.players_data = self._get_players()
@@ -394,6 +570,8 @@ class MapTab(QWidget):
         self._recalc_img_coords()
         self._update_markers()
         self._update_tree()
+        if hasattr(self, 'toggle_base_radius_rings') and self.toggle_base_radius_rings.isChecked():
+            self._show_all_radius_rings()
     def _get_guild_bases(self):
         guilds = {}
         try:

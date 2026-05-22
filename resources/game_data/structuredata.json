@@ -8,7 +8,7 @@
         {
             "name": "Summoning Altar",
             "asset": "Altar",
-            "icon": "/icons/structures/T_icon_buildObject_Altar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Altar.png"
         },
         {
             "name": "Altar_RaidBossArea",
@@ -18,152 +18,152 @@
         {
             "name": "Ancient Furnace",
             "asset": "AncientBlastFurnace",
-            "icon": "/icons/structures/T_icon_buildObject_AncientBlastFurnace.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientBlastFurnace.png"
         },
         {
             "name": "Ancient Kitchen",
             "asset": "AncientCookingStove",
-            "icon": "/icons/structures/T_icon_buildObject_AncientCookingStove.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientCookingStove.png"
         },
         {
             "name": "Ancient Power Generator",
             "asset": "AncientElectricGenerator",
-            "icon": "/icons/structures/T_icon_buildObject_AncientElectricGenerator.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientElectricGenerator.png"
         },
         {
             "name": "Ancient Cultivator",
             "asset": "AncientFarmBlock",
-            "icon": "/icons/structures/T_icon_buildObject_AncientFarmBlock.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientFarmBlock.png"
         },
         {
             "name": "Ancient Fabricator",
             "asset": "AncientMultiProduct",
-            "icon": "/icons/structures/T_icon_buildObject_AncientMultiProduct.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientMultiProduct.png"
         },
         {
             "name": "Ancient Relic Recycler",
             "asset": "AncientRelicRecycler",
-            "icon": "/icons/structures/T_icon_buildObject_AncientRelicRecycler.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientRelicRecycler.png"
         },
         {
             "name": "Ancient Workbench",
             "asset": "AncientWorkBench",
-            "icon": "/icons/structures/T_icon_buildObject_AncientWorkBench.webp"
+            "icon": "/icons/structures/T_icon_buildObject_AncientWorkBench.png"
         },
         {
             "name": "Ancient_AirConditioner",
             "asset": "Ancient_AirConditioner",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_AirConditioner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_AirConditioner.png"
         },
         {
             "name": "Ancient_Clinic",
             "asset": "Ancient_Clinic",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_Clinic.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_Clinic.png"
         },
         {
             "name": "Ancient_DiagonalWall",
             "asset": "Ancient_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_DiagonalWall.png"
         },
         {
             "name": "Ancient_DoorWall",
             "asset": "Ancient_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_DoorWall.png"
         },
         {
             "name": "Ancient_Fence",
             "asset": "Ancient_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_Fence.png"
         },
         {
             "name": "Ancient_Pillars",
             "asset": "Ancient_Pillars",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_Pillars.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_Pillars.png"
         },
         {
             "name": "Ancient_PyramidRoof",
             "asset": "Ancient_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_PyramidRoof.png"
         },
         {
             "name": "Ancient_SlantedRoof",
             "asset": "Ancient_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlantedRoof.png"
         },
         {
             "name": "Ancient_SlopedRoofCorner",
             "asset": "Ancient_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCorner.png"
         },
         {
             "name": "Ancient_SlopedRoofCornerReverse",
             "asset": "Ancient_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Ancient_Spa",
             "asset": "Ancient_Spa",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_Spa.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_Spa.png"
         },
         {
             "name": "Ancient_TriangleFoundation",
             "asset": "Ancient_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleFoundation.png"
         },
         {
             "name": "Ancient_TriangleRoof",
             "asset": "Ancient_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleRoof.png"
         },
         {
             "name": "Ancient_TriangleStairsCorner",
             "asset": "Ancient_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleStairsCorner.png"
         },
         {
             "name": "Ancient_TriangleWall",
             "asset": "Ancient_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWall.png"
         },
         {
             "name": "Ancient_TriangleWallReverse",
             "asset": "Ancient_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWallReverse.png"
         },
         {
             "name": "Ancient_WallGate",
             "asset": "Ancient_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_WallGate.png"
         },
         {
             "name": "Ancient_WindowWall",
             "asset": "Ancient_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_WindowWall.png"
         },
         {
             "name": "Ancient_foundation",
             "asset": "Ancient_foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_foundation.png"
         },
         {
             "name": "Ancient_roof",
             "asset": "Ancient_roof",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_roof.png"
         },
         {
             "name": "Ancient_stair",
             "asset": "Ancient_stair",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_stair.png"
         },
         {
             "name": "Ancient_wall",
             "asset": "Ancient_wall",
-            "icon": "/icons/structures/T_icon_buildObject_Ancient_wall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_wall.png"
         },
         {
             "name": "Japanese Paper Lantern",
             "asset": "Andon",
-            "icon": "/icons/structures/T_icon_buildObject_Andon.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Andon.png"
         },
         {
             "name": "AntiAirCamp",
@@ -188,7 +188,7 @@
         {
             "name": "ArcadeVideoGame",
             "asset": "ArcadeVideoGame",
-            "icon": "/icons/structures/T_icon_buildObject_ArcadeVideoGame.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ArcadeVideoGame.png"
         },
         {
             "name": "Banyan_Big",
@@ -198,92 +198,92 @@
         {
             "name": "Red Metal Barrel",
             "asset": "Barrel01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Barrel01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Barrel01_Iron.png"
         },
         {
             "name": "Blue Metal Barrel",
             "asset": "Barrel02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Barrel02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Barrel02_Iron.png"
         },
         {
             "name": "Green Metal Barrel",
             "asset": "Barrel03_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Barrel03_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Barrel03_Iron.png"
         },
         {
             "name": "Wooden Barrel",
             "asset": "Barrel_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Barrel_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Barrel_Wood.png"
         },
         {
             "name": "Alarm Bell",
             "asset": "BaseCampBattleDirector",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampBattleDirector.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampBattleDirector.png"
         },
         {
             "name": "Item Retrieval Machine",
             "asset": "BaseCampItemDispenser",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampItemDispenser.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampItemDispenser.png"
         },
         {
             "name": "Monitoring Stand",
             "asset": "BaseCampWorkHard",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard.png"
         },
         {
             "name": "BaseCampWorkHard02",
             "asset": "BaseCampWorkHard02",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard02.png"
         },
         {
             "name": "BaseCampWorkHard03",
             "asset": "BaseCampWorkHard03",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard03.png"
         },
         {
             "name": "Palbox Control Device",
             "asset": "BaseCampWorkerExtraStation",
-            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkerExtraStation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkerExtraStation.png"
         },
         {
             "name": "Antique Bathtub",
             "asset": "BathTub_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_BathTub_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BathTub_Stone.png"
         },
         {
             "name": "Free Pal Alliance Vertical Banner",
             "asset": "Believer_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_Believer_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Believer_Banner.png"
         },
         {
             "name": "Free Pal Alliance Standard",
             "asset": "Believer_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_Believer_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Believer_Flag.png"
         },
         {
             "name": "Wooden Bench",
             "asset": "Bench_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Bench_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Bench_Wood.png"
         },
         {
             "name": "Primitive Furnace",
             "asset": "BlastFurnace",
-            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace.png"
         },
         {
             "name": "Improved Furnace",
             "asset": "BlastFurnace2",
-            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace_2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace_2.png"
         },
         {
             "name": "Electric Furnace",
             "asset": "BlastFurnace3",
-            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace3.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace3.png"
         },
         {
             "name": "Gigantic Furnace",
             "asset": "BlastFurnace4",
-            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace4.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace4.png"
         },
         {
             "name": "en Text",
@@ -293,57 +293,57 @@
         {
             "name": "BlastFurnace_2",
             "asset": "BlastFurnace_2",
-            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace_2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BlastFurnace_2.png"
         },
         {
             "name": "Bonsai",
             "asset": "Bonsai",
-            "icon": "/icons/structures/T_icon_buildObject_Bonsai.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Bonsai.png"
         },
         {
             "name": "Small Container",
             "asset": "Box01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Box01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Box01_Iron.png"
         },
         {
             "name": "Antique Braided Basket",
             "asset": "Box01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Box01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Box01_Stone.png"
         },
         {
             "name": "Cloth Covered Container",
             "asset": "Box02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Box02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Box02_Iron.png"
         },
         {
             "name": "Wooden Box",
             "asset": "Box_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Box_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Box_Wood.png"
         },
         {
             "name": "Breeding Farm",
             "asset": "BreedFarm",
-            "icon": "/icons/structures/T_icon_buildObject_BreedFarm.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BreedFarm.png"
         },
         {
             "name": "Statue of Power",
             "asset": "BuildableGoddessStatue",
-            "icon": "/icons/structures/T_icon_buildObject_BuildableGoddessStatue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_BuildableGoddessStatue.png"
         },
         {
             "name": "Folding Screen",
             "asset": "Byobu",
-            "icon": "/icons/structures/T_icon_buildObject_Byobu.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Byobu.png"
         },
         {
             "name": "Cable Reel",
             "asset": "CableCoil01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_CableCoil01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CableCoil01_Iron.png"
         },
         {
             "name": "Campfire",
             "asset": "CampFire",
-            "icon": "/icons/structures/T_icon_buildObject_CampFire.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CampFire.png"
         },
         {
             "name": "Campfire",
@@ -353,72 +353,72 @@
         {
             "name": "Majestic Candlestick",
             "asset": "CandleStand",
-            "icon": "/icons/structures/T_icon_buildObject_CandleStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CandleStand.png"
         },
         {
             "name": "Witch Cauldron",
             "asset": "Cauldron",
-            "icon": "/icons/structures/T_icon_buildObject_Cauldron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Cauldron.png"
         },
         {
             "name": "Ceiling Lamp",
             "asset": "CeilingLamp",
-            "icon": "/icons/structures/T_icon_buildObject_LampTop.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampTop.png"
         },
         {
             "name": "Leather Chair",
             "asset": "Chair01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Chair01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair01_Iron.png"
         },
         {
             "name": "Frog Chair",
             "asset": "Chair01_Pal",
-            "icon": "/icons/structures/T_icon_buildObject_Chair01_Pal.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair01_Pal.png"
         },
         {
             "name": "Antique Wooden Chair",
             "asset": "Chair01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Chair01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair01_Stone.png"
         },
         {
             "name": "Wooden Chair",
             "asset": "Chair01_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Chair01_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair01_Wood.png"
         },
         {
             "name": "Iron Chair",
             "asset": "Chair02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Chair02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair02_Iron.png"
         },
         {
             "name": "Antique Green Wooden Chair",
             "asset": "Chair02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Chair02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Chair02_Stone.png"
         },
         {
             "name": "Pal Essence Condenser",
             "asset": "CharacterRankUp",
-            "icon": "/icons/structures/T_icon_buildObject_CharacterRankUp.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CharacterRankUp.png"
         },
         {
             "name": "Clinic",
             "asset": "Clinic",
-            "icon": "/icons/structures/T_icon_buildObject_Clinic.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Clinic.png"
         },
         {
             "name": "Antique Grandfather Clock",
             "asset": "Clock01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Clock01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Clock01_Stone.png"
         },
         {
             "name": "Wall Clock",
             "asset": "Clock01_Wall_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Clock01_Wall_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Clock01_Wall_Iron.png"
         },
         {
             "name": "Coal Mine",
             "asset": "CoalPit",
-            "icon": "/icons/structures/T_icon_buildObject_CoalPit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoalPit.png"
         },
         {
             "name": "CommonDropItem3D",
@@ -433,82 +433,82 @@
         {
             "name": "Drafting Table",
             "asset": "CompositeDesk",
-            "icon": "/icons/structures/T_icon_buildObject_CompositeDesk.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CompositeDesk.png"
         },
         {
             "name": "Free Pal Alliance Flag",
             "asset": "ConservationGroupBannerA",
-            "icon": "/icons/structures/T_icon_buildObject_ConservationGroupBannerA.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ConservationGroupBannerA.png"
         },
         {
             "name": "Free Pal Alliance Horizontal Banner",
             "asset": "ConservationGroupBannerB",
-            "icon": "/icons/structures/T_icon_buildObject_ConservationGroupBannerB.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ConservationGroupBannerB.png"
         },
         {
             "name": "Large Container",
             "asset": "Container01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Container01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Container01_Iron.png"
         },
         {
             "name": "Cooking Pot",
             "asset": "CookingStove",
-            "icon": "/icons/structures/T_icon_buildObject_CookingStove.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CookingStove.png"
         },
         {
             "name": "Cooler",
             "asset": "Cooler",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerMedieval.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerMedieval.png"
         },
         {
             "name": "Cooler Box",
             "asset": "CoolerBox",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerBox.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerBox.png"
         },
         {
             "name": "CoolerElectric",
             "asset": "CoolerElectric",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerElectric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerElectric.png"
         },
         {
             "name": "CoolerMedieval",
             "asset": "CoolerMedieval",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerMedieval.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerMedieval.png"
         },
         {
             "name": "Cold Food Box",
             "asset": "CoolerPalFoodBox",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerPalFoodBox.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerPalFoodBox.png"
         },
         {
             "name": "Ore Mining Site",
             "asset": "CopperPit",
-            "icon": "/icons/structures/T_icon_buildObject_CopperPit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CopperPit.png"
         },
         {
             "name": "Ore Mining Site II",
             "asset": "CopperPit_2",
-            "icon": "/icons/structures/T_icon_buildObject_CopperPit_2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CopperPit_2.png"
         },
         {
             "name": "Wooden Counter",
             "asset": "Counter_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Counter_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Counter_Wood.png"
         },
         {
             "name": "Crusher",
             "asset": "Crusher",
-            "icon": "/icons/structures/T_icon_buildObject_Crusher.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Crusher.png"
         },
         {
             "name": "Hexolite Quartz Mine",
             "asset": "CrystalPit",
-            "icon": "/icons/structures/T_icon_buildObject_CrystalPit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CrystalPit.png"
         },
         {
             "name": "Antique Curtain",
             "asset": "Curtain01_Wall_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Curtain01_Wall_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Curtain01_Wall_Stone.png"
         },
         {
             "name": "Ancient Remains",
@@ -653,7 +653,7 @@
         {
             "name": "Training Dummy",
             "asset": "DamagedScarecrow",
-            "icon": "/icons/structures/T_icon_buildObject_DamagedScarecrow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DamagedScarecrow.png"
         },
         {
             "name": "DamagedScarecrow_Test",
@@ -663,12 +663,12 @@
         {
             "name": "DarkIsland_Banner",
             "asset": "DarkIsland_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_DarkIsland_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DarkIsland_Banner.png"
         },
         {
             "name": "DarkIsland_Flag",
             "asset": "DarkIsland_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_DarkIsland_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DarkIsland_Flag.png"
         },
         {
             "name": "Death Chest",
@@ -683,17 +683,17 @@
         {
             "name": "Mounted Crossbow",
             "asset": "DefenseBowGun",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_BowGun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_BowGun.png"
         },
         {
             "name": "Mounted Gatling Gun",
             "asset": "DefenseGatlingGun",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseGatlingGun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseGatlingGun.png"
         },
         {
             "name": "Mounted Machine Gun",
             "asset": "DefenseMachinegun",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseMachinegun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseMachinegun.png"
         },
         {
             "name": "Ancient Turret",
@@ -708,37 +708,37 @@
         {
             "name": "Mounted Missile Launcher",
             "asset": "DefenseMissile",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Missile.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Missile.png"
         },
         {
             "name": "Sandbag",
             "asset": "DefenseWait",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseWait.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseWait.png"
         },
         {
             "name": "Stone Defensive Wall",
             "asset": "DefenseWall",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseWall.png"
         },
         {
             "name": "Metal Defensive Wall",
             "asset": "DefenseWall_Metal",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseWall_Metal.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseWall_Metal.png"
         },
         {
             "name": "Wooden Defensive Wall",
             "asset": "DefenseWall_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_DefenseWall_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DefenseWall_Wood.png"
         },
         {
             "name": "Iron Desk",
             "asset": "Desk01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Desk01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Desk01_Iron.png"
         },
         {
             "name": "Antique Desk",
             "asset": "Desk01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Desk01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Desk01_Stone.png"
         },
         {
             "name": "DestroyableWall_Rock01",
@@ -758,17 +758,17 @@
         {
             "name": "Dimensional Pal Storage",
             "asset": "DimensionPalStorage",
-            "icon": "/icons/structures/T_icon_buildObject_DimensionPalStorage.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DimensionPalStorage.png"
         },
         {
             "name": "Pal Disassembly Conveyor",
             "asset": "DismantlingConveyor",
-            "icon": "/icons/structures/T_icon_buildObject_DismantlingConveyor.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DismantlingConveyor.png"
         },
         {
             "name": "Viewing Cage",
             "asset": "DisplayCharacter",
-            "icon": "/icons/structures/T_icon_buildObject_DisplayCharacter.webp"
+            "icon": "/icons/structures/T_icon_buildObject_DisplayCharacter.png"
         },
         {
             "name": "DroppedCharacter",
@@ -783,27 +783,27 @@
         {
             "name": "Electric Cooler",
             "asset": "ElectricCooler",
-            "icon": "/icons/structures/T_icon_buildObject_CoolerElectric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CoolerElectric.png"
         },
         {
             "name": "Power Generator",
             "asset": "ElectricGenerator",
-            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric.png"
         },
         {
             "name": "en Text",
             "asset": "ElectricGenerator2",
-            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator.png"
         },
         {
             "name": "en Text",
             "asset": "ElectricGenerator3",
-            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator.png"
         },
         {
             "name": "Large Power Generator",
             "asset": "ElectricGenerator_Large",
-            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator_Large.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ElectricGenerator_Large.png"
         },
         {
             "name": "en Text",
@@ -813,17 +813,17 @@
         {
             "name": "Electric Egg Incubator",
             "asset": "ElectricHatchingPalEgg",
-            "icon": "/icons/structures/T_icon_buildObject_ElectricHatchingPalEgg.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ElectricHatchingPalEgg.png"
         },
         {
             "name": "Electric Heater",
             "asset": "ElectricHeater",
-            "icon": "/icons/structures/T_icon_buildObject_HeaterElectric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HeaterElectric.png"
         },
         {
             "name": "Electric Kitchen",
             "asset": "ElectricKitchen",
-            "icon": "/icons/structures/T_icon_buildObject_ElectricKitchen.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ElectricKitchen.png"
         },
         {
             "name": "EnemyCamp_Altar",
@@ -2833,77 +2833,77 @@
         {
             "name": "EnergyGenerator_Electric",
             "asset": "EnergyGenerator_Electric",
-            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric.png"
         },
         {
             "name": "EnergyGenerator_Electric3",
             "asset": "EnergyGenerator_Electric3",
-            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric3.webp"
+            "icon": "/icons/structures/T_icon_buildObject_EnergyGenerator_Electric3.png"
         },
         {
             "name": "Accumulator",
             "asset": "EnergyStorage_Electric",
-            "icon": "/icons/structures/T_icon_buildObject_EnergyStorage_Electric.webp"
+            "icon": "/icons/structures/T_icon_buildObject_EnergyStorage_Electric.png"
         },
         {
             "name": "Pal Expedition Station",
             "asset": "Expedition",
-            "icon": "/icons/structures/T_icon_buildObject_Expedition.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Expedition.png"
         },
         {
             "name": "en Text",
             "asset": "Factory_Comfortable_01",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Comfortable_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Comfortable_01.png"
         },
         {
             "name": "en Text",
             "asset": "Factory_Comfortable_02",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Comfortable_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Comfortable_02.png"
         },
         {
             "name": "High-Quality Workbench",
             "asset": "Factory_Hard_01",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_01.png"
         },
         {
             "name": "Production Assembly Line",
             "asset": "Factory_Hard_02",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_02.png"
         },
         {
             "name": "Production Assembly Line II",
             "asset": "Factory_Hard_03",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_03.png"
         },
         {
             "name": "Advanced Workshop",
             "asset": "Factory_Hard_04",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Hard_04.png"
         },
         {
             "name": "Gold Coin Assembly Line",
             "asset": "Factory_Money",
-            "icon": "/icons/structures/T_icon_buildObject_Factory_Money.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Factory_Money.png"
         },
         {
             "name": "Plantation",
             "asset": "FarmBlock",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlock.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlock.png"
         },
         {
             "name": "FarmBlockV2",
             "asset": "FarmBlockV2",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2.png"
         },
         {
             "name": "Berry Plantation",
             "asset": "FarmBlockV2_Berries",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Berries.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Berries.png"
         },
         {
             "name": "Carrot Plantation",
             "asset": "FarmBlockV2_Carrot",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Carrot.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Carrot.png"
         },
         {
             "name": "Plantation",
@@ -2923,772 +2923,772 @@
         {
             "name": "Lettuce Plantation",
             "asset": "FarmBlockV2_Lettuce",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Lettuce.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Lettuce.png"
         },
         {
             "name": "Onion Plantation",
             "asset": "FarmBlockV2_Onion",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Onion.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Onion.png"
         },
         {
             "name": "Potato Plantation",
             "asset": "FarmBlockV2_Potato",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Potato.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_Potato.png"
         },
         {
             "name": "Tomato Plantation",
             "asset": "FarmBlockV2_tomato",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_tomato.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_tomato.png"
         },
         {
             "name": "Wheat Plantation",
             "asset": "FarmBlockV2_wheet",
-            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_wheet.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FarmBlockV2_wheet.png"
         },
         {
             "name": "Skillfruit Orchard",
             "asset": "Farm_SkillFruits",
-            "icon": "/icons/structures/T_icon_buildObject_Farm_SkillFruits.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Farm_SkillFruits.png"
         },
         {
             "name": "Great Eagle Statue",
             "asset": "FastTravelPoint",
-            "icon": "/icons/structures/T_icon_buildObject_FastTravelPoint.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FastTravelPoint.png"
         },
         {
             "name": "Brothers of the Eternal Pyre Vertical Banner",
             "asset": "FireCult_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_FireCult_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FireCult_Banner.png"
         },
         {
             "name": "Brothers of the Eternal Pyre Standard",
             "asset": "FireCult_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_FireCult_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FireCult_Flag.png"
         },
         {
             "name": "Ceremonial Candlestick",
             "asset": "FireStand",
-            "icon": "/icons/structures/T_icon_buildObject_FireStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FireStand.png"
         },
         {
             "name": "Fishing Pond",
             "asset": "FishingPond1",
-            "icon": "/icons/structures/T_icon_buildObject_FishingPond1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FishingPond1.png"
         },
         {
             "name": "Large Fishing Pond",
             "asset": "FishingPond2",
-            "icon": "/icons/structures/T_icon_buildObject_FishingPond2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FishingPond2.png"
         },
         {
             "name": "Floor",
             "asset": "Floor",
-            "icon": "/icons/structures/T_icon_buildObject_Floor.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Floor.png"
         },
         {
             "name": "Floor",
             "asset": "Floor_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Floor_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Floor_Stone.png"
         },
         {
             "name": "Floor",
             "asset": "Floor_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Floor_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Floor_Wood.png"
         },
         {
             "name": "Mill",
             "asset": "FlourMill",
-            "icon": "/icons/structures/T_icon_buildObject_FlourMill.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FlourMill.png"
         },
         {
             "name": "Flower Bed",
             "asset": "FlowerBed",
-            "icon": "/icons/structures/T_icon_buildObject_FlowerBed.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FlowerBed.png"
         },
         {
             "name": "Water Fountain",
             "asset": "Fountain",
-            "icon": "/icons/structures/T_icon_buildObject_Fountain.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Fountain.png"
         },
         {
             "name": "Japanese Writing Table",
             "asset": "Fudukue",
-            "icon": "/icons/structures/T_icon_buildObject_Fudukue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Fudukue.png"
         },
         {
             "name": "FurnitureBush01_Flower",
             "asset": "FurnitureBush01_Flower",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Flower.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Flower.png"
         },
         {
             "name": "FurnitureBush01_Green",
             "asset": "FurnitureBush01_Green",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Green.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Green.png"
         },
         {
             "name": "FurnitureBush01_Snow",
             "asset": "FurnitureBush01_Snow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Snow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Snow.png"
         },
         {
             "name": "FurnitureBush01_Tropical",
             "asset": "FurnitureBush01_Tropical",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Tropical.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Tropical.png"
         },
         {
             "name": "FurnitureBush01_Yellow",
             "asset": "FurnitureBush01_Yellow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Yellow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush01_Yellow.png"
         },
         {
             "name": "FurnitureBush02_Flower",
             "asset": "FurnitureBush02_Flower",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush02_Flower.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureBush02_Flower.png"
         },
         {
             "name": "FurnitureStone01",
             "asset": "FurnitureStone01",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureStone01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureStone01.png"
         },
         {
             "name": "FurnitureTree01_Bamboo",
             "asset": "FurnitureTree01_Bamboo",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Bamboo.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Bamboo.png"
         },
         {
             "name": "FurnitureTree01_Cherry",
             "asset": "FurnitureTree01_Cherry",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Cherry.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Cherry.png"
         },
         {
             "name": "FurnitureTree01_Desert",
             "asset": "FurnitureTree01_Desert",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Desert.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Desert.png"
         },
         {
             "name": "FurnitureTree01_Green",
             "asset": "FurnitureTree01_Green",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Green.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Green.png"
         },
         {
             "name": "FurnitureTree01_Red",
             "asset": "FurnitureTree01_Red",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Red.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Red.png"
         },
         {
             "name": "FurnitureTree01_Snow",
             "asset": "FurnitureTree01_Snow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Snow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Snow.png"
         },
         {
             "name": "FurnitureTree01_Tropical",
             "asset": "FurnitureTree01_Tropical",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Tropical.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Tropical.png"
         },
         {
             "name": "FurnitureTree01_Yellow",
             "asset": "FurnitureTree01_Yellow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Yellow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree01_Yellow.png"
         },
         {
             "name": "FurnitureTree02_Bamboo",
             "asset": "FurnitureTree02_Bamboo",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Bamboo.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Bamboo.png"
         },
         {
             "name": "FurnitureTree02_Cherry",
             "asset": "FurnitureTree02_Cherry",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Cherry.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Cherry.png"
         },
         {
             "name": "FurnitureTree02_Desert",
             "asset": "FurnitureTree02_Desert",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Desert.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Desert.png"
         },
         {
             "name": "FurnitureTree02_Green",
             "asset": "FurnitureTree02_Green",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Green.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Green.png"
         },
         {
             "name": "FurnitureTree02_Red",
             "asset": "FurnitureTree02_Red",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Red.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Red.png"
         },
         {
             "name": "FurnitureTree02_Snow",
             "asset": "FurnitureTree02_Snow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Snow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Snow.png"
         },
         {
             "name": "FurnitureTree02_Tropical",
             "asset": "FurnitureTree02_Tropical",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Tropical.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Tropical.png"
         },
         {
             "name": "FurnitureTree02_Yellow",
             "asset": "FurnitureTree02_Yellow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Yellow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree02_Yellow.png"
         },
         {
             "name": "FurnitureTree03_Bamboo",
             "asset": "FurnitureTree03_Bamboo",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Bamboo.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Bamboo.png"
         },
         {
             "name": "FurnitureTree03_Cherry",
             "asset": "FurnitureTree03_Cherry",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Cherry.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Cherry.png"
         },
         {
             "name": "FurnitureTree03_Desert",
             "asset": "FurnitureTree03_Desert",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Desert.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Desert.png"
         },
         {
             "name": "FurnitureTree03_Green",
             "asset": "FurnitureTree03_Green",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Green.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Green.png"
         },
         {
             "name": "FurnitureTree03_Red",
             "asset": "FurnitureTree03_Red",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Red.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Red.png"
         },
         {
             "name": "FurnitureTree03_Snow",
             "asset": "FurnitureTree03_Snow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Snow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Snow.png"
         },
         {
             "name": "FurnitureTree03_Tropical",
             "asset": "FurnitureTree03_Tropical",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Tropical.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Tropical.png"
         },
         {
             "name": "FurnitureTree03_Yellow",
             "asset": "FurnitureTree03_Yellow",
-            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Yellow.webp"
+            "icon": "/icons/structures/T_icon_buildObject_FurnitureTree03_Yellow.png"
         },
         {
             "name": "Garbage Bag",
             "asset": "GarbageBag_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_GarbageBag_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_GarbageBag_Iron.png"
         },
         {
             "name": "Glass Diagonal Wall",
             "asset": "Glass_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_DiagonalWall.png"
         },
         {
             "name": "Glass Wall and Door",
             "asset": "Glass_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_DoorWall.png"
         },
         {
             "name": "Glass Fence",
             "asset": "Glass_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_Fence.png"
         },
         {
             "name": "Glass Pillar",
             "asset": "Glass_Pillars",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_pillar.png"
         },
         {
             "name": "Glass Pyramid Roof",
             "asset": "Glass_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_PyramidRoof.png"
         },
         {
             "name": "Glass Slanted Roof",
             "asset": "Glass_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_SlantedRoof.png"
         },
         {
             "name": "Glass Slanted Triangular Roof",
             "asset": "Glass_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCorner.png"
         },
         {
             "name": "Glass Slanted Triangular Roof",
             "asset": "Glass_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Glass Triangular Foundation",
             "asset": "Glass_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleFoundation.png"
         },
         {
             "name": "Glass Triangular Roof",
             "asset": "Glass_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleRoof.png"
         },
         {
             "name": "Glass Corner Roof",
             "asset": "Glass_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleStairsCorner.png"
         },
         {
             "name": "Glass Triangular Wall",
             "asset": "Glass_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleWall.png"
         },
         {
             "name": "Glass Triangular Wall (Inverted)",
             "asset": "Glass_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_TriangleWallReverse.png"
         },
         {
             "name": "Glass Pal Passage Entrance",
             "asset": "Glass_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_WallGate.png"
         },
         {
             "name": "Glass Wall and Window",
             "asset": "Glass_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_WindowWall.png"
         },
         {
             "name": "Glass Foundation",
             "asset": "Glass_foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_foundation.png"
         },
         {
             "name": "Glass_pillars",
             "asset": "Glass_pillars",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_pillar.png"
         },
         {
             "name": "Glass Roof",
             "asset": "Glass_roof",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_roof.png"
         },
         {
             "name": "Glass Stairs",
             "asset": "Glass_stair",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_stair.png"
         },
         {
             "name": "Glass Wall",
             "asset": "Glass_wall",
-            "icon": "/icons/structures/T_icon_buildObject_Glass_wall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_wall.png"
         },
         {
             "name": "Global Palbox",
             "asset": "GlobalPalStorage",
-            "icon": "/icons/structures/T_icon_buildObject_GlobalPalStorage.webp"
+            "icon": "/icons/structures/T_icon_buildObject_GlobalPalStorage.png"
         },
         {
             "name": "Antique Globe",
             "asset": "Globe01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Globe01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Globe01_Stone.png"
         },
         {
             "name": "Soccer Goal",
             "asset": "GoalSoccer_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_GoalSoccer_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_GoalSoccer_Iron.png"
         },
         {
             "name": "Yakumo Statue",
             "asset": "GuardianDogStatue",
-            "icon": "/icons/structures/T_icon_buildObject_GuardianDogStatue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_GuardianDogStatue.png"
         },
         {
             "name": "Guild Chest",
             "asset": "GuildChest",
-            "icon": "/icons/structures/T_icon_buildObject_GuildChest.webp"
+            "icon": "/icons/structures/T_icon_buildObject_GuildChest.png"
         },
         {
             "name": "Egg Incubator",
             "asset": "HatchingPalEgg",
-            "icon": "/icons/structures/T_icon_buildObject_HatchingPalEgg.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HatchingPalEgg.png"
         },
         {
             "name": "Tombstone",
             "asset": "Headstone",
-            "icon": "/icons/structures/T_icon_buildObject_Headstone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Headstone.png"
         },
         {
             "name": "Heater",
             "asset": "Heater",
-            "icon": "/icons/structures/T_icon_buildObject_HeaterMedieval.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HeaterMedieval.png"
         },
         {
             "name": "HeaterMedieval",
             "asset": "HeaterMedieval",
-            "icon": "/icons/structures/T_icon_buildObject_HeaterMedieval.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HeaterMedieval.png"
         },
         {
             "name": "en Text",
             "asset": "HighTechKitchen",
-            "icon": "/icons/structures/T_icon_buildObject_HighTechKitchen.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HighTechKitchen.png"
         },
         {
             "name": "House_1",
             "asset": "House_1",
-            "icon": "/icons/structures/T_icon_buildObject_House_1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_House_1.png"
         },
         {
             "name": "Large-Scale Stone Oven",
             "asset": "HugeKitchen",
-            "icon": "/icons/structures/T_icon_buildObject_HugeKitchen.webp"
+            "icon": "/icons/structures/T_icon_buildObject_HugeKitchen.png"
         },
         {
             "name": "Rayne Syndicate Vertical Banner",
             "asset": "Hunter_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_Hunter_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Hunter_Banner.png"
         },
         {
             "name": "Rayne Syndicate Standard",
             "asset": "Hunter_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_Hunter_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Hunter_Flag.png"
         },
         {
             "name": "Rayne Syndicate Flag",
             "asset": "Hunter_GangFlag",
-            "icon": "/icons/structures/T_icon_buildObject_Hunter_GangFlag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Hunter_GangFlag.png"
         },
         {
             "name": "Refrigerated Crusher",
             "asset": "IceCrusher",
-            "icon": "/icons/structures/T_icon_buildObject_IceCrusher.webp"
+            "icon": "/icons/structures/T_icon_buildObject_IceCrusher.png"
         },
         {
             "name": "IceHorseStatue",
             "asset": "IceHorseStatue",
-            "icon": "/icons/structures/T_icon_buildObject_IceHorseStatue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_IceHorseStatue.png"
         },
         {
             "name": "Metal Diagonal Wall",
             "asset": "Iron_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_DiagonalWall.png"
         },
         {
             "name": "Metal Fence",
             "asset": "Iron_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_Fence.png"
         },
         {
             "name": "Metal Pyramid Roof",
             "asset": "Iron_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_PyramidRoof.png"
         },
         {
             "name": "Metal Slanted Triangular Roof",
             "asset": "Iron_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCorner.png"
         },
         {
             "name": "Metal Slanted Triangular Roof",
             "asset": "Iron_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Metal Triangular Foundation",
             "asset": "Iron_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleFoundation.png"
         },
         {
             "name": "Metal Triangular Roof",
             "asset": "Iron_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleRoof.png"
         },
         {
             "name": "Metal Corner Roof",
             "asset": "Iron_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleStairsCorner.png"
         },
         {
             "name": "Metal Triangular Wall (Inverted)",
             "asset": "Iron_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_TriangleWallReverse.png"
         },
         {
             "name": "Metal Pal Passage Entrance",
             "asset": "Iron_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_Iron_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Iron_WallGate.png"
         },
         {
             "name": "Japanese Hearth",
             "asset": "Irori",
-            "icon": "/icons/structures/T_icon_buildObject_Irori.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Irori.png"
         },
         {
             "name": "Flea Market (Items)",
             "asset": "ItemBooth",
-            "icon": "/icons/structures/T_icon_buildObject_ItemBooth.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ItemBooth.png"
         },
         {
             "name": "Wooden Chest",
             "asset": "ItemChest",
-            "icon": "/icons/structures/T_icon_buildObject_ItemChest.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ItemChest.png"
         },
         {
             "name": "Metal Chest",
             "asset": "ItemChest_02",
-            "icon": "/icons/structures/T_icon_buildObject_ItemChest_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ItemChest_02.png"
         },
         {
             "name": "Refined Metal Chest",
             "asset": "ItemChest_03",
-            "icon": "/icons/structures/T_icon_buildObject_ItemChest_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ItemChest_03.png"
         },
         {
             "name": "Advanced Chest",
             "asset": "ItemChest_04",
-            "icon": "/icons/structures/T_icon_buildObject_ItemChest_04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ItemChest_04.png"
         },
         {
             "name": "Big Wall Ivy",
             "asset": "Ivy01",
-            "icon": "/icons/structures/T_icon_buildObject_Ivy01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ivy01.png"
         },
         {
             "name": "Small Wall Ivy",
             "asset": "Ivy02",
-            "icon": "/icons/structures/T_icon_buildObject_Ivy02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ivy02.png"
         },
         {
             "name": "Horizontal Wall Ivy",
             "asset": "Ivy03",
-            "icon": "/icons/structures/T_icon_buildObject_Ivy03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ivy03.png"
         },
         {
             "name": "Japanese-Style Diagonal Wall",
             "asset": "JapaneseStyle_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DiagonalWall.png"
         },
         {
             "name": "Japanese-Style Door A",
             "asset": "JapaneseStyle_DoorWall_01",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_01.png"
         },
         {
             "name": "Japanese-Style Door B",
             "asset": "JapaneseStyle_DoorWall_02",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_02.png"
         },
         {
             "name": "Japanese-Style Door C",
             "asset": "JapaneseStyle_DoorWall_03",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_DoorWall_03.png"
         },
         {
             "name": "Japanese-Style Fence",
             "asset": "JapaneseStyle_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_Fence.png"
         },
         {
             "name": "Japanese-Style Pillar",
             "asset": "JapaneseStyle_Pillar",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_Pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_Pillar.png"
         },
         {
             "name": "Japanese-Style Pyramid Roof",
             "asset": "JapaneseStyle_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_PyramidRoof.png"
         },
         {
             "name": "Japanese-Style Slanted Roof",
             "asset": "JapaneseStyle_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlantedRoof.png"
         },
         {
             "name": "Japanese-Style Slanted Triangular Roof",
             "asset": "JapaneseStyle_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCorner.png"
         },
         {
             "name": "Japanese-Style Slanted Triangular Roof",
             "asset": "JapaneseStyle_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Japanese-Style Triangular Foundation",
             "asset": "JapaneseStyle_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleFoundation.png"
         },
         {
             "name": "Japanese-Style Triangular Roof A",
             "asset": "JapaneseStyle_TriangleRoof_01",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleRoof_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleRoof_01.png"
         },
         {
             "name": "Japanese-Style Triangular Roof B",
             "asset": "JapaneseStyle_TriangleRoof_02",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleRoof_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleRoof_02.png"
         },
         {
             "name": "Japanese-Style Corner Roof",
             "asset": "JapaneseStyle_TriangleStairsCorner_01",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleStairsCorner.png"
         },
         {
             "name": "en Text",
             "asset": "JapaneseStyle_TriangleStairsCorner_02",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleStairsCorner.png"
         },
         {
             "name": "Japanese-Style Triangular Wall",
             "asset": "JapaneseStyle_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleWall.png"
         },
         {
             "name": "Japanese-Style Triangular Wall (Inverted)",
             "asset": "JapaneseStyle_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_TriangleWallReverse.png"
         },
         {
             "name": "Japanese-Style Pal Passage Entrance",
             "asset": "JapaneseStyle_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_WallGate.png"
         },
         {
             "name": "Japanese-Style Wall and Window",
             "asset": "JapaneseStyle_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_WindowWall.png"
         },
         {
             "name": "Japanese-Style Foundation",
             "asset": "JapaneseStyle_foundation",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_foundation.png"
         },
         {
             "name": "Japanese-Style Roof A",
             "asset": "JapaneseStyle_roof_01",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_roof_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_roof_01.png"
         },
         {
             "name": "Japanese-Style Roof B",
             "asset": "JapaneseStyle_roof_02",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_roof_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_roof_02.png"
         },
         {
             "name": "Japanese-Style Stairs",
             "asset": "JapaneseStyle_stair",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_stair.png"
         },
         {
             "name": "Japanese-Style Wall",
             "asset": "JapaneseStyle_wall_01",
-            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_wall_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_wall_01.png"
         },
         {
             "name": "JetDragonStatue",
             "asset": "JetDragonStatue",
-            "icon": "/icons/structures/T_icon_buildObject_JetDragonStatue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_JetDragonStatue.png"
         },
         {
             "name": "Hanging Scroll",
             "asset": "Kakejiku",
-            "icon": "/icons/structures/T_icon_buildObject_Kakejiku.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Kakejiku.png"
         },
         {
             "name": "Incense Burner",
             "asset": "Koro",
-            "icon": "/icons/structures/T_icon_buildObject_Koro.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Koro.png"
         },
         {
             "name": "Pal Labor Research Laboratory",
             "asset": "Lab",
-            "icon": "/icons/structures/T_icon_buildObject_Lab.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Lab.png"
         },
         {
             "name": "Lamp",
             "asset": "Lamp",
-            "icon": "/icons/structures/T_icon_buildObject_LampStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampStand.png"
         },
         {
             "name": "LampStand",
             "asset": "LampStand",
-            "icon": "/icons/structures/T_icon_buildObject_LampStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampStand.png"
         },
         {
             "name": "LampStandLarge",
             "asset": "LampStandLarge",
-            "icon": "/icons/structures/T_icon_buildObject_LampStandLarge.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampStandLarge.png"
         },
         {
             "name": "LampTop",
             "asset": "LampTop",
-            "icon": "/icons/structures/T_icon_buildObject_LampTop.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampTop.png"
         },
         {
             "name": "LampTopLarge",
             "asset": "LampTopLarge",
-            "icon": "/icons/structures/T_icon_buildObject_LampTopLarge.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampTopLarge.png"
         },
         {
             "name": "Paper Lantern",
             "asset": "LanternTop",
-            "icon": "/icons/structures/T_icon_buildObject_LanternTop.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LanternTop.png"
         },
         {
             "name": "Large Ceiling Lamp",
             "asset": "LargeCeilingLamp",
-            "icon": "/icons/structures/T_icon_buildObject_LampTopLarge.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampTopLarge.png"
         },
         {
             "name": "Large Mounted Lamp",
             "asset": "LargeLamp",
-            "icon": "/icons/structures/T_icon_buildObject_LampStandLarge.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LampStandLarge.png"
         },
         {
             "name": "Chandelier",
             "asset": "Light_CandleSticks_Top",
-            "icon": "/icons/structures/T_icon_buildObject_Light_CandleSticks_Top.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_CandleSticks_Top.png"
         },
         {
             "name": "Wall Lamp",
             "asset": "Light_CandleSticks_Wall",
-            "icon": "/icons/structures/T_icon_buildObject_Light_CandleSticks_Wall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_CandleSticks_Wall.png"
         },
         {
             "name": "Brick Fireplace",
             "asset": "Light_FirePlace01",
-            "icon": "/icons/structures/T_icon_buildObject_Light_FirePlace01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_FirePlace01.png"
         },
         {
             "name": "Fireplace",
             "asset": "Light_FirePlace02",
-            "icon": "/icons/structures/T_icon_buildObject_Light_FirePlace02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_FirePlace02.png"
         },
         {
             "name": "Antique Brown Floor Lamp",
             "asset": "Light_FloorLamp01",
-            "icon": "/icons/structures/T_icon_buildObject_Light_FloorLamp01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_FloorLamp01.png"
         },
         {
             "name": "Antique Red Floor Lamp",
             "asset": "Light_FloorLamp02",
-            "icon": "/icons/structures/T_icon_buildObject_Light_FloorLamp02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_FloorLamp02.png"
         },
         {
             "name": "Simple Street Lamp",
             "asset": "Light_LightPole01",
-            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole01.png"
         },
         {
             "name": "Double Street Lamp",
             "asset": "Light_LightPole02",
-            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole02.png"
         },
         {
             "name": "Retro Street Lamp",
             "asset": "Light_LightPole03",
-            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole03.png"
         },
         {
             "name": "Stylish Street Lamp",
             "asset": "Light_LightPole04",
-            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Light_LightPole04.png"
         },
         {
             "name": "Lyleen Statue",
             "asset": "LilyQueenStatue",
-            "icon": "/icons/structures/T_icon_buildObject_LilyQueenStatue.webp"
+            "icon": "/icons/structures/T_icon_buildObject_LilyQueenStatue.png"
         },
         {
             "name": "LockGimmickDestructionTarget_Test",
@@ -3698,107 +3698,107 @@
         {
             "name": "Claw Crane",
             "asset": "MachineGame01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_MachineGame01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MachineGame01_Iron.png"
         },
         {
             "name": "Cola Vending Machine",
             "asset": "MachineVending01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_MachineVending01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MachineVending01_Iron.png"
         },
         {
             "name": "Human-Powered Generator",
             "asset": "ManualElectricGenerator",
-            "icon": "/icons/structures/T_icon_buildObject_ManualElectricGenerator.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ManualElectricGenerator.png"
         },
         {
             "name": "en Text",
             "asset": "MedicalPalBed",
-            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed.png"
         },
         {
             "name": "Straw Pal Bed",
             "asset": "MedicalPalBed_02",
-            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_02.png"
         },
         {
             "name": "Fluffy Pal Bed",
             "asset": "MedicalPalBed_03",
-            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_03.png"
         },
         {
             "name": "Large Pal Bed",
             "asset": "MedicalPalBed_04",
-            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_04.png"
         },
         {
             "name": "Pal Pod",
             "asset": "MedicalPalBed_05",
-            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_05.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicalPalBed_05.png"
         },
         {
             "name": "Medieval Medicine Workbench",
             "asset": "MedicineFacility_01",
-            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_01.png"
         },
         {
             "name": "Electric Medicine Workbench",
             "asset": "MedicineFacility_02",
-            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_02.png"
         },
         {
             "name": "Advanced Medicine Workbench",
             "asset": "MedicineFacility_03",
-            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MedicineFacility_03.png"
         },
         {
             "name": "Metal Door",
             "asset": "Metal_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_DoorWall.png"
         },
         {
             "name": "Metal_Foundation",
             "asset": "Metal_Foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Foundation.png"
         },
         {
             "name": "Iron Gate",
             "asset": "Metal_Gate",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Gate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Gate.png"
         },
         {
             "name": "Metal Pillar",
             "asset": "Metal_Pillars",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_pillar.png"
         },
         {
             "name": "Metal_Roof",
             "asset": "Metal_Roof",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Roof.png"
         },
         {
             "name": "Metal Slanted Roof",
             "asset": "Metal_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_SlantedRoof.png"
         },
         {
             "name": "Metal_Stair",
             "asset": "Metal_Stair",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Stair.png"
         },
         {
             "name": "Metal Triangular Wall",
             "asset": "Metal_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_TriangleWall.png"
         },
         {
             "name": "Metal_Wall_V2",
             "asset": "Metal_Wall_V2",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Wall_V2.png"
         },
         {
             "name": "Metal Wall and Window",
             "asset": "Metal_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_WindowWall.png"
         },
         {
             "name": "Metal Foundation",
@@ -3808,7 +3808,7 @@
         {
             "name": "Metal_pillars",
             "asset": "Metal_pillars",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_pillar.png"
         },
         {
             "name": "Metal Roof",
@@ -3823,7 +3823,7 @@
         {
             "name": "Metal Wall",
             "asset": "Metal_wall",
-            "icon": "/icons/structures/T_icon_buildObject_Metal_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Wall_V2.png"
         },
         {
             "name": "Meteorite",
@@ -3838,57 +3838,57 @@
         {
             "name": "Mining Cart",
             "asset": "MiningTool",
-            "icon": "/icons/structures/T_icon_buildObject_MiningTool.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MiningTool.png"
         },
         {
             "name": "Antique Oval Mirror",
             "asset": "Mirror01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Mirror01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Mirror01_Stone.png"
         },
         {
             "name": "Antique Wall Mirror",
             "asset": "Mirror01_Wall_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Mirror01_Wall_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Mirror01_Wall_Stone.png"
         },
         {
             "name": "Antique Mirror",
             "asset": "Mirror02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Mirror02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Mirror02_Stone.png"
         },
         {
             "name": "Ranch",
             "asset": "MonsterFarm",
-            "icon": "/icons/structures/T_icon_buildObject_MonsterFarm.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MonsterFarm.png"
         },
         {
             "name": "Large-Scale Electric Egg Incubator",
             "asset": "MultiElectricHatchingPalEgg",
-            "icon": "/icons/structures/T_icon_buildObject_MultiElectricHatchingPalEgg.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MultiElectricHatchingPalEgg.png"
         },
         {
             "name": "Ancient Breeder",
             "asset": "MultiElectricHatchingPalEggWithBreed",
-            "icon": "/icons/structures/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.png"
         },
         {
             "name": "Large Incubator",
             "asset": "MultiHatchingPalEgg",
-            "icon": "/icons/structures/T_icon_buildObject_MultiHatchingPalEgg.webp"
+            "icon": "/icons/structures/T_icon_buildObject_MultiHatchingPalEgg.png"
         },
         {
             "name": "Moonflower Vertical Banner",
             "asset": "Ninja_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_Ninja_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ninja_Banner.png"
         },
         {
             "name": "Moonflower Standard",
             "asset": "Ninja_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_Ninja_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ninja_Flag.png"
         },
         {
             "name": "Crude Oil Extractor",
             "asset": "OilPump",
-            "icon": "/icons/structures/T_icon_buildObject_OilPump.webp"
+            "icon": "/icons/structures/T_icon_buildObject_OilPump.png"
         },
         {
             "name": "OilRig",
@@ -3898,27 +3898,27 @@
         {
             "name": "Flame Cauldron",
             "asset": "OlympicCauldron",
-            "icon": "/icons/structures/T_icon_buildObject_OlympicCauldron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_OlympicCauldron.png"
         },
         {
             "name": "Pal Surgery Table",
             "asset": "OperatingTable",
-            "icon": "/icons/structures/T_icon_buildObject_OperatingTable.webp"
+            "icon": "/icons/structures/T_icon_buildObject_OperatingTable.png"
         },
         {
             "name": "Flea Market (Pals)",
             "asset": "PalBooth",
-            "icon": "/icons/structures/T_icon_buildObject_PalBooth.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalBooth.png"
         },
         {
             "name": "PalBoxTerminal",
             "asset": "PalBoxTerminal",
-            "icon": "/icons/structures/T_icon_buildObject_PalBoxTerminal.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalBoxTerminal.png"
         },
         {
             "name": "Palbox",
             "asset": "PalBoxV2",
-            "icon": "/icons/structures/T_icon_buildObject_PalBoxV2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalBoxV2.png"
         },
         {
             "name": "PalBox_RaidBossArea",
@@ -3928,7 +3928,7 @@
         {
             "name": "Aerial Cage",
             "asset": "PalCage",
-            "icon": "/icons/structures/T_icon_buildObject_PalCage.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalCage.png"
         },
         {
             "name": "Pal Egg",
@@ -3988,17 +3988,17 @@
         {
             "name": "Feed Box",
             "asset": "PalFoodBox",
-            "icon": "/icons/structures/T_icon_buildObject_PalFoodBox.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalFoodBox.png"
         },
         {
             "name": "Medicine Rack",
             "asset": "PalMedicineBox",
-            "icon": "/icons/structures/T_icon_buildObject_PalMedicineBox.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalMedicineBox.png"
         },
         {
             "name": "Palbox",
             "asset": "PalStorage",
-            "icon": "/icons/structures/T_icon_buildObject_PalStorage.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PalStorage.png"
         },
         {
             "name": "PalStorage_Terminal",
@@ -4008,17 +4008,17 @@
         {
             "name": "Antique Partition",
             "asset": "Partition_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Partition_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Partition_Stone.png"
         },
         {
             "name": "Grand Piano",
             "asset": "Piano01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Piano01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Piano01_Stone.png"
         },
         {
             "name": "Upright Piano",
             "asset": "Piano02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Piano02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Piano02_Stone.png"
         },
         {
             "name": "PickupItem_AffectionFruit",
@@ -4148,342 +4148,342 @@
         {
             "name": "Earthen Pipe",
             "asset": "PipeClay01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_PipeClay01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PipeClay01_Iron.png"
         },
         {
             "name": "Houseplant",
             "asset": "Plant01_Plant",
-            "icon": "/icons/structures/T_icon_buildObject_Plant01_Plant.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Plant01_Plant.png"
         },
         {
             "name": "Houseplant and Chair",
             "asset": "Plant02_Plant",
-            "icon": "/icons/structures/T_icon_buildObject_Plant02_Plant.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Plant02_Plant.png"
         },
         {
             "name": "Tabletop Houseplant",
             "asset": "Plant03_Plant",
-            "icon": "/icons/structures/T_icon_buildObject_Plant03_Plant.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Plant03_Plant.png"
         },
         {
             "name": "Potted Houseplant",
             "asset": "Plant04_Plant",
-            "icon": "/icons/structures/T_icon_buildObject_Plant04_Plant.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Plant04_Plant.png"
         },
         {
             "name": "Human Bed",
             "asset": "PlayerBed",
-            "icon": "/icons/structures/T_icon_buildObject_PlayerBed.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PlayerBed.png"
         },
         {
             "name": "Shoddy Bed",
             "asset": "PlayerBed_02",
-            "icon": "/icons/structures/T_icon_buildObject_PlayerBed_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PlayerBed_02.png"
         },
         {
             "name": "Fine Bed",
             "asset": "PlayerBed_03",
-            "icon": "/icons/structures/T_icon_buildObject_PlayerBed_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_PlayerBed_03.png"
         },
         {
             "name": "PIDF Vertical Banner",
             "asset": "Police_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_Police_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Police_Banner.png"
         },
         {
             "name": "PIDF Standard",
             "asset": "Police_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_Police_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Police_Flag.png"
         },
         {
             "name": "Pure Quartz Mine",
             "asset": "QuartzPit",
-            "icon": "/icons/structures/T_icon_buildObject_QuartzPit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_QuartzPit.png"
         },
         {
             "name": "en Text",
             "asset": "RecoverOtomo",
-            "icon": "/icons/structures/T_icon_buildObject_RecoverOtomo.webp"
+            "icon": "/icons/structures/T_icon_buildObject_RecoverOtomo.png"
         },
         {
             "name": "Refrigerator",
             "asset": "Refrigerator",
-            "icon": "/icons/structures/T_icon_buildObject_Refrigerator.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Refrigerator.png"
         },
         {
             "name": "Repair Bench",
             "asset": "RepairBench",
-            "icon": "/icons/structures/T_icon_buildObject_RepairBench.webp"
+            "icon": "/icons/structures/T_icon_buildObject_RepairBench.png"
         },
         {
             "name": "Antique Carpet",
             "asset": "Rug01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Rug01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Rug01_Stone.png"
         },
         {
             "name": "Antique Red Carpet",
             "asset": "Rug02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Rug02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Rug02_Stone.png"
         },
         {
             "name": "Antique Green Carpet",
             "asset": "Rug03_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Rug03_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Rug03_Stone.png"
         },
         {
             "name": "Antique Long Carpet",
             "asset": "Rug04_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Rug04_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Rug04_Stone.png"
         },
         {
             "name": "Fur rug",
             "asset": "Rug_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Rug_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Rug_Wood.png"
         },
         {
             "name": "Laboratory Chair",
             "asset": "SF_Chair",
-            "icon": "/icons/structures/T_icon_buildObject_SF_Chair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_Chair.png"
         },
         {
             "name": "Laboratory Desk",
             "asset": "SF_Desk",
-            "icon": "/icons/structures/T_icon_buildObject_SF_Desk.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_Desk.png"
         },
         {
             "name": "Clean Diagonal Wall",
             "asset": "SF_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_SF_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_DiagonalWall.png"
         },
         {
             "name": "Clean Wall and Door",
             "asset": "SF_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_SF_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_DoorWall.png"
         },
         {
             "name": "Clean Fence",
             "asset": "SF_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_SF_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_Fence.png"
         },
         {
             "name": "Clean Pillar",
             "asset": "SF_Pillars",
-            "icon": "/icons/structures/T_icon_buildObject_SF_Pillars.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_Pillars.png"
         },
         {
             "name": "Clean Pyramid Roof",
             "asset": "SF_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_SF_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_PyramidRoof.png"
         },
         {
             "name": "Clean Slanted Roof",
             "asset": "SF_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_SF_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_SlantedRoof.png"
         },
         {
             "name": "Clean Slanted Triangular Roof",
             "asset": "SF_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCorner.png"
         },
         {
             "name": "Clean Slanted Triangular Roof",
             "asset": "SF_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Clean Triangular Foundation",
             "asset": "SF_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleFoundation.png"
         },
         {
             "name": "Clean Triangular Roof",
             "asset": "SF_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleRoof.png"
         },
         {
             "name": "Clean Corner Roof",
             "asset": "SF_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleStairsCorner.png"
         },
         {
             "name": "Clean Triangular Wall",
             "asset": "SF_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleWall.png"
         },
         {
             "name": "Clean Triangular Wall (Inverted)",
             "asset": "SF_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_TriangleWallReverse.png"
         },
         {
             "name": "Clean Pal Passage Entrance",
             "asset": "SF_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_SF_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_WallGate.png"
         },
         {
             "name": "Clean Wall and Window",
             "asset": "SF_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_SF_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_WindowWall.png"
         },
         {
             "name": "Clean Foundation",
             "asset": "SF_foundation",
-            "icon": "/icons/structures/T_icon_buildObject_SF_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_foundation.png"
         },
         {
             "name": "Clean Roof",
             "asset": "SF_roof",
-            "icon": "/icons/structures/T_icon_buildObject_SF_roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_roof.png"
         },
         {
             "name": "Clean Stairs",
             "asset": "SF_stair",
-            "icon": "/icons/structures/T_icon_buildObject_SF_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_stair.png"
         },
         {
             "name": "Clean Wall",
             "asset": "SF_wall",
-            "icon": "/icons/structures/T_icon_buildObject_SF_wall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SF_wall.png"
         },
         {
             "name": "Alpha Wave Generator",
             "asset": "SanityDecrease1",
-            "icon": "/icons/structures/T_icon_buildObject_SanityDecrease1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SanityDecrease1.png"
         },
         {
             "name": "PAL Genetic Research Unit Vertical Banner",
             "asset": "Scientist_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_Scientist_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Scientist_Banner.png"
         },
         {
             "name": "PAL Genetic Research Unit Standard",
             "asset": "Scientist_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_Scientist_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Scientist_Flag.png"
         },
         {
             "name": "Flower Arrangement",
             "asset": "Seika",
-            "icon": "/icons/structures/T_icon_buildObject_Seika.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Seika.png"
         },
         {
             "name": "Iron Shelf",
             "asset": "Shelf01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Iron.png"
         },
         {
             "name": "Antique Bookshelf",
             "asset": "Shelf01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Stone.png"
         },
         {
             "name": "Iron Wall Shelf",
             "asset": "Shelf01_Wall_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Wall_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Wall_Iron.png"
         },
         {
             "name": "Antique Wall Cabinet",
             "asset": "Shelf01_Wall_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Wall_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf01_Wall_Stone.png"
         },
         {
             "name": "Long Iron Shelf",
             "asset": "Shelf02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf02_Iron.png"
         },
         {
             "name": "Antique Wardrobe",
             "asset": "Shelf02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf02_Stone.png"
         },
         {
             "name": "Orange Locker",
             "asset": "Shelf03_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf03_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf03_Iron.png"
         },
         {
             "name": "Antique Chest",
             "asset": "Shelf03_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf03_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf03_Stone.png"
         },
         {
             "name": "Locker",
             "asset": "Shelf04_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf04_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf04_Iron.png"
         },
         {
             "name": "Antique Side Chest",
             "asset": "Shelf04_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf04_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf04_Stone.png"
         },
         {
             "name": "Antique Cabinet",
             "asset": "Shelf05_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf05_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf05_Stone.png"
         },
         {
             "name": "Antique Long Cabinet",
             "asset": "Shelf06_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf06_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf06_Stone.png"
         },
         {
             "name": "Large Antique Cabinet",
             "asset": "Shelf07_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf07_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf07_Stone.png"
         },
         {
             "name": "Wooden Barrel Shelf",
             "asset": "Shelf_Cask_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf_Cask_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf_Cask_Wood.png"
         },
         {
             "name": "Wooden Wall Shelf",
             "asset": "Shelf_Hang01_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf_Hang01_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf_Hang01_Wood.png"
         },
         {
             "name": "Wooden Decorative Wall Shelf",
             "asset": "Shelf_Hang02_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf_Hang02_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf_Hang02_Wood.png"
         },
         {
             "name": "Wooden Shelf",
             "asset": "Shelf_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Shelf_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shelf_Wood.png"
         },
         {
             "name": "Shipping Box",
             "asset": "ShippingItemBox",
-            "icon": "/icons/structures/T_icon_buildObject_ShippingItemBox.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ShippingItemBox.png"
         },
         {
             "name": "Deer Scare",
             "asset": "Shishiodoshi",
-            "icon": "/icons/structures/T_icon_buildObject_Shishiodoshi.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shishiodoshi.png"
         },
         {
             "name": "Red Wooden Lantern",
             "asset": "Shrine_Lantern",
-            "icon": "/icons/structures/T_icon_buildObject_Shrine_Lantern.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Shrine_Lantern.png"
         },
         {
             "name": "Emergency Exit Ceiling Sign",
             "asset": "SignExit_Ceiling_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_SignExit_Ceiling_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SignExit_Ceiling_Iron.png"
         },
         {
             "name": "Emergency Exit Wall Sign",
             "asset": "SignExit_Wall_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_SignExit_Wall_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SignExit_Wall_Iron.png"
         },
         {
             "name": "Sign",
             "asset": "Signboard",
-            "icon": "/icons/structures/T_icon_buildObject_Signboard.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Signboard.png"
         },
         {
             "name": "Silo",
             "asset": "Silo",
-            "icon": "/icons/structures/T_icon_buildObject_Silo.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Silo.png"
         },
         {
             "name": "SkillFruit_Test",
@@ -4493,237 +4493,237 @@
         {
             "name": "Pal Dressing Facility",
             "asset": "SkinChange",
-            "icon": "/icons/structures/T_icon_buildObject_SkinChange.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SkinChange.png"
         },
         {
             "name": "SkyIslandOrePit",
             "asset": "SkyIslandOrePit",
-            "icon": "/icons/structures/T_icon_buildObject_SkyIslandOrePit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SkyIslandOrePit.png"
         },
         {
             "name": "SkyIsland_Banner",
             "asset": "SkyIsland_Banner",
-            "icon": "/icons/structures/T_icon_buildObject_SkyIsland_Banner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SkyIsland_Banner.png"
         },
         {
             "name": "SkyIsland_Flag",
             "asset": "SkyIsland_Flag",
-            "icon": "/icons/structures/T_icon_buildObject_SkyIsland_Flag.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SkyIsland_Flag.png"
         },
         {
             "name": "Snowman",
             "asset": "Snowman",
-            "icon": "/icons/structures/T_icon_buildObject_Snowman.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Snowman.png"
         },
         {
             "name": "Leather Armchair",
             "asset": "Sofa01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Sofa01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Sofa01_Iron.png"
         },
         {
             "name": "Antique Armchair",
             "asset": "Sofa01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Sofa01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Sofa01_Stone.png"
         },
         {
             "name": "Leather Couch",
             "asset": "Sofa02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Sofa02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Sofa02_Iron.png"
         },
         {
             "name": "Antique Couch",
             "asset": "Sofa02_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Sofa02_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Sofa02_Stone.png"
         },
         {
             "name": "Antique Ottoman",
             "asset": "Sofa03_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Sofa03_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Sofa03_Stone.png"
         },
         {
             "name": "Hot Spring",
             "asset": "Spa",
-            "icon": "/icons/structures/T_icon_buildObject_Spa.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Spa.png"
         },
         {
             "name": "High Quality Hot Spring",
             "asset": "Spa2",
-            "icon": "/icons/structures/T_icon_buildObject_Spa_2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Spa_2.png"
         },
         {
             "name": "Japanese-Style Hot Spring",
             "asset": "Spa3",
-            "icon": "/icons/structures/T_icon_buildObject_Spa3.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Spa3.png"
         },
         {
             "name": "Spa_2",
             "asset": "Spa_2",
-            "icon": "/icons/structures/T_icon_buildObject_Spa_2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Spa_2.png"
         },
         {
             "name": "SphereFactory",
             "asset": "SphereFactory",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory.png"
         },
         {
             "name": "Sphere Workbench",
             "asset": "SphereFactory_Black_01",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_01.png"
         },
         {
             "name": "Sphere Assembly Line",
             "asset": "SphereFactory_Black_02",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_02.png"
         },
         {
             "name": "Sphere Assembly Line II",
             "asset": "SphereFactory_Black_03",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_03.png"
         },
         {
             "name": "Advanced Sphere Assembly Line",
             "asset": "SphereFactory_Black_04",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_04.png"
         },
         {
             "name": "SphereFactory_Black_Base",
             "asset": "SphereFactory_Black_Base",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_Base.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_Black_Base.png"
         },
         {
             "name": "Superior Sphere Factory Ⅰ",
             "asset": "SphereFactory_White_01",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_01.png"
         },
         {
             "name": "Superior Sphere Factory Ⅱ",
             "asset": "SphereFactory_White_02",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_02.png"
         },
         {
             "name": "Superior Sphere Factory Ⅲ",
             "asset": "SphereFactory_White_03",
-            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SphereFactory_White_03.png"
         },
         {
             "name": "Stone Pit",
             "asset": "StationDeforest",
-            "icon": "/icons/structures/T_icon_buildObject_StationDeforest.webp"
+            "icon": "/icons/structures/T_icon_buildObject_StationDeforest.png"
         },
         {
             "name": "Logging Site",
             "asset": "StationDeforest2",
-            "icon": "/icons/structures/T_icon_buildObject_StationDeforest2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_StationDeforest2.png"
         },
         {
             "name": "StationDeforest3",
             "asset": "StationDeforest3",
-            "icon": "/icons/structures/T_icon_buildObject_StationDeforest3.webp"
+            "icon": "/icons/structures/T_icon_buildObject_StationDeforest3.png"
         },
         {
             "name": "Stone Pit",
             "asset": "StonePit",
-            "icon": "/icons/structures/T_icon_buildObject_StonePit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_StonePit.png"
         },
         {
             "name": "Stone Diagonal Wall",
             "asset": "Stone_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_DiagonalWall.png"
         },
         {
             "name": "Stone Door",
             "asset": "Stone_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_DoorWall.png"
         },
         {
             "name": "Stone Fence",
             "asset": "Stone_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Fence.png"
         },
         {
             "name": "Stone_Foundation",
             "asset": "Stone_Foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Foundation.png"
         },
         {
             "name": "Stone Gate",
             "asset": "Stone_Gate",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Gate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Gate.png"
         },
         {
             "name": "Stone Pillar",
             "asset": "Stone_Pillar",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_pillar.png"
         },
         {
             "name": "Stone Pyramid Roof",
             "asset": "Stone_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_PyramidRoof.png"
         },
         {
             "name": "Stone_Roof",
             "asset": "Stone_Roof",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Roof.png"
         },
         {
             "name": "Stone Slanted Roof",
             "asset": "Stone_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_SlantedRoof.png"
         },
         {
             "name": "Stone Slanted Triangular Roof",
             "asset": "Stone_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCorner.png"
         },
         {
             "name": "Stone Slanted Triangular Roof",
             "asset": "Stone_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Stone_Stair",
             "asset": "Stone_Stair",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Stair.png"
         },
         {
             "name": "Stone Triangular Foundation",
             "asset": "Stone_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleFoundation.png"
         },
         {
             "name": "Stone Triangular Roof",
             "asset": "Stone_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleRoof.png"
         },
         {
             "name": "Stone Corner Roof",
             "asset": "Stone_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleStairsCorner.png"
         },
         {
             "name": "Stone Triangular Wall",
             "asset": "Stone_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleWall.png"
         },
         {
             "name": "Stone Triangular Wall (Inverted)",
             "asset": "Stone_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_TriangleWallReverse.png"
         },
         {
             "name": "Stone Pal Passage Entrance",
             "asset": "Stone_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_WallGate.png"
         },
         {
             "name": "Stone_Wall_V2",
             "asset": "Stone_Wall_V2",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Wall_V2.png"
         },
         {
             "name": "Stone Wall and Window",
             "asset": "Stone_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_WindowWall.png"
         },
         {
             "name": "Stone Foundation",
@@ -4733,7 +4733,7 @@
         {
             "name": "Stone_pillar",
             "asset": "Stone_pillar",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_pillar.png"
         },
         {
             "name": "Stone Roof",
@@ -4748,42 +4748,42 @@
         {
             "name": "Stone Wall",
             "asset": "Stone_wall",
-            "icon": "/icons/structures/T_icon_buildObject_Stone_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Wall_V2.png"
         },
         {
             "name": "en Text",
             "asset": "Stonehouse1",
-            "icon": "/icons/structures/T_icon_buildObject_Stonehouse1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stonehouse1.png"
         },
         {
             "name": "Iron Stool",
             "asset": "Stool01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Stool01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stool01_Iron.png"
         },
         {
             "name": "Antique Stool",
             "asset": "Stool01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Stool01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stool01_Stone.png"
         },
         {
             "name": "Wooden Bar Stool",
             "asset": "Stool_High_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Stool_High_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stool_High_Wood.png"
         },
         {
             "name": "Wooden Stool",
             "asset": "Stool_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Stool_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stool_Wood.png"
         },
         {
             "name": "Antique Stove",
             "asset": "Stove01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Stove01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stove01_Stone.png"
         },
         {
             "name": "StrawHouse",
             "asset": "StrawHouse",
-            "icon": "/icons/structures/T_icon_buildObject_StrawHouse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_StrawHouse.png"
         },
         {
             "name": "en Text",
@@ -4793,12 +4793,12 @@
         {
             "name": "Stump and Axe",
             "asset": "Stump",
-            "icon": "/icons/structures/T_icon_buildObject_Stump.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stump.png"
         },
         {
             "name": "Sulfur Mine",
             "asset": "SulfurPit",
-            "icon": "/icons/structures/T_icon_buildObject_SulfurPit.webp"
+            "icon": "/icons/structures/T_icon_buildObject_SulfurPit.png"
         },
         {
             "name": "Supplies",
@@ -4813,212 +4813,212 @@
         {
             "name": "Round Iron Table",
             "asset": "TableCircular01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TableCircular01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableCircular01_Iron.png"
         },
         {
             "name": "Antique Round Table",
             "asset": "TableCircular01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_TableCircular01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableCircular01_Stone.png"
         },
         {
             "name": "Round Table",
             "asset": "TableCircular_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_TableCircular_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableCircular_Wood.png"
         },
         {
             "name": "TableCircular_Wood_None",
             "asset": "TableCircular_Wood_None",
-            "icon": "/icons/structures/T_icon_buildObject_TableCircular_Wood_None.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableCircular_Wood_None.png"
         },
         {
             "name": "Antique Dresser",
             "asset": "TableDresser01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_TableDresser01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableDresser01_Stone.png"
         },
         {
             "name": "Ironwood Side Table",
             "asset": "TableSide01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TableSide01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSide01_Iron.png"
         },
         {
             "name": "Antique Washstand",
             "asset": "TableSink01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_TableSink01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSink01_Stone.png"
         },
         {
             "name": "Ironwood Table",
             "asset": "TableSquare01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TableSquare01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSquare01_Iron.png"
         },
         {
             "name": "Ironwood Low Table",
             "asset": "TableSquare02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TableSquare02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSquare02_Iron.png"
         },
         {
             "name": "Square Table",
             "asset": "TableSquare_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_TableSquare_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSquare_Wood.png"
         },
         {
             "name": "TableSquare_Wood_None",
             "asset": "TableSquare_Wood_None",
-            "icon": "/icons/structures/T_icon_buildObject_TableSquare_Wood_None.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TableSquare_Wood_None.png"
         },
         {
             "name": "Japanese-Style Chest",
             "asset": "Tansu",
-            "icon": "/icons/structures/T_icon_buildObject_Tansu.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Tansu.png"
         },
         {
             "name": "Old TV",
             "asset": "Television01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Television01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Television01_Iron.png"
         },
         {
             "name": "Tire",
             "asset": "Tire01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_Tire01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Tire01_Iron.png"
         },
         {
             "name": "Antique Toilet",
             "asset": "Toilet01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Toilet01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Toilet01_Stone.png"
         },
         {
             "name": "Antique Toilet Paper Holder",
             "asset": "ToiletHolder01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_ToiletHolder01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ToiletHolder01_Stone.png"
         },
         {
             "name": "Large Toolbox",
             "asset": "ToolBoxV1",
-            "icon": "/icons/structures/T_icon_buildObject_ToolBoxV1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ToolBoxV1.png"
         },
         {
             "name": "ToolBox",
             "asset": "ToolBoxV2",
-            "icon": "/icons/structures/T_icon_buildObject_ToolBoxV2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ToolBoxV2.png"
         },
         {
             "name": "Mounted Torch",
             "asset": "Torch",
-            "icon": "/icons/structures/T_icon_buildObject_TorchStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TorchStand.png"
         },
         {
             "name": "TorchHang",
             "asset": "TorchHang",
-            "icon": "/icons/structures/T_icon_buildObject_TorchHang.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TorchHang.png"
         },
         {
             "name": "TorchStand",
             "asset": "TorchStand",
-            "icon": "/icons/structures/T_icon_buildObject_TorchStand.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TorchStand.png"
         },
         {
             "name": "Stone Lantern",
             "asset": "Toro",
-            "icon": "/icons/structures/T_icon_buildObject_Toro.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Toro.png"
         },
         {
             "name": "Antique Towel Rack",
             "asset": "TowlRack01_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_TowlRack01_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TowlRack01_Stone.png"
         },
         {
             "name": "Barricade",
             "asset": "TrafficBarricade01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade01_Iron.png"
         },
         {
             "name": "Orange Barricade",
             "asset": "TrafficBarricade02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade02_Iron.png"
         },
         {
             "name": "Red Iron Barricade",
             "asset": "TrafficBarricade03_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade03_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade03_Iron.png"
         },
         {
             "name": "White Iron Barricade",
             "asset": "TrafficBarricade04_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade04_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade04_Iron.png"
         },
         {
             "name": "Iron Fence",
             "asset": "TrafficBarricade05_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade05_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficBarricade05_Iron.png"
         },
         {
             "name": "Traffic Cone",
             "asset": "TrafficCone01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficCone01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficCone01_Iron.png"
         },
         {
             "name": "Fat Traffic Cone",
             "asset": "TrafficCone02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficCone02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficCone02_Iron.png"
         },
         {
             "name": "Skinny Traffic Cone",
             "asset": "TrafficCone03_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficCone03_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficCone03_Iron.png"
         },
         {
             "name": "Traffic Light",
             "asset": "TrafficLight01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficLight01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficLight01_Iron.png"
         },
         {
             "name": "No Pals Beyond Sign",
             "asset": "TrafficSign01_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficSign01_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficSign01_Iron.png"
         },
         {
             "name": "Stop Sign",
             "asset": "TrafficSign02_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficSign02_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficSign02_Iron.png"
         },
         {
             "name": "Beware of Eikthyrdeer Sign",
             "asset": "TrafficSign03_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficSign03_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficSign03_Iron.png"
         },
         {
             "name": "Beware of Mammorest Sign",
             "asset": "TrafficSign04_Iron",
-            "icon": "/icons/structures/T_icon_buildObject_TrafficSign04_Iron.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TrafficSign04_Iron.png"
         },
         {
             "name": "Electric Pylon",
             "asset": "TransmissionTower",
-            "icon": "/icons/structures/T_icon_buildObject_TransmissionTower.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TransmissionTower.png"
         },
         {
             "name": "Bear Trap (Small)",
             "asset": "Trap_LegHold",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_LegHold.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_LegHold.png"
         },
         {
             "name": "Bear Trap (Large)",
             "asset": "Trap_LegHold_Big",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_LegHold_Big.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_LegHold_Big.png"
         },
         {
             "name": "Mine",
             "asset": "Trap_MineAttack",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_MineAttack.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_MineAttack.png"
         },
         {
             "name": "Electric Mine",
             "asset": "Trap_MineElecShock",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_MineElecShock.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_MineElecShock.png"
         },
         {
             "name": "Ice Mine",
             "asset": "Trap_MineFreeze",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_MineFreeze.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_MineFreeze.png"
         },
         {
             "name": "Moving panels",
@@ -5028,7 +5028,7 @@
         {
             "name": "Hanging Trap",
             "asset": "Trap_Noose",
-            "icon": "/icons/structures/T_icon_buildObject_Trap_Noose.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Trap_Noose.png"
         },
         {
             "name": "TreasureBox",
@@ -5098,42 +5098,42 @@
         {
             "name": "Wall",
             "asset": "Wall",
-            "icon": "/icons/structures/T_icon_buildObject_Wall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wall.png"
         },
         {
             "name": "Wall-Mounted Sign",
             "asset": "WallSignboard",
-            "icon": "/icons/structures/T_icon_buildObject_WallSignboard.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WallSignboard.png"
         },
         {
             "name": "Wall Torch",
             "asset": "WallTorch",
-            "icon": "/icons/structures/T_icon_buildObject_TorchHang.webp"
+            "icon": "/icons/structures/T_icon_buildObject_TorchHang.png"
         },
         {
             "name": "Majestic Wall Torch",
             "asset": "WallTorch02",
-            "icon": "/icons/structures/T_icon_buildObject_WallTorch02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WallTorch02.png"
         },
         {
             "name": "Wall",
             "asset": "Wall_Stone",
-            "icon": "/icons/structures/T_icon_buildObject_Wall_Stone.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wall_Stone.png"
         },
         {
             "name": "Wall",
             "asset": "Wall_Wood",
-            "icon": "/icons/structures/T_icon_buildObject_Wall_Wood.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wall_Wood.png"
         },
         {
             "name": "Weapon Chest",
             "asset": "WeaponChest",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponChest.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponChest.png"
         },
         {
             "name": "WeaponFactoryBase",
             "asset": "WeaponFactoryBase",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactoryBase.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactoryBase.png"
         },
         {
             "name": "en Text",
@@ -5143,52 +5143,52 @@
         {
             "name": "en Text",
             "asset": "WeaponFactory_Clean_01",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_01.png"
         },
         {
             "name": "en Text",
             "asset": "WeaponFactory_Clean_02",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_02.png"
         },
         {
             "name": "en Text",
             "asset": "WeaponFactory_Clean_03",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Clean_03.png"
         },
         {
             "name": "Weapon Workbench",
             "asset": "WeaponFactory_Dirty_01",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_01.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_01.png"
         },
         {
             "name": "Weapon Assembly Line",
             "asset": "WeaponFactory_Dirty_02",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_02.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_02.png"
         },
         {
             "name": "Weapon Assembly Line II",
             "asset": "WeaponFactory_Dirty_03",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_03.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_03.png"
         },
         {
             "name": "Advanced Weapon Assembly Line",
             "asset": "WeaponFactory_Dirty_04",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_04.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactory_Dirty_04.png"
         },
         {
             "name": "Weapon Factory",
             "asset": "WeaponFactry",
-            "icon": "/icons/structures/T_icon_buildObject_WeaponFactry.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WeaponFactry.png"
         },
         {
             "name": "Water Well",
             "asset": "Well",
-            "icon": "/icons/structures/T_icon_buildObject_Well.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Well.png"
         },
         {
             "name": "Wire Fence",
             "asset": "Wire_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Wire_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wire_Fence.png"
         },
         {
             "name": "en Text",
@@ -5203,177 +5203,177 @@
         {
             "name": "WoodHouse",
             "asset": "WoodHouse",
-            "icon": "/icons/structures/T_icon_buildObject_WoodHouse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WoodHouse.png"
         },
         {
             "name": "Wood_DoorWall",
             "asset": "Wood_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_DoorWall.png"
         },
         {
             "name": "Wooden Fence",
             "asset": "Wood_Fence",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Fence.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Fence.png"
         },
         {
             "name": "Wood_Foundation",
             "asset": "Wood_Foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Foundation.png"
         },
         {
             "name": "Wooden Gate",
             "asset": "Wood_Gate",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Gate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Gate.png"
         },
         {
             "name": "Wood_Roof",
             "asset": "Wood_Roof",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Roof.png"
         },
         {
             "name": "Wooden Slanted Roof",
             "asset": "Wood_SlantedRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_SlantedRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_SlantedRoof.png"
         },
         {
             "name": "Wood_Stair",
             "asset": "Wood_Stair",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Stair.png"
         },
         {
             "name": "Wooden Triangular Wall",
             "asset": "Wood_TriangleWall",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_TriangleWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_TriangleWall.png"
         },
         {
             "name": "Wooden Triangular Wall (Inverted)",
             "asset": "Wood_TriangleWallReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_TriangleWallReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_TriangleWallReverse.png"
         },
         {
             "name": "Wood_Wall_V2",
             "asset": "Wood_Wall_V2",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Wall_V2.png"
         },
         {
             "name": "Wooden Wall and Window",
             "asset": "Wood_WindowWall",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_WindowWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_WindowWall.png"
         },
         {
             "name": "Wooden Barricade",
             "asset": "WoodenBarricade",
-            "icon": "/icons/structures/T_icon_buildObject_WoodenBarricade.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WoodenBarricade.png"
         },
         {
             "name": "Wooden Diagonal Wall",
             "asset": "Wooden_DiagonalWall",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_DiagonalWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_DiagonalWall.png"
         },
         {
             "name": "Wooden Door",
             "asset": "Wooden_DoorWall",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_DoorWall.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_DoorWall.png"
         },
         {
             "name": "Wooden Pillar",
             "asset": "Wooden_Pillar",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_pillar.png"
         },
         {
             "name": "Wooden Pyramid Roof",
             "asset": "Wooden_PyramidRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_PyramidRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_PyramidRoof.png"
         },
         {
             "name": "Wooden Slanted Triangular Roof",
             "asset": "Wooden_SlopedRoofCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCorner.png"
         },
         {
             "name": "Wooden Slanted Triangular Roof",
             "asset": "Wooden_SlopedRoofCornerReverse",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCornerReverse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCornerReverse.png"
         },
         {
             "name": "Wooden Triangular Foundation",
             "asset": "Wooden_TriangleFoundation",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleFoundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleFoundation.png"
         },
         {
             "name": "Wooden Triangular Roof",
             "asset": "Wooden_TriangleRoof",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleRoof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleRoof.png"
         },
         {
             "name": "Wooden Corner Roof",
             "asset": "Wooden_TriangleStairsCorner",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleStairsCorner.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_TriangleStairsCorner.png"
         },
         {
             "name": "Wooden Pal Passage Entrance",
             "asset": "Wooden_WallGate",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_WallGate.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_WallGate.png"
         },
         {
             "name": "Wooden Foundation",
             "asset": "Wooden_foundation",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Foundation.png"
         },
         {
             "name": "Ladder",
             "asset": "Wooden_ladder",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_Ladder.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_Ladder.png"
         },
         {
             "name": "Wooden_pillar",
             "asset": "Wooden_pillar",
-            "icon": "/icons/structures/T_icon_buildObject_Wooden_pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_pillar.png"
         },
         {
             "name": "Wooden Roof",
             "asset": "Wooden_roof",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Roof.png"
         },
         {
             "name": "Wooden Stairs",
             "asset": "Wooden_stair",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Stair.png"
         },
         {
             "name": "Wooden Wall",
             "asset": "Wooden_wall",
-            "icon": "/icons/structures/T_icon_buildObject_Wood_Wall_V2.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wood_Wall_V2.png"
         },
         {
             "name": "Woodhouse1",
             "asset": "Woodhouse1",
-            "icon": "/icons/structures/T_icon_buildObject_WoodHouse.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WoodHouse.png"
         },
         {
             "name": "Primitive Workbench",
             "asset": "WorkBench",
-            "icon": "/icons/structures/T_icon_buildObject_WorkBench.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WorkBench.png"
         },
         {
             "name": "en Text",
             "asset": "WorkBench_SkillCard",
-            "icon": "/icons/structures/T_icon_buildObject_WorkBench.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WorkBench.png"
         },
         {
             "name": "Pal Gear Workbench",
             "asset": "WorkBench_SkillUnlock",
-            "icon": "/icons/structures/T_icon_buildObject_WorkBench_SkillUnlock.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WorkBench_SkillUnlock.png"
         },
         {
             "name": "Beta Wave Generator",
             "asset": "WorkSpeedIncrease1",
-            "icon": "/icons/structures/T_icon_buildObject_WorkSpeedIncrease1.webp"
+            "icon": "/icons/structures/T_icon_buildObject_WorkSpeedIncrease1.png"
         },
         {
             "name": "Moon Lord Statue",
             "asset": "YakushimaBoss002_Relic",
-            "icon": "/icons/structures/T_icon_buildObject_YakushimaBoss002_Relic.webp"
+            "icon": "/icons/structures/T_icon_buildObject_YakushimaBoss002_Relic.png"
         },
         {
             "name": "Yakushima_Crystal",
@@ -5393,42 +5393,42 @@
         {
             "name": "Japanese Floor Cushion",
             "asset": "Zabuton",
-            "icon": "/icons/structures/T_icon_buildObject_Zabuton.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Zabuton.png"
         },
         {
             "name": "Japanese Floor Chair",
             "asset": "Zaisu",
-            "icon": "/icons/structures/T_icon_buildObject_Zaisu.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Zaisu.png"
         },
         {
             "name": "ect_ItemChest",
             "asset": "ect_ItemChest",
-            "icon": "/icons/structures/T_icon_buildObject_ect_ItemChest.webp"
+            "icon": "/icons/structures/T_icon_buildObject_ect_ItemChest.png"
         },
         {
             "name": "efenseBulletLauncher_BowGun",
             "asset": "efenseBulletLauncher_BowGun",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_BowGun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_BowGun.png"
         },
         {
             "name": "efenseBulletLauncher_GatlingGun",
             "asset": "efenseBulletLauncher_GatlingGun",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_GatlingGun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_GatlingGun.png"
         },
         {
             "name": "efenseBulletLauncher_Machinegun",
             "asset": "efenseBulletLauncher_Machinegun",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Machinegun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Machinegun.png"
         },
         {
             "name": "efenseBulletLauncher_Minigun",
             "asset": "efenseBulletLauncher_Minigun",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Minigun.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Minigun.png"
         },
         {
             "name": "efenseBulletLauncher_Missile",
             "asset": "efenseBulletLauncher_Missile",
-            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Missile.webp"
+            "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Missile.png"
         }
     ]
 }

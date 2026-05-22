@@ -24,6 +24,7 @@ print(f"  Found {len(icon_name_to_path)} icon files")
 from update_game_data import (
     update_pal_data, update_item_data, update_npc_data, update_structure_data,
     update_passive_data, update_skill_data, update_technology_data, update_pal_passive_data,
+    update_items_psp,
     ensure_dir, RESOURCES_DIR, ICONS_DIR,
 )
 
@@ -161,6 +162,9 @@ update_skill_data()
 
 print("\n=== Updating Technology Data ===")
 update_technology_data()
+
+print("\n=== Updating Items PSP ===")
+update_items_psp()
 
 print("\n=== Updating Pal Passive Data ===")
 update_pal_passive_data()

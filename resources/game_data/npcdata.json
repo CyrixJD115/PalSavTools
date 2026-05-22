@@ -3,167 +3,167 @@
         {
             "name": "Ego",
             "asset": "BOSS_Believer_CrossBow",
-            "icon": "/icons/npcs/T_BOSS_NPC_Believer.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Believer.png"
         },
         {
             "name": "Brick",
             "asset": "BOSS_Believer_Fat_GiantClub",
-            "icon": "/icons/npcs/T_BOSS_NPC_Believer_Fat.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Believer_Fat.png"
         },
         {
             "name": "Ram",
             "asset": "BOSS_DarkTrader",
-            "icon": "/icons/npcs/T_BOSS_NPC_DarkTrader.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_DarkTrader.png"
         },
         {
             "name": "Whisper",
             "asset": "BOSS_Female_DesertPeople",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female_DesertPeople.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female_DesertPeople.png"
         },
         {
             "name": "Flare",
             "asset": "BOSS_Female_People",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female.png"
         },
         {
             "name": "Siren",
             "asset": "BOSS_Female_People02",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female02.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female02.png"
         },
         {
             "name": "Turncoat",
             "asset": "BOSS_Female_People03",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female03.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female03.png"
         },
         {
             "name": "Jade",
             "asset": "BOSS_Female_Soldier",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier.png"
         },
         {
             "name": "Dazzle",
             "asset": "BOSS_Female_Soldier02",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier02.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier02.png"
         },
         {
             "name": "Aloha",
             "asset": "BOSS_Female_Soldier03",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier03.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier03.png"
         },
         {
             "name": "Nimble",
             "asset": "BOSS_Female_Soldier04",
-            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier04.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Female_Soldier04.png"
         },
         {
             "name": "Shadow",
             "asset": "BOSS_FireCult_FlameThrower",
-            "icon": "/icons/npcs/T_BOSS_NPC_FireCult.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_FireCult.png"
         },
         {
             "name": "Grill",
             "asset": "BOSS_Hunter_Fat_GatlingGun",
-            "icon": "/icons/npcs/T_BOSS_NPC_Hunter_Fat.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Hunter_Fat.png"
         },
         {
             "name": "Hawk",
             "asset": "BOSS_Hunter_Rifle",
-            "icon": "/icons/npcs/T_BOSS_NPC_Hunter.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Hunter.png"
         },
         {
             "name": "Phantom",
             "asset": "BOSS_Male_DesertPeople",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_DesertPeople.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_DesertPeople.png"
         },
         {
             "name": "Urchin",
             "asset": "BOSS_Male_NinjaElite",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_NinjaElite.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_NinjaElite.png"
         },
         {
             "name": "Dyna",
             "asset": "BOSS_Male_People",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male.png"
         },
         {
             "name": "Quill",
             "asset": "BOSS_Male_People02",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male02.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male02.png"
         },
         {
             "name": "Scoot",
             "asset": "BOSS_Male_People03",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male03.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male03.png"
         },
         {
             "name": "Mite",
             "asset": "BOSS_Male_People2",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male.png"
         },
         {
             "name": "Crash",
             "asset": "BOSS_Male_Soldier",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier.png"
         },
         {
             "name": "Dart",
             "asset": "BOSS_Male_Soldier02",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier02.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier02.png"
         },
         {
             "name": "Clint",
             "asset": "BOSS_Male_Soldier03",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier03.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier03.png"
         },
         {
             "name": "Lasso",
             "asset": "BOSS_Male_Soldier04",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier04.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Soldier04.png"
         },
         {
             "name": "Skim",
             "asset": "BOSS_Male_Trader01",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader01.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader01.png"
         },
         {
             "name": "Mimic",
             "asset": "BOSS_Male_Trader02",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader02.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader02.png"
         },
         {
             "name": "Billy",
             "asset": "BOSS_Male_Trader03",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader03.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Trader03.png"
         },
         {
             "name": "Fumble",
             "asset": "BOSS_Ninja",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Ninja.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Ninja.png"
         },
         {
             "name": "Whip",
             "asset": "BOSS_Police_Rifle",
-            "icon": "/icons/npcs/T_BOSS_NPC_Police.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Police.png"
         },
         {
             "name": "Pinch",
             "asset": "BOSS_Police_old",
-            "icon": "/icons/npcs/T_BOSS_NPC_Police_Old.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Police_Old.png"
         },
         {
             "name": "Whisk",
             "asset": "BOSS_Scientist_LaserRifle",
-            "icon": "/icons/npcs/T_BOSS_NPC_Male_Scientist.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Male_Scientist.png"
         },
         {
             "name": "Gnaw",
             "asset": "BOSS_Viking",
-            "icon": "/icons/npcs/T_BOSS_NPC_Viking.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_Viking.png"
         },
         {
             "name": "Cache",
             "asset": "BOSS_VikingElite",
-            "icon": "/icons/npcs/T_BOSS_NPC_VikingElite.webp"
+            "icon": "/icons/npcs/T_BOSS_NPC_VikingElite.png"
         }
     ]
 }

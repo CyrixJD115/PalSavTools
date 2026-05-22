@@ -3,1717 +3,1717 @@
         {
             "name": "AI Core",
             "asset": "AIcore",
-            "icon": "/icons/technologies/T_itemicon_Material_AIcore.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_AIcore.png",
             "type": "standard"
         },
         {
             "name": "Air Dash Boots",
             "asset": "Accessory_AirDash1",
-            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.png",
             "type": "boss"
         },
         {
             "name": "Double Air Dash Boots",
             "asset": "Accessory_AirDash2",
-            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.png",
             "type": "boss"
         },
         {
             "name": "Triple Air Dash Boots",
             "asset": "Accessory_AirDash3",
-            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_AirDash.png",
             "type": "boss"
         },
         {
             "name": "Blast-Resistant Undershirt",
             "asset": "Accessory_ExplosionResist",
-            "icon": "/icons/technologies/T_itemicon_Accessory_ExplosionResist.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_ExplosionResist.png",
             "type": "standard"
         },
         {
             "name": "Double Jump Boots",
             "asset": "Accessory_JumpCount_Increase1",
-            "icon": "/icons/technologies/T_itemicon_Accessory_JumpCount_Increase.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_JumpCount_Increase.png",
             "type": "boss"
         },
         {
             "name": "Triple Jump Boots",
             "asset": "Accessory_JumpCount_Increase2",
-            "icon": "/icons/technologies/T_itemicon_Accessory_JumpCount_Increase.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_JumpCount_Increase.png",
             "type": "boss"
         },
         {
             "name": "Anti-Gravity Belt",
             "asset": "Accessory_JumpPower_Increase",
-            "icon": "/icons/technologies/T_itemicon_Accessory_JumpPower_Increase.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_JumpPower_Increase.png",
             "type": "boss"
         },
         {
             "name": "Ring of Mercy",
             "asset": "Accessory_Nonkilling",
-            "icon": "/icons/technologies/T_itemicon_Accessory_Nonkilling.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_Nonkilling.png",
             "type": "boss"
         },
         {
             "name": "Ability Glasses",
             "asset": "Accessory_TalentChecker",
-            "icon": "/icons/technologies/T_itemicon_Accessory_TalentChecker.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_TalentChecker.png",
             "type": "boss"
         },
         {
             "name": "Small Pouch",
             "asset": "AdditionalInventory_001",
-            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_001.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_001.png",
             "type": "standard"
         },
         {
             "name": "Medium Pouch",
             "asset": "AdditionalInventory_002",
-            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_002.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_002.png",
             "type": "standard"
         },
         {
             "name": "Large Pouch",
             "asset": "AdditionalInventory_003",
-            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_003.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_003.png",
             "type": "standard"
         },
         {
             "name": "Giant Pouch",
             "asset": "AdditionalInventory_004",
-            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_004.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AdditionalInventory_004.png",
             "type": "standard"
         },
         {
             "name": "Summoning Altar",
             "asset": "Altar",
-            "icon": "/icons/technologies/T_icon_buildObject_Altar.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Altar.png",
             "type": "boss"
         },
         {
             "name": "[WIP] Ancient Armor",
             "asset": "AncientArmor",
-            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmor.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Cold Resistant Ancient Armor",
             "asset": "AncientArmorCold",
-            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorCold.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Heat Resistant Ancient Armor",
             "asset": "AncientArmorHeat",
-            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Lightweight Ancient Armor",
             "asset": "AncientArmorWeight",
-            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorWeight.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorWeight.png",
             "type": "standard"
         },
         {
             "name": "Ancient Furnace",
             "asset": "AncientBlastFurnace",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientBlastFurnace.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientBlastFurnace.png",
             "type": "standard"
         },
         {
             "name": "Ancient Kitchen",
             "asset": "AncientCookingStove",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientCookingStove.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientCookingStove.png",
             "type": "standard"
         },
         {
             "name": "Ancient Power Generator",
             "asset": "AncientElectricGenerator",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientElectricGenerator.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientElectricGenerator.png",
             "type": "standard"
         },
         {
             "name": "Ancient Cultivator",
             "asset": "AncientFarmBlock",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientFarmBlock.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientFarmBlock.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Ancient Helmet",
             "asset": "AncientHelmet",
-            "icon": "/icons/technologies/T_itemicon_Armor_AncientHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_AncientHelmet.png",
             "type": "standard"
         },
         {
             "name": "Ancient Fabricator",
             "asset": "AncientMultiProduct",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientMultiProduct.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientMultiProduct.png",
             "type": "standard"
         },
         {
             "name": "Ancient Relic Recycler",
             "asset": "AncientRelicRecycler",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientRelicRecycler.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientRelicRecycler.png",
             "type": "standard"
         },
         {
             "name": "Ancient Workbench",
             "asset": "AncientWorkBench",
-            "icon": "/icons/technologies/T_icon_buildObject_AncientWorkBench.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_AncientWorkBench.png",
             "type": "standard"
         },
         {
             "name": "Ancient_Clinic",
             "asset": "Ancient_Clinic",
-            "icon": "/icons/technologies/T_icon_buildObject_Ancient_Clinic.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ancient_Clinic.png",
             "type": "standard"
         },
         {
             "name": "Ancient_Houseset",
             "asset": "Ancient_Houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_Ancient_foundation.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ancient_foundation.png",
             "type": "standard"
         },
         {
             "name": "Ancient_Spa",
             "asset": "Ancient_Spa",
-            "icon": "/icons/technologies/T_icon_buildObject_Ancient_Spa.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ancient_Spa.png",
             "type": "standard"
         },
         {
             "name": "Arrow",
             "asset": "Arrow",
-            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow.png",
             "type": "standard"
         },
         {
             "name": "Fire Arrow",
             "asset": "Arrow_Fire",
-            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Fire.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Fire.png",
             "type": "standard"
         },
         {
             "name": "Poison Arrow",
             "asset": "Arrow_Poison",
-            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Poison.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Poison.png",
             "type": "standard"
         },
         {
             "name": "Assault Rifle Ammo",
             "asset": "AssaultRifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_AssaultRifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_AssaultRifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Small Feed Bag",
             "asset": "AutoMealPouch_Tier1",
-            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier1.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier1.png",
             "type": "standard"
         },
         {
             "name": "Average Feed Bag",
             "asset": "AutoMealPouch_Tier2",
-            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier2.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier2.png",
             "type": "standard"
         },
         {
             "name": "Large Feed Bag",
             "asset": "AutoMealPouch_Tier3",
-            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier3.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier3.png",
             "type": "standard"
         },
         {
             "name": "Huge Feed Bag",
             "asset": "AutoMealPouch_Tier4",
-            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier4.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier4.png",
             "type": "standard"
         },
         {
             "name": "Giant Feed Bag",
             "asset": "AutoMealPouch_Tier5",
-            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier5.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_AutoMealPouch_Tier5.png",
             "type": "standard"
         },
         {
             "name": "Alarm Bell",
             "asset": "BaseCampBattleDirector",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampBattleDirector.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampBattleDirector.png",
             "type": "standard"
         },
         {
             "name": "Item Retrieval Machine",
             "asset": "BaseCampItemDispenser",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampItemDispenser.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampItemDispenser.png",
             "type": "standard"
         },
         {
             "name": "Monitoring Stand",
             "asset": "BaseCampWorkHard",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard.png",
             "type": "standard"
         },
         {
             "name": "BaseCampWorkHard02",
             "asset": "BaseCampWorkHard02",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard02.png",
             "type": "standard"
         },
         {
             "name": "BaseCampWorkHard03",
             "asset": "BaseCampWorkHard03",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard03.png",
             "type": "standard"
         },
         {
             "name": "Palbox Control Device",
             "asset": "BaseCampWorkerExtraStation",
-            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkerExtraStation.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkerExtraStation.png",
             "type": "standard"
         },
         {
             "name": "Metal Bat",
             "asset": "Bat3",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Bat3.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Bat3.png",
             "type": "standard"
         },
         {
             "name": "Cloth Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth",
-            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmor.png",
             "type": "standard"
         },
         {
             "name": "Tundra Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Tropical Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur",
-            "icon": "/icons/technologies/T_itemicon_Armor_FurArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_FurArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_FurArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_FurArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_FurArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_FurArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper",
-            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron",
-            "icon": "/icons/technologies/T_itemicon_Armor_IronArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_IronArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_IronArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_IronArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_IronArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_IronArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal",
-            "icon": "/icons/technologies/T_itemicon_Armor_StealArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_StealArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_StealArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_StealArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_StealArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_StealArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic",
-            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Cold",
-            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Heat",
-            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Lightweight Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Weight",
-            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorWeight.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorWeight.png",
             "type": "standard"
         },
         {
             "name": "Cloth",
             "asset": "Battle_Cloth",
-            "icon": "/icons/technologies/T_itemicon_Material_Cloth.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Cloth.png",
             "type": "standard"
         },
         {
             "name": "Mounted Crossbow",
             "asset": "Battle_Defense_BowGun",
-            "icon": "/icons/technologies/T_icon_buildObject_efenseBulletLauncher_BowGun.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_efenseBulletLauncher_BowGun.png",
             "type": "standard"
         },
         {
             "name": "Mounted Machine Gun",
             "asset": "Battle_Defense_MachineGun",
-            "icon": "/icons/technologies/T_icon_buildObject_DefenseMachinegun.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DefenseMachinegun.png",
             "type": "standard"
         },
         {
             "name": "Mounted Missile Launcher",
             "asset": "Battle_Defense_Missile",
-            "icon": "/icons/technologies/T_icon_buildObject_efenseBulletLauncher_Missile.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_efenseBulletLauncher_Missile.png",
             "type": "standard"
         },
         {
             "name": "Normal Parachute",
             "asset": "Battle_Glider_Grade_01",
-            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Old.webp",
+            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Old.png",
             "type": "standard"
         },
         {
             "name": "Mega Glider",
             "asset": "Battle_Glider_Grade_02",
-            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Good.webp",
+            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Good.png",
             "type": "standard"
         },
         {
             "name": "Giga Glider",
             "asset": "Battle_Glider_Grade_03",
-            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Super.webp",
+            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Super.png",
             "type": "standard"
         },
         {
             "name": "Hyper Glider",
             "asset": "Battle_Glider_Grade_04",
-            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Legendary.webp",
+            "icon": "/icons/technologies/T_itemicon_Glider_Glider_Legendary.png",
             "type": "standard"
         },
         {
             "name": "Gunpowder",
             "asset": "Battle_GunPowder_Grade_02",
-            "icon": "/icons/technologies/T_itemicon_Material_Gunpowder2.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Gunpowder2.png",
             "type": "standard"
         },
         {
             "name": "Feathered Hair Band",
             "asset": "Battle_Helm_Grade_02_Fur",
-            "icon": "/icons/technologies/T_itemicon_Armor_FurHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_FurHelmet.png",
             "type": "standard"
         },
         {
             "name": "Metal Helm",
             "asset": "Battle_Helm_Grade_03_Copper",
-            "icon": "/icons/technologies/T_itemicon_Armor_CopperHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_CopperHelmet.png",
             "type": "standard"
         },
         {
             "name": "Refined Metal Helm",
             "asset": "Battle_Helm_Grade_04_Iron",
-            "icon": "/icons/technologies/T_itemicon_Armor_IronHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_IronHelmet.png",
             "type": "standard"
         },
         {
             "name": "Pal Metal Helm",
             "asset": "Battle_Helm_Grade_05_Steal",
-            "icon": "/icons/technologies/T_itemicon_Armor_StealHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_StealHelmet.png",
             "type": "standard"
         },
         {
             "name": "Plasteel Helmet",
             "asset": "Battle_Helm_Grade_06_Plastic",
-            "icon": "/icons/technologies/T_itemicon_Armor_PlasticHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_PlasticHelmet.png",
             "type": "standard"
         },
         {
             "name": "Pal Metal Axe",
             "asset": "Battle_MeleeWeapon_Axe_Steal",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_03.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_03.png",
             "type": "standard"
         },
         {
             "name": "Wooden Club",
             "asset": "Battle_MeleeWeapon_Bat",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Bat.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Bat.png",
             "type": "standard"
         },
         {
             "name": "Bat",
             "asset": "Battle_MeleeWeapon_Bat2",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Bat2.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Bat2.png",
             "type": "standard"
         },
         {
             "name": "Pal Metal Pickaxe",
             "asset": "Battle_MeleeWeapon_Pickaxe_Steal",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_03.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_03.png",
             "type": "standard"
         },
         {
             "name": "Sword",
             "asset": "Battle_MeleeWeapon_Sword",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Sword.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Sword.png",
             "type": "standard"
         },
         {
             "name": "Assault Rifle",
             "asset": "Battle_RangeWeapon_AssaultRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_AssaultRifle_Default1.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_AssaultRifle_Default1.png",
             "type": "standard"
         },
         {
             "name": "Old Bow",
             "asset": "Battle_RangeWeapon_Bow1",
-            "icon": "/icons/technologies/T_itemicon_Weapon_WeakerBow.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_WeakerBow.png",
             "type": "standard"
         },
         {
             "name": "Three Shot Bow",
             "asset": "Battle_RangeWeapon_Bow3",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Bow.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Bow.png",
             "type": "standard"
         },
         {
             "name": "Crossbow",
             "asset": "Battle_RangeWeapon_BowGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_BowGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_BowGun.png",
             "type": "standard"
         },
         {
             "name": "Compound Bow",
             "asset": "Battle_RangeWeapon_CompoundBow",
-            "icon": "/icons/technologies/T_itemicon_Weapon_CompoundBow.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_CompoundBow.png",
             "type": "standard"
         },
         {
             "name": "FlameThrower",
             "asset": "Battle_RangeWeapon_FlameThrower",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FlameThrower_Default.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FlameThrower_Default.png",
             "type": "standard"
         },
         {
             "name": "Gatling Gun",
             "asset": "Battle_RangeWeapon_GatlingGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GatlingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GatlingGun.png",
             "type": "standard"
         },
         {
             "name": "Grenade Launcher",
             "asset": "Battle_RangeWeapon_GrenadeLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrenadeLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrenadeLauncher.png",
             "type": "standard"
         },
         {
             "name": "Guided Missile Launcher",
             "asset": "Battle_RangeWeapon_GuidedMissileLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GuidedMissileLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GuidedMissileLauncher.png",
             "type": "standard"
         },
         {
             "name": "Handgun",
             "asset": "Battle_RangeWeapon_HandGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_HandGun_Default.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_HandGun_Default.png",
             "type": "standard"
         },
         {
             "name": "Homing Sphere Launcher",
             "asset": "Battle_RangeWeapon_HomingSphereLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_HomingSphereLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_HomingSphereLauncher.png",
             "type": "boss"
         },
         {
             "name": "Laser Rifle",
             "asset": "Battle_RangeWeapon_LaserRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_LaserRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_LaserRifle.png",
             "type": "standard"
         },
         {
             "name": "Old Revolver",
             "asset": "Battle_RangeWeapon_OldRevolver",
-            "icon": "/icons/technologies/T_itemicon_Weapon_OldRevolver.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_OldRevolver.png",
             "type": "standard"
         },
         {
             "name": "Single-Shot Rifle",
             "asset": "Battle_RangeWeapon_Rifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SingleShotRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SingleShotRifle.png",
             "type": "standard"
         },
         {
             "name": "Rocket Launcher",
             "asset": "Battle_RangeWeapon_RocketLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Default.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Default.png",
             "type": "standard"
         },
         {
             "name": "Semi-Auto Rifle",
             "asset": "Battle_RangeWeapon_SemiAutoRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SemiAutoRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SemiAutoRifle.png",
             "type": "standard"
         },
         {
             "name": "Semi-Auto Shotgun",
             "asset": "Battle_RangeWeapon_SemiAutoShotgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SemiAutoShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SemiAutoShotgun.png",
             "type": "standard"
         },
         {
             "name": "Double-Barreled Shotgun",
             "asset": "Battle_RangeWeapon_ShotGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_DoubleBarrelShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_DoubleBarrelShotgun.png",
             "type": "standard"
         },
         {
             "name": "Pump-Action Shotgun",
             "asset": "Battle_RangeWeapon_ShotGun_Multi",
-            "icon": "/icons/technologies/T_itemicon_Weapon_PumpActionShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_PumpActionShotgun.png",
             "type": "standard"
         },
         {
             "name": "Scatter Sphere Launcher",
             "asset": "Battle_RangeWeapon_SphereLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher.png",
             "type": "boss"
         },
         {
             "name": "Single-Shot Sphere Launcher",
             "asset": "Battle_RangeWeapon_SphereLauncher_Once",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher_Once.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher_Once.png",
             "type": "boss"
         },
         {
             "name": "SMG",
             "asset": "Battle_RangeWeapon_SubmachineGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SubmachineGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SubmachineGun.png",
             "type": "standard"
         },
         {
             "name": "Beam Launcher",
             "asset": "BeamLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_BeamLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_BeamLauncher.png",
             "type": "standard"
         },
         {
             "name": "Beam Launcher Ammo",
             "asset": "BeamLauncherBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_BeamLauncherBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_BeamLauncherBullet.png",
             "type": "standard"
         },
         {
             "name": "Beam Sword",
             "asset": "BeamSword",
-            "icon": "/icons/technologies/T_itemicon_Weapon_BeamSword.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_BeamSword.png",
             "type": "standard"
         },
         {
             "name": "Free Pal Alliance Flag Set",
             "asset": "BelieverFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_Believer_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Believer_Flag.png",
             "type": "standard"
         },
         {
             "name": "Bio Battery",
             "asset": "Bio_Battery",
-            "icon": "/icons/technologies/T_itemicon_Material_Bio_Battery.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Bio_Battery.png",
             "type": "standard"
         },
         {
             "name": "Bio Coolant",
             "asset": "Bio_Coolant",
-            "icon": "/icons/technologies/T_itemicon_Material_Bio_Coolant.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Bio_Coolant.png",
             "type": "standard"
         },
         {
             "name": "Gigantic Furnace",
             "asset": "BlastFurnace4",
-            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace4.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace4.png",
             "type": "standard"
         },
         {
             "name": "Breeding Farm",
             "asset": "BreedFarm",
-            "icon": "/icons/technologies/T_icon_buildObject_BreedFarm.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BreedFarm.png",
             "type": "boss"
         },
         {
             "name": "Worn-Out Sword",
             "asset": "BronzeSword",
-            "icon": "/icons/technologies/T_itemicon_Weapon_BronzeSword.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_BronzeSword.png",
             "type": "standard"
         },
         {
             "name": "Statue of Power",
             "asset": "BuildableGoddessStatue",
-            "icon": "/icons/technologies/T_icon_buildObject_BuildableGoddessStatue.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BuildableGoddessStatue.png",
             "type": "standard"
         },
         {
             "name": "Cake02",
             "asset": "Cake02",
-            "icon": "/icons/technologies/T_itemicon_food_Cake02.webp",
+            "icon": "/icons/technologies/T_itemicon_food_Cake02.png",
             "type": "standard"
         },
         {
             "name": "Cake03",
             "asset": "Cake03",
-            "icon": "/icons/technologies/T_itemicon_food_Cake03.webp",
+            "icon": "/icons/technologies/T_itemicon_food_Cake03.png",
             "type": "standard"
         },
         {
             "name": "Cake04",
             "asset": "Cake04",
-            "icon": "/icons/technologies/T_itemicon_food_Cake04.webp",
+            "icon": "/icons/technologies/T_itemicon_food_Cake04.png",
             "type": "standard"
         },
         {
             "name": "Cake05",
             "asset": "Cake05",
-            "icon": "/icons/technologies/T_itemicon_food_Cake05.webp",
+            "icon": "/icons/technologies/T_itemicon_food_Cake05.png",
             "type": "standard"
         },
         {
             "name": "Carbon Fiber",
             "asset": "CarbonFiber",
-            "icon": "/icons/technologies/T_itemicon_Material_CarbonFiber.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_CarbonFiber.png",
             "type": "standard"
         },
         {
             "name": "Witch Cauldron",
             "asset": "Cauldron",
-            "icon": "/icons/technologies/T_icon_buildObject_Cauldron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Cauldron.png",
             "type": "standard"
         },
         {
             "name": "Ceiling Lamp",
             "asset": "CeilingLamp",
-            "icon": "/icons/technologies/T_icon_buildObject_LampTop.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_LampTop.png",
             "type": "standard"
         },
         {
             "name": "Cement",
             "asset": "Cement",
-            "icon": "/icons/technologies/T_itemicon_Material_Cement.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Cement.png",
             "type": "standard"
         },
         {
             "name": "Charge Rifle",
             "asset": "ChargeLaserRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_ChargeLaserRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_ChargeLaserRifle.png",
             "type": "standard"
         },
         {
             "name": "Charge Rifle Ammo",
             "asset": "ChargeLaserRifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_ChargeLaserRifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_ChargeLaserRifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Clinic",
             "asset": "Clinic",
-            "icon": "/icons/technologies/T_icon_buildObject_Clinic.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Clinic.png",
             "type": "standard"
         },
         {
             "name": "Cloth2",
             "asset": "Cloth2",
-            "icon": "/icons/technologies/T_itemicon_Material_Cloth.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Cloth.png",
             "type": "standard"
         },
         {
             "name": "Drafting Table",
             "asset": "CompositeDesk",
-            "icon": "/icons/technologies/T_icon_buildObject_CompositeDesk.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CompositeDesk.png",
             "type": "standard"
         },
         {
             "name": "Computer",
             "asset": "Computer",
-            "icon": "/icons/technologies/T_itemicon_Material_Computer.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Computer.png",
             "type": "standard"
         },
         {
             "name": "Cooler",
             "asset": "Cooler",
-            "icon": "/icons/technologies/T_icon_buildObject_CoolerMedieval.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CoolerMedieval.png",
             "type": "standard"
         },
         {
             "name": "Cooler Box",
             "asset": "CoolerBox",
-            "icon": "/icons/technologies/T_icon_buildObject_CoolerBox.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CoolerBox.png",
             "type": "standard"
         },
         {
             "name": "Cold Food Box",
             "asset": "CoolerPalFoodBox",
-            "icon": "/icons/technologies/T_icon_buildObject_CoolerPalFoodBox.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CoolerPalFoodBox.png",
             "type": "standard"
         },
         {
             "name": "Corrosive Solvent",
             "asset": "Corrosive_Solvent",
-            "icon": "/icons/technologies/T_itemicon_Material_Corrosive_Solvent.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Corrosive_Solvent.png",
             "type": "standard"
         },
         {
             "name": "Crusher",
             "asset": "Crusher",
-            "icon": "/icons/technologies/T_icon_buildObject_Crusher.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Crusher.png",
             "type": "standard"
         },
         {
             "name": "Hexolite Quartz Mine",
             "asset": "CrystalPit",
-            "icon": "/icons/technologies/T_icon_buildObject_CrystalPit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CrystalPit.png",
             "type": "boss"
         },
         {
             "name": "Training Dummy",
             "asset": "DamagedScarecrow",
-            "icon": "/icons/technologies/T_icon_buildObject_DamagedScarecrow.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DamagedScarecrow.png",
             "type": "standard"
         },
         {
             "name": "DarkIslandFlagSet",
             "asset": "DarkIslandFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_DarkIsland_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DarkIsland_Flag.png",
             "type": "standard"
         },
         {
             "name": "Decal Gun Set",
             "asset": "DecalGunSet",
-            "icon": "/icons/technologies/T_itemicon_Weapon_DecalGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_DecalGun.png",
             "type": "boss"
         },
         {
             "name": "Sandbag",
             "asset": "DefenseWait",
-            "icon": "/icons/technologies/T_icon_buildObject_DefenseWait.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DefenseWait.png",
             "type": "standard"
         },
         {
             "name": "Stone Defensive Wall",
             "asset": "DefenseWall",
-            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall.png",
             "type": "standard"
         },
         {
             "name": "Metal Defensive Wall",
             "asset": "DefenseWall_Metal",
-            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall_Metal.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall_Metal.png",
             "type": "standard"
         },
         {
             "name": "Wooden Defensive Wall",
             "asset": "DefenseWall_Wood",
-            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall_Wood.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DefenseWall_Wood.png",
             "type": "standard"
         },
         {
             "name": "Dimensional Pal Storage",
             "asset": "DimensionPalStorage",
-            "icon": "/icons/technologies/T_icon_buildObject_DimensionPalStorage.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DimensionPalStorage.png",
             "type": "boss"
         },
         {
             "name": "Pal Disassembly Conveyor",
             "asset": "DismantlingConveyor",
-            "icon": "/icons/technologies/T_icon_buildObject_DismantlingConveyor.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DismantlingConveyor.png",
             "type": "standard"
         },
         {
             "name": "Viewing Cage",
             "asset": "DisplayCharacter",
-            "icon": "/icons/technologies/T_icon_buildObject_DisplayCharacter.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_DisplayCharacter.png",
             "type": "standard"
         },
         {
             "name": "Drone Launcher",
             "asset": "DroneLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_DroneLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_DroneLauncher.png",
             "type": "standard"
         },
         {
             "name": "Stun Baton",
             "asset": "ElecBaton",
-            "icon": "/icons/technologies/T_itemicon_Weapon_ElecBaton.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_ElecBaton.png",
             "type": "standard"
         },
         {
             "name": "Arc Assault Rifle",
             "asset": "ElectricArcAssaultRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_ElectricArcAssaultRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_ElectricArcAssaultRifle.png",
             "type": "standard"
         },
         {
             "name": "Arc Assault Rifle Ammo",
             "asset": "ElectricArcAssaultRifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_ElectricArcAssaultRifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_ElectricArcAssaultRifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Electric Cooler",
             "asset": "ElectricCooler",
-            "icon": "/icons/technologies/T_icon_buildObject_CoolerElectric.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CoolerElectric.png",
             "type": "standard"
         },
         {
             "name": "Large Power Generator",
             "asset": "ElectricGenerator_Large",
-            "icon": "/icons/technologies/T_icon_buildObject_ElectricGenerator_Large.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ElectricGenerator_Large.png",
             "type": "boss"
         },
         {
             "name": "Electric Heater",
             "asset": "ElectricHeater",
-            "icon": "/icons/technologies/T_icon_buildObject_HeaterElectric.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_HeaterElectric.png",
             "type": "standard"
         },
         {
             "name": "Plasma Cartridge",
             "asset": "EnergyLauncherBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_EnergyLauncherBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_EnergyLauncherBullet.png",
             "type": "standard"
         },
         {
             "name": "Plasma Cannon",
             "asset": "EnergyRocketLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_EnergyRocketLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_EnergyRocketLauncher.png",
             "type": "standard"
         },
         {
             "name": "Energy Shotgun",
             "asset": "EnergyShotgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_EnergyShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_EnergyShotgun.png",
             "type": "standard"
         },
         {
             "name": "Energy Shotgun Ammo",
             "asset": "EnergyShotgunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_EnergyShotgunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_EnergyShotgunBullet.png",
             "type": "standard"
         },
         {
             "name": "Accumulator",
             "asset": "EnergyStorage_Electric",
-            "icon": "/icons/technologies/T_icon_buildObject_EnergyStorage_Electric.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_EnergyStorage_Electric.png",
             "type": "standard"
         },
         {
             "name": "Pal Expedition Station",
             "asset": "Expedition",
-            "icon": "/icons/technologies/T_icon_buildObject_Expedition.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Expedition.png",
             "type": "standard"
         },
         {
             "name": "Advanced Workshop",
             "asset": "Factory_Hard_04",
-            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_04.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_04.png",
             "type": "standard"
         },
         {
             "name": "Gold Coin Assembly Line",
             "asset": "Factory_Money",
-            "icon": "/icons/technologies/T_icon_buildObject_Factory_Money.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Factory_Money.png",
             "type": "standard"
         },
         {
             "name": "Skillfruit Orchard",
             "asset": "Farm_SkillFruits",
-            "icon": "/icons/technologies/T_icon_buildObject_Farm_SkillFruits.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Farm_SkillFruits.png",
             "type": "standard"
         },
         {
             "name": "Brothers of the Eternal Pyre Flag Set",
             "asset": "FireCultFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_FireCult_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FireCult_Flag.png",
             "type": "standard"
         },
         {
             "name": "High Quality Bait",
             "asset": "FishingBait_2",
-            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_2.webp",
+            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_2.png",
             "type": "standard"
         },
         {
             "name": "Deluxe Bait",
             "asset": "FishingBait_3",
-            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_3.webp",
+            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_3.png",
             "type": "standard"
         },
         {
             "name": "Alluring Bait",
             "asset": "FishingBait_3_A",
-            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_3_A.webp",
+            "icon": "/icons/technologies/T_itemicon_Consume_FishingBait_3_A.png",
             "type": "standard"
         },
         {
             "name": "Fishing Pond",
             "asset": "FishingPond1",
-            "icon": "/icons/technologies/T_icon_buildObject_FishingPond1.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FishingPond1.png",
             "type": "standard"
         },
         {
             "name": "Large Fishing Pond",
             "asset": "FishingPond2",
-            "icon": "/icons/technologies/T_icon_buildObject_FishingPond2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FishingPond2.png",
             "type": "standard"
         },
         {
             "name": "Intermediate Fishing Rod (Cattiva)",
             "asset": "FishingRod_02_1",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_3.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_3.png",
             "type": "standard"
         },
         {
             "name": "Advanced Fishing Rod (Pengullet)",
             "asset": "FishingRod_03_1",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_5.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_5.png",
             "type": "standard"
         },
         {
             "name": "Beginner Fishing Set",
             "asset": "FishingSet1",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_1.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FishingRod_1.png",
             "type": "standard"
         },
         {
             "name": "Flamethrower Fuel",
             "asset": "FlamethrowerBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_FlamethrowerBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_FlamethrowerBullet.png",
             "type": "standard"
         },
         {
             "name": "Mill",
             "asset": "FlourMill",
-            "icon": "/icons/technologies/T_icon_buildObject_FlourMill.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FlourMill.png",
             "type": "standard"
         },
         {
             "name": "Flower Bed",
             "asset": "FlowerBed",
-            "icon": "/icons/technologies/T_icon_buildObject_FlowerBed.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FlowerBed.png",
             "type": "standard"
         },
         {
             "name": "Water Fountain",
             "asset": "Fountain",
-            "icon": "/icons/technologies/T_icon_buildObject_Fountain.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Fountain.png",
             "type": "standard"
         },
         {
             "name": "Frag Grenade",
             "asset": "FragGrenade",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade.png",
             "type": "standard"
         },
         {
             "name": "Dark Grenade",
             "asset": "FragGrenade_Dark",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Dark.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Dark.png",
             "type": "standard"
         },
         {
             "name": "Dragon Grenade",
             "asset": "FragGrenade_Dragon",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Dragon.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Dragon.png",
             "type": "standard"
         },
         {
             "name": "Shock Grenade",
             "asset": "FragGrenade_Elec",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Elec.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Elec.png",
             "type": "standard"
         },
         {
             "name": "Incendiary Grenade",
             "asset": "FragGrenade_Fire",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Fire.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Fire.png",
             "type": "standard"
         },
         {
             "name": "Ground Grenade",
             "asset": "FragGrenade_Ground",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Ground.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Ground.png",
             "type": "standard"
         },
         {
             "name": "Ice Grenade",
             "asset": "FragGrenade_Ice",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Ice.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Ice.png",
             "type": "standard"
         },
         {
             "name": "Grass Grenade",
             "asset": "FragGrenade_Leaf",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Leaf.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Leaf.png",
             "type": "standard"
         },
         {
             "name": "Frag Grenade Mk2",
             "asset": "FragGrenade_Super",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Super.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Super.png",
             "type": "standard"
         },
         {
             "name": "Water Grenade",
             "asset": "FragGrenade_Water",
-            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Water.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_FragGrenade_Water.png",
             "type": "standard"
         },
         {
             "name": "Wooden Living Room Furniture Set",
             "asset": "FurnitureSet_1",
-            "icon": "/icons/technologies/T_icon_buildObject_TableSquare_Wood.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TableSquare_Wood.png",
             "type": "standard"
         },
         {
             "name": "Barricade Set",
             "asset": "FurnitureSet_10",
-            "icon": "/icons/technologies/T_icon_buildObject_TrafficBarricade01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TrafficBarricade01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Traffic Control Set",
             "asset": "FurnitureSet_11",
-            "icon": "/icons/technologies/T_icon_buildObject_TrafficCone01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TrafficCone01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Road Sign Set",
             "asset": "FurnitureSet_12",
-            "icon": "/icons/technologies/T_icon_buildObject_TrafficSign01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TrafficSign01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Metal Chair and Desk Set",
             "asset": "FurnitureSet_13",
-            "icon": "/icons/technologies/T_icon_buildObject_Stool01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Stool01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Ironwood Table Set",
             "asset": "FurnitureSet_14",
-            "icon": "/icons/technologies/T_icon_buildObject_TableSide01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TableSide01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Piano Furniture Set",
             "asset": "FurnitureSet_15",
-            "icon": "/icons/technologies/T_icon_buildObject_Piano01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Piano01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Antique Mirror Set",
             "asset": "FurnitureSet_16",
-            "icon": "/icons/technologies/T_icon_buildObject_Mirror01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Mirror01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Carpet Set",
             "asset": "FurnitureSet_17",
-            "icon": "/icons/technologies/T_icon_buildObject_Rug01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Rug01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Antique Couch Set",
             "asset": "FurnitureSet_18",
-            "icon": "/icons/technologies/T_icon_buildObject_Sofa01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Sofa01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Antique Chair Set",
             "asset": "FurnitureSet_19",
-            "icon": "/icons/technologies/T_icon_buildObject_Chair01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Chair01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Wooden Tavern Cabinet Furniture Set",
             "asset": "FurnitureSet_2",
-            "icon": "/icons/technologies/T_icon_buildObject_Barrel_Wood.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Barrel_Wood.png",
             "type": "standard"
         },
         {
             "name": "Antique Bath Set",
             "asset": "FurnitureSet_20",
-            "icon": "/icons/technologies/T_icon_buildObject_BathTub_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BathTub_Stone.png",
             "type": "standard"
         },
         {
             "name": "Antique Storage Set",
             "asset": "FurnitureSet_21",
-            "icon": "/icons/technologies/T_icon_buildObject_Shelf01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Shelf01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Antique Storage Cabinet Set",
             "asset": "FurnitureSet_22",
-            "icon": "/icons/technologies/T_icon_buildObject_Shelf05_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Shelf05_Stone.png",
             "type": "standard"
         },
         {
             "name": "Clock Set",
             "asset": "FurnitureSet_23",
-            "icon": "/icons/technologies/T_icon_buildObject_Clock01_Wall_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Clock01_Wall_Iron.png",
             "type": "standard"
         },
         {
             "name": "Antique Desk Set",
             "asset": "FurnitureSet_24",
-            "icon": "/icons/technologies/T_icon_buildObject_Desk01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Desk01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Bathroom Set",
             "asset": "FurnitureSet_25",
-            "icon": "/icons/technologies/T_icon_buildObject_Toilet01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Toilet01_Stone.png",
             "type": "standard"
         },
         {
             "name": "Amusement Furniture Set",
             "asset": "FurnitureSet_26",
-            "icon": "/icons/technologies/T_icon_buildObject_GoalSoccer_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_GoalSoccer_Iron.png",
             "type": "standard"
         },
         {
             "name": "Street Lamp Set",
             "asset": "FurnitureSet_27",
-            "icon": "/icons/technologies/T_icon_buildObject_Light_LightPole01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Light_LightPole01.png",
             "type": "standard"
         },
         {
             "name": "Fireplace Set",
             "asset": "FurnitureSet_28",
-            "icon": "/icons/technologies/T_icon_buildObject_Light_FirePlace01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Light_FirePlace01.png",
             "type": "standard"
         },
         {
             "name": "Antique Lamp Set",
             "asset": "FurnitureSet_29",
-            "icon": "/icons/technologies/T_icon_buildObject_Light_FloorLamp01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Light_FloorLamp01.png",
             "type": "standard"
         },
         {
             "name": "Wooden Tavern Furniture Set",
             "asset": "FurnitureSet_3",
-            "icon": "/icons/technologies/T_icon_buildObject_Counter_Wood.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Counter_Wood.png",
             "type": "standard"
         },
         {
             "name": "Metal Shelf Set",
             "asset": "FurnitureSet_30",
-            "icon": "/icons/technologies/T_icon_buildObject_Shelf01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Shelf01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Outdoor Furniture Set",
             "asset": "FurnitureSet_31",
-            "icon": "/icons/technologies/T_icon_buildObject_CableCoil01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CableCoil01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Antique High Quality Furniture Set",
             "asset": "FurnitureSet_32",
-            "icon": "/icons/technologies/T_icon_buildObject_Curtain01_Wall_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Curtain01_Wall_Stone.png",
             "type": "standard"
         },
         {
             "name": "Wall-Mounted Houseplant Set",
             "asset": "FurnitureSet_4",
-            "icon": "/icons/technologies/T_icon_buildObject_Ivy01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ivy01.png",
             "type": "standard"
         },
         {
             "name": "Metal Barrel Set",
             "asset": "FurnitureSet_5",
-            "icon": "/icons/technologies/T_icon_buildObject_Barrel01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Barrel01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Storage Container Set",
             "asset": "FurnitureSet_6",
-            "icon": "/icons/technologies/T_icon_buildObject_Container01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Container01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Leather Chair Set",
             "asset": "FurnitureSet_7",
-            "icon": "/icons/technologies/T_icon_buildObject_Sofa01_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Sofa01_Iron.png",
             "type": "standard"
         },
         {
             "name": "Emergency Exit Sign Set",
             "asset": "FurnitureSet_8",
-            "icon": "/icons/technologies/T_icon_buildObject_SignExit_Ceiling_Iron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SignExit_Ceiling_Iron.png",
             "type": "standard"
         },
         {
             "name": "Houseplant Set",
             "asset": "FurnitureSet_9",
-            "icon": "/icons/technologies/T_icon_buildObject_Plant01_Plant.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Plant01_Plant.png",
             "type": "standard"
         },
         {
             "name": "Japanese-Style Furniture Set",
             "asset": "FurnitureSet_Japanese",
-            "icon": "/icons/technologies/T_icon_buildObject_Byobu.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Byobu.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Bamboo",
             "asset": "FurnitureTree_Bamboo",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Bamboo.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Bamboo.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Cherry",
             "asset": "FurnitureTree_Cherry",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Cherry.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Cherry.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Desert",
             "asset": "FurnitureTree_Desert",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Desert.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Desert.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Green",
             "asset": "FurnitureTree_Green",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Green.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Green.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Red",
             "asset": "FurnitureTree_Red",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Red.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Red.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Snow",
             "asset": "FurnitureTree_Snow",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Snow.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Snow.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Tropical",
             "asset": "FurnitureTree_Tropical",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Tropical.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Tropical.png",
             "type": "standard"
         },
         {
             "name": "FurnitureTree_Yellow",
             "asset": "FurnitureTree_Yellow",
-            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Yellow.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Yellow.png",
             "type": "standard"
         },
         {
             "name": "Gas Mask",
             "asset": "GasMask",
-            "icon": "/icons/technologies/T_itemicon_Accessory_GasMask.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_GasMask.png",
             "type": "standard"
         },
         {
             "name": "Gatling Gun Ammo",
             "asset": "GatlingBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_GatlingBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_GatlingBullet.png",
             "type": "standard"
         },
         {
             "name": "Glass Structure Set",
             "asset": "Glass_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_Glass_foundation.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Glass_foundation.png",
             "type": "standard"
         },
         {
             "name": "Global Palbox",
             "asset": "GlobalPalStorage",
-            "icon": "/icons/technologies/T_icon_buildObject_GlobalPalStorage.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_GlobalPalStorage.png",
             "type": "boss"
         },
         {
             "name": "Grappling Gun",
             "asset": "GrapplingGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.png",
             "type": "boss"
         },
         {
             "name": "Mega Grappling Gun",
             "asset": "GrapplingGun2",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.png",
             "type": "boss"
         },
         {
             "name": "Giga Grappling Gun",
             "asset": "GrapplingGun3",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.png",
             "type": "boss"
         },
         {
             "name": "Hyper Grappling Gun",
             "asset": "GrapplingGun4",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.png",
             "type": "boss"
         },
         {
             "name": "Ultra Grappling Gun",
             "asset": "GrapplingGun5",
-            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_GrapplingGun.png",
             "type": "boss"
         },
         {
             "name": "Grenade Ammo",
             "asset": "GrenadeBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_GrenadeBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_GrenadeBullet.png",
             "type": "standard"
         },
         {
             "name": "Guild Chest",
             "asset": "GuildChest",
-            "icon": "/icons/technologies/T_icon_buildObject_GuildChest.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_GuildChest.png",
             "type": "boss"
         },
         {
             "name": "Hand-Held Torch",
             "asset": "HandTorch",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Torch.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Torch.png",
             "type": "standard"
         },
         {
             "name": "Handgun Ammo",
             "asset": "HandgunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_HandgunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_HandgunBullet.png",
             "type": "standard"
         },
         {
             "name": "Tombstone",
             "asset": "Headstone",
-            "icon": "/icons/technologies/T_icon_buildObject_Headstone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Headstone.png",
             "type": "standard"
         },
         {
             "name": "Heater",
             "asset": "Heater",
-            "icon": "/icons/technologies/T_icon_buildObject_HeaterMedieval.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_HeaterMedieval.png",
             "type": "standard"
         },
         {
             "name": "Fine Wood Plank",
             "asset": "HighGrade_Processed_Wood",
-            "icon": "/icons/technologies/T_itemicon_Material_HighGrade_Processed_Wood.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_HighGrade_Processed_Wood.png",
             "type": "standard"
         },
         {
             "name": "Homeward Thundercloud",
             "asset": "Homeward",
-            "icon": "/icons/technologies/T_itemicon_Consume_Homeward.webp",
+            "icon": "/icons/technologies/T_itemicon_Consume_Homeward.png",
             "type": "boss"
         },
         {
             "name": "Large-Scale Stone Oven",
             "asset": "HugeKitchen",
-            "icon": "/icons/technologies/T_icon_buildObject_HugeKitchen.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_HugeKitchen.png",
             "type": "standard"
         },
         {
             "name": "Rayne Syndicate Flag Set",
             "asset": "HunterFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_Hunter_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Hunter_Flag.png",
             "type": "standard"
         },
         {
             "name": "Refrigerated Crusher",
             "asset": "IceCrusher",
-            "icon": "/icons/technologies/T_icon_buildObject_IceCrusher.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_IceCrusher.png",
             "type": "standard"
         },
         {
             "name": "IceHorseStatue",
             "asset": "IceHorseStatue",
-            "icon": "/icons/technologies/T_icon_buildObject_IceHorseStatue.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_IceHorseStatue.png",
             "type": "standard"
         },
         {
             "name": "Power Generator",
             "asset": "Infra_ElectricGenerator_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_EnergyGenerator_Electric.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_EnergyGenerator_Electric.png",
             "type": "standard"
         },
         {
             "name": "Circuit Board",
             "asset": "Infra_ElectronicCircuit",
-            "icon": "/icons/technologies/T_itemicon_Material_ElectronicCircuit.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_ElectronicCircuit.png",
             "type": "standard"
         },
         {
             "name": "Wooden Chest",
             "asset": "Infra_ItemChest_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_ItemChest.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ItemChest.png",
             "type": "standard"
         },
         {
             "name": "Metal Chest",
             "asset": "Infra_ItemChest_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_02.png",
             "type": "standard"
         },
         {
             "name": "Refined Metal Chest",
             "asset": "Infra_ItemChest_Grade_03",
-            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_03.png",
             "type": "standard"
         },
         {
             "name": "Nail",
             "asset": "Infra_MachineParts",
-            "icon": "/icons/technologies/T_itemicon_Material_MachineParts.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_MachineParts.png",
             "type": "standard"
         },
         {
             "name": "Straw Pal Bed",
             "asset": "Infra_PalBed_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_02.png",
             "type": "standard"
         },
         {
             "name": "Fluffy Pal Bed",
             "asset": "Infra_PalBed_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_03.png",
             "type": "standard"
         },
         {
             "name": "Shoddy Bed",
             "asset": "Infra_PlayerBed_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_PlayerBed_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PlayerBed_02.png",
             "type": "standard"
         },
         {
             "name": "Fine Bed",
             "asset": "Infra_PlayerBed_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_PlayerBed_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PlayerBed_03.png",
             "type": "standard"
         },
         {
             "name": "ItemBooth",
             "asset": "ItemBooth",
-            "icon": "/icons/technologies/T_icon_buildObject_ItemBooth.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ItemBooth.png",
             "type": "standard"
         },
         {
             "name": "Advanced Chest",
             "asset": "ItemChest_04",
-            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_04.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ItemChest_04.png",
             "type": "standard"
         },
         {
             "name": "Japanese-Style Structure Set",
             "asset": "JapaneseStyle_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_JapaneseStyle_wall_01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_JapaneseStyle_wall_01.png",
             "type": "standard"
         },
         {
             "name": "JetDragonStatue",
             "asset": "JetDragonStatue",
-            "icon": "/icons/technologies/T_icon_buildObject_JetDragonStatue.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_JetDragonStatue.png",
             "type": "standard"
         },
         {
             "name": "Katana",
             "asset": "Katana",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Katana.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Katana.png",
             "type": "standard"
         },
         {
             "name": "Pal Labor Research Laboratory",
             "asset": "Lab",
-            "icon": "/icons/technologies/T_icon_buildObject_Lab.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Lab.png",
             "type": "standard"
         },
         {
             "name": "Lamp",
             "asset": "Lamp",
-            "icon": "/icons/technologies/T_icon_buildObject_LampStand.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_LampStand.png",
             "type": "standard"
         },
         {
             "name": "Hip Lantern",
             "asset": "Lantern",
-            "icon": "/icons/technologies/T_itemicon_Essential_Lantern.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_Lantern.png",
             "type": "boss"
         },
         {
             "name": "Enhanced Hip Lantern",
             "asset": "Lantern_High",
-            "icon": "/icons/technologies/T_itemicon_Essential_Lantern.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_Lantern.png",
             "type": "boss"
         },
         {
             "name": "Large Ceiling Lamp",
             "asset": "LargeCeilingLamp",
-            "icon": "/icons/technologies/T_icon_buildObject_LampTopLarge.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_LampTopLarge.png",
             "type": "standard"
         },
         {
             "name": "Large Mounted Lamp",
             "asset": "LargeLamp",
-            "icon": "/icons/technologies/T_icon_buildObject_LampStandLarge.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_LampStandLarge.png",
             "type": "standard"
         },
         {
             "name": "Energy Cartridge",
             "asset": "LaserBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_LaserBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_LaserBullet.png",
             "type": "standard"
         },
         {
             "name": "Laser Gatling Cartridge",
             "asset": "LaserGatlingBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_LaserGatlingBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_LaserGatlingBullet.png",
             "type": "standard"
         },
         {
             "name": "Laser Gatling Gun",
             "asset": "LaserGatlingGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_LaserGatlingGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_LaserGatlingGun.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Laser Mining Gun",
             "asset": "LaserMiningTool",
-            "icon": "/icons/technologies/T_itemicon_Weapon_LaserMiningTool.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_LaserMiningTool.png",
             "type": "standard"
         },
         {
             "name": "Rocket Ammo",
             "asset": "LauncherBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_ExplosiveBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_ExplosiveBullet.png",
             "type": "standard"
         },
         {
             "name": "Meteor Launcher",
             "asset": "Launcher_Meteor",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Meteor.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Meteor.png",
             "type": "standard"
         },
         {
             "name": "Makeshift Assault Rifle",
             "asset": "MakeshiftAssaultRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftAssaultRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftAssaultRifle.png",
             "type": "standard"
         },
         {
             "name": "Makeshift Handgun",
             "asset": "MakeshiftHandgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftHandgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftHandgun.png",
             "type": "standard"
         },
         {
             "name": "Makeshift Shotgun",
             "asset": "MakeshiftShotgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftShotgun.png",
             "type": "standard"
         },
         {
             "name": "Makeshift SMG",
             "asset": "MakeshiftSubmachineGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftSubmachineGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_MakeshiftSubmachineGun.png",
             "type": "standard"
         },
         {
             "name": "Coralum Ingot",
             "asset": "ManganeseIngot",
-            "icon": "/icons/technologies/T_itemicon_Material_ManganeseIngot.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_ManganeseIngot.png",
             "type": "standard"
         },
         {
             "name": "Human-Powered Generator",
             "asset": "ManualElectricGenerator",
-            "icon": "/icons/technologies/T_icon_buildObject_ManualElectricGenerator.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ManualElectricGenerator.png",
             "type": "standard"
         },
         {
             "name": "Meat Cleaver",
             "asset": "MeatCutterKnife",
-            "icon": "/icons/technologies/T_itemicon_Weapon_MeatCutterKnife.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_MeatCutterKnife.png",
             "type": "standard"
         },
         {
             "name": "Large Pal Bed",
             "asset": "MedicalPalBed_04",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_04.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_04.png",
             "type": "standard"
         },
         {
             "name": "Pal Pod",
             "asset": "MedicalPalBed_05",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_05.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicalPalBed_05.png",
             "type": "standard"
         },
         {
             "name": "Advanced Medicine Workbench",
             "asset": "MedicineFacility_03",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_03.png",
             "type": "standard"
         },
         {
             "name": "Metal Detector",
             "asset": "MetalDetector",
-            "icon": "/icons/technologies/T_itemicon_Essential_MetalDetector.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_MetalDetector.png",
             "type": "standard"
         },
         {
             "name": "Iron Gate",
             "asset": "Metal_Gate",
-            "icon": "/icons/technologies/T_icon_buildObject_Metal_Gate.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Metal_Gate.png",
             "type": "standard"
         },
         {
@@ -1725,217 +1725,217 @@
         {
             "name": "Mining Cart",
             "asset": "MiningTool",
-            "icon": "/icons/technologies/T_icon_buildObject_MiningTool.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MiningTool.png",
             "type": "standard"
         },
         {
             "name": "Missile Ammo",
             "asset": "MissileBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_MissileBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_MissileBullet.png",
             "type": "standard"
         },
         {
             "name": "Ranch",
             "asset": "MonsterFarm",
-            "icon": "/icons/technologies/T_icon_buildObject_MonsterFarm.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MonsterFarm.png",
             "type": "standard"
         },
         {
             "name": "Large-Scale Electric Egg Incubator",
             "asset": "MultiElectricHatchingPalEgg",
-            "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEgg.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEgg.png",
             "type": "boss"
         },
         {
             "name": "Ancient Breeder",
             "asset": "MultiElectricHatchingPalEggWithBreed",
-            "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.png",
             "type": "boss"
         },
         {
             "name": "Large Incubator",
             "asset": "MultiHatchingPalEgg",
-            "icon": "/icons/technologies/T_icon_buildObject_MultiHatchingPalEgg.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MultiHatchingPalEgg.png",
             "type": "boss"
         },
         {
             "name": "Musket",
             "asset": "Musket",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Musket.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Musket.png",
             "type": "standard"
         },
         {
             "name": "Moonflower Flag Set",
             "asset": "NinjaFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_Ninja_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ninja_Flag.png",
             "type": "standard"
         },
         {
             "name": "ULTRAKILL Collab Set 1",
             "asset": "OctaviaSet01",
-            "icon": "/icons/technologies/T_itemicon_Armor_Octavia001_Armor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Octavia001_Armor.png",
             "type": "boss"
         },
         {
             "name": "ULTRAKILL Collab Set 2",
             "asset": "OctaviaSet02",
-            "icon": "/icons/technologies/T_itemicon_Armor_Octavia002_Armor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Octavia002_Armor.png",
             "type": "boss"
         },
         {
             "name": "Crude Oil Extractor",
             "asset": "OilPump",
-            "icon": "/icons/technologies/T_icon_buildObject_OilPump.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_OilPump.png",
             "type": "standard"
         },
         {
             "name": "Flame Cauldron",
             "asset": "OlympicCauldron",
-            "icon": "/icons/technologies/T_icon_buildObject_OlympicCauldron.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_OlympicCauldron.png",
             "type": "standard"
         },
         {
             "name": "Pal Surgery Table",
             "asset": "OperatingTable",
-            "icon": "/icons/technologies/T_icon_buildObject_OperatingTable.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_OperatingTable.png",
             "type": "standard"
         },
         {
             "name": "Overheat Rifle",
             "asset": "OverheatRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_OverheatRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_OverheatRifle.png",
             "type": "standard"
         },
         {
             "name": "Overheat Rifle Ammo",
             "asset": "OverheatRifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_OverheatRifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_OverheatRifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Palbox",
             "asset": "PALBOX",
-            "icon": "/icons/technologies/T_icon_buildObject_PalBoxV2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PalBoxV2.png",
             "type": "standard"
         },
         {
             "name": "Flea Market (Pals)",
             "asset": "PalBooth",
-            "icon": "/icons/technologies/T_icon_buildObject_PalBooth.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PalBooth.png",
             "type": "standard"
         },
         {
             "name": "Boost Gun",
             "asset": "PalDopingShot",
-            "icon": "/icons/technologies/T_itemicon_Weapon_PalDopingShot.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_PalDopingShot.png",
             "type": "standard"
         },
         {
             "name": "Boost Gun Ammo",
             "asset": "PalDopingShotBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_PalDopingShotBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_PalDopingShotBullet.png",
             "type": "standard"
         },
         {
             "name": "Megaboost Gun",
             "asset": "PalDopingShot_2",
-            "icon": "/icons/technologies/T_itemicon_Weapon_PalDopingShot_2.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_PalDopingShot_2.png",
             "type": "standard"
         },
         {
             "name": "Feed Box",
             "asset": "PalFoodBox",
-            "icon": "/icons/technologies/T_icon_buildObject_PalFoodBox.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PalFoodBox.png",
             "type": "standard"
         },
         {
             "name": "Pal Recovery Grenade",
             "asset": "PalHealingGrenade",
-            "icon": "/icons/technologies/T_itemicon_Weapon_PalHealingGrenade.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_PalHealingGrenade.png",
             "type": "standard"
         },
         {
             "name": "Medicine Rack",
             "asset": "PalMedicineBox",
-            "icon": "/icons/technologies/T_icon_buildObject_PalMedicineBox.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_PalMedicineBox.png",
             "type": "standard"
         },
         {
             "name": "Revival Potion",
             "asset": "PalRevive",
-            "icon": "/icons/technologies/T_itemicon_Consume_PalRevive.webp",
+            "icon": "/icons/technologies/T_itemicon_Consume_PalRevive.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Anceint Sphere 1",
             "asset": "PalSphere_Ancient_1",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_1.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_1.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Anceint Sphere 2",
             "asset": "PalSphere_Ancient_2",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_2.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_2.png",
             "type": "standard"
         },
         {
             "name": "Exotic Sphere",
             "asset": "PalSphere_Exotic",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Exotic.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Exotic.png",
             "type": "standard"
         },
         {
             "name": "Plasteel",
             "asset": "Plastic",
-            "icon": "/icons/technologies/T_itemicon_Material_Plastic.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Plastic.png",
             "type": "standard"
         },
         {
             "name": "PIDF Flag Set",
             "asset": "PoliceFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_Police_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Police_Flag.png",
             "type": "standard"
         },
         {
             "name": "Polymer",
             "asset": "Polymer",
-            "icon": "/icons/technologies/T_itemicon_Material_Polymer.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Polymer.png",
             "type": "standard"
         },
         {
             "name": "Advanced Recovery Meds",
             "asset": "Potion_Extreme",
-            "icon": "/icons/technologies/T_itemicon_Food_Potion_Extreme.webp",
+            "icon": "/icons/technologies/T_itemicon_Food_Potion_Extreme.png",
             "type": "standard"
         },
         {
             "name": "Wood Plank",
             "asset": "Processed_Wood",
-            "icon": "/icons/technologies/T_itemicon_Material_Processed_Wood.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Processed_Wood.png",
             "type": "standard"
         },
         {
             "name": "Stone Axe",
             "asset": "Product_Axe_Grade_01",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Metal Axe",
             "asset": "Product_Axe_Grade_02",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Refined Metal Axe",
             "asset": "Product_Axe_Grade_03",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Coal Mine",
             "asset": "Product_CoalPit",
-            "icon": "/icons/technologies/T_icon_buildObject_CoalPit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CoalPit.png",
             "type": "boss"
         },
         {
@@ -1947,121 +1947,121 @@
         {
             "name": "Cooking Pot",
             "asset": "Product_Cooking_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_CookingStove.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CookingStove.png",
             "type": "standard"
         },
         {
             "name": "Electric Kitchen",
             "asset": "Product_Cooking_Grade_03",
-            "icon": "/icons/technologies/T_icon_buildObject_ElectricKitchen.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ElectricKitchen.png",
             "type": "standard"
         },
         {
             "name": "Ore Mining Site",
             "asset": "Product_CopperPit",
-            "icon": "/icons/technologies/T_icon_buildObject_CopperPit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CopperPit.png",
             "type": "boss"
         },
         {
             "name": "Ore Mining Site II",
             "asset": "Product_CopperPit_2",
-            "icon": "/icons/technologies/T_icon_buildObject_CopperPit_2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CopperPit_2.png",
             "type": "boss"
         },
         {
             "name": "High-Quality Workbench",
             "asset": "Product_Factory_Hard_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_01.png",
             "type": "standard"
         },
         {
             "name": "Production Assembly Line",
             "asset": "Product_Factory_Hard_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_02.png",
             "type": "standard"
         },
         {
             "name": "Production Assembly Line II",
             "asset": "Product_Factory_Hard_Grade_03",
-            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Factory_Hard_03.png",
             "type": "standard"
         },
         {
             "name": "Berry Plantation",
             "asset": "Product_Farm_Berries",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Berries.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Berries.png",
             "type": "standard"
         },
         {
             "name": "Carrot Plantation",
             "asset": "Product_Farm_Carrot",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Carrot.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Carrot.png",
             "type": "standard"
         },
         {
             "name": "Lettuce Plantation",
             "asset": "Product_Farm_Lettuce",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Lettuce.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Lettuce.png",
             "type": "standard"
         },
         {
             "name": "Onion Plantation",
             "asset": "Product_Farm_Onion",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Onion.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Onion.png",
             "type": "standard"
         },
         {
             "name": "Potato Plantation",
             "asset": "Product_Farm_Potato",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Potato.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_Potato.png",
             "type": "standard"
         },
         {
             "name": "Tomato Plantation",
             "asset": "Product_Farm_tomato",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_tomato.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_tomato.png",
             "type": "standard"
         },
         {
             "name": "Wheat Plantation",
             "asset": "Product_Farm_wheat",
-            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_wheet.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_FarmBlockV2_wheet.png",
             "type": "standard"
         },
         {
             "name": "Primitive Furnace",
             "asset": "Product_Ingot_Grade_01_Copper",
-            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace.png",
             "type": "standard"
         },
         {
             "name": "Improved Furnace",
             "asset": "Product_Ingot_Grade_02_Iron",
-            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace_2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace_2.png",
             "type": "standard"
         },
         {
             "name": "Electric Furnace",
             "asset": "Product_Ingot_Grade_03_Steal",
-            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace3.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_BlastFurnace3.png",
             "type": "standard"
         },
         {
             "name": "Medieval Medicine Workbench",
             "asset": "Product_Medicine_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_01.png",
             "type": "standard"
         },
         {
             "name": "Electric Medicine Workbench",
             "asset": "Product_Medicine_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_MedicineFacility_02.png",
             "type": "standard"
         },
         {
             "name": "Stone Pickaxe",
             "asset": "Product_Pickaxe_Grade_01",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.png",
             "type": "standard"
         },
         {
@@ -2079,1237 +2079,1237 @@
         {
             "name": "Pure Quartz Mine",
             "asset": "Product_QuartzPit",
-            "icon": "/icons/technologies/T_icon_buildObject_QuartzPit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_QuartzPit.png",
             "type": "boss"
         },
         {
             "name": "Logging Site",
             "asset": "Product_StationDeforest",
-            "icon": "/icons/technologies/T_icon_buildObject_StationDeforest2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_StationDeforest2.png",
             "type": "standard"
         },
         {
             "name": "StationDeforest3",
             "asset": "Product_StationDeforest2",
-            "icon": "/icons/technologies/T_icon_buildObject_StationDeforest3.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_StationDeforest3.png",
             "type": "boss"
         },
         {
             "name": "Stone Pit",
             "asset": "Product_StonePit",
-            "icon": "/icons/technologies/T_icon_buildObject_StonePit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_StonePit.png",
             "type": "standard"
         },
         {
             "name": "Sulfur Mine",
             "asset": "Product_SulfurPit",
-            "icon": "/icons/technologies/T_icon_buildObject_SulfurPit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SulfurPit.png",
             "type": "boss"
         },
         {
             "name": "Weapon Workbench",
             "asset": "Product_WeaponFactory_Dirty_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_01.png",
             "type": "standard"
         },
         {
             "name": "Weapon Assembly Line",
             "asset": "Product_WeaponFactory_Dirty_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_02.png",
             "type": "standard"
         },
         {
             "name": "Weapon Assembly Line II",
             "asset": "Product_WeaponFactory_Dirty_Grade_03",
-            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_03.png",
             "type": "standard"
         },
         {
             "name": "Pal Gear Workbench",
             "asset": "Product_WorkBench_SkillUnlock",
-            "icon": "/icons/technologies/T_icon_buildObject_WorkBench_SkillUnlock.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WorkBench_SkillUnlock.png",
             "type": "standard"
         },
         {
             "name": "Refrigerator",
             "asset": "Refrigerator",
-            "icon": "/icons/technologies/T_icon_buildObject_Refrigerator.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Refrigerator.png",
             "type": "standard"
         },
         {
             "name": "Reinforced Arrow",
             "asset": "ReinforcedArrow",
-            "icon": "/icons/technologies/T_itemicon_Ammo_ReinforcedArrow.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_ReinforcedArrow.png",
             "type": "standard"
         },
         {
             "name": "Repair Bench",
             "asset": "RepairBench",
-            "icon": "/icons/technologies/T_icon_buildObject_RepairBench.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_RepairBench.png",
             "type": "standard"
         },
         {
             "name": "Repair Kit",
             "asset": "RepairKit",
-            "icon": "/icons/technologies/T_itemicon_Material_RepairKit.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_RepairKit.png",
             "type": "standard"
         },
         {
             "name": "Rifle Ammo",
             "asset": "RifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_RifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_RifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Coarse Ammo",
             "asset": "RoughBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_RoughBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_RoughBullet.png",
             "type": "standard"
         },
         {
             "name": "Hexolite Armor",
             "asset": "SFArmor",
-            "icon": "/icons/technologies/T_itemicon_Armor_SFArmor.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_SFArmor.png",
             "type": "standard"
         },
         {
             "name": "Cold Resistant Hexolite Armor",
             "asset": "SFArmorCold",
-            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorCold.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorCold.png",
             "type": "standard"
         },
         {
             "name": "Heat Resistant Hexolite Armor",
             "asset": "SFArmorHeat",
-            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorHeat.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorHeat.png",
             "type": "standard"
         },
         {
             "name": "Lightweight Hexolite Armor",
             "asset": "SFArmorWeight",
-            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorWeight.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_SFArmorWeight.png",
             "type": "standard"
         },
         {
             "name": "Advanced Arrow",
             "asset": "SFArrow",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SFArrow.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SFArrow.png",
             "type": "standard"
         },
         {
             "name": "Advanced Bow",
             "asset": "SFBow",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SFBow.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SFBow.png",
             "type": "standard"
         },
         {
             "name": "Hexolite Helmet",
             "asset": "SFHelmet",
-            "icon": "/icons/technologies/T_itemicon_Armor_SFHelmet.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_SFHelmet.png",
             "type": "standard"
         },
         {
             "name": "Futuristic Structure Set",
             "asset": "SF_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_SF_foundation.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SF_foundation.png",
             "type": "standard"
         },
         {
             "name": "Powerful Fishing Magnet",
             "asset": "Salvage_TreasureBoxKey02",
-            "icon": "/icons/technologies/T_itemicon_Salvage_TreasureBoxKey02.webp",
+            "icon": "/icons/technologies/T_itemicon_Salvage_TreasureBoxKey02.png",
             "type": "standard"
         },
         {
             "name": "Alpha Wave Generator",
             "asset": "SanityDecrease1",
-            "icon": "/icons/technologies/T_icon_buildObject_SanityDecrease1.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SanityDecrease1.png",
             "type": "standard"
         },
         {
             "name": "PAL Genetic Research Unit Flag Set",
             "asset": "ScientistFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_Scientist_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Scientist_Flag.png",
             "type": "standard"
         },
         {
             "name": "Common Shield",
             "asset": "Shield_01",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_01.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_01.png",
             "type": "standard"
         },
         {
             "name": "Mega Shield",
             "asset": "Shield_02",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_02.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_02.png",
             "type": "standard"
         },
         {
             "name": "Giga Shield",
             "asset": "Shield_03",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_03.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_03.png",
             "type": "standard"
         },
         {
             "name": "Hyper Shield",
             "asset": "Shield_04",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_04.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_04.png",
             "type": "standard"
         },
         {
             "name": "Ultra Shield",
             "asset": "Shield_05",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_05.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_05.png",
             "type": "standard"
         },
         {
             "name": "Shield_07",
             "asset": "Shield_07",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_07.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_07.png",
             "type": "standard"
         },
         {
             "name": "Advanced Shield",
             "asset": "Shield_SF",
-            "icon": "/icons/technologies/T_itemicon_Armor_Shield_06.webp",
+            "icon": "/icons/technologies/T_itemicon_Armor_Shield_06.png",
             "type": "standard"
         },
         {
             "name": "Shotgun Shell",
             "asset": "ShotGunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_ShotgunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_ShotgunBullet.png",
             "type": "standard"
         },
         {
             "name": "Sign",
             "asset": "Signboard",
-            "icon": "/icons/technologies/T_icon_buildObject_Signboard.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Signboard.png",
             "type": "standard"
         },
         {
             "name": "Silo",
             "asset": "Silo",
-            "icon": "/icons/technologies/T_icon_buildObject_Silo.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Silo.png",
             "type": "standard"
         },
         {
             "name": "Melpaca Saddle",
             "asset": "SkillUnlock_Alpaca",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Kitsun Saddle",
             "asset": "SkillUnlock_AmaterasuWolf",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Kitsun Noct Saddle",
             "asset": "SkillUnlock_AmaterasuWolf_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Nyafia's Shotgun",
             "asset": "SkillUnlock_BadCatgirl",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Shotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Shotgun.png",
             "type": "standard"
         },
         {
             "name": "Vanwyrm Saddle",
             "asset": "SkillUnlock_BirdDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Vanwyrm Cryst Saddle",
             "asset": "SkillUnlock_BirdDragon_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Necromus Saddle",
             "asset": "SkillUnlock_BlackCentaur",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Shadowbeak Saddle",
             "asset": "SkillUnlock_BlackGriffon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Astegon Saddle",
             "asset": "SkillUnlock_BlackMetalDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Smokie's Harness",
             "asset": "SkillUnlock_BlackPuppy",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.png",
             "type": "standard"
         },
         {
             "name": "Azurobe Saddle",
             "asset": "SkillUnlock_BlueDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Azurobe Cryst Saddle",
             "asset": "SkillUnlock_BlueDragon_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_BlueSkyDragon",
             "asset": "SkillUnlock_BlueSkyDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Azurmane Saddle",
             "asset": "SkillUnlock_BlueThunderHorse",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Rushoar Saddle",
             "asset": "SkillUnlock_Boar",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Lifmunk's Submachine Gun",
             "asset": "SkillUnlock_Carbunclo",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_SMG.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_SMG.png",
             "type": "standard"
         },
         {
             "name": "Tocotoco's Gloves",
             "asset": "SkillUnlock_ColorfulBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Gloves.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Gloves.png",
             "type": "standard"
         },
         {
             "name": "Xenolord Saddle",
             "asset": "SkillUnlock_DarkMechaDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Eikthyrdeer Saddle",
             "asset": "SkillUnlock_Deer",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Eikthyrdeer Terra Saddle",
             "asset": "SkillUnlock_Deer_Ground",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_DomeArmorDragon",
             "asset": "SkillUnlock_DomeArmorDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Grizzbolt's Minigun",
             "asset": "SkillUnlock_ElecPanda",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Minigun.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Minigun.png",
             "type": "standard"
         },
         {
             "name": "Elphidran Saddle",
             "asset": "SkillUnlock_FairyDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Elphidran Aqua Saddle",
             "asset": "SkillUnlock_FairyDragon_Water",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Dazemu Saddle",
             "asset": "SkillUnlock_FeatherOstrich",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Fenglope Saddle",
             "asset": "SkillUnlock_FengyunDeeper",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Fenglope Lux Saddle",
             "asset": "SkillUnlock_FengyunDeeper_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Pyrin Saddle",
             "asset": "SkillUnlock_FireKirin",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Pyrin Noct Saddle",
             "asset": "SkillUnlock_FireKirin_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Arsox Saddle",
             "asset": "SkillUnlock_FlameBuffalo",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Dinossom Saddle",
             "asset": "SkillUnlock_FlowerDinosaur",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Dinossom Lux Saddle",
             "asset": "SkillUnlock_FlowerDinosaur_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Direhowl's Saddled Harness",
             "asset": "SkillUnlock_Garm",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Ghangler Saddle",
             "asset": "SkillUnlock_GhostAnglerfish",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Ghangler Ignis Saddle",
             "asset": "SkillUnlock_GhostAnglerfish_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Maraith Saddle",
             "asset": "SkillUnlock_GhostBeast",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Eidrolon Zen Saddle",
             "asset": "SkillUnlock_GhostDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Eidrolon Vex Saddle",
             "asset": "SkillUnlock_GhostDragon_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Gildane Saddle",
             "asset": "SkillUnlock_GoldenHorse",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Dualith Saddle",
             "asset": "SkillUnlock_GrassGolem",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Dualith Noct Saddle",
             "asset": "SkillUnlock_GrassGolem_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Mammorest Saddle",
             "asset": "SkillUnlock_GrassMammoth",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Mammorest Cryst Saddle",
             "asset": "SkillUnlock_GrassMammoth_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Mossanda's Grenade Launcher",
             "asset": "SkillUnlock_GrassPanda",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Grenadelauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Grenadelauncher.png",
             "type": "standard"
         },
         {
             "name": "Mossanda Lux's Grenade Launcher",
             "asset": "SkillUnlock_GrassPanda_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Grenadelauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Grenadelauncher.png",
             "type": "standard"
         },
         {
             "name": "Yakumo Saddle",
             "asset": "SkillUnlock_GuardianDog",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Helzephyr Saddle",
             "asset": "SkillUnlock_HadesBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Helzephyr Lux Saddle",
             "asset": "SkillUnlock_HadesBird_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Nitewing Saddle",
             "asset": "SkillUnlock_HawkBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Faleris Saddle",
             "asset": "SkillUnlock_Horus",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Faleris Aqua Saddle",
             "asset": "SkillUnlock_Horus_Water",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Reindrix Saddle",
             "asset": "SkillUnlock_IceDeer",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Frostallion Saddle",
             "asset": "SkillUnlock_IceHorse",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Frostallion Noct Saddle",
             "asset": "SkillUnlock_IceHorse_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Whalaska Saddle",
             "asset": "SkillUnlock_IceNarwhal",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Whalaska Ignis Saddle",
             "asset": "SkillUnlock_IceNarwhal_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Polapup Saddle",
             "asset": "SkillUnlock_IceSeal",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_IceSeal_Ground",
             "asset": "SkillUnlock_IceSeal_Ground",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Jetragon's Missile Launcher",
             "asset": "SkillUnlock_JetDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.png",
             "type": "standard"
         },
         {
             "name": "Kingpaca Saddle",
             "asset": "SkillUnlock_KingAlpaca",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Kingpaca Cryst Saddle",
             "asset": "SkillUnlock_KingAlpaca_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Blazamut Saddle",
             "asset": "SkillUnlock_KingBahamut",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Blazamut Ryu Saddle",
             "asset": "SkillUnlock_KingBahamut_Dragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Solmora Saddle",
             "asset": "SkillUnlock_KingSunfish",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Solmora Lux Saddle",
             "asset": "SkillUnlock_KingSunfish_Thunder",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Univolt Saddle",
             "asset": "SkillUnlock_Kirin",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_Kirin_Ice",
             "asset": "SkillUnlock_Kirin_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Foxparks' Harness",
             "asset": "SkillUnlock_Kitsunebi",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.png",
             "type": "standard"
         },
         {
             "name": "Foxparks Cryst's Harness",
             "asset": "SkillUnlock_Kitsunebi_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Harness.png",
             "type": "standard"
         },
         {
             "name": "Relaxaurus' Missile Launcher",
             "asset": "SkillUnlock_LazyDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.png",
             "type": "standard"
         },
         {
             "name": "Relaxaurus Lux's Missile Launcher",
             "asset": "SkillUnlock_LazyDragon_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_MultiMissile.png",
             "type": "standard"
         },
         {
             "name": "Hartalis Saddle",
             "asset": "SkillUnlock_LegendDeer",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_LotusDragon",
             "asset": "SkillUnlock_LotusDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Blazehowl Saddle",
             "asset": "SkillUnlock_Manticore",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Blazehowl Noct Saddle",
             "asset": "SkillUnlock_Manticore_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Tanzee's Assault Rifle",
             "asset": "SkillUnlock_Monkey",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_AssaultRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_AssaultRifle.png",
             "type": "standard"
         },
         {
             "name": "Tanzee Ignis' Assault Rifle",
             "asset": "SkillUnlock_Monkey_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_AssaultRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_AssaultRifle.png",
             "type": "standard"
         },
         {
             "name": "Selyne Saddle",
             "asset": "SkillUnlock_MoonQueen",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Sweepa Saddle",
             "asset": "SkillUnlock_MopKing",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Shroomer Saddle",
             "asset": "SkillUnlock_MushroomDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Shroomer Noct Saddle",
             "asset": "SkillUnlock_MushroomDragon_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Grintale Saddle",
             "asset": "SkillUnlock_NaughtyCat",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Starryon Saddle",
             "asset": "SkillUnlock_NightBlueHorse",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Starryon Primo Saddle",
             "asset": "SkillUnlock_NightBlueHorse_Neutral",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Pengullet Rocket Launcher",
             "asset": "SkillUnlock_Penguin",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Launcher.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Launcher.png",
             "type": "standard"
         },
         {
             "name": "Pengullet Lux's Rocket Launcher",
             "asset": "SkillUnlock_Penguin_Electric",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Launcher.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Launcher.png",
             "type": "standard"
         },
         {
             "name": "Braloha Saddle",
             "asset": "SkillUnlock_Plesiosaur",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Neptilius Saddle",
             "asset": "SkillUnlock_PoseidonOrca",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Tarantriss Saddle",
             "asset": "SkillUnlock_PurpleSpider",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_PyramidTurtle",
             "asset": "SkillUnlock_PyramidTurtle",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_PyramidTurtle_Neutral",
             "asset": "SkillUnlock_PyramidTurtle_Neutral",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Ragnahawk Saddle",
             "asset": "SkillUnlock_RedArmorBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Paladius Saddle",
             "asset": "SkillUnlock_SaintCentaur",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Broncherry Saddle",
             "asset": "SkillUnlock_SakuraSaurus",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Broncherry Aqua Saddle",
             "asset": "SkillUnlock_SakuraSaurus_Water",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Surfent Saddle",
             "asset": "SkillUnlock_Serpent",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Surfent Terra Saddle",
             "asset": "SkillUnlock_Serpent_Ground",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Quivern Saddle",
             "asset": "SkillUnlock_SkyDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Quivern Botan Saddle",
             "asset": "SkillUnlock_SkyDragon_Grass",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Bastigor's Hammer",
             "asset": "SkillUnlock_SnowTigerBeastman",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Hammer.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Hammer.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_SumoDog",
             "asset": "SkillUnlock_SumoDog",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Suzaku Saddle",
             "asset": "SkillUnlock_Suzaku",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Suzaku Aqua Saddle",
             "asset": "SkillUnlock_Suzaku_Water",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_ThiefBird",
             "asset": "SkillUnlock_ThiefBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Beakon Saddle",
             "asset": "SkillUnlock_ThunderBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Beakon Cryst Saddle",
             "asset": "SkillUnlock_ThunderBird_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Rayhound Saddle",
             "asset": "SkillUnlock_ThunderDog",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Dynamoff Saddle",
             "asset": "SkillUnlock_ThunderFluffyBird",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_Thunderdog_Ice",
             "asset": "SkillUnlock_Thunderdog_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Palumba Saddle",
             "asset": "SkillUnlock_TropicalOstrich",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Jormuntide Saddle",
             "asset": "SkillUnlock_Umihebi",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Jormuntide Ignis Saddle",
             "asset": "SkillUnlock_Umihebi_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Reptyro Saddle",
             "asset": "SkillUnlock_VolcanicMonster",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Reptyro Cryst Saddle",
             "asset": "SkillUnlock_VolcanicMonster_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_VolcanoDragon",
             "asset": "SkillUnlock_VolcanoDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "SkillUnlock_VolcanoDragon_Ice",
             "asset": "SkillUnlock_VolcanoDragon_Ice",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Chillet Saddle",
             "asset": "SkillUnlock_WeaselDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Chillet Ignis Saddle",
             "asset": "SkillUnlock_WeaselDragon_Fire",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Xenogard Saddle",
             "asset": "SkillUnlock_WhiteAlienDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Celesdir Saddle",
             "asset": "SkillUnlock_WhiteDeer",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Celesdir Noct Saddle",
             "asset": "SkillUnlock_WhiteDeer_Dark",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Silvegis Saddle",
             "asset": "SkillUnlock_WhiteShieldDragon",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Wumpo Saddle",
             "asset": "SkillUnlock_Yeti",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Wumpo Botan Saddle",
             "asset": "SkillUnlock_Yeti_Grass",
-            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.png",
             "type": "standard"
         },
         {
             "name": "Pal Dressing Facility",
             "asset": "SkinChange",
-            "icon": "/icons/technologies/T_icon_buildObject_SkinChange.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SkinChange.png",
             "type": "standard"
         },
         {
             "name": "Sunreach Assault Rifle",
             "asset": "SkyAssaultRifle",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkyAssaultRifle.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkyAssaultRifle.png",
             "type": "standard"
         },
         {
             "name": "SkyAssaultRifleBullet",
             "asset": "SkyAssaultRifleBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SkyAssaultRifleBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SkyAssaultRifleBullet.png",
             "type": "standard"
         },
         {
             "name": "Sunreach Beam Sword",
             "asset": "SkyBeamSword",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkyBeamSword.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkyBeamSword.png",
             "type": "standard"
         },
         {
             "name": "Sunreach Bow",
             "asset": "SkyBow",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkyBow.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkyBow.png",
             "type": "standard"
         },
         {
             "name": "SkyBowArrow",
             "asset": "SkyBowArrow",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SkyBowArrow.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SkyBowArrow.png",
             "type": "standard"
         },
         {
             "name": "Sunreach Grenade Launcher",
             "asset": "SkyGrenadeLauncher",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkyGrenadeLauncher.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkyGrenadeLauncher.png",
             "type": "standard"
         },
         {
             "name": "SkyGrenadeLauncherBullet",
             "asset": "SkyGrenadeLauncherBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SkyGrenadeLauncherBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SkyGrenadeLauncherBullet.png",
             "type": "standard"
         },
         {
             "name": "SkyIslandFlagSet",
             "asset": "SkyIslandFlagSet",
-            "icon": "/icons/technologies/T_icon_buildObject_SkyIsland_Flag.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SkyIsland_Flag.png",
             "type": "standard"
         },
         {
             "name": "SkyIslandOrePit",
             "asset": "SkyIslandOrePit",
-            "icon": "/icons/technologies/T_icon_buildObject_SkyIslandOrePit.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SkyIslandOrePit.png",
             "type": "boss"
         },
         {
             "name": "Sunreach Shotgun",
             "asset": "SkyShotgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkyShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkyShotgun.png",
             "type": "standard"
         },
         {
             "name": "SkyShotgunBullet",
             "asset": "SkyShotgunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SkyShotgunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SkyShotgunBullet.png",
             "type": "standard"
         },
         {
             "name": "Sunreach SMG",
             "asset": "SkySubmachineGun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_SkySubmachineGun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_SkySubmachineGun.png",
             "type": "standard"
         },
         {
             "name": "SkySubmachineGunBullet",
             "asset": "SkySubmachineGunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_SkySubmachineGunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_SkySubmachineGunBullet.png",
             "type": "standard"
         },
         {
             "name": "Soralite Ingot",
             "asset": "SkyislandIngot",
-            "icon": "/icons/technologies/T_itemicon_Material_SkyislandIngot.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_SkyislandIngot.png",
             "type": "standard"
         },
         {
             "name": "Snowman",
             "asset": "Snowman",
-            "icon": "/icons/technologies/T_icon_buildObject_Snowman.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Snowman.png",
             "type": "standard"
         },
         {
             "name": "Hot Spring",
             "asset": "Spa",
-            "icon": "/icons/technologies/T_icon_buildObject_Spa.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Spa.png",
             "type": "standard"
         },
         {
             "name": "High Quality Hot Spring",
             "asset": "Spa2",
-            "icon": "/icons/technologies/T_icon_buildObject_Spa_2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Spa_2.png",
             "type": "standard"
         },
         {
             "name": "Japanese-Style Hot Spring",
             "asset": "Spa3",
-            "icon": "/icons/technologies/T_icon_buildObject_Spa3.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Spa3.png",
             "type": "standard"
         },
         {
             "name": "Stone Spear",
             "asset": "Spear",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Metal Spear",
             "asset": "Spear_2",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Refined Metal Spear",
             "asset": "Spear_3",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.png",
             "type": "standard"
         },
         {
             "name": "Lily's Spear",
             "asset": "Spear_ForestBoss",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss.png",
             "type": "standard"
         },
         {
             "name": "Enhanced Lily's Spear",
             "asset": "Spear_ForestBoss2",
-            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss2.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss2.png",
             "type": "standard"
         },
         {
             "name": "Electric Egg Incubator",
             "asset": "Special_ElectricHatchingPalEgg",
-            "icon": "/icons/technologies/T_icon_buildObject_ElectricHatchingPalEgg.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ElectricHatchingPalEgg.png",
             "type": "boss"
         },
         {
             "name": "Egg Incubator",
             "asset": "Special_HatchingPalEgg",
-            "icon": "/icons/technologies/T_icon_buildObject_HatchingPalEgg.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_HatchingPalEgg.png",
             "type": "boss"
         },
         {
             "name": "Pal Essence Condenser",
             "asset": "Special_PalRankUp",
-            "icon": "/icons/technologies/T_icon_buildObject_CharacterRankUp.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_CharacterRankUp.png",
             "type": "boss"
         },
         {
             "name": "Pal Sphere",
             "asset": "Special_PalSphere_Grade_01",
-            "icon": "/icons/technologies/T_itemicon_PalSphere.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere.png",
             "type": "standard"
         },
         {
             "name": "Mega Sphere",
             "asset": "Special_PalSphere_Grade_02",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Mega.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Mega.png",
             "type": "standard"
         },
         {
             "name": "Giga Sphere",
             "asset": "Special_PalSphere_Grade_03",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Giga.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Giga.png",
             "type": "standard"
         },
         {
             "name": "Hyper Sphere",
             "asset": "Special_PalSphere_Grade_04",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Tera.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Tera.png",
             "type": "standard"
         },
         {
             "name": "Ultra Sphere",
             "asset": "Special_PalSphere_Grade_05",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Master.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Master.png",
             "type": "standard"
         },
         {
             "name": "Legendary Sphere",
             "asset": "Special_PalSphere_Grade_06",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Legend.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Legend.png",
             "type": "standard"
         },
         {
             "name": "Ultimate Sphere",
             "asset": "Special_PalSphere_Grade_07",
-            "icon": "/icons/technologies/T_itemicon_PalSphere_Ultimate.webp",
+            "icon": "/icons/technologies/T_itemicon_PalSphere_Ultimate.png",
             "type": "standard"
         },
         {
             "name": "Sphere Workbench",
             "asset": "Special_SphereFactory_Black_Grade_01",
-            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_01.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_01.png",
             "type": "standard"
         },
         {
             "name": "Sphere Assembly Line",
             "asset": "Special_SphereFactory_Black_Grade_02",
-            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_02.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_02.png",
             "type": "standard"
         },
         {
             "name": "Sphere Assembly Line II",
             "asset": "Special_SphereFactory_Black_Grade_03",
-            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_03.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_03.png",
             "type": "standard"
         },
         {
             "name": "Advanced Sphere Assembly Line",
             "asset": "SphereFactory_Black_04",
-            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_04.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_SphereFactory_Black_04.png",
             "type": "standard"
         },
         {
             "name": "Curve Module",
             "asset": "SphereModule_Curve",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Curve.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Curve.png",
             "type": "standard"
         },
         {
             "name": "Slider Module",
             "asset": "SphereModule_Curve2",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Curve2.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Curve2.png",
             "type": "standard"
         },
         {
             "name": "Heavy Weight Module",
             "asset": "SphereModule_Heavy",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Heavy.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Heavy.png",
             "type": "standard"
         },
         {
             "name": "Homing Module",
             "asset": "SphereModule_Homing",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Homing.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Homing.png",
             "type": "standard"
         },
         {
             "name": "Sniper Module",
             "asset": "SphereModule_Sniper",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Spiper.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Spiper.png",
             "type": "standard"
         },
         {
             "name": "Sniper Module Ⅱ",
             "asset": "SphereModule_Sniper2",
-            "icon": "/icons/technologies/T_itemicon_SphereModule_Sniper2.webp",
+            "icon": "/icons/technologies/T_itemicon_SphereModule_Sniper2.png",
             "type": "standard"
         },
         {
             "name": "Hexolite",
             "asset": "StainlessSteel",
-            "icon": "/icons/technologies/T_itemicon_Material_StainlessSteel.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_StainlessSteel.png",
             "type": "standard"
         },
         {
             "name": "Stone Gate",
             "asset": "Stone_Gate",
-            "icon": "/icons/technologies/T_icon_buildObject_Stone_Gate.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Stone_Gate.png",
             "type": "standard"
         },
         {
@@ -3321,205 +3321,205 @@
         {
             "name": "Stump and Axe",
             "asset": "Stump",
-            "icon": "/icons/technologies/T_icon_buildObject_Stump.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Stump.png",
             "type": "standard"
         },
         {
             "name": "Nutrient Tonic",
             "asset": "Supplement",
-            "icon": "/icons/technologies/T_itemicon_food_Supplement.webp",
+            "icon": "/icons/technologies/T_itemicon_food_Supplement.png",
             "type": "standard"
         },
         {
             "name": "TableCircular",
             "asset": "TableCircular",
-            "icon": "/icons/technologies/T_icon_buildObject_TableCircular_Wood_None.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TableCircular_Wood_None.png",
             "type": "standard"
         },
         {
             "name": "Antique Dresser",
             "asset": "TableDresser01_Stone",
-            "icon": "/icons/technologies/T_icon_buildObject_TableDresser01_Stone.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TableDresser01_Stone.png",
             "type": "boss"
         },
         {
             "name": "Thermal Core",
             "asset": "Thermal_Core",
-            "icon": "/icons/technologies/T_itemicon_Material_Thermal_Core.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_Thermal_Core.png",
             "type": "standard"
         },
         {
             "name": "Large Toolbox",
             "asset": "ToolBoxV1",
-            "icon": "/icons/technologies/T_icon_buildObject_ToolBoxV1.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_ToolBoxV1.png",
             "type": "standard"
         },
         {
             "name": "Mounted Torch",
             "asset": "Torch",
-            "icon": "/icons/technologies/T_icon_buildObject_TorchStand.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TorchStand.png",
             "type": "standard"
         },
         {
             "name": "Electric Pylon",
             "asset": "TransmissionTower",
-            "icon": "/icons/technologies/T_icon_buildObject_TransmissionTower.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TransmissionTower.png",
             "type": "standard"
         },
         {
             "name": "Bear Trap (Small)",
             "asset": "Trap_LegHold",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_LegHold.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_LegHold.png",
             "type": "standard"
         },
         {
             "name": "Bear Trap (Large)",
             "asset": "Trap_LegHold_Big",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_LegHold_Big.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_LegHold_Big.png",
             "type": "standard"
         },
         {
             "name": "Mine",
             "asset": "Trap_MineAttack",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineAttack.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineAttack.png",
             "type": "standard"
         },
         {
             "name": "Electric Mine",
             "asset": "Trap_MineElecShock",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineElecShock.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineElecShock.png",
             "type": "standard"
         },
         {
             "name": "Ice Mine",
             "asset": "Trap_MineFreeze",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineFreeze.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_MineFreeze.png",
             "type": "standard"
         },
         {
             "name": "Hanging Trap",
             "asset": "Trap_Noose",
-            "icon": "/icons/technologies/T_icon_buildObject_Trap_Noose.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Trap_Noose.png",
             "type": "standard"
         },
         {
             "name": "Weapon Holster Extension",
             "asset": "UnlockEquipmentSlot_Weapon_01",
-            "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_01.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_01.png",
             "type": "boss"
         },
         {
             "name": "Weapon Holster Extension2",
             "asset": "UnlockEquipmentSlot_Weapon_02",
-            "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_02.webp",
+            "icon": "/icons/technologies/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_02.png",
             "type": "boss"
         },
         {
             "name": "Lockpicking Tool v1",
             "asset": "Unlock_Picking_Tier1",
-            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking.png",
             "type": "boss"
         },
         {
             "name": "Lockpicking Tool v2",
             "asset": "Unlock_Picking_Tier2",
-            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking_Tier2.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking_Tier2.png",
             "type": "boss"
         },
         {
             "name": "Lockpicking Tool v3",
             "asset": "Unlock_Picking_Tier3",
-            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking_Tier3.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_Unlock_Picking_Tier3.png",
             "type": "boss"
         },
         {
             "name": "WallSignboard",
             "asset": "WallSignboard",
-            "icon": "/icons/technologies/T_icon_buildObject_WallSignboard.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WallSignboard.png",
             "type": "standard"
         },
         {
             "name": "Wall Torch",
             "asset": "WallTorch",
-            "icon": "/icons/technologies/T_icon_buildObject_TorchHang.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_TorchHang.png",
             "type": "standard"
         },
         {
             "name": "Aquatic Construction Kit",
             "asset": "WaterBuildKit",
-            "icon": "/icons/technologies/T_itemicon_Essential_WaterBuildKit.webp",
+            "icon": "/icons/technologies/T_itemicon_Essential_WaterBuildKit.png",
             "type": "boss"
         },
         {
             "name": "Advanced Weapon Assembly Line",
             "asset": "WeaponFactory_Dirty_04",
-            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_04.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WeaponFactory_Dirty_04.png",
             "type": "standard"
         },
         {
             "name": "Piercing Shotgun",
             "asset": "WidePenetrateShotgun",
-            "icon": "/icons/technologies/T_itemicon_Weapon_WidePenetrateShotgun.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_WidePenetrateShotgun.png",
             "type": "standard"
         },
         {
             "name": "Piercing Shotgun Ammo",
             "asset": "WidePenetrateShotgunBullet",
-            "icon": "/icons/technologies/T_itemicon_Ammo_WidePenetrateShotgunBullet.webp",
+            "icon": "/icons/technologies/T_itemicon_Ammo_WidePenetrateShotgunBullet.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Wing Glider",
             "asset": "WingGlider",
-            "icon": "/icons/technologies/T_itemicon_Glider_WingGlider.webp",
+            "icon": "/icons/technologies/T_itemicon_Glider_WingGlider.png",
             "type": "boss"
         },
         {
             "name": "[WIP] Wing Glider Fuel",
             "asset": "WingGlider_Fuel",
-            "icon": "/icons/technologies/T_itemicon_Material_WingGlider_Fuel.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_WingGlider_Fuel.png",
             "type": "standard"
         },
         {
             "name": "Wooden Gate",
             "asset": "Wood_Gate",
-            "icon": "/icons/technologies/T_icon_buildObject_Wood_Gate.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Wood_Gate.png",
             "type": "standard"
         },
         {
             "name": "Wooden Structure Set",
             "asset": "Wooden_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_Wood_Foundation.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Wood_Foundation.png",
             "type": "standard"
         },
         {
             "name": "Ladder",
             "asset": "Wooden_ladder",
-            "icon": "/icons/technologies/T_icon_buildObject_Wooden_Ladder.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Wooden_Ladder.png",
             "type": "standard"
         },
         {
             "name": "Beta Wave Generator",
             "asset": "WorkSpeedIncrease1",
-            "icon": "/icons/technologies/T_icon_buildObject_WorkSpeedIncrease1.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WorkSpeedIncrease1.png",
             "type": "standard"
         },
         {
             "name": "Primitive Workbench",
             "asset": "Workbench",
-            "icon": "/icons/technologies/T_icon_buildObject_WorkBench.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_WorkBench.png",
             "type": "standard"
         },
         {
             "name": "[WIP] Ancient Ingot 2",
             "asset": "WorldTreeIngot",
-            "icon": "/icons/technologies/T_itemicon_Material_WorldTreeIngot.webp",
+            "icon": "/icons/technologies/T_itemicon_Material_WorldTreeIngot.png",
             "type": "standard"
         },
         {
             "name": "Meowmere",
             "asset": "YakushimaBlade",
-            "icon": "/icons/technologies/T_itemicon_Weapon_YakushimaBlade.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_YakushimaBlade.png",
             "type": "boss"
         }
     ]

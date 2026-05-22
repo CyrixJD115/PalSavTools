@@ -42,9 +42,12 @@ class GuildItemPickerDialog(QDialog):
         layout.addLayout(search_layout)
         self.results_list = QListWidget()
         self.results_list.setViewMode(QListView.IconMode)
-        self.results_list.setIconSize(QSize(40, 40))
-        self.results_list.setSpacing(4)
+        self.results_list.setIconSize(QSize(48, 48))
+        self.results_list.setSpacing(0)
+        self.results_list.setUniformItemSizes(True)
+        self.results_list.setGridSize(QSize(80, 80))
         self.results_list.setResizeMode(QListWidget.Adjust)
+        self.results_list.setStyleSheet('\nQListWidget::item {\n    padding: 4px;\n    border: 1px solid rgba(125,211,252,0.12);\n    border-radius: 4px;\n    margin: 2px;\n}\nQListWidget::item:hover {\n    border: 1px solid rgba(125,211,252,0.3);\n    background: rgba(125,211,252,0.05);\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n    border: 1px solid rgba(59,142,208,0.5);\n}\n')
         self.results_list.setSelectionMode(QAbstractItemView.SingleSelection)
         self.results_list.setDragEnabled(False)
         self.results_list.viewport().setAcceptDrops(False)
@@ -132,12 +135,15 @@ class GuildItemPickerDialog(QDialog):
     def _display_items(self, items: list):
         self.results_list.clear()
         for item in items:
-            list_item = QListWidgetItem(item.get('name', 'Unknown'))
-            list_item.setData(Qt.UserRole, item.get('asset', ''))
-            list_item.setData(Qt.UserRole + 1, item.get('name', 'Unknown'))
+            name = item.get('name', 'Unknown')
+            asset = item.get('asset', '')
+            list_item = QListWidgetItem(name)
+            list_item.setData(Qt.UserRole, asset)
+            list_item.setData(Qt.UserRole + 1, name)
+            list_item.setToolTip(f'{name}\n({asset})')
             icon_path = item.get('icon', '')
             if icon_path:
-                pixmap = ItemData.get_item_icon(icon_path, QSize(40, 40))
+                pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
                 if not pixmap.isNull():
                     list_item.setIcon(QIcon(pixmap))
             self.results_list.addItem(list_item)
@@ -265,7 +271,7 @@ class EconomyStatsDialog(QDialog):
         self.item_name = item_name or stats.get('item_id', 'Unknown')
         title = t('base_inventory.economy_title').format(item_name=self.item_name) if t else f'Economy Stats: {self.item_name}'
         self.setWindowTitle(title)
-        self.setMinimumSize(500, 400)
+        self.setMinimumSize(900, 600)
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)

@@ -7,7 +7,7 @@ from palworld_aio import constants
 from palworld_aio.inventory_manager import ItemData, search_items
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
-DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 6px;\n    border-radius: 4px;\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton:pressed {\n    background: rgba(125,211,252,0.3);\n}\nQGroupBox {\n    color: #e2e8f0;\n    border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 6px;\n    margin-top: 8px;\n    padding-top: 8px;\n}\nQGroupBox::title {\n    subcontrol-origin: margin;\n    left: 10px;\n    padding: 0 5px;\n}\nQSpinBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 4px 8px;\n}\n'
+DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 4px;\n    border: 1px solid rgba(125,211,252,0.12);\n    border-radius: 4px;\n    margin: 2px;\n}\nQListWidget::item:hover {\n    border: 1px solid rgba(125,211,252,0.3);\n    background: rgba(125,211,252,0.05);\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n    border: 1px solid rgba(59,142,208,0.5);\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton:pressed {\n    background: rgba(125,211,252,0.3);\n}\nQGroupBox {\n    color: #e2e8f0;\n    border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 6px;\n    margin-top: 8px;\n    padding-top: 8px;\n}\nQGroupBox::title {\n    subcontrol-origin: margin;\n    left: 10px;\n    padding: 0 5px;\n}\nQSpinBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 4px 8px;\n}\n'
 class PlayerItemActionDialog(QDialog):
     item_action_selected = Signal(str, str, list)
     def __init__(self, parent=None):
@@ -35,8 +35,10 @@ class PlayerItemActionDialog(QDialog):
         search_layout.addLayout(search_bar_layout)
         self.results_list = QListWidget()
         self.results_list.setViewMode(QListView.IconMode)
-        self.results_list.setIconSize(QSize(40, 40))
-        self.results_list.setSpacing(4)
+        self.results_list.setIconSize(QSize(48, 48))
+        self.results_list.setSpacing(0)
+        self.results_list.setUniformItemSizes(True)
+        self.results_list.setGridSize(QSize(80, 80))
         self.results_list.setResizeMode(QListWidget.Adjust)
         self.results_list.setSelectionMode(QAbstractItemView.SingleSelection)
         self.results_list.setDragEnabled(False)
@@ -102,11 +104,14 @@ class PlayerItemActionDialog(QDialog):
     def _display_items(self, items: list):
         self.results_list.clear()
         for item in items:
-            list_item = QListWidgetItem(item.get('name', 'Unknown'))
-            list_item.setData(Qt.UserRole, item.get('asset', ''))
+            name = item.get('name', 'Unknown')
+            asset = item.get('asset', '')
+            list_item = QListWidgetItem(name)
+            list_item.setData(Qt.UserRole, asset)
+            list_item.setToolTip(f'{name}\n({asset})')
             icon_path = item.get('icon', '')
             if icon_path:
-                pixmap = ItemData.get_item_icon(icon_path, QSize(40, 40))
+                pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
                 if not pixmap.isNull():
                     list_item.setIcon(QIcon(pixmap))
             self.results_list.addItem(list_item)
@@ -284,7 +289,7 @@ class PlayerItemActionDialog(QDialog):
             return
         add_dialog = QDialog(self)
         add_dialog.setWindowTitle(t('player_item.add_item_title') if t else 'Add Item Options')
-        add_dialog.setMinimumWidth(350)
+        add_dialog.setMinimumWidth(900)
         add_layout = QVBoxLayout(add_dialog)
         qty_layout = QHBoxLayout()
         qty_label = QLabel(t('player_item.quantity') if t else 'Quantity:')

@@ -263,6 +263,64 @@ def copy_icon_to_resources(export_path: Path, target_subdir: str) -> str | None:
     return f'/icons/{target_subdir}/{export_path.name}'
 
 
+# Cache for rich text resolution (populated once and reused)
+_ITEM_NAME_CACHE = {}
+_STRUCT_NAME_CACHE = {}
+_PAL_NAME_CACHE = {}
+
+
+def _ensure_name_caches():
+    """Populate name caches from resource JSON files if not already loaded."""
+    if not _ITEM_NAME_CACHE:
+        try:
+            item_data = load_resource_json('itemdata.json')
+            for i in item_data.get('items', []):
+                if isinstance(i, dict) and 'asset' in i and 'name' in i:
+                    _ITEM_NAME_CACHE[i['asset'].lower()] = i['name']
+        except Exception:
+            pass
+    if not _STRUCT_NAME_CACHE:
+        try:
+            struct_data = load_resource_json('structuredata.json')
+            for s in struct_data.get('structures', []):
+                if isinstance(s, dict) and 'asset' in s and 'name' in s:
+                    _STRUCT_NAME_CACHE[s['asset'].lower()] = s['name']
+        except Exception:
+            pass
+    if not _PAL_NAME_CACHE:
+        try:
+            pal_data = load_resource_json('paldata.json')
+            for p in pal_data.get('pals', []):
+                if isinstance(p, dict) and 'asset' in p and 'name' in p:
+                    _PAL_NAME_CACHE[p['asset'].lower()] = p['name']
+        except Exception:
+            pass
+
+
+def resolve_rich_text(text: str) -> str:
+    """Resolve <itemName>, <mapObjectName>, <characterName> tags to actual display names."""
+    import re
+    _ensure_name_caches()
+    
+    def _replace(m):
+        tag_type = m.group(1).lower()
+        asset_id = m.group(2).lower()
+        if tag_type == 'itemname':
+            name = _ITEM_NAME_CACHE.get(asset_id, '')
+        elif tag_type == 'mapobjectname' or tag_type == 'mapobjectname':
+            name = _STRUCT_NAME_CACHE.get(asset_id, '')
+        elif tag_type == 'charactername':
+            name = _PAL_NAME_CACHE.get(asset_id, '')
+        else:
+            name = ''
+        if name and '<' not in name:
+            return name
+        return asset_id
+    
+    text = re.sub(r'<(itemName|mapObjectName|characterName)\s+id=\|([^|]+)\|/>', _replace, text, flags=re.I)
+    return text
+
+
 def find_and_copy_icon(search_name: str, target_subdir: str, export_subdirs: list[Path]) -> str | None:
     """
     Find an icon file in export texture subdirectories and copy it to resources.
@@ -780,6 +838,7 @@ def update_item_data():
         # Get name from L10N if available
         item_row = all_item_rows.get(item_id, {})
         item_name = resolve_item_name(item_id, item_row)
+        item_name = resolve_rich_text(item_name)
         
         # Extract IconName from item data (tells us which icon template to use)
         icon_name_field = ''
@@ -858,6 +917,30 @@ def update_item_data():
         }
         updated_items.append(item_entry)
     
+    # Filter out items that share asset names with pal CharacterIDs
+    # These are pal summoning entries, not real inventory items
+    try:
+        pal_data = load_resource_json('paldata.json')
+        pal_char_ids = set()
+        for p in pal_data.get('pals', []):
+            if isinstance(p, dict) and 'asset' in p:
+                pal_char_ids.add(p['asset'].lower())
+        filtered = []
+        removed = 0
+        for item in updated_items:
+            asset_lower = item.get('asset', '').lower()
+            name = item.get('name', '')
+            # Remove if name is raw asset (unlocalized) AND matches a pal ID
+            if name == item.get('asset', '') and asset_lower in pal_char_ids:
+                removed += 1
+                continue
+            filtered.append(item)
+        if removed:
+            print(f"  Removed {removed} pal-summon entries from item data")
+        updated_items = filtered
+    except Exception:
+        pass
+
     result = {'items': updated_items}
     save_resource_json('itemdata.json', result)
     print(f"  Total items: {len(updated_items)}")
@@ -1141,23 +1224,7 @@ def update_technology_data():
         return
     
     def _resolve_rich_text(text: str) -> str:
-        """Resolve <itemName id=|X|/> and <mapObjectName id=|X|/> tags to actual names."""
-        import re
-        def _replace_item(m):
-            asset = m.group(1).lower()
-            name = item_name_map.get(asset, '')
-            if name and '<' not in name:
-                return name
-            return asset
-        def _replace_struct(m):
-            asset = m.group(1).lower()
-            name = struct_name_map.get(asset, '')
-            if name and '<' not in name:
-                return name
-            return asset
-        text = re.sub(r'<itemName\s+id=\|([^|]+)\|/>', _replace_item, text, flags=re.I)
-        text = re.sub(r'<mapObjectName\s+id=\|([^|]+)\|/>', _replace_struct, text, flags=re.I)
-        return text
+        return resolve_rich_text(text)
     
     tech_icon_subdirs = [
         EXPORT_TEXTURES_DIR / 'UI' / 'Common',
@@ -1455,50 +1522,60 @@ def update_friendship_data():
 # ============================================================================
 
 def update_items_psp():
-    """Update items_psp.json (persistent storage pal items) based on exports."""
+    """Update items_psp.json with dynamic item metadata (durability, type).
+    
+    Format: dict keyed by item_id, each with 'dynamic' sub-object:
+    { "AssaultRifle_Default": {"dynamic": {"type": "weapon", "durability": 300}}, ... }
+    """
     print("\n=== Updating Items PSP ===")
     
-    # This data comes from Item data tables
+    # Load from both main and common tables
     item_table = load_export_json('Item/DT_ItemDataTable.json')
-    
-    if not item_table:
-        print("  No item data found. Skipping.")
-        return
+    item_table_common = load_export_json('Item/DT_ItemDataTable_Common.json')
     
     all_rows = {}
-    if isinstance(item_table, list):
-        for table in item_table:
-            if isinstance(table, dict):
-                rows = table.get('Rows', {})
+    for data in [item_table, item_table_common]:
+        if data:
+            if isinstance(data, list):
+                for table in data:
+                    if isinstance(table, dict):
+                        rows = table.get('Rows', {})
+                        if rows:
+                            all_rows.update(rows)
+            elif isinstance(data, dict):
+                rows = data.get('Rows', {})
                 if rows:
                     all_rows.update(rows)
-    elif isinstance(item_table, dict):
-        rows = item_table.get('Rows', {})
-        if rows:
-            all_rows.update(rows)
     
     if not all_rows:
         print("  No item rows for PSP. Skipping.")
         return
     
-    # Keep the structure similar to what the app expects
-    existing = load_resource_json('items_psp.json')
-    existing_items = existing.get('items', [])
+    result = {}
+    _type_map = {
+        'CommonWeapon': 'weapon',
+        'CommonArmor': 'armor',
+    }
+    for item_id, row in all_rows.items():
+        if not isinstance(row, dict):
+            continue
+        dyn_class = row.get('ItemDynamicClass', 'None')
+        if dyn_class == 'None' or not dyn_class:
+            continue
+        durability = row.get('Durability', 0)
+        if isinstance(durability, dict):
+            durability = durability.get('value', 0)
+        durability = float(durability) if durability else 0.0
+        dyn_type = _type_map.get(dyn_class, 'unknown')
+        result[item_id] = {
+            'dynamic': {
+                'type': dyn_type,
+                'durability': durability
+            }
+        }
     
-    # This is typically the same as itemdata but fewer entries
-    # We'll keep the existing list and merge with new items
-    updated = {'items': existing_items}
-    
-    existing_assets = {i.get('asset', '').lower() for i in existing_items}
-    for item_id in all_rows:
-        if item_id.lower() not in existing_assets:
-            updated['items'].append({
-                'name': item_id,
-                'asset': item_id,
-                'icon': f'/icons/items/{item_id}.webp'
-            })
-    
-    save_resource_json('items_psp.json', updated)
+    save_resource_json('items_psp.json', result)
+    print(f"  Total PSP entries: {len(result)}")
 
 
 # ============================================================================

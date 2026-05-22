@@ -181,7 +181,7 @@ def _get_pal_icon_path(character_id):
         cid_for_guess = cid_lower.replace('boss_', '').replace('b_o_s_s_', '')
         icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', f'{cid_for_guess}.webp')
         if not os.path.exists(icon_path):
-            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', 'T_icon_unknown.webp')
+            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
     with _CACHE_LOCK:
         _ICON_CACHE[cid_lower] = icon_path
     return icon_path
@@ -251,7 +251,7 @@ class PalIcon(QFrame):
                     cid_for_guess = cid_lower.replace('boss_', '').replace('b_o_s_s_', '')
                     icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', f'{cid_for_guess}.webp')
                     if not os.path.exists(icon_path):
-                        icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', 'T_icon_unknown.webp')
+                        icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
                 with _CACHE_LOCK:
                     _ICON_CACHE[cid_lower] = icon_path
             else:
@@ -2109,18 +2109,18 @@ class PalEditorWidget(QWidget):
                 base_dir = constants.get_base_path()
                 friendship_path = os.path.join(base_dir, 'resources', 'game_data', 'friendship.json')
                 data = json_tools.load(friendship_path)
-                self._friendship_data = {k: v for k, v in data.items() if v['rank'] >= 0}
+                self._friendship_data = {k: v for k, v in data.items() if v['FriendshipRank'] >= 0}
             except Exception as e:
                 print(f'Error loading friendship data: {e}')
-                self._friendship_data = {'Friendship_Rank_0': {'rank': 0, 'required_point': 0}}
+                self._friendship_data = {'Friendship_Rank_0': {'FriendshipRank': 0, 'RequiredPoint': 0}}
         return self._friendship_data
     def _get_trust_level(self, trust_points):
         friendship_data = self._load_friendship_data()
-        levels = sorted(friendship_data.values(), key=lambda x: x['rank'])
+        levels = sorted(friendship_data.values(), key=lambda x: x['FriendshipRank'])
         current_level = 0
         for level_data in levels:
-            if trust_points >= level_data['required_point']:
-                current_level = level_data['rank']
+            if trust_points >= level_data['RequiredPoint']:
+                current_level = level_data['FriendshipRank']
         return current_level
     def _update_trust_display(self, tab):
         if not hasattr(tab, 'trust_spin') or not hasattr(tab, 'selected_pal_index'):
@@ -2144,8 +2144,8 @@ class PalEditorWidget(QWidget):
     def _get_points_for_level(self, level):
         friendship_data = self._load_friendship_data()
         for level_data in friendship_data.values():
-            if level_data['rank'] == level:
-                return level_data['required_point']
+            if level_data['FriendshipRank'] == level:
+                return level_data['RequiredPoint']
         return 0
     def _update_trust_level(self, tab, level):
         pal_index = getattr(tab, 'selected_pal_index', -1)

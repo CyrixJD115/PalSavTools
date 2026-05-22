@@ -1,6 +1,256 @@
 {
     "passives": [
         {
+            "name": "AssaultRifle",
+            "asset": "AssaultRifle",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Berserk",
+            "asset": "Berserk",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Flamethrower",
+            "asset": "Flamethrower",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Flamethrower_Ice",
+            "asset": "Flamethrower_Ice",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "GiveFireAndBurn",
+            "asset": "GiveFireAndBurn",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Grenade",
+            "asset": "Grenade",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Heal",
+            "asset": "Heal",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Heal_FlowerDoll",
+            "asset": "Heal_FlowerDoll",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Heal_LilyQueen",
+            "asset": "Heal_LilyQueen",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "JumpFrog",
+            "asset": "JumpFrog",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Launcher",
+            "asset": "Launcher",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "NightRunner",
+            "asset": "NightRunner",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "NightVision",
+            "asset": "NightVision",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "OnHeadShoot",
+            "asset": "OnHeadShoot",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "OpenTreasure",
+            "asset": "OpenTreasure",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "ReturnToBaseCamp",
+            "asset": "ReturnToBaseCamp",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "RevivePal",
+            "asset": "RevivePal",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "RevivePlayer",
+            "asset": "RevivePlayer",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "RocketLauncher",
+            "asset": "RocketLauncher",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "RocketLauncher_Electric",
+            "asset": "RocketLauncher_Electric",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SearchDungeon",
+            "asset": "SearchDungeon",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SearchDungeonGoal",
+            "asset": "SearchDungeonGoal",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SearchMine",
+            "asset": "SearchMine",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SearchPal",
+            "asset": "SearchPal",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Shiled",
+            "asset": "Shiled",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Shotgun",
+            "asset": "Shotgun",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SpinningShell",
+            "asset": "SpinningShell",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "StatusUp",
+            "asset": "StatusUp",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "StatusUp_AddEffect",
+            "asset": "StatusUp_AddEffect",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "StatusUp_GiveElement",
+            "asset": "StatusUp_GiveElement",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "StatusUp_NightFox",
+            "asset": "StatusUp_NightFox",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Stealth",
+            "asset": "Stealth",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "SwordCutlassfish_Katana",
+            "asset": "SwordCutlassfish_Katana",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Toboggan",
+            "asset": "Toboggan",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Toboggan_Fire",
+            "asset": "Toboggan_Fire",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideMelee_SnowHammer",
+            "asset": "UniqueRideMelee_SnowHammer",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_ArmLaser",
+            "asset": "UniqueRideShooting_ArmLaser",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_ArmLaser_GrassGolem_Dark",
+            "asset": "UniqueRideShooting_ArmLaser_GrassGolem_Dark",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_DualGrenadeLauncher",
+            "asset": "UniqueRideShooting_DualGrenadeLauncher",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_Dummy",
+            "asset": "UniqueRideShooting_Dummy",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_GeroBeam",
+            "asset": "UniqueRideShooting_GeroBeam",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_Grappling",
+            "asset": "UniqueRideShooting_Grappling",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_JetMissile",
+            "asset": "UniqueRideShooting_JetMissile",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_Minigun",
+            "asset": "UniqueRideShooting_Minigun",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRideShooting_MultiMissile",
+            "asset": "UniqueRideShooting_MultiMissile",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRide_Barrier",
+            "asset": "UniqueRide_Barrier",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRide_ShortDash",
+            "asset": "UniqueRide_ShortDash",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "UniqueRide_ShortDash_PoseidonOrca",
+            "asset": "UniqueRide_ShortDash_PoseidonOrca",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Unknown",
+            "asset": "Unknown",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
+            "name": "Waza",
+            "asset": "Waza",
+            "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.png"
+        },
+        {
             "name": "Otherworldly Cells",
             "asset": "Alien",
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.png"

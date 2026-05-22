@@ -165,7 +165,7 @@ class PlayerPalActionDialog(QDialog):
         except:
             pass
         if not icon_path:
-            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', 'T_icon_unknown.webp')
+            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
         return icon_path
     def _search_pals(self, query):
         if not query:

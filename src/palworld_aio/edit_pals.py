@@ -3,7 +3,7 @@ from palworld_save_tools import json_tools
 import uuid
 import threading
 from functools import partial
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter, QGraphicsOpacityEffect
 from PySide6.QtCore import Qt, QTimer, Signal, QPoint, QEvent, QSize, QRect
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtGui import QIcon, QFont, QPixmap, QRegion, QCursor, QPainter, QPainterPath, QPen, QBrush, QFontMetrics, QPalette, QColor, QShortcut, QKeySequence, QLinearGradient
@@ -989,6 +989,34 @@ def _get_element_pixmap(element_name, variant='small', size=16):
             full_path = webp_path
     return _get_cached_pixmap(full_path, size)
 
+_UI_ICONS_DATA = None
+def _ensure_ui_icons_data():
+    global _UI_ICONS_DATA
+    if _UI_ICONS_DATA is not None:
+        return _UI_ICONS_DATA
+    _UI_ICONS_DATA = {}
+    try:
+        base_dir = constants.get_base_path()
+        path = os.path.join(base_dir, 'resources', 'game_data', 'uidata.json')
+        js = json_tools.load(path)
+        for key, icon_rel in js.get('ui_icons', {}).items():
+            full_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+            if not os.path.exists(full_path):
+                webp_path = os.path.splitext(full_path)[0] + '.webp'
+                if os.path.exists(webp_path):
+                    full_path = webp_path
+            _UI_ICONS_DATA[key] = full_path
+    except Exception:
+        pass
+    return _UI_ICONS_DATA
+
+def _get_ui_icon_pixmap(icon_key, size=16):
+    data = _ensure_ui_icons_data()
+    icon_path = data.get(icon_key, '')
+    if not icon_path:
+        return None
+    return _get_cached_pixmap(icon_path, size)
+
 def _ensure_skill_data():
     global _SKILL_DATA
     if _SKILL_DATA is not None:
@@ -1020,6 +1048,29 @@ class CornerBracketWidget(QFrame):
         painter.setPen(pen)
         w, h = self.width(), self.height()
         bl = 10
+        painter.drawLine(0, bl, 0, 0)
+        painter.drawLine(0, 0, bl, 0)
+        painter.drawLine(w - bl, 0, w, 0)
+        painter.drawLine(w, 0, w, bl)
+        painter.drawLine(0, h - bl, 0, h)
+        painter.drawLine(0, h, bl, h)
+        painter.drawLine(w - bl, h, w, h)
+        painter.drawLine(w, h, w, h - bl)
+
+class PortraitBracketWidget(QWidget):
+    def __init__(self, corner_color='#7DD3FC', parent=None):
+        super().__init__(parent)
+        self._corner_color = QColor(corner_color)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        pen = QPen(self._corner_color, 1.5)
+        pen.setCapStyle(Qt.FlatCap)
+        painter.setPen(pen)
+        w, h = self.width(), self.height()
+        bl = 14
         painter.drawLine(0, bl, 0, 0)
         painter.drawLine(0, 0, bl, 0)
         painter.drawLine(w - bl, 0, w, 0)
@@ -1094,6 +1145,7 @@ class PalInfoWidget(QFrame):
         'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8',
     }
     _TRUST_RANK_THRESHOLDS = [0, 1, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500]
+    _WORK_SUITABILITY_ICON_KEYS = ['palwork_02', 'palwork_01', 'palwork_00', 'palwork_03', 'palwork_04', 'palwork_05', 'palwork_06', 'palwork_07', 'palwork_08', 'palwork_09', 'palwork_10', 'palwork_11', 'palwork_12']
     def __init__(self, parent=None):
         super().__init__(parent)
         self.current_pal = None
@@ -1124,7 +1176,7 @@ class PalInfoWidget(QFrame):
         self.trust_bar.setFormat('-- / --')
         self.trust_level_lbl.setText('--')
         self.hp_bar.setValue(0)
-        self.hp_bar.setFormat('-- / --')
+        self.hp_bar.setFormat('--')
         self.hunger_bar.setValue(0)
         self.hunger_bar.setFormat('-- / --')
         self.san_bar.setValue(0)
@@ -1132,19 +1184,30 @@ class PalInfoWidget(QFrame):
         self.atk_lbl.setText('--')
         self.def_lbl.setText('--')
         self.wspd_lbl.setText('--')
-        for icon_lbl, (val_lbl, _) in zip(self.work_icon_labels, self.work_icon_values):
-            icon_lbl.setStyleSheet('font-size: 8px; color: rgba(255,255,255,0.15); background: transparent; border: none;')
+        for icon_lbl, (val_lbl, _, val_badge) in zip(self.work_icon_labels, self.work_icon_values):
+            icon_lbl.setStyleSheet('background: transparent; border: none;')
+            eff = icon_lbl.graphicsEffect()
+            if isinstance(eff, QGraphicsOpacityEffect):
+                eff.setOpacity(0.06)
             val_lbl.setText('')
             val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
-        self.gender_icon.setText('\u2640')
-        self.gender_icon.setStyleSheet('font-size: 12px; color: #FB7185; font-weight: bold; border-radius: 8px; border: 1px solid rgba(251,113,133,0.2);')
+            val_badge.setStyleSheet('background: transparent; border: none;')
+        gender_def = _get_ui_icon_pixmap('gender_female', 14)
+        if gender_def:
+            self.gender_icon.setPixmap(gender_def)
+        self.gender_icon.setStyleSheet('background: transparent; border-radius: 8px; border: 1px solid rgba(251,113,133,0.2);')
         while self.type_icons_layout.count():
             item = self.type_icons_layout.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()
-        self.food_lbl.setText('-- / 10')
         for fc in self.food_icon_labels:
-            fc.setStyleSheet('font-size: 7px; color: rgba(40,44,54,0.14); background: transparent; border: none;')
+            fc.setStyleSheet('background: transparent; border: none;')
+            foff = _get_ui_icon_pixmap('food_off', 12)
+            if foff:
+                fc.setPixmap(foff)
+            eff = fc.graphicsEffect()
+            if isinstance(eff, QGraphicsOpacityEffect):
+                eff.setOpacity(0.14)
         self.partner_name_lbl.setText('--')
         self.partner_lvl_lbl.setText('Lv --')
         self.partner_desc_lbl.setText('--')
@@ -1157,10 +1220,12 @@ class PalInfoWidget(QFrame):
             s.setStyleSheet('font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.3); background: transparent; border: none;')
             parent_frame = s.parentWidget()
             if parent_frame and parent_frame.objectName() == 'passiveCard':
-                parent_frame.setStyleSheet('QFrame#passiveCard { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 3px 6px; }')
+                parent_frame.setStyleSheet('QFrame#passiveCard { background: rgba(255,255,255,0.03); border: none; border-radius: 4px; }')
         self.star_rating.setText('\u2606\u2606\u2606\u2606')
         self.stat_plus_lbl.setText('--')
         self.portrait_icon.clear()
+        self.dna_overlay.hide()
+        self.lock_overlay.hide()
     def _build(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -1196,7 +1261,7 @@ class PalInfoWidget(QFrame):
         layout.addWidget(scroll)
         self._c_shortcut = QShortcut(QKeySequence(Qt.Key_C), self)
         self._c_shortcut.activated.connect(self._toggle_skills_view)
-        self._showing_active_skills = False
+        self._showing_active_skills = True
     def _toggle_skills_view(self):
         self._showing_active_skills = not self._showing_active_skills
         self.partner_frame.setVisible(not self._showing_active_skills)
@@ -1231,11 +1296,14 @@ class PalInfoWidget(QFrame):
         self.name_lbl = QLabel('Gobfinned')
         self.name_lbl.setStyleSheet('font-size: 14px; font-weight: 700; color: #FFFFFF; background: transparent; border: none;')
         name_row.addWidget(self.name_lbl)
-        self.gender_icon = QLabel('\u2640')
+        self.gender_icon = QLabel()
         self.gender_icon.setFixedSize(16, 16)
         self.gender_icon.setAlignment(Qt.AlignCenter)
-        self.gender_icon.setStyleSheet('font-size: 12px; color: #FB7185; font-weight: bold; background: transparent; border-radius: 8px; border: 1px solid rgba(251,113,133,0.2);')
         self.gender_icon.setAttribute(Qt.WA_TranslucentBackground)
+        gender_def = _get_ui_icon_pixmap('gender_female', 14)
+        if gender_def:
+            self.gender_icon.setPixmap(gender_def)
+        self.gender_icon.setStyleSheet('background: transparent; border-radius: 8px; border: 1px solid rgba(251,113,133,0.2);')
         name_row.addWidget(self.gender_icon)
         self.type_icons_container = QWidget()
         self.type_icons_container.setStyleSheet('background: transparent; border: none;')
@@ -1291,17 +1359,40 @@ class PalInfoWidget(QFrame):
         portrait_frame.setObjectName('portraitGlow')
         portrait_frame.setStyleSheet('QFrame#portraitGlow { background: qradialgradient(cx:0.5,cy:0.5,radius:0.6,fx:0.5,fy:0.5,stop:0 rgba(125,211,252,0.12),stop:0.4 rgba(125,211,252,0.04),stop:1 transparent); border: none; border-radius: 52px; }')
         pf_layout = QVBoxLayout(portrait_frame)
-        pf_layout.setContentsMargins(6, 6, 6, 6)
+        pf_layout.setContentsMargins(4, 4, 4, 4)
         pf_layout.setAlignment(Qt.AlignCenter)
+        self.bracket_wrapper = PortraitBracketWidget()
+        self.bracket_wrapper.setFixedSize(96, 96)
+        bw_layout = QVBoxLayout(self.bracket_wrapper)
+        bw_layout.setContentsMargins(2, 2, 2, 2)
+        bw_layout.setAlignment(Qt.AlignCenter)
         ring = QFrame()
-        ring.setFixedSize(92, 92)
+        ring.setFixedSize(88, 88)
         ring.setObjectName('portraitRing')
-        ring.setStyleSheet('QFrame#portraitRing { background: transparent; border: 2px solid rgba(125,211,252,0.45); border-radius: 46px; }')
+        ring.setStyleSheet('QFrame#portraitRing { background: transparent; border: 2px solid rgba(125,211,252,0.45); border-radius: 44px; }')
         ring_layout = QVBoxLayout(ring)
         ring_layout.setContentsMargins(0, 0, 0, 0)
         self.portrait_icon = _CircularIcon(80)
         ring_layout.addWidget(self.portrait_icon, 0, Qt.AlignCenter)
-        pf_layout.addWidget(ring, 0, Qt.AlignCenter)
+        bw_layout.addWidget(ring, 0, Qt.AlignCenter)
+        self.dna_overlay = QLabel(self.bracket_wrapper)
+        self.dna_overlay.setFixedSize(16, 16)
+        self.dna_overlay.setAlignment(Qt.AlignCenter)
+        self.dna_overlay.setAttribute(Qt.WA_TranslucentBackground)
+        dna_pix = _get_ui_icon_pixmap('dna', 14)
+        if dna_pix:
+            self.dna_overlay.setPixmap(dna_pix)
+        self.dna_overlay.setStyleSheet('background: transparent; border: none;')
+        self.dna_overlay.move(6, 74)
+        self.dna_overlay.hide()
+        self.lock_overlay = QLabel(self.bracket_wrapper)
+        self.lock_overlay.setFixedSize(16, 16)
+        self.lock_overlay.setAlignment(Qt.AlignCenter)
+        self.lock_overlay.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;')
+        self.lock_overlay.setText('\U0001F512')
+        self.lock_overlay.move(74, 6)
+        self.lock_overlay.hide()
+        pf_layout.addWidget(self.bracket_wrapper, 0, Qt.AlignCenter)
         left_layout.addWidget(portrait_frame, 0, Qt.AlignCenter)
         self.stat_plus_lbl = QLabel('+60')
         self.stat_plus_lbl.setAlignment(Qt.AlignCenter)
@@ -1315,17 +1406,21 @@ class PalInfoWidget(QFrame):
         right_layout.setSpacing(1)
         trust_row = QHBoxLayout()
         trust_row.setSpacing(0)
-        trust_icon = QLabel('\u2666')
+        trust_icon = QLabel()
         trust_icon.setFixedSize(14, 14)
         trust_icon.setAlignment(Qt.AlignCenter)
-        trust_icon.setStyleSheet('font-size: 9px; color: #F472B6; background: transparent; border: none;')
+        trust_icon.setAttribute(Qt.WA_TranslucentBackground)
+        trust_icon.setStyleSheet('background: transparent; border: none;')
+        trust_pix = _get_ui_icon_pixmap('friendship', 12)
+        if trust_pix:
+            trust_icon.setPixmap(trust_pix)
         trust_row.addWidget(trust_icon)
         self.trust_bar = QProgressBar()
         self.trust_bar.setFixedHeight(14)
-        self.trust_bar.setRange(0, 10)
+        self.trust_bar.setRange(0, 100)
         self.trust_bar.setValue(0)
         self.trust_bar.setTextVisible(True)
-        self.trust_bar.setStyleSheet('QProgressBar { background: rgba(30,20,25,0.5); border: 1px solid rgba(244,114,182,0.15); border-radius: 3px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #EC4899,stop:1 #F472B6); border-radius: 2px; }')
+        self.trust_bar.setStyleSheet('QProgressBar { background: rgba(30,20,25,0.6); border: 1px solid rgba(244,114,182,0.20); border-radius: 3px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #EC4899,stop:1 #F472B6); border-radius: 2px; }')
         trust_row.addWidget(self.trust_bar, 1)
         self.trust_level_lbl = QLabel('10')
         self.trust_level_lbl.setFixedWidth(20)
@@ -1338,7 +1433,7 @@ class PalInfoWidget(QFrame):
         hp_icon = QLabel('\u2665')
         hp_icon.setFixedSize(14, 14)
         hp_icon.setAlignment(Qt.AlignCenter)
-        hp_icon.setStyleSheet('font-size: 9px; color: #FB7185; background: transparent; border: none;')
+        hp_icon.setStyleSheet('font-size: 9px; color: #EF4444; background: transparent; border: none;')
         hp_row.addWidget(hp_icon)
         self.hp_bar = QProgressBar()
         self.hp_bar.setFixedHeight(14)
@@ -1375,7 +1470,7 @@ class PalInfoWidget(QFrame):
         self.san_bar.setRange(0, 100)
         self.san_bar.setValue(100)
         self.san_bar.setTextVisible(True)
-        self.san_bar.setStyleSheet('QProgressBar { background: rgba(20,35,30,0.6); border: 1px solid rgba(16,185,129,0.2); border-radius: 3px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #10B981,stop:1 #34D399); border-radius: 2px; }')
+        self.san_bar.setStyleSheet('QProgressBar { background: rgba(20,30,40,0.6); border: 1px solid rgba(56,189,248,0.2); border-radius: 3px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #38BDF8,stop:1 #7DD3FC); border-radius: 2px; }')
         san_row.addWidget(self.san_bar, 1)
         right_layout.addLayout(san_row)
         stats_q = QFrame()
@@ -1384,35 +1479,41 @@ class PalInfoWidget(QFrame):
         stats_grid.setContentsMargins(4, 2, 4, 2)
         stats_grid.setSpacing(1)
         atk_icon = QLabel('\u2694')
+        atk_icon.setFixedSize(14, 14)
+        atk_icon.setAlignment(Qt.AlignCenter)
         atk_icon.setStyleSheet('font-size: 10px; color: #EF4444; background: transparent; border: none;')
-        stats_grid.addWidget(atk_icon, 0, 0)
+        stats_grid.addWidget(atk_icon, 0, 0, Qt.AlignVCenter)
         atk_label = QLabel('Attack')
         atk_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
-        stats_grid.addWidget(atk_label, 0, 1)
+        stats_grid.addWidget(atk_label, 0, 1, Qt.AlignVCenter)
         self.atk_lbl = QLabel('3599')
         self.atk_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.atk_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
-        stats_grid.addWidget(self.atk_lbl, 0, 2)
+        stats_grid.addWidget(self.atk_lbl, 0, 2, Qt.AlignVCenter)
         def_icon = QLabel('\u2696')
+        def_icon.setFixedSize(14, 14)
+        def_icon.setAlignment(Qt.AlignCenter)
         def_icon.setStyleSheet('font-size: 10px; color: #3B82F6; background: transparent; border: none;')
-        stats_grid.addWidget(def_icon, 1, 0)
+        stats_grid.addWidget(def_icon, 1, 0, Qt.AlignVCenter)
         def_label = QLabel('Defense')
         def_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
-        stats_grid.addWidget(def_label, 1, 1)
+        stats_grid.addWidget(def_label, 1, 1, Qt.AlignVCenter)
         self.def_lbl = QLabel('2791')
         self.def_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.def_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
-        stats_grid.addWidget(self.def_lbl, 1, 2)
+        stats_grid.addWidget(self.def_lbl, 1, 2, Qt.AlignVCenter)
         wspd_icon = QLabel('\u2692')
+        wspd_icon.setFixedSize(14, 14)
+        wspd_icon.setAlignment(Qt.AlignCenter)
         wspd_icon.setStyleSheet('font-size: 10px; color: #A78BFA; background: transparent; border: none;')
-        stats_grid.addWidget(wspd_icon, 2, 0)
+        stats_grid.addWidget(wspd_icon, 2, 0, Qt.AlignVCenter)
         wspd_label = QLabel('Work Speed')
         wspd_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
-        stats_grid.addWidget(wspd_label, 2, 1)
+        stats_grid.addWidget(wspd_label, 2, 1, Qt.AlignVCenter)
         self.wspd_lbl = QLabel('127')
         self.wspd_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.wspd_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
-        stats_grid.addWidget(self.wspd_lbl, 2, 2)
+        stats_grid.addWidget(self.wspd_lbl, 2, 2, Qt.AlignVCenter)
         right_layout.addWidget(stats_q)
         body_layout.addWidget(right_col, 1)
         parent.addWidget(body)
@@ -1423,9 +1524,6 @@ class PalInfoWidget(QFrame):
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(6, 3, 6, 3)
         card_layout.setSpacing(1)
-        ws_label = QLabel('Work Suitability')
-        ws_label.setStyleSheet('font-size: 8px; font-weight: 600; color: #7DD3FC; background: transparent; border: none;')
-        card_layout.addWidget(ws_label)
         self.work_icons_container = QWidget()
         self.work_icons_container.setObjectName('wsIcons')
         self.work_icons_container.setStyleSheet('background: transparent; border: none;')
@@ -1435,15 +1533,15 @@ class PalInfoWidget(QFrame):
         self.work_icon_labels = []
         self.work_icon_values = []
         ws_data = [
-            ('\U0001F331', 'Seeding', 'Plant'), ('\U0001F4A7', 'Watering', 'Water'),
-            ('\U0001F525', 'EmitFlame', 'Fire'), ('\u26A1', 'GenerateElectricity', 'Electric'),
-            ('\U0001F528', 'Handcraft', 'Handiwork'), ('\U0001F9B5', 'Collection', 'Gather'),
-            ('\U0001FA93', 'Deforest', 'Lumber'), ('\u26CF', 'Mining', 'Mine'),
-            ('\U0001F6E2', 'OilExtraction', 'Oil'), ('\U0001F48A', 'ProductMedicine', 'Medicine'),
-            ('\u2744', 'Cool', 'Cool'), ('\U0001F69A', 'Transport', 'Transport'),
-            ('\U0001F33E', 'MonsterFarm', 'Farm'),
+            ('Seeding', 'Plant'), ('Watering', 'Water'),
+            ('EmitFlame', 'Fire'), ('GenerateElectricity', 'Electric'),
+            ('Handcraft', 'Handiwork'), ('Collection', 'Gather'),
+            ('Deforest', 'Lumber'), ('Mining', 'Mine'),
+            ('OilExtraction', 'Oil'), ('ProductMedicine', 'Medicine'),
+            ('Cool', 'Cool'), ('Transport', 'Transport'),
+            ('MonsterFarm', 'Farm'),
         ]
-        for emoji, ws_key, ws_display in ws_data:
+        for idx, (ws_key, ws_display) in enumerate(ws_data):
             wc = QWidget()
             wc.setObjectName('wsWidget')
             wc.setStyleSheet('background: transparent; border: none;')
@@ -1451,47 +1549,64 @@ class PalInfoWidget(QFrame):
             vl = QVBoxLayout(wc)
             vl.setContentsMargins(0, 0, 0, 0)
             vl.setSpacing(0)
-            ic = QLabel(emoji)
+            ic = QLabel()
             ic.setAlignment(Qt.AlignCenter)
             ic.setFixedSize(16, 16)
-            ic.setStyleSheet('font-size: 8px; color: rgba(255,255,255,0.15); background: transparent; border: none;')
+            ic.setAttribute(Qt.WA_TranslucentBackground)
+            ic.setStyleSheet('background: transparent; border: none;')
+            palwork_key = self._WORK_SUITABILITY_ICON_KEYS[idx]
+            ws_pix = _get_ui_icon_pixmap(palwork_key, 14)
+            if ws_pix:
+                ic.setPixmap(ws_pix)
+                opacity_effect = QGraphicsOpacityEffect()
+                opacity_effect.setOpacity(0.06)
+                ic.setGraphicsEffect(opacity_effect)
             vl.addWidget(ic, 0, Qt.AlignCenter)
+            wl_badge = QFrame()
+            wl_badge.setObjectName('wsBadge')
+            wl_badge.setStyleSheet('background: transparent; border: none;')
+            wl_badge.setFixedHeight(12)
+            bd_layout = QVBoxLayout(wl_badge)
+            bd_layout.setContentsMargins(2, 0, 2, 0)
+            bd_layout.setAlignment(Qt.AlignCenter)
             wl = QLabel('')
             wl.setAlignment(Qt.AlignCenter)
             wl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
             wl.setFixedHeight(8)
-            vl.addWidget(wl, 0, Qt.AlignCenter)
+            bd_layout.addWidget(wl)
+            vl.addWidget(wl_badge, 0, Qt.AlignCenter)
             self.work_icons_layout.addWidget(wc)
             self.work_icon_labels.append(ic)
-            self.work_icon_values.append((wl, ws_key))
+            self.work_icon_values.append((wl, ws_key, wl_badge))
         self.work_icons_layout.addStretch()
         card_layout.addWidget(self.work_icons_container)
         hline_food = QFrame()
         hline_food.setFrameShape(QFrame.HLine)
         hline_food.setStyleSheet('background: rgba(125,211,252,0.06); border: none; max-height: 1px;')
         card_layout.addWidget(hline_food)
-        food_header = QHBoxLayout()
-        food_header.setSpacing(4)
+        food_row = QHBoxLayout()
+        food_row.setSpacing(2)
         food_title = QLabel('Food')
         food_title.setStyleSheet('font-size: 8px; font-weight: 600; color: #7DD3FC; background: transparent; border: none;')
-        food_header.addWidget(food_title)
-        self.food_lbl = QLabel('12 / 10')
-        self.food_lbl.setStyleSheet('font-size: 8px; font-weight: 600; color: #F59E0B; background: transparent; border: none;')
-        food_header.addWidget(self.food_lbl)
-        food_header.addStretch()
-        card_layout.addLayout(food_header)
-        food_icons = QHBoxLayout()
-        food_icons.setSpacing(1)
+        food_row.addWidget(food_title)
+        food_row.addSpacing(2)
         self.food_icon_labels = []
         for i in range(10):
-            fc = QLabel('\U0001F950')
+            fc = QLabel()
             fc.setFixedSize(14, 14)
             fc.setAlignment(Qt.AlignCenter)
-            fc.setStyleSheet('font-size: 7px; color: rgba(245,158,11,0.15); background: transparent; border: none;')
-            food_icons.addWidget(fc)
+            fc.setAttribute(Qt.WA_TranslucentBackground)
+            fc.setStyleSheet('background: transparent; border: none;')
+            food_off_pix = _get_ui_icon_pixmap('food_off', 12)
+            if food_off_pix:
+                fc.setPixmap(food_off_pix)
+                opacity = QGraphicsOpacityEffect()
+                opacity.setOpacity(0.14)
+                fc.setGraphicsEffect(opacity)
+            food_row.addWidget(fc)
             self.food_icon_labels.append(fc)
-        food_icons.addStretch()
-        card_layout.addLayout(food_icons)
+        food_row.addStretch()
+        card_layout.addLayout(food_row)
         parent.addWidget(card)
     def _build_skills(self, parent):
         skill_outer = QWidget()
@@ -1536,7 +1651,6 @@ class PalInfoWidget(QFrame):
         bracket_r.setStyleSheet('font-size: 14px; font-weight: 100; color: rgba(125,211,252,0.25); background: transparent; border: none;')
         bracket_layout.addWidget(bracket_r)
         partner_layout.addWidget(bracket_frame)
-        so_layout.addWidget(self.partner_frame)
         self.active_skills_frame = QFrame()
         self.active_skills_frame.setObjectName('activeSkillsBox')
         self.active_skills_frame.setStyleSheet('QFrame#activeSkillsBox { background: rgba(10,16,24,0.95); border: 1.5px solid rgba(125,211,252,0.3); border-radius: 5px; }')
@@ -1559,8 +1673,9 @@ class PalInfoWidget(QFrame):
         self.active_skills_list.setContentsMargins(0, 0, 0, 0)
         self.active_skills_list.setSpacing(2)
         as_layout.addLayout(self.active_skills_list)
-        self.active_skills_frame.hide()
         so_layout.addWidget(self.active_skills_frame)
+        so_layout.addWidget(self.partner_frame)
+        self.partner_frame.hide()
         passive_title = QLabel('Passive Skills')
         passive_title.setStyleSheet('font-size: 9px; font-weight: 600; color: #7DD3FC; background: transparent; border: none; padding-top: 2px;')
         so_layout.addWidget(passive_title)
@@ -1570,17 +1685,17 @@ class PalInfoWidget(QFrame):
         pg_layout.setContentsMargins(0, 0, 0, 0)
         pg_layout.setSpacing(3)
         passive_tiers = [
-            ('Runner', 'gold', 'qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', 'rgba(255,215,0,0.5)'),
-            ('Swift', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)'),
-            ('Legend', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)'),
-            ('Surge of the World Tree', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)'),
+            ('Runner', 'gold', 'rgba(139,105,20,0.25)'),
+            ('Swift', 'legendary', 'rgba(26,107,138,0.25)'),
+            ('Legend', 'legendary', 'rgba(26,107,138,0.25)'),
+            ('Surge of the World Tree', 'legendary', 'rgba(26,107,138,0.25)'),
         ]
         self.passive_slots = []
-        for i, (pname, ptier, pgrad, pbord) in enumerate(passive_tiers):
+        for i, (pname, ptier, bg_fill) in enumerate(passive_tiers):
             card = QFrame()
             card.setObjectName('passiveCard')
             txt_color = '#FFD700' if ptier == 'gold' else '#7DD3FC'
-            card.setStyleSheet(f'QFrame#passiveCard {{ background: {pgrad}; border: 1.5px solid {pbord}; border-radius: 4px; padding: 2px; }}')
+            card.setStyleSheet(f'QFrame#passiveCard {{ background: {bg_fill}; border: none; border-radius: 4px; }}')
             card_layout = QHBoxLayout(card)
             card_layout.setContentsMargins(4, 2, 4, 2)
             card_layout.setSpacing(2)
@@ -1623,10 +1738,12 @@ class PalInfoWidget(QFrame):
             else:
                 gender = 'EPalGenderType::Female'
             is_male = 'Male' in gender
-            gender_char = '\u2642' if is_male else '\u2640'
+            gender_key = 'gender_male' if is_male else 'gender_female'
             gender_color = '#7DD3FC' if is_male else '#FB7185'
-            self.gender_icon.setText(gender_char)
-            self.gender_icon.setStyleSheet(f'font-size: 12px; color: {gender_color}; font-weight: bold; background: transparent; border-radius: 8px; border: 1px solid {gender_color}40;')
+            gender_pix = _get_ui_icon_pixmap(gender_key, 14)
+            if gender_pix:
+                self.gender_icon.setPixmap(gender_pix)
+            self.gender_icon.setStyleSheet(f'background: transparent; border-radius: 8px; border: 1px solid {gender_color}40;')
             base = get_pal_base_data(cid)
             while self.type_icons_layout.count():
                 item = self.type_icons_layout.takeAt(0)
@@ -1664,11 +1781,18 @@ class PalInfoWidget(QFrame):
                 dud.setAlignment(Qt.AlignCenter)
                 dud.setStyleSheet('font-size: 11px; font-weight: bold; color: #A78BFA; background: transparent; border-radius: 8px; border: 1px solid rgba(167,139,250,0.2);')
                 self.type_icons_layout.addWidget(dud)
-            hp = extract_value(raw, 'Hp', 0)
-            max_hp = extract_value(raw, 'MaxHp', hp)
+            talent_hp = extract_value(raw, 'Talent_HP', 0)
+            rank_hp = extract_value(raw, 'Rank_HP', 0)
+            is_boss = cid.upper().startswith('BOSS_')
+            is_lucky = extract_value(raw, 'IsRarePal', False)
+            is_imported = extract_value(raw, 'bImportedCharacter', False)
+            fav_idx = extract_value(raw, 'FavoriteIndex', 0)
+            hp_val = safe_nested_get(raw, ['Hp', 'value', 'Value', 'value'], 0)
+            max_hp = safe_nested_get(raw, ['MaxHP', 'value', 'Value', 'value'], 0)
+            if max_hp <= 0 and base:
+                max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky)
             if max_hp <= 0:
-                max_hp = hp if hp > 0 else 1
-            hp_val = extract_value(raw, 'Hp', 0)
+                max_hp = hp_val if hp_val > 0 else 1
             atk_val = extract_value(raw, 'Attack', 0)
             def_val = extract_value(raw, 'Defense', 0)
             wspd_val = extract_value(raw, 'WorkSpeed', 0)
@@ -1705,29 +1829,36 @@ class PalInfoWidget(QFrame):
             if wspd_val == 0:
                 wspd_val = base_craft
             ws = (base.get('work_suitabilities', {}) if base else {})
-            for i, (icon_lbl, (val_lbl, ws_key)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
+            for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)
                 if ws_level > 0:
-                    icon_lbl.setStyleSheet(f'font-size: 8px; color: #4ADE80; background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.25); border-radius: 3px;')
+                    icon_lbl.setStyleSheet('background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.25); border-radius: 3px;')
+                    eff = icon_lbl.graphicsEffect()
+                    if isinstance(eff, QGraphicsOpacityEffect):
+                        eff.setOpacity(1.0)
                     val_lbl.setText(str(ws_level))
                     val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: #4ADE80; background: transparent; border: none;')
+                    val_badge.setStyleSheet('background: rgba(0,0,0,0.45); border: 1px solid rgba(74,222,128,0.2); border-radius: 2px;')
                 else:
-                    icon_lbl.setStyleSheet('font-size: 8px; color: rgba(255,255,255,0.15); background: transparent; border: none;')
+                    icon_lbl.setStyleSheet('background: transparent; border: none;')
+                    eff = icon_lbl.graphicsEffect()
+                    if isinstance(eff, QGraphicsOpacityEffect):
+                        eff.setOpacity(0.06)
                     val_lbl.setText('')
                     val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
+                    val_badge.setStyleSheet('background: transparent; border: none;')
             hunger_max = float(base_stomach) if base_stomach else 300.0
-            if max_hp <= 0:
-                max_hp = base_hp * 100
             hp_pct = int(min(hp_val / max_hp * 100, 100))
             hunger_pct = int(min(hunger_full / hunger_max * 100, 100))
             exp_pct = int(min(exp_val / 1000.0 * 100, 100))
             self.hp_bar.setValue(hp_pct)
-            self.hp_bar.setFormat(f'{int(hp_val)} / {int(max_hp)}')
+            self.hp_bar.setFormat(f'{int(hp_val) // 1000}')
             self.hunger_bar.setValue(hunger_pct)
             self.hunger_bar.setFormat(f'{int(hunger_full)} / {int(hunger_max)}')
             self.exp_header_bar.setValue(exp_pct)
             self.next_lbl.setText(str(int(exp_val)))
-            san_pct = int(min(hunger_full, 100))
+            san_val = extract_value(raw, 'SanityValue', 100.0)
+            san_pct = int(min(float(san_val), 100))
             self.san_bar.setValue(san_pct)
             self.san_bar.setFormat(f'{san_pct}%')
             self.trust_bar.setValue(int(trust_progress))
@@ -1736,13 +1867,31 @@ class PalInfoWidget(QFrame):
             self.atk_lbl.setText(str(int(atk_val)))
             self.def_lbl.setText(str(int(def_val)))
             self.wspd_lbl.setText(str(int(wspd_val)))
-            self.food_lbl.setText(f'{int(base_food)} / 10')
             food_val = max(0, min(int(base_food), 10))
             for i, fc in enumerate(self.food_icon_labels):
+                fc.setStyleSheet('background: transparent; border: none;')
                 if i >= food_val:
-                    fc.setStyleSheet('font-size: 7px; color: rgba(40,44,54,0.14); background: transparent; border: none;')
+                    foff = _get_ui_icon_pixmap('food_off', 12)
+                    if foff:
+                        fc.setPixmap(foff)
+                    eff = fc.graphicsEffect()
+                    if isinstance(eff, QGraphicsOpacityEffect):
+                        eff.setOpacity(0.14)
                 else:
-                    fc.setStyleSheet('font-size: 7px; color: #F59E0B; background: transparent; border: none;')
+                    fon = _get_ui_icon_pixmap('food_on', 12)
+                    if fon:
+                        fc.setPixmap(fon)
+                    eff = fc.graphicsEffect()
+                    if isinstance(eff, QGraphicsOpacityEffect):
+                        eff.setOpacity(1.0)
+            if is_imported:
+                self.dna_overlay.show()
+            else:
+                self.dna_overlay.hide()
+            if fav_idx and int(fav_idx) > 0:
+                self.lock_overlay.show()
+            else:
+                self.lock_overlay.hide()
             self.stat_plus_lbl.setText(f'+{level}')
             rank_raw = extract_value(raw, 'Rank', 1)
             rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1

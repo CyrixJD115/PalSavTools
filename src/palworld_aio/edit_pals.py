@@ -2589,10 +2589,17 @@ class PalInfoWidget(QFrame):
         if not self._raw:
             return
         current = extract_value(self._raw, 'NickName', '')
-        text, ok = QInputDialog.getText(self, t('edit_pals.rename_pal'), t('edit_pals.nickname') + ':', text=current or '')
-        if ok and text is not None:
-            self._raw['NickName'] = {'id': None, 'type': 'StrProperty', 'value': text.strip()}
-            self._refresh()
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle(t('edit_pals.rename_pal'))
+        dlg.setLabelText(t('edit_pals.nickname') + ':')
+        dlg.setInputMode(QInputDialog.TextInput)
+        dlg.setTextValue(current or '')
+        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QLineEdit{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 8px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        if dlg.exec() == QDialog.Accepted:
+            text = dlg.textValue()
+            if text is not None:
+                self._raw['NickName'] = {'id': None, 'type': 'StrProperty', 'value': text.strip()}
+                self._refresh()
 
     def _on_gender_click(self):
         if not self._raw:
@@ -2622,9 +2629,15 @@ class PalInfoWidget(QFrame):
             cur = int(cur)
         except (TypeError, ValueError):
             cur = 1
-        val, ok = QInputDialog.getInt(self, 'Set Level', 'Level (1-80):', cur, 1, 80, 1)
-        if ok:
-            self._set_level(val)
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle('Set Level')
+        dlg.setLabelText('Level (1-80):')
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setIntRange(1, 80)
+        dlg.setIntValue(cur)
+        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        if dlg.exec() == QDialog.Accepted:
+            self._set_level(dlg.intValue())
 
     def _set_level(self, value):
         raw = self._raw
@@ -2655,9 +2668,15 @@ class PalInfoWidget(QFrame):
         mapping = {self.ivs_hp_lbl: ('Talent_HP', 0, 100), self.ivs_atk_lbl: ('Talent_Shot', 0, 100), self.ivs_def_lbl: ('Talent_Defense', 0, 100)}
         key, lo, hi = mapping.get(lbl, ('Talent_HP', 0, 100))
         cur = int(extract_value(self._raw, key, 0))
-        val, ok = QInputDialog.getInt(self, 'Set Talent', f'{key} (0-100):', cur, lo, hi, 1)
-        if ok:
-            self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': val}}
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle('Set Talent')
+        dlg.setLabelText(f'{key} (0-100):')
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setIntRange(lo, hi)
+        dlg.setIntValue(cur)
+        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        if dlg.exec() == QDialog.Accepted:
+            self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._refresh()
 
     def _on_soul_click(self, lbl):
@@ -2666,9 +2685,15 @@ class PalInfoWidget(QFrame):
         mapping = {self.soul_hp_lbl: ('Rank_HP', 0, 20), self.soul_atk_lbl: ('Rank_Attack', 0, 20), self.soul_def_lbl: ('Rank_Defence', 0, 20), self.soul_craft_lbl: ('Rank_CraftSpeed', 0, 20)}
         key, lo, hi = mapping.get(lbl, ('Rank_HP', 0, 20))
         cur = int(extract_value(self._raw, key, 0))
-        val, ok = QInputDialog.getInt(self, 'Set Soul', f'{key} (0-20):', cur, lo, hi, 1)
-        if ok:
-            self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': val}}
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle('Set Soul')
+        dlg.setLabelText(f'{key} (0-20):')
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setIntRange(lo, hi)
+        dlg.setIntValue(cur)
+        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        if dlg.exec() == QDialog.Accepted:
+            self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._refresh()
 
     def _on_active_skill_click(self, slot_idx):
@@ -2789,7 +2814,7 @@ class PalInfoWidget(QFrame):
                     else:
                         chosen = sel.text()
                 popup.hide()
-            lst.itemDoubleClicked.connect(on_select)
+            lst.itemClicked.connect(on_select)
             search.returnPressed.connect(on_select)
             while popup.isVisible():
                 QApplication.processEvents()

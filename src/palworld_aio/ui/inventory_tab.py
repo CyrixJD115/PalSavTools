@@ -877,6 +877,8 @@ class PlayerInventoryTab(QWidget):
         lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
         lst.setMaximumHeight(300)
         lst.setMinimumWidth(220)
+        clear_item = QListWidgetItem('-- clear --')
+        lst.addItem(clear_item)
         for player in self._player_list:
             item = QListWidgetItem(player['display'])
             item.setData(Qt.UserRole, player)
@@ -890,15 +892,23 @@ class PlayerInventoryTab(QWidget):
         def on_select():
             nonlocal chosen
             sel = lst.currentItem()
-            if sel and sel.data(Qt.UserRole):
-                chosen = sel.data(Qt.UserRole)
+            if sel:
+                if sel.text().startswith('--'):
+                    chosen = '__clear__'
+                elif sel.data(Qt.UserRole):
+                    chosen = sel.data(Qt.UserRole)
             popup.hide()
-        lst.itemDoubleClicked.connect(on_select)
+        lst.itemClicked.connect(on_select)
         search.returnPressed.connect(on_select)
         while popup.isVisible():
             QApplication.processEvents()
             QThread.msleep(5)
-        if chosen:
+        if chosen == '__clear__':
+            self._clear_display()
+            self.player_select_btn.setText(t('inventory.select_player', default='Select Player...'))
+            self.current_player_uid = None
+            self.current_player_name = None
+        elif chosen:
             self.current_player_uid = chosen['uid']
             self.current_player_name = chosen['name']
             self.player_select_btn.setText(chosen['display'])

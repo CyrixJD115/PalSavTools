@@ -1,10 +1,11 @@
 import os
+import math
 from palworld_save_tools import json_tools
 import uuid
 import threading
 from functools import partial
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter, QGraphicsOpacityEffect
-from PySide6.QtCore import Qt, QTimer, Signal, QPoint, QEvent, QSize, QRect
+from PySide6.QtCore import Qt, QTimer, Signal, QPoint, QPointF, QEvent, QSize, QRect
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtGui import QIcon, QFont, QPixmap, QRegion, QCursor, QPainter, QPainterPath, QPen, QBrush, QFontMetrics, QPalette, QColor, QShortcut, QKeySequence, QLinearGradient
 from i18n import t
@@ -1129,6 +1130,52 @@ class SkillSlotFrame(QFrame):
         painter.setBrush(QColor(30, 38, 50, 60))
         painter.drawPath(path)
 
+class GlowRing(QFrame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._phase = 0.0
+        self._awakened = False
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._animate)
+        self._timer.setInterval(33)
+        self.setStyleSheet('QFrame { background: transparent; border: none; }')
+    def set_awakened(self, awakened):
+        self._awakened = awakened
+        if awakened:
+            self._timer.start()
+        else:
+            self._timer.stop()
+        self.update()
+    def _animate(self):
+        self._phase = (self._phase + 0.06) % (2 * math.pi)
+        self.update()
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        w, h = self.width(), self.height()
+        cx, cy = w / 2.0, h / 2.0
+        radius = min(w, h) / 2.0 - 1.5
+        if self._awakened:
+            pulse = (math.sin(self._phase) + 1.0) / 2.0
+            for i in range(4, 0, -1):
+                r = radius + i * 0.8
+                alpha = int((28 + 30 * pulse) / i)
+                hue_shift = int(30 * pulse) - i * 5
+                red = min(255, 255)
+                green = min(255, max(0, 160 - hue_shift))
+                blue = min(255, max(0, 0))
+                painter.setPen(QPen(QColor(red, green, blue, alpha), 1.0 + i * 0.4))
+                painter.setBrush(Qt.NoBrush)
+                painter.drawEllipse(QPointF(cx, cy), r, r)
+            painter.setPen(QPen(QColor('#FFB800'), 2.2))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawEllipse(QPointF(cx, cy), radius, radius)
+        else:
+            painter.setPen(QPen(QColor(125, 211, 252, 115), 2))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawEllipse(QPointF(cx, cy), radius, radius)
+
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {
         'Normal': ('\u26AA', '#9CA3AF'), 'Fire': ('\U0001F525', '#EF4444'),
@@ -1190,7 +1237,7 @@ class PalInfoWidget(QFrame):
             if isinstance(eff, QGraphicsOpacityEffect):
                 eff.setOpacity(0.06)
             val_lbl.setText('')
-            val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
+            val_lbl.setStyleSheet('font-size: 8px; font-weight: 700; color: transparent; background: transparent; border: none;')
             val_badge.setStyleSheet('background: transparent; border: none;')
         gender_def = _get_ui_icon_pixmap('gender_female', 14)
         if gender_def:
@@ -1226,6 +1273,7 @@ class PalInfoWidget(QFrame):
         self.portrait_icon.clear()
         self.dna_overlay.hide()
         self.lock_overlay.hide()
+        self.portrait_ring.set_awakened(False)
     def _build(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -1366,15 +1414,13 @@ class PalInfoWidget(QFrame):
         bw_layout = QVBoxLayout(self.bracket_wrapper)
         bw_layout.setContentsMargins(2, 2, 2, 2)
         bw_layout.setAlignment(Qt.AlignCenter)
-        ring = QFrame()
-        ring.setFixedSize(88, 88)
-        ring.setObjectName('portraitRing')
-        ring.setStyleSheet('QFrame#portraitRing { background: transparent; border: 2px solid rgba(125,211,252,0.45); border-radius: 44px; }')
-        ring_layout = QVBoxLayout(ring)
+        self.portrait_ring = GlowRing()
+        self.portrait_ring.setFixedSize(88, 88)
+        ring_layout = QVBoxLayout(self.portrait_ring)
         ring_layout.setContentsMargins(0, 0, 0, 0)
         self.portrait_icon = _CircularIcon(80)
         ring_layout.addWidget(self.portrait_icon, 0, Qt.AlignCenter)
-        bw_layout.addWidget(ring, 0, Qt.AlignCenter)
+        bw_layout.addWidget(self.portrait_ring, 0, Qt.AlignCenter)
         self.dna_overlay = QLabel(self.bracket_wrapper)
         self.dna_overlay.setFixedSize(16, 16)
         self.dna_overlay.setAlignment(Qt.AlignCenter)
@@ -1529,7 +1575,7 @@ class PalInfoWidget(QFrame):
         self.work_icons_container.setStyleSheet('background: transparent; border: none;')
         self.work_icons_layout = QHBoxLayout(self.work_icons_container)
         self.work_icons_layout.setContentsMargins(0, 0, 0, 0)
-        self.work_icons_layout.setSpacing(1)
+        self.work_icons_layout.setSpacing(2)
         self.work_icon_labels = []
         self.work_icon_values = []
         ws_data = [
@@ -1545,17 +1591,17 @@ class PalInfoWidget(QFrame):
             wc = QWidget()
             wc.setObjectName('wsWidget')
             wc.setStyleSheet('background: transparent; border: none;')
-            wc.setFixedWidth(18)
+            wc.setFixedWidth(22)
             vl = QVBoxLayout(wc)
             vl.setContentsMargins(0, 0, 0, 0)
             vl.setSpacing(0)
             ic = QLabel()
             ic.setAlignment(Qt.AlignCenter)
-            ic.setFixedSize(16, 16)
+            ic.setFixedSize(20, 20)
             ic.setAttribute(Qt.WA_TranslucentBackground)
             ic.setStyleSheet('background: transparent; border: none;')
             palwork_key = self._WORK_SUITABILITY_ICON_KEYS[idx]
-            ws_pix = _get_ui_icon_pixmap(palwork_key, 14)
+            ws_pix = _get_ui_icon_pixmap(palwork_key, 16)
             if ws_pix:
                 ic.setPixmap(ws_pix)
                 opacity_effect = QGraphicsOpacityEffect()
@@ -1565,14 +1611,14 @@ class PalInfoWidget(QFrame):
             wl_badge = QFrame()
             wl_badge.setObjectName('wsBadge')
             wl_badge.setStyleSheet('background: transparent; border: none;')
-            wl_badge.setFixedHeight(12)
+            wl_badge.setFixedHeight(14)
             bd_layout = QVBoxLayout(wl_badge)
             bd_layout.setContentsMargins(2, 0, 2, 0)
             bd_layout.setAlignment(Qt.AlignCenter)
             wl = QLabel('')
             wl.setAlignment(Qt.AlignCenter)
-            wl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
-            wl.setFixedHeight(8)
+            wl.setStyleSheet('font-size: 8px; font-weight: 700; color: transparent; background: transparent; border: none;')
+            wl.setFixedHeight(10)
             bd_layout.addWidget(wl)
             vl.addWidget(wl_badge, 0, Qt.AlignCenter)
             self.work_icons_layout.addWidget(wc)
@@ -1837,7 +1883,7 @@ class PalInfoWidget(QFrame):
                     if isinstance(eff, QGraphicsOpacityEffect):
                         eff.setOpacity(1.0)
                     val_lbl.setText(str(ws_level))
-                    val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: #4ADE80; background: transparent; border: none;')
+                    val_lbl.setStyleSheet('font-size: 8px; font-weight: 700; color: #4ADE80; background: transparent; border: none;')
                     val_badge.setStyleSheet('background: rgba(0,0,0,0.45); border: 1px solid rgba(74,222,128,0.2); border-radius: 2px;')
                 else:
                     icon_lbl.setStyleSheet('background: transparent; border: none;')
@@ -1845,7 +1891,7 @@ class PalInfoWidget(QFrame):
                     if isinstance(eff, QGraphicsOpacityEffect):
                         eff.setOpacity(0.06)
                     val_lbl.setText('')
-                    val_lbl.setStyleSheet('font-size: 6px; font-weight: 700; color: transparent; background: transparent; border: none;')
+                    val_lbl.setStyleSheet('font-size: 8px; font-weight: 700; color: transparent; background: transparent; border: none;')
                     val_badge.setStyleSheet('background: transparent; border: none;')
             hunger_max = float(base_stomach) if base_stomach else 300.0
             hp_pct = int(min(hp_val / max_hp * 100, 100))
@@ -1888,10 +1934,12 @@ class PalInfoWidget(QFrame):
                 self.dna_overlay.show()
             else:
                 self.dna_overlay.hide()
+            is_awakening = extract_value(raw, 'bIsAwakening', False)
             if fav_idx and int(fav_idx) > 0:
                 self.lock_overlay.show()
             else:
                 self.lock_overlay.hide()
+            self.portrait_ring.set_awakened(bool(is_awakening))
             self.stat_plus_lbl.setText(f'+{level}')
             rank_raw = extract_value(raw, 'Rank', 1)
             rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1

@@ -149,6 +149,12 @@ QFrame#passiveWhite {
     border-radius: 4px;
     padding: 4px 8px;
 }
+QFrame#passiveRed {
+    background: rgba(255,60,60,0.12);
+    border: 1px solid rgba(255,60,60,0.35);
+    border-radius: 4px;
+    padding: 4px 8px;
+}
 '''
 
 def _load_pal_exp_table():
@@ -1743,23 +1749,19 @@ class PalInfoWidget(QFrame):
         pg_layout = QGridLayout(pg)
         pg_layout.setContentsMargins(0, 0, 0, 0)
         pg_layout.setSpacing(3)
-        passive_tiers = [
-            ('Runner', 'gold', 'rgba(139,105,20,0.25)'),
-            ('Swift', 'legendary', 'rgba(26,107,138,0.25)'),
-            ('Legend', 'legendary', 'rgba(26,107,138,0.25)'),
-            ('Surge of the World Tree', 'legendary', 'rgba(26,107,138,0.25)'),
-        ]
+        _, _, default_tc = PalFrame._RANK_COLORS[1]
+        default_bg = PalFrame._RANK_COLORS[1][0]
+        placeholder_names = ['Runner', 'Swift', 'Legend', 'Surge of the World Tree']
         self.passive_slots = []
-        for i, (pname, ptier, bg_fill) in enumerate(passive_tiers):
+        for i, pname in enumerate(placeholder_names):
             card = QFrame()
             card.setObjectName('passiveCard')
-            txt_color = '#FFD700' if ptier == 'gold' else '#7DD3FC'
-            card.setStyleSheet(f'QFrame#passiveCard {{ background: {bg_fill}; border: none; border-radius: 4px; }}')
+            card.setStyleSheet(f'QFrame#passiveCard {{ background: {default_bg}; border: none; border-radius: 4px; }}')
             card_layout = QHBoxLayout(card)
             card_layout.setContentsMargins(4, 2, 4, 2)
             card_layout.setSpacing(2)
             plbl = QLabel(pname)
-            plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {txt_color}; background: transparent; border: none;')
+            plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {default_tc}; background: transparent; border: none;')
             card_layout.addWidget(plbl, 1)
             chev = QLabel('\u276f\u276f\u276f')
             chev.setStyleSheet(f'font-size: 6px; color: rgba(255,255,255,0.15); background: transparent; border: none; letter-spacing: -1px;')
@@ -2020,12 +2022,6 @@ class PalInfoWidget(QFrame):
                 p_list = p_skills
             else:
                 p_list = []
-            passive_tiers = [
-                ('Runner', 'gold', 'qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', 'rgba(255,215,0,0.5)', '#FFD700'),
-                ('Swift', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)', '#7DD3FC'),
-                ('Legend', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)', '#7DD3FC'),
-                ('Surge of the World Tree', 'legendary', 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)', '#7DD3FC'),
-            ]
             for i in range(4):
                 display_name = '--'
                 tc = 'rgba(255,255,255,0.3)'
@@ -2034,22 +2030,7 @@ class PalInfoWidget(QFrame):
                 if i < len(p_list) and p_list[i]:
                     p_clean = p_list[i].lower()
                     display_name = PalFrame._PASSMAP.get(p_clean, p_list[i])
-                    for pname, ptier, pgrad, pbord, ptxt in passive_tiers:
-                        if pname.lower() in display_name.lower() or pname.split()[-1].lower() in display_name.lower():
-                            bg = pgrad
-                            bd = pbord
-                            tc = ptxt
-                            break
-                    if bg == 'rgba(255,255,255,0.03)':
-                        tname = display_name.lower()
-                        if 'legend' in tname or 'lord' in tname or 'emperor' in tname or 'soul' in tname or 'spirit' in tname:
-                            bg = 'qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)'
-                            bd = 'rgba(125,211,252,0.5)'
-                            tc = '#7DD3FC'
-                        elif 'ferocious' in tname or 'musclehead' in tname or 'burly' in tname:
-                            bg = 'qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)'
-                            bd = 'rgba(255,215,0,0.5)'
-                            tc = '#FFD700'
+                    bg, bd, tc = PalFrame._passive_rank_color(p_clean)
                 self.passive_slots[i].setText(display_name)
                 self.passive_slots[i].setStyleSheet(f'font-size: 9px; font-weight: 700; color: {tc}; background: transparent; border: none;')
                 parent_frame = self.passive_slots[i].parentWidget()
@@ -2725,7 +2706,24 @@ class PalFrame(QFrame):
     _maps_loaded = False
     _NAMEMAP = {}
     _PASSMAP = {}
+    _PASSRANK = {}
     _SKILLMAP = {}
+    _RANK_COLORS = {
+        -99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', 'rgba(255,80,80,0.5)', '#FF5555'),
+        1: ('rgba(255,255,255,0.03)', 'rgba(255,255,255,0.08)', 'rgba(255,255,255,0.35)'),
+        2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', 'rgba(255,215,0,0.5)', '#FFD700'),
+        4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)', '#7DD3FC'),
+    }
+    @classmethod
+    def _passive_rank_color(cls, asset_lower):
+        rank = cls._PASSRANK.get(asset_lower, 1)
+        if rank <= 0:
+            return cls._RANK_COLORS[-99]
+        if rank >= 4:
+            return cls._RANK_COLORS[4]
+        if rank >= 2:
+            return cls._RANK_COLORS[2]
+        return cls._RANK_COLORS[1]
     _maps_loaded_lock = threading.Lock()
     @classmethod
     def _load_maps(cls):
@@ -2756,6 +2754,16 @@ class PalFrame(QFrame):
         PALMAP = load_map('paldata.json', 'pals')
         NPCMAP = load_map('npcdata.json', 'npcs')
         cls._NAMEMAP = {**PALMAP, **NPCMAP}
+        try:
+            fp = os.path.join(base_dir, 'resources', 'game_data', 'passivedata.json')
+            js = json_tools.load(fp)
+            if isinstance(js, dict):
+                data = js.get('passives', [])
+                for x in data:
+                    if isinstance(x, dict) and 'asset' in x and 'rank' in x:
+                        cls._PASSRANK[x['asset'].lower()] = x['rank']
+        except Exception:
+            pass
         skill_exclusions = ['unknown skills', 'unknown skill', 'en_text', 'en text']
         cls._SKILLMAP = {k: v for k, v in cls._SKILLMAP.items() if not any((exc in v.lower() for exc in skill_exclusions))}
         cls._PASSMAP = {k: v for k, v in cls._PASSMAP.items() if not any((exc in v.lower() for exc in skill_exclusions))}

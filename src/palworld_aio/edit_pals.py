@@ -705,10 +705,39 @@ class PalboxSlotWidget(QFrame):
         self.slot_index = slot_index
         self.selected = False
         self.setObjectName('palboxSlot')
-        self.setFixedSize(56, 56)
+        self.setMinimumSize(56, 56)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setCursor(Qt.PointingHandCursor)
         self.setMouseTracking(True)
+        self._children = []
         self._build()
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if not hasattr(self, '_children'):
+            return
+        w, h = self.width(), self.height()
+        for c in self._children:
+            try:
+                kind = c._slot_child_kind
+                cw, ch = (c.width(), c.height())
+                if kind == 'icon':
+                    c.move((w - cw) // 2, (h - ch) // 2)
+                elif kind == 'boss':
+                    c.move(2, 2)
+                elif kind == 'element0':
+                    c.move(w - cw - 2, 2)
+                elif kind == 'element1':
+                    c.move(w - cw - 2, 12)
+                elif kind == 'dna':
+                    c.move(2, h - ch - 2)
+                elif kind == 'lock':
+                    c.move((w - cw) // 2, 1)
+                elif kind == 'level':
+                    c.move((w - cw) // 2, h - ch - 3)
+                elif kind == 'awake':
+                    c.move(w - cw - 2, h - ch - 2)
+            except Exception:
+                pass
     def enterEvent(self, event):
         self.entered.emit()
         super().enterEvent(event)
@@ -743,11 +772,9 @@ class PalboxSlotWidget(QFrame):
         except Exception:
             return None
     def _build(self):
-        old_layout = self.layout()
-        if old_layout:
-            QWidget().setLayout(old_layout)
-        for child in self.findChildren(QWidget):
-            child.deleteLater()
+        for c in list(self._children):
+            c.deleteLater()
+        self._children = []
         raw = self._get_raw()
         if not raw or not isinstance(raw, dict):
             return
@@ -764,9 +791,10 @@ class PalboxSlotWidget(QFrame):
         if pix:
             icon_lbl.setPixmap(pix)
         icon_lbl.setStyleSheet('background: transparent; border: none;')
-        icon_lbl.move(9, 4)
         icon_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+        icon_lbl._slot_child_kind = 'icon'
         icon_lbl.show()
+        self._children.append(icon_lbl)
         base_el_data = get_pal_base_data(cid)
         if base_el_data:
             els = list(base_el_data.get('elements', {}))
@@ -779,14 +807,16 @@ class PalboxSlotWidget(QFrame):
                     eb.setPixmap(ep)
                     eb.setStyleSheet('background: transparent; border: none;')
                     eb.setAttribute(Qt.WA_TransparentForMouseEvents)
-                    eb.move(44, 2 + ei * 10)
+                    eb._slot_child_kind = f'element{ei}'
                     eb.show()
+                    self._children.append(eb)
         level_lbl = StrokedLabel(f'{level}', self)
         level_lbl.setStyleSheet('color: #7DD3FC; font-size: 8px; font-weight: bold; background: rgba(0,0,0,0.7); border: 1px solid rgba(125,211,252,0.25); border-radius: 3px; padding: 0 3px;')
         level_lbl.setFixedSize(18, 11)
-        level_lbl.move(19, 43)
         level_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+        level_lbl._slot_child_kind = 'level'
         level_lbl.show()
+        self._children.append(level_lbl)
         if is_boss:
             boss_pix = _get_boss_alpha_pixmap(14)
             if boss_pix:
@@ -795,9 +825,10 @@ class PalboxSlotWidget(QFrame):
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')
-                badge.move(3, 3)
                 badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                badge._slot_child_kind = 'boss'
                 badge.show()
+                self._children.append(badge)
         elif is_lucky:
             shiny_pix = _get_boss_shiny_pixmap(14)
             if shiny_pix:
@@ -806,17 +837,19 @@ class PalboxSlotWidget(QFrame):
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')
-                badge.move(3, 3)
                 badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                badge._slot_child_kind = 'boss'
                 badge.show()
+                self._children.append(badge)
         if is_awake:
             awake_badge = QLabel('🔥', self)
             awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
             awake_badge.setFixedSize(12, 12)
             awake_badge.setAlignment(Qt.AlignCenter)
-            awake_badge.move(42, 40)
             awake_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            awake_badge._slot_child_kind = 'awake'
             awake_badge.show()
+            self._children.append(awake_badge)
         is_imported = extract_value(raw, 'bImportedCharacter', False)
         if is_imported:
             dna_pix = _get_ui_icon_pixmap('dna', 12)
@@ -827,8 +860,9 @@ class PalboxSlotWidget(QFrame):
                 dna_badge.setAlignment(Qt.AlignCenter)
                 dna_badge.setAttribute(Qt.WA_TranslucentBackground)
                 dna_badge.setStyleSheet('background: transparent; border: none;')
-                dna_badge.move(3, 38)
+                dna_badge._slot_child_kind = 'dna'
                 dna_badge.show()
+                self._children.append(dna_badge)
         fav_idx = extract_value(raw, 'FavoriteIndex', 0)
         if fav_idx and int(fav_idx) > 0:
             lock_key = f'lock_{int(fav_idx)}'
@@ -843,12 +877,14 @@ class PalboxSlotWidget(QFrame):
                 lock_badge.setPixmap(lock_pix)
                 lock_badge.setFixedSize(14, 14)
                 lock_badge.setStyleSheet('background: transparent; border: none;')
-            lock_badge.move(21, 1)
             lock_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            lock_badge._slot_child_kind = 'lock'
             lock_badge.show()
+            self._children.append(lock_badge)
         pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
         self.setToolTip(f'{pal_name} [Lv.{level}]')
         self.setStyleSheet('QFrame#palboxSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#palboxSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
+        self.resizeEvent(None)
     def set_selected(self, selected):
         self.selected = selected
         if selected:
@@ -2940,23 +2976,22 @@ class PalEditorWidget(QWidget):
         header_row.addWidget(self.next_box_btn)
         palbox_layout.addLayout(header_row)
         self.grid_scroll = QScrollArea()
-        self.grid_scroll.setWidgetResizable(False)
+        self.grid_scroll.setWidgetResizable(True)
         self.grid_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.grid_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.grid_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.grid_scroll.setStyleSheet('QScrollArea { background: transparent; border: none; } QScrollBar:vertical { width: 6px; background: rgba(255,255,255,0.03); border-radius: 3px; } QScrollBar::handle:vertical { background: rgba(125,211,252,0.2); border-radius: 3px; min-height: 20px; } QScrollBar::handle:vertical:hover { background: rgba(125,211,252,0.4); } QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }')
         self.grid_scroll.viewport().installEventFilter(self)
         grid_container = QWidget()
-        grid_container.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        grid_container.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.grid_layout = QGridLayout(grid_container)
         self.grid_layout.setHorizontalSpacing(2)
-        self.grid_layout.setVerticalSpacing(30)
-        self.grid_layout.setContentsMargins(0, 0, 0, 30)
+        self.grid_layout.setVerticalSpacing(4)
+        self.grid_layout.setContentsMargins(0, 0, 0, 0)
         self.palbox_slots = []
         for row in range(5):
-            self.grid_layout.setRowStretch(row, 0)
+            self.grid_layout.setRowStretch(row, 1)
             for col in range(6):
-                if row == 0:
-                    self.grid_layout.setColumnStretch(col, 0)
+                self.grid_layout.setColumnStretch(col, 1)
                 idx = row * 6 + col
                 slot = PalboxSlotWidget(None, idx)
                 slot.clicked.connect(partial(self._on_palbox_slot_clicked, idx))

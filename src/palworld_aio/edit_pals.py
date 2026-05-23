@@ -4,9 +4,8 @@ from palworld_save_tools import json_tools
 import uuid
 import threading
 from functools import partial
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter, QGraphicsOpacityEffect, QMenu
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter, QGraphicsOpacityEffect, QMenu, QStyledItemDelegate, QSizePolicy, QStyle
 from PySide6.QtCore import Qt, QTimer, Signal, QPoint, QPointF, QEvent, QSize, QRect, QRectF, QThread
-from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtGui import QIcon, QFont, QPixmap, QRegion, QCursor, QPainter, QPainterPath, QPen, QBrush, QFontMetrics, QPalette, QColor, QShortcut, QKeySequence, QLinearGradient
 from i18n import t
 from loading_manager import show_information, show_warning, show_question
@@ -1431,6 +1430,93 @@ class PassiveEffectOverlay(QWidget):
             painter.fillRect(QRectF(0, 0, w, h), grad)
         painter.end()
 
+_anim_phase = 0.0
+
+class _PassiveSkillDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        painter.save()
+        painter.setRenderHint(QPainter.Antialiasing)
+        rect = option.rect
+        rank = index.data(Qt.UserRole + 1)
+        if rank is None:
+            super().paint(painter, option, index)
+            painter.restore()
+            return
+        tc = index.data(Qt.UserRole + 3) or '#FFFFFF'
+        bd = index.data(Qt.UserRole + 4) or '#FFFFFFFF'
+        border = QColor(bd)
+        text_color = QColor(tc)
+        selected = option.state & QStyle.State_Selected
+        if selected:
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(QColor(59, 142, 208, 89)))
+            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
+        else:
+            fill = QColor(bd)
+            color_a = fill.darker(250)
+            color_a.setAlpha(min(255, fill.alpha()))
+            color_b = QColor(fill.red(), fill.green(), fill.blue(), min(255, fill.alpha() + 60))
+            grad = QLinearGradient(rect.x(), 0, rect.x() + rect.width(), 0)
+            grad.setColorAt(0, color_a)
+            grad.setColorAt(0.5, color_b)
+            grad.setColorAt(1, color_a)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(grad))
+            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
+            border_pen = QPen(border)
+            border_pen.setWidthF(1.5)
+            painter.setPen(border_pen)
+            painter.setBrush(Qt.NoBrush)
+            painter.drawRoundedRect(QRectF(rect).adjusted(1, 2, -1, -2), 4, 4)
+            if rank >= 4:
+                is_wt = index.data(Qt.UserRole + 2)
+                if is_wt:
+                    self._paint_world_tree(painter, rect)
+                else:
+                    self._paint_legend_sweep(painter, rect)
+        painter.setPen(QPen(text_color))
+        text_rect = QRectF(rect.x() + 8, rect.y(), rect.width() - 12, rect.height())
+        painter.drawText(text_rect, Qt.AlignVCenter | Qt.AlignLeft, index.data(Qt.DisplayRole))
+        painter.restore()
+    def _paint_legend_sweep(self, painter, rect):
+        w = rect.width()
+        ph = (_anim_phase * 1.04 * w) % (w * 1.4) - w * 0.2
+        sweep = QLinearGradient(rect.x() + ph, 0, rect.x() + ph + w * 0.35, 0)
+        sweep.setColorAt(0, QColor(125, 211, 252, 0))
+        sweep.setColorAt(0.5, QColor(125, 211, 252, 40))
+        sweep.setColorAt(1, QColor(125, 211, 252, 0))
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QBrush(sweep))
+        painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
+    def _paint_world_tree(self, painter, rect):
+        w, h = rect.width(), rect.height()
+        cols = 9
+        col_w = w / cols
+        trail_h = h * 0.55
+        cycle = h + trail_h
+        speed = h * 0.7
+        for c in range(cols):
+            cx = rect.x() + c * col_w + 1
+            head_y = (_anim_phase * speed + c * h * 0.12) % cycle
+            for i in range(6):
+                y = head_y - i * 3.0
+                if y < 0:
+                    y += cycle
+                yy = rect.y() + y
+                if rect.y() <= yy < rect.y() + h:
+                    alpha = max(0, 140 - i * 25)
+                    painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(168, 85, 247, alpha))
+            for i in range(2):
+                y = head_y + i * 2.5
+                if y >= cycle:
+                    y -= cycle
+                yy = rect.y() + y
+                if rect.y() <= yy < rect.y() + h:
+                    alpha = 160 - i * 80
+                    painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(192, 132, 252, alpha))
+    def sizeHint(self, option, index):
+        return QSize(200, 28)
+
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {
         'Normal': ('\u26AA', '#9CA3AF'), 'Fire': ('\U0001F525', '#EF4444'),
@@ -2649,10 +2735,18 @@ class PalInfoWidget(QFrame):
                             asset = a
                             break
                     if asset:
+                        rank = PalFrame._PASSRANK.get(asset.lower(), 1)
+                        item.setData(Qt.UserRole, asset.lower())
+                        item.setData(Qt.UserRole + 1, rank)
+                        is_wt = 'world' in name.lower() and 'tree' in name.lower()
+                        item.setData(Qt.UserRole + 2, is_wt)
                         bg, bd, tc = PalFrame._passive_rank_color(asset.lower())
+                        item.setData(Qt.UserRole + 3, tc)
+                        item.setData(Qt.UserRole + 4, bd)
                         item.setForeground(QColor(tc))
-                        item.setBackground(QColor(bd).darker(300))
                 lst.addItem(item)
+            if not is_active:
+                lst.setItemDelegate(_PassiveSkillDelegate(lst))
             cur_data = self._raw.get('EquipWaza' if is_active else 'PassiveSkillList', {})
             cur_list = cur_data.get('value', {}).get('values', []) if isinstance(cur_data, dict) else (cur_data if isinstance(cur_data, list) else [])
             cur_val = cur_list[slot_idx] if slot_idx < len(cur_list) else ''
@@ -2675,6 +2769,15 @@ class PalInfoWidget(QFrame):
             layout.addWidget(lst)
             popup.move(QCursor.pos())
             popup.show()
+            search.setFocus()
+            if not is_active:
+                anim_timer = QTimer(popup)
+                def _tick_anim():
+                    global _anim_phase
+                    _anim_phase = (_anim_phase + 0.03) % 10000.0
+                    lst.viewport().update()
+                anim_timer.timeout.connect(_tick_anim)
+                anim_timer.start(33)
             chosen = None
             def on_select():
                 nonlocal chosen
@@ -2691,6 +2794,8 @@ class PalInfoWidget(QFrame):
             while popup.isVisible():
                 QApplication.processEvents()
                 QThread.msleep(5)
+            if not is_active:
+                anim_timer.stop()
             self._popup = None
             if not chosen:
                 return
@@ -3575,10 +3680,10 @@ class PalFrame(QFrame):
     _PASSRANK = {}
     _SKILLMAP = {}
     _RANK_COLORS = {
-        -99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', 'rgba(255,80,80,0.5)', '#FF5555'),
-        1: ('rgba(255,255,255,0.03)', 'rgba(255,255,255,0.08)', 'rgba(255,255,255,0.35)'),
-        2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', 'rgba(255,215,0,0.5)', '#FFD700'),
-        4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', 'rgba(125,211,252,0.5)', '#7DD3FC'),
+        -99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', '#7FFF5050', '#FF5555'),
+        1: ('rgba(255,255,255,0.12)', '#7FFFFFFF', '#FFFFFF'),
+        2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', '#7FFFD700', '#FFD700'),
+        4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC'),
     }
     @classmethod
     def _passive_rank_color(cls, asset_lower):

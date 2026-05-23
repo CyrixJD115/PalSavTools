@@ -1,7 +1,7 @@
 import os
 import json
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QScrollArea, QLabel, QPushButton, QFrame, QDialog, QLineEdit, QListWidget, QListWidgetItem, QSpinBox, QMessageBox, QTabWidget, QSizePolicy, QAbstractItemView, QMenu, QToolTip, QListView, QProgressBar, QComboBox, QApplication
-from PySide6.QtCore import Qt, QSize, Signal, QPoint, QTimer
+from PySide6.QtCore import Qt, QSize, Signal, QPoint, QTimer, QThread
 from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
 from i18n import t
@@ -9,7 +9,6 @@ DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:
 STATS_PANEL_STYLE = '\nStatsPanelWidget {\n    background: rgba(18,20,24,0.95);\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 8px;\n}\nStatsPanelWidget QLabel {\n    color: #e2e8f0;\n}\nStatsPanelWidget QLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 4px;\n    padding: 2px 4px;\n}\nStatsPanelWidget QLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nStatsPanelWidget QPushButton {\n    background: rgba(125,211,252,0.1);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 3px;\n    font-weight: bold;\n}\nStatsPanelWidget QPushButton:hover {\n    background: rgba(125,211,252,0.2);\n}\nStatsPanelWidget QProgressBar {\n    background: rgba(255,255,255,0.05);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 3px;\n}\nStatsPanelWidget QProgressBar::chunk {\n    background: rgba(34,197,94,0.6);\n    border-radius: 2px;\n}\n'
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, search_items, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
 from palworld_aio import constants
-from palworld_aio.ui.styled_combo import StyledCombo
 GRID_COLS = 6
 GRID_ROWS = 9
 SLOT_SIZE = 56
@@ -667,19 +666,18 @@ class PlayerInventoryTab(QWidget):
         self.title_label.setObjectName('sectionHeader')
         header.addWidget(self.title_label)
         header.addStretch()
-        player_selector_layout = QHBoxLayout()
-        player_selector_layout.setContentsMargins(0, 0, 0, 0)
-        player_selector_layout.setSpacing(0)
-        self.player_search = QLineEdit()
-        self.player_search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
-        self.player_search.setFixedWidth(120)
-        self.player_search.textChanged.connect(self._filter_player_list)
-        player_selector_layout.addWidget(self.player_search)
-        self.player_combo = StyledCombo()
-        self.player_combo.setFixedWidth(180)
-        self.player_combo.currentIndexChanged.connect(self._on_player_selected)
-        player_selector_layout.addWidget(self.player_combo)
-        header.addLayout(player_selector_layout)
+        self.player_select_btn = QPushButton(t('inventory.select_player', default='Select Player...'))
+        self.player_select_btn.setFixedWidth(220)
+        self.player_select_btn.setStyleSheet('''
+            QPushButton {
+                background: rgba(255,255,255,0.06); color: #e2e8f0;
+                border: 1px solid rgba(125,211,252,0.2); border-radius: 4px;
+                padding: 4px 8px; font-size: 12px; text-align: left;
+            }
+            QPushButton:hover { background: rgba(59,142,208,0.2); }
+        ''')
+        self.player_select_btn.clicked.connect(self._open_player_popup)
+        header.addWidget(self.player_select_btn)
         main_layout.addLayout(header)
         self.content_area = QFrame()
         self.content_area.setObjectName('inventoryContent')
@@ -853,9 +851,6 @@ class PlayerInventoryTab(QWidget):
         self._save_stats_to_raw_data()
         self._update_player_dropdown_level()
     def refresh_players(self):
-        self.player_combo.blockSignals(True)
-        self.player_combo.clear()
-        self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
         self._player_list = []
         self.current_player_uid = None
         self.current_player_name = None
@@ -864,36 +859,49 @@ class PlayerInventoryTab(QWidget):
             players = save_manager.get_players()
             for uid, name, gid, lastseen, level in players:
                 display_name = f'{name} (Lv.{level})'
-                self.player_combo.addItem(display_name, uid)
                 self._player_list.append({'uid': uid, 'name': name, 'level': level, 'display': display_name})
-        self.player_combo.blockSignals(False)
-    def _filter_player_list(self, query: str):
-        if not query:
-            self.player_combo.blockSignals(True)
-            self.player_combo.clear()
-            self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
-            for player in self._player_list:
-                self.player_combo.addItem(player['display'], player['uid'])
-            self.player_combo.blockSignals(False)
-            return
-        query_lower = query.lower()
-        self.player_combo.blockSignals(True)
-        self.player_combo.clear()
-        self.player_combo.addItem(t('inventory.select_player', default='Select Player...'), None)
+    def _open_player_popup(self):
+        if not self._player_list:
+            self.refresh_players()
+        popup = QWidget()
+        popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
+        popup.setStyleSheet('QWidget { background: rgba(18,20,24,0.98); border: 1px solid rgba(125,211,252,0.2); border-radius: 8px; }')
+        layout = QVBoxLayout(popup)
+        layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
+        search = QLineEdit()
+        search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
+        search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+        layout.addWidget(search)
+        lst = QListWidget()
+        lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
+        lst.setMaximumHeight(300)
+        lst.setMinimumWidth(220)
         for player in self._player_list:
-            if query_lower in player['name'].lower() or query_lower in player['uid'].lower():
-                self.player_combo.addItem(player['display'], player['uid'])
-        self.player_combo.blockSignals(False)
-    def _on_player_selected(self, index):
-        if index <= 0:
-            self.current_player_uid = None
-            self.current_player_name = None
-            self._clear_display()
-            return
-        uid = self.player_combo.currentData()
-        if uid:
-            self.current_player_uid = uid
-            self.current_player_name = self.player_combo.currentText()
+            item = QListWidgetItem(player['display'])
+            item.setData(Qt.UserRole, player)
+            lst.addItem(item)
+        search.textChanged.connect(lambda t, l=lst: [l.item(i).setHidden(t.lower() not in l.item(i).text().lower()) for i in range(l.count())])
+        layout.addWidget(lst)
+        popup.move(QCursor.pos())
+        popup.show()
+        search.setFocus()
+        chosen = None
+        def on_select():
+            nonlocal chosen
+            sel = lst.currentItem()
+            if sel and sel.data(Qt.UserRole):
+                chosen = sel.data(Qt.UserRole)
+            popup.hide()
+        lst.itemDoubleClicked.connect(on_select)
+        search.returnPressed.connect(on_select)
+        while popup.isVisible():
+            QApplication.processEvents()
+            QThread.msleep(5)
+        if chosen:
+            self.current_player_uid = chosen['uid']
+            self.current_player_name = chosen['name']
+            self.player_select_btn.setText(chosen['display'])
             self.modified = False
             self._show_inventory()
             self.inventory = get_player_inventory(self.current_player_uid)
@@ -1306,16 +1314,8 @@ class PlayerInventoryTab(QWidget):
             if player['uid'] == self.current_player_uid:
                 player['level'] = new_level
                 player['display'] = f"{player['name']} (Lv.{new_level})"
+                self.player_select_btn.setText(player['display'])
                 break
-        self.player_combo.blockSignals(True)
-        for i in range(self.player_combo.count()):
-            if self.player_combo.itemData(i) == self.current_player_uid:
-                for player in self._player_list:
-                    if player['uid'] == self.current_player_uid:
-                        self.player_combo.setItemText(i, player['display'])
-                        break
-                break
-        self.player_combo.blockSignals(False)
     def _save_stats_to_raw_data(self):
         if not self.current_player_uid or not constants.loaded_level_json:
             return
@@ -1409,12 +1409,13 @@ class PlayerInventoryTab(QWidget):
         QMessageBox.information(self, t('success.title', default='Success'), t('inventory.save_success', default='Inventory saved to memory. Use "Save Changes" in the File menu to write to disk.'))
     def load_player(self, uid: str, name: str=None):
         self.refresh_players()
-        for i in range(self.player_combo.count()):
-            if self.player_combo.itemData(i) == uid:
-                self.player_combo.setCurrentIndex(i)
-                break
         self.current_player_uid = uid
         self.current_player_name = name or uid
+        for player in self._player_list:
+            if player['uid'] == uid:
+                self.player_select_btn.setText(player['display'])
+                break
+        self._show_inventory()
         self.modified = False
         self.inventory = get_player_inventory(self.current_player_uid)
         self._refresh_display()
@@ -1426,7 +1427,8 @@ class PlayerInventoryTab(QWidget):
         self.inv_tabs.setTabText(0, t('inventory.main', default='Inventory'))
         self.inv_tabs.setTabText(1, t('inventory.key_items', default='Key Items'))
         self.inv_tabs.setTabText(2, t('inventory.stats', default='Stats'))
-        self.player_search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
+        if not self.current_player_uid:
+            self.player_select_btn.setText(t('inventory.select_player', default='Select Player...'))
         self.equip_title.setText(t('inventory.equipment', default='Equipment'))
         equip_label_keys = ['weapon', 'accessory', 'food', 'head', 'body', 'shield', 'glider', 'module']
         for key in equip_label_keys:

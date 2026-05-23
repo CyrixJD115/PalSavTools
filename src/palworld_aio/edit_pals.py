@@ -1202,18 +1202,28 @@ class PalInfoWidget(QFrame):
         self._build()
     def set_hover_pal(self, pal_data):
         self._hovered_data = pal_data
+        self._update_stack_state()
         if pal_data is not None:
             self._update_display(pal_data)
     def set_clicked_pal(self, pal_data):
         self.last_clicked_data = pal_data
+        self._update_stack_state()
         if pal_data is not None:
             self._update_display(pal_data)
     def clear_hover(self):
         self._hovered_data = None
+        self._update_stack_state()
         if self.last_clicked_data is not None:
             self._update_display(self.last_clicked_data)
         else:
             self._clear_display()
+    def _update_stack_state(self):
+        if self._hovered_data is None and self.last_clicked_data is None:
+            self._no_data_overlay.show()
+            self._data_scroll.hide()
+        else:
+            self._no_data_overlay.hide()
+            self._data_scroll.show()
     def _clear_display(self):
         self.name_lbl.setText('--')
         self.level_num_lbl.setText('--')
@@ -1279,6 +1289,7 @@ class PalInfoWidget(QFrame):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         scroll = QScrollArea()
+        self._data_scroll = scroll
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -1307,9 +1318,18 @@ class PalInfoWidget(QFrame):
         self._build_skills(inner_layout)
         scroll.setWidget(inner)
         layout.addWidget(scroll)
+        self._no_data_overlay = QLabel('No Pal Data', self)
+        self._no_data_overlay.setAlignment(Qt.AlignCenter)
+        self._no_data_overlay.setStyleSheet('font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.18); background: rgba(8,10,16,0.98); border: 1px solid rgba(30,40,55,0.9); border-radius: 6px;')
+        self._no_data_overlay.show()
+        scroll.hide()
         self._c_shortcut = QShortcut(QKeySequence(Qt.Key_C), self)
         self._c_shortcut.activated.connect(self._toggle_skills_view)
         self._showing_active_skills = True
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, '_no_data_overlay'):
+            self._no_data_overlay.setGeometry(self.rect())
     def _toggle_skills_view(self):
         self._showing_active_skills = not self._showing_active_skills
         self.partner_frame.setVisible(not self._showing_active_skills)

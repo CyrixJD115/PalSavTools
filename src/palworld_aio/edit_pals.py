@@ -12,150 +12,7 @@ from loading_manager import show_information, show_warning, show_question
 import nerdfont as nf
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, extract_value, format_character_key, json_to_sav, calculate_max_hp, get_pal_data, safe_dict_get, safe_nested_get, resolve_name
-
-_PAL_STYLESHEET = '''
-QWidget#palRoot {
-    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:1,
-        stop:0 rgba(8,10,16,0.98),stop:0.5 rgba(6,12,20,0.98),stop:1 rgba(4,8,16,0.98));
-}
-QWidget#partyPanel {
-    background: rgba(12,16,24,0.85);
-    border: 1px solid rgba(125,211,252,0.15);
-    border-radius: 8px;
-}
-QWidget#partyPanel QLabel {
-    color: #C8D8E8;
-}
-QWidget#palboxPanel {
-    background: rgba(12,16,24,0.85);
-    border: 1px solid rgba(125,211,252,0.15);
-    border-radius: 8px;
-}
-QWidget#palInfoPanel {
-    background: rgba(12,16,24,0.85);
-    border: 1px solid rgba(125,211,252,0.15);
-    border-radius: 8px;
-}
-QWidget#palInfoPanel QLabel {
-    color: #C8D8E8;
-}
-QLabel#boxHeader {
-    font-size: 18px;
-    font-weight: 700;
-    color: #7DD3FC;
-    padding: 4px 8px;
-    background: rgba(125,211,252,0.06);
-    border-radius: 4px;
-}
-QPushButton#navBtn {
-    background: rgba(125,211,252,0.08);
-    color: #7DD3FC;
-    border: 1px solid rgba(125,211,252,0.2);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    min-width: 32px;
-}
-QPushButton#navBtn:hover {
-    background: rgba(125,211,252,0.18);
-    border-color: rgba(125,211,252,0.4);
-    color: #FFFFFF;
-}
-QPushButton#navBtn:pressed {
-    background: rgba(125,211,252,0.1);
-}
-QPushButton#searchBtn {
-    background: rgba(167,139,250,0.12);
-    color: #A78BFA;
-    border: 1px solid rgba(167,139,250,0.2);
-    border-radius: 6px;
-    padding: 6px 16px;
-    font-size: 12px;
-    font-weight: 600;
-}
-QPushButton#searchBtn:hover {
-    background: rgba(167,139,250,0.22);
-    border-color: rgba(167,139,250,0.4);
-    color: #FFFFFF;
-}
-QPushButton#sortBtn {
-    background: rgba(245,158,11,0.12);
-    color: #F59E0B;
-    border: 1px solid rgba(245,158,11,0.2);
-    border-radius: 6px;
-    padding: 6px 16px;
-    font-size: 12px;
-    font-weight: 600;
-}
-QPushButton#sortBtn:hover {
-    background: rgba(245,158,11,0.22);
-    border-color: rgba(245,158,11,0.4);
-    color: #FFFFFF;
-}
-QLabel#palNameBig {
-    font-size: 20px;
-    font-weight: 700;
-    color: #FFFFFF;
-}
-QLabel#levelBanner {
-    font-size: 14px;
-    font-weight: 700;
-    color: #7DD3FC;
-    background: rgba(125,211,252,0.1);
-    border: 1px solid rgba(125,211,252,0.2);
-    border-radius: 4px;
-    padding: 4px 12px;
-}
-QLabel#statLabel {
-    font-size: 11px;
-    color: #9CA3AF;
-    font-weight: 500;
-}
-QLabel#statValue {
-    font-size: 13px;
-    color: #E2E8F0;
-    font-weight: 600;
-}
-QLabel#sectionTitle {
-    font-size: 12px;
-    font-weight: 600;
-    color: #7DD3FC;
-    padding-bottom: 2px;
-    border-bottom: 1px solid rgba(125,211,252,0.15);
-}
-QFrame#passiveGold {
-    background: rgba(255,215,0,0.12);
-    border: 1px solid rgba(255,215,0,0.35);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-QFrame#passiveBlue {
-    background: rgba(59,130,246,0.12);
-    border: 1px solid rgba(59,130,246,0.35);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-QFrame#passiveGreen {
-    background: rgba(34,197,94,0.12);
-    border: 1px solid rgba(34,197,94,0.35);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-QFrame#passiveWhite {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-QFrame#passiveRed {
-    background: rgba(255,60,60,0.12);
-    border: 1px solid rgba(255,60,60,0.35);
-    border-radius: 4px;
-    padding: 4px 8px;
-}
-'''
-
+_PAL_STYLESHEET = '\nQWidget#palRoot {\n    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:1,\n        stop:0 rgba(8,10,16,0.98),stop:0.5 rgba(6,12,20,0.98),stop:1 rgba(4,8,16,0.98));\n}\nQWidget#partyPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#partyPanel QLabel {\n    color: #C8D8E8;\n}\nQWidget#palboxPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel QLabel {\n    color: #C8D8E8;\n}\nQLabel#boxHeader {\n    font-size: 18px;\n    font-weight: 700;\n    color: #7DD3FC;\n    padding: 4px 8px;\n    background: rgba(125,211,252,0.06);\n    border-radius: 4px;\n}\nQPushButton#navBtn {\n    background: rgba(125,211,252,0.08);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 14px;\n    font-size: 14px;\n    font-weight: 600;\n    min-width: 32px;\n}\nQPushButton#navBtn:hover {\n    background: rgba(125,211,252,0.18);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton#navBtn:pressed {\n    background: rgba(125,211,252,0.1);\n}\nQPushButton#searchBtn {\n    background: rgba(167,139,250,0.12);\n    color: #A78BFA;\n    border: 1px solid rgba(167,139,250,0.2);\n    border-radius: 6px;\n    padding: 6px 16px;\n    font-size: 12px;\n    font-weight: 600;\n}\nQPushButton#searchBtn:hover {\n    background: rgba(167,139,250,0.22);\n    border-color: rgba(167,139,250,0.4);\n    color: #FFFFFF;\n}\nQPushButton#sortBtn {\n    background: rgba(245,158,11,0.12);\n    color: #F59E0B;\n    border: 1px solid rgba(245,158,11,0.2);\n    border-radius: 6px;\n    padding: 6px 16px;\n    font-size: 12px;\n    font-weight: 600;\n}\nQPushButton#sortBtn:hover {\n    background: rgba(245,158,11,0.22);\n    border-color: rgba(245,158,11,0.4);\n    color: #FFFFFF;\n}\nQLabel#palNameBig {\n    font-size: 20px;\n    font-weight: 700;\n    color: #FFFFFF;\n}\nQLabel#levelBanner {\n    font-size: 14px;\n    font-weight: 700;\n    color: #7DD3FC;\n    background: rgba(125,211,252,0.1);\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 4px;\n    padding: 4px 12px;\n}\nQLabel#statLabel {\n    font-size: 11px;\n    color: #9CA3AF;\n    font-weight: 500;\n}\nQLabel#statValue {\n    font-size: 13px;\n    color: #E2E8F0;\n    font-weight: 600;\n}\nQLabel#sectionTitle {\n    font-size: 12px;\n    font-weight: 600;\n    color: #7DD3FC;\n    padding-bottom: 2px;\n    border-bottom: 1px solid rgba(125,211,252,0.15);\n}\nQFrame#passiveGold {\n    background: rgba(255,215,0,0.12);\n    border: 1px solid rgba(255,215,0,0.35);\n    border-radius: 4px;\n    padding: 4px 8px;\n}\nQFrame#passiveBlue {\n    background: rgba(59,130,246,0.12);\n    border: 1px solid rgba(59,130,246,0.35);\n    border-radius: 4px;\n    padding: 4px 8px;\n}\nQFrame#passiveGreen {\n    background: rgba(34,197,94,0.12);\n    border: 1px solid rgba(34,197,94,0.35);\n    border-radius: 4px;\n    padding: 4px 8px;\n}\nQFrame#passiveWhite {\n    background: rgba(255,255,255,0.06);\n    border: 1px solid rgba(255,255,255,0.15);\n    border-radius: 4px;\n    padding: 4px 8px;\n}\nQFrame#passiveRed {\n    background: rgba(255,60,60,0.12);\n    border: 1px solid rgba(255,60,60,0.35);\n    border-radius: 4px;\n    padding: 4px 8px;\n}\n'
 def _load_pal_exp_table():
     try:
         base_dir = constants.get_base_path()
@@ -164,9 +21,7 @@ def _load_pal_exp_table():
     except Exception as e:
         print(f'Error loading PAL_EXP_TABLE: {e}')
         return {}
-
 PAL_EXP_TABLE = _load_pal_exp_table()
-
 _PAL_BASE_DATA_CACHE = {}
 def _load_pal_base_data():
     if _PAL_BASE_DATA_CACHE:
@@ -195,7 +50,6 @@ def _load_pal_base_data():
     except Exception as e:
         print(f'Error loading pal base data: {e}')
         return {}
-
 def get_pal_base_data(cid):
     cache = _load_pal_base_data()
     key = cid.lower().replace('boss_', '').replace('b_o_s_s_', '')
@@ -206,7 +60,6 @@ def get_pal_base_data(cid):
         if key in ckey or ckey in key:
             return centry
     return None
-
 class FramelessDialog(QDialog):
     def __init__(self, title_key='edit_pals.title', parent=None):
         super().__init__(parent)
@@ -289,14 +142,12 @@ class FramelessDialog(QDialog):
         self.title_label.setText(t(title_key))
     def set_title_text(self, text):
         self.title_label.setText(text)
-
 class StarButton(QPushButton):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
             super().mouseReleaseEvent(event)
         else:
             event.ignore()
-
 class StrokedLabel(QLabel):
     def __init__(self, text='', parent=None):
         super().__init__(text, parent)
@@ -336,11 +187,9 @@ class StrokedLabel(QLabel):
         path.addText(x, y, font, self.text())
         painter.strokePath(path, pen)
         painter.fillPath(path, QBrush(self._text_color))
-
 _ICON_CACHE = {}
 _PIXMAP_CACHE = {}
 _CACHE_LOCK = threading.Lock()
-
 def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
     try:
         paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
@@ -363,7 +212,6 @@ def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
     except Exception:
         pass
     return None
-
 def _get_pal_icon_path(character_id):
     base_dir = constants.get_base_path()
     cid_lower = character_id.lower()
@@ -383,7 +231,6 @@ def _get_pal_icon_path(character_id):
     with _CACHE_LOCK:
         _ICON_CACHE[cid_lower] = icon_path
     return icon_path
-
 def _get_cached_pixmap(icon_path, size=64):
     if not icon_path or not os.path.exists(icon_path):
         return None
@@ -401,7 +248,6 @@ def _get_cached_pixmap(icon_path, size=64):
     with _CACHE_LOCK:
         _PIXMAP_CACHE[pixmap_key] = scaled
     return scaled
-
 class PalIcon(QFrame):
     clicked = Signal()
     rightClicked = Signal(int, str)
@@ -563,7 +409,6 @@ class PalIcon(QFrame):
         self.update_display()
     def update_rare_status(self, is_lucky):
         self.update_display()
-
 class PalCardWidget(QFrame):
     clicked = Signal()
     def __init__(self, pal_data=None, parent=None):
@@ -676,7 +521,6 @@ class PalCardWidget(QFrame):
             self.setStyleSheet('QFrame#palCardNew { background: rgba(125,211,252,0.1); border: 2px solid #7DD3FC; border-radius: 8px; }')
         else:
             self.setStyleSheet('QFrame#palCardNew { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; } QFrame#palCardNew:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
-
 class PartySlotWidget(QFrame):
     clicked = Signal()
     rightClicked = Signal(int, str)
@@ -850,7 +694,6 @@ class PartySlotWidget(QFrame):
             self.setStyleSheet('QFrame#partySlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; } QFrame#partySlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
     def update_display(self):
         self._build()
-
 class PalboxSlotWidget(QFrame):
     clicked = Signal()
     rightClicked = Signal(int, str)
@@ -967,7 +810,7 @@ class PalboxSlotWidget(QFrame):
                 badge.setAttribute(Qt.WA_TransparentForMouseEvents)
                 badge.show()
         if is_awake:
-            awake_badge = QLabel('\U0001F525', self)
+            awake_badge = QLabel('🔥', self)
             awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
             awake_badge.setFixedSize(12, 12)
             awake_badge.setAlignment(Qt.AlignCenter)
@@ -988,9 +831,10 @@ class PalboxSlotWidget(QFrame):
                 dna_badge.show()
         fav_idx = extract_value(raw, 'FavoriteIndex', 0)
         if fav_idx and int(fav_idx) > 0:
-            lock_pix = _get_ui_icon_pixmap('lock', 14)
+            lock_key = f'lock_{int(fav_idx)}'
+            lock_pix = _get_ui_icon_pixmap(lock_key, 14) or _get_ui_icon_pixmap('lock_1', 14) or _get_ui_icon_pixmap('lock', 14)
             if not lock_pix:
-                lock_badge = QLabel('\U0001F512', self)
+                lock_badge = QLabel('🔒', self)
                 lock_badge.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
                 lock_badge.setFixedSize(14, 14)
                 lock_badge.setAlignment(Qt.AlignCenter)
@@ -1013,7 +857,6 @@ class PalboxSlotWidget(QFrame):
             self.setStyleSheet('QFrame#palboxSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; } QFrame#palboxSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
     def update_display(self):
         self._build()
-
 class _CircularIcon(QWidget):
     def __init__(self, size=80, parent=None):
         super().__init__(parent)
@@ -1033,7 +876,7 @@ class _CircularIcon(QWidget):
         r = self.rect()
         path.addEllipse(r.adjusted(2, 2, -2, -2))
         painter.setClipPath(path)
-        if self._pixmap and not self._pixmap.isNull():
+        if self._pixmap and (not self._pixmap.isNull()):
             scaled = self._pixmap.scaled(r.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             x = (r.width() - scaled.width()) // 2
             y = (r.height() - scaled.height()) // 2
@@ -1043,10 +886,8 @@ class _CircularIcon(QWidget):
             painter.setPen(QPen(QColor(100, 110, 130), 1))
             painter.setFont(QFont('Segoe UI', 16))
             painter.drawText(r, Qt.AlignCenter, '?')
-
 _SKILL_DATA = None
 _ELEMENT_DATA = None
-
 def _ensure_element_data():
     global _ELEMENT_DATA
     if _ELEMENT_DATA is not None:
@@ -1062,7 +903,6 @@ def _ensure_element_data():
     except Exception:
         pass
     return _ELEMENT_DATA
-
 def _get_element_pixmap(element_name, variant='small', size=16):
     if not element_name:
         return None
@@ -1079,7 +919,6 @@ def _get_element_pixmap(element_name, variant='small', size=16):
         if os.path.exists(webp_path):
             full_path = webp_path
     return _get_cached_pixmap(full_path, size)
-
 _UI_ICONS_DATA = None
 def _ensure_ui_icons_data():
     global _UI_ICONS_DATA
@@ -1100,24 +939,20 @@ def _ensure_ui_icons_data():
     except Exception:
         pass
     return _UI_ICONS_DATA
-
 def _get_boss_alpha_pixmap(size=14):
     base_dir = constants.get_base_path()
     path = os.path.join(base_dir, 'resources', 'boss_alpha.webp')
     return _get_cached_pixmap(path, size)
-
 def _get_boss_shiny_pixmap(size=14):
     base_dir = constants.get_base_path()
     path = os.path.join(base_dir, 'resources', 'boss_shiny.webp')
     return _get_cached_pixmap(path, size)
-
 def _get_ui_icon_pixmap(icon_key, size=16):
     data = _ensure_ui_icons_data()
     icon_path = data.get(icon_key, '')
     if not icon_path:
         return None
     return _get_cached_pixmap(icon_path, size)
-
 def _ensure_skill_data():
     global _SKILL_DATA
     if _SKILL_DATA is not None:
@@ -1132,17 +967,13 @@ def _ensure_skill_data():
                 _SKILL_DATA[s['asset'].lower()] = s
     except Exception:
         pass
-
 def _fp64(value):
     return {'struct_type': 'FixedPoint64', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': {'Value': {'id': None, 'value': int(value), 'type': 'Int64Property'}}, 'type': 'StructProperty'}
-
 def _byte(value):
     return {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': int(value)}}
-
 def _guid(value):
     eu = '00000000-0000-0000-0000-000000000000'
     return {'struct_type': 'Guid', 'struct_id': eu, 'id': None, 'value': str(value), 'type': 'StructProperty'}
-
 def _generate_pal_save_param(character_id, nickname, owner_uid, container_id, slot_index, group_id=None):
     if group_id is None:
         group_id = str(uuid.uuid4()).upper()
@@ -1154,44 +985,12 @@ def _generate_pal_save_param(character_id, nickname, owner_uid, container_id, sl
     base = get_pal_base_data(character_id)
     max_hp_val = calculate_max_hp(base, 1, 100, 0, is_boss, False) * 1000
     starter_waza = [f'EPalWazaID::Unique_{character_id}_Roll'] if character_id == 'SheepBall' else []
-    sp_value = {
-        'CharacterID': {'id': None, 'type': 'NameProperty', 'value': character_id},
-        'Gender': {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': 'EPalGenderType::Female'}},
-        'NickName': {'id': None, 'type': 'StrProperty', 'value': nickname},
-        'EquipWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': starter_waza}, 'type': 'ArrayProperty'},
-        'MasteredWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'},
-        'Hp': _fp64(max_hp_val),
-        'MaxHP': _fp64(max_hp_val),
-        'Talent_HP': _byte(100),
-        'Talent_Shot': _byte(100),
-        'Talent_Defense': _byte(100),
-        'FullStomach': {'id': None, 'type': 'FloatProperty', 'value': 150.0},
-        'PassiveSkillList': {'array_type': 'NameProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'},
-        'OwnedTime': {'struct_type': 'DateTime', 'struct_id': eu, 'id': None, 'value': time_val, 'type': 'StructProperty'},
-        'OwnerPlayerUId': _guid(owner_uid),
-        'OldOwnerPlayerUIds': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'OldOwnerPlayerUIds', 'prop_type': 'StructProperty', 'values': [owner_uid], 'type_name': 'Guid', 'id': eu}, 'type': 'ArrayProperty'},
-        'SlotId': {'struct_type': 'PalCharacterSlotId', 'struct_id': eu, 'id': None, 'value': {'ContainerId': {'struct_type': 'PalContainerId', 'struct_id': eu, 'id': None, 'value': {'ID': _guid(container_id)}, 'type': 'StructProperty'}, 'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_index}}, 'type': 'StructProperty'},
-        'GotStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '捕獲率'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': eu}, 'type': 'ArrayProperty'},
-        'GotExStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotExStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': eu}, 'type': 'ArrayProperty'},
-        'LastNickNameModifierPlayerUid': _guid(owner_uid),
-        'Level': _byte(1),
-        'Exp': {'id': None, 'type': 'Int64Property', 'value': 0},
-        'Attack': {'id': None, 'type': 'IntProperty', 'value': base['stats']['melee_attack'] if base and 'stats' in base and 'melee_attack' in base['stats'] else 100},
-        'Defense': {'id': None, 'type': 'IntProperty', 'value': base['stats']['defense'] if base and 'stats' in base and 'defense' in base['stats'] else 100},
-        'WorkSpeed': {'id': None, 'type': 'IntProperty', 'value': base['stats']['craft_speed'] if base and 'stats' in base and 'craft_speed' in base['stats'] else 100},
-        'Rank': _byte(0),
-        'SanityValue': {'id': None, 'type': 'FloatProperty', 'value': 100.0},
-        'FriendshipPoint': {'id': None, 'type': 'IntProperty', 'value': 0},
-        'IsRarePal': {'id': None, 'type': 'BoolProperty', 'value': False},
-        'IsBoss': {'id': None, 'type': 'BoolProperty', 'value': False},
-        'bIsAwakening': {'id': None, 'type': 'BoolProperty', 'value': False},
-    }
+    sp_value = {'CharacterID': {'id': None, 'type': 'NameProperty', 'value': character_id}, 'Gender': {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': 'EPalGenderType::Female'}}, 'NickName': {'id': None, 'type': 'StrProperty', 'value': nickname}, 'EquipWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': starter_waza}, 'type': 'ArrayProperty'}, 'MasteredWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'Hp': _fp64(max_hp_val), 'MaxHP': _fp64(max_hp_val), 'Talent_HP': _byte(100), 'Talent_Shot': _byte(100), 'Talent_Defense': _byte(100), 'FullStomach': {'id': None, 'type': 'FloatProperty', 'value': 150.0}, 'PassiveSkillList': {'array_type': 'NameProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'OwnedTime': {'struct_type': 'DateTime', 'struct_id': eu, 'id': None, 'value': time_val, 'type': 'StructProperty'}, 'OwnerPlayerUId': _guid(owner_uid), 'OldOwnerPlayerUIds': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'OldOwnerPlayerUIds', 'prop_type': 'StructProperty', 'values': [owner_uid], 'type_name': 'Guid', 'id': eu}, 'type': 'ArrayProperty'}, 'SlotId': {'struct_type': 'PalCharacterSlotId', 'struct_id': eu, 'id': None, 'value': {'ContainerId': {'struct_type': 'PalContainerId', 'struct_id': eu, 'id': None, 'value': {'ID': _guid(container_id)}, 'type': 'StructProperty'}, 'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_index}}, 'type': 'StructProperty'}, 'GotStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '捕獲率'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': eu}, 'type': 'ArrayProperty'}, 'GotExStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotExStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': eu}, 'type': 'ArrayProperty'}, 'LastNickNameModifierPlayerUid': _guid(owner_uid), 'Level': _byte(1), 'Exp': {'id': None, 'type': 'Int64Property', 'value': 0}, 'Attack': {'id': None, 'type': 'IntProperty', 'value': base['stats']['melee_attack'] if base and 'stats' in base and ('melee_attack' in base['stats']) else 100}, 'Defense': {'id': None, 'type': 'IntProperty', 'value': base['stats']['defense'] if base and 'stats' in base and ('defense' in base['stats']) else 100}, 'WorkSpeed': {'id': None, 'type': 'IntProperty', 'value': base['stats']['craft_speed'] if base and 'stats' in base and ('craft_speed' in base['stats']) else 100}, 'Rank': _byte(0), 'SanityValue': {'id': None, 'type': 'FloatProperty', 'value': 100.0}, 'FriendshipPoint': {'id': None, 'type': 'IntProperty', 'value': 0}, 'IsRarePal': {'id': None, 'type': 'BoolProperty', 'value': False}, 'IsBoss': {'id': None, 'type': 'BoolProperty', 'value': False}, 'bIsAwakening': {'id': None, 'type': 'BoolProperty', 'value': False}}
     key_part = {'PlayerUId': _guid(eu), 'InstanceId': _guid(instance_id), 'DebugName': {'id': None, 'type': 'StrProperty', 'value': ''}}
     raw_data_value = {'object': {'SaveParameter': {'struct_type': 'PalIndividualCharacterSaveParameter', 'struct_id': eu, 'id': None, 'value': sp_value, 'type': 'StructProperty'}}}
     raw_data = {'array_type': 'ByteProperty', 'id': None, 'value': raw_data_value, 'unknown_bytes': [0, 0, 0, 0], 'group_id': group_id, 'trailing_bytes': [0, 0, 0, 0], 'custom_type': '.worldSaveData.CharacterSaveParameterMap.Value.RawData', 'type': 'ArrayProperty'}
     value_part = {'RawData': raw_data}
     return {'key': key_part, 'value': value_part, 'type': 'MapProperty'}
-
 class CornerBracketWidget(QFrame):
     def __init__(self, border_color='#7DD3FC', parent=None):
         super().__init__(parent)
@@ -1206,7 +1005,7 @@ class CornerBracketWidget(QFrame):
         pen = QPen(self._border_color, 2)
         pen.setCapStyle(Qt.FlatCap)
         painter.setPen(pen)
-        w, h = self.width(), self.height()
+        w, h = (self.width(), self.height())
         bl = 10
         painter.drawLine(0, bl, 0, 0)
         painter.drawLine(0, 0, bl, 0)
@@ -1216,7 +1015,6 @@ class CornerBracketWidget(QFrame):
         painter.drawLine(0, h, bl, h)
         painter.drawLine(w - bl, h, w, h)
         painter.drawLine(w, h, w, h - bl)
-
 class PortraitBracketWidget(QWidget):
     def __init__(self, corner_color='#7DD3FC', parent=None):
         super().__init__(parent)
@@ -1229,7 +1027,7 @@ class PortraitBracketWidget(QWidget):
         pen = QPen(self._corner_color, 1.5)
         pen.setCapStyle(Qt.FlatCap)
         painter.setPen(pen)
-        w, h = self.width(), self.height()
+        w, h = (self.width(), self.height())
         bl = 14
         painter.drawLine(0, bl, 0, 0)
         painter.drawLine(0, 0, bl, 0)
@@ -1239,7 +1037,6 @@ class PortraitBracketWidget(QWidget):
         painter.drawLine(0, h, bl, h)
         painter.drawLine(w - bl, h, w, h)
         painter.drawLine(w, h, w, h - bl)
-
 class SANTrackerWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1253,7 +1050,7 @@ class SANTrackerWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        w, h = self.width(), self.height()
+        w, h = (self.width(), self.height())
         bar_h = 2
         y = (h - bar_h) // 2
         painter.setPen(Qt.NoPen)
@@ -1270,13 +1067,12 @@ class SANTrackerWidget(QWidget):
         for i in range(1, 5):
             tx = w * i // 5
             painter.drawLine(tx, y - 1, tx, y + bar_h + 1)
-
 class SkillSlotFrame(QFrame):
     def paintEvent(self, event):
         super().paintEvent(event)
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        w, h = self.width(), self.height()
+        w, h = (self.width(), self.height())
         d = int(h * 0.2679)
         painter.setPen(Qt.NoPen)
         painter.setBrush(QColor(20, 25, 35, 40))
@@ -1288,7 +1084,6 @@ class SkillSlotFrame(QFrame):
         path.closeSubpath()
         painter.setBrush(QColor(30, 38, 50, 60))
         painter.drawPath(path)
-
 class GlowRing(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1312,8 +1107,8 @@ class GlowRing(QFrame):
         super().paintEvent(event)
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        w, h = self.width(), self.height()
-        cx, cy = w / 2.0, h / 2.0
+        w, h = (self.width(), self.height())
+        cx, cy = (w / 2.0, h / 2.0)
         radius = min(w, h) / 2.0 - 1.5
         if self._awakened:
             pulse = (math.sin(self._phase) + 1.0) / 2.0
@@ -1334,7 +1129,6 @@ class GlowRing(QFrame):
             painter.setPen(QPen(QColor(125, 211, 252, 115), 2))
             painter.setBrush(Qt.NoBrush)
             painter.drawEllipse(QPointF(cx, cy), radius, radius)
-
 class RotatingCircleWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1357,15 +1151,14 @@ class RotatingCircleWidget(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         painter.setRenderHint(QPainter.SmoothPixmapTransform)
-        pw, ph = self._pixmap.width(), self._pixmap.height()
+        pw, ph = (self._pixmap.width(), self._pixmap.height())
         scaled = self._pixmap.scaled(self.width(), self.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        sw, sh = scaled.width(), scaled.height()
-        cx, cy = self.width() / 2.0, self.height() / 2.0
+        sw, sh = (scaled.width(), scaled.height())
+        cx, cy = (self.width() / 2.0, self.height() / 2.0)
         painter.translate(cx, cy)
         painter.rotate(self._angle)
         painter.drawPixmap(int(-sw / 2), int(-sh / 2), scaled)
         painter.end()
-
 class PassiveEffectOverlay(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1396,7 +1189,7 @@ class PassiveEffectOverlay(QWidget):
             return
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        w, h = self.width(), self.height()
+        w, h = (self.width(), self.height())
         painter.setClipRect(QRectF(2, 2, w - 4, h - 4).toAlignedRect())
         if self._anim_mode == 'world_tree':
             cols = 6
@@ -1422,16 +1215,14 @@ class PassiveEffectOverlay(QWidget):
                         alpha = 180 - i * 45
                         painter.fillRect(QRectF(cx, y, col_w - 3, 2.2), QColor(192, 132, 252, alpha))
         elif self._anim_mode == 'legend':
-            sweep_x = (self._phase * 1.04 * w) % (w * 1.4) - w * 0.2
+            sweep_x = self._phase * 1.04 * w % (w * 1.4) - w * 0.2
             grad = QLinearGradient(sweep_x, 0, sweep_x + w * 0.35, 0)
             grad.setColorAt(0, QColor(125, 211, 252, 0))
             grad.setColorAt(0.5, QColor(125, 211, 252, 50))
             grad.setColorAt(1, QColor(125, 211, 252, 0))
             painter.fillRect(QRectF(0, 0, w, h), grad)
         painter.end()
-
 _anim_phase = 0.0
-
 class _PassiveSkillDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         painter.save()
@@ -1480,7 +1271,7 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
         painter.restore()
     def _paint_legend_sweep(self, painter, rect):
         w = rect.width()
-        ph = (_anim_phase * 1.04 * w) % (w * 1.4) - w * 0.2
+        ph = _anim_phase * 1.04 * w % (w * 1.4) - w * 0.2
         sweep = QLinearGradient(rect.x() + ph, 0, rect.x() + ph + w * 0.35, 0)
         sweep.setColorAt(0, QColor(125, 211, 252, 0))
         sweep.setColorAt(0.5, QColor(125, 211, 252, 40))
@@ -1489,7 +1280,7 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
         painter.setBrush(QBrush(sweep))
         painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
     def _paint_world_tree(self, painter, rect):
-        w, h = rect.width(), rect.height()
+        w, h = (rect.width(), rect.height())
         cols = 9
         col_w = w / cols
         trail_h = h * 0.55
@@ -1516,22 +1307,9 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
                     painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(192, 132, 252, alpha))
     def sizeHint(self, option, index):
         return QSize(200, 28)
-
 class PalInfoWidget(QFrame):
-    _ELEMENT_MAP = {
-        'Normal': ('\u26AA', '#9CA3AF'), 'Fire': ('\U0001F525', '#EF4444'),
-        'Water': ('\U0001F4A7', '#3B82F6'), 'Leaf': ('\U0001F33F', '#4ADE80'),
-        'Grass': ('\U0001F33F', '#4ADE80'), 'Electricity': ('\u26A1', '#FBBF24'),
-        'Electric': ('\u26A1', '#FBBF24'), 'Ice': ('\u2744\uFE0F', '#67E8F9'),
-        'Earth': ('\U0001FAA8', '#A78BFA'), 'Ground': ('\U0001FAA8', '#A78BFA'),
-        'Dark': ('\U0001F311', '#6B21A8'), 'Dragon': ('\U0001F409', '#818CF8'),
-    }
-    _ELEMENT_COLORS = {
-        'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6',
-        'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24',
-        'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA',
-        'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8',
-    }
+    _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8')}
+    _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8'}
     _TRUST_RANK_THRESHOLDS = [0, 1, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500]
     NATIVE_WORK_ORDER = ('EmitFlame', 'Watering', 'Seeding', 'GenerateElectricity', 'Handcraft', 'Collection', 'Deforest', 'Mining', 'ProductMedicine', 'Cool', 'Transport', 'MonsterFarm')
     _WORK_SUITABILITY_DISPLAY = {'EmitFlame': 'Kindling', 'Watering': 'Watering', 'Seeding': 'Seeding', 'GenerateElectricity': 'Electricity', 'Handcraft': 'Handiwork', 'Collection': 'Harvesting', 'Deforest': 'Lumbering', 'Mining': 'Mining', 'ProductMedicine': 'Medicine', 'Cool': 'Cooling', 'Transport': 'Transport', 'MonsterFarm': 'Farming'}
@@ -1624,7 +1402,7 @@ class PalInfoWidget(QFrame):
                 parent_frame.setStyleSheet('QFrame#passiveCard { background: rgba(255,255,255,0.03); border: none; border-radius: 4px; }')
         for i in range(len(self.passive_cards)):
             self._set_passive_overlay(i, None)
-        self.star_rating.setText('\u2606\u2606\u2606\u2606')
+        self.star_rating.setText('☆☆☆☆')
         self.stat_plus_lbl.setText('--')
         self.portrait_icon.clear()
         self.dna_overlay.hide()
@@ -1762,13 +1540,20 @@ class PalInfoWidget(QFrame):
         self.info_lucky_btn.setCursor(Qt.PointingHandCursor)
         self.info_lucky_btn.clicked.connect(self._on_lucky_toggle)
         name_row.addWidget(self.info_lucky_btn)
-        self.info_awake_btn = QPushButton('\U0001F525')
+        self.info_awake_btn = QPushButton('🔥')
         self.info_awake_btn.setCheckable(True)
         self.info_awake_btn.setFixedSize(22, 22)
         self.info_awake_btn.setStyleSheet('QPushButton { background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; font-size: 12px; } QPushButton:checked { background: rgba(251,191,36,0.2); border-color: #FBBF24; } QPushButton:hover { background: rgba(255,255,255,0.08); }')
         self.info_awake_btn.setCursor(Qt.PointingHandCursor)
         self.info_awake_btn.clicked.connect(self._on_awake_toggle)
         name_row.addWidget(self.info_awake_btn)
+        self.info_fav_btn = QPushButton()
+        self.info_fav_btn.setFixedSize(22, 22)
+        self.info_fav_btn.setIconSize(QSize(18, 18))
+        self.info_fav_btn.setStyleSheet('QPushButton { background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; } QPushButton:hover { background: rgba(255,255,255,0.08); }')
+        self.info_fav_btn.setCursor(Qt.PointingHandCursor)
+        self.info_fav_btn.clicked.connect(self._on_fav_toggle)
+        name_row.addWidget(self.info_fav_btn)
         nc_layout.addLayout(name_row)
         next_row = QHBoxLayout()
         next_row.setContentsMargins(0, 0, 0, 0)
@@ -1806,7 +1591,7 @@ class PalInfoWidget(QFrame):
         left_layout = QVBoxLayout(left_col)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(1)
-        self.star_rating = QLabel('\u2605\u2605\u2605\u2605')
+        self.star_rating = QLabel('★★★★')
         self.star_rating.setAlignment(Qt.AlignCenter)
         self.star_rating.setStyleSheet('font-size: 13px; color: #FFD700; letter-spacing: 2px; background: transparent; border: none;')
         self.star_rating.setCursor(Qt.PointingHandCursor)
@@ -1845,7 +1630,7 @@ class PalInfoWidget(QFrame):
         self.lock_overlay.setFixedSize(16, 16)
         self.lock_overlay.setAlignment(Qt.AlignCenter)
         self.lock_overlay.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;')
-        self.lock_overlay.setText('\U0001F512')
+        self.lock_overlay.setText('🔒')
         self.lock_overlay.move(74, 6)
         self.lock_overlay.hide()
         self.boss_overlay = QLabel(self.bracket_wrapper)
@@ -1867,7 +1652,7 @@ class PalInfoWidget(QFrame):
         self.awake_overlay.setAlignment(Qt.AlignCenter)
         self.awake_overlay.setAttribute(Qt.WA_TranslucentBackground)
         self.awake_overlay.setStyleSheet('font-size: 10px; background: transparent; border: none;')
-        self.awake_overlay.setText('\U0001F525')
+        self.awake_overlay.setText('🔥')
         self.awake_overlay.move(74, 74)
         self.awake_overlay.hide()
         self.rotating_circle = RotatingCircleWidget(self.bracket_wrapper)
@@ -1885,7 +1670,7 @@ class PalInfoWidget(QFrame):
         left_layout.addWidget(self.stat_plus_lbl)
         ivs_row = QHBoxLayout()
         ivs_row.setSpacing(4)
-        ivs_row.addWidget(QLabel('\U0001f9ec'))
+        ivs_row.addWidget(QLabel('🧬'))
         self.ivs_hp_lbl = QLabel('100')
         self.ivs_hp_lbl.setStyleSheet('font-size: 9px; font-weight: 600; color: #EF4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 3px; padding: 1px 4px;')
         self.ivs_hp_lbl.setCursor(Qt.PointingHandCursor)
@@ -1905,7 +1690,7 @@ class PalInfoWidget(QFrame):
         left_layout.addLayout(ivs_row)
         souls_row = QHBoxLayout()
         souls_row.setSpacing(4)
-        souls_row.addWidget(QLabel('\U0001f48e'))
+        souls_row.addWidget(QLabel('💎'))
         self.soul_hp_lbl = QLabel('0')
         self.soul_hp_lbl.setStyleSheet('font-size: 9px; font-weight: 600; color: #A78BFA; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); border-radius: 3px; padding: 1px 4px;')
         self.soul_hp_lbl.setCursor(Qt.PointingHandCursor)
@@ -1955,7 +1740,7 @@ class PalInfoWidget(QFrame):
         right_layout.addLayout(trust_row)
         hp_row = QHBoxLayout()
         hp_row.setSpacing(0)
-        hp_icon = QLabel('\u2665')
+        hp_icon = QLabel('♥')
         hp_icon.setFixedSize(14, 14)
         hp_icon.setAlignment(Qt.AlignCenter)
         hp_icon.setStyleSheet('font-size: 9px; color: #EF4444; background: transparent; border: none;')
@@ -1970,7 +1755,7 @@ class PalInfoWidget(QFrame):
         right_layout.addLayout(hp_row)
         hunger_row = QHBoxLayout()
         hunger_row.setSpacing(0)
-        hunger_icon = QLabel('\u26ac')
+        hunger_icon = QLabel('⚬')
         hunger_icon.setFixedSize(14, 14)
         hunger_icon.setAlignment(Qt.AlignCenter)
         hunger_icon.setStyleSheet('font-size: 9px; color: #F59E0B; background: transparent; border: none;')
@@ -1985,7 +1770,7 @@ class PalInfoWidget(QFrame):
         right_layout.addLayout(hunger_row)
         san_row = QHBoxLayout()
         san_row.setSpacing(0)
-        san_icon = QLabel('\u2726')
+        san_icon = QLabel('✦')
         san_icon.setFixedSize(14, 14)
         san_icon.setAlignment(Qt.AlignCenter)
         san_icon.setStyleSheet('font-size: 9px; color: #10B981; background: transparent; border: none;')
@@ -2003,7 +1788,7 @@ class PalInfoWidget(QFrame):
         stats_grid = QGridLayout(stats_q)
         stats_grid.setContentsMargins(4, 2, 4, 2)
         stats_grid.setSpacing(1)
-        atk_icon = QLabel('\u2694')
+        atk_icon = QLabel('⚔')
         atk_icon.setFixedSize(14, 14)
         atk_icon.setAlignment(Qt.AlignCenter)
         atk_icon.setStyleSheet('font-size: 10px; color: #EF4444; background: transparent; border: none;')
@@ -2015,7 +1800,7 @@ class PalInfoWidget(QFrame):
         self.atk_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.atk_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.atk_lbl, 0, 2, Qt.AlignVCenter)
-        def_icon = QLabel('\u2696')
+        def_icon = QLabel('⚖')
         def_icon.setFixedSize(14, 14)
         def_icon.setAlignment(Qt.AlignCenter)
         def_icon.setStyleSheet('font-size: 10px; color: #3B82F6; background: transparent; border: none;')
@@ -2027,7 +1812,7 @@ class PalInfoWidget(QFrame):
         self.def_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.def_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.def_lbl, 1, 2, Qt.AlignVCenter)
-        wspd_icon = QLabel('\u2692')
+        wspd_icon = QLabel('⚒')
         wspd_icon.setFixedSize(14, 14)
         wspd_icon.setAlignment(Qt.AlignCenter)
         wspd_icon.setStyleSheet('font-size: 10px; color: #A78BFA; background: transparent; border: none;')
@@ -2156,14 +1941,14 @@ class PalInfoWidget(QFrame):
         bracket_layout = QHBoxLayout(bracket_frame)
         bracket_layout.setContentsMargins(0, 0, 0, 0)
         bracket_layout.setSpacing(0)
-        bracket_l = QLabel('\u276c')
+        bracket_l = QLabel('❬')
         bracket_l.setStyleSheet('font-size: 14px; font-weight: 100; color: rgba(125,211,252,0.25); background: transparent; border: none;')
         bracket_layout.addWidget(bracket_l)
         self.partner_desc_lbl = QLabel('Fires a barrage of missiles at nearby enemies, dealing massive damage and knocking them back.')
         self.partner_desc_lbl.setWordWrap(True)
         self.partner_desc_lbl.setStyleSheet('font-size: 8px; color: #9CA3AF; background: transparent; border: none; padding: 0 2px;')
         bracket_layout.addWidget(self.partner_desc_lbl, 1)
-        bracket_r = QLabel('\u276d')
+        bracket_r = QLabel('❭')
         bracket_r.setStyleSheet('font-size: 14px; font-weight: 100; color: rgba(125,211,252,0.25); background: transparent; border: none;')
         bracket_layout.addWidget(bracket_r)
         partner_layout.addWidget(bracket_frame)
@@ -2217,7 +2002,7 @@ class PalInfoWidget(QFrame):
             plbl = QLabel(pname)
             plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {default_tc}; background: transparent; border: none;')
             card_layout.addWidget(plbl, 1)
-            chev = QLabel('\u276f\u276f\u276f')
+            chev = QLabel('❯❯❯')
             chev.setStyleSheet(f'font-size: 6px; color: rgba(255,255,255,0.15); background: transparent; border: none; letter-spacing: -1px;')
             card_layout.addWidget(chev)
             card.setCursor(Qt.PointingHandCursor)
@@ -2226,7 +2011,7 @@ class PalInfoWidget(QFrame):
             btn.setCursor(Qt.PointingHandCursor)
             btn.setGeometry(0, 0, 100, 100)
             btn.clicked.connect(lambda checked=None, idx=i: self._on_passive_click(idx))
-            row, col = i // 2, i % 2
+            row, col = (i // 2, i % 2)
             pg_layout.addWidget(card, row, col)
             self.passive_slots.append(plbl)
             self.passive_cards.append(card)
@@ -2286,7 +2071,7 @@ class PalInfoWidget(QFrame):
                 if elements:
                     for elem_name in elements:
                         elem_pix = _get_element_pixmap(elem_name, 'small', 16)
-                        elem_color = self._ELEMENT_MAP.get(elem_name, ('\u2606', '#A78BFA'))[1]
+                        elem_color = self._ELEMENT_MAP.get(elem_name, ('☆', '#A78BFA'))[1]
                         if elem_pix:
                             badge = QLabel()
                             badge.setFixedSize(16, 16)
@@ -2295,7 +2080,7 @@ class PalInfoWidget(QFrame):
                             badge.setStyleSheet(f'background: transparent; border: 1px solid {elem_color}40; border-radius: 8px;')
                             badge.setAttribute(Qt.WA_TranslucentBackground)
                         else:
-                            elem_data = self._ELEMENT_MAP.get(elem_name, ('\u2606', '#A78BFA'))
+                            elem_data = self._ELEMENT_MAP.get(elem_name, ('☆', '#A78BFA'))
                             badge = QLabel(elem_data[0])
                             badge.setFixedSize(16, 16)
                             badge.setAlignment(Qt.AlignCenter)
@@ -2335,7 +2120,7 @@ class PalInfoWidget(QFrame):
             else:
                 trust_progress = 100
                 trust_next = 0
-            stats = (base.get('stats', {}) if base else {})
+            stats = base.get('stats', {}) if base else {}
             base_hp = stats.get('hp', 100)
             base_atk = stats.get('melee_attack', 100)
             base_def = stats.get('defense', 100)
@@ -2348,7 +2133,7 @@ class PalInfoWidget(QFrame):
                 def_val = base_def
             if wspd_val == 0:
                 wspd_val = base_craft
-            ws = (base.get('work_suitabilities', {}) if base else {})
+            ws = base.get('work_suitabilities', {}) if base else {}
             for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)
                 if ws_level > 0:
@@ -2439,6 +2224,11 @@ class PalInfoWidget(QFrame):
             is_awakening = extract_value(raw, 'bIsAwakening', False)
             self.awake_overlay.setVisible(bool(is_awakening))
             if fav_idx and int(fav_idx) > 0:
+                lock_key = f'lock_{min(int(fav_idx), 3)}'
+                lock_pix = _get_ui_icon_pixmap(lock_key, 16) or _get_ui_icon_pixmap('lock_1', 16) or _get_ui_icon_pixmap('lock', 16)
+                if lock_pix:
+                    self.lock_overlay.setPixmap(lock_pix)
+                    self.lock_overlay.setStyleSheet('background: transparent; border: none;')
                 self.lock_overlay.show()
             else:
                 self.lock_overlay.hide()
@@ -2452,11 +2242,24 @@ class PalInfoWidget(QFrame):
             self.info_awake_btn.blockSignals(True)
             self.info_awake_btn.setChecked(bool(is_awakening))
             self.info_awake_btn.blockSignals(False)
-            soul_total = sum(int(x) for x in (rank_hp_val, rank_atk_val, rank_def_val, rank_craft_val) if str(x).isdigit())
+            fav_idx_val = int(fav_idx) if fav_idx else 0
+            lock_icon_key = f'lock_{min(fav_idx_val, 3)}' if fav_idx_val > 0 else 'lock_0'
+            fav_pix = _get_ui_icon_pixmap(lock_icon_key, 18) or _get_ui_icon_pixmap('lock_0', 18)
+            if fav_pix:
+                self.info_fav_btn.setIcon(QIcon(fav_pix))
+                self.info_fav_btn.setText('')
+            else:
+                self.info_fav_btn.setIcon(QIcon())
+                self.info_fav_btn.setText('★' * fav_idx_val if fav_idx_val else '★')
+            if fav_idx_val >= 1 and fav_idx_val <= 3:
+                self.info_fav_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); border: 1px solid #FBBF24; border-radius: 4px; } QPushButton:hover { background: rgba(251,191,36,0.25); }')
+            else:
+                self.info_fav_btn.setStyleSheet('QPushButton { background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; } QPushButton:hover { background: rgba(255,255,255,0.08); }')
+            soul_total = sum((int(x) for x in (rank_hp_val, rank_atk_val, rank_def_val, rank_craft_val) if str(x).isdigit()))
             self.stat_plus_lbl.setText(f'+{soul_total}')
             rank_raw = extract_value(raw, 'Rank', 1)
             rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
-            stars = ''.join(['\u2605' if i < min(rank_int, 4) else '\u2606' for i in range(4)])
+            stars = ''.join(['★' if i < min(rank_int, 4) else '☆' for i in range(4)])
             self.star_rating.setText(stars)
             icon_path = _get_pal_icon_path(cid)
             pix = _get_cached_pixmap(icon_path, 80)
@@ -2559,7 +2362,6 @@ class PalInfoWidget(QFrame):
             self.partner_desc_lbl.setText(f'Partner skill for {pal_name}. Effects scale with level.')
         except Exception as e:
             self._clear_display()
-
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Type.MouseButtonPress and event.button() == Qt.LeftButton:
             if obj is self.name_lbl:
@@ -2584,7 +2386,6 @@ class PalInfoWidget(QFrame):
                 self._on_active_skill_click(obj._skill_slot_idx)
                 return True
         return super().eventFilter(obj, event)
-
     def _on_name_click(self):
         if not self._raw:
             return
@@ -2600,7 +2401,6 @@ class PalInfoWidget(QFrame):
             if text is not None:
                 self._raw['NickName'] = {'id': None, 'type': 'StrProperty', 'value': text.strip()}
                 self._refresh()
-
     def _on_gender_click(self):
         if not self._raw:
             return
@@ -2612,7 +2412,6 @@ class PalInfoWidget(QFrame):
         new_g = 'EPalGenderType::Male' if 'Female' in str(gender) else 'EPalGenderType::Female'
         self._raw['Gender'] = {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': new_g}}
         self._refresh()
-
     def _on_star_click(self):
         if not self._raw:
             return
@@ -2620,7 +2419,6 @@ class PalInfoWidget(QFrame):
         new_r = cur + 1 if cur < 4 else 0
         self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': new_r}}
         self._refresh()
-
     def _on_level_click(self):
         if not self._raw:
             return
@@ -2638,7 +2436,6 @@ class PalInfoWidget(QFrame):
         dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
         if dlg.exec() == QDialog.Accepted:
             self._set_level(dlg.intValue())
-
     def _set_level(self, value):
         raw = self._raw
         cid = extract_value(raw, 'CharacterID', '')
@@ -2661,7 +2458,6 @@ class PalInfoWidget(QFrame):
             raw['Hp'] = {'struct_type': 'FixedPoint64', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': {'Value': {'id': None, 'value': int(new_max_hp), 'type': 'Int64Property'}}, 'type': 'StructProperty'}
             raw['MaxHP'] = raw['Hp']
         self._refresh()
-
     def _on_talent_click(self, lbl):
         if not self._raw:
             return
@@ -2678,7 +2474,6 @@ class PalInfoWidget(QFrame):
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._refresh()
-
     def _on_soul_click(self, lbl):
         if not self._raw:
             return
@@ -2695,21 +2490,18 @@ class PalInfoWidget(QFrame):
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._refresh()
-
     def _on_active_skill_click(self, slot_idx):
         if not self._raw:
             return
         if slot_idx < 0 or slot_idx >= 3:
             return
         self._show_skill_picker(t('edit_pals.active_skills'), PalFrame._SKILLMAP, slot_idx, is_active=True)
-
     def _on_passive_click(self, slot_idx):
         if not self._raw:
             return
         if slot_idx < 0 or slot_idx >= 4:
             return
         self._show_skill_picker(t('edit_pals.passives'), PalFrame._PASSMAP, slot_idx, is_active=False)
-
     def _show_skill_picker(self, title, skill_map, slot_idx, is_active):
         try:
             import gc
@@ -2773,7 +2565,7 @@ class PalInfoWidget(QFrame):
             if not is_active:
                 lst.setItemDelegate(_PassiveSkillDelegate(lst))
             cur_data = self._raw.get('EquipWaza' if is_active else 'PassiveSkillList', {})
-            cur_list = cur_data.get('value', {}).get('values', []) if isinstance(cur_data, dict) else (cur_data if isinstance(cur_data, list) else [])
+            cur_list = cur_data.get('value', {}).get('values', []) if isinstance(cur_data, dict) else cur_data if isinstance(cur_data, list) else []
             cur_val = cur_list[slot_idx] if slot_idx < len(cur_list) else ''
             if cur_val:
                 if isinstance(cur_val, dict):
@@ -2784,9 +2576,9 @@ class PalInfoWidget(QFrame):
                         item = lst.item(i)
                         found = False
                         if is_active:
-                            found = (item.data(Qt.UserRole) == display)
+                            found = item.data(Qt.UserRole) == display
                         else:
-                            found = (item.text() == display)
+                            found = item.text() == display
                         if found:
                             lst.setCurrentRow(i)
                             break
@@ -2834,15 +2626,14 @@ class PalInfoWidget(QFrame):
                         break
                 if not asset:
                     return
-            QTimer.singleShot(0, lambda a=asset, s=slot_idx, ia=is_active: (self._set_active_skill(s, a) if ia else self._set_passive_skill(s, a)))
+            QTimer.singleShot(0, lambda a=asset, s=slot_idx, ia=is_active: self._set_active_skill(s, a) if ia else self._set_passive_skill(s, a))
         except Exception:
             import traceback
             traceback.print_exc()
             return
-
     def _set_active_skill(self, slot_idx, asset):
         ew_data = self._raw.get('EquipWaza', {})
-        cur = ew_data.get('value', {}).get('values', []) if isinstance(ew_data, dict) else (ew_data if isinstance(ew_data, list) else [])
+        cur = ew_data.get('value', {}).get('values', []) if isinstance(ew_data, dict) else ew_data if isinstance(ew_data, list) else []
         if not isinstance(cur, list):
             cur = []
         while len(cur) <= slot_idx:
@@ -2850,10 +2641,9 @@ class PalInfoWidget(QFrame):
         cur[slot_idx] = asset
         self._raw['EquipWaza'] = {'array_type': 'EnumProperty', 'id': None, 'value': {'values': cur[:3]}, 'type': 'ArrayProperty'}
         self._refresh()
-
     def _set_passive_skill(self, slot_idx, asset):
         ps_data = self._raw.get('PassiveSkillList', {})
-        cur = ps_data.get('value', {}).get('values', []) if isinstance(ps_data, dict) else (ps_data if isinstance(ps_data, list) else [])
+        cur = ps_data.get('value', {}).get('values', []) if isinstance(ps_data, dict) else ps_data if isinstance(ps_data, list) else []
         if not isinstance(cur, list):
             cur = []
         while len(cur) <= slot_idx:
@@ -2861,7 +2651,6 @@ class PalInfoWidget(QFrame):
         cur[slot_idx] = asset
         self._raw['PassiveSkillList'] = {'array_type': 'NameProperty', 'id': None, 'value': {'values': cur[:4]}, 'type': 'ArrayProperty'}
         self._refresh()
-
     def _on_boss_toggle(self):
         if not self._raw:
             return
@@ -2872,11 +2661,9 @@ class PalInfoWidget(QFrame):
                 if self.info_lucky_btn.isChecked():
                     self.info_lucky_btn.setChecked(False)
                     self._raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': False}
-        else:
-            if cid.upper().startswith('BOSS_'):
-                self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
+        elif cid.upper().startswith('BOSS_'):
+            self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
         self._refresh()
-
     def _on_lucky_toggle(self):
         if not self._raw:
             return
@@ -2888,14 +2675,19 @@ class PalInfoWidget(QFrame):
             if cid.upper().startswith('BOSS_'):
                 self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
         self._refresh()
-
     def _on_awake_toggle(self):
         if not self._raw:
             return
         is_awake = self.info_awake_btn.isChecked()
         self._raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': is_awake}
         self._refresh()
-
+    def _on_fav_toggle(self):
+        if not self._raw:
+            return
+        cur = int(extract_value(self._raw, 'FavoriteIndex', 0))
+        nxt = cur + 1 if cur < 3 else 0
+        self._raw['FavoriteIndex'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': nxt}}
+        self._refresh()
     def _refresh(self):
         if self.last_clicked_data:
             self._update_display(self.last_clicked_data)
@@ -2903,10 +2695,13 @@ class PalInfoWidget(QFrame):
         while parent:
             if hasattr(parent, '_update_party_slots'):
                 parent._update_party_slots()
+            if hasattr(parent, 'palbox_slots') and hasattr(parent, 'party_slots'):
+                for slot in parent.palbox_slots + parent.party_slots:
+                    if hasattr(slot, 'pal_data') and slot.pal_data is self.last_clicked_data:
+                        slot.update_display()
+                        break
                 break
             parent = parent.parent()
-
-
 class SearchSortDialog(QDialog):
     def __init__(self, mode='search', parent=None):
         super().__init__(parent)
@@ -3033,22 +2828,10 @@ class SearchSortDialog(QDialog):
         self.flag_fav3.setChecked(False)
         self.flag_dna.setChecked(False)
     def _on_apply(self):
-        self.result_data = {
-            'sort_type': self.sort_combo.currentText(),
-            'element': self.elem_combo.currentText(),
-            'gender_male': self.gender_male.isChecked(),
-            'gender_female': self.gender_female.isChecked(),
-            'work_suitability': self.work_combo.currentText(),
-            'passive_skill': self.passive_combo.currentText(),
-            'flag_fav1': self.flag_fav1.isChecked(),
-            'flag_fav2': self.flag_fav2.isChecked(),
-            'flag_fav3': self.flag_fav3.isChecked(),
-            'flag_dna': self.flag_dna.isChecked(),
-        }
+        self.result_data = {'sort_type': self.sort_combo.currentText(), 'element': self.elem_combo.currentText(), 'gender_male': self.gender_male.isChecked(), 'gender_female': self.gender_female.isChecked(), 'work_suitability': self.work_combo.currentText(), 'passive_skill': self.passive_combo.currentText(), 'flag_fav1': self.flag_fav1.isChecked(), 'flag_fav2': self.flag_fav2.isChecked(), 'flag_fav3': self.flag_fav3.isChecked(), 'flag_dna': self.flag_dna.isChecked()}
         self.accept()
     def get_results(self):
         return self.result_data if self.result() == QDialog.Accepted else None
-
 class PalEditorWidget(QWidget):
     _process_lock = threading.Lock()
     def __init__(self, parent=None):
@@ -3417,7 +3200,6 @@ class PalEditorWidget(QWidget):
         return super().eventFilter(obj, event)
     def closeEvent(self, event):
         super().closeEvent(event)
-
 class EditPalsDialog(FramelessDialog):
     def __init__(self, player_uid, player_name, parent=None):
         super().__init__('edit_pals.title', parent)
@@ -3431,7 +3213,6 @@ class EditPalsDialog(FramelessDialog):
         self.pal_editor_widget = PalEditorWidget()
         self.content_layout.addWidget(self.pal_editor_widget)
         self.pal_editor_widget.set_player(player_uid, player_name)
-
 def delete_pal_from_all(pal_id):
     from palworld_aio import constants
     if not constants.loaded_level_json:
@@ -3520,7 +3301,6 @@ def delete_pal_from_all(pal_id):
     constants.invalidate_container_lookup()
     affected_count = len(affected_players) + len(affected_bases)
     return {'pals_removed': pals_removed, 'affected_count': affected_count}
-
 def remove_skill_from_all_pals(active_skill_id=None, passive_skill_id=None):
     from palworld_aio import constants
     if not constants.loaded_level_json:
@@ -3571,8 +3351,6 @@ def remove_skill_from_all_pals(active_skill_id=None, passive_skill_id=None):
             print(f'Error processing pal for skill removal: {e}')
             continue
     return {'skills_removed': skills_removed, 'pals_affected': pals_affected}
-
-
 class PalCreateDialog(QDialog):
     def __init__(self, pal_editor, is_party, slot_index, parent=None):
         super().__init__(parent)
@@ -3584,18 +3362,7 @@ class PalCreateDialog(QDialog):
         self.setWindowTitle(f'Create New Pal in {container_name} Slot {slot_index}')
         self.setModal(True)
         self.setMinimumSize(900, 600)
-        self.setStyleSheet('''
-            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }
-            QLabel { color: #e2e8f0; }
-            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }
-            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }
-            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }
-            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }
-            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }
-            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }
-            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }
-            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }
-        ''')
+        self.setStyleSheet('\n            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }\n            QLabel { color: #e2e8f0; }\n            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }\n            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }\n            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }\n            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }\n            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }\n            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }\n            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }\n            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }\n        ')
         layout = QVBoxLayout(self)
         layout.setSpacing(8)
         layout.addWidget(QLabel('Search:'))
@@ -3646,13 +3413,12 @@ class PalCreateDialog(QDialog):
         cancel_btn.clicked.connect(self.reject)
         btn_layout.addWidget(cancel_btn)
         layout.addLayout(btn_layout)
-
     def _on_create(self):
         if not self.selected_pal['asset']:
             show_warning(self, 'Error', t('edit_pals.error_select_pal_type'))
             return
         cid = self.selected_pal['asset']
-        nick = self.nick_edit.text().strip() or f"\U0001f195{self.selected_pal['name']}"
+        nick = self.nick_edit.text().strip() or f"🆕{self.selected_pal['name']}"
         container_id = self.pal_editor.party_container if self.is_party else self.pal_editor.palbox_container
         container_name = t('edit_pals.party') if self.is_party else t('edit_pals.palbox')
         if not container_id:
@@ -3696,20 +3462,13 @@ class PalCreateDialog(QDialog):
             self.pal_editor.palbox_pal_dict[abs_idx] = pal_item
         self.created_item = {'character_id': cid, 'nickname': nick, 'container_id': container_id, 'slot_index': self.slot_index, 'pal_item': pal_item}
         self.accept()
-
-
 class PalFrame(QFrame):
     _maps_loaded = False
     _NAMEMAP = {}
     _PASSMAP = {}
     _PASSRANK = {}
     _SKILLMAP = {}
-    _RANK_COLORS = {
-        -99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', '#7FFF5050', '#FF5555'),
-        1: ('rgba(255,255,255,0.12)', '#7FFFFFFF', '#FFFFFF'),
-        2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', '#7FFFD700', '#FFD700'),
-        4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC'),
-    }
+    _RANK_COLORS = {-99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', '#7FFF5050', '#FF5555'), 1: ('rgba(255,255,255,0.12)', '#7FFFFFFF', '#FFFFFF'), 2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', '#7FFFD700', '#FFD700'), 4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC')}
     @classmethod
     def _passive_rank_color(cls, asset_lower):
         rank = cls._PASSRANK.get(asset_lower, 1)
@@ -3756,7 +3515,7 @@ class PalFrame(QFrame):
             if isinstance(js, dict):
                 data = js.get('passives', [])
                 for x in data:
-                    if isinstance(x, dict) and 'asset' in x and 'rank' in x:
+                    if isinstance(x, dict) and 'asset' in x and ('rank' in x):
                         cls._PASSRANK[x['asset'].lower()] = x['rank']
         except Exception:
             pass

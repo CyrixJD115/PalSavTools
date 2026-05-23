@@ -1411,6 +1411,9 @@ class PalInfoWidget(QFrame):
         self.lucky_overlay.hide()
         self.awake_overlay.hide()
         self.portrait_ring.set_awakened(False)
+        self.last_clicked_data = None
+        self._hovered_data = None
+        self._update_stack_state()
     def _set_passive_overlay(self, index, mode):
         if index >= len(self.passive_cards) or index >= len(self.passive_overlays):
             return
@@ -2973,6 +2976,12 @@ class PalEditorWidget(QWidget):
     def _on_party_slot_clicked(self, idx):
         if 0 <= idx < len(self.party_pals):
             pal = self.party_pals[idx]
+            if self._clicked_pal is pal and self.selected_pal_slot == ('party', idx):
+                self._clicked_pal = None
+                self.selected_pal_slot = None
+                self._clear_party_highlight()
+                self.pal_info._clear_display()
+                return
             self._clicked_pal = pal
             self.pal_info.set_clicked_pal(pal)
             self.selected_pal_slot = ('party', idx)
@@ -2988,6 +2997,12 @@ class PalEditorWidget(QWidget):
     def _on_palbox_slot_clicked(self, idx):
         pals_on_page = self._get_palbox_page_pals()
         if idx < len(pals_on_page) and pals_on_page[idx] is not None:
+            if self._clicked_pal is pals_on_page[idx] and self.selected_pal_slot == ('palbox', idx):
+                self._clicked_pal = None
+                self.selected_pal_slot = None
+                self._clear_palbox_highlight()
+                self.pal_info._clear_display()
+                return
             self._clicked_pal = pals_on_page[idx]
             self.pal_info.set_clicked_pal(pals_on_page[idx])
             self.selected_pal_slot = ('palbox', idx)

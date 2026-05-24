@@ -1594,7 +1594,6 @@ def main():
         global icon_name_to_path
         icon_name_to_path = _build_icon_lookup()
     _run_step('Building icon lookup...', _build_lookup)
-    print()
     _run_step('Updating element data...', update_element_data)
     _run_step('Updating pal data...', update_pal_data)
     _run_step('Updating NPC data...', update_npc_data)
@@ -1621,12 +1620,13 @@ def main():
         print('  Pillow not available, will copy files as-is')
     if has_pil:
         _run_step('Converting map textures...', lambda: _convert_map_pngs(Image))
-    print()
     if has_pil:
         _run_step('Converting icons...', lambda: _convert_icons(Image))
     else:
         print('  No icons to optimize')
     print('\n' + '=' * 60)
+    print(logo)
+    print('=' * 60)
     print('  Update successfully completed! Enjoy latest update!')
     print('=' * 60)
 if __name__ == '__main__':

@@ -9,18 +9,14 @@ def find_ooz_library():
     except:
         pass
     return None
-_PYSIDE6_PLUGINS_KEEP = {'platforms', 'imageformats', 'iconengines', 'styles', 'tls'}
 def find_pyside6_assets():
+    result = []
     try:
         import PySide6
         p = os.path.dirname(PySide6.__file__)
         plugins_dir = os.path.join(p, 'plugins')
-        result = []
         if os.path.exists(plugins_dir):
-            for name in os.listdir(plugins_dir):
-                src = os.path.join(plugins_dir, name)
-                if os.path.isdir(src) and name in _PYSIDE6_PLUGINS_KEEP:
-                    result.append((src, f'lib/PySide6/plugins/{name}'))
+            result.append((plugins_dir, 'lib/PySide6/plugins'))
         translations_dir = os.path.join(p, 'translations')
         if os.path.exists(translations_dir):
             for name in os.listdir(translations_dir):
@@ -58,7 +54,6 @@ _PYSIDE6_EXCLUDES = [
     'PySide6.QtQuickVectorImage',
     'PySide6.QtQuickVectorImageGenerator',
     'PySide6.QtQuickVectorImageHelpers',
-    'PySide6.QtSvg',
     'PySide6.QtLabsAnimation',
     'PySide6.QtLabsFolderListModel',
     'PySide6.QtLabsPlatform',

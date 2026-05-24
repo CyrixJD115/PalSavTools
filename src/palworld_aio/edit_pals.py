@@ -1075,6 +1075,17 @@ def _get_awake_pixmap(size=14):
     base_dir = constants.get_base_path()
     path = os.path.join(base_dir, 'resources', 'UI', 'pst_flame_icon.webp')
     return _get_cached_pixmap(path, size)
+
+_BOSS_PREFIXES = ('BOSS_', 'PREDATOR_', 'GYM_', 'RAID_')
+
+def _composite_badge(pixmap, badge_pixmap, icon_size):
+    result = QPixmap(pixmap)
+    painter = QPainter(result)
+    bw = badge_pixmap.width()
+    bh = badge_pixmap.height()
+    painter.drawPixmap(2, 2, badge_pixmap)
+    painter.end()
+    return result
 def _get_ui_icon_pixmap(icon_key, size=16):
     data = _ensure_ui_icons_data()
     icon_path = data.get(icon_key, '')
@@ -3528,6 +3539,15 @@ def remove_skill_from_all_pals(active_skill_id=None, passive_skill_id=None):
             print(f'Error processing pal for skill removal: {e}')
             continue
     return {'skills_removed': skills_removed, 'pals_affected': pals_affected}
+class _PalSlotDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        super().paint(painter, option, index)
+        has_badge = index.data(Qt.UserRole + 1)
+        if has_badge:
+            badge = _get_boss_alpha_pixmap(14)
+            if badge and not badge.isNull():
+                painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
+
 class PalCreateDialog(QDialog):
     def __init__(self, pal_editor, is_party, slot_index, parent=None):
         super().__init__(parent)
@@ -3558,6 +3578,7 @@ class PalCreateDialog(QDialog):
         self.pal_list.setAcceptDrops(False)
         self.pal_list.setDragDropMode(QAbstractItemView.NoDragDrop)
         self.pal_list.setMinimumHeight(350)
+        self.pal_list.setItemDelegate(_PalSlotDelegate(self.pal_list))
         self.selected_pal = {'asset': None, 'name': None}
         def on_select(item):
             if item:
@@ -3572,6 +3593,11 @@ class PalCreateDialog(QDialog):
             if pix:
                 li.setIcon(QIcon(pix))
             li.setToolTip(f'<b>{name}</b><br>ID: {asset}')
+            is_variant = any(asset.upper().startswith(p) for p in _BOSS_PREFIXES)
+            if is_variant:
+                badge = _get_boss_alpha_pixmap(14)
+                if badge and not badge.isNull():
+                    li.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(li)
         search_edit.textChanged.connect(lambda t: [self.pal_list.item(i).setHidden(t.lower() not in self.pal_list.item(i).text().lower()) for i in range(self.pal_list.count())])
         layout.addWidget(self.pal_list)

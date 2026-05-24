@@ -1,12 +1,21 @@
 import os
 from palworld_save_tools import json_tools
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QMessageBox, QAbstractItemView, QListView, QTabWidget, QCheckBox, QWidget
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QMessageBox, QAbstractItemView, QListView, QTabWidget, QCheckBox, QWidget, QStyledItemDelegate
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
-from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtGui import QPixmap, QIcon, QPainter
 from i18n import t
 from palworld_aio import constants
-from palworld_aio.edit_pals import PalFrame
+from palworld_aio.edit_pals import PalFrame, _get_boss_alpha_pixmap, _composite_badge, _BOSS_PREFIXES
 DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 4px;\n    border: 1px solid rgba(125,211,252,0.12);\n    border-radius: 4px;\n    margin: 2px;\n}\nQListWidget::item:hover {\n    border: 1px solid rgba(125,211,252,0.3);\n    background: rgba(125,211,252,0.05);\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n    border: 1px solid rgba(59,142,208,0.5);\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton:pressed {\n    background: rgba(125,211,252,0.3);\n}\nQGroupBox {\n    color: #e2e8f0;\n    border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 6px;\n    margin-top: 8px;\n    padding-top: 8px;\n}\nQGroupBox::title {\n    subcontrol-origin: margin;\n    left: 10px;\n    padding: 0 5px;\n}\nQCheckBox {\n    color: #e2e8f0;\n    spacing: 8px;\n}\nQCheckBox::indicator {\n    width: 18px;\n    height: 18px;\n}\nQTabWidget::pane {\n    background: rgba(255,255,255,0.03);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQTabBar::tab {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    padding: 8px 16px;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-bottom: none;\n    border-top-left-radius: 6px;\n    border-top-right-radius: 6px;\n}\nQTabBar::tab:selected {\n    background: rgba(125,211,252,0.12);\n    border-color: rgba(125,211,252,0.3);\n}\nQTabBar::tab:hover {\n    background: rgba(125,211,252,0.2);\n}\n'
+class PalSlotDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        super().paint(painter, option, index)
+        has_badge = index.data(Qt.UserRole + 1)
+        if has_badge:
+            badge = _get_boss_alpha_pixmap(14)
+            if badge and not badge.isNull():
+                painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
+
 class PlayerPalActionDialog(QDialog):
     pal_action_selected = Signal(str, str, list)
     def __init__(self, parent=None):
@@ -61,6 +70,7 @@ class PlayerPalActionDialog(QDialog):
         self.pal_list.setSelectionMode(QAbstractItemView.SingleSelection)
         self.pal_list.setDragEnabled(False)
         self.pal_list.setAcceptDrops(False)
+        self.pal_list.setItemDelegate(PalSlotDelegate(self.pal_list))
         self.pal_list.itemClicked.connect(self._on_pal_clicked)
         search_layout.addWidget(self.pal_list)
         self.pal_info_label = QLabel(t('player_pal.select_pal') if t else 'Select a pal to delete from everywhere')
@@ -179,6 +189,8 @@ class PlayerPalActionDialog(QDialog):
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and not pixmap.isNull():
                 list_item.setIcon(QIcon(pixmap))
+            if any(pal_id.upper().startswith(p) for p in _BOSS_PREFIXES):
+                list_item.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(list_item)
     def _search_pals(self, query):
         if not query:
@@ -194,6 +206,8 @@ class PlayerPalActionDialog(QDialog):
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and not pixmap.isNull():
                 list_item.setIcon(QIcon(pixmap))
+            if any(pal_id.upper().startswith(p) for p in _BOSS_PREFIXES):
+                list_item.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(list_item)
     def _on_pal_clicked(self, item):
         self.selected_pal_id = item.data(Qt.UserRole)

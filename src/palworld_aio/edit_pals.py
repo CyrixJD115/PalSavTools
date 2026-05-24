@@ -4,6 +4,7 @@ from palworld_save_tools import json_tools
 import uuid
 import threading
 from functools import partial
+import shiboken6
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QSpinBox, QComboBox, QTextEdit, QFileDialog, QGroupBox, QFormLayout, QCheckBox, QFrame, QTabWidget, QScrollArea, QWidget, QGridLayout, QListWidget, QListWidgetItem, QInputDialog, QTableWidget, QApplication, QProgressBar, QAbstractItemView, QCompleter, QGraphicsOpacityEffect, QMenu, QStyledItemDelegate, QSizePolicy, QStyle
 from PySide6.QtCore import Qt, QTimer, Signal, QPoint, QPointF, QEvent, QSize, QRect, QRectF, QThread
 from PySide6.QtGui import QIcon, QFont, QPixmap, QRegion, QCursor, QPainter, QPainterPath, QPen, QBrush, QFontMetrics, QPalette, QColor, QShortcut, QKeySequence, QLinearGradient
@@ -556,7 +557,7 @@ class PartySlotWidget(QFrame):
         self._build()
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        if self._lvl_overlay and (not self._lvl_overlay.isHidden()):
+        if self._lvl_overlay and shiboken6.isValid(self._lvl_overlay) and (not self._lvl_overlay.isHidden()):
             w = self.width()
             lvl_w = self._lvl_overlay.width()
             self._lvl_overlay.move(8, self.height() - 14)
@@ -594,6 +595,7 @@ class PartySlotWidget(QFrame):
         except Exception:
             return None
     def _build(self):
+        self._lvl_overlay = None
         old_layout = self.layout()
         if old_layout:
             QWidget().setLayout(old_layout)

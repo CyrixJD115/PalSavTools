@@ -830,6 +830,8 @@ class BaseInventoryTab(QWidget):
     def _update_theme(self):
         self.setStyleSheet('\n                QWidget {\n                    background-color: #121418;\n                    color: #e0e0e0;\n                }\n                QComboBox {\n                    background-color: rgba(30, 35, 45, 0.8);\n                    border: 1px solid rgba(255, 255, 255, 0.2);\n                    border-radius: 4px;\n                    padding: 4px 8px;\n                    color: #e0e0e0;\n                }\n                QComboBox::drop-down {\n                    border-left: 1px solid rgba(255, 255, 255, 0.2);\n                }\n                QPushButton {\n                    background-color: rgba(74, 144, 226, 0.8);\n                    border: 1px solid rgba(74, 144, 226, 1.0);\n                    border-radius: 4px;\n                    padding: 6px 12px;\n                    color: white;\n                    font-weight: bold;\n                }\n                QPushButton:hover {\n                    background-color: rgba(74, 144, 226, 1.0);\n                }\n                QPushButton:pressed {\n                    background-color: rgba(50, 120, 200, 1.0);\n                }\n                QSplitter::handle {\n                    background-color: rgba(255, 255, 255, 0.1);\n                }\n                QSplitter::handle:hover {\n                    background-color: rgba(255, 255, 255, 0.2);\n                }\n            ')
     def refresh(self):
+        self.selected_item_id = None
+        self.selected_item_name = None
         self._load_guilds()
         self._load_items()
         self.refresh_labels()

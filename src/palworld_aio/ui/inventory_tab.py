@@ -882,6 +882,7 @@ class PlayerInventoryTab(QWidget):
         self._player_list = []
         self.current_player_uid = None
         self.current_player_name = None
+        self.player_select_btn.setText(t('inventory.select_player', default='Select Player...'))
         if constants.loaded_level_json:
             from palworld_aio.save_manager import save_manager
             players = save_manager.get_players()

@@ -124,6 +124,7 @@ class PalEditorTab(QWidget):
                 self._player_list.append({'uid': uid, 'name': name, 'level': level, 'display': display_name})
         self.current_player_uid = None
         self.current_player_name = None
+        self.player_select_btn.setText(t('inventory.select_player', default='Select Player...'))
     def refresh_labels(self):
         if hasattr(self, 'title_label'):
             self.title_label.setText(t('pal_editor.title'))

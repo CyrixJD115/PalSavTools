@@ -10,9 +10,7 @@ license = "MIT"
 authors = [{ name = "Pylar" }]
 requires-python = ">=3.11"
 dependencies = [
-    "pandas",
     "cityhash",
-    "numpy",
     "pyside6-essentials",
     "Pillow",
     "pyooz @ git+https://github.com/oMaN-Rod/pyooz.git",

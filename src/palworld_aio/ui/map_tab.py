@@ -468,7 +468,6 @@ class MapTab(QWidget):
         self._calibration_markers.append(label)
         self._update_calibration_label()
     def _compute_calibration(self):
-        import numpy as np
         from PySide6.QtWidgets import QMessageBox
         pts = self._calibration_points
         if len(pts) < 1:
@@ -486,19 +485,39 @@ class MapTab(QWidget):
             ty = ry - wx * s
             tx = wy * s - rx
         else:
-            A_y, b_y, A_x, b_x = ([], [], [], [])
+            n = float(len(pts))
+            sum_wx, sum_wy, sum_rx, sum_ry = 0.0, 0.0, 0.0, 0.0
+            sum_wx2, sum_wy2, sum_wx_ry, sum_wy_rx = 0.0, 0.0, 0.0, 0.0
             for rx, ry, px, py in pts:
                 wx = px * 2000.0 / W - 1000.0
                 wy = 1000.0 - py * 2000.0 / H
-                A_y.append([wx, 1])
-                b_y.append(ry)
-                A_x.append([wy, 1])
-                b_x.append(rx)
-            py_res = np.linalg.lstsq(np.array(A_y), np.array(b_y), rcond=None)[0]
-            px_res = np.linalg.lstsq(np.array(A_x), np.array(b_x), rcond=None)[0]
-            s = (py_res[0] + px_res[0]) / 2.0
-            ty = float(np.mean([ry - wx * s for rx, ry, px, py in pts for wx in [px * 2000.0 / W - 1000.0]]))
-            tx = float(np.mean([wy * s - rx for rx, ry, px, py in pts for wy in [1000.0 - py * 2000.0 / H]]))
+                sum_wx += wx
+                sum_wy += wy
+                sum_rx += rx
+                sum_ry += ry
+                sum_wx2 += wx * wx
+                sum_wy2 += wy * wy
+                sum_wx_ry += wx * ry
+                sum_wy_rx += wy * rx
+            denom_y = n * sum_wx2 - sum_wx * sum_wx
+            denom_x = n * sum_wy2 - sum_wy * sum_wy
+            if denom_y != 0.0:
+                s1 = (n * sum_wx_ry - sum_wx * sum_ry) / denom_y
+            else:
+                s1 = sum_ry / n if n > 0 else 0.0
+            if denom_x != 0.0:
+                s2 = (n * sum_wy_rx - sum_wy * sum_rx) / denom_x
+            else:
+                s2 = sum_rx / n if n > 0 else 0.0
+            s = (s1 + s2) / 2.0
+            ty_sum, tx_sum = 0.0, 0.0
+            for rx, ry, px, py in pts:
+                wx = px * 2000.0 / W - 1000.0
+                wy = 1000.0 - py * 2000.0 / H
+                ty_sum += ry - wx * s
+                tx_sum += wy * s - rx
+            ty = ty_sum / n
+            tx = tx_sum / n
         import os, palworld_coord
         coord_path = os.path.join(os.path.dirname(palworld_coord.__file__), '__init__.py')
         with open(coord_path, 'r', encoding='utf-8') as f:

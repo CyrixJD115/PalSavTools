@@ -986,7 +986,7 @@ class BaseInventoryTab(QWidget):
         if not self.manager.inventory_container:
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
             return
-        dialog = ItemPickerDialog(self)
+        dialog = ItemPickerDialog(self, filter_exclude_type_a='EPalItemTypeA::Essential')
         dialog.item_selected.connect(lambda item_id, qty: self._do_add_item(item_id, qty))
         dialog.exec()
     def _do_add_item(self, item_id: str, count: int):
@@ -1185,7 +1185,7 @@ class BaseInventoryTab(QWidget):
         if not self.manager.inventory_container:
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
             return
-        dialog = ItemPickerDialog(self)
+        dialog = ItemPickerDialog(self, filter_exclude_type_a='EPalItemTypeA::Essential')
         dialog.item_selected.connect(lambda item_id, qty: self._do_add_item_to_slot(slot_index, item_id, qty))
         dialog.exec()
     def _do_add_item_to_slot(self, slot_index: int, item_id: str, count: int):

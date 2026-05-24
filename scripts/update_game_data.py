@@ -412,6 +412,10 @@ def update_pal_data():
                     val = val.get('value', 0)
                 work_suit[w] = int(val) if val else 0
             pal_entry['stats'] = {'hp': monster_row.get('Hp', 100), 'melee_attack': monster_row.get('MeleeAttack', 100), 'shot_attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100), 'support': monster_row.get('Support', 100), 'craft_speed': monster_row.get('CraftSpeed', 100), 'max_full_stomach': monster_row.get('MaxFullStomach', 300), 'food_amount': monster_row.get('FoodAmount', 5), 'element_type1': el1, 'element_type2': el2, 'zukan_index': monster_row.get('ZukanIndex', 0), 'rarity': monster_row.get('Rarity', 0), 'size': monster_row.get('Size', 'EPalSizeType::XS') if isinstance(monster_row.get('Size', ''), str) else 'EPalSizeType::XS', 'run_speed': monster_row.get('RunSpeed', 400), 'ride_sprint_speed': monster_row.get('RideSprintSpeed', 700)}
+            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('MeleeAttack', 100), 'defense': monster_row.get('Defense', 100)}
+            pal_entry['friendship_hp'] = monster_row.get('Friendship_HP', 0)
+            pal_entry['friendship_shotattack'] = monster_row.get('Friendship_ShotAttack', 0)
+            pal_entry['friendship_defense'] = monster_row.get('Friendship_Defense', 0)
             pal_entry['work_suitabilities'] = work_suit
         updated_pals.append(pal_entry)
     for pal_id in sorted(monster_rows.keys()):
@@ -492,6 +496,10 @@ def update_pal_data():
                     val = val.get('value', 0)
                 work_suit[w] = int(val) if val else 0
             pal_entry['stats'] = {'hp': monster_row.get('Hp', 100), 'melee_attack': monster_row.get('MeleeAttack', 100), 'shot_attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100), 'support': monster_row.get('Support', 100), 'craft_speed': monster_row.get('CraftSpeed', 100), 'max_full_stomach': monster_row.get('MaxFullStomach', 300), 'food_amount': monster_row.get('FoodAmount', 5), 'element_type1': el1, 'element_type2': el2, 'zukan_index': monster_row.get('ZukanIndex', 0), 'rarity': monster_row.get('Rarity', 0), 'size': monster_row.get('Size', 'EPalSizeType::XS') if isinstance(monster_row.get('Size', ''), str) else 'EPalSizeType::XS', 'run_speed': monster_row.get('RunSpeed', 400), 'ride_sprint_speed': monster_row.get('RideSprintSpeed', 700)}
+            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('MeleeAttack', 100), 'defense': monster_row.get('Defense', 100)}
+            pal_entry['friendship_hp'] = monster_row.get('Friendship_HP', 0)
+            pal_entry['friendship_shotattack'] = monster_row.get('Friendship_ShotAttack', 0)
+            pal_entry['friendship_defense'] = monster_row.get('Friendship_Defense', 0)
             pal_entry['work_suitabilities'] = work_suit
         updated_pals.append(pal_entry)
         if display_name != pal_id:
@@ -783,13 +791,20 @@ def update_passive_data():
     existing = load_resource_json('passivedata.json')
     existing_passives = {p.get('asset', '').lower(): p for p in existing.get('passives', [])}
     raw_skill_l10n = load_l10n_table('DT_SkillNameText_Common.json')
+    raw_skill_desc = load_l10n_table('DT_SkillDescText_Common.json')
     passive_name_l10n = {}
+    passive_desc_l10n = {}
     _invalid_l10n = {'', 'en_text', 'en text', 'en', '-', 'none', 'ex text'}
     for uid_key, display_name in raw_skill_l10n.items():
         if uid_key.startswith('PASSIVE_'):
             passive_asset = uid_key[len('PASSIVE_'):]
             if display_name and display_name.strip().lower() not in _invalid_l10n:
                 passive_name_l10n[passive_asset] = display_name
+    for uid_key, desc_text in raw_skill_desc.items():
+        if uid_key.startswith('PASSIVE_'):
+            passive_asset = uid_key[len('PASSIVE_'):]
+            if desc_text and desc_text.strip().lower() not in _invalid_l10n:
+                passive_desc_l10n[passive_asset] = desc_text
     all_rows = {}
     for data in [passive_main, passive_main_common]:
         if data:
@@ -826,7 +841,15 @@ def update_passive_data():
             copied_icon = find_and_copy_icon(icon_filename, 'passives', passive_icon_subdirs)
         l10n_name = passive_name_l10n.get(passive_id, None)
         display_name = l10n_name or passive_id
-        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or existing_entry.get('icon', '/icons/passives/T_icon_skillstatus_rank_arrow_04.png')}
+        desc_id = row_data.get('OverrideDescMsgID', '') if isinstance(row_data, dict) else ''
+        desc_text = raw_skill_desc.get(desc_id, '') if desc_id else ''
+        if not desc_text and desc_id:
+            desc_text = raw_skill_desc.get(passive_id, '')
+        ev1 = row_data.get('EffectValue1', 0) if isinstance(row_data, dict) else 0
+        ev2 = row_data.get('EffectValue2', 0) if isinstance(row_data, dict) else 0
+        ev3 = row_data.get('EffectValue3', 0) if isinstance(row_data, dict) else 0
+        ev4 = row_data.get('EffectValue4', 0) if isinstance(row_data, dict) else 0
+        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or existing_entry.get('icon', '/icons/passives/T_icon_skillstatus_rank_arrow_04.png'), 'description': desc_text, 'effect1': ev1, 'effect2': ev2, 'effect3': ev3, 'effect4': ev4}
         updated_passives.append(passive_entry)
     result = {'passives': updated_passives}
     save_resource_json('passivedata.json', result)
@@ -960,11 +983,18 @@ def update_skill_data():
     existing = load_resource_json('skilldata.json')
     existing_skills = {s.get('asset', '').lower(): s for s in existing.get('skills', [])}
     raw_skill_l10n = load_l10n_table('DT_SkillNameText_Common.json')
+    raw_skill_desc = load_l10n_table('DT_SkillDescText_Common.json')
     skill_name_l10n = {}
     for uid_key, display_name in raw_skill_l10n.items():
         if uid_key.startswith('ACTION_SKILL_'):
             skill_asset = uid_key[len('ACTION_SKILL_'):]
             skill_name_l10n[skill_asset] = display_name
+    skill_desc_l10n = {}
+    for uid_key, desc_text in raw_skill_desc.items():
+        if uid_key.startswith('ACTION_SKILL_'):
+            skill_asset = uid_key[len('ACTION_SKILL_'):]
+            if desc_text and desc_text.lower() not in ('en text', 'en_text', '', 'none'):
+                skill_desc_l10n[skill_asset] = desc_text
     if not all_rows:
         print('  No skill rows found. Skipping.')
         return
@@ -1001,7 +1031,7 @@ def update_skill_data():
         skill_lower = entry['asset'].lower()
         existing_entry = existing_skills.get(skill_lower, {})
         l10n_name = skill_name_l10n.get(entry['asset'], None)
-        skill_entry = {'name': l10n_name or existing_entry.get('name', entry['name']), 'asset': entry['asset'], 'element': existing_entry.get('element', entry['element']), 'power': existing_entry.get('power', entry['power']), 'cooldown': existing_entry.get('cooldown', entry['cooldown'])}
+        skill_entry = {'name': l10n_name or existing_entry.get('name', entry['name']), 'asset': entry['asset'], 'element': existing_entry.get('element', entry['element']), 'power': existing_entry.get('power', entry['power']), 'cooldown': existing_entry.get('cooldown', entry['cooldown']), 'description': skill_desc_l10n.get(entry['asset'], '')}
         updated_skills.append(skill_entry)
     result = {'skills': updated_skills}
     save_resource_json('skilldata.json', result)

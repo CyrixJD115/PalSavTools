@@ -5,2625 +5,3000 @@
             "asset": "AcidRain",
             "element": "Water",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Creates acidic clouds that\r\npour down acid rain on enemies."
         },
         {
             "name": "Air Blade",
             "asset": "AirBlade",
             "element": "Normal",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Sends out sharp blades of air in a fan shape."
         },
         {
             "name": "Air Cannon",
             "asset": "AirCanon",
             "element": "Normal",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly fires a burst of highly pressurized air."
         },
         {
             "name": "Apocalypse",
             "asset": "Apocalypse",
             "element": "Dark",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Generates several dark vortexes around the enemy."
         },
         {
             "name": "Hydro Jet",
             "asset": "AquaJet",
             "element": "Water",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls a high speed ball of water\r\nat an enemy."
         },
         {
             "name": "Beam Slicer",
             "asset": "BeamSlicer",
             "element": "Dragon",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Mows down the area in front with a beam imbued with dragon power.\r\nThe area struck by the beam will also explode after a short delay."
         },
         {
             "name": "Blast Cannon",
             "asset": "BlastCanon",
             "element": "Dragon",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Fires an energy bullet imbued with dragon power at the enemy's location.\r\nUpon impact, the bullet shatters and creates a frontal long-range explosion."
         },
         {
             "name": "Iceberg",
             "asset": "BlizzardLance",
             "element": "Ice",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Summons a sharp ice lance\r\nunder an enemy."
         },
         {
             "name": "Unknown Skill (BlueThunderHorse_PartnerSkill)",
             "asset": "BlueThunderHorse_PartnerSkill",
             "element": "Electricity",
             "power": 30,
-            "cooldown": 55.0
+            "cooldown": 55.0,
+            "description": ""
         },
         {
             "name": "Bubble Blast",
             "asset": "BubbleShot",
             "element": "Water",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Fires numerous bubbles\r\nthat slowly pursue an enemy."
         },
         {
             "name": "Poison Shower",
             "asset": "BubbleShower",
             "element": "Dark",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Focuses energy into the body and scatters poison orbs in all directions."
         },
         {
             "name": "Charge Cannon",
             "asset": "ChargeCanon",
             "element": "Dragon",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Fires an energy orb infused with draconic power at the enemy. \r\nThe orb causes a wide-area explosion upon impact."
         },
         {
             "name": "Comet Strike",
             "asset": "Commet",
             "element": "Dragon",
             "power": 180,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Drops a meteorite straight down,\r\ngenerating a shock wave around the impact area."
         },
         {
             "name": "Meteorain",
             "asset": "CommetRain",
             "element": "Dragon",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Drops countless meteorites,\r\ngenerating an array of shock waves."
         },
         {
             "name": "Creeping Bubble",
             "asset": "CreepingBubble",
             "element": "Water",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nLaunches a mass of bubbles to encircle and assault a target."
         },
         {
             "name": "Crosswind",
             "asset": "CrossWind",
             "element": "Leaf",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Conjures blades of wind in front of the enemy, converging to deliver a cutting cross attack."
         },
         {
             "name": "Dark Arrow",
             "asset": "DarkArrow",
             "element": "Dark",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Fires off dark energy\r\nthat homes in on an enemy."
         },
         {
             "name": "Dark Ball",
             "asset": "DarkBall",
             "element": "Dark",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Unleashes a sphere of darkness \r\nthat slowly tracks down an enemy."
         },
         {
             "name": "Dark Cannon",
             "asset": "DarkCanon",
             "element": "Dark",
             "power": 70,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Hurls an energy ball imbued\r\nwith dark energy at an enemy."
         },
         {
             "name": "Dark Laser",
             "asset": "DarkLaser",
             "element": "Dark",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Charges dark energy before\r\nblasting enemies with a powerful beam."
         },
         {
             "name": "Dark Whisp",
             "asset": "DarkLegion",
             "element": "Dark",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Fires a menacing ball of dark energy that pursues enemies."
         },
         {
             "name": "Umbral Surge",
             "asset": "DarkPulse",
             "element": "Dark",
             "power": 60,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Fires high-speed dark orbs in a fan shape, \r\nspreading as they travel."
         },
         {
             "name": "Shadow Burst",
             "asset": "DarkWave",
             "element": "Dark",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Quickly discharges dark energy,\r\ndamaging those around it."
         },
         {
             "name": "Diamond Rain",
             "asset": "DiamondFall",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Creates numerous lumps of ice that are\r\nconsecutively dropped on a foe's head."
         },
         {
             "name": "Torrential Blast",
             "asset": "DiversionLaser",
             "element": "Water",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Fires a high-pressure stream of water forward.\r\nAfter a short delay, the stream branches off to the left and right."
         },
         {
             "name": "Double Blizzard Spike",
             "asset": "DoubleIcicleThrow",
             "element": "Ice",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Creates two huge ice blocks\r\nand fires them at the enemy one after another.\r\nOn impact, it also shocks those close by."
         },
         {
             "name": "Draconic Breath",
             "asset": "DragonBreath",
             "element": "Dragon",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Exhales breath imbued with draconic energy,\r\ndealing continuous damage to those in front of it."
         },
         {
             "name": "Dragon Cannon",
             "asset": "DragonCanon",
             "element": "Dragon",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls an energy ball imbued\r\nwith draconic energy at an enemy."
         },
         {
             "name": "Dragon Meteor",
             "asset": "DragonMeteor",
             "element": "Dragon",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Summons numerous small meteorites\r\nand launches them at an enemy."
         },
         {
             "name": "Dragon Burst",
             "asset": "DragonWave",
             "element": "Dragon",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Quickly discharges draconic energy,\r\ndamaging those around it."
         },
         {
             "name": "Shockwave",
             "asset": "ElecWave",
             "element": "Electricity",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Quickly discharges electricity,\r\nshocking those around it."
         },
         {
             "name": "Volcanic Rain",
             "asset": "Eruption",
             "element": "Fire",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Fires countless volcanic bombs into the sky.\r\nAfter a while, the bombs rain down around their originator."
         },
         {
             "name": "Fire Ball",
             "asset": "FireBall",
             "element": "Fire",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Creates a giant ball of flame and hurls it at an enemy.\r\nThe ball explodes over a wide area upon impact."
         },
         {
             "name": "Ignis Blast",
             "asset": "FireBlast",
             "element": "Fire",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls a ball of fire \r\nstraight at an enemy."
         },
         {
             "name": "Spirit Fire",
             "asset": "FireSeed",
             "element": "Fire",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Shoots fireballs towards an enemy. \r\nThe fireballs explode after a short distance, \r\ngenerating smaller fireballs that spread forward."
         },
         {
             "name": "Flame Funnel",
             "asset": "FlameFunnel",
             "element": "Fire",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Creates multiple spheres of fiery energy,\r\nfrom which countless fireballs shoot towards the enemy."
         },
         {
             "name": "Ignis Breath",
             "asset": "Flamethrower",
             "element": "Fire",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Shoots flames at an enemy,\r\ndealing continuous damage."
         },
         {
             "name": "Flame Wall",
             "asset": "FlameWall",
             "element": "Fire",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Creates a wall of flames at the enemy's location.\r\nThe wall of flames will remain for a while,\r\nand deal damage to the enemies it touches."
         },
         {
             "name": "Flare Arrow",
             "asset": "FlareArrow",
             "element": "Fire",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Fires three flaming arrows in succession\r\nthat home in on an enemy."
         },
         {
             "name": "Flare Storm",
             "asset": "FlareTornado",
             "element": "Fire",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates two flaming tornadoes on either side \r\nbefore launching them at an enemy."
         },
         {
             "name": "Crystal Breath",
             "asset": "FrostBreath",
             "element": "Ice",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Enshrouds an enemy in a frigid blast of air,\r\ndealing continuous damage."
         },
         {
             "name": "Unknown Skill (Funnel_DreamDemon)",
             "asset": "Funnel_DreamDemon",
             "element": "Dark",
             "power": 20,
-            "cooldown": 5.0
+            "cooldown": 5.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Funnel_RaijinDaughter)",
             "asset": "Funnel_RaijinDaughter",
             "element": "Electricity",
             "power": 30,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Funnel_RaijinDaughter_Water)",
             "asset": "Funnel_RaijinDaughter_Water",
             "element": "Dark",
             "power": 30,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": ""
         },
         {
             "name": "Spirit Flame",
             "asset": "GhostFlame",
             "element": "Dark",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Fires three balls of malice\r\nthat relentlessly pursue an enemy."
         },
         {
             "name": "GrassGolem_Dark_PartnerSkill",
             "asset": "GrassGolem_Dark_PartnerSkill",
             "element": "Dark",
             "power": 600,
-            "cooldown": 0
+            "cooldown": 0,
+            "description": ""
         },
         {
             "name": "GrassGolem_PartnerSkill",
             "asset": "GrassGolem_PartnerSkill",
             "element": "Leaf",
             "power": 600,
-            "cooldown": 0
+            "cooldown": 0,
+            "description": ""
         },
         {
             "name": "Grass Tornado",
             "asset": "GrassTornado",
             "element": "Leaf",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates two tornadoes on either side \r\nbefore launching them at an enemy."
         },
         {
             "name": "Dark Shot",
             "asset": "GravityShot",
             "element": "Dark",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Fires a dark energy projectile\r\nthat accelerates over time."
         },
         {
             "name": "Holy Burst",
             "asset": "HolyBlast",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Creates a wide explosion of light\r\nat the enemy's location and around it."
         },
         {
             "name": "Punch",
             "asset": "Human_Punch",
             "element": "Normal",
             "power": 12,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "Punch with conviction; believe in the power of the fist."
         },
         {
             "name": "Unknown Skill (Human_Rolling)",
             "asset": "Human_Rolling",
             "element": "Normal",
             "power": 0,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Hydro Laser",
             "asset": "HydroPump",
             "element": "Water",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Shoots pressurized water at extreme velocities,\r\nsweeping over a wide area in front of it."
         },
         {
             "name": "Hydro Slicer",
             "asset": "HydroSlicer",
             "element": "Water",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Mows down the frontal area with a blast of compressed water.\r\nThe area struck by the blast erupts with water after a short delay."
         },
         {
             "name": "Pal Blast",
             "asset": "HyperBeam",
             "element": "Normal",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Charges destructive energy before firing\r\na high-powered beam forward across a wide area."
         },
         {
             "name": "Absolute Frost",
             "asset": "IceAge",
             "element": "Ice",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Throws icicles in a wide area from under the enemy's feet."
         },
         {
             "name": "Icicle Cutter",
             "asset": "IceBlade",
             "element": "Ice",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Creates a crescent blade of ice\r\nand hurls it forward."
         },
         {
             "name": "Ice Missile",
             "asset": "IceMissile",
             "element": "Ice",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Creates ice lances in the air\r\nthat fly towards enemies."
         },
         {
             "name": "Freeze Wall",
             "asset": "IceWall",
             "element": "Ice",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Creates a wall of ice that rises from the ground.\r\nThe ice wall remains standing for a while,\r\nand breaks after taking enough damage."
         },
         {
             "name": "Icicle Line",
             "asset": "IcicleLine",
             "element": "Ice",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Generates pillars of ice that move in a straight line in three directions."
         },
         {
             "name": "Icicle Bullet",
             "asset": "IciclePierce",
             "element": "Ice",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates multiple sharp ice blocks in the sky\r\nand fires them at the enemy."
         },
         {
             "name": "Blizzard Spike",
             "asset": "IcicleThrow",
             "element": "Ice",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Creates a giant lump of ice and hurls it at an enemy.\r\nIt deals damage to those in the surrounding area upon impact."
         },
         {
             "name": "Ignis Rage",
             "asset": "Inferno",
             "element": "Fire",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Infuses the surrounding ground with energy, \r\ncausing it to explode after a set amount of time."
         },
         {
             "name": "Lightning Strike",
             "asset": "LightningStrike",
             "element": "Electricity",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Acts as a lightning rod, calling down thunderbolts\r\nthat electrocute the surrounding area."
         },
         {
             "name": "Splash",
             "asset": "LineGeyser",
             "element": "Water",
             "power": 140,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Generates a column of water that travels in a straight line."
         },
         {
             "name": "Lightning Streak",
             "asset": "LineThunder",
             "element": "Electricity",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Generates a lightning bolt \r\nthat moves forward in a line."
         },
         {
             "name": "Lock-on Laser",
             "asset": "LockonLaser",
             "element": "Electricity",
             "power": 140,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Takes aim at an enemy before\r\nfiring a super high speed laser."
         },
         {
             "name": "Bog Blast",
             "asset": "MudShot",
             "element": "Earth",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls sticky mud\r\nat an enemy."
         },
         {
             "name": "Poison Fog",
             "asset": "PoisonFog",
             "element": "Dark",
             "power": 0,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Generates a fog of poison in front, \r\ncausing the opponent to become poisoned."
         },
         {
             "name": "Poison Blast",
             "asset": "PoisonShot",
             "element": "Dark",
             "power": 30,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls poison sludge\r\nat an enemy."
         },
         {
             "name": "Unknown Skill (PoseidonOrca_PartnerSkill)",
             "asset": "PoseidonOrca_PartnerSkill",
             "element": "Water",
             "power": 60,
-            "cooldown": 55.0
+            "cooldown": 55.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (PoseidonOrca_PartnerSkill_SpearBullet)",
             "asset": "PoseidonOrca_PartnerSkill_SpearBullet",
             "element": "Water",
             "power": 50,
-            "cooldown": 55.0
+            "cooldown": 55.0,
+            "description": ""
         },
         {
             "name": "Power Bomb",
             "asset": "PowerBall",
             "element": "Normal",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Charges a massive amount of energy\r\nbefore firing a large destructive ball."
         },
         {
             "name": "Power Shot",
             "asset": "PowerShot",
             "element": "Normal",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Charges energy\r\ninto a focused blast."
         },
         {
             "name": "Predator Blast",
             "asset": "PredatorBeam",
             "element": "Normal",
             "power": 600,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": ""
         },
         {
             "name": "Predator Mark",
             "asset": "PredatorLockon",
             "element": "Normal",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": ""
         },
         {
             "name": "Predator Surge",
             "asset": "PredatorWave",
             "element": "Normal",
             "power": 200,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": ""
         },
         {
             "name": "Psycho Gravity",
             "asset": "Psychokinesis",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Utilizes gravity by grabbing enemies and flinging them into the ground from above."
         },
         {
             "name": "Radiant Barrage",
             "asset": "RadiantBarrage",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Unleashes a sphere of light that slowly tracks down an enemy. \r\nAs it nears its target, it splits into countless light bullets that strike all at once."
         },
         {
             "name": "Raid Cutter",
             "asset": "RaidCutter",
             "element": "Leaf",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Shoots countless wind swords \r\nthat fly straight towards the enemy."
         },
         {
             "name": "Thunder Rail",
             "asset": "Railbolt",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Charge the power of lightning to the limit\r\nand fires multiple simultaneous electric shocks at the enemy."
         },
         {
             "name": "All Range Thunder",
             "asset": "RangeThunder",
             "element": "Electricity",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Generates lightning strikes that travel \r\nin a straight line in all directions."
         },
         {
             "name": "Reflect Leaf",
             "asset": "ReflectiveShuriken",
             "element": "Leaf",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Launches a blade of wind that rebounds off enemies or trees, striking repeatedly.\r\nCan ricochet up to four times."
         },
         {
             "name": "Aqua Surge",
             "asset": "RipTide",
             "element": "Water",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Generates waves that surge around the enemy from all sides. \r\nThey converge and explode at the center, erupting into a column of water."
         },
         {
             "name": "Stone Beat",
             "asset": "RockBeat",
             "element": "Earth",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Shakes the ground and lifts a massive boulder into the air."
         },
         {
             "name": "Rock Lance",
             "asset": "RockLance",
             "element": "Earth",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Generates a sharp rock spear\r\nunder an enemy."
         },
         {
             "name": "Spine Vine",
             "asset": "RootAttack",
             "element": "Leaf",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates spiny thorns that chase an enemy\r\nalong the ground, piercing them from below."
         },
         {
             "name": "Circle Vine",
             "asset": "RootLance",
             "element": "Leaf",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Sprouts sharp roots\r\nin and around the enemy's location."
         },
         {
             "name": "Sand Tornado",
             "asset": "SandTornado",
             "element": "Earth",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates two sand tornadoes on either side\r\nbefore launching them at an enemy."
         },
         {
             "name": "Sand Twister",
             "asset": "SandTwister",
             "element": "Earth",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Creates multiple sand tornadoes.\r\nThe tornadoes continuously spin in circles."
         },
         {
             "name": "en Text",
             "asset": "Scratch",
             "element": "Normal",
             "power": 100,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": ""
         },
         {
             "name": "Geyser Gush",
             "asset": "SeaGush",
             "element": "Water",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Erupts massive pillars of water beneath and around the enemy."
         },
         {
             "name": "Seed Machine Gun",
             "asset": "SeedMachinegun",
             "element": "Leaf",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Fires a volley of hard seeds\r\nat enemies in front of it."
         },
         {
             "name": "Seed Mine",
             "asset": "SeedMine",
             "element": "Leaf",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Launches a deadly seed.\r\nIf it hits an enemy, the seed explodes."
         },
         {
             "name": "Implode",
             "asset": "SelfDestruct",
             "element": "Normal",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Risks its life to cause a violent explosion.\r\nBecomes incapacitated afterwards."
         },
         {
             "name": "Bee Quiet",
             "asset": "SelfDestruct_Bee",
             "element": "Leaf",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Risks its life to cause a violent explosion, \r\nbut receives the honor of falling in battle."
         },
         {
             "name": "Megaton Implode",
             "asset": "SelfExplosion",
             "element": "Normal",
             "power": 1200,
-            "cooldown": 60.0
+            "cooldown": 60.0,
+            "description": "Risks life to cause a massive explosion.\r\nThose who perish for their duty become glistening stars in the night sky."
         },
         {
             "name": "Nightmare Ball",
             "asset": "ShadowBall",
             "element": "Dark",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Creates a giant ball of darkness\r\nand hurls it at an enemy."
         },
         {
             "name": "Lethal Laser",
             "asset": "ShokeiLaser",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "After aiming at the enemy,\r\nfires multiple ultra-fast lightning lasers."
         },
         {
             "name": "Solar Blast",
             "asset": "SolarBeam",
             "element": "Leaf",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Charges solar energy before\r\nblasting enemies with a powerful beam."
         },
         {
             "name": "Multicutter",
             "asset": "SpecialCutter",
             "element": "Leaf",
             "power": 140,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "The user fires three high-speed blades of wind\r\nin quick succession that fly straight at enemies."
         },
         {
             "name": "Spark Blast",
             "asset": "SpreadPulse",
             "element": "Electricity",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Releases lightning orbs in a fan shape, \r\nspreading as they travel."
         },
         {
             "name": "Star Mine",
             "asset": "StarMine",
             "element": "Normal",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Generates stars around the enemy that explode on contact.\r\nStars also explode after some time."
         },
         {
             "name": "Stone Blast",
             "asset": "StoneShotgun",
             "element": "Earth",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Fires a barrage of stones forward."
         },
         {
             "name": "Comet Barrage",
             "asset": "ThreeCommet",
             "element": "Dragon",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Drops meteorites one after another,\r\ngenerating shock waves around the impact areas."
         },
         {
             "name": "Tri-Lightning",
             "asset": "ThreeThunder",
             "element": "Electricity",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Generates lightning that strikes\r\nan enemy three times from above."
         },
         {
             "name": "en Text",
             "asset": "Throw",
             "element": "Normal",
             "power": 60,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Stone Cannon",
             "asset": "ThrowRock",
             "element": "Earth",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Digs up a boulder\r\nand hurls it at an enemy."
         },
         {
             "name": "Electric Ball",
             "asset": "ThunderBall",
             "element": "Electricity",
             "power": 100,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Fires an electric ball\r\nthat slowly pursues an enemy."
         },
         {
             "name": "Lightning Bolt",
             "asset": "Thunderbolt",
             "element": "Electricity",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Charges electric energy before\r\nblasting enemies with a powerful shock."
         },
         {
             "name": "Plasma Funnel",
             "asset": "ThunderFunnel",
             "element": "Electricity",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Creates two balls of electric energy\r\nthat fire numerous lightning orbs at enemies."
         },
         {
             "name": "Thunder Rain",
             "asset": "ThunderRain",
             "element": "Electricity",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Calls lightning that strikes an enemy\r\nafter a set amount of time has passed."
         },
         {
             "name": "Thunder Spear",
             "asset": "ThunderSpear",
             "element": "Electricity",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Fires a high-speed lightning spear\r\nstraight ahead towards the enemy."
         },
         {
             "name": "Thunderstorm",
             "asset": "ThunderStorm",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Generates a huge tornado of lightning\r\nthat moves slowly towards the enemy."
         },
         {
             "name": "Rockburst",
             "asset": "Tremor",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Causes the ground to shake before hurling a massive stone mass at its surroundings."
         },
         {
             "name": "TriSpark",
             "asset": "TriSpark",
             "element": "Electricity",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "A high-speed lightning ball that flies in a straight line.\r\nSimultaneously fires slow lightning balls that track the enemy."
         },
         {
             "name": "Fluffy Tackle",
             "asset": "Unique_Alpaca_Tackle",
             "element": "Normal",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "<characterName id=|Alpaca|/>'s exclusive skill.\r\nCharges forward while surrounded by an adorable aura."
         },
         {
             "name": "Fierce Fang (Fire)",
             "asset": "Unique_AmaterasuWolf_Bite",
             "element": "Fire",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Fire)",
             "asset": "Unique_AmaterasuWolf_BiteV2",
             "element": "Fire",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Fierce Fang (Dark)",
             "asset": "Unique_AmaterasuWolf_Dark_Bite",
             "element": "Dark",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Dark)",
             "asset": "Unique_AmaterasuWolf_Dark_BiteV2",
             "element": "Dark",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Daring Shadowstorm",
             "asset": "Unique_AmaterasuWolf_Dark_DarkCharge",
             "element": "Dark",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|AmaterasuWolf_Dark|/>'s exclusive skill.\r\nCharges forward with great speed while enveloped in intense purple flames."
         },
         {
             "name": "Daring Flames",
             "asset": "Unique_AmaterasuWolf_FireCharge",
             "element": "Fire",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|AmaterasuWolf|/>'s exclusive skill.\r\nCharges forward with great speed while enveloped in intense blue flames."
         },
         {
             "name": "Ground Smash",
             "asset": "Unique_Anubis_GroundPunch",
             "element": "Earth",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|Anubis|/>' exclusive skill.\r\nLeaps high into the air and strikes a punch to the ground, \r\ncausing a shockwave that deals damge over a wide area."
         },
         {
             "name": "Spinning Roundhouse",
             "asset": "Unique_Anubis_LowRoundKick",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|Anubis|/>' exclusive skill.\r\nPerforms a spin kick with its strong legs, sweeping enemies over a wide area."
         },
         {
             "name": "Forceful Charge",
             "asset": "Unique_Anubis_Tackle",
             "element": "Earth",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Anubis|/>' exclusive skill.\r\nRapidly pursues its foes while releasing energy\r\nand unleashing a powerful punch."
         },
         {
             "name": "Nightmare Claw",
             "asset": "Unique_Baphomet_Dark_DarkKite",
             "element": "Dark",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Incineram Noct's exclusive skill. \r\nDraws near enemies using its left dark claw to slash them into the air\r\nbefore cutting them down with its right dark claw."
         },
         {
             "name": "Hellfire Claw",
             "asset": "Unique_Baphomet_SwallowKite",
             "element": "Fire",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|Baphomet|/>'s exclusive skill.\r\nDraws near enemies using its left claw to slash them into the air\r\nbefore cutting them down with its right claw."
         },
         {
             "name": "Flame Breath",
             "asset": "Unique_BirdDragon_FireBreath",
             "element": "Fire",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|BirdDragon|/>s exclusive skill.\r\nAdvances while breathing fire from its mouth."
         },
         {
             "name": "Tempest Blizzard",
             "asset": "Unique_BirdDragon_Ice_IceBreath",
             "element": "Ice",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|BirdDragon_Ice|/>'s exclusive skill.\r\nAdvances while exhaling cold air from its mouth."
         },
         {
             "name": "Twin Spears",
             "asset": "Unique_BlackCentaur_TwoSpearRushes",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|BlackCentaur|/>' exclusive skill.\r\nClads its twin spears with vicious whirlwinds and charges forward,\r\nthrusting them one after the other."
         },
         {
             "name": "Divine Disaster",
             "asset": "Unique_BlackGriffon_TackleLaser",
             "element": "Dark",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Charges forward, generating orbs of light that automatically target enemies \r\nand unleash a barrage of lasers."
         },
         {
             "name": "Divine Disaster II",
             "asset": "Unique_BlackGriffon_TackleLaser2",
             "element": "Dark",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Shadowbeak's exclusive skill. \r\nAs it charges forward, emits countless blue rays that automatically locate and pursue the enemy."
         },
         {
             "name": "Firefist Breathstorm",
             "asset": "Unique_BlackMetalDragon_FirePunch",
             "element": "Dragon",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|BlackMetalDragon|/>'s exclusive skill.\r\nAfter throwing two punches forward, it exhales a dragon breath downward."
         },
         {
             "name": "Fierce Fang (Dark)",
             "asset": "Unique_BlackPuppy_Bite",
             "element": "Dark",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Dark)",
             "asset": "Unique_BlackPuppy_BiteV2",
             "element": "Dark",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Surfing Slam",
             "asset": "Unique_BluePlatypus_Toboggan",
             "element": "Water",
             "power": 100,
-            "cooldown": 120.0
+            "cooldown": 120.0,
+            "description": ""
         },
         {
             "name": "Fire Tackle",
             "asset": "Unique_BluePlatypus_Toboggan_Fire",
             "element": "Fire",
             "power": 115,
-            "cooldown": 120.0
+            "cooldown": 120.0,
+            "description": ""
         },
         {
             "name": "Celestial Vortex",
             "asset": "Unique_BlueSkyDragon_DrainStorm",
             "element": "Water",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|BlueSkyDragon|/>'s exclusive skill.\r\nCalls down a massive vortex that towers into the heavens.\r\nIt swallows up any and all nearby enemies."
         },
         {
             "name": "Unique_BlueSkyDragon_GYM_Act",
             "asset": "Unique_BlueSkyDragon_GYM_Act",
             "element": "Water",
             "power": 700,
-            "cooldown": 0
+            "cooldown": 0,
+            "description": ""
         },
         {
             "name": "Azure Dracoflare",
             "asset": "Unique_BlueSkyDragon_SweepBreath",
             "element": "Dragon",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|BlueSkyDragon|/>'s exclusive skill.\r\nBreathes a swath of dragonfire that scorches all that it touches."
         },
         {
             "name": "Hydra Charge",
             "asset": "Unique_BlueSkyDragon_Tossin",
             "element": "Water",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|BlueSkyDragon|/>'s exclusive skill.\r\nCloaks itself completely in water and charges directly ahead."
         },
         {
             "name": "Bolt Blink",
             "asset": "Unique_BlueThunderHorse_FlashDash",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|BlueThunderHorse|/>'s exclusive skill.\r\nMoves with the speed of lightning, engulfing everything in its path."
         },
         {
             "name": "Flash Charge",
             "asset": "Unique_BlueThunderHorse_Tossin",
             "element": "Electricity",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|BlueThunderHorse|/>'s exclusive skill.\r\nEnvelops itself in electricity and rushes at high speed towards the enemy."
         },
         {
             "name": "Reckless Charge",
             "asset": "Unique_Boar_Tackle",
             "element": "Earth",
             "power": 60,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|Boar|/>'s exclusive skill.\r\nTakes aim at a foe and rushes at them with a fierce charge."
         },
         {
             "name": "Thunderslide",
             "asset": "Unique_CaptainPenguin_Black_BodySlide_Electric",
             "element": "Electricity",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|CaptainPenguin_Black|/>'s exclusive skill.\r\nLies on its belly while generating electric charge all around it\r\nbefore sliding at enemies at high speed."
         },
         {
             "name": "Emperor Slide",
             "asset": "Unique_CaptainPenguin_BodySlide",
             "element": "Ice",
             "power": 140,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|CaptainPenguin|/>'s exclusive skill.\r\nLies on its belly while generating frozen air all around it\r\nbefore sliding at enemies at high speed."
         },
         {
             "name": "Chicken Rush",
             "asset": "Unique_ChickenPal_ChickenPeck",
             "element": "Normal",
             "power": 30,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "<characterName id=|ChickenPal|/>'s exclusive skill. \r\nFlies at enemies in its sights, attacking them with its sharp beak."
         },
         {
             "name": "Trick Show",
             "asset": "Unique_ClownRabbit_TrickShow",
             "element": "Fire",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|ClownRabbit|/>'s exclusive skill.\r\nSummons two illusory clones to occupy the enemy while its real form launches a flaming bird from its top hat."
         },
         {
             "name": "Fuddler Tunneler",
             "asset": "Unique_CuteMole_DiggingAttack",
             "element": "Earth",
             "power": 60,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|CuteMole|/>'s exclusive skill.\r\nDives underground to then burst out with great force from beneath the enemy's feet."
         },
         {
             "name": "Evil Slash",
             "asset": "Unique_DarkAlien_JumpScractch",
             "element": "Dark",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Xenovader's exclusive skill.\r\nSwiftly pounces and slashes with its left hand."
         },
         {
             "name": "Phantom Peck",
             "asset": "Unique_DarkCrow_TelePoke",
             "element": "Dark",
             "power": 70,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|DarkCrow|/>'s exclusive skill. \r\nTeleports next to an enemy \r\nbefore attacking with its beak."
         },
         {
             "name": "Beam Slash",
             "asset": "Unique_DarkMechaDragon_BeamSlash",
             "element": "Dragon",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|DarkMechaDragon|/>'s exclusive skill.\r\nGenerates a high-output beam sword with the right hand \r\nand delivers two powerful slashes while moving at high speed."
         },
         {
             "name": "Astral Ray",
             "asset": "Unique_DarkMechaDragon_ConvergentBeam",
             "element": "Dark",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|DarkMechaDragon|/>'s exclusive skill.\r\nConcentrates energy filled with darkness and releases it all at once in a straight line."
         },
         {
             "name": "Omega Laser",
             "asset": "Unique_DarkMechaDragon_FunnelLaser",
             "element": "Dragon",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|DarkMechaDragon|/>'s exclusive skill.\r\nSummons the light of destruction from subspace and continuously fires it in all directions, burning everything in its sight to ashes."
         },
         {
             "name": "Satellite Bit",
             "asset": "Unique_DarkMechaDragon_SetFunnel",
             "element": "Dragon",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|DarkMechaDragon|/>'s exclusive skill.\r\nGenerates four satellite-like wings with auto-attack functionality. \r\nThese wings will automatically track and attack the enemy when the next attack is launched."
         },
         {
             "name": "Cosmic Meteor",
             "asset": "Unique_DarkMechaDragon_WarpComet",
             "element": "Dragon",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|DarkMechaDragon|/>'s exclusive skill.\r\nSoars into the air at the speed of light and releases countless meteor projectiles. \r\nAfterwards, transforms into a comet and charges forward, causing a massive explosion upon impact."
         },
         {
             "name": "Jumping Stinger",
             "asset": "Unique_DarkScorpion_Pierce",
             "element": "Earth",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Menasting's exclusive skill.\r\nJumps high and forcefully stabs its prey with its tail.\r\nThe poison from the tail is deadly."
         },
         {
             "name": "Mud Horn",
             "asset": "Unique_Deer_Ground_DirtyHorn",
             "element": "Earth",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Eikthyrdeer Terra's exclusive skill.\r\nCharges at foes and uses its antlers to whip mud at them.\r\nWhen used while riding, the direction of the charge can be controlled."
         },
         {
             "name": "Antler Uppercut",
             "asset": "Unique_Deer_PushupHorn",
             "element": "Normal",
             "power": 90,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Eikthyrdeer's exclusive skill.\r\nCharges at foes and uses antlers to launch them into the air.\r\nWhen used while riding, the direction of the charge can be controlled."
         },
         {
             "name": "Missile Burst",
             "asset": "Unique_DomeArmorDragon_ExplosiveMissile",
             "element": "Earth",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|DomeArmorDragon|/>'s exclusive skill.\r\nLaunches countless explosive missiles from its wings."
         },
         {
             "name": "Shell Spin",
             "asset": "Unique_DrillGame_ShellAttack",
             "element": "Earth",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|DrillGame|/>'s exclusive skill.\r\nMoves while spinning its whole body at high speed.\r\nDrills through enemies, dealing continuous damage."
         },
         {
             "name": "Gale Claw",
             "asset": "Unique_Eagle_GlidingNail",
             "element": "Normal",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|Eagle|/>'s exclusive skill.\r\nWith talons outstretched, \r\nit glides forward in a ferocious charge."
         },
         {
             "name": "Lightning Claw",
             "asset": "Unique_ElecPanda_ElecScratch",
             "element": "Electricity",
             "power": 150,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|ElecPanda|/>'s exclusive skill.\r\nAfter leaping at an enemy and tearing at it twice with its electrically charged claws, it attacks the ground, sending an electric shock throughout the area."
         },
         {
             "name": "Heavy Thunder Tank",
             "asset": "Unique_ElecPanda_GatlingAttack",
             "element": "Electricity",
             "power": 550,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "Grizzbolt's exclusive skill.\r\nPulls out a minigun out of nowhere and starts blasting. \r\nFinishes with a single, charged power shot."
         },
         {
             "name": "Fierce Fang (Electric)",
             "asset": "Unique_ElecPomeranian_Bite",
             "element": "Electricity",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Electric)",
             "asset": "Unique_ElecPomeranian_BiteV2",
             "element": "Electricity",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Shell Charge",
             "asset": "Unique_ElecSnail_ShellCharge",
             "element": "Electricity",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "A skill exclusive to <characterName id=|ElecSnail|/> species.\r\nWithdraws into its shell to reduce incoming damage and build an electric charge.\r\nOnce its finished charging, it discharges it to damage all surrounding enemies.\r\nAfter discharging, any Electric skills used by this Pal have increased Attack for a limited time."
         },
         {
             "name": "Mystic Whirlwind",
             "asset": "Unique_FairyDragon_FairyTornado",
             "element": "Dragon",
             "power": 150,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Elphidran's exclusive skill.\r\nGenerates twin whirlwinds imbued with a mysterious power\r\nthat pursues enemies."
         },
         {
             "name": "Earth Dash",
             "asset": "Unique_FeatherOstrich_Tossin",
             "element": "Earth",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Dazemu's exclusive skill.\r\nAccelerates all at once \r\nand dashes forward at high speed."
         },
         {
             "name": "Cloud Tempest",
             "asset": "Unique_FengyunDeeper_CloudTempest",
             "element": "Normal",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|FengyunDeeper|/>'s exclusive skill.\r\nCharges forward while manipulating the atmosphere\r\nto create a pressurized wind tunnel around itself."
         },
         {
             "name": "Thunder Tempest",
             "asset": "Unique_FengyunDeeper_Electric_ThunderTempest",
             "element": "Electricity",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Charges forward while manipulating the atmosphere \r\nand enveloping itself in thunderclouds."
         },
         {
             "name": "Dark Charge",
             "asset": "Unique_FireKirin_Dark_DarkTossin",
             "element": "Dark",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|FireKirin_Dark|/>'s exclusive skill.\r\nCharges forward while engulfed in a veil of dark flames.\r\nFlames continue to burn in its path."
         },
         {
             "name": "Ignis Charge",
             "asset": "Unique_FireKirin_Tackle",
             "element": "Fire",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|FireKirin|/>'s exclusive skill.\r\nCharges forward while engulfed in a veil of flames.\r\nFlames continue to burn in its path."
         },
         {
             "name": "Blazing Horn",
             "asset": "Unique_FlameBuffalo_FlameHorn",
             "element": "Fire",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|FlameBuffalo|/>'s exclusive skill.\r\nTakes aim and charges with fierce momentum while raising its horn."
         },
         {
             "name": "Lightning Smash",
             "asset": "Unique_FlowerDinosaur_Electric_ThunderWhip",
             "element": "Electricity",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Dinossom Lux's exclusive skill. \r\nUses its large tail to strike the ground in front of it,\r\ndelivering a bolt of lightning in a straight line."
         },
         {
             "name": "Botanical Smash",
             "asset": "Unique_FlowerDinosaur_Whip",
             "element": "Leaf",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Dinossom's exclusive skill.\r\nUses its large tail to strike the ground in front of it, \r\ndelivering a shockwave in a straight line."
         },
         {
             "name": "Toxic Dance",
             "asset": "Unique_FlowerPrince_PoisonGasDance",
             "element": "Dark",
             "power": 800,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|FlowerPrince|/>'s exclusive skill.\r\nDances and emits a corrosive mist.\r\nThe mist hangs in the air for a limited time."
         },
         {
             "name": "Poison Promenade",
             "asset": "Unique_FlowerPrince_PoisonGasTackle",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|FlowerPrince|/>'s exclusive skill.\r\nEmits a corrosive mist as it glides towards an enemy.\r\nThe mist hangs in the air for a limited time."
         },
         {
             "name": "Fierce Fang",
             "asset": "Unique_Garm_Bite",
             "element": "Normal",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "<characterName id=|Garm|/>'s exclusive skill. \r\nSwiftly leaps at an enemy and bites into them."
         },
         {
             "name": "Double Fang",
             "asset": "Unique_Garm_BiteV2",
             "element": "Normal",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Launches into a swift series of bites at the enemy."
         },
         {
             "name": "Scorching Lantern Sweep",
             "asset": "Unique_GhostAnglerfish_Fire_SweepBait_Fire",
             "element": "Fire",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|GhostAnglerfish_Fire|/>'s exclusive skill. \r\nLashes forward with the flaming lantern atop its head, sweeping broadly ahead."
         },
         {
             "name": "Lantern Sweep",
             "asset": "Unique_GhostAnglerfish_SweepBait",
             "element": "Water",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|GhostAnglerfish|/>'s exclusive skill. \r\nLashes forward with the lantern atop its head, sweeping broadly ahead."
         },
         {
             "name": "Spirit Dash",
             "asset": "Unique_GhostBeast_Tossin",
             "element": "Dark",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|GhostBeast|/>'s exclusive skill.\r\nWhile running slowly, it continuously launches flickering fireballs toward the enemy."
         },
         {
             "name": "Blazing Beam",
             "asset": "Unique_GhostDragon_PhosphorousBeam",
             "element": "Dragon",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "A skill exclusive to <characterName id=|GhostDragon|/> species.\r\nSpews a superheated light beam for a limited time.\r\nThe beam erupts at the last second, causing a massive explosion wherever it's landing."
         },
         {
             "name": "Tail Slash",
             "asset": "Unique_GhostDragon_TailSlash",
             "element": "Dragon",
             "power": 550,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "A skill exclusive to <characterName id=|GhostDragon|/> species.\r\nCloses in on the enemy at high speed to take a cleaving swipe with its tail."
         },
         {
             "name": "Fierce Fang (Ground)",
             "asset": "Unique_GoldenHorse_Bite",
             "element": "Earth",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Ground)",
             "asset": "Unique_GoldenHorse_BiteV2",
             "element": "Earth",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Crash Dash",
             "asset": "Unique_GoldenHorse_StoneDash",
             "element": "Earth",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|GoldenHorse|/>'s exclusive skill.\r\nCharges forward, hurling rocks to the left and right with great force."
         },
         {
             "name": "Rumble Combo",
             "asset": "Unique_Gorilla_Ground_EarthPunch",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|Gorilla_Ground|/>'s exclusive skill. \r\nPounds the ground twice before leaping into the air\r\nand delivers a powerful punch infused with the Power of Gaia."
         },
         {
             "name": "Ground Pound",
             "asset": "Unique_Gorilla_GroundPunch",
             "element": "Normal",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|Gorilla|/>'s exclusive skill.\r\nPounds the ground twice before leaping into the air\r\nand delivers a powerful punch."
         },
         {
             "name": "Root Cannon",
             "asset": "Unique_GrassGolem_ArmCannon",
             "element": "Leaf",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|GrassGolem|/>'s exclusive skill.\r\nFires a round of Grass energy from its left hand.\r\nUpon landing, the round flowers from the enemy's feet as a root that clings to them."
         },
         {
             "name": "Dark Root",
             "asset": "Unique_GrassGolem_Dark_DarkArmCannon",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|GrassGolem_Dark|/>'s exclusive skill.\r\nFires a round of Dark energy from its left hand.\r\nUpon landing, the round flowers from the enemy's feet as a root that clings to them."
         },
         {
             "name": "Rocket Arm",
             "asset": "Unique_GrassGolem_RocketPunch",
             "element": "Earth",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "A skill unique to <characterName id=|GrassGolem|/>s. Its left arm detaches from its body to slash at the enemy, followed shortly by its right."
         },
         {
             "name": "Earth Impact",
             "asset": "Unique_Grassmammoth_Earthquake",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Mammorest's exclusive skill. \r\nUses its massive body to shake the earth, \r\ndealing damage over a wide area."
         },
         {
             "name": "Raging Bull Rush",
             "asset": "Unique_GrassMinotaur_BullRush",
             "element": "Leaf",
             "power": 650,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|GrassMinotaur|/>'s exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into four furious Grass-based rush attacks."
         },
         {
             "name": "Bull Rush",
             "asset": "Unique_GrassMinotaur_BullRush_Lower",
             "element": "Leaf",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|GrassMinotaur|/>'s exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into two Grass-based rush attacks."
         },
         {
             "name": "Raging Snow Rush",
             "asset": "Unique_GrassMinotaur_Ice_BullRush",
             "element": "Ice",
             "power": 650,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|GrassMinotaur_Ice|/>'s exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into four furious Ice-based rush attacks."
         },
         {
             "name": "Snow Rush",
             "asset": "Unique_GrassMinotaur_Ice_BullRush_Lower",
             "element": "Ice",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|GrassMinotaur_Ice|/>'s exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into two Ice-based rush attacks."
         },
         {
             "name": "Blast Punch",
             "asset": "Unique_GrassPanda_Electric_ElectricPunch",
             "element": "Electricity",
             "power": 180,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|GrassPanda_Electric|/>'s exclusive skill.\r\nWinds up its right arm before delivering an electrically charged punch."
         },
         {
             "name": "Crushing Punch",
             "asset": "Unique_GrassPanda_MusclePunch",
             "element": "Leaf",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|GrassPanda|/>'s exclusive skill.\r\nWinds up its right arm before striking an enemy with a devastating punch."
         },
         {
             "name": "Leaping Roundhouse",
             "asset": "Unique_GrassRabbitMan_GrassRoundKick",
             "element": "Leaf",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|GrassRabbitMan|/>'s exclusive skill.\r\nWhile jumping forward, it sweeps the surroundings with a high-speed spinning kick."
         },
         {
             "name": "Grudge Barrage",
             "asset": "Unique_GrimGirl_BrutalMachete",
             "element": "Dark",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|GrimGirl|/>'s exclusive skill.\r\nTeleports instantly and launches a slash. It then teleports above the enemy, \r\ndrives its weapon into them, and unleashes a wave of dark energy."
         },
         {
             "name": "Fierce Fang",
             "asset": "Unique_GuardianDog_Bite",
             "element": "Normal",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang",
             "asset": "Unique_GuardianDog_BiteV2",
             "element": "Normal",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Tornado Attack",
             "asset": "Unique_HawkBird_Storm",
             "element": "Normal",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|HawkBird|/>'s exclusive skill.\r\nGenerates a tornado ahead before soaring towards its target."
         },
         {
             "name": "Giga Horn",
             "asset": "Unique_HerculesBeetle_BeetleTackle",
             "element": "Earth",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|HerculesBeetle|/>'s exclusive skill.\r\nSkewers enemies with its four sturdy horns."
         },
         {
             "name": "Phoenix Flare",
             "asset": "Unique_Horus_FlareBird",
             "element": "Fire",
             "power": 320,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|Horus|/>' exclusive skill.\r\nAfter creating scorching tornadoes, it cloaks itself in hellfire and charges forward."
         },
         {
             "name": "Raging Flame Wave",
             "asset": "Unique_Horus_PerfectStorm",
             "element": "Fire",
             "power": 650,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Faleris' exclusive skill.\r\nGenerates multiple scorching tornadoes and charges forward while gliding.\r\nThe tornadoes converge in the center and eventually merge into a single massive tornado."
         },
         {
             "name": "Phoenix Tide",
             "asset": "Unique_Horus_Water_AquaStorm",
             "element": "Water",
             "power": 320,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|Horus_Water|/>'s exclusive skill.\r\nAfter summoning a massive tornado, it envelops its body in water and charges forward."
         },
         {
             "name": "Chaotic Spray",
             "asset": "Unique_IceCrocodile_SpitAttack",
             "element": "Ice",
             "power": 180,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|IceCrocodile|/>'s exclusive skill.\r\nCoughs up three cold grenades kept undigested inside its body and lobs them at enemies.\r\nMay occasionally spit out something more dangerous...?"
         },
         {
             "name": "Freezing Charge",
             "asset": "Unique_IceDeer_IceHorn",
             "element": "Ice",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|IceDeer|/>'s exclusive skill.\r\nCharges at an enemy with antlers adorned in ice."
         },
         {
             "name": "Dark Wing",
             "asset": "Unique_IceHorse_Dark_DarkBladeAttack",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Frostallion Noct's exclusive skill. \r\nDashes forward while concentrating dark energy around its wings,\r\nusing them to slash enemies,\r\nthen converting that energy into homing shots"
         },
         {
             "name": "Crystal Wing",
             "asset": "Unique_IceHorse_IceBladeAttack",
             "element": "Ice",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Frostallion's exclusive skill.\r\nDashes forward while concentrating frigid air around its wings,\r\nusing them to slash enemies with icy blade."
         },
         {
             "name": "High Breach",
             "asset": "Unique_IceNarwhal_JumpingHorn",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|IceNarwhal|/>'s exclusive skill.\r\nCharges straight ahead and briefly submerges, then bursts high into the air to launch an attack.\r\nAn ice-element explosion occurs upon emerging."
         },
         {
             "name": "Beam Comet",
             "asset": "Unique_JetDragon_JumpBeam",
             "element": "Dragon",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|JetDragon|/>'s exclusive skill.\r\nIlluminates its wings and fires innumerable beams as it flies towards the enemy.\r\nThe beams explode on impact."
         },
         {
             "name": "Kingly Slam",
             "asset": "Unique_KingAlpaca_BodyPress",
             "element": "Normal",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Kingpaca's exclusive skill.\r\nLeaps high into the air before\r\nsmashing into an enemy with its chubby, massive body."
         },
         {
             "name": "Frozen Press",
             "asset": "Unique_KingAlpaca_Ice_IcePress",
             "element": "Ice",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Kingpaca Cryst's exclusive skill. \r\nLeaps high into the air before smashing into\r\nan enemy with ice and its chubby, massive body."
         },
         {
             "name": "Magna Crush",
             "asset": "Unique_KingBahamut_AirCrash",
             "element": "Dragon",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Blazamut Ryu's exclusive skill.\r\nAfter a big jump, moves at high speed in the air,\r\ngathering strength to unleash a powerful punch."
         },
         {
             "name": "Brawn Impact",
             "asset": "Unique_KingBahamut_ArmSmash",
             "element": "Fire",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Blazamut's exclusive skill.\r\nRaises and inflates its arms, then slams them together, \r\ncausing a massive explosion in the surrounding area."
         },
         {
             "name": "Aqua Blade",
             "asset": "Unique_KingWhale_AquaBlade",
             "element": "Water",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nSends a keen blade of water flying towards the target."
         },
         {
             "name": "Aqua Tornado",
             "asset": "Unique_KingWhale_AquaTornado",
             "element": "Water",
             "power": 800,
-            "cooldown": 40.0
+            "cooldown": 40.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nSoars up into the sky to call down a number of massive tornadoes to slowly pursue the enemy."
         },
         {
             "name": "Grand Breach",
             "asset": "Unique_KingWhale_Breaching",
             "element": "Water",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill. Briefly dives underwater before bursting forth. The force of the surge sends a ring of waves."
         },
         {
             "name": "Bubble Rain",
             "asset": "Unique_KingWhale_HomingBubble",
             "element": "Water",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nFires a stream of bubbles that pursue its target.\r\nThe bubbles pop shortly after contact to cause damage."
         },
         {
             "name": "Maelstrom",
             "asset": "Unique_KingWhale_Maelstrom",
             "element": "Water",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nCreates a whirlpool around an enemy that draws them in as it contracts, until finally exploding in a pillar of water."
         },
         {
             "name": "Unique_KingWhale_SuperTidalBore",
             "asset": "Unique_KingWhale_SuperTidalBore",
             "element": "Water",
             "power": 1000,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": ""
         },
         {
             "name": "Unique_KingWhale_TidalBore",
             "asset": "Unique_KingWhale_TidalBore",
             "element": "Water",
             "power": 1000,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": ""
         },
         {
             "name": "Tidal Charge",
             "asset": "Unique_KingWhale_WaveTackle",
             "element": "Water",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|KingWhale|/>'s exclusive skill.\r\nLaunches a wave that strikes all enemies."
         },
         {
             "name": "Ice Gale Strike",
             "asset": "Unique_Kirin_Ice_IceTackle",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|Kirin_Ice|/>'s exclusive skill.\r\nGenerates pillars of ice all around while charging at its target."
         },
         {
             "name": "Lightning Gale",
             "asset": "Unique_Kirin_LightningTackle",
             "element": "Electricity",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|Kirin|/>'s exclusive skill.\r\nGenerates bolts of lightning all around\r\nwhile charging at its target."
         },
         {
             "name": "Lantern Flame",
             "asset": "Unique_LanternButler_LanternFlame",
             "element": "Dark",
             "power": 650,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|LanternButler|/>'s exclusive skill.\r\nHoists its lantern to summon a host of balls of malice that relentlessly pursue the enemy."
         },
         {
             "name": "Konoha Flip",
             "asset": "Unique_LeafMomonga_SomerSault",
             "element": "Leaf",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|LeafMomonga|/>'s exclusive skill.\r\nAfter a brief moment of preparation,\r\ncharges at the enemy at high speed, finishing with a flip."
         },
         {
             "name": "Unknown Skill (Unique_LegendDeer_BarrierRelease_Grass)",
             "asset": "Unique_LegendDeer_BarrierRelease_Grass",
             "element": "Leaf",
             "power": 220,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_LegendDeer_BarrierRelease_Normal)",
             "asset": "Unique_LegendDeer_BarrierRelease_Normal",
             "element": "Normal",
             "power": 300,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_LegendDeer_BarrierRelease_Water)",
             "asset": "Unique_LegendDeer_BarrierRelease_Water",
             "element": "Water",
             "power": 220,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Unique_LegendDeer_RadiantPurge",
             "asset": "Unique_LegendDeer_RadiantPurge",
             "element": "Normal",
             "power": 1250,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         },
         {
             "name": "Purifying Light",
             "asset": "Unique_LegendDeer_RadiantPurge_Otomo",
             "element": "Normal",
             "power": 250,
-            "cooldown": 100.0
+            "cooldown": 100.0,
+            "description": "<characterName id=|LegendDeer|/>' exclusive skill.\r\nLeaps high into the air, condensing immense energy into a descending sphere of light.\r\nWhen it strikes the ground, it purifies all on the ground below."
         },
         {
             "name": "Divine Wing",
             "asset": "Unique_LegendDeer_RadiantWingRush",
             "element": "Normal",
             "power": 700,
-            "cooldown": 35.0
+            "cooldown": 35.0,
+            "description": "<characterName id=|LegendDeer|/>' exclusive skill. \r\nLeaps back and sprouts wings of light,\r\nthen dives toward the enemy."
         },
         {
             "name": "Sacred Rain",
             "asset": "Unique_LegendDeer_WarpPillarBurst",
             "element": "Normal",
             "power": 800,
-            "cooldown": 60.0
+            "cooldown": 60.0,
+            "description": "<characterName id=|LegendDeer|/>' exclusive skill. \r\nFades from sight, then calls down a massive barrage of light pillars centered on its position."
         },
         {
             "name": "Unique_LilyQueen_GYM_Act",
             "asset": "Unique_LilyQueen_GYM_Act",
             "element": "Leaf",
             "power": 1,
-            "cooldown": 60.0
+            "cooldown": 60.0,
+            "description": ""
         },
         {
             "name": "Bountiful Protection",
             "asset": "Unique_LilyQueen_LilyHealing",
             "element": "Leaf",
             "power": 0,
-            "cooldown": 240.0
+            "cooldown": 240.0,
+            "description": "Lyleen's exclusive skill.\r\nRestores health to all allies within range using the power of healing."
         },
         {
             "name": "Unique_LilyQueen_LilyHealing_Boss",
             "asset": "Unique_LilyQueen_LilyHealing_Boss",
             "element": "Leaf",
             "power": 0,
-            "cooldown": 300.0
+            "cooldown": 300.0,
+            "description": ""
         },
         {
             "name": "Wind Barrier",
             "asset": "Unique_LilyQueen_WindBarrier",
             "element": "Leaf",
             "power": 60,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "A skill exclusive to the Lilikin species.\r\nSurround yourself with a wind barrier,\r\nReturns the blade of wind to the attacking opponent."
         },
         {
             "name": "Lotus Bloom",
             "asset": "Unique_LotusDragon_LotusBloom",
             "element": "Leaf",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|LotusDragon|/>'s exclusive skill.\r\nBuries itself in the ground to become a flower bud.\r\nThe bud then emerges to blossom, striking enemies within a wide area of effect."
         },
         {
             "name": "Volcanic Fang",
             "asset": "Unique_Manticore_InfernoStrike",
             "element": "Fire",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Manticore|/>'s exclusive skill.\r\nWith momentum, it pounces mercilessly on the enemy \r\nand causes an explosion of fire at the point of impact."
         },
         {
             "name": "Ballet of the Black Quill",
             "asset": "Unique_MonochromeQueen_BalletJump",
             "element": "Dark",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|MonochromeQueen|/>'s exclusive skill.\r\nLaunches diagonally into the air and fires a volley of sharp, black wings."
         },
         {
             "name": "Unique_MoonQueen_GYM_Act",
             "asset": "Unique_MoonQueen_GYM_Act",
             "element": "Normal",
             "power": 1,
-            "cooldown": 300.0
+            "cooldown": 300.0,
+            "description": ""
         },
         {
             "name": "Unique_MoonQueen_GYM_Hard_Act",
             "asset": "Unique_MoonQueen_GYM_Hard_Act",
             "element": "Normal",
             "power": 1,
-            "cooldown": 300.0
+            "cooldown": 300.0,
+            "description": ""
         },
         {
             "name": "Seigetsu Flash",
             "asset": "Unique_MoonQueen_IceMoonBlade",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Selyne's exclusive skill.\r\nFires three consecutive high-speed slashes \r\nimbued with the power of moonlight."
         },
         {
             "name": "Moonlight Beam",
             "asset": "Unique_MoonQueen_MoonBeam",
             "element": "Normal",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Selyne's exclusive skill.\r\nStores energy in the moon on its back,\r\nthen fires a crescent-shaped beam forward."
         },
         {
             "name": "Seigetsu Blade",
             "asset": "Unique_MoonQueen_MoonBlade",
             "element": "Normal",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Selyne's exclusive skill.\r\nFires two consecutive high-speed blades\r\nimbued with the power of moonlight."
         },
         {
             "name": "Giant Spore",
             "asset": "Unique_Mothman_GiantSpore",
             "element": "Leaf",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|Mothman|/>'s exclusive skill.\r\nFires a massive spore that pursues the enemy. The spore explodes over a wide area upon impact."
         },
         {
             "name": "Spore Burst",
             "asset": "Unique_Mothman_SporeScatter",
             "element": "Leaf",
             "power": 800,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|Mothman|/>'s exclusive skill.\r\nScatters explosive spores over a wide area around it.\r\nThe spores simultaneously explode after a set amount of time."
         },
         {
             "name": "Mummy Rush",
             "asset": "Unique_MummyPal_MummyAttack",
             "element": "Dark",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|MummyPal|/>'s exclusive skill.\r\nWhips at the enemy with repeated blows of the bandages from its hands."
         },
         {
             "name": "Soul Drain",
             "asset": "Unique_MysteryMask_LifeSteal",
             "element": "Dark",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|MysteryMask|/>s exclusive skill.\r\nSuddenly appears near the enemy, firmly restraining them with its arms, \r\nand absorbs the HP of the restrained enemy."
         },
         {
             "name": "Cat Press",
             "asset": "Unique_NaughtyCat_CatPress",
             "element": "Normal",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Grintale's exclusive skill.\r\nGrins menacingly before leaping into the air\r\nand smashing foes with its body."
         },
         {
             "name": "Lethal Step",
             "asset": "Unique_NightBlueHorse_DeathStep",
             "element": "Dark",
             "power": 550,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|NightBlueHorse|/>'s exclusive skill.\r\nConfuses enemies with flickering steps and launches slashing attack with its sharp horn."
         },
         {
             "name": "Royal Step",
             "asset": "Unique_NightBlueHorse_Neutral_AirStep",
             "element": "Normal",
             "power": 800,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|NightBlueHorse_Neutral|/>'s exclusive skill.\r\nConfuses enemies with an elegant stride and launches slashing attack with its sharp horn."
         },
         {
             "name": "Silver Steed",
             "asset": "Unique_NightBlueHorse_Neutral_Tossin",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|NightBlueHorse_Neutral|/>'s exclusive skill.\r\nEnvelops itself in glowing flames and rushes towards the enemy."
         },
         {
             "name": "Spectral Steed",
             "asset": "Unique_NightBlueHorse_Tossin",
             "element": "Dark",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|NightBlueHorse|/>'s exclusive skill.\r\nEnvelops itself in flickering flames and rushes towards the enemy."
         },
         {
             "name": "Flame Waltz",
             "asset": "Unique_NightLady_FlameNightmare",
             "element": "Dark",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|NightLady_Dark|/>'s exclusive skill.\r\nWith a graceful dance, conjuries expanding rings of fire, \r\nthen unleashes eerie flames that seek the enemies."
         },
         {
             "name": "Nightmare Bloom",
             "asset": "Unique_NightLady_WarpBeam",
             "element": "Dark",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|NightLady_Dark|/>'s exclusive skill.\r\nDisappears suddenly, then reappears while firing a barrage of beams.\r\nThe beams spread like a beautiful flower in bloom."
         },
         {
             "name": "Nightmare Ray",
             "asset": "Unique_NightLady_WarpBeam_Straight",
             "element": "Dark",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|NightLady|/>'s exclusive skill.\r\nDisappears suddenly, then reappears while firing a barrage of beams."
         },
         {
             "name": "Smoke Jet",
             "asset": "Unique_OctopursGirl_InkJet",
             "element": "Water",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": ""
         },
         {
             "name": "Rapid Kick",
             "asset": "Unique_PandaGirl_RapidKick",
             "element": "Leaf",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|PandaGirl|/>'s exclusive skill.\r\nSwiftly throws out a series of repeated roundhouse kicks, punctuated with a final blast of energy."
         },
         {
             "name": "Punch Flurry",
             "asset": "Unique_PinkCat_CatPunch",
             "element": "Normal",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "<characterName id=|PinkCat|/>'s exclusive skill.\r\nChases after enemies, swinging both arms \r\nand delivering a flurry of punches."
         },
         {
             "name": "Deep Breath",
             "asset": "Unique_Plesiosaur_LongBreath",
             "element": "Leaf",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Plesiosaur|/>'s exclusive skill.\r\nFrom the base of its long neck to the tip of its snout,\r\nit gradually spreads the breath of grass element."
         },
         {
             "name": "Thalassonic Laser",
             "asset": "Unique_PoseidonOrca_TorrentLaser",
             "element": "Water",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|PoseidonOrca|/>'s exclusive skill.\r\nRising slightly, it gathers water at its mouth,\r\nthen sweeps a high-pressure stream vertically and horizontally three times.\r\nFissures form at the swept locations, erupting with water."
         },
         {
             "name": "Webstrike Impact",
             "asset": "Unique_PurpleSpider_SpiderRaid",
             "element": "Dark",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|PurpleSpider|/>'s exclusive skill.\r\nSpits out a ball of thread, entangling the target it hits. \r\nThen, rushes at full speed to the trapped target and delivers three slashing strikes to finish it off."
         },
         {
             "name": "Holy Press",
             "asset": "Unique_PyramidTurtle_Neutral_HolyPress",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|PyramidTurtle_Neutral|/>'s exclusive skill.\r\nSoars up into the air to crush the enemy, then gleams and follows up by striking with a pillar of light."
         },
         {
             "name": "Pyramid Press",
             "asset": "Unique_PyramidTurtle_PyramidPress",
             "element": "Earth",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|PyramidTurtle|/>'s exclusive skill.\r\nSoars up into the air to then crush the enemy underneath its overwhelming weight."
         },
         {
             "name": "Spinning Staff",
             "asset": "Unique_QueenBee_SpinLance",
             "element": "Leaf",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|QueenBee|/>'s exclusive skill.\r\nChannels power into its staff, and unleashes it in a whirl."
         },
         {
             "name": "Rush Beak",
             "asset": "Unique_RedArmorBird_TriplePeck",
             "element": "Fire",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|RedArmorBird|/>'s exclusive skill.\r\nWhile flapping forward, it strikes with its beak to ignite fires in front, right, and left, causing a small explosion."
         },
         {
             "name": "Flower Stamp",
             "asset": "Unique_RedFlowerBird_JumpKick",
             "element": "Leaf",
             "power": 550,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|RedFlowerBird|/>'s exclusive skill. Rises gently into the air, then slams its sharp claws into the ground."
         },
         {
             "name": "Focus Shot",
             "asset": "Unique_RobinHood_BowSnipe",
             "element": "Leaf",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Robinquill's exclusive skill.\r\nTakes aim while drawing its bow\r\nbefore releasing a powerful shot at an enemy."
         },
         {
             "name": "Ice Burst",
             "asset": "Unique_RockBeast_Ice_IceHorn",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|RockBeast_Ice|/>'s exclusive skill.\r\nBores into the ground with its horn to dig up snowpacks and fling them at the enemy."
         },
         {
             "name": "Horn Burst",
             "asset": "Unique_RockBeast_RockHorn",
             "element": "Earth",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|RockBeast|/>'s exclusive skill.\r\nBores into the ground with its horn to dig up rocks and fling them at the enemy."
         },
         {
             "name": "Iaigiri",
             "asset": "Unique_Ronin_Iai",
             "element": "Fire",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|Ronin|/>'s exclusive skill.\r\nTaking hold of the sword, it appears in front of an enemy \r\nin an instant and unleashes an ultra-fast sword draw attack."
         },
         {
             "name": "Iaigiri",
             "asset": "Unique_Ronin_Iai_PartnerSkill",
             "element": "Fire",
             "power": 160,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|Ronin|/>'s exclusive skill.\r\nTaking hold of the sword, it appears in front of an enemy \r\nin an instant and unleashes an ultra-fast sword draw attack."
         },
         {
             "name": "Spear Thrust",
             "asset": "Unique_SaintCentaur_OneSpearRushes",
             "element": "Normal",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|SaintCentaur|/>' exclusive skill.\r\nCharges forward while enveloped in holy power with its spear thrust ahead.\r\nThe shield in its other hand blocks all attacks during the charge."
         },
         {
             "name": "Muscle Slam",
             "asset": "Unique_SakuraSaurus_SideTackle",
             "element": "Leaf",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "Broncherry's exclusive skill.\r\nTurns sideways before tackling enemies in front of it,\r\nsending them flying into the air."
         },
         {
             "name": "Splash Tackle",
             "asset": "Unique_SakuraSaurus_Water_SplashTackle",
             "element": "Water",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Broncherry Aqua's exclusive skill. \r\nTurns sideways before tackling enemies in front of it,\r\nsending them flying with a burst of water."
         },
         {
             "name": "Fierce Fang (Ground)",
             "asset": "Unique_SamuraiDog_Bite",
             "element": "Earth",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Ground)",
             "asset": "Unique_SamuraiDog_BiteV2",
             "element": "Earth",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Persistent Slash",
             "asset": "Unique_SamuraiDog_DashSlash",
             "element": "Earth",
             "power": 90,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|SamuraiDog|/>'s exclusive skill.\r\nCharges at full speed to swing at the enemy with the stick in its mouth.\r\nStrikes twice in a row."
         },
         {
             "name": "Thunder Uppercut",
             "asset": "Unique_ScorpionMan_Erectric_UpperThunder",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|ScorpionMan_Erectric|/>'s exclusive skill.\r\nChannels its superconductivity to close the distance to the enemy, then swings its pincers upward with full force."
         },
         {
             "name": "Upper Smash",
             "asset": "Unique_ScorpionMan_Uppercut",
             "element": "Dark",
             "power": 350,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": ""
         },
         {
             "name": "Rolling Scratch",
             "asset": "Unique_Sekhmet_RollingScratch",
             "element": "Earth",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Sekhmet|/>'s exclusive skill.\r\nBecomes a rolling ball of furious scratches that instantly closes the distance from the enemy."
         },
         {
             "name": "Somersault Scratch",
             "asset": "Unique_Sekhmet_SomersaultScratch",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|Sekhmet|/>'s exclusive skill.\r\nScratches at the enemy while somersaulting backwards to create distance."
         },
         {
             "name": "Roly Poly",
             "asset": "Unique_SheepBall_Roll",
             "element": "Normal",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "<characterName id=|SheepBall|/>'s exclusive skill. \r\nCurls into a ball, rolling after any enemies in its way. \r\nBecomes dizzy and unable to move after the attack ends."
         },
         {
             "name": "Wholehearted Stance",
             "asset": "Unique_SifuDog_Counter",
             "element": "Normal",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Dogen's exclusive skill.\r\nAdopts an aiki stance. While in this stance, nulify any incoming attack,\r\ninstantly close in on the enemy, and counter with a full-forced palm strike."
         },
         {
             "name": "Poison Scatter",
             "asset": "Unique_SnakeGirl_SnakeShot",
             "element": "Dark",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|SnakeGirl|/>'s exclusive skill. The snake head spews out a toxic glob in a wide arc. Its poison spreads out from the point of impact, infecting those who touch it."
         },
         {
             "name": "Glacial Impact",
             "asset": "Unique_SnowTigerBeastman_SnowImpact",
             "element": "Ice",
             "power": 500,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|SnowTigerBeastman|/>'s exclusive skill.\r\nLet out a mighty roar and leap into the air. Then, embed both arms into the ground to create a massive ice crack. \r\nContinue to channel power into the ground, ultimately causing a large explosion of ice energy"
         },
         {
             "name": "Frost Talon",
             "asset": "Unique_SnowTigerBeastman_TrampleSlash",
             "element": "Ice",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|SnowTigerBeastman|/>'s exclusive skill.\r\nStomps the ground, creating a fissure of ice ahead. \r\nThen, rapidly closes the distance and slashes with the right hand."
         },
         {
             "name": "Needle Spear",
             "asset": "Unique_SoldierBee_NeedleLance",
             "element": "Leaf",
             "power": 120,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|SoldierBee|/>'s exclusive skill.\r\nCharges at the enemy at high speed, delivering a final thrust with a spear."
         },
         {
             "name": "Trigger Happy",
             "asset": "Unique_StuffedShark_HiddenWeapon",
             "element": "Water",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|StuffedShark|/>'s exclusive skill.\r\nDraws twin water blasters from its mouth, firing six shots alternately left and right,\r\nthen finishes by combining both blasters to unleash one powerful shot."
         },
         {
             "name": "Sumo Stomp",
             "asset": "Unique_SumoDog_SumoStomp",
             "element": "Earth",
             "power": 550,
-            "cooldown": 24.0
+            "cooldown": 24.0,
+            "description": "<characterName id=|SumoDog|/>'s exclusive skill.\r\nRaises its right hind leg high up to stomp the ground, sending a shock wave fanning forth to strike foes."
         },
         {
             "name": "Hydro Spin",
             "asset": "Unique_TentacleTurtle_HydroSpin",
             "element": "Water",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|TentacleTurtle|/>'s exclusive skill.\r\nUses jet-powered propulsion to spin rapidly and launch itself at the enemy."
         },
         {
             "name": "Glacial Plunge",
             "asset": "Unique_ThunderBird_Ice_SnowStrom",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|ThunderBird_Ice|/>'s exclusive skill.\r\nIt first flings ice at the enemy's location.\r\nIt then glides forward and flings ice to the left and right."
         },
         {
             "name": "Lightning Dive",
             "asset": "Unique_ThunderBird_ThunderStorm",
             "element": "Electricity",
             "power": 180,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|ThunderBird|/>'s exclusive skill.\r\nFirst, it strikes the enemy's location with lightning. \r\nThen, while gliding forward, it drops lightning to the left and right."
         },
         {
             "name": "Fierce Fang (Electric)",
             "asset": "Unique_ThunderDog_Bite",
             "element": "Electricity",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Electric)",
             "asset": "Unique_ThunderDog_BiteV2",
             "element": "Electricity",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Fierce Fang (Ice)",
             "asset": "Unique_ThunderDog_Ice_Bite",
             "element": "Ice",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Quickly lunges at the enemy and bites to deal damage."
         },
         {
             "name": "Double Fang (Ice)",
             "asset": "Unique_ThunderDog_Ice_BiteV2",
             "element": "Ice",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Bites rapidly in succession to attack enemies."
         },
         {
             "name": "Frostcall",
             "asset": "Unique_ThunderDog_Ice_KoriShorai",
             "element": "Ice",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|ThunderDog_Ice|/>'s exclusive skill.\r\nGenerates pillars of ice one after another in front, then charges forward at high speed through the gaps between the pillars."
         },
         {
             "name": "Beckon Lightning",
             "asset": "Unique_ThunderDog_InazumaShorai",
             "element": "Electricity",
             "power": 100,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|ThunderDog|/>'s exclusive skill.\r\nSummons lightning one after another in front, \r\nthen charges forward at high speed through the gaps between the falling bolts."
         },
         {
             "name": "Unique_ThunderDragonMan_GYM_Act",
             "asset": "Unique_ThunderDragonMan_GYM_Act",
             "element": "Electricity",
             "power": 1,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": ""
         },
         {
             "name": "Polykeraunos",
             "asset": "Unique_ThunderDragonMan_NumerousSwordAttack",
             "element": "Electricity",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Orserk's exclusive skill.\r\nSummons numerous thunder spears and hurls them at the enemy.\r\nThe first spear is imbued with the power of lightning and explodes after a few seconds."
         },
         {
             "name": "Kerauno",
             "asset": "Unique_ThunderDragonMan_ThunderSwordAttack",
             "element": "Electricity",
             "power": 250,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "<characterName id=|ThunderDragonMan|/>'s exclusive skill.\r\nSummons a spear of lightning while leaping into the air\r\nbefore throwing it at an enemy."
         },
         {
             "name": "Dash Kick",
             "asset": "Unique_TropicalOstrich_DashKick",
             "element": "Leaf",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|TropicalOstrich|/>'s exclusive skill. \r\nDashes to build up speed, then launches a devastating airborne kick at its target."
         },
         {
             "name": "Magma Serpent",
             "asset": "Unique_Umihebi_Fire_FireWindingTackle",
             "element": "Fire",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Umihebi_Fire|/>'s exclusive skill.\r\nLetting out a roar, it charges toward the enemy, \r\ntwisting its fire-covered body as it advances."
         },
         {
             "name": "Slither Slam",
             "asset": "Unique_Umihebi_WindingTackle",
             "element": "Water",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Umihebi|/>'s exclusive skill.\r\nLetting out a roar, it charges toward the enemy, \r\ntwisting its water-covered body as it advances."
         },
         {
             "name": "Frost Burst",
             "asset": "Unique_VolcanicMonster_Ice_IceAttack",
             "element": "Ice",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|VolcanicMonster_Ice|/>'s exclusive skill.\r\nRaises its front legs and slams them into the ground,\r\ncausing a frozen blast under its enemies.\r\nIt simultaneously bombards them with snow balls from above."
         },
         {
             "name": "Volcanic Burst",
             "asset": "Unique_VolcanicMonster_MagmaAttack",
             "element": "Fire",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|VolcanicMonster|/>'s exclusive skill.\r\nRaises its front legs and slams them into the ground,\r\ncausing a volcanic eruptions under its enemies.\r\nIt simultaneously bombards them with volcanic bombs from above."
         },
         {
             "name": "Ice Laser",
             "asset": "Unique_VolcanoDragon_Ice_IceLaser",
             "element": "Ice",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|VolcanoDragon_Ice|/>'s exclusive skill.\r\nEmits a freezing ray from its mouth that supercools the earth wherever it strikes.\r\nThe frozen ground becomes a puddle of frost, freezing and damaging enemies that come into contact with it."
         },
         {
             "name": "Ice Spit",
             "asset": "Unique_VolcanoDragon_Ice_IcicleSpit",
             "element": "Ice",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|VolcanoDragon_Ice|/>'s exclusive skill.\r\nSpews a lump of ice from its mouth.\r\nThe ground it strikes becomes a puddle of frost, freezing and damaging enemies that come into contact with it."
         },
         {
             "name": "Magma Spit",
             "asset": "Unique_VolcanoDragon_MagmaSpit",
             "element": "Fire",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|VolcanoDragon|/>'s exclusive skill.\r\nSpews a lump of magma from its mouth.\r\nIt becomes a magma pool upon impact, damaging enemies that come into contact with it."
         },
         {
             "name": "Magma Laser",
             "asset": "Unique_VolcanoDragon_VolcanicLaser",
             "element": "Fire",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|VolcanoDragon|/>'s exclusive skill.\r\nBurns the very earth itself with a ray of heat spilling from its mouth.\r\nThe superheated earth turns into a magma pool, damaging enemies that come into contact with it."
         },
         {
             "name": "Rocket Slam",
             "asset": "Unique_WeaselDragon_FlyingTackle",
             "element": "Dragon",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "Chillet's exclusive skill.\r\nGathers a bit of strength and leaps forward.\r\nAlways shuts its eyes tight in fear when landing."
         },
         {
             "name": "Snow Claw",
             "asset": "Unique_Werewolf_Ice_SnowScratch",
             "element": "Ice",
             "power": 160,
-            "cooldown": 8.0
+            "cooldown": 8.0,
+            "description": "<characterName id=|WereWolf_Ice|/>'s exclusive skill.\r\nLeaps forward and attacks twice with vicious claws\r\nimbued with ice element."
         },
         {
             "name": "Jumping Claw",
             "asset": "Unique_Werewolf_Scratch",
             "element": "Dark",
             "power": 80,
-            "cooldown": 4.0
+            "cooldown": 4.0,
+            "description": "<characterName id=|WereWolf|/>'s exclusive skill.\r\nLeaps forward and attacks twice with vicious claws\r\nimbued with dark energy."
         },
         {
             "name": "Dark Nova",
             "asset": "Unique_WhiteDeer_Dark_DarkPillar",
             "element": "Dark",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|WhiteDeer_Dark|/>'s exclusive skill.\r\nAfter igniting a burst of darkness across a vast area ahead, it strides forward, generating pillars of darkness around itself."
         },
         {
             "name": "Holy Nova",
             "asset": "Unique_WhiteDeer_HolyPillar",
             "element": "Normal",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|WhiteDeer|/>'s exclusive skill.\r\nAfter igniting a burst of holy light across a vast area ahead, \r\nit strides forward, radiating holy light around itself."
         },
         {
             "name": "Aegis Charge",
             "asset": "Unique_WhiteShieldDragon_ShieldTackle",
             "element": "Dragon",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|WhiteShieldDragon|/>'s exclusive skill.\r\nDeploys a shield in front that reduces all types of attacks, then charges forward, crushing the enemy."
         },
         {
             "name": "Stone Claw",
             "asset": "Unique_WhiteTiger_Ground_IronScratch",
             "element": "Earth",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|WhiteTiger_Ground|/>'s exclusive skill.\r\nFirst, it strikes with its claws, followed by a second slash, and culminates with a powerful slash using its entire body.\r\nWhen swinging the claws, rocks are launched forward in a fan shape."
         },
         {
             "name": "Blizzard Claw",
             "asset": "Unique_WhiteTiger_IceScratch",
             "element": "Ice",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "<characterName id=|WhiteTiger|/>'s exclusive skill.\r\nFirst, it strikes with its claws, followed by a second slash, and culminates with a powerful slash using its entire body.\r\nWhen swinging the claws, ice pillars are launched forward in a fan shape."
         },
         {
             "name": "Flame Cutter",
             "asset": "Unique_WingGolem_Fire_FlameCutter",
             "element": "Fire",
             "power": 700,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "<characterName id=|WingGolem_Fire|/>'s exclusive skill.\r\nTakes a big swing and throws the flaming ring from its back.\r\nThe ring flies in a circular trajectory."
         },
         {
             "name": "Ground Cutter",
             "asset": "Unique_WingGolem_RoundCutter",
             "element": "Earth",
             "power": 450,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "Knocklem's exclusive skill.\r\nTakes a big swing and throws the ring from its back.\r\nThe ring flies in a circular trajectory."
         },
         {
             "name": "Unique_WorldTreeDragon_BigBang",
             "asset": "Unique_WorldTreeDragon_BigBang",
             "element": "None",
             "power": 900,
-            "cooldown": 60.0
+            "cooldown": 60.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_HaloBeam",
             "asset": "Unique_WorldTreeDragon_HaloBeam",
             "element": "None",
             "power": 750,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_HaloCutter",
             "asset": "Unique_WorldTreeDragon_HaloCutter",
             "element": "None",
             "power": 600,
-            "cooldown": 10.0
+            "cooldown": 10.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_LaserGliding",
             "asset": "Unique_WorldTreeDragon_LaserGliding",
             "element": "None",
             "power": 550,
-            "cooldown": 5.0
+            "cooldown": 5.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_PaldiumCannon",
             "asset": "Unique_WorldTreeDragon_PaldiumCannon",
             "element": "None",
             "power": 700,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_PaldiumExplosion",
             "asset": "Unique_WorldTreeDragon_PaldiumExplosion",
             "element": "None",
             "power": 800,
-            "cooldown": 60.0
+            "cooldown": 60.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_PaldiumRain",
             "asset": "Unique_WorldTreeDragon_PaldiumRain",
             "element": "None",
             "power": 500,
-            "cooldown": 5.0
+            "cooldown": 5.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_PaldiumShot",
             "asset": "Unique_WorldTreeDragon_PaldiumShot",
             "element": "None",
             "power": 400,
-            "cooldown": 5.0
+            "cooldown": 5.0,
+            "description": ""
         },
         {
             "name": "Unique_WorldTreeDragon_Supernova",
             "asset": "Unique_WorldTreeDragon_Supernova",
             "element": "None",
             "power": 1000,
-            "cooldown": 99.0
+            "cooldown": 99.0,
+            "description": ""
         },
         {
             "name": "Lock-On Lunge",
             "asset": "Unique_Yakushima_EyeTossin",
             "element": "Dark",
             "power": 300,
-            "cooldown": 15.0
+            "cooldown": 15.0,
+            "description": "<characterName id=|YakushimaBoss001|/>'s exclusive skill. \r\nRepeatedly charges at the enemy."
         },
         {
             "name": "Frenzied Charge",
             "asset": "Unique_Yakushima_MouthTossin",
             "element": "Dark",
             "power": 300,
-            "cooldown": 15.0
+            "cooldown": 15.0,
+            "description": "<characterName id=|YakushimaBoss001|/>'s exclusive skill. \r\nRepeatedly charges at the enemy at high speed."
         },
         {
             "name": "Servant Call",
             "asset": "Unique_Yakushima_SummonServant",
             "element": "Dark",
             "power": 300,
-            "cooldown": 10.0
+            "cooldown": 10.0,
+            "description": "<characterName id=|YakushimaBoss001|/>'s exclusive skill. \r\nSummons four Servants that charge at enemies to deal damage. \r\nServants disappear after taking damage or after a short time."
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_2_PhantasmalBolt)",
             "asset": "Unique_YakushimaBoss001_Green_2_PhantasmalBolt",
             "element": "None",
             "power": 40,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_2_PhantasmalDeathray)",
             "asset": "Unique_YakushimaBoss001_Green_2_PhantasmalDeathray",
             "element": "None",
             "power": 200,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_2_PhantasmalEye)",
             "asset": "Unique_YakushimaBoss001_Green_2_PhantasmalEye",
             "element": "None",
             "power": 10,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_2_PhantasmalSphere)",
             "asset": "Unique_YakushimaBoss001_Green_2_PhantasmalSphere",
             "element": "None",
             "power": 90,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_PhantasmalBolt)",
             "asset": "Unique_YakushimaBoss001_Green_PhantasmalBolt",
             "element": "None",
             "power": 40,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_PhantasmalDeathray)",
             "asset": "Unique_YakushimaBoss001_Green_PhantasmalDeathray",
             "element": "None",
             "power": 200,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_PhantasmalEye)",
             "asset": "Unique_YakushimaBoss001_Green_PhantasmalEye",
             "element": "None",
             "power": 10,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss001_Green_PhantasmalSphere)",
             "asset": "Unique_YakushimaBoss001_Green_PhantasmalSphere",
             "element": "None",
             "power": 90,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Ocular Rush",
             "asset": "Unique_YakushimaBoss001_Small_DemonEyeCharge",
             "element": "Dark",
             "power": 60,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaBoss001_Small|/>'s exclusive skill. \r\nCharges at the enemy, bouncing off the ground or walls on impact."
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_2_PhantasmalBolt)",
             "asset": "Unique_YakushimaBoss002_2_PhantasmalBolt",
             "element": "None",
             "power": 80,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_2_PhantasmalDeathray)",
             "asset": "Unique_YakushimaBoss002_2_PhantasmalDeathray",
             "element": "None",
             "power": 450,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_2_PhantasmalEye)",
             "asset": "Unique_YakushimaBoss002_2_PhantasmalEye",
             "element": "None",
             "power": 25,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_2_PhantasmalSphere)",
             "asset": "Unique_YakushimaBoss002_2_PhantasmalSphere",
             "element": "None",
             "power": 180,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_PhantasmalBolt)",
             "asset": "Unique_YakushimaBoss002_PhantasmalBolt",
             "element": "None",
             "power": 80,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_PhantasmalDeathray)",
             "asset": "Unique_YakushimaBoss002_PhantasmalDeathray",
             "element": "None",
             "power": 450,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_PhantasmalEye)",
             "asset": "Unique_YakushimaBoss002_PhantasmalEye",
             "element": "None",
             "power": 25,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Unknown Skill (Unique_YakushimaBoss002_PhantasmalSphere)",
             "asset": "Unique_YakushimaBoss002_PhantasmalSphere",
             "element": "None",
             "power": 180,
-            "cooldown": 45.0
+            "cooldown": 45.0,
+            "description": ""
         },
         {
             "name": "Slime Press (Dark)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Dark",
             "element": "Dark",
             "power": 50,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001_Purple|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Slime Press (Fire)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Fire",
             "element": "Fire",
             "power": 50,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001_Red|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Slime Press (Grass)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Leaf",
             "element": "Leaf",
             "power": 50,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Slime Press (Neutral)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Normal",
             "element": "Normal",
             "power": 50,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001_Pink|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Slime Press (Rainbow)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Rainbow",
             "element": "Normal",
             "power": 100,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001_Rainbow|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Slime Press (Water)",
             "asset": "Unique_YakushimaMonster001_SlimePress_Water",
             "element": "Water",
             "power": 50,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster001_Blue|/>'s exclusive skill. \r\nLeaps toward the enemy and delivers an attack."
         },
         {
             "name": "Sword Charge",
             "asset": "Unique_YakushimaMonster002_SwordCharge",
             "element": "Normal",
             "power": 80,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster002|/>'s exclusive skill. \r\nLunges forward to deliver a sharp thrust."
         },
         {
             "name": "Winged Assault",
             "asset": "Unique_YakushimaMonster003_BatCharge",
             "element": "Normal",
             "power": 70,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": "<characterName id=|YakushimaMonster003|/>'s exclusive skill. \r\nUsing its whole body, it lunges at the enemy, bouncing off the ground or walls on impact."
         },
         {
             "name": "Lawn Bowling",
             "asset": "Unique_Yeti_Grass_GrassBall",
             "element": "Leaf",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Yeti_Grass|/>'s exclusive skill.\r\nRolls a ball made of grass as it moves forward, and when it grows large enough, \r\nit throws it to cause an explosion."
         },
         {
             "name": "Snow Bowling",
             "asset": "Unique_Yeti_SnowBall",
             "element": "Ice",
             "power": 400,
-            "cooldown": 20.0
+            "cooldown": 20.0,
+            "description": "<characterName id=|Yeti|/>'s exclusive skill.\r\nRolls a snowball as it moves forward, and when it grows large enough, \r\nit throws it to cause an explosion."
         },
         {
             "name": "Curtain Splash",
             "asset": "WallSplash",
             "element": "Water",
             "power": 300,
-            "cooldown": 16.0
+            "cooldown": 16.0,
+            "description": "Continously creates walls made from water columns at the enemy's location."
         },
         {
             "name": "Aqua Burst",
             "asset": "WaterBall",
             "element": "Water",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Creates a giant ball of water\r\nand hurls it at an enemy."
         },
         {
             "name": "Aqua Gun",
             "asset": "WaterGun",
             "element": "Water",
             "power": 50,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Hurls a ball of water\r\nstraight at an enemy."
         },
         {
             "name": "Use Weapon",
             "asset": "Weapon_Use",
             "element": "Normal",
             "power": 50,
-            "cooldown": 5.0
+            "cooldown": 5.0,
+            "description": "Attack with held weapon."
         },
         {
             "name": "Wind Burst",
             "asset": "WindBurst",
             "element": "Leaf",
             "power": 600,
-            "cooldown": 30.0
+            "cooldown": 30.0,
+            "description": "Summons a massive whirlwind around the user that deals high damage to enemies it strikes."
         },
         {
             "name": "Wind Cutter",
             "asset": "WindCutter",
             "element": "Leaf",
             "power": 40,
-            "cooldown": 2.0
+            "cooldown": 2.0,
+            "description": "Fires a high speed blade of wind\r\nthat flies straight at an enemy."
         },
         {
             "name": "Wind Edge",
             "asset": "WindEdge",
             "element": "Leaf",
             "power": 200,
-            "cooldown": 12.0
+            "cooldown": 12.0,
+            "description": "Launches sharp blades of air that fan out."
         },
         {
             "name": "Unknown Skill (WorkAttack)",
             "asset": "WorkAttack",
             "element": "Normal",
             "power": 100,
-            "cooldown": 1.0
+            "cooldown": 1.0,
+            "description": ""
         }
     ]
 }

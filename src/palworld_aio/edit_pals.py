@@ -190,27 +190,44 @@ class StrokedLabel(QLabel):
 _ICON_CACHE = {}
 _PIXMAP_CACHE = {}
 _CACHE_LOCK = threading.Lock()
-def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
+_PAL_ICON_LOOKUP = None
+_PAL_ICON_LOOKUP_NPC = None
+def _ensure_pal_icon_lookup():
+    global _PAL_ICON_LOOKUP, _PAL_ICON_LOOKUP_NPC
+    if _PAL_ICON_LOOKUP is not None:
+        return
+    _PAL_ICON_LOOKUP = {}
+    _PAL_ICON_LOOKUP_NPC = {}
+    base_dir = constants.get_base_path()
     try:
         paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
         paldata = json_tools.load(paldata_path)
         for pal in paldata.get('pals', []):
-            if pal.get('asset', '').lower() == asset_name:
-                icon_rel = pal.get('icon', '')
-                if icon_rel:
-                    return os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+            asset = pal.get('asset', '').lower()
+            icon = pal.get('icon', '')
+            if asset and icon:
+                _PAL_ICON_LOOKUP[asset] = os.path.join(base_dir, 'resources', 'game_data', icon.lstrip('/'))
     except Exception:
         pass
     try:
         npcdata_path = os.path.join(base_dir, 'resources', 'game_data', 'npcdata.json')
         npcdata = json_tools.load(npcdata_path)
         for npc in npcdata.get('npcs', []):
-            if npc.get('asset', '').lower() == asset_name:
-                icon_rel = npc.get('icon', '')
-                if icon_rel:
-                    return os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+            asset = npc.get('asset', '').lower()
+            icon = npc.get('icon', '')
+            if asset and icon:
+                _PAL_ICON_LOOKUP_NPC[asset] = os.path.join(base_dir, 'resources', 'game_data', icon.lstrip('/'))
     except Exception:
         pass
+
+def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
+    _ensure_pal_icon_lookup()
+    path = _PAL_ICON_LOOKUP.get(asset_name.lower())
+    if path and os.path.exists(path):
+        return path
+    path = _PAL_ICON_LOOKUP_NPC.get(asset_name.lower())
+    if path and os.path.exists(path):
+        return path
     return None
 def _get_pal_icon_path(character_id):
     base_dir = constants.get_base_path()
@@ -1079,6 +1096,21 @@ def _ensure_skill_data():
                 _SKILL_DATA[s['asset'].lower()] = s
     except Exception:
         pass
+_PASSIVE_DATA = None
+def _ensure_passive_data():
+    global _PASSIVE_DATA
+    if _PASSIVE_DATA is not None:
+        return
+    _PASSIVE_DATA = {}
+    try:
+        base_dir = constants.get_base_path()
+        path = os.path.join(base_dir, 'resources', 'game_data', 'passivedata.json')
+        js = json_tools.load(path)
+        for p in js.get('passives', []):
+            if isinstance(p, dict) and 'asset' in p:
+                _PASSIVE_DATA[p['asset'].lower()] = p
+    except Exception:
+        pass
 def _fp64(value):
     return {'struct_type': 'FixedPoint64', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': {'Value': {'id': None, 'value': int(value), 'type': 'Int64Property'}}, 'type': 'StructProperty'}
 def _byte(value):
@@ -1092,7 +1124,7 @@ def _generate_pal_save_param(character_id, nickname, owner_uid, container_id, sl
     instance_id = str(uuid.uuid4()).upper()
     empty_uuid = '00000000-0000-0000-0000-000000000000'
     time_val = 638486453957560000
-    return {'key': {'PlayerUId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': empty_uuid, 'type': 'StructProperty'}, 'InstanceId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': instance_id, 'type': 'StructProperty'}, 'DebugName': {'id': None, 'type': 'StrProperty', 'value': ''}}, 'value': {'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'object': {'SaveParameter': {'struct_type': 'PalIndividualCharacterSaveParameter', 'struct_id': empty_uuid, 'id': None, 'value': {'CharacterID': {'id': None, 'type': 'NameProperty', 'value': character_id}, 'Gender': {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': 'EPalGenderType::Female'}}, 'NickName': {'id': None, 'type': 'StrProperty', 'value': nickname}, 'EquipWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': [f'EPalWazaID::Unique_{character_id}_Roll'] if character_id == 'SheepBall' else []}, 'type': 'ArrayProperty'}, 'MasteredWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'Hp': {'struct_type': 'FixedPoint64', 'struct_id': empty_uuid, 'id': None, 'value': {'Value': {'id': None, 'value': calculate_max_hp(get_pal_data(character_id), 1, 100, 0, character_id.upper().startswith('BOSS_'), False) * 1000, 'type': 'Int64Property'}}, 'type': 'StructProperty'}, 'Talent_HP': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'Talent_Shot': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'Talent_Defense': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'FullStomach': {'id': None, 'type': 'FloatProperty', 'value': 150.0}, 'PassiveSkillList': {'array_type': 'NameProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'OwnedTime': {'struct_type': 'DateTime', 'struct_id': empty_uuid, 'id': None, 'value': time_val, 'type': 'StructProperty'}, 'OwnerPlayerUId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': owner_uid, 'type': 'StructProperty'}, 'OldOwnerPlayerUIds': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'OldOwnerPlayerUIds', 'prop_type': 'StructProperty', 'values': [owner_uid], 'type_name': 'Guid', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'SlotId': {'struct_type': 'PalCharacterSlotId', 'struct_id': empty_uuid, 'id': None, 'value': {'ContainerId': {'struct_type': 'PalContainerId', 'struct_id': empty_uuid, 'id': None, 'value': {'ID': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': container_id, 'type': 'StructProperty'}}, 'type': 'StructProperty'}, 'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_index}}, 'type': 'StructProperty'}, 'GotStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '捕獲率'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'GotExStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotExStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'LastNickNameModifierPlayerUid': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': owner_uid, 'type': 'StructProperty'}}, 'type': 'StructProperty'}}, 'unknown_bytes': [0, 0, 0, 0], 'group_id': group_id, 'trailing_bytes': [0, 0, 0, 0]}, 'custom_type': '.worldSaveData.CharacterSaveParameterMap.Value.RawData', 'type': 'ArrayProperty'}}}
+    return {'key': {'PlayerUId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': empty_uuid, 'type': 'StructProperty'}, 'InstanceId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': instance_id, 'type': 'StructProperty'}, 'DebugName': {'id': None, 'type': 'StrProperty', 'value': ''}}, 'value': {'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'object': {'SaveParameter': {'struct_type': 'PalIndividualCharacterSaveParameter', 'struct_id': empty_uuid, 'id': None, 'value': {'CharacterID': {'id': None, 'type': 'NameProperty', 'value': character_id}, 'Gender': {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': 'EPalGenderType::Female'}}, 'NickName': {'id': None, 'type': 'StrProperty', 'value': nickname}, 'EquipWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': [f'EPalWazaID::Unique_{character_id}_Roll'] if character_id == 'SheepBall' else []}, 'type': 'ArrayProperty'}, 'MasteredWaza': {'array_type': 'EnumProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'Hp': {'struct_type': 'FixedPoint64', 'struct_id': empty_uuid, 'id': None, 'value': {'Value': {'id': None, 'value': calculate_max_hp(get_pal_data(character_id), 1, 100, 0, character_id.upper().startswith('BOSS_'), False), 'type': 'Int64Property'}}, 'type': 'StructProperty'}, 'Talent_HP': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'Talent_Shot': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'Talent_Defense': {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}, 'FullStomach': {'id': None, 'type': 'FloatProperty', 'value': 150.0}, 'PassiveSkillList': {'array_type': 'NameProperty', 'id': None, 'value': {'values': []}, 'type': 'ArrayProperty'}, 'OwnedTime': {'struct_type': 'DateTime', 'struct_id': empty_uuid, 'id': None, 'value': time_val, 'type': 'StructProperty'}, 'OwnerPlayerUId': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': owner_uid, 'type': 'StructProperty'}, 'OldOwnerPlayerUIds': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'OldOwnerPlayerUIds', 'prop_type': 'StructProperty', 'values': [owner_uid], 'type_name': 'Guid', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'SlotId': {'struct_type': 'PalCharacterSlotId', 'struct_id': empty_uuid, 'id': None, 'value': {'ContainerId': {'struct_type': 'PalContainerId', 'struct_id': empty_uuid, 'id': None, 'value': {'ID': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': container_id, 'type': 'StructProperty'}}, 'type': 'StructProperty'}, 'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_index}}, 'type': 'StructProperty'}, 'GotStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '捕獲率'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'GotExStatusPointList': {'array_type': 'StructProperty', 'id': None, 'value': {'prop_name': 'GotExStatusPointList', 'prop_type': 'StructProperty', 'values': [{'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大HP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '最大SP'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '攻撃力'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '所持重量'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}, {'StatusName': {'id': None, 'type': 'NameProperty', 'value': '作業速度'}, 'StatusPoint': {'id': None, 'type': 'IntProperty', 'value': 0}}], 'type_name': 'PalGotStatusPoint', 'id': empty_uuid}, 'type': 'ArrayProperty'}, 'LastNickNameModifierPlayerUid': {'struct_type': 'Guid', 'struct_id': empty_uuid, 'id': None, 'value': owner_uid, 'type': 'StructProperty'}}, 'type': 'StructProperty'}}, 'unknown_bytes': [0, 0, 0, 0], 'group_id': group_id, 'trailing_bytes': [0, 0, 0, 0]}, 'custom_type': '.worldSaveData.CharacterSaveParameterMap.Value.RawData', 'type': 'ArrayProperty'}}}
 class CornerBracketWidget(QFrame):
     def __init__(self, border_color='#7DD3FC', parent=None):
         super().__init__(parent)
@@ -1412,7 +1444,7 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8')}
     _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8'}
-    _TRUST_RANK_THRESHOLDS = [0, 1, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500]
+    _TRUST_RANK_THRESHOLDS = [0, 6000, 13000, 21000, 30000, 40000, 55000, 80000, 110000, 150000, 200000]
     NATIVE_WORK_ORDER = ('EmitFlame', 'Watering', 'Seeding', 'GenerateElectricity', 'Handcraft', 'Collection', 'Deforest', 'Mining', 'ProductMedicine', 'Cool', 'Transport', 'MonsterFarm')
     _WORK_SUITABILITY_DISPLAY = {'EmitFlame': 'Kindling', 'Watering': 'Watering', 'Seeding': 'Seeding', 'GenerateElectricity': 'Electricity', 'Handcraft': 'Handiwork', 'Collection': 'Harvesting', 'Deforest': 'Lumbering', 'Mining': 'Mining', 'ProductMedicine': 'Medicine', 'Cool': 'Cooling', 'Transport': 'Transport', 'MonsterFarm': 'Farming'}
     _WORK_SUITABILITY_ICON_KEYS = ['palwork_00', 'palwork_01', 'palwork_02', 'palwork_03', 'palwork_04', 'palwork_05', 'palwork_06', 'palwork_07', 'palwork_08', 'palwork_10', 'palwork_11', 'palwork_12']
@@ -1585,7 +1617,7 @@ class PalInfoWidget(QFrame):
         hrow = QHBoxLayout()
         hrow.setContentsMargins(0, 0, 0, 0)
         hrow.setSpacing(4)
-        hrow.setAlignment(Qt.AlignRight)
+        hrow.setAlignment(Qt.AlignLeft)
         level_box = CornerBracketWidget('#7DD3FC')
         lv_layout = QVBoxLayout(level_box)
         lv_layout.setContentsMargins(4, 5, 4, 4)
@@ -1609,7 +1641,7 @@ class PalInfoWidget(QFrame):
         nc_layout.setContentsMargins(0, 0, 0, 0)
         nc_layout.setSpacing(0)
         self.name_lbl = QLabel('Gobfinned')
-        self.name_lbl.setStyleSheet('font-size: 14px; font-weight: 700; color: #FFFFFF; background: transparent; border: none; qproperty-alignment: AlignRight;')
+        self.name_lbl.setStyleSheet('font-size: 14px; font-weight: 700; color: #FFFFFF; background: transparent; border: none;')
         self.name_lbl.setCursor(Qt.PointingHandCursor)
         self.name_lbl.setWordWrap(True)
         self.name_lbl.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
@@ -1624,7 +1656,6 @@ class PalInfoWidget(QFrame):
         name_row = QHBoxLayout()
         name_row.setContentsMargins(0, 0, 0, 0)
         name_row.setSpacing(4)
-        name_row.addStretch()
         self.gender_icon = QPushButton()
         self.gender_icon.setFixedSize(22, 22)
         self.gender_icon.setIconSize(QSize(18, 18))
@@ -1667,6 +1698,12 @@ class PalInfoWidget(QFrame):
         self.info_awake_btn.setCursor(Qt.PointingHandCursor)
         self.info_awake_btn.clicked.connect(self._on_awake_toggle)
         name_row.addWidget(self.info_awake_btn)
+        self.info_max_btn = QPushButton(nf.icons['nf-md-database_arrow_up'])
+        self.info_max_btn.setFixedSize(22, 22)
+        self.info_max_btn.setStyleSheet('QPushButton { font-size: 16px; padding: 0px; margin: 0px; background: transparent; color: #4ADE80; border: 1px solid rgba(74,222,128,0.3); border-radius: 4px; } QPushButton:hover { background: rgba(74,222,128,0.15); color: #FFFFFF; }')
+        self.info_max_btn.setCursor(Qt.PointingHandCursor)
+        self.info_max_btn.clicked.connect(self._on_max_click)
+        name_row.addWidget(self.info_max_btn)
         self.info_dna_btn = QPushButton()
         self.info_dna_btn.setCheckable(True)
         self.info_dna_btn.setFixedSize(22, 22)
@@ -1685,6 +1722,7 @@ class PalInfoWidget(QFrame):
         self.info_fav_btn.setCursor(Qt.PointingHandCursor)
         self.info_fav_btn.clicked.connect(self._on_fav_toggle)
         name_row.addWidget(self.info_fav_btn)
+        name_row.addStretch()
         nc_layout.addLayout(name_row)
         next_row = QHBoxLayout()
         next_row.setContentsMargins(0, 0, 0, 0)
@@ -2275,10 +2313,19 @@ class PalInfoWidget(QFrame):
             is_lucky = extract_value(raw, 'IsRarePal', False)
             is_imported = extract_value(raw, 'bImportedCharacter', False)
             fav_idx = extract_value(raw, 'FavoriteIndex', 0)
+            trust_points = extract_value(raw, 'FriendshipPoint', 0)
+            trust_rank = 0
+            for r in range(10, 0, -1):
+                if trust_points >= self._TRUST_RANK_THRESHOLDS[r]:
+                    trust_rank = r
+                    break
+            rank_raw = extract_value(raw, 'Rank', 1)
+            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
+            is_awake = bool(extract_value(raw, 'bIsAwakening', False))
             hp_val = safe_nested_get(raw, ['Hp', 'value', 'Value', 'value'], 0)
             max_hp = safe_nested_get(raw, ['MaxHP', 'value', 'Value', 'value'], 0)
             if max_hp <= 0 and base:
-                max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky)
+                max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky, trust_rank, condenser_rank, is_awake)
             if max_hp <= 0:
                 max_hp = hp_val if hp_val > 0 else 1
             atk_val = extract_value(raw, 'Attack', 0)
@@ -2287,11 +2334,6 @@ class PalInfoWidget(QFrame):
             hunger_full = extract_value(raw, 'FullStomach', 0)
             exp_val = extract_value(raw, 'Exp', 0)
             trust_points = extract_value(raw, 'FriendshipPoint', 0)
-            trust_rank = 0
-            for r in range(10, 0, -1):
-                if trust_points >= self._TRUST_RANK_THRESHOLDS[r]:
-                    trust_rank = r
-                    break
             trust_progress = 0
             trust_next = 0
             if trust_rank < 10:
@@ -2450,10 +2492,10 @@ class PalInfoWidget(QFrame):
             ivp = _get_ui_icon_pixmap('talent_checker', 14)
             if ivp:
                 self.iv_icon.setPixmap(ivp)
-            rank_raw = extract_value(raw, 'Rank', 1)
-            rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
+            rank_raw = extract_value(raw, 'Rank', 0)
+            rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
             for i, sl in enumerate(self.star_labels):
-                sl.set_filled(i < min(rank_int, 4))
+                sl.set_filled(i < rank_int)
             if rank_int >= 4:
                 self._start_star_shine()
             else:
@@ -2533,6 +2575,8 @@ class PalInfoWidget(QFrame):
                 bg = 'rgba(255,255,255,0.03)'
                 bd = 'rgba(255,255,255,0.06)'
                 anim_mode = None
+                p_val = None
+                p_clean = ''
                 if i < len(p_list) and p_list[i]:
                     p_val = p_list[i]
                     if isinstance(p_val, dict):
@@ -2612,9 +2656,9 @@ class PalInfoWidget(QFrame):
         if not self._raw:
             return
         cur = int(extract_value(self._raw, 'Rank', 0))
-        new_r = cur + 1 if cur < 4 else 0
+        new_r = (cur + 1) % 5
         self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': new_r}}
-        self._refresh()
+        self._recalc_hp()
     def _start_star_shine(self):
         self._star_shine_phase = 0.0
         for sl in self.star_labels:
@@ -2661,9 +2705,17 @@ class PalInfoWidget(QFrame):
         rank_hp = extract_value(raw, 'Rank_HP', 0)
         is_boss = cid.upper().startswith('BOSS_')
         is_lucky = extract_value(raw, 'IsRarePal', False)
+        trust_points = extract_value(raw, 'FriendshipPoint', 0)
+        friendship_rank = 0
+        for r in range(10, 0, -1):
+            if int(trust_points) >= self._TRUST_RANK_THRESHOLDS[r]:
+                friendship_rank = r
+                break
         base = get_pal_base_data(cid)
         if base:
-            new_max_hp = calculate_max_hp(base, value, talent_hp, rank_hp, is_boss, is_lucky) * 1000
+            condenser_rank = int(extract_value(raw, 'Rank', 1))
+            is_awake_val = bool(extract_value(raw, 'bIsAwakening', False))
+            new_max_hp = calculate_max_hp(base, value, talent_hp, rank_hp, is_boss, is_lucky, friendship_rank, condenser_rank, is_awake_val)
             raw['Hp'] = {'struct_type': 'FixedPoint64', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': {'Value': {'id': None, 'value': int(new_max_hp), 'type': 'Int64Property'}}, 'type': 'StructProperty'}
             raw['MaxHP'] = raw['Hp']
         self._refresh()
@@ -2682,7 +2734,7 @@ class PalInfoWidget(QFrame):
         dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
-            self._refresh()
+            self._recalc_hp()
     def _on_soul_click(self, lbl):
         if not self._raw:
             return
@@ -2698,7 +2750,7 @@ class PalInfoWidget(QFrame):
         dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
-            self._refresh()
+            self._recalc_hp()
     def _on_active_skill_click(self, slot_idx):
         if not self._raw:
             return
@@ -2754,6 +2806,15 @@ class PalInfoWidget(QFrame):
                             item.setIcon(QIcon(epix))
                         item.setText(f'{pwr} - {name}')
                         item.setData(Qt.UserRole, name)
+                        tip_parts = [f'<b>{name}</b>', f'Element: {elem}', f'Power: {pwr}']
+                        cd = info.get('cooldown', 0)
+                        if cd:
+                            tip_parts.append(f'Cooldown: {cd}s')
+                        desc = info.get('description', '')
+                        if desc:
+                            tip_parts.append('')
+                            tip_parts.append(desc)
+                        item.setToolTip('<br>'.join(tip_parts))
                 else:
                     asset = None
                     for a, n in skill_map.items():
@@ -2770,6 +2831,20 @@ class PalInfoWidget(QFrame):
                         item.setData(Qt.UserRole + 3, tc)
                         item.setData(Qt.UserRole + 4, bd)
                         item.setForeground(QColor(tc))
+                        _ensure_passive_data()
+                        p_info = _PASSIVE_DATA.get(asset.lower(), {}) if isinstance(_PASSIVE_DATA, dict) else {}
+                        p_desc = p_info.get('description', '')
+                        rank_labels = {1: 'Common', 2: 'Rare', 4: 'Epic', -99: 'Negative'}
+                        tip_parts = [f'<b style="color:{tc}">{name}</b>', f'<i>{rank_labels.get(rank, f"Rank {rank}")}</i>']
+                        if p_desc:
+                            p_desc = p_desc.replace('{CharacterName}', 'Pal')
+                            for ei in range(1, 5):
+                                ev = p_info.get(f'effect{ei}', 0)
+                                ev_str = str(int(ev)) if isinstance(ev, float) and ev == int(ev) else f'{ev:.0f}' if isinstance(ev, float) else str(ev)
+                                p_desc = p_desc.replace(f'{{EffectValue{ei}}}', ev_str)
+                            tip_parts.append('')
+                            tip_parts.append(p_desc)
+                        item.setToolTip('<br>'.join(tip_parts))
                 lst.addItem(item)
             if not is_active:
                 lst.setItemDelegate(_PassiveSkillDelegate(lst))
@@ -2872,7 +2947,7 @@ class PalInfoWidget(QFrame):
                     self._raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': False}
         elif cid.upper().startswith('BOSS_'):
             self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
-        self._refresh()
+        self._recalc_hp()
     def _on_lucky_toggle(self):
         if not self._raw:
             return
@@ -2883,13 +2958,16 @@ class PalInfoWidget(QFrame):
             cid = extract_value(self._raw, 'CharacterID', '')
             if cid.upper().startswith('BOSS_'):
                 self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
-        self._refresh()
+        self._recalc_hp()
     def _on_awake_toggle(self):
         if not self._raw:
             return
         is_awake = self.info_awake_btn.isChecked()
         self._raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': is_awake}
-        self._refresh()
+        self._recalc_hp()
+    def _recalc_hp(self):
+        cur_level = int(extract_value(self._raw, 'Level', 1))
+        self._set_level(cur_level)
     def _on_fav_toggle(self):
         if not self._raw:
             return
@@ -2903,6 +2981,20 @@ class PalInfoWidget(QFrame):
         is_dna = self.info_dna_btn.isChecked()
         self._raw['bImportedCharacter'] = {'id': None, 'type': 'BoolProperty', 'value': is_dna}
         self._refresh()
+    def _on_max_click(self):
+        if not self._raw:
+            return
+        self._raw['Talent_HP'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}
+        self._raw['Talent_Shot'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}
+        self._raw['Talent_Defense'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}
+        self._raw['Rank_HP'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 20}}
+        self._raw['Rank_Attack'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 20}}
+        self._raw['Rank_Defence'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 20}}
+        self._raw['Rank_CraftSpeed'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 20}}
+        self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 5}}
+        self._raw['FriendshipPoint'] = {'id': None, 'type': 'IntProperty', 'value': 200000}
+        self._raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': True}
+        self._set_level(80)
     def _refresh(self):
         if self.last_clicked_data:
             self._update_display(self.last_clicked_data)
@@ -2948,6 +3040,11 @@ class PalEditorWidget(QWidget):
     def _setup_ui(self):
         self.setObjectName('palRoot')
         self.setStyleSheet(_PAL_STYLESHEET)
+        app = QApplication.instance()
+        if app:
+            current = app.styleSheet() or ''
+            if 'QToolTip' not in current:
+                app.setStyleSheet(current + '\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }')
         root = QHBoxLayout(self)
         root.setContentsMargins(8, 8, 8, 8)
         root.setSpacing(8)
@@ -3472,11 +3569,9 @@ class PalCreateDialog(QDialog):
         for asset, name in sorted(PalFrame._NAMEMAP.items()):
             li = QListWidgetItem(name)
             li.setData(Qt.UserRole, asset)
-            ip = _get_pal_icon_path(asset)
-            if ip and os.path.exists(ip):
-                pm = QPixmap(ip)
-                if not pm.isNull():
-                    li.setIcon(QIcon(pm.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation)))
+            pix = _get_cached_pixmap(_get_pal_icon_path(asset), 48)
+            if pix:
+                li.setIcon(QIcon(pix))
             li.setToolTip(f'<b>{name}</b><br>ID: {asset}')
             self.pal_list.addItem(li)
         search_edit.textChanged.connect(lambda t: [self.pal_list.item(i).setHidden(t.lower() not in self.pal_list.item(i).text().lower()) for i in range(self.pal_list.count())])

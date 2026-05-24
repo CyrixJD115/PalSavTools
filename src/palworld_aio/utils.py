@@ -201,20 +201,24 @@ def get_pal_data(character_key):
             _pal_data_cache = {}
     default_scaling = {'scaling': {'hp': 10, 'attack': 10, 'defense': 10}}
     return _pal_data_cache.get(character_key.lower(), default_scaling)
-def calculate_max_hp(pal_data, level, talent_hp=0, rank_hp=0, is_boss=False, is_lucky=False):
+def calculate_max_hp(pal_data, level, talent_hp=0, rank_hp=0, is_boss=False, is_lucky=False, friendship_rank=0, condenser_rank=1, is_awake=False):
     if not pal_data:
         return 0
-    hp_scaling = pal_data.get('scaling', {}).get('hp', 0)
-    condenser_bonus = (1 if rank_hp > 0 else 0) * 0.05
+    stats = pal_data.get('scaling', None) or pal_data.get('stats', {})
+    hp_scaling = stats.get('hp', 0) if stats else 0
+    condenser_bonus = max(0, condenser_rank - 1) * 0.05
     hp_iv = talent_hp * 0.3 / 100
     hp_soul_bonus = rank_hp * 0.03
-    alpha_scaling = 1.2 if is_boss or is_lucky else 1
+    alpha_scaling = 1.087 if is_boss or is_lucky else 1
     hp = math.floor(500 + 5 * level + hp_scaling * 0.5 * level * (1 + hp_iv) * alpha_scaling)
-    return math.floor(hp * (1 + condenser_bonus) * (1 + hp_soul_bonus)) * 1000
+    trust_mult = 1 + friendship_rank * 0.03
+    awaken_mult = 1.028 if is_awake else 1
+    return math.floor(hp * (1 + condenser_bonus) * (1 + hp_soul_bonus) * trust_mult * awaken_mult) * 1000
 def calculate_attack(pal_data, level, talent_shot=0, rank_attack=0):
     if not pal_data:
         return 0
-    attack_scaling = pal_data.get('scaling', {}).get('attack', 0)
+    stats = pal_data.get('scaling', None) or pal_data.get('stats', {})
+    attack_scaling = stats.get('melee_attack', 0) if stats else 0
     condenser_bonus = (1 if rank_attack > 0 else 0) * 0.05
     attack_iv = talent_shot * 0.3 / 100
     attack_soul_bonus = rank_attack * 0.03
@@ -223,7 +227,8 @@ def calculate_attack(pal_data, level, talent_shot=0, rank_attack=0):
 def calculate_defense(pal_data, level, talent_defense=0, rank_defense=0):
     if not pal_data:
         return 0
-    defense_scaling = pal_data.get('scaling', {}).get('defense', 0)
+    stats = pal_data.get('scaling', None) or pal_data.get('stats', {})
+    defense_scaling = stats.get('defense', 0) if stats else 0
     condenser_bonus = (1 if rank_defense > 0 else 0) * 0.05
     defense_iv = talent_defense * 0.3 / 100
     defense_soul_bonus = rank_defense * 0.03

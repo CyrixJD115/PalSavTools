@@ -603,18 +603,129 @@ def main(skip_msgbox=False, skip_gui=False):
         target_player_list.clearSelection()
     if not skip_msgbox:
         show_information(None, t('Transfer Successful'), t("Transfer successful in memory! Hit 'Save Changes' to save."))
+def _normalize_lid(lid):
+    """Normalize a local_id (PalUUID, bytes, or str) to lowercase string."""
+    if hasattr(lid, 'raw_bytes'):
+        s = str(lid).lower()
+        return '' if s.replace('-', '') == '00000000000000000000000000000000' else s
+    if isinstance(lid, bytes):
+        if lid == b'\x00' * 16:
+            return ''
+        from uuid import UUID
+        try:
+            return str(UUID(bytes=lid)).lower()
+        except:
+            return lid.hex().lower()
+    if isinstance(lid, str):
+        stripped = lid.replace('-', '').lower()
+        return '' if stripped == '00000000000000000000000000000000' else lid.lower()
+    return ''
+def _bump_guid_str(s, used):
+    t = str.maketrans('0123456789abcdef', '123456789abcdef0')
+    bumped = s.translate(t)
+    while bumped in used:
+        bumped = bumped.translate(t)
+    used.add(bumped)
+    return bumped
+def _collect_container_ids(player_json):
+    """Extract the 5 inventory container IDs from a player save JSON."""
+    try:
+        ii = player_json['SaveData']['value']['InventoryInfo']['value']
+        return {
+            ii['CommonContainerId']['value']['ID']['value'],
+            ii['EssentialContainerId']['value']['ID']['value'],
+            ii['WeaponLoadOutContainerId']['value']['ID']['value'],
+            ii['PlayerEquipArmorContainerId']['value']['ID']['value'],
+            ii['FoodEquipContainerId']['value']['ID']['value'],
+        }
+    except:
+        return set()
 def gather_and_update_dynamic_containers():
     global targ_lvl, dynamic_guids
+    from palworld_save_tools.archive import UUID as PalUUID
+    src_container_ids = _collect_container_ids(host_json)
+    tgt_container_ids = _collect_container_ids(targ_json)
+    for _, (pj, _, _) in modified_targets_data.items():
+        ids = _collect_container_ids(pj)
+        src_container_ids |= ids
+        tgt_container_ids |= ids
+    needed = set()
+    for c in level_json.get('ItemContainerSaveData', {}).get('value', []):
+        try:
+            if c['key']['ID']['value'] not in src_container_ids:
+                continue
+        except:
+            continue
+        for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+            try:
+                item = slot.get('RawData', {}).get('value', {}).get('item', {})
+                if not isinstance(item, dict):
+                    continue
+                dyn_id = item.get('dynamic_id', {})
+                if not isinstance(dyn_id, dict):
+                    continue
+                lid = dyn_id.get('local_id_in_created_world', '')
+                norm = _normalize_lid(lid)
+                if norm:
+                    needed.add(norm)
+            except:
+                continue
     src_containers = level_json['DynamicItemSaveData']['value']['values']
     tgt_containers = targ_lvl['DynamicItemSaveData']['value']['values']
     dynamic_guids = set()
-    tgt_dict = {dc['RawData']['value']['id']['local_id_in_created_world']: dc for dc in tgt_containers if dc['RawData']['value']['id']['local_id_in_created_world']}
-    for dc in src_containers:
-        lid = dc['RawData']['value']['id']['local_id_in_created_world']
-        if lid == b'\x00' * 16:
+    existing = set()
+    tgt_dict = {}
+    for dc in tgt_containers:
+        try:
+            norm = _normalize_lid(dc['RawData']['value']['id']['local_id_in_created_world'])
+            if norm:
+                existing.add(norm)
+                tgt_dict[norm] = dc
+        except:
             continue
+    id_map = {}
+    for dc in src_containers:
+        try:
+            lid = dc['RawData']['value']['id']['local_id_in_created_world']
+            if isinstance(lid, bytes) and lid == b'\x00' * 16:
+                continue
+            norm = _normalize_lid(lid)
+            if not norm or norm not in needed:
+                continue
+        except:
+            continue
+        bumped = _bump_guid_str(norm, existing)
+        copy = fast_deepcopy(dc)
+        copy['RawData']['value']['id']['local_id_in_created_world'] = PalUUID.from_str(bumped)
         dynamic_guids.add(lid)
-        tgt_dict[lid] = dc
+        tgt_dict[bumped] = copy
+        id_map[norm] = bumped
+    for c in targ_lvl.get('ItemContainerSaveData', {}).get('value', []):
+        try:
+            if c['key']['ID']['value'] not in tgt_container_ids:
+                continue
+        except:
+            continue
+        for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+            try:
+                raw = slot.get('RawData', {})
+                if not isinstance(raw, dict):
+                    continue
+                val = raw.get('value', {})
+                if not isinstance(val, dict):
+                    continue
+                item = val.get('item', {})
+                if not isinstance(item, dict):
+                    continue
+                dyn_id = item.get('dynamic_id', {})
+                if not isinstance(dyn_id, dict):
+                    continue
+                lid = dyn_id.get('local_id_in_created_world', '')
+                norm = _normalize_lid(lid)
+                if norm in id_map:
+                    dyn_id['local_id_in_created_world'] = PalUUID.from_str(id_map[norm])
+            except:
+                continue
     targ_lvl['DynamicItemSaveData']['value']['values'] = list(tgt_dict.values())
 def sync_player_timestamps(targ_uid, target_lvl):
     global target_world_tick
@@ -754,11 +865,27 @@ def transfer_character_only(host_guid, targ_uid):
         char_list.append(fast_deepcopy(exported_map))
     targ_lvl.setdefault('CharacterContainerSaveData', {'value': []})
     targ_lvl.setdefault('ItemContainerSaveData', {'value': []})
-    for container_list in ('CharacterContainerSaveData', 'ItemContainerSaveData'):
+    host_save = host_json['SaveData']['value']
+    src_char_ids = {
+        host_save['PalStorageContainerId']['value']['ID']['value'],
+        host_save['OtomoCharacterContainerId']['value']['ID']['value'],
+    }
+    inv_info = host_save['InventoryInfo']['value']
+    src_item_ids = {
+        inv_info['CommonContainerId']['value']['ID']['value'],
+        inv_info['EssentialContainerId']['value']['ID']['value'],
+        inv_info['WeaponLoadOutContainerId']['value']['ID']['value'],
+        inv_info['PlayerEquipArmorContainerId']['value']['ID']['value'],
+        inv_info['FoodEquipContainerId']['value']['ID']['value'],
+    }
+    for container_list, src_ids in (
+        ('CharacterContainerSaveData', src_char_ids),
+        ('ItemContainerSaveData', src_item_ids),
+    ):
         existing_ids = {c.get('key', {}).get('ID', {}).get('value') for c in targ_lvl[container_list]['value']}
         for c in level_json.get(container_list, {}).get('value', []):
             cid = c['key']['ID']['value']
-            if cid not in existing_ids:
+            if cid in src_ids and cid not in existing_ids:
                 targ_lvl[container_list]['value'].append(fast_deepcopy(c))
     return True
 def transfer_inventory_only():

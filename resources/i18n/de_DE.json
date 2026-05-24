@@ -1363,5 +1363,6 @@
   "calibrate.complete_title": "Kalibrierung abgeschlossen",
   "calibrate.complete_msg": "Konstanten aktualisiert! scale={s} transl_x={tx} transl_y={ty} Zur Anwendung neu starten.",
   "base_inventory.select_guild_base_hint": "Wählen Sie eine Gilde/Basis aus, um deren Inventar zu bearbeiten",
-  "base_inventory.title": "Basisinventar-Editor"
+  "base_inventory.title": "Basisinventar-Editor",
+  "character_transfer.post_to_pre_blocked": "Die Übertragung von Post-v1.0 auf vor-v1.0 wird nicht unterstützt.\nPost-v1.0 enthält neue Inhalte, die in der Zielversion nicht vorhanden sind."
 }

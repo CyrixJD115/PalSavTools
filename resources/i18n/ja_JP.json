@@ -1339,5 +1339,6 @@
   "calibrate.complete_title": "校正完了",
   "calibrate.complete_msg": "定数が更新されました! scale={s} transl_x={tx} transl_y={ty} 再起動して適用します。",
   "base_inventory.select_guild_base_hint": "ギルド/拠点を選択してインベントリを編集します",
-  "base_inventory.title": "基本在庫エディター"
+  "base_inventory.title": "基本在庫エディター",
+  "character_transfer.post_to_pre_blocked": "v1.0 以降から v1.0 より前のバージョンへの移行はサポートされていません。\nPost-v1.0 には、ターゲット バージョンに存在しない新しいコンテンツが含まれています。"
 }

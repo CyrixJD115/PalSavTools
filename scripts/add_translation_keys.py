@@ -12,7 +12,7 @@ except ImportError:
     from deep_translator import GoogleTranslator
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 LANGUAGES = {'zh_CN': {'name': 'Simplified Chinese', 'code': 'zh-CN'}, 'de_DE': {'name': 'German', 'code': 'de'}, 'es_ES': {'name': 'Spanish', 'code': 'es'}, 'fr_FR': {'name': 'French', 'code': 'fr'}, 'ru_RU': {'name': 'Russian', 'code': 'ru'}, 'ja_JP': {'name': 'Japanese', 'code': 'ja'}, 'ko_KR': {'name': 'Korean', 'code': 'ko'}}
-NEW_TRANSLATIONS = {'base_inventory.title': 'Base Inventory Editor', 'inventory.title': 'Player Inventory Editor'}
+NEW_TRANSLATIONS = {'base_inventory.title': 'Base Inventory Editor', 'inventory.title': 'Player Inventory Editor', 'character_transfer.post_to_pre_blocked': 'Transfer from post-v1.0 to pre-v1.0 is not supported.\nPost-v1.0 contains new content that does not exist in the target version.'}
 def add_english_keys():
     lang_file = PROJECT_ROOT / 'resources' / 'i18n' / 'en_US.json'
     with open(lang_file, 'r', encoding='utf-8') as f:

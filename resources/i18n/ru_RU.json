@@ -1337,5 +1337,6 @@
   "calibrate.complete_title": "Калибровка завершена",
   "calibrate.complete_msg": "Константы обновлены! масштаб={s} transl_x={tx} transl_y={ty} Перезапустите, чтобы применить.",
   "base_inventory.select_guild_base_hint": "Выберите гильдию/базу, чтобы редактировать их инвентарь.",
-  "base_inventory.title": "Редактор базового инвентаря"
+  "base_inventory.title": "Редактор базового инвентаря",
+  "character_transfer.post_to_pre_blocked": "Переход с версии после версии 1.0 на версию до версии 1.0 не поддерживается.\nPost-v1.0 содержит новый контент, которого нет в целевой версии."
 }

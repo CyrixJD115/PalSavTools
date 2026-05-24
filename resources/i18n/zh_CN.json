@@ -1341,5 +1341,6 @@
   "calibrate.complete_title": "校准完成",
   "calibrate.complete_msg": "常数更新了！ scale={s} transl_x={tx} transl_y={ty} 重启即可应用。",
   "base_inventory.select_guild_base_hint": "选择一个公会/基地来编辑他们的库存",
-  "base_inventory.title": "基础库存编辑器"
+  "base_inventory.title": "基础库存编辑器",
+  "character_transfer.post_to_pre_blocked": "不支持从 v1.0 后版本转移到 v1.0 之前版本。\nv1.0之后包含目标版本中不存在的新内容。"
 }

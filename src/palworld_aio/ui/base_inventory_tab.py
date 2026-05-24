@@ -36,9 +36,9 @@ class RarityBorderDelegate(QStyledItemDelegate):
         else:
             color = QColor('#fbbf24')
         painter.save()
-        painter.setPen(QPen(color, 3))
+        painter.setPen(QPen(color, 2))
         painter.setBrush(Qt.NoBrush)
-        rect = option.rect.adjusted(1, 1, -1, -1)
+        rect = option.rect.adjusted(4, 4, -4, -4)
         painter.drawRoundedRect(rect, 4, 4)
         painter.restore()
 class GuildItemPickerDialog(QDialog):
@@ -59,7 +59,7 @@ class GuildItemPickerDialog(QDialog):
         search_label = QLabel(t('common.search') if t else 'Search:')
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText(t('base_inventory.search_items') if t else 'Type to search items...')
-        self.search_input.textChanged.connect(self._search)
+        self.search_input.textChanged.connect(self._filter_items)
         search_layout.addWidget(search_label)
         search_layout.addWidget(self.search_input)
         layout.addLayout(search_layout)
@@ -70,8 +70,8 @@ class GuildItemPickerDialog(QDialog):
         self.results_list.setUniformItemSizes(True)
         self.results_list.setGridSize(QSize(80, 80))
         self.results_list.setResizeMode(QListWidget.Adjust)
-        self.results_list.setItemDelegate(RarityBorderDelegate(self.results_list))
         self.results_list.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.results_list.setItemDelegate(RarityBorderDelegate(self.results_list))
         self.results_list.setDragEnabled(False)
         self.results_list.viewport().setAcceptDrops(False)
         self.results_list.itemClicked.connect(self._on_item_clicked)
@@ -141,22 +141,7 @@ class GuildItemPickerDialog(QDialog):
         close_btn.clicked.connect(self.accept)
         btn_layout.addWidget(close_btn)
         layout.addLayout(btn_layout)
-        self._load_all_items()
-    def _load_all_items(self):
         items = ItemData.get_all_items()
-        self._display_items(items)
-    def _search(self, query: str):
-        if not query:
-            self._load_all_items()
-            return
-        try:
-            from palworld_aio.inventory_manager import search_items
-            results = search_items(query, limit=500)
-            self._display_items(results)
-        except:
-            self._load_all_items()
-    def _display_items(self, items: list):
-        self.results_list.clear()
         for item in items:
             name = item.get('name', 'Unknown')
             asset = item.get('asset', '')
@@ -170,7 +155,15 @@ class GuildItemPickerDialog(QDialog):
                 pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
                 if not pixmap.isNull():
                     list_item.setIcon(QIcon(pixmap))
+            list_item.setSizeHint(QSize(80, 80))
             self.results_list.addItem(list_item)
+    def _filter_items(self, query: str):
+        q = query.lower()
+        for i in range(self.results_list.count()):
+            item = self.results_list.item(i)
+            name = item.text()
+            asset = item.data(Qt.UserRole) or ''
+            item.setHidden(bool(q and q not in name.lower() and q not in asset.lower()))
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.data(Qt.UserRole + 1)

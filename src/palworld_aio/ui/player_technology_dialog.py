@@ -110,6 +110,7 @@ class PlayerTechnologyActionDialog(QDialog):
             icon = self._get_tech_icon(tech)
             if icon:
                 item.setIcon(icon)
+            item.setSizeHint(QSize(80, 80))
             self.results_list.addItem(item)
     def _get_tech_icon(self, tech):
         try:

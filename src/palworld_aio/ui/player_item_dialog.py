@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QStyledItemDelegate
 from PySide6.QtCore import Qt
 from i18n import t
 from palworld_aio import constants
-from palworld_aio.inventory_manager import ItemData, search_items
+from palworld_aio.inventory_manager import ItemData
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
 DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 4px;\n    border: 1px solid rgba(125,211,252,0.12);\n    border-radius: 4px;\n    margin: 2px;\n}\nQListWidget::item:hover {\n    border: 1px solid rgba(125,211,252,0.3);\n    background: rgba(125,211,252,0.05);\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n    border: 1px solid rgba(59,142,208,0.5);\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton:pressed {\n    background: rgba(125,211,252,0.3);\n}\nQGroupBox {\n    color: #e2e8f0;\n    border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 6px;\n    margin-top: 8px;\n    padding-top: 8px;\n}\nQGroupBox::title {\n    subcontrol-origin: margin;\n    left: 10px;\n    padding: 0 5px;\n}\nQSpinBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 4px 8px;\n}\n'
@@ -27,9 +27,9 @@ class RarityBorderDelegate(QStyledItemDelegate):
         else:
             color = QColor('#fbbf24')
         painter.save()
-        painter.setPen(QPen(color, 3))
+        painter.setPen(QPen(color, 2))
         painter.setBrush(Qt.NoBrush)
-        rect = option.rect.adjusted(1, 1, -1, -1)
+        rect = option.rect.adjusted(4, 4, -4, -4)
         painter.drawRoundedRect(rect, 4, 4)
         painter.restore()
 class PlayerItemActionDialog(QDialog):
@@ -53,7 +53,7 @@ class PlayerItemActionDialog(QDialog):
         search_label = QLabel(t('common.search') if t else 'Search:')
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText(t('player_item.search_placeholder') if t else 'Type to search items...')
-        self.search_input.textChanged.connect(self._search_items)
+        self.search_input.textChanged.connect(self._filter_items)
         search_bar_layout.addWidget(search_label)
         search_bar_layout.addWidget(self.search_input)
         search_layout.addLayout(search_bar_layout)
@@ -115,19 +115,7 @@ class PlayerItemActionDialog(QDialog):
         self.status_label = QLabel('')
         self.status_label.setStyleSheet('color: #4ade80; font-weight: bold; padding: 5px;')
         layout.addWidget(self.status_label)
-        self._load_all_items()
-        self._load_players()
-    def _load_all_items(self):
         items = ItemData.get_all_items()
-        self._display_items(items)
-    def _search_items(self, query: str):
-        if not query:
-            self._load_all_items()
-            return
-        results = search_items(query, limit=1000)
-        self._display_items(results)
-    def _display_items(self, items: list):
-        self.results_list.clear()
         for item in items:
             name = item.get('name', 'Unknown')
             asset = item.get('asset', '')
@@ -140,7 +128,16 @@ class PlayerItemActionDialog(QDialog):
                 pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
                 if not pixmap.isNull():
                     list_item.setIcon(QIcon(pixmap))
+            list_item.setSizeHint(QSize(80, 80))
             self.results_list.addItem(list_item)
+        self._load_players()
+    def _filter_items(self, query: str):
+        q = query.lower()
+        for i in range(self.results_list.count()):
+            item = self.results_list.item(i)
+            name = item.text()
+            asset = item.data(Qt.UserRole) or ''
+            item.setHidden(bool(q and q not in name.lower() and q not in asset.lower()))
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.text()

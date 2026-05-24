@@ -90,7 +90,7 @@ _BUILD_EXCLUDES = ['pandas', 'numpy', 'email', 'unittest', 'unittest.mock',
 build_exe_options = {
     'packages': _BUILD_PACKAGES,
     'excludes': _BUILD_EXCLUDES,
-    'include_files': [('readme.md', 'readme.md'), ('license', 'license'), ('resources/', 'resources/')],
+    'include_files': [('readme.md', 'readme.md'), ('license', 'license'), ('resources/', 'resources/'), ('src/data/', 'src/data/')],
     'zip_include_packages': [],
     'zip_exclude_packages': ['*'],
     'build_exe': 'PST_standalone',

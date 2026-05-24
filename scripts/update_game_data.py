@@ -615,10 +615,10 @@ def update_item_data():
                 rows = data.get('Rows', {})
                 if rows:
                     all_icon_rows.update(rows)
-    if not all_item_rows and (not all_icon_rows):
+    if not all_item_rows:
         print('  No item rows found. Skipping.')
         return
-    all_item_ids = set(all_item_rows.keys()) | set(all_icon_rows.keys())
+    all_item_ids = set(all_item_rows.keys())
     item_icon_subdirs = [EXPORT_TEXTURES_DIR / 'Item', EXPORT_TEXTURES_DIR / 'Item' / 'Weapon', EXPORT_TEXTURES_DIR / 'UI' / 'InGame', EXPORT_TEXTURES_DIR / 'UI' / 'Main_Menu', EXPORT_TEXTURES_DIR / 'UI' / 'Common', EXPORT_TEXTURES_DIR.parent.parent / 'Others' / 'InventoryItemIcon' / 'Texture']
     def _is_valid_l10n_name(name: str) -> bool:
         if not name:
@@ -1364,7 +1364,6 @@ def update_map_data():
         target = BASE_DIR / 'resources' / fname
         if not target.exists() or src.stat().st_mtime > target.stat().st_mtime:
             shutil.copy2(str(src), str(target))
-
 def _convert_map_pngs(Image):
     for fname in ['T_TreeMap.png', 'T_WorldMap.png']:
         png = BASE_DIR / 'resources' / fname
@@ -1505,9 +1504,7 @@ def _convert_icons(Image):
             print(f'  Updated {updated_refs} icon references in data files')
     else:
         print('  No icons to optimize')
-
 _JSON_FILES = {'paldata.json': 'pals', 'itemdata.json': 'items', 'npcdata.json': 'npcs', 'structuredata.json': 'structures', 'passivedata.json': 'passives', 'technologydata.json': 'technology', 'skilldata.json': None, 'palpassivedata.json': 'passives', 'elementdata.json': 'elements', 'uidata.json': 'ui'}
-
 def _cleanup_stale_icons():
     referenced = set()
     for fname, _ in _JSON_FILES.items():
@@ -1556,7 +1553,6 @@ def _cleanup_stale_icons():
         print(f'  Removed {removed_count} stale icon files')
     else:
         print('  No stale icons to remove')
-
 def main():
     if os.name == 'nt':
         os.system('title PalworldSaveTools - Game Data Extractor and Updater')

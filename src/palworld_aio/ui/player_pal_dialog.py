@@ -13,9 +13,8 @@ class PalSlotDelegate(QStyledItemDelegate):
         has_badge = index.data(Qt.UserRole + 1)
         if has_badge:
             badge = _get_boss_alpha_pixmap(14)
-            if badge and not badge.isNull():
+            if badge and (not badge.isNull()):
                 painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
-
 class PlayerPalActionDialog(QDialog):
     pal_action_selected = Signal(str, str, list)
     def __init__(self, parent=None):
@@ -149,7 +148,6 @@ class PlayerPalActionDialog(QDialog):
         self._display_pals()
         self._display_active_skills()
         self._display_passive_skills()
-
     def _build_pal_icon_map(self):
         base_dir = constants.get_base_path()
         try:
@@ -164,7 +162,6 @@ class PlayerPalActionDialog(QDialog):
                         self._pal_icon_map[asset] = icon_path
         except:
             pass
-
     def _get_pal_icon(self, pal_id):
         asset = pal_id.lower()
         icon_path = self._pal_icon_map.get(asset)
@@ -178,7 +175,6 @@ class PlayerPalActionDialog(QDialog):
             self._icon_pixmap_cache[icon_path] = pixmap
             return pixmap
         return None
-
     def _display_pals(self):
         self.pal_list.clear()
         all_pals = sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1])
@@ -187,9 +183,9 @@ class PlayerPalActionDialog(QDialog):
             list_item.setData(Qt.UserRole, pal_id)
             list_item.setToolTip(f'{pal_name}\n({pal_id})')
             pixmap = self._get_pal_icon(pal_id)
-            if pixmap and not pixmap.isNull():
+            if pixmap and (not pixmap.isNull()):
                 list_item.setIcon(QIcon(pixmap))
-            if any(pal_id.upper().startswith(p) for p in _BOSS_PREFIXES):
+            if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(list_item)
     def _search_pals(self, query):
@@ -204,9 +200,9 @@ class PlayerPalActionDialog(QDialog):
             list_item.setData(Qt.UserRole, pal_id)
             list_item.setToolTip(f'{pal_name}\n({pal_id})')
             pixmap = self._get_pal_icon(pal_id)
-            if pixmap and not pixmap.isNull():
+            if pixmap and (not pixmap.isNull()):
                 list_item.setIcon(QIcon(pixmap))
-            if any(pal_id.upper().startswith(p) for p in _BOSS_PREFIXES):
+            if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(list_item)
     def _on_pal_clicked(self, item):

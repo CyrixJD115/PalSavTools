@@ -1075,9 +1075,7 @@ def _get_awake_pixmap(size=14):
     base_dir = constants.get_base_path()
     path = os.path.join(base_dir, 'resources', 'UI', 'pst_flame_icon.webp')
     return _get_cached_pixmap(path, size)
-
 _BOSS_PREFIXES = ('BOSS_', 'PREDATOR_', 'GYM_', 'RAID_')
-
 def _composite_badge(pixmap, badge_pixmap, icon_size):
     result = QPixmap(pixmap)
     painter = QPainter(result)
@@ -3545,9 +3543,8 @@ class _PalSlotDelegate(QStyledItemDelegate):
         has_badge = index.data(Qt.UserRole + 1)
         if has_badge:
             badge = _get_boss_alpha_pixmap(14)
-            if badge and not badge.isNull():
+            if badge and (not badge.isNull()):
                 painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
-
 class PalCreateDialog(QDialog):
     def __init__(self, pal_editor, is_party, slot_index, parent=None):
         super().__init__(parent)
@@ -3595,10 +3592,10 @@ class PalCreateDialog(QDialog):
                 li.setIcon(QIcon(pix))
             li.setToolTip(f'<b>{name}</b><br>ID: {asset}')
             li.setSizeHint(QSize(80, 80))
-            is_variant = any(asset.upper().startswith(p) for p in _BOSS_PREFIXES)
+            is_variant = any((asset.upper().startswith(p) for p in _BOSS_PREFIXES))
             if is_variant:
                 badge = _get_boss_alpha_pixmap(14)
-                if badge and not badge.isNull():
+                if badge and (not badge.isNull()):
                     li.setData(Qt.UserRole + 1, True)
             self.pal_list.addItem(li)
         search_edit.textChanged.connect(lambda t: [self.pal_list.item(i).setHidden(t.lower() not in self.pal_list.item(i).text().lower()) for i in range(self.pal_list.count())])
@@ -3707,7 +3704,7 @@ class PalFrame(QFrame):
                 import traceback
                 traceback.print_exc()
                 return {}
-        cls._PASSMAP = load_map('palpassivedata.json', 'passives')
+        cls._PASSMAP = load_map('passivedata.json', 'passives')
         cls._SKILLMAP = load_map('skilldata.json', 'skills')
         PALMAP = load_map('paldata.json', 'pals')
         NPCMAP = load_map('npcdata.json', 'npcs')

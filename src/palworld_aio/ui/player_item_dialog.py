@@ -137,7 +137,7 @@ class PlayerItemActionDialog(QDialog):
             item = self.results_list.item(i)
             name = item.text()
             asset = item.data(Qt.UserRole) or ''
-            item.setHidden(bool(q and q not in name.lower() and q not in asset.lower()))
+            item.setHidden(bool(q and q not in name.lower() and (q not in asset.lower())))
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.text()

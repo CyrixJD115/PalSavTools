@@ -72,7 +72,6 @@ class ItemSlotWidget(QFrame):
         else:
             color = '#fbbf24'
         self.setStyleSheet(f'ItemSlotWidget {{ background-color: rgba(30, 30, 40, 200); border: 2px solid {color}; border-radius: 4px; }} ItemSlotWidget:hover {{ background-color: rgba(60, 60, 70, 220); border: 2px solid {color}; }}')
-
     def clear_item(self):
         self.slot_data = None
         self._apply_empty_style()
@@ -568,19 +567,7 @@ class ItemPickerDialog(QDialog):
         self._filter_type_b = filter_type_b
         self._filter_exclude_type_a = filter_exclude_type_a
         self._hide_quantity = hide_quantity
-        self.setStyleSheet('''
-            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }
-            QLabel { color: #e2e8f0; }
-            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }
-            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }
-            QSpinBox { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 4px 8px; }
-            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }
-            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }
-            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }
-            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }
-            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }
-            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }
-        ''')
+        self.setStyleSheet('\n            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }\n            QLabel { color: #e2e8f0; }\n            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }\n            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }\n            QSpinBox { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 4px 8px; }\n            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }\n            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }\n            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }\n            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }\n            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }\n            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }\n        ')
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)
@@ -668,7 +655,7 @@ class ItemPickerDialog(QDialog):
             item = self.results_list.item(i)
             name = item.text()
             asset = item.data(Qt.UserRole) or ''
-            item.setHidden(bool(q and q not in name.lower() and q not in asset.lower()))
+            item.setHidden(bool(q and q not in name.lower() and (q not in asset.lower())))
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item = item.data(Qt.UserRole)
     def _on_item_double_clicked(self, item: QListWidgetItem):
@@ -1161,7 +1148,7 @@ class PlayerInventoryTab(QWidget):
             return
         slot_type = self._get_equip_slot_type(slot_name)
         slot_filter = EQUIP_SLOT_FILTERS.get(slot_type, {})
-        dialog = ItemPickerDialog(self, filter_type_a=slot_filter.get('type_a'), filter_type_b=slot_filter.get('type_b'), hide_quantity=(slot_type != 'food'))
+        dialog = ItemPickerDialog(self, filter_type_a=slot_filter.get('type_a'), filter_type_b=slot_filter.get('type_b'), hide_quantity=slot_type != 'food')
         dialog.item_selected.connect(lambda item_id, qty: self._do_add_to_equip_slot(slot_name, container_type, item_id, qty))
         dialog.exec()
     def _do_add_to_equip_slot(self, slot_name: str, container_type: str, item_id: str, quantity: int):

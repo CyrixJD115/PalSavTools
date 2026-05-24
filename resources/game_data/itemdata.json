@@ -10,15 +10,6 @@
             "description": "An intelligent processing core that can teach itself. Capable of making complex judgments and autonomous management, this pivotal part is integral to any state-of-the-art devices."
         },
         {
-            "name": "Accessory_AT",
-            "asset": "Accessory_AT",
-            "icon": "/icons/items/T_itemicon_Accessory_AT_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Attack Pendant",
             "asset": "Accessory_AT_1",
             "icon": "/icons/items/T_itemicon_Accessory_AT_1.webp",
@@ -82,15 +73,6 @@
             "description": "An accessory that allows the player to perform quadruple dashes in mid-air when equipped."
         },
         {
-            "name": "Accessory_AquaResist",
-            "asset": "Accessory_AquaResist",
-            "icon": "/icons/items/T_itemicon_Accessory_AquaResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Water Resistance",
             "asset": "Accessory_AquaResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_AquaResist_1.webp",
@@ -136,15 +118,6 @@
             "description": "An accessory with incredible resistance to cold. Greatly lowers Ice damage."
         },
         {
-            "name": "Accessory_CoolResist",
-            "asset": "Accessory_CoolResist",
-            "icon": "/icons/items/T_itemicon_Accessory_HeatResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Thermal Undershirt",
             "asset": "Accessory_CoolResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_HeatResist_1.webp",
@@ -181,15 +154,6 @@
             "description": "An accessory that greatly raises Defense and Health."
         },
         {
-            "name": "Accessory_DarkResist",
-            "asset": "Accessory_DarkResist",
-            "icon": "/icons/items/T_itemicon_Accessory_DarkResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Dark Resistance",
             "asset": "Accessory_DarkResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_DarkResist_1.webp",
@@ -217,15 +181,6 @@
             "description": "An accessory that lowers Dark damage."
         },
         {
-            "name": "Accessory_DragonResist",
-            "asset": "Accessory_DragonResist",
-            "icon": "/icons/items/T_itemicon_Accessory_DragonResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Dragon Resistance",
             "asset": "Accessory_DragonResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_DragonResist_1.webp",
@@ -251,15 +206,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that lowers Dragon damage."
-        },
-        {
-            "name": "Accessory_EarthResist",
-            "asset": "Accessory_EarthResist",
-            "icon": "/icons/items/T_itemicon_Accessory_EarthResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Ring of Ground Resistance",
@@ -296,15 +242,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "A lightweight yet durable undergarment crafted from unique fibers. Reduces damage taken from explosions."
-        },
-        {
-            "name": "Accessory_FireResist",
-            "asset": "Accessory_FireResist",
-            "icon": "/icons/items/T_itemicon_Accessory_FireResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Ring of Fire Resistance",
@@ -352,15 +289,6 @@
             "description": "An accessory that greatly raises Heat and Cold Resistance. It also significantly increases carrying capacity."
         },
         {
-            "name": "Accessory_HP",
-            "asset": "Accessory_HP",
-            "icon": "/icons/items/T_itemicon_Accessory_HP_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Life Pendant",
             "asset": "Accessory_HP_1",
             "icon": "/icons/items/T_itemicon_Accessory_HP_1.webp",
@@ -386,15 +314,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that raises Health."
-        },
-        {
-            "name": "Accessory_HeatColdResist",
-            "asset": "Accessory_HeatColdResist",
-            "icon": "/icons/items/T_itemicon_Accessory_HeatColdResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Multiclimate Undershirt",
@@ -433,15 +352,6 @@
             "description": "An accessory with incredible resistance to heat. Greatly lowers Fire damage."
         },
         {
-            "name": "Accessory_HeatResist",
-            "asset": "Accessory_HeatResist",
-            "icon": "/icons/items/T_itemicon_Accessory_CoolResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Heat Resistant Undershirt",
             "asset": "Accessory_HeatResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_CoolResist_1.webp",
@@ -467,15 +377,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that raises Heat Resistance."
-        },
-        {
-            "name": "Accessory_IceResist",
-            "asset": "Accessory_IceResist",
-            "icon": "/icons/items/T_itemicon_Accessory_IceResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Ring of Ice Resistance",
@@ -559,15 +460,6 @@
             "description": "An accessory that increases the player's jump power when equipped."
         },
         {
-            "name": "Accessory_LeafResist",
-            "asset": "Accessory_LeafResist",
-            "icon": "/icons/items/T_itemicon_Accessory_LeafResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Grass Resistance",
             "asset": "Accessory_LeafResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_LeafResist_1.webp",
@@ -593,15 +485,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that lowers Grass damage."
-        },
-        {
-            "name": "Accessory_MaxWeightUp",
-            "asset": "Accessory_MaxWeightUp",
-            "icon": "/icons/items/T_itemicon_Accessory_MaxWeightUp.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Ring of Freight",
@@ -649,15 +532,6 @@
             "description": "Pacifist's ring.\r\nThe wearer's attacks will not reduce the target's Health below 1."
         },
         {
-            "name": "Accessory_NormalResist",
-            "asset": "Accessory_NormalResist",
-            "icon": "/icons/items/T_itemicon_Accessory_NormalResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Neutral Resistance",
             "asset": "Accessory_NormalResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_NormalResist_1.webp",
@@ -685,15 +559,6 @@
             "description": "Accessory that lowers Neutral damage."
         },
         {
-            "name": "Accessory_Otomo_Attack_up",
-            "asset": "Accessory_Otomo_Attack_up",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_Attack_up.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Elphidran Ring",
             "asset": "Accessory_Otomo_Dargon_1",
             "icon": "/icons/items/T_itemicon_Accessory_Otomo_Dargon_1.webp",
@@ -712,15 +577,6 @@
             "description": "An accessory that significantly reduces Neutral damage, and greatly raises the Dark damage of the Pal fighting alongside you."
         },
         {
-            "name": "Accessory_Otomo_Defense_up",
-            "asset": "Accessory_Otomo_Defense_up",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_Defense_up.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Menasting Terra Ring",
             "asset": "Accessory_Otomo_Earth_1",
             "icon": "/icons/items/T_itemicon_Accessory_Otomo_Earth_1.webp",
@@ -737,96 +593,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Water damage, and greatly raises the Electric damage of the Pal fighting alongside you."
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Dark",
-            "asset": "Accessory_Otomo_ElementBoost_Dark",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Dark.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Dragon",
-            "asset": "Accessory_Otomo_ElementBoost_Dragon",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Dragon.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Earth",
-            "asset": "Accessory_Otomo_ElementBoost_Earth",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Earth.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Electricity",
-            "asset": "Accessory_Otomo_ElementBoost_Electricity",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Electricity.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Fire",
-            "asset": "Accessory_Otomo_ElementBoost_Fire",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Fire.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Ice",
-            "asset": "Accessory_Otomo_ElementBoost_Ice",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Ice.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Leaf",
-            "asset": "Accessory_Otomo_ElementBoost_Leaf",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Leaf.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Normal",
-            "asset": "Accessory_Otomo_ElementBoost_Normal",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Normal.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_ElementBoost_Water",
-            "asset": "Accessory_Otomo_ElementBoost_Water",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_ElementBoost_Water.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Accessory_Otomo_Exp_up",
-            "asset": "Accessory_Otomo_Exp_up",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_Exp_up.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Blazehowl Ring",
@@ -863,15 +629,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Ground damage, and greatly raises the Grass damage of the Pal fighting alongside you."
-        },
-        {
-            "name": "Accessory_Otomo_MoveSpeed_up",
-            "asset": "Accessory_Otomo_MoveSpeed_up",
-            "icon": "/icons/items/T_itemicon_Accessory_Otomo_MoveSpeed_up.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Faleris Aqua Ring",
@@ -928,15 +685,6 @@
             "description": "Glasses used to discern hidden Pal abilities.\r\nDisplays Health, Attack and Defense stats on a scale of 0 to 100."
         },
         {
-            "name": "Accessory_ThunderResist",
-            "asset": "Accessory_ThunderResist",
-            "icon": "/icons/items/T_itemicon_Accessory_ThunderResist_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ring of Electric Resistance",
             "asset": "Accessory_ThunderResist_1",
             "icon": "/icons/items/T_itemicon_Accessory_ThunderResist_1.webp",
@@ -973,15 +721,6 @@
             "description": "An accessory that greatly raises carrying capacity. It also significantly boosts production speed."
         },
         {
-            "name": "Accessory_WorkSpeed",
-            "asset": "Accessory_WorkSpeed",
-            "icon": "/icons/items/T_itemicon_Accessory_WorkSpeed_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Pendant of Diligence",
             "asset": "Accessory_WorkSpeed_1",
             "icon": "/icons/items/T_itemicon_Accessory_WorkSpeed_1.webp",
@@ -1007,15 +746,6 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that raises Work Speed."
-        },
-        {
-            "name": "Accessory_defense",
-            "asset": "Accessory_defense",
-            "icon": "/icons/items/T_itemicon_Accessory_defense_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Defense Pendant",
@@ -1378,15 +1108,6 @@
             "description": ""
         },
         {
-            "name": "Antibiotic",
-            "asset": "Antibiotic",
-            "icon": "/icons/items/Antibiotic.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Antibiotic_Good",
             "asset": "Antibiotic_Good",
             "icon": "/icons/T_icon_unknown.webp",
@@ -1448,15 +1169,6 @@
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
             "description": "Ammo for Assault Rifle and other similar weapons."
-        },
-        {
-            "name": "AssaultRifle_Default",
-            "asset": "AssaultRifle_Default",
-            "icon": "/icons/items/T_itemicon_Weapon_AssaultRifle_Default1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Assault Rifle",
@@ -1576,15 +1288,6 @@
             "description": "An extraordinarily large sack for storing food.\r\nUnlocks 5 food slots in your inventory.\r\nPlayers and Pals automatically consume food when hungry."
         },
         {
-            "name": "Axe_Default",
-            "asset": "Axe_Default",
-            "icon": "/icons/items/T_itemicon_Weapon_Axe_Tier_00.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Pal Metal Axe",
             "asset": "Axe_Steal",
             "icon": "/icons/items/T_itemicon_Weapon_Axe_Tier_03.webp",
@@ -1646,15 +1349,6 @@
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
             "description": "The smoky essence of bacon intertwines flawlessly\r\nwith the gentle texture of eggs, creating a sublime harmony of flavors.\r\nEating it will increase <uiCommon id=|COMMON_STATUS_RANGE_ATTACK|/> by +10% for a period of time."
-        },
-        {
-            "name": "Bag",
-            "asset": "Bag",
-            "icon": "/icons/items/T_itemicon_Essential_AutoMealPouch_Tier1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Herb Roasted Caprity",
@@ -1798,15 +1492,6 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": ""
-        },
-        {
-            "name": "Bandage",
-            "asset": "Bandage",
-            "icon": "/icons/items/T_itemicon_Consume_Bandage_Good.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -2017,24 +1702,6 @@
             "description": "A weathered bone that has seen the passage of time. While its flesh has been stripped, it exudes a powerful force."
         },
         {
-            "name": "Bed",
-            "asset": "Bed",
-            "icon": "/icons/items/T_icon_buildObject_PlayerBed_02.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Bed2",
-            "asset": "Bed2",
-            "icon": "/icons/items/T_icon_buildObject_PlayerBed_03.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Beer",
             "asset": "Beer",
             "icon": "/icons/items/T_itemicon_Food_Beer.webp",
@@ -2105,15 +1772,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
             "description": "A highly efficient cooling medium made from certain Pal-based extractions. Able to keep even extremely hot environments reliably chilly, cooling high-output devices is a snap."
-        },
-        {
-            "name": "Blueprint",
-            "asset": "Blueprint",
-            "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "BlueprintTest",
@@ -2924,15 +2582,6 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Poison Arrow Crossbow (<uiCommon id=|RARITY_LEGENDARY|/>).\r\nCan be crafted at High-Quality Workbench."
-        },
-        {
-            "name": "Blueprint_Building",
-            "asset": "Blueprint_Building",
-            "icon": "/icons/items/T_itemicon_Blueprint_Building.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Majestic Candlestick Schematic",
@@ -8398,33 +8047,6 @@
             "description": "A token of having defeated a bounty target.\r\nBy giving it to a Vigilante Bounty Officer in villages or towns, it can be exchanged for a reward."
         },
         {
-            "name": "Successful Hard Bounty Token",
-            "asset": "BountyProof_2",
-            "icon": "/icons/items/T_icon_item_Jewelry_BountyProof_2.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": "en-Text"
-        },
-        {
-            "name": "Bow",
-            "asset": "Bow",
-            "icon": "/icons/items/T_itemicon_Weapon_WeakerBow.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": "Bow"
-        },
-        {
-            "name": "Bow3",
-            "asset": "Bow3",
-            "icon": "/icons/items/T_itemicon_Weapon_Bow.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Crossbow",
             "asset": "BowGun",
             "icon": "/icons/items/T_itemicon_Weapon_BowGun.webp",
@@ -8623,24 +8245,6 @@
             "description": "A sword for when you need to get up close and personal. Wickedly sharp. If your opponents doubt how keen the edge is, they only need to take a few steps forward."
         },
         {
-            "name": "ButcheringImportPal",
-            "asset": "ButcheringImportPal",
-            "icon": "/icons/items/T_itemicon_Material_ButcheringImportPal.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Cabbage",
-            "asset": "Cabbage",
-            "icon": "/icons/items/Cabbage.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Cake",
             "asset": "Cake",
             "icon": "/icons/items/T_itemicon_Food_Cake.webp",
@@ -8684,24 +8288,6 @@
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
             "description": "When this dish is placed in a Breeding Farm chest, the Pal that consumes it will lay a particularly healthy egg. The Pal born from that egg will be an improvement on its parents, inheriting their best traits."
-        },
-        {
-            "name": "Campfire",
-            "asset": "Campfire",
-            "icon": "/icons/items/T_icon_buildObject_CampFire.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "CapturePrism",
-            "asset": "CapturePrism",
-            "icon": "/icons/items/T_itemicon_PalSphere.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "CaptureRope",
@@ -8864,33 +8450,6 @@
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
             "description": "Now with cheese, this dish has reached the highest level of fine cuisine.\r\nEating it will increase <uiCommon id=|COMMON_STATUS_RANGE_ATTACK|/> by +20%\r\nand stay full longer for a period of time."
-        },
-        {
-            "name": "Chest",
-            "asset": "Chest",
-            "icon": "/icons/items/T_icon_buildObject_ItemChest.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Chest2",
-            "asset": "Chest2",
-            "icon": "/icons/items/T_icon_buildObject_ItemChest_02.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Chest3",
-            "asset": "Chest3",
-            "icon": "/icons/items/T_icon_buildObject_ItemChest_03.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Chikipi Sauté",
@@ -9109,15 +8668,6 @@
             "description": ""
         },
         {
-            "name": "Clothing",
-            "asset": "Clothing",
-            "icon": "/icons/items/Clothing.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Coal",
             "asset": "Coal",
             "icon": "/icons/items/T_itemicon_Material_Coal.webp",
@@ -9179,24 +8729,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
             "description": "An electronic device capable of advanced computational processing.\r\nUsed to control automated systems and precision machinery,\r\nit is a fundamental component of modern technology."
-        },
-        {
-            "name": "CookingStove",
-            "asset": "CookingStove",
-            "icon": "/icons/items/T_icon_buildObject_CookingStove.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Cooler",
-            "asset": "Cooler",
-            "icon": "/icons/items/T_icon_buildObject_CoolerMedieval.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Metal Armor",
@@ -9550,15 +9082,6 @@
             "description": ""
         },
         {
-            "name": "DecalGun",
-            "asset": "DecalGun",
-            "icon": "/icons/items/T_itemicon_Weapon_DecalGun.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Decal Gun 1",
             "asset": "DecalGun_1",
             "icon": "/icons/items/T_itemicon_Weapon_DecalGun.webp",
@@ -9629,15 +9152,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialJewelry",
             "description": "A rare gemstone that glows brilliantly.\r\nCan be sold to a merchant for a high price."
-        },
-        {
-            "name": "Dish",
-            "asset": "Dish",
-            "icon": "/icons/items/Dish.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Dog Coin",
@@ -10135,15 +9649,6 @@
             "description": ""
         },
         {
-            "name": "FarmCrop",
-            "asset": "FarmCrop",
-            "icon": "/icons/items/T_itemicon_Consume_FarmCrop_Tmp.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "FarmCrop_Tmp",
             "asset": "FarmCrop_Tmp",
             "icon": "/icons/items/T_itemicon_Consume_FarmCrop_Tmp.webp",
@@ -10169,15 +9674,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
             "description": "Material obtainable from <uiCommon id=|COMMON_ELEMENT_NAME_Fire|/> Pals.\r\nCan be used to make Fire Arrow and more."
-        },
-        {
-            "name": "FishDish",
-            "asset": "FishDish",
-            "icon": "/icons/items/FishDish.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "FishMeat",
@@ -10279,15 +9775,6 @@
             "description": "Bait that lures in Pals. \r\nA modified version of Deluxe Bait designed for skilled anglers. \r\nThe minigame bar is reduced in size, but the number of items obtained is greatly increased."
         },
         {
-            "name": "FishingRod",
-            "asset": "FishingRod",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Beginner Fishing Rod (Chillet)",
             "asset": "FishingRod_01_1",
             "icon": "/icons/items/T_itemicon_Weapon_FishingRod_1.webp",
@@ -10340,60 +9827,6 @@
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponFishingRod",
             "description": "A fishing rod designed for catching Pals. \r\nIt's sturdier and offers slightly better performance than Advanced Fishing Rod (Pengullet)."
-        },
-        {
-            "name": "FishingRod_1",
-            "asset": "FishingRod_1",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FishingRod_2",
-            "asset": "FishingRod_2",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_2.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FishingRod_3",
-            "asset": "FishingRod_3",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_3.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FishingRod_4",
-            "asset": "FishingRod_4",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_4.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FishingRod_5",
-            "asset": "FishingRod_5",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_5.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FishingRod_6",
-            "asset": "FishingRod_6",
-            "icon": "/icons/items/T_itemicon_Weapon_FishingRod_6.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Fishing Rod_Good",
@@ -10882,294 +10315,6 @@
             "description": "A beautiful feathered headband.\r\nThough improbable, it somehow seems to protect its wearer from lethal head injuries."
         },
         {
-            "name": "FurnitureSet_1",
-            "asset": "FurnitureSet_1",
-            "icon": "/icons/items/T_icon_buildObject_TableSquare_Wood.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_10",
-            "asset": "FurnitureSet_10",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_11",
-            "asset": "FurnitureSet_11",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_12",
-            "asset": "FurnitureSet_12",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_13",
-            "asset": "FurnitureSet_13",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_14",
-            "asset": "FurnitureSet_14",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_15",
-            "asset": "FurnitureSet_15",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_16",
-            "asset": "FurnitureSet_16",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_17",
-            "asset": "FurnitureSet_17",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_18",
-            "asset": "FurnitureSet_18",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_19",
-            "asset": "FurnitureSet_19",
-            "icon": "/icons/items/T_icon_buildObject_Shelf01_Stone.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_2",
-            "asset": "FurnitureSet_2",
-            "icon": "/icons/items/T_icon_buildObject_Barrel_Wood.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_20",
-            "asset": "FurnitureSet_20",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_21",
-            "asset": "FurnitureSet_21",
-            "icon": "/icons/items/T_icon_buildObject_Shelf01_Stone.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_22",
-            "asset": "FurnitureSet_22",
-            "icon": "/icons/items/T_icon_buildObject_Shelf05_Stone.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_23",
-            "asset": "FurnitureSet_23",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_24",
-            "asset": "FurnitureSet_24",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_25",
-            "asset": "FurnitureSet_25",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_26",
-            "asset": "FurnitureSet_26",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_27",
-            "asset": "FurnitureSet_27",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_28",
-            "asset": "FurnitureSet_28",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_29",
-            "asset": "FurnitureSet_29",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_3",
-            "asset": "FurnitureSet_3",
-            "icon": "/icons/items/T_icon_buildObject_Counter_Wood.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_30",
-            "asset": "FurnitureSet_30",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_31",
-            "asset": "FurnitureSet_31",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_32",
-            "asset": "FurnitureSet_32",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_4",
-            "asset": "FurnitureSet_4",
-            "icon": "/icons/items/T_icon_buildObject_Ivy01.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_5",
-            "asset": "FurnitureSet_5",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_6",
-            "asset": "FurnitureSet_6",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_7",
-            "asset": "FurnitureSet_7",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_8",
-            "asset": "FurnitureSet_8",
-            "icon": "/icons/items/T_icon_buildObject_TableCircular_Wood_None.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "FurnitureSet_9",
-            "asset": "FurnitureSet_9",
-            "icon": "/icons/items/T_icon_buildObject_Plant01_Plant.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Marcus Hat",
             "asset": "GYM_Head_Desert",
             "icon": "/icons/items/T_itemicon_Armor_GYM_Head_Desert.webp",
@@ -11600,24 +10745,6 @@
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
             "description": "Fires missiles that automatically track and pursue enemies.\r\nMissiles explode upon impact, causing damage over a wide area."
-        },
-        {
-            "name": "GunPowder",
-            "asset": "GunPowder",
-            "icon": "/icons/items/T_itemicon_Material_Gunpowder.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "GunPowder2",
-            "asset": "GunPowder2",
-            "icon": "/icons/items/T_itemicon_Material_Gunpowder2.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Gunpowder",
@@ -12970,33 +12097,6 @@
             "description": "Hat shaped like a Tarantriss."
         },
         {
-            "name": "HealingMushroom",
-            "asset": "HealingMushroom",
-            "icon": "/icons/items/T_itemicon_Food_HealingMushroom.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Heater",
-            "asset": "Heater",
-            "icon": "/icons/items/T_icon_buildObject_HeaterMedieval.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Helmet",
-            "asset": "Helmet",
-            "icon": "/icons/items/T_itemicon_Armor_Kigurumi001_Helmet.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Low Grade Medical Supplies",
             "asset": "Herbs",
             "icon": "/icons/items/T_itemicon_Food_Herbs.webp",
@@ -13465,24 +12565,6 @@
             "description": "A relic from an ancient civilization that once flourished in the area. While the full history remains unclear, current research suggests that this item might belong to a much larger device.\r\n\r\n|The sin born from the disavowal of all creation.|"
         },
         {
-            "name": "Kigurumi001_Armor",
-            "asset": "Kigurumi001_Armor",
-            "icon": "/icons/items/T_itemicon_Armor_Kigurumi001_Armor.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Kigurumi001_Helmet",
-            "asset": "Kigurumi001_Helmet",
-            "icon": "/icons/items/T_itemicon_Armor_Kigurumi001_Helmet.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Kitsunebi_Fire",
             "asset": "Kitsunebi_Fire",
             "icon": "/icons/T_icon_unknown.webp",
@@ -13750,24 +12832,6 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": ""
-        },
-        {
-            "name": "LeatherClothing",
-            "asset": "LeatherClothing",
-            "icon": "/icons/items/T_itemicon_Armor_ClothArmor.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "LeatherHat",
-            "asset": "LeatherHat",
-            "icon": "/icons/items/T_itemicon_Armor_ClothHat.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -14210,15 +13274,6 @@
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
             "description": "Knife for butchering Pals.\r\nWhen equipped, the Pet command becomes Butcher.\r\nButchered Pals will be gone for good."
-        },
-        {
-            "name": "MeatDish",
-            "asset": "MeatDish",
-            "icon": "/icons/items/MeatDish.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Bolognese Sauce",
@@ -16201,15 +15256,6 @@
             "description": "Bodily fluids taken from a Water Pal.\r\nTheir high viscosity makes them a handy material."
         },
         {
-            "name": "PalFoodBox",
-            "asset": "PalFoodBox",
-            "icon": "/icons/items/T_icon_buildObject_PalFoodBox.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Pal Reverser",
             "asset": "PalGenderReverse",
             "icon": "/icons/items/T_itemicon_Material_PalGenderReverse.webp",
@@ -16372,15 +15418,6 @@
             "description": "High-quality oil that can be extracted from Pal.\r\nNecessary for making Polymer."
         },
         {
-            "name": "PalPassiveSkillChange",
-            "asset": "PalPassiveSkillChange",
-            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table."
-        },
-        {
             "name": "PalPassiveSkillChangeTest",
             "asset": "PalPassiveSkillChangeTest",
             "icon": "/icons/items/T_itemicon_Consume_TechnologyBook_G4.webp",
@@ -16406,15 +15443,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PassiveSkillChange",
             "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table."
-        },
-        {
-            "name": "PalPassiveSkillChange_Consumable",
-            "asset": "PalPassiveSkillChange_Consumable",
-            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Disposable Implant: Remarkable Craftsmanship",
@@ -17299,15 +16327,6 @@
             "description": "A spirit left behind by a small Pal.\r\nIt can draw out hidden abilities if offered to a Statue of Power."
         },
         {
-            "name": "PalUpgradeStone1",
-            "asset": "PalUpgradeStone1",
-            "icon": "/icons/items/T_itemicon_PalUpgradeStone.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Medium Pal Soul",
             "asset": "PalUpgradeStone2",
             "icon": "/icons/items/T_itemicon_PalUpgradeStone2.webp",
@@ -17335,15 +16354,6 @@
             "description": "The soul left behind by a highly trained Pal.\r\nIt can draw out hidden abilities if offered to a Statue of Power."
         },
         {
-            "name": "Pal_Growth_Stone",
-            "asset": "Pal_Growth_Stone",
-            "icon": "/icons/items/Pal_Growth_Stone.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Paldium Clump",
             "asset": "Pal_crystal_L",
             "icon": "/icons/items/T_itemicon_Material_Pal_crystal_L.webp",
@@ -17360,24 +16370,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialOre",
             "description": "Crystallized energy from the World Tree.\r\nCapable of creating supernatural items and structures."
-        },
-        {
-            "name": "Palbed",
-            "asset": "Palbed",
-            "icon": "/icons/items/T_icon_buildObject_MedicalPalBed_02.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Palbed2",
-            "asset": "Palbed2",
-            "icon": "/icons/items/T_icon_buildObject_MedicalPalBed_03.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Bread",
@@ -17404,15 +16396,6 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": ""
-        },
-        {
-            "name": "Pickaxe_Default",
-            "asset": "Pickaxe_Default",
-            "icon": "/icons/items/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -17458,15 +16441,6 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": ""
-        },
-        {
-            "name": "Pilot_light",
-            "asset": "Pilot_light",
-            "icon": "/icons/items/Pilot_light.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -17974,15 +16948,6 @@
             "description": "A worn scrap of fabric with a faint lingering scent. \r\nTo Zoe, it's a treasured reminder of the past."
         },
         {
-            "name": "QuestItem_Zoe_2",
-            "asset": "QuestItem_Zoe_2",
-            "icon": "/icons/items/T_itemicon_QuestItem_Zoe_Halloweenskin_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Zoe's Halloween Costume",
             "asset": "QuestItem_Zoe_Halloweenskin_1",
             "icon": "/icons/items/T_itemicon_QuestItem_Zoe_Halloweenskin_1.webp",
@@ -18053,15 +17018,6 @@
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalRankUp",
             "description": "A magical fruit, said to be seen only on the rarest of occasions.\r\nRaises a Pal’s rank by one."
-        },
-        {
-            "name": "RecoverOtomo",
-            "asset": "RecoverOtomo",
-            "icon": "/icons/items/T_icon_buildObject_RecoverOtomo.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "RecurveBow",
@@ -18232,15 +17188,6 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": ""
-        },
-        {
-            "name": "Rope",
-            "asset": "Rope",
-            "icon": "/icons/items/T_itemicon_Weapon_CaptureRope.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -18595,24 +17542,6 @@
             "description": "A gemstone that glows blue.\r\nCan be sold to a merchant for a high price."
         },
         {
-            "name": "ScaleClothing",
-            "asset": "ScaleClothing",
-            "icon": "/icons/items/ScaleClothing.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "ScaleHelm",
-            "asset": "ScaleHelm",
-            "icon": "/icons/items/ScaleHelm.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Scales",
             "asset": "Scales",
             "icon": "/icons/items/T_itemicon_Material_Scales.webp",
@@ -18628,15 +17557,6 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": ""
-        },
-        {
-            "name": "Scroll",
-            "asset": "Scroll",
-            "icon": "/icons/items/T_KeyGuide_Keyboard_ScrollLock.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         },
         {
@@ -18656,15 +17576,6 @@
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishFish",
             "description": "A healthy salad made with Gloopie Tentacle and Lettuce.\r\nEating it will slightly increase EXP gain for a period of time."
-        },
-        {
-            "name": "Seed",
-            "asset": "Seed",
-            "icon": "/icons/items/T_itemicon_Consume_Seed_Tmp.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Seed_Tmp",
@@ -18820,15 +17731,6 @@
             "description": "Strange shield made with Paldium technology.\r\nIt automatically repairs itself after not taking damage for a while.\r\nAs a result of further experiments, ultimate quality has been achieved."
         },
         {
-            "name": "Legendary Shield",
-            "asset": "Shield_06",
-            "icon": "/icons/items/T_itemicon_Armor_Shield_01.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Shield_07",
             "asset": "Shield_07",
             "icon": "/icons/items/T_itemicon_Armor_Shield_07.webp",
@@ -18854,15 +17756,6 @@
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::Shield",
             "description": "Strange shield made with Paldium technology.\r\nIt automatically repairs itself after not taking damage for a while.\r\nAs a result of further experiments, ultimate quality has been achieved."
-        },
-        {
-            "name": "ShotGun_Default",
-            "asset": "ShotGun_Default",
-            "icon": "/icons/items/T_itemicon_Weapon_PumpActionShotgun.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Shotgun Shell",
@@ -19063,15 +17956,6 @@
             "description": "Use on a Pal to teach \r\n<activeSkillName id=|CrossWind|/>."
         },
         {
-            "name": "SkillCard_Dark",
-            "asset": "SkillCard_Dark",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Dark.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Dark Skill Fruit: Dark Arrow",
             "asset": "SkillCard_DarkArrow",
             "icon": "/icons/items/T_itemicon_Consume_SkillCard_Dark.webp",
@@ -19144,15 +18028,6 @@
             "description": "Use on a Pal to teach \r\n<activeSkillName id=|DiversionLaser|/>."
         },
         {
-            "name": "SkillCard_Dragon",
-            "asset": "SkillCard_Dragon",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Dragon.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Dragon Skill Fruit: Draconic Breath",
             "asset": "SkillCard_DragonBreath",
             "icon": "/icons/items/T_itemicon_Consume_SkillCard_Dragon.webp",
@@ -19189,15 +18064,6 @@
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|DragonWave|/>."
         },
         {
-            "name": "SkillCard_Earth",
-            "asset": "SkillCard_Earth",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Earth.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Electric Skill Fruit: Shockwave",
             "asset": "SkillCard_ElecWave",
             "icon": "/icons/items/T_itemicon_Consume_SkillCard_Electric.webp",
@@ -19205,15 +18071,6 @@
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|ElecWave|/>."
-        },
-        {
-            "name": "SkillCard_Electric",
-            "asset": "SkillCard_Electric",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Electric.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Fire Skill Fruit: Volcanic Rain",
@@ -19250,15 +18107,6 @@
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|FireSeed|/>."
-        },
-        {
-            "name": "SkillCard_Flame",
-            "asset": "SkillCard_Flame",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Flame.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Fire Skill Fruit: Flame Funnel",
@@ -19306,15 +18154,6 @@
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|FlareTornado|/>."
         },
         {
-            "name": "SkillCard_Frost",
-            "asset": "SkillCard_Frost",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Frost.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Ice Skill Fruit: Crystal Breath",
             "asset": "SkillCard_FrostBreath",
             "icon": "/icons/items/T_itemicon_Consume_SkillCard_Frost.webp",
@@ -19331,15 +18170,6 @@
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|GhostFlame|/>."
-        },
-        {
-            "name": "SkillCard_Grass",
-            "asset": "SkillCard_Grass",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Grass.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Grass Skill Fruit: Grass Tornado",
@@ -19511,15 +18341,6 @@
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|MudShot|/>."
-        },
-        {
-            "name": "SkillCard_Neutral",
-            "asset": "SkillCard_Neutral",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Neutral.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Dark Skill Fruit: Poison Blast",
@@ -19819,15 +18640,6 @@
             "description": "Use on a Pal to teach\r\n<activeSkillName id=|WallSplash|/>."
         },
         {
-            "name": "SkillCard_Water",
-            "asset": "SkillCard_Water",
-            "icon": "/icons/items/T_itemicon_Consume_SkillCard_Water.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Water Skill Fruit: Aqua Burst",
             "asset": "SkillCard_WaterBall",
             "icon": "/icons/items/T_itemicon_Consume_SkillCard_Water.webp",
@@ -19889,15 +18701,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Kitsun Noct."
-        },
-        {
-            "name": "SkillUnlock_AssaultRifle",
-            "asset": "SkillUnlock_AssaultRifle",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_AssaultRifle.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Nyafia's Shotgun",
@@ -20033,15 +18836,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Submachine gun made specifically for Lifmunk.\r\nActivate its Partner Skill, and Lifmunk\r\nwill ride on your head and fire at enemies."
-        },
-        {
-            "name": "SkillUnlock_Choker",
-            "asset": "SkillUnlock_Choker",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Choker.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Tocotoco's Gloves",
@@ -20260,15 +19054,6 @@
             "description": "Gloves for modifying the performance of the equipped glider, if Celaray Lux is in your team."
         },
         {
-            "name": "SkillUnlock_Garland",
-            "asset": "SkillUnlock_Garland",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Garland.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Direhowl's Saddled Harness",
             "asset": "SkillUnlock_Garm",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
@@ -20321,15 +19106,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Eidrolon Ignis."
-        },
-        {
-            "name": "SkillUnlock_Gloves",
-            "asset": "SkillUnlock_Gloves",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Gloves.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Gildane Saddle",
@@ -20395,15 +19171,6 @@
             "description": "Makes Mossanda Lux fire a grenade launcher\r\nwhen ridden."
         },
         {
-            "name": "SkillUnlock_Grenadelauncher",
-            "asset": "SkillUnlock_Grenadelauncher",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Grenadelauncher.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Yakumo Saddle",
             "asset": "SkillUnlock_GuardianDog",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
@@ -20431,24 +19198,6 @@
             "description": "Saddle for safely riding Helzephyr Lux."
         },
         {
-            "name": "SkillUnlock_Hammer",
-            "asset": "SkillUnlock_Hammer",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Hammer.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "SkillUnlock_Harness",
-            "asset": "SkillUnlock_Harness",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Harness.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Nitewing Saddle",
             "asset": "SkillUnlock_HawkBird",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
@@ -20456,15 +19205,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Nitewing."
-        },
-        {
-            "name": "SkillUnlock_Headband",
-            "asset": "SkillUnlock_Headband",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Headband.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Jolthog's Gloves",
@@ -20665,15 +19405,6 @@
             "description": "Harness for holding Foxparks Cryst.\r\nActivate its Partner Skill to hold Foxparks Cryst\r\nand release freezing air to attack."
         },
         {
-            "name": "SkillUnlock_Launcher",
-            "asset": "SkillUnlock_Launcher",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Launcher.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Relaxaurus' Missile Launcher",
             "asset": "SkillUnlock_LazyDragon",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_MultiMissile.webp",
@@ -20737,15 +19468,6 @@
             "description": "Saddle for safely riding Blazehowl Noct."
         },
         {
-            "name": "SkillUnlock_Minigun",
-            "asset": "SkillUnlock_Minigun",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Minigun.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Tanzee's Assault Rifle",
             "asset": "SkillUnlock_Monkey",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_AssaultRifle.webp",
@@ -20780,15 +19502,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Sweepa."
-        },
-        {
-            "name": "SkillUnlock_MultiMissile",
-            "asset": "SkillUnlock_MultiMissile",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_MultiMissile.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Shroomer Saddle",
@@ -20944,24 +19657,6 @@
             "description": "Saddle for safely riding Ragnahawk."
         },
         {
-            "name": "SkillUnlock_SMG",
-            "asset": "SkillUnlock_SMG",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_SMG.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "SkillUnlock_Saddle",
-            "asset": "SkillUnlock_Saddle",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Paladius Saddle",
             "asset": "SkillUnlock_SaintCentaur",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
@@ -21005,15 +19700,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Surfent Terra."
-        },
-        {
-            "name": "SkillUnlock_Shotgun",
-            "asset": "SkillUnlock_Shotgun",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Shotgun.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Quivern Saddle",
@@ -21646,15 +20332,6 @@
             "description": ""
         },
         {
-            "name": "Spa",
-            "asset": "Spa",
-            "icon": "/icons/items/T_icon_buildObject_Spa.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Stone Spear",
             "asset": "Spear",
             "icon": "/icons/items/T_itemicon_Weapon_Spear_Tier_00.webp",
@@ -21824,15 +20501,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
             "description": "An alloy of Chromite and Hexolite Quartz.\r\nUsed for building advanced equipment and structures."
-        },
-        {
-            "name": "StationDeforest2",
-            "asset": "StationDeforest2",
-            "icon": "/icons/items/T_icon_buildObject_StationDeforest2.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Memory Wiping Medicine",
@@ -22069,24 +20737,6 @@
             "description": "Material for structures and items.\r\nCan be obtained by mining rocks."
         },
         {
-            "name": "StonePickaxe",
-            "asset": "StonePickaxe",
-            "icon": "/icons/items/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "Stonepit",
-            "asset": "Stonepit",
-            "icon": "/icons/items/T_icon_buildObject_StonePit.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "SMG",
             "asset": "SubmachineGun",
             "icon": "/icons/items/T_itemicon_Weapon_SubmachineGun.webp",
@@ -22258,15 +20908,6 @@
             "description": "A book that contains secrets of technology beyond current day comprehension.\r\nUse it to obtain lots of Technology Points."
         },
         {
-            "name": "TechnologyBook_G4",
-            "asset": "TechnologyBook_G4",
-            "icon": "/icons/items/T_itemicon_Consume_TechnologyBook_G4.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Thermal Core",
             "asset": "Thermal_Core",
             "icon": "/icons/items/T_itemicon_Material_Thermal_Core.webp",
@@ -22402,15 +21043,6 @@
             "description": "Fibers from the fluffy portion of a Silvance. It mitigates the shock from explosions."
         },
         {
-            "name": "Unko",
-            "asset": "Unko",
-            "icon": "/icons/items/T_itemicon_Material_Unko_S.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Huge Dung",
             "asset": "Unko_L",
             "icon": "/icons/items/T_itemicon_Material_Unko_S.webp",
@@ -22427,15 +21059,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialJewelry",
             "description": "Animal dung.\r\nAn essential part of any ecosystem, and can even be used as fertilizer.\r\nIt smells awful, to say the least."
-        },
-        {
-            "name": "UnlockEquipmentSlot_Accessory",
-            "asset": "UnlockEquipmentSlot_Accessory",
-            "icon": "/icons/items/T_itemicon_Essential_UnlockEquipmentSlot_Accessory.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Mysterious Accessory Box",
@@ -22456,15 +21079,6 @@
             "description": "A mysterious box whose insides synchronize with the owner's body.\r\nAccessory equipment slots increase further by 1."
         },
         {
-            "name": "UnlockEquipmentSlot_Accessory_1",
-            "asset": "UnlockEquipmentSlot_Accessory_1",
-            "icon": "/icons/items/T_itemicon_Essential_UnlockEquipmentSlot_Accessory_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Extra Weapon Holster",
             "asset": "UnlockEquipmentSlot_Weapon_01",
             "icon": "/icons/items/T_itemicon_Accessory_UnlockEquipmentSlot_Weapon_01.webp",
@@ -22481,15 +21095,6 @@
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
             "description": "This holster allows the wearer to equip an additional weapon. (Unlocks an extra weapon slot when equipped.)"
-        },
-        {
-            "name": "Unlock_Picking",
-            "asset": "Unlock_Picking",
-            "icon": "/icons/items/T_itemicon_Essential_Unlock_Picking.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Lockpicking Tool v1",
@@ -22555,15 +21160,6 @@
             "description": "Construction kit that allows foundations\r\nto be placed on water."
         },
         {
-            "name": "WazaTestIcon",
-            "asset": "WazaTestIcon",
-            "icon": "/icons/items/WazaTestIcon.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Old Bow",
             "asset": "WeakerBow",
             "icon": "/icons/items/T_itemicon_Weapon_WeakerBow.webp",
@@ -22607,15 +21203,6 @@
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
             "description": "Primitive long range weapon.\r\nHastily put together, it isn't very powerful."
-        },
-        {
-            "name": "WeaponFactry",
-            "asset": "WeaponFactry",
-            "icon": "/icons/items/T_icon_buildObject_WeaponFactory_Clean_01.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Echoing Flute",
@@ -22807,15 +21394,6 @@
             "description": "Rare wood that radiates World Tree power. Only the most skilled craftspeople are capable of processing it."
         },
         {
-            "name": "WoodcutterAxe",
-            "asset": "WoodcutterAxe",
-            "icon": "/icons/items/WoodcutterAxe.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
             "name": "Wool",
             "asset": "Wool",
             "icon": "/icons/items/T_itemicon_Material_Wool.webp",
@@ -22823,15 +21401,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
             "description": "Material sheared from sheep Pals.\r\nA necessity for creating bedding, Cloth and more."
-        },
-        {
-            "name": "WorkBench",
-            "asset": "WorkBench",
-            "icon": "/icons/items/T_icon_buildObject_WorkBench.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Applied Gathering Technique Ⅰ",
@@ -23012,51 +21581,6 @@
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
             "description": "A fragment from some sort of ancient device or structure. It shines with an abundance of power."
-        },
-        {
-            "name": "WorldTreeRelic_1",
-            "asset": "WorldTreeRelic_1",
-            "icon": "/icons/items/T_itemicon_Material_WorldTreeRelic_1.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "WorldTreeRelic_2",
-            "asset": "WorldTreeRelic_2",
-            "icon": "/icons/items/T_itemicon_Material_WorldTreeRelic_2.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "WorldTreeRelic_3",
-            "asset": "WorldTreeRelic_3",
-            "icon": "/icons/items/T_itemicon_Material_WorldTreeRelic_3.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "WorldTreeRelic_4",
-            "asset": "WorldTreeRelic_4",
-            "icon": "/icons/items/T_itemicon_Material_WorldTreeRelic_4.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "WorldTreeRelic_5",
-            "asset": "WorldTreeRelic_5",
-            "icon": "/icons/items/T_itemicon_Material_WorldTreeRelic_5.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
         },
         {
             "name": "Broncherry Fried Noodles",
@@ -23596,24 +22120,6 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": ""
-        },
-        {
-            "name": "farm",
-            "asset": "farm",
-            "icon": "/icons/items/T_icon_buildObject_FarmBlock.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
-            "description": ""
-        },
-        {
-            "name": "heart",
-            "asset": "heart",
-            "icon": "/icons/items/heart.webp",
-            "rarity": 0,
-            "type_a": "",
-            "type_b": "",
             "description": ""
         }
     ]

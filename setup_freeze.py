@@ -83,7 +83,8 @@ _BUILD_PACKAGES = ['subprocess', 'pathlib', 'shutil', 'cityhash', 'json', 'uuid'
     'logging', 'traceback', 'string', 'random', 're', 'copy', 'ctypes', 'gc',
     'importlib', 'ooz', 'pickle', 'platform',
     'PySide6.QtCore', 'PySide6.QtGui', 'PySide6.QtWidgets',
-    'nerdfont', 'concurrent.futures', 'pydantic', 'loguru']
+    'nerdfont', 'concurrent.futures', 'pydantic', 'loguru',
+    'palworld_toolsets', 'palworld_xgp_import']
 _BUILD_EXCLUDES = ['pandas', 'numpy', 'email', 'unittest', 'unittest.mock',
     'test', 'pdb', 'tkinter.test', 'lib2to3', 'distutils', 'setuptools',
     'pip', 'wheel', 'venv', 'ensurepip', 'msgpack'] + _PYSIDE6_EXCLUDES

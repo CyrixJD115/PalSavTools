@@ -609,10 +609,6 @@ class PartySlotWidget(QFrame):
         cid = extract_value(raw, 'CharacterID', '')
         level = extract_value(raw, 'Level', 1)
         nick = extract_value(raw, 'NickName', '')
-        hp = extract_value(raw, 'Hp', 0)
-        max_hp = extract_value(raw, 'MaxHp', hp)
-        if max_hp <= 0:
-            max_hp = hp if hp > 0 else 100
         exp = extract_value(raw, 'Exp', 0)
         pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
         if nick:
@@ -620,6 +616,26 @@ class PartySlotWidget(QFrame):
         is_boss = cid.upper().startswith('BOSS_')
         is_lucky = extract_value(raw, 'IsRarePal', False)
         is_imported = extract_value(raw, 'bImportedCharacter', False)
+        is_awake = bool(extract_value(raw, 'bIsAwakening', False))
+        fav_idx = extract_value(raw, 'FavoriteIndex', 0)
+        hp_val = safe_nested_get(raw, ['Hp', 'value', 'Value', 'value'], 0)
+        max_hp = safe_nested_get(raw, ['MaxHP', 'value', 'Value', 'value'], 0)
+        if max_hp <= 0:
+            talent_hp = extract_value(raw, 'Talent_HP', 0)
+            rank_hp = extract_value(raw, 'Rank_HP', 0)
+            trust_points = extract_value(raw, 'FriendshipPoint', 0)
+            friendship_rank = 0
+            for r in range(10, 0, -1):
+                if trust_points >= {10: 1200, 9: 900, 8: 650, 7: 450, 6: 300, 5: 200, 4: 120, 3: 70, 2: 30, 1: 0}.get(r, 0):
+                    friendship_rank = r
+                    break
+            rank_raw = extract_value(raw, 'Rank', 1)
+            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
+            base = get_pal_base_data(cid)
+            if base:
+                max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky, friendship_rank, condenser_rank, is_awake)
+        if max_hp <= 0:
+            max_hp = hp_val if hp_val > 0 else 1
         layout = QHBoxLayout(self)
         layout.setContentsMargins(6, 3, 6, 3)
         layout.setSpacing(6)
@@ -665,15 +681,6 @@ class PartySlotWidget(QFrame):
                 lucky_badge.setAlignment(Qt.AlignCenter)
                 lucky_badge.setStyleSheet('background: transparent; border: none;')
                 name_row.addWidget(lucky_badge)
-        if is_imported:
-            dna_pix = _get_ui_icon_pixmap('dna', 12)
-            if dna_pix:
-                dna_icon = QLabel()
-                dna_icon.setFixedSize(14, 14)
-                dna_icon.setAlignment(Qt.AlignCenter)
-                dna_icon.setPixmap(dna_pix)
-                dna_icon.setStyleSheet('background: transparent; border: none;')
-                name_row.addWidget(dna_icon)
         base_el_data = get_pal_base_data(cid)
         if base_el_data:
             els = base_el_data.get('elements', {})
@@ -685,23 +692,54 @@ class PartySlotWidget(QFrame):
                     el_icon.setPixmap(ep)
                     el_icon.setStyleSheet('background: transparent; border: none;')
                     name_row.addWidget(el_icon)
+        if is_awake:
+            awake_pix = _get_awake_pixmap(12)
+            if awake_pix:
+                awake_badge = QLabel()
+                awake_badge.setPixmap(awake_pix)
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+                awake_badge.setStyleSheet('background: transparent; border: none;')
+            else:
+                awake_badge = QLabel('🔥')
+                awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+            name_row.addWidget(awake_badge)
+        if is_imported:
+            dna_pix = _get_ui_icon_pixmap('dna', 12)
+            if dna_pix:
+                dna_icon = QLabel()
+                dna_icon.setFixedSize(14, 14)
+                dna_icon.setAlignment(Qt.AlignCenter)
+                dna_icon.setPixmap(dna_pix)
+                dna_icon.setStyleSheet('background: transparent; border: none;')
+                name_row.addWidget(dna_icon)
+        if fav_idx and int(fav_idx) > 0:
+            lock_key = f'lock_{int(fav_idx)}'
+            lock_pix = _get_ui_icon_pixmap(lock_key, 14) or _get_ui_icon_pixmap('lock_1', 14) or _get_ui_icon_pixmap('lock', 14)
+            if lock_pix:
+                fav_badge = QLabel()
+                fav_badge.setPixmap(lock_pix)
+                fav_badge.setFixedSize(14, 14)
+                fav_badge.setStyleSheet('background: transparent; border: none;')
+            else:
+                fav_badge = QLabel('🔒')
+                fav_badge.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
+                fav_badge.setFixedSize(14, 14)
+                fav_badge.setAlignment(Qt.AlignCenter)
+            name_row.addWidget(fav_badge)
         name_row.addStretch()
-        lock_btn = QPushButton('🔓')
-        lock_btn.setFixedSize(20, 20)
-        lock_btn.setStyleSheet('QPushButton { background: transparent; border: none; font-size: 12px; color: rgba(255,255,255,0.3); } QPushButton:hover { color: #FFFFFF; }')
-        lock_btn.setCheckable(True)
-        name_row.addWidget(lock_btn)
         info.addLayout(name_row)
-        hp_bar = QFrame()
-        hp_bar.setFixedHeight(6)
-        hp_ratio = hp / max_hp if max_hp > 0 else 0
-        hp_bar.setStyleSheet('background: rgba(55,65,81,0.5); border-radius: 3px; border: 1px solid rgba(16,185,129,0.15);')
-        hp_fill = QFrame(hp_bar)
-        hp_fill.setFixedHeight(4)
-        hp_fill.setFixedWidth(int(max(4, hp_ratio * 180)))
-        hp_fill.move(1, 1)
-        hp_fill.setStyleSheet('background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #10B981,stop:1 #34D399); border-radius: 2px;')
-        info.addWidget(hp_bar)
+        hp_pct = int(min(hp_val / max_hp * 100, 100)) if max_hp > 0 else 0
+        self.hp_bar = QProgressBar()
+        self.hp_bar.setFixedHeight(6)
+        self.hp_bar.setRange(0, 100)
+        self.hp_bar.setValue(hp_pct)
+        self.hp_bar.setTextVisible(True)
+        self.hp_bar.setFormat(f'{int(hp_val) // 1000}')
+        self.hp_bar.setStyleSheet('QProgressBar { background: rgba(55,65,81,0.5); border: 1px solid rgba(16,185,129,0.15); border-radius: 3px; text-align: center; font-size: 6px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #10B981,stop:1 #34D399); border-radius: 2px; }')
+        info.addWidget(self.hp_bar)
         exp_bar = QFrame()
         exp_bar.setFixedHeight(4)
         exp_ratio = min(exp / 1000.0, 1.0) if exp else 0

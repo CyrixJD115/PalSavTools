@@ -253,6 +253,7 @@ class MainWindow(QMainWindow):
         self._load_user_settings()
         self._setup_ui()
         self._load_theme()
+        self.sidebar.set_active('tools')
         self._setup_menus()
         self._setup_connections()
         QTimer.singleShot(0, self._check_update)
@@ -282,9 +283,17 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         central_widget.setObjectName('central')
         self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout(central_widget)
+        main_layout = QHBoxLayout(central_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
+        from .sidebar_widget import SidebarWidget
+        self.sidebar = SidebarWidget()
+        self.sidebar.nav_changed.connect(self._on_sidebar_nav)
+        main_layout.addWidget(self.sidebar)
+        inner_widget = QWidget()
+        inner_layout = QVBoxLayout(inner_widget)
+        inner_layout.setContentsMargins(0, 0, 0, 0)
+        inner_layout.setSpacing(0)
         from .header_widget import HeaderWidget
         self.header_widget = HeaderWidget()
         self.header_widget.minimize_clicked.connect(self.showMinimized)
@@ -293,15 +302,9 @@ class MainWindow(QMainWindow):
         self.header_widget.about_clicked.connect(self._show_about)
         self.header_widget.warn_btn.clicked.connect(self._show_warnings)
         self.header_widget.show_warning(True)
-        main_layout.addWidget(self.header_widget)
+        inner_layout.addWidget(self.header_widget)
         self._dashboard_collapsed = False
         self._dashboard_sizes = [1000, 400]
-        from .custom_tab_bar import TabBarContainer
-        self.tab_bar_container = TabBarContainer()
-        self.tab_bar = self.tab_bar_container.tab_bar
-        self.tab_bar.currentChanged.connect(self._on_tab_changed)
-        self.tab_bar_container.sidebar_toggle_clicked.connect(self._toggle_dashboard)
-        main_layout.addWidget(self.tab_bar_container)
         self.splitter = QSplitter(Qt.Horizontal)
         self.splitter.setChildrenCollapsible(False)
         self.stacked_widget = QStackedWidget()
@@ -324,7 +327,8 @@ class MainWindow(QMainWindow):
         self.splitter.setSizes([tab_width, results_width])
         self.splitter.setStretchFactor(0, 1)
         self.splitter.setStretchFactor(1, 1)
-        main_layout.addWidget(self.splitter, stretch=1)
+        inner_layout.addWidget(self.splitter, stretch=1)
+        main_layout.addWidget(inner_widget, stretch=1)
         self.status_bar = QStatusBar()
         self.status_bar.setMinimumHeight(35)
         self.setStatusBar(self.status_bar)
@@ -364,7 +368,6 @@ class MainWindow(QMainWindow):
         bulk_layout.addWidget(self.bulk_tech_btn)
         bulk_layout.addStretch()
         layout.addWidget(bulk_frame)
-        self.tab_bar.addTab(t('deletion.search_players') if t else 'Players')
         self.stacked_widget.addWidget(players_tab)
     def _setup_guilds_tab(self):
         guilds_tab = QWidget()
@@ -380,7 +383,6 @@ class MainWindow(QMainWindow):
         self.guild_members_panel.tree.customContextMenuRequested.connect(self._show_guild_member_context_menu)
         splitter.addWidget(self.guild_members_panel)
         layout.addWidget(splitter)
-        self.tab_bar.addTab(t('deletion.search_guilds') if t else 'Guilds')
         self.stacked_widget.addWidget(guilds_tab)
     def _setup_bases_tab(self):
         bases_tab = QWidget()
@@ -390,32 +392,26 @@ class MainWindow(QMainWindow):
         self.bases_panel.item_selected.connect(self._on_base_selected)
         self.bases_panel.tree.customContextMenuRequested.connect(self._show_base_context_menu)
         layout.addWidget(self.bases_panel)
-        self.tab_bar.addTab(t('deletion.search_bases') if t else 'Bases')
         self.stacked_widget.addWidget(bases_tab)
     def _setup_map_tab(self):
         from .map_tab import MapTab
         self.map_tab = MapTab(self)
-        self.tab_bar.addTab(t('map.viewer') if t else 'Map')
         self.stacked_widget.addWidget(self.map_tab)
     def _setup_tools_tab(self):
         from .tools_tab import ToolsTab
         self.tools_tab = ToolsTab(self)
-        self.tab_bar.addTab(t('tools_tab') if t else 'Tools')
         self.stacked_widget.addWidget(self.tools_tab)
     def _setup_base_inventory_tab(self):
         from .base_inventory_tab import BaseInventoryTab
         self.base_inventory_tab = BaseInventoryTab(self)
-        self.tab_bar.addTab(t('base_inventory.tab') if t else 'Base Inventory')
         self.stacked_widget.addWidget(self.base_inventory_tab)
     def _setup_inventory_tab(self):
         from .inventory_tab import PlayerInventoryTab
         self.inventory_tab = PlayerInventoryTab(self)
-        self.tab_bar.addTab(t('inventory.tab') if t else 'Player Inventory')
         self.stacked_widget.addWidget(self.inventory_tab)
     def _setup_pal_editor_tab(self):
         from .pal_editor_tab import PalEditorTab
         self.pal_editor_tab = PalEditorTab(self)
-        self.tab_bar.addTab(t('pal_editor.tab') if t else 'Pal Editor')
         self.stacked_widget.addWidget(self.pal_editor_tab)
     def _setup_exclusions_tab(self):
         exclusions_tab = QWidget()
@@ -431,7 +427,6 @@ class MainWindow(QMainWindow):
         self.excl_bases_panel = SearchPanel('deletion.exclusions.base_label', ['deletion.excluded_bases'], [300])
         self.excl_bases_panel.tree.customContextMenuRequested.connect(lambda pos: self._show_exclusion_context_menu(pos, 'bases'))
         layout.addWidget(self.excl_bases_panel)
-        self.tab_bar.addTab(t('deletion.menu.exclusions') if t else 'Exclusions')
         self.stacked_widget.addWidget(exclusions_tab)
     def _setup_menus(self):
         menu_actions = {'file': [(t('menu.file.load_save') if t else 'Load Save', self._load_save), (t('menu.file.load_worldoption') if t else 'Load WorldOption', self._load_worldoption), (t('menu.file.save_changes') if t else 'Save Changes', self._save_changes), (t('menu.file.rename_world') if t else 'Rename World', self._rename_world)], 'functions': [(t('deletion.menu.delete_empty_guilds') if t else 'Delete Empty Guilds', self._delete_empty_guilds), (t('deletion.menu.delete_inactive_bases') if t else 'Delete Inactive Bases', self._delete_inactive_bases), (t('deletion.menu.delete_duplicate_players') if t else 'Delete Duplicate Players', self._delete_duplicate_players), (t('deletion.menu.delete_inactive_players') if t else 'Delete Inactive Players', self._delete_inactive_players), (t('deletion.menu.delete_unreferenced') if t else 'Delete Unreferenced Data', self._delete_unreferenced), (t('deletion.menu.delete_non_base_map_objs') if t else 'Delete Non-Base Map Objects', self._delete_non_base_map_objs), (t('deletion.menu.delete_all_skins') if t else 'Delete All Skins', self._delete_all_skins), (t('deletion.menu.unlock_private_chests') if t else 'Unlock Private Chests', self._unlock_private_chests), (t('deletion.menu.remove_invalid_items') if t else 'Remove Invalid Items', self._remove_invalid_items), (t('deletion.menu.remove_invalid_structures') if t else 'Remove Invalid Structures', self._remove_invalid_structures), (t('deletion.menu.repair_structures') if t else 'Repair All Structures', self._repair_structures), (t('deletion.menu.remove_invalid_pals') if t else 'Remove Invalid Pals', self._remove_invalid_pals), (t('deletion.menu.remove_invalid_passives') if t else 'Remove Invalid Passives', self._remove_invalid_passives), (t('deletion.menu.fix_illegal_pals') if t else 'Fix Illegal Pals', self._fix_illegal_pals), (t('deletion.menu.reset_missions') if t else 'Reset Missions', self._reset_missions), (t('deletion.menu.reset_anti_air') if t else 'Reset Anti-Air Turrets', self._reset_anti_air), (t('deletion.menu.reset_oilrig') if t else 'Reset Oil Rigs', self._reset_oilrig), (t('deletion.menu.reset_invader') if t else 'Reset Invaders', self._reset_invader), (t('deletion.menu.reset_supply') if t else 'Reset Supply', self._reset_supply), (t('deletion.menu.reset_dungeons') if t else 'Reset Dungeons', self._reset_dungeons), (t('deletion.menu.paldefender') if t else 'PalDefender Commands', self._open_paldefender, 'separator_after'), (t('deletion.menu.fix_timestamps') if t else 'Fix All Negative Timestamps', self._fix_all_timestamps, 'separator_after'), (t('base.export_all') if t else 'Export All Bases', self._export_all_bases), (t('guild.menu.rebuild_all_guilds') if t else 'Rebuild All Guilds', self._rebuild_all_guilds), (t('guild.menu.move_selected_player_to_selected_guild') if t else 'Move Player to Guild', self._move_player_to_guild), (t('deletion.menu.trim_overfilled_inventories') if t else 'Trim Overfilled Inventories', self._trim_overfilled_inventories), (t('modify_container_slots') if t else 'Modify Container Slots', self._modify_container_slots), (t('gamedays.menu') if t else 'Edit Game Days', self._edit_game_days), 'separator_after'], 'player_editing': [(t('player.edit_tech_points') if t else 'Edit Tech Points', self._edit_player_tech_points), (t('player.edit_stats') if t else 'Edit Player Stats', self._edit_player_stats), 'separator_after'], 'maps': [(t('deletion.menu.show_map') if t else 'Show Map', self._show_map), (t('deletion.menu.generate_map') if t else 'Generate Map', self._generate_map)], 'exclusions': [(t('deletion.menu.save_exclusions') if t else 'Save Exclusions', self._save_exclusions)], 'languages': [(t(f'lang.{code}') if t else code, partial(self._change_language, code), {'en_US': '🇺🇸', 'zh_CN': '🇨🇳', 'ru_RU': '🇷', 'fr_FR': '🇫🇷', 'es_ES': '🇪🇸', 'de_DE': '🇩🇪', 'ja_JP': '🇯🇵', 'ko_KR': '🇰🇷'}[code]) for code in ['en_US', 'zh_CN', 'ru_RU', 'fr_FR', 'es_ES', 'de_DE', 'ja_JP', 'ko_KR']], 'aio': self._build_aio_menu()}
@@ -611,8 +606,9 @@ class MainWindow(QMainWindow):
         msg_box.setWindowTitle(title)
         msg_box.setText(text)
         msg_box.exec()
-    def _on_tab_changed(self, index):
-        self.stacked_widget.setCurrentIndex(index)
+    def _on_sidebar_nav(self, button_id):
+        page_index = {'tools': 0, 'base_inventory': 1, 'player_inventory': 2, 'pal_editor': 3, 'players': 4, 'guilds': 5, 'bases': 6, 'map': 7, 'exclusions': 8}[button_id]
+        self.stacked_widget.setCurrentIndex(page_index)
     def _load_user_settings(self):
         base_path = constants.get_src_path()
         user_cfg_path = os.path.join(base_path, 'data', 'configs', 'user.cfg')
@@ -669,7 +665,6 @@ class MainWindow(QMainWindow):
             self._dashboard_sizes = self.splitter.sizes()
             self.results_widget.hide()
             self._dashboard_collapsed = True
-        self.tab_bar_container.set_sidebar_collapsed(self._dashboard_collapsed)
     def _toggle_maximize(self):
         if self.isMaximized():
             self.showNormal()
@@ -1346,7 +1341,8 @@ class MainWindow(QMainWindow):
             return
         for i in range(self.stacked_widget.count()):
             if self.stacked_widget.widget(i) == self.map_tab:
-                self.tab_bar.setCurrentIndex(i)
+                self.sidebar.set_active('map')
+                self.stacked_widget.setCurrentIndex(i)
                 return
     def _generate_map(self):
         if not constants.loaded_level_json:
@@ -1385,13 +1381,13 @@ class MainWindow(QMainWindow):
             if self.status_stream.detach_window:
                 self.status_stream.detach_window.refresh_title()
             self.setWindowTitle(t('deletion.title') if t else 'All-in-One Tools')
-            self._update_tab_texts()
+            self.sidebar.refresh_labels()
             self._setup_menus()
             self._refresh_texts()
             self.tools_tab.refresh_labels()
             self.results_widget.refresh_labels()
             self.header_widget.refresh_labels()
-            self.tab_bar_container.refresh_labels()
+            self.sidebar.refresh_labels()
             if hasattr(self.header_widget, '_menu_popup') and self.header_widget._menu_popup:
                 self.header_widget._menu_popup.refresh_labels()
             if hasattr(self, 'map_tab') and self.map_tab:
@@ -1414,19 +1410,11 @@ class MainWindow(QMainWindow):
                 for dialog in self._active_dialogs:
                     if hasattr(dialog, 'refresh_labels'):
                         dialog.refresh_labels()
-    def _update_tab_texts(self):
-        self.tab_bar.setTabText(0, t('tools_tab') if t else 'Tools')
-        self.tab_bar.setTabText(1, t('base_inventory.tab') if t else 'Base Inventory')
-        self.tab_bar.setTabText(2, t('inventory.tab') if t else 'Player Inventory')
-        self.tab_bar.setTabText(3, t('pal_editor.tab') if t else 'Pal Editor')
-        self.tab_bar.setTabText(4, t('deletion.search_players') if t else 'Players')
-        self.tab_bar.setTabText(5, t('deletion.search_guilds') if t else 'Guilds')
-        self.tab_bar.setTabText(6, t('deletion.search_bases') if t else 'Bases')
-        self.tab_bar.setTabText(7, t('map.viewer') if t else 'Map')
-        self.tab_bar.setTabText(8, t('deletion.menu.exclusions') if t else 'Exclusions')
     def _refresh_texts(self):
         tools_version, _ = get_versions()
         self.setWindowTitle(t('app.title', version=tools_version) + ' - ' + t('tool.deletion'))
+        if hasattr(self, 'sidebar') and self.sidebar:
+            self.sidebar.set_version(f'v{tools_version}')
         if hasattr(self, 'results_widget') and self.results_widget:
             if hasattr(self.results_widget, 'stats_panel'):
                 self.results_widget.stats_panel.refresh_labels()
@@ -1742,7 +1730,8 @@ class MainWindow(QMainWindow):
         if dialog.exec() == QDialog.Accepted:
             self.refresh_all()
     def _edit_player_inventory(self, uid, name):
-        self.tab_bar.setCurrentIndex(1)
+        self.sidebar.set_active('player_inventory')
+        self.stacked_widget.setCurrentIndex(2)
         if hasattr(self, 'inventory_tab'):
             self.inventory_tab.load_player(uid, name)
     def _unlock_all_technologies_for_player(self, uid):

@@ -1322,5 +1322,16 @@
   "calibrate.complete_msg": "Constantes mises à jour ! scale={s} transl_x={tx} transl_y={ty} Redémarrez pour appliquer.",
   "base_inventory.select_guild_base_hint": "Sélectionnez une guilde/base pour modifier son inventaire",
   "base_inventory.title": "Éditeur d'inventaire de base",
-  "character_transfer.post_to_pre_blocked": "Le transfert de la version post-v1.0 vers la version antérieure à la version 1.0 n'est pas pris en charge.\nLa version post-v1.0 contient du nouveau contenu qui n'existe pas dans la version cible."
+  "character_transfer.post_to_pre_blocked": "Le transfert de la version post-v1.0 vers la version antérieure à la version 1.0 n'est pas pris en charge.\nLa version post-v1.0 contient du nouveau contenu qui n'existe pas dans la version cible.",
+  "tools.section.converting": "Outils de conversion",
+  "tools.section.management": "Outils de gestion",
+  "tool.convert.saves.desc": "Convertir les fichiers de sauvegarde entre les formats JSON et SAV",
+  "tool.convert.gamepass.steam.desc": "Convertir les fichiers de sauvegarde entre les versions GamePass et Steam",
+  "tool.convert.steamid.desc": "Convertir les identifiants Steam entre différents formats",
+  "tool.restore_map.desc": "Restaurer la carte du monde à un état antérieur",
+  "tool.slot_injector.desc": "Injecter les emplacements de sauvegarde du joueur dans un fichier de sauvegarde mondial",
+  "tool.modify_save.desc": "Modifier et modifier directement les données du fichier de sauvegarde",
+  "tool.character_transfer.desc": "Transférer des personnages entre différentes sauvegardes ou serveurs",
+  "tool.fix_host_save.desc": "Réparer les fichiers de sauvegarde de l'hôte corrompus ou cassés",
+  "tools.no_save_loaded": "Aucune sauvegarde chargée"
 }

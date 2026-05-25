@@ -1340,5 +1340,16 @@
   "calibrate.complete_msg": "定数が更新されました! scale={s} transl_x={tx} transl_y={ty} 再起動して適用します。",
   "base_inventory.select_guild_base_hint": "ギルド/拠点を選択してインベントリを編集します",
   "base_inventory.title": "基本在庫エディター",
-  "character_transfer.post_to_pre_blocked": "v1.0 以降から v1.0 より前のバージョンへの移行はサポートされていません。\nPost-v1.0 には、ターゲット バージョンに存在しない新しいコンテンツが含まれています。"
+  "character_transfer.post_to_pre_blocked": "v1.0 以降から v1.0 より前のバージョンへの移行はサポートされていません。\nPost-v1.0 には、ターゲット バージョンに存在しない新しいコンテンツが含まれています。",
+  "tools.section.converting": "変換ツール",
+  "tools.section.management": "管理ツール",
+  "tool.convert.saves.desc": "保存ファイルを JSON 形式と SAV 形式の間で変換する",
+  "tool.convert.gamepass.steam.desc": "GamePass バージョンと Steam バージョンの間でセーブファイルを変換する",
+  "tool.convert.steamid.desc": "Steam ID を異なる形式間で変換する",
+  "tool.restore_map.desc": "世界地図を以前の状態に戻す",
+  "tool.slot_injector.desc": "プレーヤーの保存スロットをワールド保存ファイルに挿入する",
+  "tool.modify_save.desc": "セーブファイルデータを直接修正・編集する",
+  "tool.character_transfer.desc": "異なるセーブまたはサーバー間でキャラクターを転送する",
+  "tool.fix_host_save.desc": "破損または壊れたホスト保存ファイルを修復する",
+  "tools.no_save_loaded": "セーブデータがロードされていません"
 }

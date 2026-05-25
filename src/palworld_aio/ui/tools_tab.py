@@ -3,8 +3,8 @@ import sys
 from palworld_save_tools import json_tools
 import traceback
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QScrollArea, QSizePolicy, QSpacerItem, QGridLayout, QApplication, QDialog
-from PySide6.QtCore import Qt, QSize, Signal, QPropertyAnimation, QEasingCurve
-from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor
+from PySide6.QtCore import Qt, QSize, Signal, QPropertyAnimation, QEasingCurve, QRectF
+from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QDragEnterEvent, QDropEvent, QDragLeaveEvent, QPainter, QColor, QPen, QPainterPath
 from i18n import t
 from loading_manager import show_critical
 from palworld_aio import constants
@@ -35,6 +35,7 @@ def load_tool_icons():
         return {}
 CONVERTING_TOOL_KEYS = ['tool.convert.saves', 'tool.convert.gamepass.steam', 'tool.convert.steamid', 'tool.restore_map']
 MANAGEMENT_TOOL_KEYS = ['tool.slot_injector', 'tool.modify_save', 'tool.character_transfer', 'tool.fix_host_save']
+TOOL_DESCRIPTIONS = {'tool.convert.saves': 'tool.convert.saves.desc', 'tool.convert.gamepass.steam': 'tool.convert.gamepass.steam.desc', 'tool.convert.steamid': 'tool.convert.steamid.desc', 'tool.restore_map': 'tool.restore_map.desc', 'tool.slot_injector': 'tool.slot_injector.desc', 'tool.modify_save': 'tool.modify_save.desc', 'tool.character_transfer': 'tool.character_transfer.desc', 'tool.fix_host_save': 'tool.fix_host_save.desc'}
 def center_window(win):
     win_center = win.frameGeometry().center()
     screen = QApplication.screenAt(win_center)
@@ -148,154 +149,174 @@ class ConversionOptionsDialog(QDialog):
             txt_color = '#000000'
             accent_color = '#1e3a8a'
         self.setStyleSheet(f"QDialog {{ background: {bg_gradient}; color: {txt_color}; font-family: 'Segoe UI',Roboto,Arial; }}")
-class ToolButton(QWidget):
+class ToolCard(QFrame):
     clicked = Signal()
-    def __init__(self, label_text, tooltip_text, icon_path=None, parent=None):
+    def __init__(self, label_text, tooltip_text, description_text=None, icon_path=None, parent=None):
         super().__init__(parent)
-        self.setProperty('class', 'toolRow')
+        self.setObjectName('toolCard')
+        self.setProperty('class', 'toolCard')
         self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setMouseTracking(True)
-        self.is_hovered = False
-        self.hover_animation = None
-        self._current_bg_opacity = 0.0
-        self._current_text_opacity = 0.8
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(8, 6, 8, 6)
+        layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(12)
         self.icon_label = QLabel()
-        self.icon_label.setFixedSize(48, 48)
+        self.icon_label.setFixedSize(40, 40)
+        self.icon_label.setObjectName('toolCardIcon')
         if icon_path and os.path.exists(icon_path):
             pix = QPixmap(icon_path)
-            if pix.width() > 48 or pix.height() > 48:
-                pix = pix.scaled(48, 48, Qt.KeepAspectRatio, Qt.FastTransformation)
+            if pix.width() > 40 or pix.height() > 40:
+                pix = pix.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.icon_label.setPixmap(pix)
         else:
             default_icon = os.path.join(constants.get_base_path(), 'resources', 'pal.ico')
             if os.path.exists(default_icon):
                 pix = QPixmap(default_icon)
-                if pix.width() > 48 or pix.height() > 48:
-                    pix = pix.scaled(48, 48, Qt.KeepAspectRatio, Qt.FastTransformation)
+                if pix.width() > 40 or pix.height() > 40:
+                    pix = pix.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.icon_label.setPixmap(pix)
         layout.addWidget(self.icon_label)
-        self.text_label = QLabel(label_text)
-        self.text_label.setToolTip(tooltip_text)
-        self.text_label.setFont(QFont('Segoe UI', 11))
-        layout.addWidget(self.text_label, 1)
-    def enterEvent(self, event):
-        self.is_hovered = True
-        self._animate_hover(True)
-        super().enterEvent(event)
-    def leaveEvent(self, event):
-        self.is_hovered = False
-        self._animate_hover(False)
-        super().leaveEvent(event)
-    def _animate_hover(self, hovering):
-        if not hasattr(self, '_bg_animation'):
-            self._bg_animation = QPropertyAnimation(self, b'bg_opacity')
-            self._bg_animation.setDuration(200)
-            self._bg_animation.setEasingCurve(QEasingCurve.InOutQuad)
-        target_opacity = 0.3 if hovering else 0.0
-        self._bg_animation.setStartValue(self._current_bg_opacity if hasattr(self, '_current_bg_opacity') else 0.0)
-        self._bg_animation.setEndValue(target_opacity)
-        self._bg_animation.start()
-        if not hasattr(self, '_text_animation'):
-            self._text_animation = QPropertyAnimation(self, b'text_opacity')
-            self._text_animation.setDuration(200)
-            self._text_animation.setEasingCurve(QEasingCurve.InOutQuad)
-        target_text_opacity = 1.0 if hovering else 0.8
-        self._text_animation.setStartValue(self._current_text_opacity if hasattr(self, '_current_text_opacity') else 0.8)
-        self._text_animation.setEndValue(target_text_opacity)
-        self._text_animation.start()
-        self._current_bg_opacity = target_opacity
-        self._current_text_opacity = target_text_opacity
-        self.update()
-    def get_bg_opacity(self):
-        return self._current_bg_opacity if hasattr(self, '_current_bg_opacity') else 0.0
-    def set_bg_opacity(self, opacity):
-        self._current_bg_opacity = opacity
-        self.update()
-    def get_text_opacity(self):
-        return self._current_text_opacity if hasattr(self, '_current_text_opacity') else 0.8
-    def set_text_opacity(self, opacity):
-        self._current_text_opacity = opacity
-        self.update()
-    bg_opacity = property(get_bg_opacity, set_bg_opacity)
-    text_opacity = property(get_text_opacity, set_text_opacity)
-    def paintEvent(self, event):
-        from PySide6.QtGui import QPainter, QColor, QPen, QPainterPath
-        from PySide6.QtCore import QRectF
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        bg_opacity = self._current_bg_opacity if hasattr(self, '_current_bg_opacity') else 0.0
-        if bg_opacity > 0:
-            bg_color = QColor(37, 150, 190, int(bg_opacity * 255))
-            painter.fillRect(self.rect(), bg_color)
-        super().paintEvent(event)
-        icon_rect = self.icon_label.geometry()
-        painter.save()
-        clip_path = QPainterPath()
-        clip_path.addRoundedRect(QRectF(icon_rect), 6, 6)
-        painter.setClipPath(clip_path)
-        if self.icon_label.pixmap() and (not self.icon_label.pixmap().isNull()):
-            painter.drawPixmap(icon_rect.topLeft(), self.icon_label.pixmap())
-        painter.restore()
-        stroke_color = QColor(37, 150, 190, 255)
-        stroke_pen = QPen(stroke_color)
-        stroke_pen.setWidth(2)
-        path = QPainterPath()
-        path.addRoundedRect(QRectF(icon_rect), 6, 6)
-        painter.strokePath(path, stroke_pen)
+        text_column = QVBoxLayout()
+        text_column.setSpacing(4)
+        text_column.addStretch()
+        self.title_label = QLabel(label_text)
+        self.title_label.setToolTip(tooltip_text)
+        self.title_label.setFont(QFont(constants.FONT_FAMILY, 11, QFont.Bold))
+        self.title_label.setAlignment(Qt.AlignHCenter | Qt.AlignBottom)
+        self.title_label.setObjectName('toolCardTitle')
+        text_column.addWidget(self.title_label)
+        if description_text:
+            self.desc_label = QLabel(description_text)
+            self.desc_label.setFont(QFont(constants.FONT_FAMILY, 9))
+            self.desc_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+            self.desc_label.setObjectName('toolCardDesc')
+            self.desc_label.setWordWrap(True)
+            text_column.addWidget(self.desc_label)
+        else:
+            self.desc_label = None
+        text_column.addStretch()
+        layout.addLayout(text_column, 1)
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.clicked.emit()
         super().mousePressEvent(event)
+class DropOverlay(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, False)
+        self.setMouseTracking(False)
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.fillRect(self.rect(), QColor(5, 8, 12, 220))
+        inner = self.rect().adjusted(30, 30, -30, -30)
+        path = QPainterPath()
+        path.addRoundedRect(QRectF(inner), 20, 20)
+        painter.fillPath(path, QColor(34, 197, 94, 25))
+        pen = QPen(QColor(34, 197, 94, 255))
+        pen.setWidth(4)
+        pen.setDashPattern([12, 6])
+        painter.setPen(pen)
+        painter.drawPath(path)
+        box_h = inner.height()
+        center_y = inner.y() + box_h / 2
+        icon_font = QFont('Segoe UI', 52, QFont.Bold)
+        painter.setFont(icon_font)
+        painter.setPen(QColor(34, 197, 94, 255))
+        icon_rect = QRectF(inner.x(), center_y - 80, inner.width(), 60)
+        painter.drawText(icon_rect, Qt.AlignHCenter | Qt.AlignBottom, '\U0001F4C1')
+        font = QFont('Segoe UI', 22, QFont.Bold)
+        painter.setFont(font)
+        painter.setPen(QColor(255, 255, 255, 255))
+        text_rect = QRectF(inner.x(), center_y - 10, inner.width(), 40)
+        painter.drawText(text_rect, Qt.AlignHCenter | Qt.AlignCenter, 'Drop Level.sav to Load Save')
+        font_small = QFont('Segoe UI', 13)
+        painter.setFont(font_small)
+        painter.setPen(QColor(166, 184, 200, 255))
+        hint_rect = QRectF(inner.x(), center_y + 40, inner.width(), 30)
+        painter.drawText(hint_rect, Qt.AlignHCenter | Qt.AlignTop, "Or click the 'Load Save' button above")
 class ToolsTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent_window = parent
         self.tool_icons = load_tool_icons()
         self.tool_buttons = []
+        self._section_titles = []
+        self._drag_hover_active = False
+        self.setAcceptDrops(True)
         self._setup_ui()
     def _setup_ui(self):
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(30, 30, 30, 30)
-        main_layout.setSpacing(30)
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setFrameShape(QFrame.NoFrame)
-        scroll.setObjectName('toolsScrollArea')
-        content = QWidget()
-        content_layout = QHBoxLayout(content)
-        content_layout.setSpacing(25)
-        content_layout.setContentsMargins(15, 15, 15, 15)
-        left_frame = QFrame()
-        left_frame.setObjectName('glass')
-        left_layout = QVBoxLayout(left_frame)
-        left_layout.setContentsMargins(20, 20, 20, 20)
-        left_layout.setSpacing(12)
-        for idx, key in enumerate(CONVERTING_TOOL_KEYS):
+        main_layout.setContentsMargins(18, 18, 18, 18)
+        main_layout.setSpacing(14)
+        main_layout.addWidget(self._create_header_bar())
+        main_layout.addWidget(self._create_section('tools.section.converting', CONVERTING_TOOL_KEYS, self._run_converting_tool), stretch=1)
+        main_layout.addWidget(self._create_section('tools.section.management', MANAGEMENT_TOOL_KEYS, self._run_management_tool), stretch=1)
+        self._drop_overlay = DropOverlay(self)
+        self._drop_overlay.setVisible(False)
+        self._drop_overlay.lower()
+    def _create_header_bar(self):
+        header = QFrame()
+        header.setObjectName('toolsHeader')
+        header_layout = QHBoxLayout(header)
+        header_layout.setContentsMargins(0, 0, 0, 0)
+        header_layout.setSpacing(16)
+        load_btn = QPushButton(t('menu.file.load_save') if t else 'Load Save')
+        load_btn.setObjectName('loadSaveBtn')
+        load_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        load_btn.clicked.connect(self._on_load_save_clicked)
+        self._load_btn = load_btn
+        header_layout.addWidget(load_btn, stretch=1)
+        self._save_path_label = QLabel(t('tools.no_save_loaded') if t else 'No save loaded')
+        self._save_path_label.setObjectName('savePathLabel')
+        self._save_path_label.setFont(QFont(constants.FONT_FAMILY, 10))
+        self._save_path_label.setWordWrap(True)
+        header_layout.addWidget(self._save_path_label, stretch=3)
+        self._setup_save_manager_connection()
+        return header
+    def _setup_save_manager_connection(self):
+        from palworld_aio.save_manager import save_manager
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            try:
+                save_manager.load_finished.disconnect(self._on_save_load_finished)
+            except (TypeError, RuntimeError):
+                pass
+        save_manager.load_finished.connect(self._on_save_load_finished)
+    def _on_load_save_clicked(self):
+        if hasattr(self, 'parent_window') and self.parent_window:
+            self.parent_window._load_save()
+    def _on_save_load_finished(self, success):
+        if success and hasattr(self, '_save_path_label'):
+            self._save_path_label.setText(constants.current_save_path if hasattr(constants, 'current_save_path') and constants.current_save_path else t('tools.save_loaded'))
+    def _create_section(self, section_key, tool_keys, run_handler):
+        section_frame = QFrame()
+        section_frame.setObjectName('glass')
+        section_layout = QVBoxLayout(section_frame)
+        section_layout.setContentsMargins(14, 10, 14, 10)
+        section_layout.setSpacing(8)
+        title = QLabel(t(section_key) if t else section_key)
+        title.setObjectName('categoryTitle')
+        title.setFont(QFont(constants.FONT_FAMILY, 13, QFont.Bold))
+        self._section_titles.append((title, section_key))
+        section_layout.addWidget(title)
+        grid = QGridLayout()
+        grid.setSpacing(8)
+        for idx, key in enumerate(tool_keys):
             icon_path = self._get_tool_icon_path(key)
-            btn = ToolButton(t(key) if t else key, t(key) if t else key, icon_path)
-            btn.clicked.connect(lambda i=idx: self._run_converting_tool(i))
-            left_layout.addWidget(btn)
-            self.tool_buttons.append((btn, key))
-        left_layout.addStretch(1)
-        right_frame = QFrame()
-        right_frame.setObjectName('glass')
-        right_layout = QVBoxLayout(right_frame)
-        right_layout.setContentsMargins(20, 20, 20, 20)
-        right_layout.setSpacing(12)
-        for idx, key in enumerate(MANAGEMENT_TOOL_KEYS):
-            icon_path = self._get_tool_icon_path(key)
-            btn = ToolButton(t(key) if t else key, t(key) if t else key, icon_path)
-            btn.clicked.connect(lambda i=idx: self._run_management_tool(i))
-            right_layout.addWidget(btn)
-            self.tool_buttons.append((btn, key))
-        right_layout.addStretch(1)
-        content_layout.addWidget(left_frame, 1)
-        content_layout.addWidget(right_frame, 1)
-        scroll.setWidget(content)
-        main_layout.addWidget(scroll, 1)
+            desc_key = TOOL_DESCRIPTIONS.get(key)
+            desc_text = t(desc_key) if desc_key and t else None
+            card = ToolCard(t(key) if t else key, t(key) if t else key, desc_text, icon_path)
+            card.clicked.connect(lambda i=idx, h=run_handler: h(i))
+            row = idx // 2
+            col = idx % 2
+            grid.addWidget(card, row, col)
+            self.tool_buttons.append((card, key))
+        grid.setRowStretch(0, 1)
+        grid.setRowStretch(1, 1)
+        section_layout.addLayout(grid, stretch=1)
+        return section_frame
     def _get_tool_icon_path(self, tool_key):
         if tool_key in self.tool_icons:
             icon_name = self.tool_icons[tool_key]
@@ -375,9 +396,63 @@ class ToolsTab(QWidget):
         self.fade_animation.setEndValue(1.0)
         self.fade_animation.setEasingCurve(QEasingCurve.OutCubic)
         self.fade_animation.start()
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            urls = event.mimeData().urls()
+            if urls:
+                file_path = urls[0].toLocalFile()
+                if file_path.lower().endswith('.sav'):
+                    self._drag_hover_active = True
+                    self._drop_overlay.setVisible(True)
+                    self._drop_overlay.raise_()
+                    event.acceptProposedAction()
+                    return
+        super().dragEnterEvent(event)
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls():
+            urls = event.mimeData().urls()
+            if urls:
+                file_path = urls[0].toLocalFile()
+                if file_path.lower().endswith('.sav'):
+                    event.acceptProposedAction()
+                    return
+        super().dragMoveEvent(event)
+    def dragLeaveEvent(self, event):
+        self._drag_hover_active = False
+        self._drop_overlay.setVisible(False)
+        super().dragLeaveEvent(event)
+    def dropEvent(self, event):
+        self._drag_hover_active = False
+        self._drop_overlay.setVisible(False)
+        if event.mimeData().hasUrls():
+            urls = event.mimeData().urls()
+            if urls:
+                file_path = urls[0].toLocalFile()
+                if file_path.lower().endswith('.sav'):
+                    self._load_save_from_path(file_path)
+                    event.acceptProposedAction()
+                    return
+        super().dropEvent(event)
+    def _load_save_from_path(self, path):
+        from palworld_aio.save_manager import save_manager
+        save_manager.load_save(path=path, parent=self)
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, '_drop_overlay'):
+            self._drop_overlay.setGeometry(self.rect())
     def refresh_labels(self):
-        for btn, key in self.tool_buttons:
-            btn.text_label.setText(t(key) if t else key)
-            btn.text_label.setToolTip(t(key) if t else key)
+        if hasattr(self, '_load_btn') and self._load_btn:
+            self._load_btn.setText(t('menu.file.load_save') if t else 'Load Save')
+        if hasattr(self, '_save_path_label') and self._save_path_label:
+            self._save_path_label.setText(t('tools.no_save_loaded') if t else 'No save loaded')
+        for title_label, section_key in self._section_titles:
+            title_label.setText(t(section_key) if t else section_key)
+        for card, key in self.tool_buttons:
+            label = t(key) if t else key
+            card.title_label.setText(label)
+            card.title_label.setToolTip(label)
+            desc_key = TOOL_DESCRIPTIONS.get(key)
+            if desc_key and hasattr(card, 'desc_label') and card.desc_label:
+                card.desc_label.setText(t(desc_key) if t else '')
     def refresh(self):
         pass

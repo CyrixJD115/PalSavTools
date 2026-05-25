@@ -1333,5 +1333,16 @@
   "calibrate.complete_msg": "¡Constantes actualizadas! scale={s} transl_x={tx} transl_y={ty} Reiniciar para aplicar.",
   "base_inventory.select_guild_base_hint": "Selecciona un gremio/base para editar su inventario.",
   "base_inventory.title": "Editor de inventario base",
-  "character_transfer.post_to_pre_blocked": "No se admite la transferencia de una versión posterior a la v1.0 a una anterior a la v1.0.\nPost-v1.0 incluye contenido nuevo que no existe en la versión de destino."
+  "character_transfer.post_to_pre_blocked": "No se admite la transferencia de una versión posterior a la v1.0 a una anterior a la v1.0.\nPost-v1.0 incluye contenido nuevo que no existe en la versión de destino.",
+  "tools.section.converting": "Herramientas de conversión",
+  "tools.section.management": "Herramientas de gestión",
+  "tool.convert.saves.desc": "Convierta archivos guardados entre formatos JSON y SAV",
+  "tool.convert.gamepass.steam.desc": "Convierta archivos guardados entre las versiones de GamePass y Steam",
+  "tool.convert.steamid.desc": "Convierta ID de Steam entre diferentes formatos",
+  "tool.restore_map.desc": "Restaurar el mapa mundial a un estado anterior",
+  "tool.slot_injector.desc": "Inyecte espacios guardados del jugador en un archivo guardado mundial",
+  "tool.modify_save.desc": "Modifique y edite los datos del archivo guardado directamente",
+  "tool.character_transfer.desc": "Transferir personajes entre diferentes guardados o servidores.",
+  "tool.fix_host_save.desc": "Reparar archivos guardados del host corruptos o rotos",
+  "tools.no_save_loaded": "No hay guardado cargado"
 }

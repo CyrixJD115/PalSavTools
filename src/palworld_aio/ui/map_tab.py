@@ -273,9 +273,9 @@ class MapTab(QWidget):
         self._splitter = splitter
         splitter.addWidget(self._map_widget)
         splitter.addWidget(self._sidebar_widget)
-        splitter.setStretchFactor(0, 1)
+        splitter.setStretchFactor(0, 3)
         splitter.setStretchFactor(1, 1)
-        splitter.setSizes([850, 550])
+        splitter.setSizes([1000, 400])
         layout.addWidget(splitter)
         QTimer.singleShot(100, self._fix_initial_layout)
     def _fix_initial_layout(self):
@@ -295,13 +295,14 @@ class MapTab(QWidget):
             self.view.zoom_label.setText((t('zoom') if t else 'Zoom') + f': {int(1.0 * 100)}%')
             self.view.zoom_changed.emit(1.0)
         if hasattr(self, 'map_overlay'):
+            cal_width = self.btn_calibrate.sizeHint().width() if hasattr(self, 'btn_calibrate') else 0
             bases_width = self.toggle_map_bases.sizeHint().width()
             players_width = self.toggle_map_players.sizeHint().width()
             rings_width = self.toggle_base_radius_rings.sizeHint().width()
             zones_width = self.toggle_map_zones.sizeHint().width()
             map_type_width = self.toggle_map_type.sizeHint().width()
-            overlay_width = bases_width + players_width + rings_width + zones_width + map_type_width + 20
-            self.map_overlay.setGeometry(self.view.width() - overlay_width - 10, 10, overlay_width, 30)
+            overlay_width = cal_width + bases_width + players_width + rings_width + zones_width + map_type_width + 30
+            self.map_overlay.setGeometry(self.view.width() - overlay_width - 10, 10, overlay_width, 34)
     def _on_marker_hover_enter(self, data, global_pos):
         if 'base_id' in data:
             self.hover_overlay.show_for_base(data, QPoint(int(global_pos.x()), int(global_pos.y())))

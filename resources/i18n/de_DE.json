@@ -1364,5 +1364,16 @@
   "calibrate.complete_msg": "Konstanten aktualisiert! scale={s} transl_x={tx} transl_y={ty} Zur Anwendung neu starten.",
   "base_inventory.select_guild_base_hint": "Wählen Sie eine Gilde/Basis aus, um deren Inventar zu bearbeiten",
   "base_inventory.title": "Basisinventar-Editor",
-  "character_transfer.post_to_pre_blocked": "Die Übertragung von Post-v1.0 auf vor-v1.0 wird nicht unterstützt.\nPost-v1.0 enthält neue Inhalte, die in der Zielversion nicht vorhanden sind."
+  "character_transfer.post_to_pre_blocked": "Die Übertragung von Post-v1.0 auf vor-v1.0 wird nicht unterstützt.\nPost-v1.0 enthält neue Inhalte, die in der Zielversion nicht vorhanden sind.",
+  "tools.section.converting": "Konvertierungstools",
+  "tools.section.management": "Management-Tools",
+  "tools.no_save_loaded": "Kein Speicherstand geladen",
+  "tool.convert.saves.desc": "Konvertieren Sie gespeicherte Dateien zwischen den Formaten JSON und SAV",
+  "tool.convert.gamepass.steam.desc": "Konvertieren Sie gespeicherte Dateien zwischen GamePass- und Steam-Versionen",
+  "tool.convert.steamid.desc": "Konvertieren Sie Steam-IDs zwischen verschiedenen Formaten",
+  "tool.restore_map.desc": "Stellen Sie die Weltkarte auf einen früheren Zustand wieder her",
+  "tool.slot_injector.desc": "Fügen Sie Spielerspeicherplätze in eine Weltspeicherdatei ein",
+  "tool.modify_save.desc": "Ändern und bearbeiten Sie gespeicherte Dateidaten direkt",
+  "tool.character_transfer.desc": "Übertragen Sie Charaktere zwischen verschiedenen Speichern oder Servern",
+  "tool.fix_host_save.desc": "Reparieren Sie beschädigte oder defekte Host-Sicherungsdateien"
 }

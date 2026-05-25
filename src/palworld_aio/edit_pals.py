@@ -369,7 +369,7 @@ class PalIcon(QFrame):
             badge.move(2, 2)
             badge.setAttribute(Qt.WA_TransparentForMouseEvents)
             badge.show()
-        pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         if nick:
             pal_name = f'{nick}'
         self.setToolTip(f'{pal_name} [Lv.{level}]')
@@ -465,7 +465,7 @@ class PalCardWidget(QFrame):
         if max_hp <= 0:
             max_hp = hp if hp > 0 else 100
         exp = extract_value(raw, 'Exp', 0)
-        pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         if nick:
             pal_name = f'{nick}'
         layout = QHBoxLayout(self)
@@ -559,9 +559,15 @@ class PartySlotWidget(QFrame):
     def resizeEvent(self, event):
         super().resizeEvent(event)
         if self._lvl_overlay and shiboken6.isValid(self._lvl_overlay) and (not self._lvl_overlay.isHidden()):
-            w = self.width()
-            lvl_w = self._lvl_overlay.width()
             self._lvl_overlay.move(8, self.height() - 14)
+        if hasattr(self, '_badges') and self._badges:
+            badge_x = self.width() - 6
+            badge_y = 4
+            for badge in self._badges:
+                if shiboken6.isValid(badge) and (not badge.isHidden()):
+                    bw = badge.width()
+                    badge.move(badge_x - bw, badge_y if bw >= 14 else badge_y + 1)
+                    badge_x -= bw + 2
     def enterEvent(self, event):
         self.entered.emit()
         super().enterEvent(event)
@@ -610,7 +616,7 @@ class PartySlotWidget(QFrame):
         level = extract_value(raw, 'Level', 1)
         nick = extract_value(raw, 'NickName', '')
         exp = extract_value(raw, 'Exp', 0)
-        pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         if nick:
             pal_name = f'{nick}'
         is_boss = cid.upper().startswith('BOSS_')
@@ -629,8 +635,8 @@ class PartySlotWidget(QFrame):
                 if trust_points >= {10: 1200, 9: 900, 8: 650, 7: 450, 6: 300, 5: 200, 4: 120, 3: 70, 2: 30, 1: 0}.get(r, 0):
                     friendship_rank = r
                     break
-            rank_raw = extract_value(raw, 'Rank', 1)
-            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
+            rank_raw = extract_value(raw, 'Rank', 0)
+            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
             base = get_pal_base_data(cid)
             if base:
                 max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky, friendship_rank, condenser_rank, is_awake)
@@ -663,72 +669,6 @@ class PartySlotWidget(QFrame):
         name_lbl = QLabel(f'Lv.{level} {pal_name}')
         name_lbl.setStyleSheet('color: #E2E8F0; font-size: 12px; font-weight: 600; background: transparent;')
         name_row.addWidget(name_lbl)
-        if is_boss:
-            boss_pix = _get_boss_alpha_pixmap(14)
-            if boss_pix:
-                boss_badge = QLabel()
-                boss_badge.setPixmap(boss_pix)
-                boss_badge.setFixedSize(14, 14)
-                boss_badge.setAlignment(Qt.AlignCenter)
-                boss_badge.setStyleSheet('background: transparent; border: none;')
-                name_row.addWidget(boss_badge)
-        elif is_lucky:
-            shiny_pix = _get_boss_shiny_pixmap(14)
-            if shiny_pix:
-                lucky_badge = QLabel()
-                lucky_badge.setPixmap(shiny_pix)
-                lucky_badge.setFixedSize(14, 14)
-                lucky_badge.setAlignment(Qt.AlignCenter)
-                lucky_badge.setStyleSheet('background: transparent; border: none;')
-                name_row.addWidget(lucky_badge)
-        base_el_data = get_pal_base_data(cid)
-        if base_el_data:
-            els = base_el_data.get('elements', {})
-            for en in els:
-                ep = _get_element_pixmap(en, 'small', 12)
-                if ep:
-                    el_icon = QLabel()
-                    el_icon.setFixedSize(12, 12)
-                    el_icon.setPixmap(ep)
-                    el_icon.setStyleSheet('background: transparent; border: none;')
-                    name_row.addWidget(el_icon)
-        if is_awake:
-            awake_pix = _get_awake_pixmap(12)
-            if awake_pix:
-                awake_badge = QLabel()
-                awake_badge.setPixmap(awake_pix)
-                awake_badge.setFixedSize(12, 12)
-                awake_badge.setAlignment(Qt.AlignCenter)
-                awake_badge.setStyleSheet('background: transparent; border: none;')
-            else:
-                awake_badge = QLabel('🔥')
-                awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
-                awake_badge.setFixedSize(12, 12)
-                awake_badge.setAlignment(Qt.AlignCenter)
-            name_row.addWidget(awake_badge)
-        if is_imported:
-            dna_pix = _get_ui_icon_pixmap('dna', 12)
-            if dna_pix:
-                dna_icon = QLabel()
-                dna_icon.setFixedSize(14, 14)
-                dna_icon.setAlignment(Qt.AlignCenter)
-                dna_icon.setPixmap(dna_pix)
-                dna_icon.setStyleSheet('background: transparent; border: none;')
-                name_row.addWidget(dna_icon)
-        if fav_idx and int(fav_idx) > 0:
-            lock_key = f'lock_{int(fav_idx)}'
-            lock_pix = _get_ui_icon_pixmap(lock_key, 14) or _get_ui_icon_pixmap('lock_1', 14) or _get_ui_icon_pixmap('lock', 14)
-            if lock_pix:
-                fav_badge = QLabel()
-                fav_badge.setPixmap(lock_pix)
-                fav_badge.setFixedSize(14, 14)
-                fav_badge.setStyleSheet('background: transparent; border: none;')
-            else:
-                fav_badge = QLabel('🔒')
-                fav_badge.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
-                fav_badge.setFixedSize(14, 14)
-                fav_badge.setAlignment(Qt.AlignCenter)
-            name_row.addWidget(fav_badge)
         name_row.addStretch()
         info.addLayout(name_row)
         hp_pct = int(min(hp_val / max_hp * 100, 100)) if max_hp > 0 else 0
@@ -751,6 +691,105 @@ class PartySlotWidget(QFrame):
         exp_fill.setStyleSheet('background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #6366F1,stop:1 #818CF8); border-radius: 1px;')
         info.addWidget(exp_bar)
         layout.addLayout(info)
+        self._badges = []
+        badge_x = self.width() - 6
+        badge_y = 4
+        badge_gap = 2
+        if fav_idx and int(fav_idx) > 0:
+            lock_key = f'lock_{int(fav_idx)}'
+            lock_pix = _get_ui_icon_pixmap(lock_key, 14) or _get_ui_icon_pixmap('lock_1', 14) or _get_ui_icon_pixmap('lock', 14)
+            if lock_pix:
+                fav_badge = QLabel(self)
+                fav_badge.setPixmap(lock_pix)
+                fav_badge.setFixedSize(14, 14)
+                fav_badge.setStyleSheet('background: transparent; border: none;')
+            else:
+                fav_badge = QLabel('🔒', self)
+                fav_badge.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
+                fav_badge.setFixedSize(14, 14)
+                fav_badge.setAlignment(Qt.AlignCenter)
+            fav_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            fav_badge.move(badge_x - 14, badge_y)
+            fav_badge.show()
+            self._badges.append(fav_badge)
+            badge_x -= 16
+        if is_imported:
+            dna_pix = _get_ui_icon_pixmap('dna', 12)
+            if dna_pix:
+                dna_icon = QLabel(self)
+                dna_icon.setFixedSize(14, 14)
+                dna_icon.setAlignment(Qt.AlignCenter)
+                dna_icon.setPixmap(dna_pix)
+                dna_icon.setStyleSheet('background: transparent; border: none;')
+            else:
+                dna_icon = QLabel('🧬', self)
+                dna_icon.setFixedSize(14, 14)
+                dna_icon.setAlignment(Qt.AlignCenter)
+                dna_icon.setStyleSheet('font-size: 9px; background: transparent;')
+            dna_icon.setAttribute(Qt.WA_TransparentForMouseEvents)
+            dna_icon.move(badge_x - 14, badge_y)
+            dna_icon.show()
+            self._badges.append(dna_icon)
+            badge_x -= 16
+        if is_awake:
+            awake_pix = _get_awake_pixmap(12)
+            if awake_pix:
+                awake_badge = QLabel(self)
+                awake_badge.setPixmap(awake_pix)
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+                awake_badge.setStyleSheet('background: transparent; border: none;')
+            else:
+                awake_badge = QLabel('🔥', self)
+                awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+            awake_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            awake_badge.move(badge_x - 12, badge_y + 1)
+            awake_badge.show()
+            self._badges.append(awake_badge)
+            badge_x -= 14
+        base_el_data = get_pal_base_data(cid)
+        if base_el_data:
+            els = base_el_data.get('elements', {})
+            for en in els:
+                ep = _get_element_pixmap(en, 'small', 12)
+                if ep:
+                    el_icon = QLabel(self)
+                    el_icon.setFixedSize(12, 12)
+                    el_icon.setPixmap(ep)
+                    el_icon.setStyleSheet('background: transparent; border: none;')
+                    el_icon.setAttribute(Qt.WA_TransparentForMouseEvents)
+                    el_icon.move(badge_x - 12, badge_y + 1)
+                    el_icon.show()
+                    self._badges.append(el_icon)
+                    badge_x -= 14
+        if is_boss:
+            boss_pix = _get_boss_alpha_pixmap(14)
+            if boss_pix:
+                boss_badge = QLabel(self)
+                boss_badge.setPixmap(boss_pix)
+                boss_badge.setFixedSize(14, 14)
+                boss_badge.setAlignment(Qt.AlignCenter)
+                boss_badge.setStyleSheet('background: transparent; border: none;')
+                boss_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                boss_badge.move(badge_x - 14, badge_y)
+                boss_badge.show()
+                self._badges.append(boss_badge)
+                badge_x -= 16
+        elif is_lucky:
+            shiny_pix = _get_boss_shiny_pixmap(14)
+            if shiny_pix:
+                lucky_badge = QLabel(self)
+                lucky_badge.setPixmap(shiny_pix)
+                lucky_badge.setFixedSize(14, 14)
+                lucky_badge.setAlignment(Qt.AlignCenter)
+                lucky_badge.setStyleSheet('background: transparent; border: none;')
+                lucky_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                lucky_badge.move(badge_x - 14, badge_y)
+                lucky_badge.show()
+                self._badges.append(lucky_badge)
+                badge_x -= 16
         self.setStyleSheet('QFrame#partySlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; } QFrame#partySlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
     def set_selected(self, selected):
         self.selected = selected
@@ -955,7 +994,7 @@ class PalboxSlotWidget(QFrame):
             lock_badge._slot_child_kind = 'lock'
             lock_badge.show()
             self._children.append(lock_badge)
-        pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         self.setToolTip(f'{pal_name} [Lv.{level}]')
         self.setStyleSheet('QFrame#palboxSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#palboxSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
         self.resizeEvent(None)
@@ -1117,6 +1156,12 @@ def _get_awake_pixmap(size=14):
     path = os.path.join(base_dir, 'resources', 'UI', 'pst_flame_icon.webp')
     return _get_cached_pixmap(path, size)
 _BOSS_PREFIXES = ('BOSS_', 'PREDATOR_', 'GYM_', 'RAID_')
+_PREFIX_LABELS = (' (Boss)', ' (Predator)', ' (Gym)', ' (Raid)', ' (Police)', ' (Summon)')
+def _strip_prefix_label(name: str) -> str:
+    for label in _PREFIX_LABELS:
+        if name.endswith(label):
+            return name[:-len(label)]
+    return name
 def _composite_badge(pixmap, badge_pixmap, icon_size):
     result = QPixmap(pixmap)
     painter = QPainter(result)
@@ -1572,7 +1617,7 @@ class PalInfoWidget(QFrame):
                 eff.setOpacity(0.14)
         self.partner_name_lbl.setText('--')
         self.partner_lvl_lbl.setText('Lv --')
-        self.partner_desc_lbl.setText('--')
+        self.partner_desc_lbl.setText('Select a pal to view details')
         for i in reversed(range(self.active_skills_list.count())):
             w = self.active_skills_list.itemAt(i)
             if w and w.widget():
@@ -2190,9 +2235,10 @@ class PalInfoWidget(QFrame):
         so_layout.setSpacing(1)
         self.partner_frame = QFrame()
         self.partner_frame.setObjectName('partnerBox')
+        self.partner_frame.setFixedHeight(104)
         self.partner_frame.setStyleSheet('QFrame#partnerBox { background: rgba(10,16,24,0.95); border: 1.5px solid rgba(125,211,252,0.3); border-radius: 5px; }')
         partner_layout = QVBoxLayout(self.partner_frame)
-        partner_layout.setContentsMargins(6, 2, 6, 2)
+        partner_layout.setContentsMargins(10, 3, 10, 3)
         partner_layout.setSpacing(1)
         pheader = QHBoxLayout()
         pheader.setSpacing(4)
@@ -2314,7 +2360,7 @@ class PalInfoWidget(QFrame):
             cid = extract_value(raw, 'CharacterID', '')
             level = extract_value(raw, 'Level', 1)
             nick = extract_value(raw, 'NickName', '')
-            pal_name = resolve_name(cid, PalFrame._NAMEMAP) or cid
+            pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
             if nick:
                 full = nick
             else:
@@ -2371,8 +2417,8 @@ class PalInfoWidget(QFrame):
                 if trust_points >= self._TRUST_RANK_THRESHOLDS[r]:
                     trust_rank = r
                     break
-            rank_raw = extract_value(raw, 'Rank', 1)
-            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 1
+            rank_raw = extract_value(raw, 'Rank', 0)
+            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
             is_awake = bool(extract_value(raw, 'bIsAwakening', False))
             hp_val = safe_nested_get(raw, ['Hp', 'value', 'Value', 'value'], 0)
             max_hp = safe_nested_get(raw, ['MaxHP', 'value', 'Value', 'value'], 0)
@@ -2546,9 +2592,10 @@ class PalInfoWidget(QFrame):
                 self.iv_icon.setPixmap(ivp)
             rank_raw = extract_value(raw, 'Rank', 0)
             rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
+            star_count = max(0, rank_int - 1)
             for i, sl in enumerate(self.star_labels):
-                sl.set_filled(i < rank_int)
-            if rank_int >= 4:
+                sl.set_filled(i < star_count)
+            if star_count >= 4:
                 self._start_star_shine()
             else:
                 self._stop_star_shine()
@@ -2652,9 +2699,11 @@ class PalInfoWidget(QFrame):
                     parent_frame.setStyleSheet(f'QFrame#passiveCard {{ background: {bg}; border: 1.5px solid {bd}; border-radius: 4px; padding: 3px 6px; }}')
                 if i < len(self.passive_cards):
                     self._set_passive_overlay(i, anim_mode)
-            self.partner_name_lbl.setText(pal_name)
-            self.partner_lvl_lbl.setText(f'Lv {level}')
-            self.partner_desc_lbl.setText(f'Partner skill for {pal_name}. Effects scale with level.')
+            pskill_name = base.get('partner_skill', '') if base else ''
+            pal_desc = base.get('description', '') if base else ''
+            self.partner_name_lbl.setText(pskill_name or pal_name)
+            self.partner_lvl_lbl.setText(f'Lv {max(1, condenser_rank)}')
+            self.partner_desc_lbl.setText(pal_desc or f'Partner skill for {pal_name}. Effects scale with level.')
         except Exception as e:
             self._clear_display()
     def eventFilter(self, obj, event):
@@ -2708,7 +2757,12 @@ class PalInfoWidget(QFrame):
         if not self._raw:
             return
         cur = int(extract_value(self._raw, 'Rank', 0))
-        new_r = (cur + 1) % 5
+        cycle = [1, 2, 3, 4, 5]
+        try:
+            idx = cycle.index(cur)
+            new_r = cycle[(idx + 1) % len(cycle)]
+        except ValueError:
+            new_r = 1
         self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': new_r}}
         self._recalc_hp()
     def _start_star_shine(self):
@@ -2765,7 +2819,8 @@ class PalInfoWidget(QFrame):
                 break
         base = get_pal_base_data(cid)
         if base:
-            condenser_rank = int(extract_value(raw, 'Rank', 1))
+            rank_raw = extract_value(raw, 'Rank', 0)
+            condenser_rank = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
             is_awake_val = bool(extract_value(raw, 'bIsAwakening', False))
             new_max_hp = calculate_max_hp(base, value, talent_hp, rank_hp, is_boss, is_lucky, friendship_rank, condenser_rank, is_awake_val)
             raw['Hp'] = {'struct_type': 'FixedPoint64', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': {'Value': {'id': None, 'value': int(new_max_hp), 'type': 'Int64Property'}}, 'type': 'StructProperty'}
@@ -3894,7 +3949,7 @@ class PalFrame(QFrame):
             elif isinstance(passive_skill_data, list):
                 p_list = passive_skill_data
             nick = extract_value(raw, 'NickName', '')
-            pal_name = resolve_name(cid, self._NAMEMAP) or cid
+            pal_name = _strip_prefix_label(resolve_name(cid, self._NAMEMAP) or cid)
             if nick:
                 pal_name = nick
             self.name_label.setText(pal_name)

@@ -1160,6 +1160,108 @@ def update_friendship_data():
         print('  No friendship rows found. Skipping.')
         return
     save_resource_json('friendship.json', all_rows)
+def update_pal_descriptions():
+    print('\n=== Updating Pal Descriptions ===')
+    existing = load_resource_json('paldata.json')
+    if not existing or 'pals' not in existing:
+        print('  No existing paldata.json found. Run update_pal_data first. Skipping.')
+        return
+    skill_name_l10n = load_l10n_table('DT_SkillNameText_Common.json')
+    first_activated_l10n = load_l10n_table('DT_PalFirstActivatedInfoText.json')
+    append_l10n = load_l10n_table('DT_PartnerSkillAppendText.json')
+    partner_skill_names = {}
+    for key, value in skill_name_l10n.items():
+        if key.startswith('PARTNERSKILL_'):
+            asset = key[len('PARTNERSKILL_'):]
+            partner_skill_names[asset.lower()] = value
+    pal_descriptions = {}
+    for key, value in first_activated_l10n.items():
+        if key.startswith('PAL_FIRST_SPAWN_DESC_'):
+            asset = key[len('PAL_FIRST_SPAWN_DESC_'):]
+            pal_descriptions[asset.lower()] = value
+    PREFIXES = ('BOSS_', 'PREDATOR_', 'GYM_', 'RAID_', 'POLICE_', 'SUMMON_')
+    def _get_base_asset(pal_id):
+        pal_lower = pal_id.lower()
+        for pfx in PREFIXES:
+            if pal_lower.startswith(pfx.lower()):
+                return pal_lower[len(pfx):]
+        return pal_lower
+    _append_l10n_lower = {}
+    for k, v in append_l10n.items():
+        _append_l10n_lower[k.lower()] = v
+    def _resolve_reference_msg(match):
+        msg_id = match.group(1)
+        rank1_key = f'{msg_id}_Rank_1'
+        text = _append_l10n_lower.get(rank1_key.lower(), '')
+        if text:
+            text = _cleanup_game_tags(text)
+            return text
+        return ''
+    def _cleanup_game_tags(desc):
+        if not desc:
+            return desc
+        def _resolve_reference_msg(match):
+            msg_id = match.group(1)
+            rank1_key = f'{msg_id}_Rank_1'
+            text = _append_l10n_lower.get(rank1_key.lower(), '')
+            if text:
+                text = _cleanup_game_tags(text)
+                return text
+            return ''
+        def _pipe_to_readable(match):
+            pipe_val = match.group(1)
+            parts = pipe_val.split('_')
+            tail = parts[-1] if parts else pipe_val
+            tail = tail[0].upper() + tail[1:].lower() if tail else ''
+            return tail
+        def _ui_common_readable(match):
+            id_val = match.group(1)
+            parts = id_val.split('_')
+            tail = parts[-1] if parts else id_val
+            tail = tail[0].upper() + tail[1:].lower() if tail else ''
+            return tail
+        desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_reference_msg, desc)
+        desc = re.sub(r'\{[^}]*\}', '?', desc)
+        desc = re.sub(r'<Status_Up>([^<]*)</>', r'\1', desc)
+        desc = re.sub(r'<Status_Keyword>([^<]*)</>', r'\1', desc)
+        desc = re.sub(r'<uiCommon\s+id=\|([^|]+)\|[^/>]*/>', _ui_common_readable, desc)
+        desc = re.sub(r'<img\s[^/>]*/>', '', desc)
+        desc = re.sub(r'<(activeSkillName|characterName|itemName|mapObjectName)\s[^/>]*/>', '', desc)
+        desc = re.sub(r'<[^>]*>', '', desc)
+        desc = re.sub(r'\|([A-Za-z0-9_]+)\|', _pipe_to_readable, desc)
+        desc = re.sub(r'\s+', ' ', desc)
+        desc = desc.strip()
+        return desc
+        desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_reference_msg, desc)
+        desc = re.sub(r'\{[^}]*\}', '', desc)
+        desc = re.sub(r'<Status_Up>([^<]*)</>', r'\1', desc)
+        desc = re.sub(r'<Status_Keyword>([^<]*)</>', r'\1', desc)
+        desc = re.sub(r'<(activeSkillName|img|uiCommon|characterName|itemName|mapObjectName)\s[^/>]*/>', '', desc)
+        desc = re.sub(r'<[^>]*>', '', desc)
+        desc = re.sub(r'\|\w+\|', '', desc)
+        desc = re.sub(r'\s+', ' ', desc)
+        desc = desc.strip()
+        return desc
+    updated = 0
+    for pal_entry in existing['pals']:
+        if not isinstance(pal_entry, dict):
+            continue
+        asset = pal_entry.get('asset', '')
+        if not asset:
+            continue
+        base_asset = _get_base_asset(asset)
+        pskill_name = partner_skill_names.get(base_asset, partner_skill_names.get(asset.lower(), ''))
+        pal_desc = pal_descriptions.get(base_asset, pal_descriptions.get(asset.lower(), ''))
+        if pal_desc:
+            pal_desc = resolve_rich_text(pal_desc)
+            pal_desc = _cleanup_game_tags(pal_desc)
+            pal_desc = pal_desc.replace('\r\n', '\n').replace('\r', '\n')
+        pal_entry['partner_skill'] = pskill_name
+        pal_entry['description'] = pal_desc
+        updated += 1
+    save_resource_json('paldata.json', existing)
+    print(f'  Updated {updated} pals with descriptions and partner skills')
+
 def update_items_psp():
     print('\n=== Updating Items PSP ===')
     item_table = load_export_json('Item/DT_ItemDataTable.json')
@@ -1637,6 +1739,7 @@ def main():
     _run_step('Building icon lookup...', _build_lookup)
     _run_step('Updating element data...', update_element_data)
     _run_step('Updating pal data...', update_pal_data)
+    _run_step('Updating pal descriptions...', update_pal_descriptions)
     _run_step('Updating NPC data...', update_npc_data)
     _run_step('Updating item data...', update_item_data)
     _run_step('Updating structure data...', update_structure_data)

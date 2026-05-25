@@ -431,20 +431,45 @@ QTabBar::tab {
 }
 
 QWidget#sideBar {
-    background: transparent;
-}
-
-QFrame#sidebarBg {
     background-color: rgba(10, 12, 16, 0.95);
     border-right: 1px solid rgba(125, 211, 252, 0.08);
 }
 
-QWidget#sidebarContent {
+QPushButton[sidebarItem="true"] {
     background: transparent;
+    color: #A6B8C8;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+QPushButton[sidebarItem="true"]:hover {
+    background: rgba(125, 211, 252, 0.08);
+    color: #E6EEF6;
+}
+
+QPushButton[sidebarItem="true"][active="true"] {
+    color: #7DD3FC;
+    background: transparent;
+}
+
+QPushButton[sidebarItem="true"][active="true"]:hover {
+    background: rgba(125, 211, 252, 0.12);
+    color: #AEE9FF;
 }
 
 QWidget#innerContent {
     background: transparent;
+}
+
+QToolTip {
+    background-color: rgba(18, 22, 28, 0.95);
+    color: #E6EEF6;
+    border: 1px solid rgba(125, 211, 252, 0.25);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /* Tab Content Widgets - Ensure proper theming for all tab content */

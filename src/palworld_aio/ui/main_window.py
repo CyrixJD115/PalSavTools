@@ -275,15 +275,15 @@ class MainWindow(QMainWindow):
             self.status_stream.detach()
     def _setup_ui(self):
         self.setWindowTitle(t('deletion.title') if t else 'All-in-One Tools')
-        self.setMinimumSize(1600, 800)
-        self.resize(1600, 800)
+        self.setMinimumSize(1448, 800)
+        self.resize(1448, 800)
         self.setWindowFlags(Qt.FramelessWindowHint)
         if os.path.exists(constants.ICON_PATH):
             self.setWindowIcon(QIcon(constants.ICON_PATH))
         central_widget = QWidget()
         central_widget.setObjectName('central')
         self.setCentralWidget(central_widget)
-        self.sidebar_width = 200
+        self.sidebar_width = 48
         self._inner_widget = QWidget(central_widget)
         self._inner_widget.setObjectName('innerContent')
         inner_layout = QVBoxLayout(self._inner_widget)

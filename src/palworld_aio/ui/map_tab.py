@@ -200,7 +200,7 @@ class MapTab(QWidget):
         self.toggle_map_bases.setStyleSheet('QPushButton { color: white; background: rgba(0, 0, 0, 150); padding: 6px 10px; border-radius: 4px; border: none; min-width: 36px; min-height: 28px; } QPushButton:checked { background: rgba(255, 120, 0, 200); border: 1px solid #ff8800; }')
         overlay_layout.addWidget(self.toggle_map_bases)
         self.toggle_map_players = QPushButton()
-        self.toggle_map_players.setIcon(QIcon(os.path.join(base_dir, 'resources', 'marker.webp')))
+        self.toggle_map_players.setIcon(QIcon(os.path.join(base_dir, 'resources', 'playericon.webp')))
         self.toggle_map_players.setIconSize(QSize(22, 22))
         self.toggle_map_players.setToolTip(t('map.toggle.players') if t else 'Players')
         self.toggle_map_players.setCheckable(True)
@@ -307,9 +307,9 @@ class MapTab(QWidget):
         self._splitter = splitter
         splitter.addWidget(self._map_widget)
         splitter.addWidget(self._sidebar_widget)
-        splitter.setStretchFactor(0, 4)
+        splitter.setStretchFactor(0, 3)
         splitter.setStretchFactor(1, 1)
-        splitter.setSizes([1120, 280])
+        splitter.setSizes([1000, 400])
         layout.addWidget(splitter)
         QTimer.singleShot(100, self._fix_initial_layout)
     def _fix_initial_layout(self):

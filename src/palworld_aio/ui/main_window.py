@@ -283,12 +283,9 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         central_widget.setObjectName('central')
         self.setCentralWidget(central_widget)
-        self.sidebar_width = 48
-        self._inner_widget = QWidget(central_widget)
-        self._inner_widget.setObjectName('innerContent')
-        inner_layout = QVBoxLayout(self._inner_widget)
-        inner_layout.setContentsMargins(0, 0, 0, 0)
-        inner_layout.setSpacing(0)
+        main_layout = QVBoxLayout(central_widget)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
         from .header_widget import HeaderWidget
         self.header_widget = HeaderWidget()
         self.header_widget.minimize_clicked.connect(self.showMinimized)
@@ -297,7 +294,16 @@ class MainWindow(QMainWindow):
         self.header_widget.about_clicked.connect(self._show_about)
         self.header_widget.warn_btn.clicked.connect(self._show_warnings)
         self.header_widget.show_warning(True)
-        inner_layout.addWidget(self.header_widget)
+        main_layout.addWidget(self.header_widget)
+        body_layout = QHBoxLayout()
+        body_layout.setContentsMargins(0, 0, 0, 0)
+        body_layout.setSpacing(0)
+        from .sidebar_widget import SidebarWidget
+        self.sidebar = SidebarWidget()
+        self.sidebar.nav_changed.connect(self._on_nav_changed)
+        self.sidebar.console_toggled.connect(self._detach_status)
+        self.sidebar.right_panel_toggled.connect(self._toggle_dashboard)
+        body_layout.addWidget(self.sidebar)
         self._dashboard_collapsed = False
         self._dashboard_sizes = [1000, 400]
         self.splitter = QSplitter(Qt.Horizontal)
@@ -316,12 +322,8 @@ class MainWindow(QMainWindow):
         from .results_widget import ResultsWidget
         self.results_widget = ResultsWidget()
         self.splitter.addWidget(self.results_widget)
-        inner_layout.addWidget(self.splitter, stretch=1)
-        from .sidebar_widget import SidebarWidget
-        self.sidebar = SidebarWidget(central_widget)
-        self.sidebar.nav_changed.connect(self._on_nav_changed)
-        self.sidebar.console_toggled.connect(self._detach_status)
-        self.sidebar.right_panel_toggled.connect(self._toggle_dashboard)
+        body_layout.addWidget(self.splitter, stretch=1)
+        main_layout.addLayout(body_layout, stretch=1)
         self.status_bar = QStatusBar()
         self.status_bar.setFixedHeight(0)
         self.status_bar.hide()
@@ -659,14 +661,6 @@ class MainWindow(QMainWindow):
             self.showNormal()
         else:
             self.showMaximized()
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        if hasattr(self, 'sidebar') and hasattr(self, '_inner_widget'):
-            cw = self.centralWidget()
-            sw = self.sidebar_width
-            sh = cw.height()
-            self.sidebar.setGeometry(0, 0, sw, sh)
-            self._inner_widget.setGeometry(sw, 0, cw.width() - sw, sh)
     def _detach_status(self):
         if self.status_stream:
             if self.status_stream.detached:

@@ -458,10 +458,6 @@ QPushButton[sidebarItem="true"][active="true"]:hover {
     color: #AEE9FF;
 }
 
-QWidget#innerContent {
-    background: transparent;
-}
-
 QToolTip {
     background-color: rgba(18, 22, 28, 0.95);
     color: #E6EEF6;

@@ -3030,14 +3030,13 @@ class PalEditorWidget(QWidget):
         self.player_sav_path = None
         self.dps_file_path = None
         self.dps_loaded = False
-        self.party_pals = []
+        self.party_pals = {}
         self.palbox_pals = []
         self.current_box_index = 1
         self.selected_pal_slot = None
         self._hovered_pal = None
         self._clicked_pal = None
         self.palbox_pal_dict = {}
-        self.party_pals = []
         self._setup_ui()
         self._setup_hotkeys()
     def _setup_hotkeys(self):
@@ -3147,7 +3146,7 @@ class PalEditorWidget(QWidget):
         self.box_label.setText(f'Box {self.current_box_index}')
         self._update_palbox_page()
     def _on_party_slot_clicked(self, idx):
-        if 0 <= idx < len(self.party_pals):
+        if idx in self.party_pals:
             pal = self.party_pals[idx]
             if self._clicked_pal is pal and self.selected_pal_slot == ('party', idx):
                 self._clicked_pal = None
@@ -3161,7 +3160,7 @@ class PalEditorWidget(QWidget):
             self._highlight_party_slot(idx)
             self._clear_palbox_highlight()
     def _on_party_slot_entered(self, idx):
-        if 0 <= idx < len(self.party_pals):
+        if idx in self.party_pals:
             pal = self.party_pals[idx]
             self._hovered_pal = pal
             self.pal_info.set_hover_pal(pal)
@@ -3199,7 +3198,7 @@ class PalEditorWidget(QWidget):
         if is_party is None:
             is_party = self.selected_pal_slot and self.selected_pal_slot[0] == 'party'
         if is_party:
-            if slot_index < len(self.party_pals):
+            if slot_index in self.party_pals:
                 pal = self.party_pals[slot_index]
                 reply = show_question(self, t('edit_pals.confirm_delete'), 'Delete this pal?')
                 if not reply:
@@ -3210,7 +3209,7 @@ class PalEditorWidget(QWidget):
                         cmap.remove(pal)
                 except Exception:
                     pass
-                self.party_pals.pop(slot_index)
+                del self.party_pals[slot_index]
                 self._update_party_slots()
                 self.pal_info._clear_display()
         else:
@@ -3303,7 +3302,7 @@ class PalEditorWidget(QWidget):
         self.party_container = None
         self.palbox_container = None
         self.dps_loaded = False
-        self.party_pals = []
+        self.party_pals = {}
         self.palbox_pal_dict = {}
         self.current_box_index = 1
         self.selected_pal_slot = None
@@ -3338,7 +3337,7 @@ class PalEditorWidget(QWidget):
             return
         if not cmap:
             return
-        self.party_pals = []
+        self.party_pals = {}
         self.palbox_pal_dict = {}
         target_uid = self.player_uid.replace('-', '').lower() if self.player_uid else ''
         target_party = str(self.party_container).lower() if self.party_container else ''
@@ -3361,20 +3360,20 @@ class PalEditorWidget(QWidget):
                 slot_id_str = str(slot_id).lower() if slot_id else ''
                 slot_index = raw.get('SlotId', {}).get('value', {}).get('SlotIndex', {}).get('value', 0)
                 if slot_id_str == target_party:
-                    self.party_pals.append(item)
+                    self.party_pals[slot_index] = item
                 elif slot_id_str == target_palbox:
                     self.palbox_pal_dict[slot_index] = item
             except (KeyError, TypeError, AttributeError):
                 continue
-        self.party_pals.sort(key=lambda x: safe_nested_get(x, ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value', 'SlotId', 'value', 'SlotIndex', 'value']) or 0)
         self._update_party_slots()
         self._update_palbox_page()
     def _update_party_slots(self):
-        for i, slot in enumerate(self.party_slots):
-            if i < len(self.party_pals):
-                slot.pal_data = self.party_pals[i]
-            else:
-                slot.pal_data = None
+        for slot in self.party_slots:
+            slot.pal_data = None
+        for idx, pal in self.party_pals.items():
+            if 0 <= idx < len(self.party_slots):
+                self.party_slots[idx].pal_data = pal
+        for slot in self.party_slots:
             slot.update_display()
             slot.set_selected(False)
     def eventFilter(self, obj, event):
@@ -3658,7 +3657,7 @@ class PalCreateDialog(QDialog):
                     g['value']['RawData']['value']['individual_character_handle_ids'] = hids
                     break
         if self.is_party:
-            self.pal_editor.party_pals.append(pal_item)
+            self.pal_editor.party_pals[self.slot_index] = pal_item
         else:
             abs_idx = (self.pal_editor.current_box_index - 1) * 30 + self.slot_index
             self.pal_editor.palbox_pal_dict[abs_idx] = pal_item

@@ -19,6 +19,7 @@ from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
 from palworld_aio.inventory_manager import ItemData
+from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -51,6 +52,7 @@ class GuildItemPickerDialog(QDialog):
         self.selected_item_name = None
         self.guild_locations = {}
         self.guild_item_counts = {}
+        self.setStyleSheet(_DIALOG_STYLE)
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)
@@ -466,6 +468,7 @@ class ContainerListWidget(QTreeWidget):
         if item:
             container_id = item.data(0, Qt.UserRole)
             menu = QMenu(self)
+            menu.setStyleSheet(MENU_STYLE)
             add_item_action = menu.addAction(t('base_inventory.add_item') if t else 'Add Item')
             add_item_action.triggered.connect(lambda: self._add_item_debug(container_id))
             clear_container_action = menu.addAction(t('base_inventory.clear_container') if t else 'Clear Container')
@@ -1264,6 +1267,7 @@ class BaseInventoryTab(QWidget):
         if not slot_data:
             return
         menu = QMenu(self)
+        menu.setStyleSheet(MENU_STYLE)
         menu.addAction(t('base_inventory.edit_quantity') if t else 'Edit Quantity', lambda: self._edit_item_quantity(slot_data))
         menu.addAction(t('base_inventory.remove_item') if t else 'Remove Item', lambda: self._remove_item_from_slot(slot_data))
         menu.addSeparator()
@@ -1271,6 +1275,7 @@ class BaseInventoryTab(QWidget):
         menu.exec(pos)
     def _show_empty_slot_context_menu(self, container_type, slot_index, pos):
         menu = QMenu(self)
+        menu.setStyleSheet(MENU_STYLE)
         menu.addAction(t('base_inventory.add_item') if t else 'Add Item', lambda: self._add_item_to_slot(slot_index))
         menu.addAction(t('base_inventory.clear_container') if t else 'Clear Container', self._clear_container)
         menu.exec(pos)

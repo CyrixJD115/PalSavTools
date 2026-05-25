@@ -5,8 +5,7 @@ from PySide6.QtCore import Qt, QSize, Signal, QPoint, QTimer, QThread
 from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
 from i18n import t
-DARK_THEME_STYLE = '\nQDialog {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQLabel {\n    color: #e2e8f0;\n}\nQLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQSpinBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 4px 8px;\n}\nQSpinBox:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nQComboBox {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 10px;\n}\nQComboBox:hover {\n    border-color: rgba(125,211,252,0.3);\n}\nQComboBox QAbstractItemView {\n    background-color: rgba(18,20,24,0.98);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    selection-background-color: rgba(59,142,208,0.3);\n    border-radius: 4px;\n}\nQPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    font-weight: 600;\n}\nQPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQListWidget {\n    background: rgba(255,255,255,0.03);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 6px;\n}\nQListWidget::item {\n    padding: 4px;\n    border: 1px solid rgba(125,211,252,0.12);\n    border-radius: 4px;\n    margin: 2px;\n}\nQListWidget::item:hover {\n    border: 1px solid rgba(125,211,252,0.3);\n    background: rgba(125,211,252,0.05);\n}\nQListWidget::item:selected {\n    background: rgba(59,142,208,0.3);\n    border: 1px solid rgba(59,142,208,0.5);\n}\nQMenu {\n    background-color: rgba(18,20,24,0.95);\n    border: 1px solid rgba(125,211,252,0.3);\n    border-radius: 4px;\n    color: #e2e8f0;\n    padding: 4px;\n}\nQMenu::item {\n    padding: 6px 12px;\n    border-radius: 3px;\n}\nQMenu::item:selected {\n    background-color: rgba(59,142,208,0.3);\n}\nQMenu::separator {\n    height: 1px;\n    background: rgba(125,211,252,0.2);\n    margin: 4px 8px;\n}\nQMessageBox {\n    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                stop:0 rgba(12,14,18,0.98), stop:0.5 rgba(10,16,22,0.98), stop:1 rgba(8,12,18,0.98));\n    color: #e2e8f0;\n}\nQMessageBox QLabel {\n    color: #e2e8f0;\n}\nQMessageBox QPushButton {\n    background: rgba(125,211,252,0.12);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 8px 16px;\n    min-width: 70px;\n    font-weight: 600;\n}\nQMessageBox QPushButton:hover {\n    background: rgba(125,211,252,0.2);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\n'
-STATS_PANEL_STYLE = '\nStatsPanelWidget {\n    background: rgba(18,20,24,0.95);\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 8px;\n}\nStatsPanelWidget QLabel {\n    color: #e2e8f0;\n}\nStatsPanelWidget QLineEdit {\n    background: rgba(255,255,255,0.06);\n    color: #e2e8f0;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 4px;\n    padding: 2px 4px;\n}\nStatsPanelWidget QLineEdit:focus {\n    border-color: rgba(125,211,252,0.4);\n}\nStatsPanelWidget QPushButton {\n    background: rgba(125,211,252,0.1);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 3px;\n    font-weight: bold;\n}\nStatsPanelWidget QPushButton:hover {\n    background: rgba(125,211,252,0.2);\n}\nStatsPanelWidget QProgressBar {\n    background: rgba(255,255,255,0.05);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 3px;\n}\nStatsPanelWidget QProgressBar::chunk {\n    background: rgba(34,197,94,0.6);\n    border-radius: 2px;\n}\n'
+from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, STATS_PANEL_STYLE, MENU_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 from palworld_aio import constants
@@ -568,7 +567,7 @@ class ItemPickerDialog(QDialog):
         self._filter_type_b = filter_type_b
         self._filter_exclude_type_a = filter_exclude_type_a
         self._hide_quantity = hide_quantity
-        self.setStyleSheet('\n            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }\n            QLabel { color: #e2e8f0; }\n            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }\n            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }\n            QSpinBox { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 4px 8px; }\n            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }\n            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }\n            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }\n            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }\n            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }\n            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }\n        ')
+        self.setStyleSheet(DARK_THEME_STYLE)
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)
@@ -894,16 +893,16 @@ class PlayerInventoryTab(QWidget):
             self.refresh_players()
         popup = QWidget()
         popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
-        popup.setStyleSheet('QWidget { background: rgba(18,20,24,0.98); border: 1px solid rgba(125,211,252,0.2); border-radius: 8px; }')
+        popup.setStyleSheet(PICKER_BG_STYLE)
         layout = QVBoxLayout(popup)
         layout.setContentsMargins(4, 4, 4, 4)
         layout.setSpacing(2)
         search = QLineEdit()
         search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
-        search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+        search.setStyleSheet(PICKER_SEARCH_STYLE)
         layout.addWidget(search)
         lst = QListWidget()
-        lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
+        lst.setStyleSheet(PICKER_LIST_STYLE)
         lst.setMaximumHeight(300)
         lst.setMinimumWidth(220)
         clear_item = QListWidgetItem('-- clear --')
@@ -1091,7 +1090,7 @@ class PlayerInventoryTab(QWidget):
         if not slot_data:
             return
         menu = QMenu(self)
-        menu.setStyleSheet(DARK_THEME_STYLE)
+        menu.setStyleSheet(MENU_STYLE)
         menu.addAction(t('inventory.edit_qty', default='Edit Quantity')).triggered.connect(lambda: self._edit_quantity_for(slot_data))
         menu.addAction(t('inventory.delete_item', default='Delete')).triggered.connect(lambda: self._delete_item(slot_data))
         menu.addSeparator()
@@ -1101,7 +1100,7 @@ class PlayerInventoryTab(QWidget):
         self._context_container_type = container_type
         self._context_slot_index = slot_index
         menu = QMenu(self)
-        menu.setStyleSheet(DARK_THEME_STYLE)
+        menu.setStyleSheet(MENU_STYLE)
         menu.addAction(t('inventory.add_item', default='Add Item')).triggered.connect(self._show_add_item_dialog)
         menu.addSeparator()
         menu.addAction(t('inventory.clear_slot', default='Clear Slot')).triggered.connect(lambda: self._clear_corrupted_slot(container_type, slot_index))
@@ -1142,7 +1141,7 @@ class PlayerInventoryTab(QWidget):
         slot_name = slot_widget.slot_name
         current_item = slot_widget.current_item
         menu = QMenu(self)
-        menu.setStyleSheet(DARK_THEME_STYLE)
+        menu.setStyleSheet(MENU_STYLE)
         if current_item:
             slot_type = self._get_equip_slot_type(slot_name)
             if slot_type == 'food':

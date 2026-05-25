@@ -13,6 +13,7 @@ from loading_manager import show_information, show_warning, show_question
 import nerdfont as nf
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, extract_value, format_character_key, json_to_sav, calculate_max_hp, get_pal_data, safe_dict_get, safe_nested_get, resolve_name
+from palworld_aio.ui.styles import DIALOG_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, INPUT_DIALOG_STYLE, TOOLTIP_STYLE
 _PAL_STYLESHEET = '\nQWidget#palRoot {\n    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:1,\n        stop:0 rgba(8,10,16,0.98),stop:0.5 rgba(6,12,20,0.98),stop:1 rgba(4,8,16,0.98));\n}\nQWidget#partyPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#partyPanel QLabel {\n    color: #C8D8E8;\n}\nQWidget#palboxPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel QLabel {\n    color: #C8D8E8;\n}\nQLabel#boxHeader {\n    font-size: 18px;\n    font-weight: 700;\n    color: #7DD3FC;\n    padding: 4px 8px;\n    background: rgba(125,211,252,0.06);\n    border-radius: 4px;\n    min-width: 80px;\n    qproperty-alignment: AlignCenter;\n}\nQPushButton#navBtn {\n    background: rgba(125,211,252,0.08);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 14px;\n    font-size: 14px;\n    font-weight: 600;\n    min-width: 32px;\n}\nQPushButton#navBtn:hover {\n    background: rgba(125,211,252,0.18);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton#navBtn:pressed {\n    background: rgba(125,211,252,0.1);\n}\n'
 def _load_pal_exp_table():
     try:
@@ -2645,7 +2646,7 @@ class PalInfoWidget(QFrame):
         dlg.setLabelText(t('edit_pals.nickname') + ':')
         dlg.setInputMode(QInputDialog.TextInput)
         dlg.setTextValue(current or '')
-        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QLineEdit{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 8px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
         if dlg.exec() == QDialog.Accepted:
             text = dlg.textValue()
             if text is not None:
@@ -2696,7 +2697,7 @@ class PalInfoWidget(QFrame):
         dlg.setInputMode(QInputDialog.IntInput)
         dlg.setIntRange(1, 80)
         dlg.setIntValue(cur)
-        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
         if dlg.exec() == QDialog.Accepted:
             self._set_level(dlg.intValue())
     def _set_level(self, value):
@@ -2741,7 +2742,7 @@ class PalInfoWidget(QFrame):
         dlg.setInputMode(QInputDialog.IntInput)
         dlg.setIntRange(lo, hi)
         dlg.setIntValue(cur)
-        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._recalc_hp()
@@ -2757,7 +2758,7 @@ class PalInfoWidget(QFrame):
         dlg.setInputMode(QInputDialog.IntInput)
         dlg.setIntRange(lo, hi)
         dlg.setIntValue(cur)
-        dlg.setStyleSheet('QInputDialog{background:rgba(18,20,24,0.98);color:#e2e8f0}QLabel{color:#e2e8f0}QSpinBox{background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px}QPushButton{background:rgba(125,211,252,0.12);color:#7DD3FC;border:1px solid rgba(125,211,252,0.2);border-radius:4px;padding:4px 12px}QPushButton:hover{background:rgba(125,211,252,0.2)}')
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._recalc_hp()
@@ -2780,16 +2781,16 @@ class PalInfoWidget(QFrame):
             popup = QWidget()
             popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
             self._popup = popup
-            popup.setStyleSheet('QWidget { background: rgba(18,20,24,0.98); border: 1px solid rgba(125,211,252,0.2); border-radius: 8px; }')
+            popup.setStyleSheet(PICKER_BG_STYLE)
             layout = QVBoxLayout(popup)
             layout.setContentsMargins(4, 4, 4, 4)
             layout.setSpacing(2)
             search = QLineEdit()
             search.setPlaceholderText('Search...')
-            search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+            search.setStyleSheet(PICKER_SEARCH_STYLE)
             layout.addWidget(search)
             lst = QListWidget()
-            lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
+            lst.setStyleSheet(PICKER_LIST_STYLE)
             lst.setMaximumHeight(300)
             lst.setMinimumWidth(220)
             clear_item = QListWidgetItem('-- clear --')
@@ -3053,7 +3054,7 @@ class PalEditorWidget(QWidget):
         if app:
             current = app.styleSheet() or ''
             if 'QToolTip' not in current:
-                app.setStyleSheet(current + '\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }')
+                app.setStyleSheet(current + TOOLTIP_STYLE)
         root = QHBoxLayout(self)
         root.setContentsMargins(8, 8, 8, 8)
         root.setSpacing(8)
@@ -3557,7 +3558,7 @@ class PalCreateDialog(QDialog):
         self.setWindowTitle(f'Create New Pal in {container_name} Slot {slot_index}')
         self.setModal(True)
         self.setMinimumSize(900, 600)
-        self.setStyleSheet('\n            QDialog { background: qlineargradient(spread:pad,x1:0.0,y1:0.0,x2:1.0,y2:1.0,stop:0 rgba(12,14,18,0.98),stop:0.5 rgba(10,16,22,0.98),stop:1 rgba(8,12,18,0.98)); color: #e2e8f0; }\n            QLabel { color: #e2e8f0; }\n            QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }\n            QLineEdit:focus { border-color: rgba(125,211,252,0.4); }\n            QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 8px 16px; font-weight: 600; }\n            QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }\n            QListWidget { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; }\n            QListWidget::item { padding: 4px; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; margin: 2px; }\n            QListWidget::item:hover { border: 1px solid rgba(125,211,252,0.3); background: rgba(125,211,252,0.05); }\n            QListWidget::item:selected { background: rgba(59,142,208,0.3); border: 1px solid rgba(59,142,208,0.5); }\n        ')
+        self.setStyleSheet(DIALOG_STYLE)
         layout = QVBoxLayout(self)
         layout.setSpacing(8)
         search_layout = QHBoxLayout()

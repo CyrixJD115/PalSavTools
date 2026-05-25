@@ -430,69 +430,39 @@ QTabBar::tab {
     font-size: 11px;
 }
 
-QWidget#sideBar {
-    background-color: rgba(10, 12, 16, 0.95);
-    border-right: 1px solid rgba(125, 211, 252, 0.08);
-}
-
-QWidget#sidebarBrand {
-    border-bottom: 1px solid rgba(125, 211, 252, 0.08);
-}
-
-QLabel#sidebarBrand QLabel {
-    border: none;
-}
-
-QWidget#sidebarBottom {
-    border-top: 1px solid rgba(125, 211, 252, 0.08);
-}
-
-QScrollArea#sidebarScroll {
+QWidget#modernNavBar {
     background: transparent;
-    border: none;
+    border-bottom: 1px solid rgba(125, 211, 252, 0.10);
 }
 
-QWidget#sidebarScrollContent {
-    background: transparent;
-}
-
-QLabel#navGroupHeader {
-    color: #A6B8C8;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 4px 16px 2px 16px;
-    letter-spacing: 1px;
-}
-
-QWidget[navButton="true"] {
-    background: transparent;
-    border-radius: 0px 8px 8px 0px;
-    margin: 1px 8px 1px 0px;
-}
-
-QWidget[navButton="true"]:hover {
-    background: rgba(125, 211, 252, 0.07);
-}
-
-QPushButton#sidebarCollapseBtn {
+QPushButton[navButton="true"] {
     background: transparent;
     color: #A6B8C8;
-    border: 1px solid rgba(125, 211, 252, 0.10);
-    border-radius: 8px;
-    padding: 6px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
     font-size: 13px;
     font-weight: 600;
 }
 
-QPushButton#sidebarCollapseBtn:hover {
-    background: rgba(125, 211, 252, 0.10);
-    color: #7DD3FC;
-    border-color: rgba(125, 211, 252, 0.25);
+QPushButton[navButton="true"]:hover {
+    background: rgba(125, 211, 252, 0.08);
+    color: #E6EEF6;
 }
 
-QLabel#sidebarVersion {
-    color: #6b7d8e;
-    padding-top: 2px;
+QPushButton[navButton="true"][active="true"] {
+    color: #7DD3FC;
+    background: transparent;
+}
+
+QPushButton[navButton="true"][active="true"]:hover {
+    background: rgba(125, 211, 252, 0.10);
+    color: #7DD3FC;
+}
+
+QWidget#navUnderline {
+    background: #7DD3FC;
+    border-radius: 2px;
 }
 
 /* Tab Content Widgets - Ensure proper theming for all tab content */

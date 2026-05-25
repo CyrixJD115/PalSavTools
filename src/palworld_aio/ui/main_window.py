@@ -253,7 +253,7 @@ class MainWindow(QMainWindow):
         self._load_user_settings()
         self._setup_ui()
         self._load_theme()
-        self.sidebar.set_active('tools')
+        self.nav_bar.set_active('tools')
         self._setup_menus()
         self._setup_connections()
         QTimer.singleShot(0, self._check_update)
@@ -283,17 +283,9 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         central_widget.setObjectName('central')
         self.setCentralWidget(central_widget)
-        main_layout = QHBoxLayout(central_widget)
+        main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
-        from .sidebar_widget import SidebarWidget
-        self.sidebar = SidebarWidget()
-        self.sidebar.nav_changed.connect(self._on_sidebar_nav)
-        main_layout.addWidget(self.sidebar)
-        inner_widget = QWidget()
-        inner_layout = QVBoxLayout(inner_widget)
-        inner_layout.setContentsMargins(0, 0, 0, 0)
-        inner_layout.setSpacing(0)
         from .header_widget import HeaderWidget
         self.header_widget = HeaderWidget()
         self.header_widget.minimize_clicked.connect(self.showMinimized)
@@ -302,7 +294,11 @@ class MainWindow(QMainWindow):
         self.header_widget.about_clicked.connect(self._show_about)
         self.header_widget.warn_btn.clicked.connect(self._show_warnings)
         self.header_widget.show_warning(True)
-        inner_layout.addWidget(self.header_widget)
+        main_layout.addWidget(self.header_widget)
+        from .modern_nav_bar import ModernNavBar
+        self.nav_bar = ModernNavBar()
+        self.nav_bar.nav_changed.connect(self._on_nav_changed)
+        main_layout.addWidget(self.nav_bar)
         self._dashboard_collapsed = False
         self._dashboard_sizes = [1000, 400]
         self.splitter = QSplitter(Qt.Horizontal)
@@ -327,8 +323,7 @@ class MainWindow(QMainWindow):
         self.splitter.setSizes([tab_width, results_width])
         self.splitter.setStretchFactor(0, 1)
         self.splitter.setStretchFactor(1, 1)
-        inner_layout.addWidget(self.splitter, stretch=1)
-        main_layout.addWidget(inner_widget, stretch=1)
+        main_layout.addWidget(self.splitter, stretch=1)
         self.status_bar = QStatusBar()
         self.status_bar.setMinimumHeight(35)
         self.setStatusBar(self.status_bar)
@@ -606,7 +601,7 @@ class MainWindow(QMainWindow):
         msg_box.setWindowTitle(title)
         msg_box.setText(text)
         msg_box.exec()
-    def _on_sidebar_nav(self, button_id):
+    def _on_nav_changed(self, button_id):
         page_index = {'tools': 0, 'base_inventory': 1, 'player_inventory': 2, 'pal_editor': 3, 'players': 4, 'guilds': 5, 'bases': 6, 'map': 7, 'exclusions': 8}[button_id]
         self.stacked_widget.setCurrentIndex(page_index)
     def _load_user_settings(self):
@@ -1341,7 +1336,7 @@ class MainWindow(QMainWindow):
             return
         for i in range(self.stacked_widget.count()):
             if self.stacked_widget.widget(i) == self.map_tab:
-                self.sidebar.set_active('map')
+                self.nav_bar.set_active('map')
                 self.stacked_widget.setCurrentIndex(i)
                 return
     def _generate_map(self):
@@ -1381,13 +1376,13 @@ class MainWindow(QMainWindow):
             if self.status_stream.detach_window:
                 self.status_stream.detach_window.refresh_title()
             self.setWindowTitle(t('deletion.title') if t else 'All-in-One Tools')
-            self.sidebar.refresh_labels()
+            self.nav_bar.refresh_labels()
             self._setup_menus()
             self._refresh_texts()
             self.tools_tab.refresh_labels()
             self.results_widget.refresh_labels()
             self.header_widget.refresh_labels()
-            self.sidebar.refresh_labels()
+            self.nav_bar.refresh_labels()
             if hasattr(self.header_widget, '_menu_popup') and self.header_widget._menu_popup:
                 self.header_widget._menu_popup.refresh_labels()
             if hasattr(self, 'map_tab') and self.map_tab:
@@ -1413,8 +1408,6 @@ class MainWindow(QMainWindow):
     def _refresh_texts(self):
         tools_version, _ = get_versions()
         self.setWindowTitle(t('app.title', version=tools_version) + ' - ' + t('tool.deletion'))
-        if hasattr(self, 'sidebar') and self.sidebar:
-            self.sidebar.set_version(f'v{tools_version}')
         if hasattr(self, 'results_widget') and self.results_widget:
             if hasattr(self.results_widget, 'stats_panel'):
                 self.results_widget.stats_panel.refresh_labels()
@@ -1730,7 +1723,7 @@ class MainWindow(QMainWindow):
         if dialog.exec() == QDialog.Accepted:
             self.refresh_all()
     def _edit_player_inventory(self, uid, name):
-        self.sidebar.set_active('player_inventory')
+        self.nav_bar.set_active('player_inventory')
         self.stacked_widget.setCurrentIndex(2)
         if hasattr(self, 'inventory_tab'):
             self.inventory_tab.load_player(uid, name)

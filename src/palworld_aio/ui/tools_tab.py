@@ -224,7 +224,7 @@ class DropOverlay(QWidget):
         painter.setFont(icon_font)
         painter.setPen(QColor(34, 197, 94, 255))
         icon_rect = QRectF(inner.x(), center_y - 80, inner.width(), 60)
-        painter.drawText(icon_rect, Qt.AlignHCenter | Qt.AlignBottom, '\U0001F4C1')
+        painter.drawText(icon_rect, Qt.AlignHCenter | Qt.AlignBottom, '📁')
         font = QFont('Segoe UI', 22, QFont.Bold)
         painter.setFont(font)
         painter.setPen(QColor(255, 255, 255, 255))

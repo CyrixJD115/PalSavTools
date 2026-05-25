@@ -7,25 +7,9 @@ except:
     class nf:
         icons = {'nf-cod-tools': '\uea83', 'nf-cod-globe': '\ueaf0', 'nf-cod-package': '\ueb3f', 'nf-cod-archive': '\ueb07', 'nf-cod-star-full': '\ueb7c', 'nf-cod-organization': '\ueb87', 'nf-cod-shield': '\ueb4b', 'nf-cod-home': '\ueaa2', 'nf-cod-circle-slash': '\uea54', 'nf-cod-triangle_right': '\ueb9c', 'nf-cod-triangle_left': '\ueb9b', 'nf-cod-terminal': '\ueac5'}
 from i18n import t
-
-ICONS = {
-    'tools': nf.icons.get('nf-cod-tools', '\uea83'),
-    'map': nf.icons.get('nf-cod-globe', '\ueaf0'),
-    'base_inventory': nf.icons.get('nf-cod-package', '\ueb3f'),
-    'player_inventory': nf.icons.get('nf-cod-archive', '\ueb07'),
-    'pal_editor': nf.icons.get('nf-cod-star-full', '\ueb7c'),
-    'players': nf.icons.get('nf-cod-organization', '\ueb87'),
-    'guilds': nf.icons.get('nf-cod-shield', '\ueb4b'),
-    'bases': nf.icons.get('nf-cod-home', '\ueaa2'),
-    'exclusions': nf.icons.get('nf-cod-circle-slash', '\uea54'),
-    'collapse_open': nf.icons.get('nf-cod-triangle_right', '\ueb9c'),
-    'collapse_close': nf.icons.get('nf-cod-triangle_left', '\ueb9b'),
-    'console': nf.icons.get('nf-cod-terminal', '\ueac5'),
-}
-
+ICONS = {'tools': nf.icons.get('nf-cod-tools', '\uea83'), 'map': nf.icons.get('nf-cod-globe', '\ueaf0'), 'base_inventory': nf.icons.get('nf-cod-package', '\ueb3f'), 'player_inventory': nf.icons.get('nf-cod-archive', '\ueb07'), 'pal_editor': nf.icons.get('nf-cod-star-full', '\ueb7c'), 'players': nf.icons.get('nf-cod-organization', '\ueb87'), 'guilds': nf.icons.get('nf-cod-shield', '\ueb4b'), 'bases': nf.icons.get('nf-cod-home', '\ueaa2'), 'exclusions': nf.icons.get('nf-cod-circle-slash', '\uea54'), 'collapse_open': nf.icons.get('nf-cod-triangle_right', '\ueb9c'), 'collapse_close': nf.icons.get('nf-cod-triangle_left', '\ueb9b'), 'console': nf.icons.get('nf-cod-terminal', '\ueac5')}
 SIDEBAR_W = 48
 ITEM_H = 44
-
 class NavItem(QPushButton):
     clicked_with_id = Signal(str)
     def __init__(self, button_id, icon_code, label, parent=None):
@@ -42,7 +26,6 @@ class NavItem(QPushButton):
         self.setProperty('active', active)
         self.style().unpolish(self)
         self.style().polish(self)
-
 class BottomBtn(QPushButton):
     def __init__(self, icon_code, tooltip, parent=None):
         super().__init__(parent)
@@ -54,7 +37,6 @@ class BottomBtn(QPushButton):
         self.setToolTip(tooltip)
     def set_icon(self, icon_code):
         self.setText(icon_code)
-
 class SidebarWidget(QWidget):
     nav_changed = Signal(str)
     console_toggled = Signal()
@@ -64,6 +46,7 @@ class SidebarWidget(QWidget):
         self.setObjectName('sideBar')
         self.setFixedWidth(SIDEBAR_W)
         self._buttons = {}
+        self._nav_keys = {}
         self._active_id = None
         self._right_panel_visible = True
         self._setup_ui()
@@ -71,21 +54,12 @@ class SidebarWidget(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 10, 0, 0)
         layout.setSpacing(2)
-        nav_items = [
-            ('tools', ICONS['tools'], t('tools_tab') if t else 'Tools'),
-            ('map', ICONS['map'], t('map.viewer') if t else 'Map'),
-            ('base_inventory', ICONS['base_inventory'], t('base_inventory.tab') if t else 'Base Inventory'),
-            ('player_inventory', ICONS['player_inventory'], t('inventory.tab') if t else 'Player Inventory'),
-            ('pal_editor', ICONS['pal_editor'], t('pal_editor.tab') if t else 'Pal Editor'),
-            ('players', ICONS['players'], t('deletion.search_players') if t else 'Players'),
-            ('guilds', ICONS['guilds'], t('deletion.search_guilds') if t else 'Guilds'),
-            ('bases', ICONS['bases'], t('deletion.search_bases') if t else 'Bases'),
-            ('exclusions', ICONS['exclusions'], t('deletion.menu.exclusions') if t else 'Exclusions'),
-        ]
+        nav_items = [('tools', ICONS['tools'], t('tools_tab') if t else 'Tools'), ('map', ICONS['map'], t('map.viewer') if t else 'Map'), ('base_inventory', ICONS['base_inventory'], t('base_inventory.tab') if t else 'Base Inventory'), ('player_inventory', ICONS['player_inventory'], t('inventory.tab') if t else 'Player Inventory'), ('pal_editor', ICONS['pal_editor'], t('pal_editor.tab') if t else 'Pal Editor'), ('players', ICONS['players'], t('deletion.search_players') if t else 'Players'), ('guilds', ICONS['guilds'], t('deletion.search_guilds') if t else 'Guilds'), ('bases', ICONS['bases'], t('deletion.search_bases') if t else 'Bases'), ('exclusions', ICONS['exclusions'], t('deletion.menu.exclusions') if t else 'Exclusions')]
         for btn_id, icon, label in nav_items:
             item = NavItem(btn_id, icon, label)
             item.clicked_with_id.connect(self._on_item_clicked)
             self._buttons[btn_id] = item
+            self._nav_keys[btn_id] = btn_id
             layout.addWidget(item)
         layout.addStretch()
         self._console_btn = BottomBtn(ICONS['console'], t('console.detach') if t else 'Console')
@@ -118,4 +92,9 @@ class SidebarWidget(QWidget):
             self._right_panel_btn.set_icon(ICONS['collapse_open'])
             self._right_panel_btn.setToolTip(t('sidebar.open') if t else 'Open Panel')
     def refresh_labels(self):
-        pass
+        nav_keys = {'tools': 'tools_tab', 'map': 'map.viewer', 'base_inventory': 'base_inventory.tab', 'player_inventory': 'inventory.tab', 'pal_editor': 'pal_editor.tab', 'players': 'deletion.search_players', 'guilds': 'deletion.search_guilds', 'bases': 'deletion.search_bases', 'exclusions': 'deletion.menu.exclusions'}
+        for btn_id, btn in self._buttons.items():
+            key = nav_keys.get(btn_id, btn_id)
+            btn.setToolTip(t(key) if t else btn_id)
+        self._console_btn.setToolTip(t('console.detach') if t else 'Console')
+        self._update_right_panel_icon()

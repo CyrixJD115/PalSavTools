@@ -1361,5 +1361,7 @@
   "pal_editor.active_skills": "アクティブスキル",
   "pal_editor.passive_skills": "パッシブスキル",
   "common.clear": "-  クリア  -",
-  "pal_editor.no_pal_data": "仲間データなし"
+  "pal_editor.no_pal_data": "仲間データなし",
+  "map.zone_shape.rect": "長方形ゾーン",
+  "map.zone_shape.polygon": "ポリゴンゾーン"
 }

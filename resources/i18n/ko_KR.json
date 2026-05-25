@@ -1360,5 +1360,7 @@
   "pal_editor.active_skills": "액티브 스킬",
   "pal_editor.passive_skills": "패시브 스킬",
   "common.clear": "-- 분명한 --",
-  "pal_editor.no_pal_data": "친구 데이터 없음"
+  "pal_editor.no_pal_data": "친구 데이터 없음",
+  "map.zone_shape.rect": "직사각형 영역",
+  "map.zone_shape.polygon": "다각형 영역"
 }

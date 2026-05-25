@@ -1354,5 +1354,7 @@
   "pal_editor.active_skills": "Habilidades activas",
   "pal_editor.passive_skills": "Habilidades pasivas",
   "common.clear": "-- claro --",
-  "pal_editor.no_pal_data": "Sin datos de amigos"
+  "pal_editor.no_pal_data": "Sin datos de amigos",
+  "map.zone_shape.rect": "Zona rectangular",
+  "map.zone_shape.polygon": "Zona de polígono"
 }

@@ -1385,5 +1385,7 @@
   "pal_editor.active_skills": "Aktive Fähigkeiten",
   "pal_editor.passive_skills": "Passive Fähigkeiten",
   "common.clear": "-- klar --",
-  "pal_editor.no_pal_data": "Keine Pal-Daten"
+  "pal_editor.no_pal_data": "Keine Pal-Daten",
+  "map.zone_shape.rect": "Rechteckzone",
+  "map.zone_shape.polygon": "Polygonzone"
 }

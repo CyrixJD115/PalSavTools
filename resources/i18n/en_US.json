@@ -1649,5 +1649,7 @@
   "pal_editor.active_skills": "Active Skills",
   "pal_editor.passive_skills": "Passive Skills",
   "common.clear": "-- clear --",
-  "pal_editor.no_pal_data": "No Pal Data"
+  "pal_editor.no_pal_data": "No Pal Data",
+  "map.zone_shape.rect": "Rectangle Zone",
+  "map.zone_shape.polygon": "Polygon Zone"
 }

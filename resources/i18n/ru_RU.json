@@ -1359,5 +1359,7 @@
   "pal_editor.active_skills": "Активные навыки",
   "pal_editor.passive_skills": "Пассивные навыки",
   "common.clear": "-- прозрачный --",
-  "pal_editor.no_pal_data": "Нет данных приятеля"
+  "pal_editor.no_pal_data": "Нет данных приятеля",
+  "map.zone_shape.rect": "Прямоугольная зона",
+  "map.zone_shape.polygon": "Полигональная зона"
 }

@@ -1363,5 +1363,7 @@
   "pal_editor.active_skills": "主动技能",
   "pal_editor.passive_skills": "被动技能",
   "common.clear": "-  清除  -",
-  "pal_editor.no_pal_data": "没有好友数据"
+  "pal_editor.no_pal_data": "没有好友数据",
+  "map.zone_shape.rect": "矩形区",
+  "map.zone_shape.polygon": "多边形区"
 }

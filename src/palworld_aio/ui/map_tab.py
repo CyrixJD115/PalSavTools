@@ -79,7 +79,7 @@ class MapTab(QWidget):
         if hasattr(self, 'toggle_map_type'):
             self.toggle_map_type.setToolTip(t('map.toggle.world_map') if self.current_map == 'tree' else t('map.toggle.tree_map'))
         if hasattr(self, 'btn_calibrate'):
-            self.btn_calibrate.setText(t('calibrate.button'))
+            self.btn_calibrate.setToolTip(t('calibrate.button'))
         if hasattr(self, '_calibration_label') and self._calibration_label.isVisible():
             n = len(self._calibration_points)
             total = len(self._calibration_bases)
@@ -185,13 +185,16 @@ class MapTab(QWidget):
         overlay_layout.setContentsMargins(0, 0, 0, 0)
         overlay_layout.setSpacing(3)
         overlay_layout.addStretch()
-        self.btn_calibrate = QPushButton(t('calibrate.button'))
+        base_dir = constants.get_base_path()
+        self.btn_calibrate = QPushButton()
+        self.btn_calibrate.setIcon(QIcon(os.path.join(base_dir, 'resources', 'calibrate.webp')))
+        self.btn_calibrate.setIconSize(QSize(22, 22))
+        self.btn_calibrate.setToolTip(t('calibrate.button'))
         self.btn_calibrate.setCheckable(True)
         self.btn_calibrate.setChecked(False)
         self.btn_calibrate.clicked.connect(self._on_calibrate_toggle)
-        self.btn_calibrate.setStyleSheet('QPushButton { color: white; background: rgba(125, 211, 252, 0.12); padding: 6px 10px; border-radius: 4px; border: none; min-width: 36px; min-height: 28px; } QPushButton:checked { color: white; background: rgba(125, 211, 252, 0.30); border: 1px solid #7dd3fc; }')
+        self.btn_calibrate.setStyleSheet('QPushButton { color: white; background: rgba(125, 211, 252, 0.08); padding: 6px 10px; border-radius: 4px; border: none; min-width: 36px; min-height: 28px; } QPushButton:checked { background: rgba(125, 211, 252, 0.25); border: 1px solid #7dd3fc; }')
         overlay_layout.addWidget(self.btn_calibrate)
-        base_dir = constants.get_base_path()
         self.toggle_map_bases = QPushButton()
         self.toggle_map_bases.setIcon(QIcon(os.path.join(base_dir, 'resources', 'baseicon.webp')))
         self.toggle_map_bases.setIconSize(QSize(22, 22))

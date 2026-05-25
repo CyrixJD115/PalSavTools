@@ -1,6 +1,6 @@
 import os
 from palworld_save_tools import json_tools
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGraphicsScene, QGraphicsPixmapItem, QMenu, QLineEdit, QTreeWidget, QTreeWidgetItem, QSplitter, QLabel, QFileDialog, QCheckBox, QTabWidget, QDialog, QPushButton, QSizePolicy
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGraphicsScene, QGraphicsPixmapItem, QMenu, QLineEdit, QTreeWidget, QTreeWidgetItem, QSplitter, QLabel, QFileDialog, QCheckBox, QTabWidget, QDialog, QPushButton, QSizePolicy, QHeaderView
 from PySide6.QtCore import Qt, QRectF, QPointF, QPoint, QSize, QTimer, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QPixmap, QPen, QBrush, QColor, QPainter, QFont, QIcon
 from i18n import t
@@ -248,6 +248,7 @@ class MapTab(QWidget):
         self._calibration_label.move(10, 50)
         self._calibration_label.setVisible(False)
         self._sidebar_widget = QWidget()
+        self._sidebar_widget.setMinimumWidth(340)
         self._sidebar_widget.setAttribute(Qt.WA_StyledBackground, True)
         self._sidebar_widget.setStyleSheet('background-color: rgba(14, 16, 20, 0.95);')
         sidebar_layout = QVBoxLayout(self._sidebar_widget)
@@ -265,10 +266,6 @@ class MapTab(QWidget):
         self.base_tree = QTreeWidget()
         self.base_tree.setObjectName('baseTree')
         self.base_tree.setHeaderLabels([t('map.header.guild') if t else 'Guild', t('map.header.leader') if t else 'Leader', t('map.header.lastseen') if t else 'Last Seen', t('map.header.bases') if t else 'Bases'])
-        self.base_tree.setColumnWidth(0, 120)
-        self.base_tree.setColumnWidth(1, 85)
-        self.base_tree.setColumnWidth(2, 90)
-        self.base_tree.setColumnWidth(3, 45)
         self.base_tree.itemExpanded.connect(self._on_item_expanded)
         self.base_tree.itemClicked.connect(self._on_tree_item_clicked)
         self.base_tree.itemDoubleClicked.connect(self._on_tree_item_double_clicked)
@@ -278,13 +275,12 @@ class MapTab(QWidget):
         self.base_tree.header().setMouseTracking(True)
         self.base_tree.header().setAttribute(Qt.WA_Hover, True)
         self.base_tree.header().setSectionsClickable(True)
+        self.base_tree.header().setStretchLastSection(True)
+        self.base_tree.header().setSectionResizeMode(QHeaderView.Stretch)
+        self.base_tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.player_tree = QTreeWidget()
         self.player_tree.setObjectName('playerTree')
         self.player_tree.setHeaderLabels([t('map.header.player') if t else 'Player', t('map.info.level') if t else 'Level', t('map.header.lastseen') if t else 'Last Seen', t('player.pals') if t else 'Pals'])
-        self.player_tree.setColumnWidth(0, 120)
-        self.player_tree.setColumnWidth(1, 60)
-        self.player_tree.setColumnWidth(2, 90)
-        self.player_tree.setColumnWidth(3, 45)
         self.player_tree.itemClicked.connect(self._on_tree_item_clicked)
         self.player_tree.itemDoubleClicked.connect(self._on_tree_item_double_clicked)
         self.player_tree.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -293,6 +289,9 @@ class MapTab(QWidget):
         self.player_tree.header().setMouseTracking(True)
         self.player_tree.header().setAttribute(Qt.WA_Hover, True)
         self.player_tree.header().setSectionsClickable(True)
+        self.player_tree.header().setStretchLastSection(True)
+        self.player_tree.header().setSectionResizeMode(QHeaderView.Stretch)
+        self.player_tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.sidebar_tabs.addTab(self.base_tree, t('map.toggle.bases') if t else 'Bases')
         self.sidebar_tabs.addTab(self.player_tree, t('map.toggle.players') if t else 'Players')
         self.sidebar_tabs.currentChanged.connect(self._on_tab_changed)
@@ -375,7 +374,10 @@ class MapTab(QWidget):
         super().resizeEvent(event)
         if hasattr(self, '_map_widget') and hasattr(self, '_sidebar_widget'):
             avail_h = self._map_widget.height()
-            self._map_widget.setFixedWidth(avail_h)
+            total_w = self.width()
+            sidebar_min = self._sidebar_widget.minimumWidth()
+            max_map_w = max(200, total_w - sidebar_min)
+            self._map_widget.setFixedWidth(min(avail_h, max_map_w))
         self._reposition_map_overlay()
         self._update_tab_widths()
     def _update_tab_widths(self):

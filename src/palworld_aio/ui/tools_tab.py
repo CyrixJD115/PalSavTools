@@ -444,7 +444,8 @@ class ToolsTab(QWidget):
         if hasattr(self, '_load_btn') and self._load_btn:
             self._load_btn.setText(t('menu.file.load_save') if t else 'Load Save')
         if hasattr(self, '_save_path_label') and self._save_path_label:
-            self._save_path_label.setText(t('tools.no_save_loaded') if t else 'No save loaded')
+            if not (hasattr(constants, 'current_save_path') and constants.current_save_path):
+                self._save_path_label.setText(t('tools.no_save_loaded') if t else 'No save loaded')
         for title_label, section_key in self._section_titles:
             title_label.setText(t(section_key) if t else section_key)
         for card, key in self.tool_buttons:

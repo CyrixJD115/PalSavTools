@@ -18,7 +18,7 @@ from .map_markers import BaseMarker, PlayerMarker
 from .map_effects import DeleteEffect, ImportEffect, ExportEffect, CalibrationEffect
 from .map_items import ExclusionZoneItem, PolygonExclusionZoneItem, BaseRadiusRing, ZonePreviewItem
 from .map_view import MapGraphicsView
-MAP_Z_THRESHOLD = 5000
+
 class MapTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -737,31 +737,21 @@ class MapTab(QWidget):
         self.player_markers.clear()
         show_base_markers = hasattr(self, 'toggle_map_bases') and self.toggle_map_bases.isChecked()
         show_player_markers = hasattr(self, 'toggle_map_players') and self.toggle_map_players.isChecked()
-        if show_base_markers:
+        if show_base_markers and self.current_map == 'world':
             if self.config['marker']['type'] == 'dot':
                 marker_pixmap = self._create_dot_pixmap(int(self.config['marker']['dot']['size']))
             else:
                 marker_pixmap = self.base_icon_pixmap
             for guild in self.filtered_guilds.values():
                 for base in guild['bases']:
-                    base_z = base.get('z', 0)
-                    if self.current_map == 'world' and base_z >= MAP_Z_THRESHOLD:
-                        continue
-                    if self.current_map == 'tree' and base_z < MAP_Z_THRESHOLD:
-                        continue
                     img_x, img_y = base['img_coords']
                     marker = BaseMarker(base, img_x, img_y, marker_pixmap, self.config)
                     marker.scale_to_zoom(self.view.current_zoom)
                     marker.setZValue(10)
                     self.scene.addItem(marker)
                     self.base_markers.append(marker)
-        if show_player_markers:
+        if show_player_markers and self.current_map == 'world':
             for player in self.filtered_players_data:
-                player_z = player.get('save_coords', (0, 0, 0))[2]
-                if self.current_map == 'world' and player_z >= MAP_Z_THRESHOLD:
-                    continue
-                if self.current_map == 'tree' and player_z < MAP_Z_THRESHOLD:
-                    continue
                 img_x, img_y = player['img_coords']
                 marker = PlayerMarker(player, img_x, img_y, self.player_icon_pixmap)
                 self.scene.addItem(marker)

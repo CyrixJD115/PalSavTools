@@ -1349,5 +1349,15 @@
   "tool.modify_save.desc": "Изменяйте и редактируйте данные файла сохранения напрямую.",
   "tool.character_transfer.desc": "Перенос персонажей между разными сохранениями или серверами",
   "tool.fix_host_save.desc": "Восстановить поврежденные или сломанные файлы сохранения хоста.",
-  "tools.no_save_loaded": "Сохранения не загружены"
+  "tools.no_save_loaded": "Сохранения не загружены",
+  "pal_editor.party": "Вечеринка",
+  "pal_editor.box": "Коробка {n}",
+  "pal_editor.level": "Уровень",
+  "pal_editor.attack": "Атака",
+  "pal_editor.defense": "Оборона",
+  "pal_editor.work_speed": "Скорость работы",
+  "pal_editor.active_skills": "Активные навыки",
+  "pal_editor.passive_skills": "Пассивные навыки",
+  "common.clear": "-- прозрачный --",
+  "pal_editor.no_pal_data": "Нет данных приятеля"
 }

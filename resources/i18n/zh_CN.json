@@ -1353,5 +1353,15 @@
   "tool.modify_save.desc": "直接修改和编辑保存文件数据",
   "tool.character_transfer.desc": "在不同的保存或服务器之间传输字符",
   "tool.fix_host_save.desc": "修复损坏或损坏的主机保存文件",
-  "tools.no_save_loaded": "没有加载保存"
+  "tools.no_save_loaded": "没有加载保存",
+  "pal_editor.party": "派对",
+  "pal_editor.box": "盒子{n}",
+  "pal_editor.level": "等级",
+  "pal_editor.attack": "攻击",
+  "pal_editor.defense": "防御",
+  "pal_editor.work_speed": "工作速度",
+  "pal_editor.active_skills": "主动技能",
+  "pal_editor.passive_skills": "被动技能",
+  "common.clear": "-  清除  -",
+  "pal_editor.no_pal_data": "没有好友数据"
 }

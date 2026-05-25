@@ -1333,5 +1333,15 @@
   "tool.modify_save.desc": "Modifier et modifier directement les données du fichier de sauvegarde",
   "tool.character_transfer.desc": "Transférer des personnages entre différentes sauvegardes ou serveurs",
   "tool.fix_host_save.desc": "Réparer les fichiers de sauvegarde de l'hôte corrompus ou cassés",
-  "tools.no_save_loaded": "Aucune sauvegarde chargée"
+  "tools.no_save_loaded": "Aucune sauvegarde chargée",
+  "pal_editor.party": "Faire la fête",
+  "pal_editor.box": "Boîte {n}",
+  "pal_editor.level": "Niveau",
+  "pal_editor.attack": "Attaque",
+  "pal_editor.defense": "Défense",
+  "pal_editor.work_speed": "Vitesse de travail",
+  "pal_editor.active_skills": "Compétences actives",
+  "pal_editor.passive_skills": "Compétences passives",
+  "common.clear": "-- clair --",
+  "pal_editor.no_pal_data": "Aucune donnée Pal"
 }

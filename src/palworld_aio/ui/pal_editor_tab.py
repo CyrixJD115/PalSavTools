@@ -68,7 +68,7 @@ class PalEditorTab(QWidget):
         lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
         lst.setMaximumHeight(300)
         lst.setMinimumWidth(220)
-        clear_item = QListWidgetItem('-- clear --')
+        clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
         lst.addItem(clear_item)
         for player in self._player_list:
             item = QListWidgetItem(player['display'])

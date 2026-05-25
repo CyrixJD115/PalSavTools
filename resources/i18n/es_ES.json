@@ -1344,5 +1344,15 @@
   "tool.modify_save.desc": "Modifique y edite los datos del archivo guardado directamente",
   "tool.character_transfer.desc": "Transferir personajes entre diferentes guardados o servidores.",
   "tool.fix_host_save.desc": "Reparar archivos guardados del host corruptos o rotos",
-  "tools.no_save_loaded": "No hay guardado cargado"
+  "tools.no_save_loaded": "No hay guardado cargado",
+  "pal_editor.party": "Fiesta",
+  "pal_editor.box": "Cuadro {n}",
+  "pal_editor.level": "Nivel",
+  "pal_editor.attack": "Ataque",
+  "pal_editor.defense": "Defensa",
+  "pal_editor.work_speed": "Velocidad de trabajo",
+  "pal_editor.active_skills": "Habilidades activas",
+  "pal_editor.passive_skills": "Habilidades pasivas",
+  "common.clear": "-- claro --",
+  "pal_editor.no_pal_data": "Sin datos de amigos"
 }

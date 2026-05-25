@@ -1350,5 +1350,15 @@
   "tool.modify_save.desc": "세이브 파일 데이터를 직접 수정 및 편집",
   "tool.character_transfer.desc": "다른 저장 또는 서버 간 캐릭터 전송",
   "tool.fix_host_save.desc": "손상되거나 손상된 호스트 저장 파일 복구",
-  "tools.no_save_loaded": "저장 파일이 로드되지 않았습니다."
+  "tools.no_save_loaded": "저장 파일이 로드되지 않았습니다.",
+  "pal_editor.party": "파티",
+  "pal_editor.box": "상자 {n}",
+  "pal_editor.level": "수준",
+  "pal_editor.attack": "공격",
+  "pal_editor.defense": "방어",
+  "pal_editor.work_speed": "작업속도",
+  "pal_editor.active_skills": "액티브 스킬",
+  "pal_editor.passive_skills": "패시브 스킬",
+  "common.clear": "-- 분명한 --",
+  "pal_editor.no_pal_data": "친구 데이터 없음"
 }

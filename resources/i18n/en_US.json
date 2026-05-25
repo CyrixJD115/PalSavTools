@@ -1639,5 +1639,15 @@
   "tool.modify_save.desc": "Modify and edit save file data directly",
   "tool.character_transfer.desc": "Transfer characters between different saves or servers",
   "tool.fix_host_save.desc": "Repair corrupted or broken host save files",
-  "tools.no_save_loaded": "No save loaded"
+  "tools.no_save_loaded": "No save loaded",
+  "pal_editor.party": "Party",
+  "pal_editor.box": "Box {n}",
+  "pal_editor.level": "Level",
+  "pal_editor.attack": "Attack",
+  "pal_editor.defense": "Defense",
+  "pal_editor.work_speed": "Work Speed",
+  "pal_editor.active_skills": "Active Skills",
+  "pal_editor.passive_skills": "Passive Skills",
+  "common.clear": "-- clear --",
+  "pal_editor.no_pal_data": "No Pal Data"
 }

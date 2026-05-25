@@ -1375,5 +1375,15 @@
   "tool.slot_injector.desc": "Fügen Sie Spielerspeicherplätze in eine Weltspeicherdatei ein",
   "tool.modify_save.desc": "Ändern und bearbeiten Sie gespeicherte Dateidaten direkt",
   "tool.character_transfer.desc": "Übertragen Sie Charaktere zwischen verschiedenen Speichern oder Servern",
-  "tool.fix_host_save.desc": "Reparieren Sie beschädigte oder defekte Host-Sicherungsdateien"
+  "tool.fix_host_save.desc": "Reparieren Sie beschädigte oder defekte Host-Sicherungsdateien",
+  "pal_editor.party": "Party",
+  "pal_editor.box": "Kasten {n}",
+  "pal_editor.level": "Ebene",
+  "pal_editor.attack": "Angriff",
+  "pal_editor.defense": "Verteidigung",
+  "pal_editor.work_speed": "Arbeitsgeschwindigkeit",
+  "pal_editor.active_skills": "Aktive Fähigkeiten",
+  "pal_editor.passive_skills": "Passive Fähigkeiten",
+  "common.clear": "-- klar --",
+  "pal_editor.no_pal_data": "Keine Pal-Daten"
 }

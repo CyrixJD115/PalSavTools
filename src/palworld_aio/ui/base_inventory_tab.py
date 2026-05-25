@@ -856,7 +856,7 @@ class BaseInventoryTab(QWidget):
         list_widget.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
         list_widget.setMaximumHeight(300)
         layout.addWidget(list_widget)
-        clear_item = QListWidgetItem('-- clear --')
+        clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
         clear_item.setData(Qt.UserRole, '__clear__')
         list_widget.addItem(clear_item)
         for guild in self._guilds_data:
@@ -907,7 +907,7 @@ class BaseInventoryTab(QWidget):
         list_widget.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
         list_widget.setMaximumHeight(300)
         layout.addWidget(list_widget)
-        clear_item = QListWidgetItem('-- clear --')
+        clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
         clear_item.setData(Qt.UserRole, '__clear__')
         list_widget.addItem(clear_item)
         for base in self._bases_data:

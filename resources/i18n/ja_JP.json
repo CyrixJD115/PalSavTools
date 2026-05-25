@@ -1351,5 +1351,15 @@
   "tool.modify_save.desc": "セーブファイルデータを直接修正・編集する",
   "tool.character_transfer.desc": "異なるセーブまたはサーバー間でキャラクターを転送する",
   "tool.fix_host_save.desc": "破損または壊れたホスト保存ファイルを修復する",
-  "tools.no_save_loaded": "セーブデータがロードされていません"
+  "tools.no_save_loaded": "セーブデータがロードされていません",
+  "pal_editor.party": "パーティー",
+  "pal_editor.box": "ボックス{n}",
+  "pal_editor.level": "レベル",
+  "pal_editor.attack": "攻撃",
+  "pal_editor.defense": "防衛",
+  "pal_editor.work_speed": "作業スピード",
+  "pal_editor.active_skills": "アクティブスキル",
+  "pal_editor.passive_skills": "パッシブスキル",
+  "common.clear": "-  クリア  -",
+  "pal_editor.no_pal_data": "仲間データなし"
 }

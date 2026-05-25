@@ -1606,7 +1606,7 @@ class PalInfoWidget(QFrame):
         self._build_skills(inner_layout)
         scroll.setWidget(inner)
         layout.addWidget(scroll)
-        self._no_data_overlay = QLabel('No Pal Data', self)
+        self._no_data_overlay = QLabel(t('pal_editor.no_pal_data') if t else 'No Pal Data', self)
         self._no_data_overlay.setAlignment(Qt.AlignCenter)
         self._no_data_overlay.setStyleSheet('font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.18); background: rgba(8,10,16,0.98); border: 1px solid rgba(30,40,55,0.9); border-radius: 6px;')
         self._no_data_overlay.show()
@@ -1633,7 +1633,8 @@ class PalInfoWidget(QFrame):
         lv_layout = QVBoxLayout(level_box)
         lv_layout.setContentsMargins(4, 5, 4, 4)
         lv_layout.setSpacing(0)
-        lv_label = QLabel('LEVEL')
+        lv_label = QLabel(t('pal_editor.level') if t else 'LEVEL')
+        self._lv_label = lv_label
         lv_label.setAlignment(Qt.AlignCenter)
         lv_label.setStyleSheet('font-size: 7px; font-weight: 600; color: #7DD3FC; letter-spacing: 3px; background: transparent; border: none;')
         lv_layout.addWidget(lv_label)
@@ -2027,7 +2028,8 @@ class PalInfoWidget(QFrame):
         atk_icon.setAlignment(Qt.AlignCenter)
         atk_icon.setStyleSheet('font-size: 10px; color: #EF4444; background: transparent; border: none;')
         stats_grid.addWidget(atk_icon, 0, 0, Qt.AlignVCenter)
-        atk_label = QLabel('Attack')
+        atk_label = QLabel(t('pal_editor.attack') if t else 'Attack')
+        self._atk_label = atk_label
         atk_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(atk_label, 0, 1, Qt.AlignVCenter)
         self.atk_lbl = QLabel('3599')
@@ -2039,7 +2041,8 @@ class PalInfoWidget(QFrame):
         def_icon.setAlignment(Qt.AlignCenter)
         def_icon.setStyleSheet('font-size: 10px; color: #3B82F6; background: transparent; border: none;')
         stats_grid.addWidget(def_icon, 1, 0, Qt.AlignVCenter)
-        def_label = QLabel('Defense')
+        def_label = QLabel(t('pal_editor.defense') if t else 'Defense')
+        self._def_label = def_label
         def_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(def_label, 1, 1, Qt.AlignVCenter)
         self.def_lbl = QLabel('2791')
@@ -2051,7 +2054,8 @@ class PalInfoWidget(QFrame):
         wspd_icon.setAlignment(Qt.AlignCenter)
         wspd_icon.setStyleSheet('font-size: 10px; color: #A78BFA; background: transparent; border: none;')
         stats_grid.addWidget(wspd_icon, 2, 0, Qt.AlignVCenter)
-        wspd_label = QLabel('Work Speed')
+        wspd_label = QLabel(t('pal_editor.work_speed') if t else 'Work Speed')
+        self._wspd_label = wspd_label
         wspd_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(wspd_label, 2, 1, Qt.AlignVCenter)
         self.wspd_lbl = QLabel('127')
@@ -2121,9 +2125,6 @@ class PalInfoWidget(QFrame):
         card_layout.addWidget(hline_food)
         food_row = QHBoxLayout()
         food_row.setSpacing(2)
-        food_title = QLabel('Food')
-        food_title.setStyleSheet('font-size: 8px; font-weight: 600; color: #7DD3FC; background: transparent; border: none;')
-        food_row.addWidget(food_title)
         food_row.addSpacing(2)
         self.food_icon_labels = []
         for i in range(10):
@@ -2195,7 +2196,8 @@ class PalInfoWidget(QFrame):
         as_layout.setSpacing(1)
         as_header = QHBoxLayout()
         as_header.setSpacing(4)
-        as_title = QLabel('Active Skills')
+        as_title = QLabel(t('pal_editor.active_skills') if t else 'Active Skills')
+        self._as_title = as_title
         as_title.setStyleSheet('font-size: 9px; font-weight: 700; color: #7DD3FC; background: transparent; border: none;')
         as_header.addWidget(as_title)
         as_header.addStretch()
@@ -2212,7 +2214,8 @@ class PalInfoWidget(QFrame):
         so_layout.addWidget(self.active_skills_frame)
         so_layout.addWidget(self.partner_frame)
         self.partner_frame.hide()
-        passive_title = QLabel('Passive Skills')
+        passive_title = QLabel(t('pal_editor.passive_skills') if t else 'Passive Skills')
+        self._passive_title = passive_title
         passive_title.setStyleSheet('font-size: 8px; font-weight: 600; color: #7DD3FC; background: transparent; border: none; padding-top: 1px;')
         so_layout.addWidget(passive_title)
         pg = QWidget()
@@ -2793,7 +2796,7 @@ class PalInfoWidget(QFrame):
             lst.setStyleSheet(PICKER_LIST_STYLE)
             lst.setMaximumHeight(300)
             lst.setMinimumWidth(220)
-            clear_item = QListWidgetItem('-- clear --')
+            clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
             lst.addItem(clear_item)
             names = sorted(skill_map.values())
             _ensure_skill_data()
@@ -3020,6 +3023,20 @@ class PalInfoWidget(QFrame):
                         break
                 break
             parent = parent.parent()
+    def refresh_labels(self):
+        self._no_data_overlay.setText(t('pal_editor.no_pal_data') if t else 'No Pal Data')
+        if hasattr(self, '_lv_label'):
+            self._lv_label.setText(t('pal_editor.level') if t else 'LEVEL')
+        if hasattr(self, '_atk_label'):
+            self._atk_label.setText(t('pal_editor.attack') if t else 'Attack')
+        if hasattr(self, '_def_label'):
+            self._def_label.setText(t('pal_editor.defense') if t else 'Defense')
+        if hasattr(self, '_wspd_label'):
+            self._wspd_label.setText(t('pal_editor.work_speed') if t else 'Work Speed')
+        if hasattr(self, '_as_title'):
+            self._as_title.setText(t('pal_editor.active_skills') if t else 'Active Skills')
+        if hasattr(self, '_passive_title'):
+            self._passive_title.setText(t('pal_editor.passive_skills') if t else 'Passive Skills')
 class PalEditorWidget(QWidget):
     _process_lock = threading.Lock()
     def __init__(self, parent=None):
@@ -3064,7 +3081,8 @@ class PalEditorWidget(QWidget):
         party_layout = QVBoxLayout(party_panel)
         party_layout.setContentsMargins(6, 6, 6, 6)
         party_layout.setSpacing(4)
-        party_header = QLabel('PARTY')
+        party_header = QLabel(t('pal_editor.party') if t else 'PARTY')
+        self._party_header = party_header
         party_header.setStyleSheet('font-size: 12px; font-weight: 700; color: #7DD3FC; letter-spacing: 2px; border-bottom: 1px solid rgba(125,211,252,0.12); padding-bottom: 4px;')
         party_layout.addWidget(party_header)
         self.party_slots = []
@@ -3084,7 +3102,7 @@ class PalEditorWidget(QWidget):
         palbox_layout.setSpacing(6)
         header_row = QHBoxLayout()
         header_row.setSpacing(6)
-        self.box_label = QLabel('Box 1')
+        self.box_label = QLabel(t('pal_editor.box', n=1) if t else 'Box 1')
         self.box_label.setObjectName('boxHeader')
         self.box_label.setFixedWidth(90)
         self.box_label.setAlignment(Qt.AlignCenter)
@@ -3137,14 +3155,14 @@ class PalEditorWidget(QWidget):
             self.current_box_index -= 1
         else:
             self.current_box_index = 32
-        self.box_label.setText(f'Box {self.current_box_index}')
+        self.box_label.setText(t('pal_editor.box', n=self.current_box_index) if t else f'Box {self.current_box_index}')
         self._update_palbox_page()
     def _next_box(self):
         if self.current_box_index < 32:
             self.current_box_index += 1
         else:
             self.current_box_index = 1
-        self.box_label.setText(f'Box {self.current_box_index}')
+        self.box_label.setText(t('pal_editor.box', n=self.current_box_index) if t else f'Box {self.current_box_index}')
         self._update_palbox_page()
     def _on_party_slot_clicked(self, idx):
         if idx in self.party_pals:
@@ -3317,7 +3335,7 @@ class PalEditorWidget(QWidget):
             slot.pal_data = None
             slot.update_display()
             slot.set_selected(False)
-        self.box_label.setText('Box 1')
+        self.box_label.setText(t('pal_editor.box', n=1) if t else 'Box 1')
         self.pal_info._clear_display()
     def refresh(self):
         self._process_pending_changes()
@@ -3326,7 +3344,12 @@ class PalEditorWidget(QWidget):
     def _process_pending_changes(self):
         pass
     def refresh_labels(self):
-        pass
+        if hasattr(self, '_party_header'):
+            self._party_header.setText(t('pal_editor.party') if t else 'PARTY')
+        if hasattr(self, 'box_label'):
+            self.box_label.setText(t('pal_editor.box', n=self.current_box_index) if t else f'Box {self.current_box_index}')
+        if hasattr(self, 'pal_info') and self.pal_info:
+            self.pal_info.refresh_labels()
     def _load_pals(self):
         if not constants.loaded_level_json:
             return

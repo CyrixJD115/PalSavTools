@@ -909,7 +909,7 @@ class PlayerInventoryTab(QWidget):
         lst.setStyleSheet(PICKER_LIST_STYLE)
         lst.setMaximumHeight(300)
         lst.setMinimumWidth(220)
-        clear_item = QListWidgetItem('-- clear --')
+        clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
         lst.addItem(clear_item)
         for player in self._player_list:
             item = QListWidgetItem(player['display'])

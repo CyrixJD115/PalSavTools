@@ -224,7 +224,10 @@ class EquipmentSlotWidget(QFrame):
         elif self.current_item:
             item_name = self.current_item.get('item_name', 'Unknown')
             item_id = self.current_item.get('item_id', '')
+            item_desc = self.current_item.get('description', '')
             tooltip = f'<b>{item_name}</b><br><i>{item_id}</i>'
+            if item_desc:
+                tooltip += f'<br><br><span style="color:#94a3b8;font-size:11px">{item_desc}</span>'
             QToolTip.showText(QCursor.pos(), tooltip)
         super().enterEvent(event)
 def _load_exp_table():

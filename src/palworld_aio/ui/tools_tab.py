@@ -386,7 +386,11 @@ class ToolsTab(QWidget):
     def _animate_dialog_slide_in(self, dialog):
         if dialog is None:
             return
-        dialog.setWindowFlags(dialog.windowFlags() | Qt.WindowStaysOnTopHint)
+        dialog.setWindowFlags(dialog.windowFlags() | Qt.Dialog)
+        parent_window = self.window()
+        if parent_window:
+            dialog.setParent(parent_window)
+            dialog.setWindowFlags(dialog.windowFlags() | Qt.Window)
         dialog.adjustSize()
         center_window(dialog)
         dialog.setWindowOpacity(0.0)

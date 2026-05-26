@@ -776,6 +776,9 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
     if target_guild:
         raw = target_guild['value']['RawData']['value']
         raw['players'].append(source_player)
+        if raw.get('_format_version') == 'new':
+            raw['_format_version'] = 'old'
+            raw.pop('_v1_header', None)
         if str(raw.get('admin_player_uid')) == str(host_guid):
             raw['admin_player_uid'] = str(targ_uid)
         return True

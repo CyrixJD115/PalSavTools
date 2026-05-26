@@ -106,7 +106,11 @@ class PlayerTechnologyActionDialog(QDialog):
             asset = tech.get('asset', '')
             item = QListWidgetItem(name)
             item.setData(Qt.UserRole, asset)
-            item.setToolTip(f'{name}\n({asset})')
+            desc = tech.get('description', '')
+            tip = f'{name}\n({asset})'
+            if desc:
+                tip += f'\n\n{desc}'
+            item.setToolTip(tip)
             icon = self._get_tech_icon(tech)
             if icon:
                 item.setIcon(icon)

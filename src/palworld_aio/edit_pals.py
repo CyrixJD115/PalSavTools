@@ -3813,6 +3813,16 @@ class PalCreateDialog(QDialog):
         self.pal_list.setMinimumHeight(350)
         self.pal_list.setItemDelegate(_PalSlotDelegate(self.pal_list))
         self.selected_pal = {'asset': None, 'name': None}
+        pal_descs = {}
+        try:
+            base_dir = constants.get_base_path()
+            cp = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+            cd = json_tools.load(cp)
+            for p in cd.get('pals', []):
+                if isinstance(p, dict) and p.get('description'):
+                    pal_descs[p['asset'].lower()] = p['description']
+        except:
+            pass
         def on_select(item):
             if item:
                 self.selected_pal['asset'] = item.data(Qt.UserRole)
@@ -3825,7 +3835,11 @@ class PalCreateDialog(QDialog):
             pix = _get_cached_pixmap(_get_pal_icon_path(asset), 48)
             if pix:
                 li.setIcon(QIcon(pix))
-            li.setToolTip(f'<b>{name}</b><br>ID: {asset}')
+            pdesc = pal_descs.get(asset.lower(), '')
+            tip = f'<b>{name}</b><br>ID: {asset}'
+            if pdesc:
+                tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{pdesc}</span>'
+            li.setToolTip(tip)
             li.setSizeHint(QSize(80, 80))
             is_variant = any((asset.upper().startswith(p) for p in _BOSS_PREFIXES))
             if is_variant:

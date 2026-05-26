@@ -29,6 +29,7 @@ class PlayerPalActionDialog(QDialog):
         self.selected_passive_skill_id = None
         self.selected_passive_skill_name = None
         self._pal_icon_map = {}
+        self._pal_desc_map = {}
         self._icon_pixmap_cache = {}
         self._skill_picker_popup = None
         self._setup_ui()
@@ -172,6 +173,9 @@ class PlayerPalActionDialog(QDialog):
                     icon_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
                     if os.path.exists(icon_path):
                         self._pal_icon_map[asset] = icon_path
+                desc = pal.get('description', '')
+                if desc:
+                    self._pal_desc_map[asset] = desc
         except:
             pass
     def _get_pal_icon(self, pal_id):
@@ -193,7 +197,11 @@ class PlayerPalActionDialog(QDialog):
         for pal_id, pal_name in all_pals:
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)
-            list_item.setToolTip(f'{pal_name}\n({pal_id})')
+            tip = f'{pal_name}\n({pal_id})'
+            pdesc = self._pal_desc_map.get(pal_id.lower(), '')
+            if pdesc:
+                tip += f'\n\n{pdesc}'
+            list_item.setToolTip(tip)
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and (not pixmap.isNull()):
                 list_item.setIcon(QIcon(pixmap))
@@ -211,7 +219,11 @@ class PlayerPalActionDialog(QDialog):
         for pal_id, pal_name in filtered:
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)
-            list_item.setToolTip(f'{pal_name}\n({pal_id})')
+            tip = f'{pal_name}\n({pal_id})'
+            pdesc = self._pal_desc_map.get(pal_id.lower(), '')
+            if pdesc:
+                tip += f'\n\n{pdesc}'
+            list_item.setToolTip(tip)
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and (not pixmap.isNull()):
                 list_item.setIcon(QIcon(pixmap))

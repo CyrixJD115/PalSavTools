@@ -93,7 +93,7 @@ class PlayerTechnologyActionDialog(QDialog):
     def _load_technologies(self):
         try:
             base_dir = constants.get_base_path()
-            tech_file = os.path.join(base_dir, 'resources', 'game_data', 'technologydata.json')
+            tech_file = os.path.join(base_dir, 'resources', 'game_data', 'world.json')
             data = json_tools.load(tech_file)
             self.tech_data = data.get('technology', [])
             self._display_technologies(self.tech_data)

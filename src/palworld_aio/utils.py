@@ -191,7 +191,7 @@ def get_pal_data(character_key):
     global _pal_data_cache
     if _pal_data_cache is None:
         try:
-            paldata_path = os.path.join(get_base_directory(), 'resources', 'game_data', 'paldata.json')
+            paldata_path = os.path.join(get_base_directory(), 'resources', 'game_data', 'characters.json')
             if os.path.exists(paldata_path):
                 data = json_tools.load(paldata_path)
                 pals_list = data.get('pals', [])

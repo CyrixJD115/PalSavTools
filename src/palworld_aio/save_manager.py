@@ -225,10 +225,10 @@ class SaveManager(QObject):
                 return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
             except:
                 return {}
-        PALMAP = load_map('paldata.json', 'pals')
-        NPCMAP = load_map('npcdata.json', 'npcs')
-        PASSMAP = load_map('passivedata.json', 'passives')
-        SKILLMAP = load_map('skilldata.json', 'skills')
+        PALMAP = load_map('characters.json', 'pals')
+        NPCMAP = load_map('characters.json', 'npcs')
+        PASSMAP = load_map('skills.json', 'passives')
+        SKILLMAP = load_map('skills.json', 'skills')
         NAMEMAP = {**PALMAP, **NPCMAP}
         miss = {'Pals': set(), 'Passives': set(), 'Skills': set()}
         owner_pals_grouped = defaultdict(lambda: defaultdict(list))
@@ -588,8 +588,8 @@ class SaveManager(QObject):
                         return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
                     except:
                         return {}
-                PASSMAP = load_map('passivedata.json', 'passives')
-                SKILLMAP = load_map('skilldata.json', 'skills')
+                PASSMAP = load_map('skills.json', 'passives')
+                SKILLMAP = load_map('skills.json', 'skills')
                 guilds_illegal_dir = os.path.join(illegal_log_dir, 'Guilds')
                 os.makedirs(guilds_illegal_dir, exist_ok=True)
                 for guild_id, base_illegals_list in guild_illegals.items():
@@ -688,8 +688,8 @@ class SaveManager(QObject):
                         return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
                     except:
                         return {}
-                PASSMAP = load_map('passivedata.json', 'passives')
-                SKILLMAP = load_map('skilldata.json', 'skills')
+                PASSMAP = load_map('skills.json', 'passives')
+                SKILLMAP = load_map('skills.json', 'skills')
                 players_illegal_dir = os.path.join(illegal_log_dir, 'Players')
                 os.makedirs(players_illegal_dir, exist_ok=True)
                 for uid_str, illegals_list in player_illegals.items():
@@ -940,10 +940,10 @@ def _process_dps_scan_worker(args):
             return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
         except:
             return {}
-    PALMAP = load_map('paldata.json', 'pals')
-    NPCMAP = load_map('npcdata.json', 'npcs')
-    PASSMAP = load_map('passivedata.json', 'passives')
-    SKILLMAP = load_map('skilldata.json', 'skills')
+    PALMAP = load_map('characters.json', 'pals')
+    NPCMAP = load_map('characters.json', 'npcs')
+    PASSMAP = load_map('skills.json', 'passives')
+    SKILLMAP = load_map('skills.json', 'skills')
     NAMEMAP = {**PALMAP, **NPCMAP}
     formatted_pals = []
     illegal_pals = []

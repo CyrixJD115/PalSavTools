@@ -32,18 +32,20 @@ class UnifiedUUID:
     def as_standard_string(self) -> str:
         return self._str
 UUID = uuid.UUID
-def load_items_psp_metadata():
+def load_items_dynamic_metadata():
     try:
-        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        items_file = os.path.join(base_path, 'resources', 'game_data', 'items_psp.json')
+        from palworld_aio import constants
+        base_path = constants.get_base_path()
+        items_file = os.path.join(base_path, 'resources', 'game_data', 'items.json')
         if os.path.exists(items_file):
-            return json_tools.load(items_file)
+            data = json_tools.load(items_file)
+            return data.get('items_dynamic', {})
     except Exception as e:
         pass
     return {}
-_items_psp_metadata = load_items_psp_metadata()
+_items_dynamic_metadata = load_items_dynamic_metadata()
 def get_item_metadata(item_id: str) -> Dict[str, Any]:
-    return _items_psp_metadata.get(item_id, {})
+    return _items_dynamic_metadata.get(item_id, {})
 def get_item_type(item_id: str) -> str:
     metadata = get_item_metadata(item_id)
     dynamic_data = metadata.get('dynamic', {})

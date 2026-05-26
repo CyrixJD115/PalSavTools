@@ -115,15 +115,31 @@ def load_l10n_table(filename: str) -> dict[str, str]:
             if source:
                 result[key] = source
     return result
+_LEGACY_FALLBACK = {
+    'paldata.json': 'characters.json', 'npcdata.json': 'characters.json',
+    'passivedata.json': 'skills.json', 'skilldata.json': 'skills.json', 'elementdata.json': 'skills.json',
+    'structuredata.json': 'world.json', 'technologydata.json': 'world.json', 'labresearchdata.json': 'world.json',
+    'itemdata.json': 'items.json', 'items_dynamic.json': 'items.json',
+    'palpassivedata.json': 'skills.json',
+}
 def load_resource_json(filename: str) -> dict:
     path = RESOURCES_DIR / filename
-    if not path.exists():
-        return {}
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return {}
+    if path.exists():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    fb = _LEGACY_FALLBACK.get(filename)
+    if fb:
+        fb_path = RESOURCES_DIR / fb
+        if fb_path.exists():
+            try:
+                with open(fb_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+    return {}
 def save_resource_json(filename: str, data: dict | list):
     path = RESOURCES_DIR / filename
     with open(path, 'w', encoding='utf-8') as f:
@@ -205,7 +221,7 @@ _PAL_NAME_CACHE = {}
 def _ensure_name_caches():
     if not _ITEM_NAME_CACHE:
         try:
-            item_data = load_resource_json('itemdata.json')
+            item_data = load_resource_json('items.json')
             for i in item_data.get('items', []):
                 if isinstance(i, dict) and 'asset' in i and ('name' in i):
                     _ITEM_NAME_CACHE[i['asset'].lower()] = i['name']
@@ -213,7 +229,7 @@ def _ensure_name_caches():
             pass
     if not _STRUCT_NAME_CACHE:
         try:
-            struct_data = load_resource_json('structuredata.json')
+            struct_data = load_resource_json('world.json')
             for s in struct_data.get('structures', []):
                 if isinstance(s, dict) and 'asset' in s and ('name' in s):
                     _STRUCT_NAME_CACHE[s['asset'].lower()] = s['name']
@@ -221,7 +237,7 @@ def _ensure_name_caches():
             pass
     if not _PAL_NAME_CACHE:
         try:
-            pal_data = load_resource_json('paldata.json')
+            pal_data = load_resource_json('characters.json')
             for p in pal_data.get('pals', []):
                 if isinstance(p, dict) and 'asset' in p and ('name' in p):
                     _PAL_NAME_CACHE[p['asset'].lower()] = p['name']
@@ -856,6 +872,276 @@ def update_structure_data():
     result = {'structures': updated_structures}
     save_resource_json('structuredata.json', result)
     print(f'  Total structures: {len(updated_structures)}')
+
+_EFFECT_LABEL_MAP = {
+    'ShotAttack': 'Attack',
+    'MeleeAttack': 'Melee Attack',
+    'Defense': 'Defense',
+    'MaxHP': 'Max HP',
+    'CraftSpeed': 'Work Speed',
+    'MoveSpeed': 'Movement Speed',
+    'MoveSpeed_Grass': 'Grass Movement Speed',
+    'MoveSpeed_Ground': 'Ground Movement Speed',
+    'MoveSpeed_Snow': 'Snow Movement Speed',
+    'MoveSpeed_Water': 'Water Movement Speed',
+    'SwimSpeed': 'Swim Speed',
+    'AttackSpeedUp': 'Attack Speed',
+    'ReloadSpeedUp': 'Reload Speed',
+    'AutoHPRegeneRate': 'HP Regeneration',
+    'Regene_HP': 'HP Regeneration',
+    'Regene_HP_Rate': 'HP Regeneration Rate',
+    'LifeSteal': 'Life Steal',
+    'Support': 'Support',
+    'Logging': 'Logging',
+    'Mining': 'Mining',
+    'CollectItem': 'Item Collection',
+    'CollectItemDrop': 'Item Drop',
+    'CollectItemDrop_NaturalObject': 'Natural Item Drop',
+    'BreedSpeed': 'Breeding Speed',
+    'MeatCutAddItemDrop': 'Meat Drop',
+    'CaptureLevel': 'Capture Power',
+    'MaxInventoryWeight': 'Max Inventory Weight',
+    'ItemWeightReduction': 'Item Weight Reduction',
+    'BulletAccuracy': 'Bullet Accuracy',
+    'BulletSpeed': 'Bullet Speed',
+    'Recoil': 'Recoil',
+    'Homing': 'Homing',
+    'Explosive': 'Explosion',
+    'ExplosionResist': 'Explosion Resistance',
+    'FallDamageRate': 'Fall Damage',
+    'TemperatureResist_Heat': 'Heat Resistance',
+    'TemperatureResist_Cold': 'Cold Resistance',
+    'ShieldDamageCutRate': 'Shield Damage Reduction',
+    'TemperatureInvalid_Heat': 'Heat Immunity',
+    'TemperatureInvalid_Cold': 'Cold Immunity',
+    'InvalidToxicGas': 'Toxic Gas Immunity',
+    'Nocturnal': 'Nocturnal',
+    'Mute': 'Mute',
+    'NonKilling': 'Non-Killing',
+    'KnockbackInvalid': 'Knockback Immunity',
+    'KnockbackInvalid_ForPassiveSkill': 'Knockback Immunity',
+    'LeanBackInvalid_ForPassiveSkill': 'Flinch Immunity',
+    'LowGravity': 'Low Gravity',
+    'EnemySightDetectionRate': 'Stealth',
+    'EquipmentDurabilityRate': 'Equipment Durability',
+    'DefeatEnemy_ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown Reduction on Defeat',
+    'Sanity_Decrease': 'Sanity Drain',
+    'FullStomatch_Decrease': 'Fullness Drain',
+    'FarmCropGrowupSpeed': 'Crop Growth Speed',
+    'FarmCropHarvestNumRate': 'Crop Harvest Amount',
+    'Fishing_SuccessAmountUp': 'Fishing Success Amount',
+    'Fishing_StartProgressAdd': 'Fishing Progress',
+    'Fishing_FailedAmountDown': 'Fishing Failed Amount Reduction',
+    'Fishing_ItemAddDrop': 'Fishing Extra Drop',
+    'Fishing_EnemyAddDrop': 'Fishing Enemy Extra Drop',
+    'Fishing_GoodTalentPalProbability': 'Fishing Good Pal Probability',
+    'Fishing_SearchProbabilityRateInNight': 'Fishing Night Search Probability',
+    'FishingSalvage_ItemDrop': 'Fishing Salvage Drop',
+    'ShopBuyPrice_Money_Increase': 'Shop Buy Price',
+    'ShopSellPrice_Money_Increase': 'Shop Sell Price',
+    'AttackRateHPThreshold': 'Attack (Low HP)',
+    'DefenseRateHPThreshold': 'Defense (Low HP)',
+    'RecoverHPOnHPThreshold': 'HP Recovery (Low HP)',
+    'DefeatEnemy_StackBuff': 'Stack Buff on Defeat',
+    'BulletHit_StackBuff': 'Stack Buff on Hit',
+    'SelfDeathAddItemDrop': 'Extra Drop on Death',
+    'GainItemDrop': 'Extra Item Drop',
+    'BreedSpeed_InBaseCamp': 'Breeding Speed (Base Camp)',
+    'DamageUpToNonBattleEnemy': 'Damage to Non-Battle Enemies',
+    'DamageUpPartnerSkillAttack': 'Partner Skill Damage',
+    'DamageUp_LastBullet': 'Last Bullet Damage',
+    'DamageRateByEquippedWeapon': 'Equipped Weapon Damage',
+    'BuildingDamageReduction': 'Building Damage Reduction',
+    'PlayerSP_DecreaseRate': 'SP Consumption',
+    'PlayerShield_RecoverStartTimeRate': 'Shield Recovery Delay',
+    'LifeDrainPower_AttackUp': 'Life Drain Attack',
+    'BodyPartsWeakDamage': 'Weak Point Damage',
+    'PlayerLowHealthBlast': 'Low Health Explosion',
+    'Player_ArrowExplosion': 'Arrow Explosion',
+    'SlipDamageRate_Burn': 'Burn Slip Damage',
+    'SlipDamageRate_Poison': 'Poison Slip Damage',
+    'PlayerInflictEffect_MeleeHitBarrier': 'Melee Hit Barrier',
+    'PlayerInflictEffect_WeakPointHit_DamageUp': 'Weak Point Damage Up',
+    'PlayerInflictEffect_AttackBurning_ApplyExplosion': 'Burning Attack Explosion',
+    'PlayerInflictEffect_AttackBurning_ApplyFireVortex': 'Burning Attack Fire Vortex',
+    'PlayerInflictEffect_AttackElectrified_ApplySpark': 'Electrified Attack Spark',
+    'PlayerInflictEffect_AttackIvyCling_ApplyExplosion': 'Ivy Cling Attack Explosion',
+    'PlayerInflictEffect_AttackMuddy_ApplyAttackDown': 'Muddy Attack Down',
+    'PlayerInflictEffect_AttackPoisoned_ApplyAttackDown': 'Poison Attack Down',
+    'PlayerInflictEffect_AttackWet_ApplyFreeze': 'Wet Attack Freeze',
+    'PlayerElementStepAttack_Fire': 'Fire Step Attack',
+    'PlayerElementStepAttack_Leaf': 'Grass Step Attack',
+    'PlayerElementStepAttack_Water': 'Water Step Attack',
+    'WorldTreeDecayImmunity': 'World Tree Decay Immunity',
+    'ForYakushimaDefenceRate': 'Yakushima Defense',
+    'DamageUpIfEquipped_YakushimaMagicWeapon': 'Yakushima Magic Weapon Damage',
+    'DamageUpIfEquipped_YakushimaMeleeWeapon': 'Yakushima Melee Weapon Damage',
+    'DamageUpIfEquipped_YakushimaRangedWeapon': 'Yakushima Ranged Weapon Damage',
+    'DamageUpIfEquipped_YakushimaSummonWeapon': 'Yakushima Summon Weapon Damage',
+    'PalExp_Increase': 'Pal EXP Gain',
+    'PalSP_Increase': 'Pal SP',
+    'PalEggHatchingSpeed': 'Egg Hatching Speed',
+    'EggAlphaConversion': 'Egg Alpha Conversion',
+    'EggObtainExtraEgg': 'Extra Egg Obtain',
+    'FriendshipPoint_Increase': 'Friendship Gain',
+    'ItemCorruptionSpeedRate': 'Item Corruption Speed',
+    'ClimbMoveSpeedRate': 'Climb Speed',
+    'RideJumpCount_Increase': 'Ride Jump Count',
+    'JumpCount_Increase': 'Jump Count',
+    'JumpPower_Increase': 'Jump Power',
+    'LavaDamageInvalid': 'Lava Damage Immunity',
+    'CaptureLevel_SneakBonus': 'Sneak Capture Bonus',
+    'CaptureLevelUpIfTarget_Freeze': 'Capture Power vs Frozen',
+    'CaptureLevelUpIfTarget_IvyCling': 'Capture Power vs Ivy Cling',
+    'Regene_Stomatch_Hungriest': 'Fullness Regeneration',
+    'Defuser_ExplosiveSpore': 'Explosive Spore Defense',
+    'SphereRecovery': 'Sphere Recovery',
+    'NightOwl': 'Night Owl',
+    'ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown',
+    'PartnerSkillCoolTime_Decrease': 'Partner Skill Cooldown',
+    'AvoidDurationUp_EquipSkill': 'Equip Skill Avoid Duration',
+    'AvoidDurationUp_PartnerSkill': 'Partner Skill Avoid Duration',
+    'Wind_Change_Negative': 'Negative Wind Change',
+}
+
+_WORK_TYPE_MAP = {
+    'EmitFlame': 'Kindling',
+    'Watering': 'Watering',
+    'Seeding': 'Planting',
+    'GenerateElectricity': 'Generating Electricity',
+    'Handcraft': 'Handiwork',
+    'Collection': 'Gathering',
+    'Deforest': 'Lumbering',
+    'Mining': 'Mining',
+    'Transport': 'Transporting',
+    'MonsterFarm': 'Ranching',
+    'ProductMedicine': 'Medicine Production',
+    'OilExtraction': 'Oil Extraction',
+    'Cool': 'Cooling',
+}
+
+_ELEMENT_MAP = {
+    'Fire': 'Fire',
+    'Water': 'Water',
+    'Leaf': 'Grass',
+    'Electricity': 'Electric',
+    'Ice': 'Ice',
+    'Earth': 'Ground',
+    'Dark': 'Dark',
+    'Dragon': 'Dragon',
+    'Normal': 'Neutral',
+}
+
+_ADDITIONAL_MAP = {
+    'Burn': 'Burn',
+    'Poison': 'Poison',
+    'Freeze': 'Freeze',
+    'Electrical': 'Electrified',
+    'IvyCling': 'Ivy Cling',
+    'Muddy': 'Muddy',
+    'Darkness': 'Darkness',
+    'Stun': 'Stun',
+    'Wetness': 'Wet',
+}
+
+def _format_effect_value(v):
+    if isinstance(v, float):
+        if v == int(v):
+            return str(int(v))
+        return f'{v:g}'
+    return str(v)
+
+def _generate_passive_desc(passive_id, etype1, eval1, etype2, eval2, etype3, eval3):
+    parts = []
+    for etype, evalue in [(etype1, eval1), (etype2, eval2), (etype3, eval3)]:
+        if evalue == 0:
+            continue
+        label = _resolve_effect_label(etype)
+        if label is None:
+            continue
+        sign = '+' if evalue > 0 else ''
+        parts.append(f'{label} {sign}{_format_effect_value(evalue)}%')
+    if parts:
+        return '\r\n'.join(parts)
+    return ''
+
+def _resolve_effect_label(etype):
+    if not etype or etype == 'EPalPassiveSkillEffectType::no':
+        return None
+    name = etype.replace('EPalPassiveSkillEffectType::', '')
+
+    # Direct lookup
+    if name in _EFFECT_LABEL_MAP:
+        return _EFFECT_LABEL_MAP[name]
+
+    # Element Boost: ElementBoost_Fire -> Fire attack damage
+    m = re.match(r'ElementBoost_(\w+)', name)
+    if m:
+        elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
+        return f'{elem} attack damage'
+
+    # Element Boost Weakness: ElementBoostWeakness_Fire -> Fire attack damage (weakness)
+    m = re.match(r'ElementBoostWeakness_(\w+)', name)
+    if m:
+        elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
+        return f'{elem} attack damage (weakness)'
+
+    # Element Resist
+    m = re.match(r'ElementResist_(\w+)', name)
+    if m:
+        elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
+        return f'{elem} damage resistance'
+
+    # Element type (ElementFire -> Fire type)
+    m = re.match(r'Element(\w+)', name)
+    if m and m.group(1) in _ELEMENT_MAP:
+        elem = _ELEMENT_MAP[m.group(1)]
+        return f'{elem} type'
+
+    # Work Suitability Add Rank
+    m = re.match(r'WorkSuitabilityAddRank_(\w+)', name)
+    if m:
+        work = _WORK_TYPE_MAP.get(m.group(1), m.group(1))
+        return f'{work}'
+
+    # Resist Additional Effect
+    m = re.match(r'ResistAdditionalEffect_(\w+)', name)
+    if m:
+        eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
+        return f'{eff} resistance'
+
+    # Additional Effect (inflict)
+    m = re.match(r'AdditionalEffect_(\w+)', name)
+    if m:
+        eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
+        return f'Inflict {eff}'
+
+    # Attack conditionals: AttackRateIfAttacker_Burn
+    m = re.match(r'AttackRateIfAttacker_(\w+)', name)
+    if m:
+        eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
+        return f'Attack vs {eff}'
+
+    # Damage conditionals: DamageRateIfDefender_Burn
+    m = re.match(r'DamageRateIfDefender_(\w+)', name)
+    if m:
+        eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
+        return f'Damage vs {eff}'
+
+    # Element Add Item Drop
+    m = re.match(r'ElementAddItemDrop_(\w+)', name)
+    if m:
+        elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
+        return f'{elem} item drop'
+
+    # CurveType -> skip (hidden/internal)
+    if name == 'CurveType':
+        return None
+
+    # Pipe-friendly display name
+    display = name.replace('_', ' ')
+    return display
+
 def update_passive_data():
     print('\n=== Updating Passive Data ===')
     passive_main = load_export_json('PassiveSkill/DT_PassiveSkill_Main.json')
@@ -911,16 +1197,45 @@ def update_passive_data():
         if icon_path:
             icon_filename = icon_path.split('/')[-1].split('.')[0] if '.' in icon_path else icon_path.split('/')[-1]
             copied_icon = find_and_copy_icon(icon_filename, 'passives', passive_icon_subdirs)
+        if not copied_icon:
+            arrow_idx = max(1, min(abs(rank) if isinstance(rank, int) else 1, 4))
+            arrow_name = f'T_icon_skillstatus_rank_arrow_{arrow_idx:02d}'
+            if isinstance(rank, int) and rank < 0:
+                arrow_name += '_negative'
+            copied_icon = find_and_copy_icon(arrow_name, 'passives', passive_icon_subdirs)
+            if not copied_icon and isinstance(rank, int) and rank < 0:
+                arrow_name = f'T_icon_skillstatus_rank_arrow_{arrow_idx:02d}'
+                copied_icon = find_and_copy_icon(arrow_name, 'passives', passive_icon_subdirs)
         l10n_name = passive_name_l10n.get(passive_id, None)
         display_name = l10n_name or passive_id
         desc_id = row_data.get('OverrideDescMsgID', '') if isinstance(row_data, dict) else ''
+        if desc_id in ('None', 'none', ''):
+            desc_id = ''
         desc_text = raw_skill_desc.get(desc_id, '') if desc_id else ''
         if not desc_text and desc_id:
             desc_text = raw_skill_desc.get(passive_id, '')
+        if desc_text:
+            _UI_COMMON_MAP = {
+                'COMMON_STATUS_HP': 'HP',
+                'COMMON_WORK_SUITABILITY_MonsterFarm': 'Ranching',
+                'COMMON_WORK_SUITABILITY_PALDEX': 'work suitability',
+            }
+            for uid, label in _UI_COMMON_MAP.items():
+                desc_text = desc_text.replace(f'<uiCommon id=|{uid}|/>', label)
+            clean = re.sub(r'<[^>]+>', '', desc_text).strip()
+            if clean and not clean.startswith("'s"):
+                desc_text = clean
+            else:
+                desc_text = ''
+        et1 = row_data.get('EffectType1', '') if isinstance(row_data, dict) else ''
+        et2 = row_data.get('EffectType2', '') if isinstance(row_data, dict) else ''
+        et3 = row_data.get('EffectType3', '') if isinstance(row_data, dict) else ''
         ev1 = row_data.get('EffectValue1', 0) if isinstance(row_data, dict) else 0
         ev2 = row_data.get('EffectValue2', 0) if isinstance(row_data, dict) else 0
         ev3 = row_data.get('EffectValue3', 0) if isinstance(row_data, dict) else 0
         ev4 = row_data.get('EffectValue4', 0) if isinstance(row_data, dict) else 0
+        if not desc_text:
+            desc_text = _generate_passive_desc(passive_id, et1, ev1, et2, ev2, et3, ev3)
         add_pal = bool(row_data.get('AddPal', False)) if isinstance(row_data, dict) else False
         add_rare_pal = bool(row_data.get('AddRarePal', False)) if isinstance(row_data, dict) else False
         add_world_tree_pal = bool(row_data.get('AddWorldTreePal', False)) if isinstance(row_data, dict) else False
@@ -930,7 +1245,7 @@ def update_passive_data():
         add_weapon = bool(row_data.get('AddShotWeapon', False) or row_data.get('AddMeleeWeapon', False)) if isinstance(row_data, dict) else False
         invoke_always = bool(row_data.get('InvokeAlways', False)) if isinstance(row_data, dict) else False
         category = row_data.get('Category', '') if isinstance(row_data, dict) else ''
-        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or existing_entry.get('icon', '/icons/passives/T_icon_skillstatus_rank_arrow_04.png'), 'description': desc_text, 'effect1': ev1, 'effect2': ev2, 'effect3': ev3, 'effect4': ev4, 'add_pal': add_pal, 'add_rare_pal': add_rare_pal, 'add_world_tree_pal': add_world_tree_pal, 'add_mutation_pal': add_mutation_pal, 'add_armor': add_armor, 'add_accessory': add_accessory, 'add_weapon': add_weapon, 'invoke_always': invoke_always, 'category': category}
+        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or existing_entry.get('icon', '/icons/passives/T_icon_skillstatus_rank_arrow_04.png'), 'description': desc_text, 'effect1': ev1, 'effect2': ev2, 'effect3': ev3, 'effect4': ev4, 'efftype1': et1, 'efftype2': et2, 'efftype3': et3, 'add_pal': add_pal, 'add_rare_pal': add_rare_pal, 'add_world_tree_pal': add_world_tree_pal, 'add_mutation_pal': add_mutation_pal, 'add_armor': add_armor, 'add_accessory': add_accessory, 'add_weapon': add_weapon, 'invoke_always': invoke_always, 'category': category}
         updated_passives.append(passive_entry)
     result = {'passives': updated_passives}
     save_resource_json('passivedata.json', result)
@@ -1058,6 +1373,19 @@ def get_all_rows_for_tables(table_names: list[str]) -> dict:
                 if rows:
                     all_rows.update(rows)
     return all_rows
+def _build_character_name_map():
+    char_map = {}
+    try:
+        name_l10n = load_l10n_table('DT_PalNameText_Common.json')
+        for key, name in name_l10n.items():
+            if key.startswith('PAL_NAME_') and name:
+                char_id = key[len('PAL_NAME_'):]
+                if char_id and name.lower() not in ('en text', 'en_text', '', 'none'):
+                    char_map[char_id] = name
+    except Exception:
+        pass
+    return char_map
+
 def update_skill_data():
     print('\n=== Updating Skill Data ===')
     all_rows = get_all_rows_for_tables(['Waza/DT_WazaDataTable.json'])
@@ -1076,6 +1404,11 @@ def update_skill_data():
             skill_asset = uid_key[len('ACTION_SKILL_'):]
             if desc_text and desc_text.lower() not in ('en text', 'en_text', '', 'none'):
                 skill_desc_l10n[skill_asset] = desc_text
+    _char_name_map = _build_character_name_map()
+    for k, v in skill_desc_l10n.items():
+        v = re.sub(r"<characterName\s+id=\|(\w+)\|\s*/>", lambda m: _char_name_map.get(m.group(1), m.group(0)), v)
+        v = re.sub(r'<[^>]+>', '', v).strip()
+        skill_desc_l10n[k] = v
     if not all_rows:
         print('  No skill rows found. Skipping.')
         return
@@ -1262,7 +1595,7 @@ def update_pal_descriptions():
     save_resource_json('paldata.json', existing)
     print(f'  Updated {updated} pals with descriptions and partner skills')
 
-def update_items_psp():
+def update_items_dynamic():
     print('\n=== Updating Items PSP ===')
     item_table = load_export_json('Item/DT_ItemDataTable.json')
     item_table_common = load_export_json('Item/DT_ItemDataTable_Common.json')
@@ -1296,7 +1629,7 @@ def update_items_psp():
         durability = float(durability) if durability else 0.0
         dyn_type = _type_map.get(dyn_class, 'unknown')
         result[item_id] = {'dynamic': {'type': dyn_type, 'durability': durability}}
-    save_resource_json('items_psp.json', result)
+    save_resource_json('items_dynamic.json', result)
     print(f'  Total PSP entries: {len(result)}')
 def update_pal_passive_data():
     print('\n=== Updating Pal Passive Data ===')
@@ -1603,16 +1936,8 @@ def _convert_icons(Image):
     if optimized:
         print(f'  Optimized {optimized} icons, saved {saved_bytes / 1024:.0f} KB')
         updated_refs = 0
-        for fname in _JSON_FILES:
-            fpath = RESOURCES_DIR / fname
-            if not fpath.exists():
-                continue
-            try:
-                with open(fpath, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-            except:
-                continue
-            modified = False
+        def _scan_icon_refs(data):
+            nonlocal updated_refs, modified
             if isinstance(data, dict):
                 for key, entries in data.items():
                     if isinstance(entries, list):
@@ -1637,6 +1962,33 @@ def _convert_icons(Image):
                                                 icns[ikey] = webp_val
                                                 modified = True
                                                 updated_refs += 1
+                    elif isinstance(entries, dict):
+                        for ikey, ival in entries.items():
+                            if isinstance(ival, str) and ival.endswith('.png'):
+                                webp_val = ival[:-4] + '.webp'
+                                webp_path = RESOURCES_DIR / webp_val.lstrip('/')
+                                if webp_path.exists():
+                                    data[key][ikey] = webp_val
+                                    modified = True
+                                    updated_refs += 1
+        scan_fnames = []
+        for fname in _MERGED_FILES:
+            scan_fnames.append(fname)
+        for fname in _MERGED_FILES_WHOLE:
+            if fname not in scan_fnames:
+                scan_fnames.append(fname)
+        scan_fnames += ['uidata.json']
+        for fname in scan_fnames:
+            fpath = RESOURCES_DIR / fname
+            if not fpath.exists():
+                continue
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except:
+                continue
+            modified = False
+            _scan_icon_refs(data)
             if modified:
                 with open(fpath, 'w', encoding='utf-8') as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
@@ -1644,10 +1996,65 @@ def _convert_icons(Image):
             print(f'  Updated {updated_refs} icon references in data files')
     else:
         print('  No icons to optimize')
-_JSON_FILES = {'paldata.json': 'pals', 'itemdata.json': 'items', 'npcdata.json': 'npcs', 'structuredata.json': 'structures', 'passivedata.json': 'passives', 'technologydata.json': 'technology', 'skilldata.json': None, 'palpassivedata.json': 'passives', 'elementdata.json': 'elements', 'uidata.json': 'ui'}
+_MERGED_FILES = {'characters.json': ['pals', 'npcs'], 'skills.json': ['passives', 'skills', 'elements'], 'world.json': ['structures', 'technology'], 'items.json': ['items']}
+_MERGED_FILES_WHOLE = {'world.json': ['lab_research'], 'items.json': ['items_dynamic'], 'characters.json': ['friendship']}
+SPECIAL_KEEP_FILES = ['pal_exp_table.json', 'uidata.json', 'friendship.json']
+def _write_merged_files():
+    print('\n=== Writing Merged Game Data Files ===')
+    merged_group = {}
+    for merged_name, keys in _MERGED_FILES.items():
+        merged = {}
+        for k in keys:
+            merged[k] = []
+        merged_group[merged_name] = merged
+    for merged_name, keys in _MERGED_FILES_WHOLE.items():
+        if merged_name not in merged_group:
+            merged_group[merged_name] = {}
+        for k in keys:
+            merged_group[merged_name][k] = {}
+    src_map = {
+        'pals': 'paldata.json', 'npcs': 'npcdata.json',
+        'passives': 'passivedata.json', 'skills': 'skilldata.json', 'elements': 'elementdata.json',
+        'structures': 'structuredata.json', 'technology': 'technologydata.json',
+        'items': 'itemdata.json',
+        'lab_research': 'labresearchdata.json', 'items_dynamic': 'items_dynamic.json', 'friendship': 'friendship.json',
+    }
+    for merged_name, merged in merged_group.items():
+        for key in list(merged.keys()):
+            src_fname = src_map.get(key)
+            if not src_fname:
+                continue
+            data = load_resource_json(src_fname)
+            if data:
+                if isinstance(data, dict):
+                    val = data.get(key, data if key in ['lab_research', 'items_dynamic', 'friendship'] else {})
+                else:
+                    val = data
+                merged[key] = val
+            else:
+                print(f'  Warning: {src_fname} not found, writing empty {key}')
+        path = RESOURCES_DIR / merged_name
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(merged, f, indent=4, ensure_ascii=False)
+        print(f'  Written: {merged_name}')
+    print('  Merged files created successfully.')
+def _delete_individual_files():
+    print('\n=== Cleaning Up Individual Files ===')
+    individual_files = [
+        'paldata.json', 'npcdata.json', 'passivedata.json', 'skilldata.json',
+        'elementdata.json', 'structuredata.json', 'technologydata.json',
+        'itemdata.json', 'labresearchdata.json', 'items_dynamic.json', 'palpassivedata.json',
+    ]
+    for fname in individual_files:
+        fpath = RESOURCES_DIR / fname
+        if fpath.exists():
+            fpath.unlink()
+            print(f'  Deleted: {fname}')
+    print('  Individual files cleaned up.')
 def _cleanup_stale_icons():
     referenced = set()
-    for fname, _ in _JSON_FILES.items():
+    scan_files = _MERGED_FILES.keys()
+    for fname in scan_files:
         fpath = RESOURCES_DIR / fname
         if not fpath.exists():
             continue
@@ -1673,6 +2080,26 @@ def _cleanup_stale_icons():
                     for ikey, ival in entries.items():
                         if isinstance(ival, str) and ival.startswith('/icons/'):
                             referenced.add(ival)
+    def _collect_icon_refs(data, refs):
+        if isinstance(data, dict):
+            for v in data.values():
+                _collect_icon_refs(v, refs)
+        elif isinstance(data, list):
+            for item in data:
+                _collect_icon_refs(item, refs)
+        elif isinstance(data, str) and data.startswith('/icons/'):
+            refs.add(data)
+    also_check = ['uidata.json', 'friendship.json']
+    for fname in also_check:
+        fpath = RESOURCES_DIR / fname
+        if fpath.exists():
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except:
+                continue
+            if isinstance(data, dict):
+                _collect_icon_refs(data, referenced)
     referenced_local = set()
     for icon_path in referenced:
         parts = icon_path.lstrip('/').split('/', 2)
@@ -1748,11 +2175,13 @@ def main():
     _run_step('Updating skill data...', update_skill_data)
     _run_step('Updating pal EXP table...', update_pal_exp_table)
     _run_step('Updating friendship data...', update_friendship_data)
-    _run_step('Updating items PSP...', update_items_psp)
+    _run_step('Updating items dynamic...', update_items_dynamic)
     _run_step('Updating pal passive data...', update_pal_passive_data)
     _run_step('Updating lab research data...', update_lab_research_data)
     _run_step('Updating UI icons...', update_ui_icons)
     _run_step('Updating map data...', update_map_data)
+    _run_step('Writing merged game data files...', _write_merged_files)
+    _run_step('Deleting individual source files...', _delete_individual_files)
     _run_step('Cleaning up unused icons...', _cleanup_stale_icons)
     print('\n=== Optimizing assets (PNG -> WEBP) ===')
     try:

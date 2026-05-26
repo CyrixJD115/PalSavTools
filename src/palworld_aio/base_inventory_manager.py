@@ -164,7 +164,7 @@ def load_structure_data():
         return _structure_data_cache
     try:
         base_path = constants.get_base_path()
-        structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'structuredata.json')
+        structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'world.json')
         if os.path.exists(structure_data_path):
             _structure_data_cache = json_tools.load(structure_data_path)
             return _structure_data_cache
@@ -804,7 +804,7 @@ class BaseInventoryManager:
     def _translate_container_name(self, map_object_id):
         try:
             base_path = constants.get_base_path()
-            structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'structuredata.json')
+            structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'world.json')
             if os.path.exists(structure_data_path):
                 structure_data = json_tools.load(structure_data_path)
             structures = structure_data.get('structures', [])

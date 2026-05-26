@@ -151,7 +151,7 @@ class PlayerPalActionDialog(QDialog):
     def _build_pal_icon_map(self):
         base_dir = constants.get_base_path()
         try:
-            paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
+            paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
             paldata = json_tools.load(paldata_path)
             for pal in paldata.get('pals', []):
                 asset = pal.get('asset', '').lower()

@@ -24,13 +24,34 @@ def _load_pal_exp_table():
         print(f'Error loading PAL_EXP_TABLE: {e}')
         return {}
 PAL_EXP_TABLE = _load_pal_exp_table()
+_FRIENDSHIP_THRESHOLDS = None
+def _ensure_friendship_thresholds():
+    global _FRIENDSHIP_THRESHOLDS
+    if _FRIENDSHIP_THRESHOLDS is not None:
+        return _FRIENDSHIP_THRESHOLDS
+    _FRIENDSHIP_THRESHOLDS = []
+    try:
+        base_dir = constants.get_base_path()
+        path = os.path.join(base_dir, 'resources', 'game_data', 'friendship.json')
+        data = json_tools.load(path)
+        entries = []
+        for v in data.values():
+            r = v.get('FriendshipRank', -1)
+            if r >= 0:
+                entries.append((r, v.get('RequiredPoint', 0)))
+        entries.sort()
+        _FRIENDSHIP_THRESHOLDS = [pt for _, pt in entries]
+    except Exception as e:
+        print(f'Error loading friendship data: {e}')
+        _FRIENDSHIP_THRESHOLDS = [0, 6000, 13000, 21000, 30000, 40000, 55000, 80000, 110000, 150000, 200000]
+    return _FRIENDSHIP_THRESHOLDS
 _PAL_BASE_DATA_CACHE = {}
 def _load_pal_base_data():
     if _PAL_BASE_DATA_CACHE:
         return _PAL_BASE_DATA_CACHE
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
+        path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
         data = json_tools.load(path)
         for p in data.get('pals', []):
             a = p.get('asset', '').lower()
@@ -202,7 +223,7 @@ def _ensure_pal_icon_lookup():
     _PAL_ICON_LOOKUP_NPC = {}
     base_dir = constants.get_base_path()
     try:
-        paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'paldata.json')
+        paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
         paldata = json_tools.load(paldata_path)
         for pal in paldata.get('pals', []):
             asset = pal.get('asset', '').lower()
@@ -212,7 +233,7 @@ def _ensure_pal_icon_lookup():
     except Exception:
         pass
     try:
-        npcdata_path = os.path.join(base_dir, 'resources', 'game_data', 'npcdata.json')
+        npcdata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
         npcdata = json_tools.load(npcdata_path)
         for npc in npcdata.get('npcs', []):
             asset = npc.get('asset', '').lower()
@@ -638,8 +659,9 @@ class PartySlotWidget(QFrame):
             rank_hp = extract_value(raw, 'Rank_HP', 0)
             trust_points = extract_value(raw, 'FriendshipPoint', 0)
             friendship_rank = 0
-            for r in range(10, 0, -1):
-                if trust_points >= {10: 1200, 9: 900, 8: 650, 7: 450, 6: 300, 5: 200, 4: 120, 3: 70, 2: 30, 1: 0}.get(r, 0):
+            thr = _ensure_friendship_thresholds()
+            for r in range(len(thr) - 1, 0, -1):
+                if trust_points >= thr[r]:
                     friendship_rank = r
                     break
             rank_raw = extract_value(raw, 'Rank', 0)
@@ -1108,7 +1130,7 @@ def _ensure_element_data():
     _ELEMENT_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'elementdata.json')
+        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
         js = json_tools.load(path)
         for e in js.get('elements', []):
             if isinstance(e, dict) and 'name' in e:
@@ -1192,7 +1214,7 @@ def _ensure_skill_data():
     _SKILL_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'skilldata.json')
+        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
         js = json_tools.load(path)
         for s in js.get('skills', []):
             if isinstance(s, dict) and 'asset' in s:
@@ -1207,7 +1229,7 @@ def _ensure_passive_data():
     _PASSIVE_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'passivedata.json')
+        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
         js = json_tools.load(path)
         for p in js.get('passives', []):
             if isinstance(p, dict) and 'asset' in p:
@@ -1547,7 +1569,6 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8')}
     _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8'}
-    _TRUST_RANK_THRESHOLDS = [0, 6000, 13000, 21000, 30000, 40000, 55000, 80000, 110000, 150000, 200000]
     NATIVE_WORK_ORDER = ('EmitFlame', 'Watering', 'Seeding', 'GenerateElectricity', 'Handcraft', 'Collection', 'Deforest', 'Mining', 'ProductMedicine', 'Cool', 'Transport', 'MonsterFarm')
     _WORK_SUITABILITY_DISPLAY = {'EmitFlame': 'Kindling', 'Watering': 'Watering', 'Seeding': 'Seeding', 'GenerateElectricity': 'Electricity', 'Handcraft': 'Handiwork', 'Collection': 'Harvesting', 'Deforest': 'Lumbering', 'Mining': 'Mining', 'ProductMedicine': 'Medicine', 'Cool': 'Cooling', 'Transport': 'Transport', 'MonsterFarm': 'Farming'}
     _WORK_SUITABILITY_ICON_KEYS = ['palwork_00', 'palwork_01', 'palwork_02', 'palwork_03', 'palwork_04', 'palwork_05', 'palwork_06', 'palwork_07', 'palwork_08', 'palwork_10', 'palwork_11', 'palwork_12']
@@ -2468,8 +2489,9 @@ class PalInfoWidget(QFrame):
             fav_idx = extract_value(raw, 'FavoriteIndex', 0)
             trust_points = extract_value(raw, 'FriendshipPoint', 0)
             trust_rank = 0
-            for r in range(10, 0, -1):
-                if trust_points >= self._TRUST_RANK_THRESHOLDS[r]:
+            thr = _ensure_friendship_thresholds()
+            for r in range(len(thr) - 1, 0, -1):
+                if trust_points >= thr[r]:
                     trust_rank = r
                     break
             rank_raw = extract_value(raw, 'Rank', 0)
@@ -2489,9 +2511,10 @@ class PalInfoWidget(QFrame):
             trust_points = extract_value(raw, 'FriendshipPoint', 0)
             trust_progress = 0
             trust_next = 0
-            if trust_rank < 10:
-                current_threshold = self._TRUST_RANK_THRESHOLDS[trust_rank]
-                next_threshold = self._TRUST_RANK_THRESHOLDS[trust_rank + 1]
+            thr = _ensure_friendship_thresholds()
+            if trust_rank < len(thr) - 1:
+                current_threshold = thr[trust_rank]
+                next_threshold = thr[trust_rank + 1]
                 trust_span = next_threshold - current_threshold
                 trust_progress = min((trust_points - current_threshold) / trust_span * 100, 100)
                 trust_next = next_threshold
@@ -2898,8 +2921,9 @@ class PalInfoWidget(QFrame):
         is_lucky = extract_value(raw, 'IsRarePal', False)
         trust_points = extract_value(raw, 'FriendshipPoint', 0)
         friendship_rank = 0
-        for r in range(10, 0, -1):
-            if int(trust_points) >= self._TRUST_RANK_THRESHOLDS[r]:
+        thr = _ensure_friendship_thresholds()
+        for r in range(len(thr) - 1, 0, -1):
+            if int(trust_points) >= thr[r]:
                 friendship_rank = r
                 break
         base = get_pal_base_data(cid)
@@ -3929,14 +3953,14 @@ class PalFrame(QFrame):
                 import traceback
                 traceback.print_exc()
                 return {}
-        cls._PASSMAP = load_map('passivedata.json', 'passives')
-        cls._SKILLMAP = load_map('skilldata.json', 'skills')
-        PALMAP = load_map('paldata.json', 'pals')
-        NPCMAP = load_map('npcdata.json', 'npcs')
+        cls._PASSMAP = load_map('skills.json', 'passives')
+        cls._SKILLMAP = load_map('skills.json', 'skills')
+        PALMAP = load_map('characters.json', 'pals')
+        NPCMAP = load_map('characters.json', 'npcs')
         cls._NAMEMAP = {**PALMAP, **NPCMAP}
         cls._PASSFLAGS = {}
         try:
-            fp = os.path.join(base_dir, 'resources', 'game_data', 'passivedata.json')
+            fp = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
             js = json_tools.load(fp)
             if isinstance(js, dict):
                 data = js.get('passives', [])

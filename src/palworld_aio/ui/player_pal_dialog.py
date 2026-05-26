@@ -1,12 +1,13 @@
 import os
 from palworld_save_tools import json_tools
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QMessageBox, QAbstractItemView, QListView, QTabWidget, QCheckBox, QWidget, QStyledItemDelegate
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QMessageBox, QAbstractItemView, QListView, QTabWidget, QCheckBox, QWidget, QStyledItemDelegate, QFrame
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
-from PySide6.QtGui import QPixmap, QIcon, QPainter
+from PySide6.QtGui import QPixmap, QIcon, QPainter, QColor, QCursor
 from i18n import t
 from palworld_aio import constants
-from palworld_aio.edit_pals import PalFrame, _get_boss_alpha_pixmap, _composite_badge, _BOSS_PREFIXES
-from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE
+import palworld_aio.edit_pals as _ep
+from palworld_aio.edit_pals import PalFrame, _get_boss_alpha_pixmap, _composite_badge, _BOSS_PREFIXES, _get_element_pixmap, _ensure_element_data, _PassiveSkillDelegate
+from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
 class PalSlotDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -20,7 +21,7 @@ class PlayerPalActionDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(t('player_pal.title') if t else 'Bulk Pal Management')
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(900, 650)
         self.selected_pal_id = None
         self.selected_pal_name = None
         self.selected_active_skill_id = None
@@ -29,6 +30,7 @@ class PlayerPalActionDialog(QDialog):
         self.selected_passive_skill_name = None
         self._pal_icon_map = {}
         self._icon_pixmap_cache = {}
+        self._skill_picker_popup = None
         self._setup_ui()
         self._load_data()
     def _setup_ui(self):
@@ -53,18 +55,23 @@ class PlayerPalActionDialog(QDialog):
     def _create_delete_pal_tab(self):
         tab = QWidget()
         layout = QVBoxLayout(tab)
+        layout.setSpacing(10)
         search_group = QGroupBox(t('player_pal.search_pal') if t else 'Search Pal')
         search_layout = QVBoxLayout()
+        search_bar_layout = QHBoxLayout()
+        search_label = QLabel(t('common.search') if t else 'Search:')
         self.pal_search_input = QLineEdit()
         self.pal_search_input.setPlaceholderText(t('player_pal.search_placeholder') if t else 'Type to search pals...')
         self.pal_search_input.textChanged.connect(self._search_pals)
-        search_layout.addWidget(self.pal_search_input)
+        search_bar_layout.addWidget(search_label)
+        search_bar_layout.addWidget(self.pal_search_input)
+        search_layout.addLayout(search_bar_layout)
         self.pal_list = QListWidget()
         self.pal_list.setViewMode(QListView.IconMode)
         self.pal_list.setIconSize(QSize(48, 48))
         self.pal_list.setSpacing(0)
         self.pal_list.setUniformItemSizes(True)
-        self.pal_list.setGridSize(QSize(80, 80))
+        self.pal_list.setGridSize(QSize(84, 84))
         self.pal_list.setResizeMode(QListWidget.Adjust)
         self.pal_list.setSelectionMode(QAbstractItemView.SingleSelection)
         self.pal_list.setDragEnabled(False)
@@ -77,48 +84,52 @@ class PlayerPalActionDialog(QDialog):
         search_layout.addWidget(self.pal_info_label)
         search_group.setLayout(search_layout)
         layout.addWidget(search_group)
-        scope_group = QGroupBox(t('player_pal.scope') if t else 'Will Delete From')
-        scope_layout = QVBoxLayout()
-        self.delete_player_pals_checkbox = QCheckBox(t('player_pal.player_pals') if t else 'Player Pals (Party + Palbox)')
-        self.delete_player_pals_checkbox.setChecked(True)
-        self.delete_player_pals_checkbox.setEnabled(False)
-        scope_layout.addWidget(self.delete_player_pals_checkbox)
-        self.delete_base_pals_checkbox = QCheckBox(t('player_pal.base_pals') if t else 'Base Pals (All bases)')
-        self.delete_base_pals_checkbox.setChecked(True)
-        self.delete_base_pals_checkbox.setEnabled(False)
-        scope_layout.addWidget(self.delete_base_pals_checkbox)
-        scope_group.setLayout(scope_layout)
-        layout.addWidget(scope_group)
+        action_layout = QHBoxLayout()
         self.delete_pal_btn = QPushButton(t('player_pal.delete_pal') if t else 'Delete All Selected Pal')
         self.delete_pal_btn.clicked.connect(self._on_delete_pal)
         self.delete_pal_btn.setEnabled(False)
-        layout.addWidget(self.delete_pal_btn)
+        action_layout.addWidget(self.delete_pal_btn)
+        action_layout.addStretch()
+        layout.addLayout(action_layout)
         return tab
     def _create_remove_skills_tab(self):
         tab = QWidget()
         layout = QVBoxLayout(tab)
-        active_group = QGroupBox(t('player_pal.active_skills') if t else 'Active Skills')
-        active_layout = QVBoxLayout()
-        self.active_search_input = QLineEdit()
-        self.active_search_input.setPlaceholderText(t('player_pal.skill_search_placeholder') if t else 'Type to search active skills...')
-        self.active_search_input.textChanged.connect(self._search_active_skills)
-        active_layout.addWidget(self.active_search_input)
-        self.active_skill_list = QListWidget()
-        self.active_skill_list.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.active_skill_list.itemClicked.connect(self._on_active_skill_clicked)
-        active_layout.addWidget(self.active_skill_list)
+        layout.setSpacing(10)
+        active_group = QGroupBox(t('player_pal.active_skills') if t else 'Active Skill')
+        active_layout = QHBoxLayout()
+        self.active_skill_btn = QPushButton(t('player_pal.select_active') if t else 'Select Active Skill')
+        self.active_skill_btn.clicked.connect(self._on_active_skill_pick)
+        active_layout.addWidget(self.active_skill_btn)
+        self.active_skill_label = QLabel(t('player_pal.no_active_selected') if t else 'No active skill selected')
+        self.active_skill_label.setStyleSheet('color: #888; padding: 5px;')
+        self.active_skill_label.setWordWrap(True)
+        active_layout.addWidget(self.active_skill_label, 1)
+        active_layout.addStretch()
+        self.active_clear_btn = QPushButton('X')
+        self.active_clear_btn.setFixedSize(22, 22)
+        self.active_clear_btn.setStyleSheet('QPushButton { background: rgba(239,68,68,0.12); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 11px; font-size: 10px; font-weight: bold; } QPushButton:hover { background: rgba(239,68,68,0.25); }')
+        self.active_clear_btn.clicked.connect(self._clear_active_skill)
+        self.active_clear_btn.setVisible(False)
+        active_layout.addWidget(self.active_clear_btn)
         active_group.setLayout(active_layout)
         layout.addWidget(active_group)
-        passive_group = QGroupBox(t('player_pal.passive_skills') if t else 'Passive Skills')
-        passive_layout = QVBoxLayout()
-        self.passive_search_input = QLineEdit()
-        self.passive_search_input.setPlaceholderText(t('player_pal.skill_search_placeholder') if t else 'Type to search passive skills...')
-        self.passive_search_input.textChanged.connect(self._search_passive_skills)
-        passive_layout.addWidget(self.passive_search_input)
-        self.passive_skill_list = QListWidget()
-        self.passive_skill_list.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.passive_skill_list.itemClicked.connect(self._on_passive_skill_clicked)
-        passive_layout.addWidget(self.passive_skill_list)
+        passive_group = QGroupBox(t('player_pal.passive_skills') if t else 'Passive Skill')
+        passive_layout = QHBoxLayout()
+        self.passive_skill_btn = QPushButton(t('player_pal.select_passive') if t else 'Select Passive Skill')
+        self.passive_skill_btn.clicked.connect(self._on_passive_skill_pick)
+        passive_layout.addWidget(self.passive_skill_btn)
+        self.passive_skill_label = QLabel(t('player_pal.no_passive_selected') if t else 'No passive skill selected')
+        self.passive_skill_label.setStyleSheet('color: #888; padding: 5px;')
+        self.passive_skill_label.setWordWrap(True)
+        passive_layout.addWidget(self.passive_skill_label, 1)
+        passive_layout.addStretch()
+        self.passive_clear_btn = QPushButton('X')
+        self.passive_clear_btn.setFixedSize(22, 22)
+        self.passive_clear_btn.setStyleSheet('QPushButton { background: rgba(239,68,68,0.12); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 11px; font-size: 10px; font-weight: bold; } QPushButton:hover { background: rgba(239,68,68,0.25); }')
+        self.passive_clear_btn.clicked.connect(self._clear_passive_skill)
+        self.passive_clear_btn.setVisible(False)
+        passive_layout.addWidget(self.passive_clear_btn)
         passive_group.setLayout(passive_layout)
         layout.addWidget(passive_group)
         scope_group = QGroupBox(t('player_pal.scope') if t else 'Apply To')
@@ -137,17 +148,18 @@ class PlayerPalActionDialog(QDialog):
         self.skills_info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
         self.skills_info_label.setWordWrap(True)
         layout.addWidget(self.skills_info_label)
+        action_layout = QHBoxLayout()
         self.remove_skills_btn = QPushButton(t('player_pal.remove_skills') if t else 'Remove Selected Skills from All Pals')
         self.remove_skills_btn.clicked.connect(self._on_remove_skills)
         self.remove_skills_btn.setEnabled(False)
-        layout.addWidget(self.remove_skills_btn)
+        action_layout.addWidget(self.remove_skills_btn)
+        action_layout.addStretch()
+        layout.addLayout(action_layout)
         return tab
     def _load_data(self):
         PalFrame._load_maps()
         self._build_pal_icon_map()
         self._display_pals()
-        self._display_active_skills()
-        self._display_passive_skills()
     def _build_pal_icon_map(self):
         base_dir = constants.get_base_path()
         try:
@@ -187,6 +199,7 @@ class PlayerPalActionDialog(QDialog):
                 list_item.setIcon(QIcon(pixmap))
             if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
+            list_item.setSizeHint(QSize(84, 84))
             self.pal_list.addItem(list_item)
     def _search_pals(self, query):
         if not query:
@@ -204,58 +217,35 @@ class PlayerPalActionDialog(QDialog):
                 list_item.setIcon(QIcon(pixmap))
             if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
+            list_item.setSizeHint(QSize(84, 84))
             self.pal_list.addItem(list_item)
     def _on_pal_clicked(self, item):
         self.selected_pal_id = item.data(Qt.UserRole)
         self.selected_pal_name = item.text()
         self.pal_info_label.setText(f'{self.selected_pal_name}: {self.selected_pal_id}')
-        self.pal_info_label.setStyleSheet('color: #4a9; padding: 5px;')
+        self.pal_info_label.setStyleSheet('color: #4ade80; font-weight: bold; padding: 5px;')
         self.delete_pal_btn.setEnabled(True)
-    def _display_active_skills(self):
-        self.active_skill_list.clear()
-        skills = sorted(PalFrame._SKILLMAP.items(), key=lambda x: x[1])
-        for skill_id, skill_name in skills:
-            list_item = QListWidgetItem(skill_name)
-            list_item.setData(Qt.UserRole, skill_id)
-            self.active_skill_list.addItem(list_item)
-    def _display_passive_skills(self):
-        self.passive_skill_list.clear()
-        skills = sorted(PalFrame._PASSMAP.items(), key=lambda x: x[1])
-        for skill_id, skill_name in skills:
-            list_item = QListWidgetItem(skill_name)
-            list_item.setData(Qt.UserRole, skill_id)
-            self.passive_skill_list.addItem(list_item)
-    def _search_active_skills(self, query):
-        if not query:
-            self._display_active_skills()
-            return
-        query_lower = query.lower()
-        skills = [(sid, name) for sid, name in PalFrame._SKILLMAP.items() if query_lower in name.lower() or query_lower in sid.lower()]
-        skills.sort(key=lambda x: x[1])
-        self.active_skill_list.clear()
-        for skill_id, skill_name in skills:
-            list_item = QListWidgetItem(skill_name)
-            list_item.setData(Qt.UserRole, skill_id)
-            self.active_skill_list.addItem(list_item)
-    def _search_passive_skills(self, query):
-        if not query:
-            self._display_passive_skills()
-            return
-        query_lower = query.lower()
-        skills = [(sid, name) for sid, name in PalFrame._PASSMAP.items() if query_lower in name.lower() or query_lower in sid.lower()]
-        skills.sort(key=lambda x: x[1])
-        self.passive_skill_list.clear()
-        for skill_id, skill_name in skills:
-            list_item = QListWidgetItem(skill_name)
-            list_item.setData(Qt.UserRole, skill_id)
-            self.passive_skill_list.addItem(list_item)
-    def _on_active_skill_clicked(self, item):
-        self.selected_active_skill_id = item.data(Qt.UserRole)
-        self.selected_active_skill_name = item.text()
+    def _on_active_skill_pick(self):
+        if self._skill_picker_popup and self._skill_picker_popup.isVisible():
+            self._skill_picker_popup.close()
+        self._skill_picker_popup = self._show_skill_picker(True)
+    def _on_passive_skill_pick(self):
+        if self._skill_picker_popup and self._skill_picker_popup.isVisible():
+            self._skill_picker_popup.close()
+        self._skill_picker_popup = self._show_skill_picker(False)
+    def _clear_active_skill(self):
+        self.selected_active_skill_id = None
+        self.selected_active_skill_name = None
+        self.active_skill_label.setText(t('player_pal.no_active_selected') if t else 'No active skill selected')
+        self.active_skill_label.setStyleSheet('color: #888; padding: 5px;')
+        self.active_clear_btn.setVisible(False)
         self._update_remove_button()
-    def _on_passive_skill_clicked(self, item):
-        self.selected_passive_skill_id = item.data(Qt.UserRole)
-        self.selected_passive_skill_name = item.text()
+    def _clear_passive_skill(self):
+        self.selected_passive_skill_id = None
+        self.selected_passive_skill_name = None
+        self.passive_skill_label.setText(t('player_pal.no_passive_selected') if t else 'No passive skill selected')
+        self.passive_skill_label.setStyleSheet('color: #888; padding: 5px;')
+        self.passive_clear_btn.setVisible(False)
         self._update_remove_button()
     def _update_remove_button(self):
         has_active = self.selected_active_skill_id is not None
@@ -267,6 +257,143 @@ class PlayerPalActionDialog(QDialog):
             self.remove_skills_btn.setText(t('player_pal.remove_active_skill') if t else 'Remove Active Skill from All Pals')
         elif has_passive:
             self.remove_skills_btn.setText(t('player_pal.remove_passive_skill') if t else 'Remove Passive Skill from All Pals')
+    def _show_skill_picker(self, is_active):
+        popup = QWidget()
+        popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
+        popup.setStyleSheet(PICKER_BG_STYLE)
+        layout = QVBoxLayout(popup)
+        layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
+        search = QLineEdit()
+        search.setPlaceholderText(t('common.search') if t else 'Search...')
+        search.setStyleSheet(PICKER_SEARCH_STYLE)
+        layout.addWidget(search)
+        lst = QListWidget()
+        lst.setStyleSheet(PICKER_LIST_STYLE)
+        lst.setMaximumHeight(320)
+        lst.setMinimumWidth(280)
+        clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
+        lst.addItem(clear_item)
+        skill_map = PalFrame._SKILLMAP if is_active else PalFrame._PASSMAP
+        names = sorted(skill_map.values())
+        if is_active:
+            _ep._ensure_skill_data()
+            for name in names:
+                if not name:
+                    continue
+                asset = None
+                for a, n in skill_map.items():
+                    if n == name:
+                        asset = a
+                        break
+                item = QListWidgetItem(name)
+                if asset:
+                    key = asset.split('::')[-1].lower()
+                    info = _ep._SKILL_DATA.get(key, {}) if isinstance(_ep._SKILL_DATA, dict) else {}
+                    elem = info.get('element', 'Normal')
+                    pwr = info.get('power', 0)
+                    epix = _get_element_pixmap(elem, 'small', 16)
+                    if epix:
+                        item.setIcon(QIcon(epix))
+                    item.setText(f'{pwr:>3d}  {name}')
+                    item.setData(Qt.UserRole, name)
+                    tip_parts = [f'<b>{name}</b>', f'Element: {elem}', f'Power: {pwr}']
+                    cd = info.get('cooldown', 0)
+                    if cd:
+                        tip_parts.append(f'Cooldown: {cd}s')
+                    desc = info.get('description', '')
+                    if desc:
+                        tip_parts.append('')
+                        tip_parts.append(desc)
+                    item.setToolTip('<br>'.join(tip_parts))
+                lst.addItem(item)
+        else:
+            _ep._ensure_passive_data()
+            for name in names:
+                if not name:
+                    continue
+                asset = None
+                for a, n in skill_map.items():
+                    if n == name:
+                        asset = a
+                        break
+                item = QListWidgetItem(name)
+                if asset:
+                    rank = PalFrame._PASSRANK.get(asset.lower(), 1)
+                    item.setData(Qt.UserRole, name)
+                    item.setData(Qt.UserRole + 1, rank)
+                    is_wt = 'world' in name.lower() and 'tree' in name.lower()
+                    item.setData(Qt.UserRole + 2, is_wt)
+                    bg, bd, tc = PalFrame._passive_rank_color(asset.lower())
+                    item.setData(Qt.UserRole + 3, tc)
+                    item.setData(Qt.UserRole + 4, bd)
+                    item.setForeground(QColor(tc))
+                    p_info = _ep._PASSIVE_DATA.get(asset.lower(), {}) if isinstance(_ep._PASSIVE_DATA, dict) else {}
+                    p_desc = p_info.get('description', '')
+                    rank_labels = {1: 'Common', 2: 'Rare', 4: 'Epic', -99: 'Negative'}
+                    tip_parts = [f'<b style="color:{tc}">{name}</b>', f"<i>{rank_labels.get(rank, f'Rank {rank}')}</i>"]
+                    if p_desc:
+                        p_desc = p_desc.replace('{CharacterName}', 'Pal')
+                        for ei in range(1, 5):
+                            ev = p_info.get(f'effect{ei}', 0)
+                            ev_str = str(int(ev)) if isinstance(ev, float) and ev == int(ev) else f'{ev:.0f}' if isinstance(ev, float) else str(ev)
+                            p_desc = p_desc.replace(f'{{EffectValue{ei}}}', ev_str)
+                        tip_parts.append('')
+                        tip_parts.append(p_desc)
+                    item.setToolTip('<br>'.join(tip_parts))
+                lst.addItem(item)
+        if not is_active:
+            lst.setItemDelegate(_PassiveSkillDelegate(lst))
+        self._skill_search = search
+        self._skill_list = lst
+        self._skill_is_active = is_active
+        search.textChanged.connect(lambda t, l=lst: [l.item(i).setHidden(t.lower() not in l.item(i).text().lower()) for i in range(l.count())])
+        layout.addWidget(lst)
+        def on_select():
+            sel = lst.currentItem()
+            if sel:
+                chosen_name = sel.data(Qt.UserRole) or sel.text()
+                clear = sel.text().startswith('-- ')
+                if is_active:
+                    if clear:
+                        self._clear_active_skill()
+                    else:
+                        self.selected_active_skill_id = None
+                        self.selected_active_skill_name = chosen_name
+                        for a, n in skill_map.items():
+                            if n == chosen_name:
+                                self.selected_active_skill_id = a
+                                break
+                        self.active_skill_label.setText(f'Active: {chosen_name}')
+                        self.active_skill_label.setStyleSheet('color: #7DD3FC; font-weight: bold; padding: 5px;')
+                        self.active_clear_btn.setVisible(True)
+                else:
+                    if clear:
+                        self._clear_passive_skill()
+                    else:
+                        self.selected_passive_skill_id = None
+                        self.selected_passive_skill_name = chosen_name
+                        for a, n in skill_map.items():
+                            if n == chosen_name:
+                                self.selected_passive_skill_id = a
+                                break
+                        rank = PalFrame._PASSRANK.get(chosen_name.lower(), 1)
+                        tc = PalFrame._passive_rank_color(chosen_name.lower())[2]
+                        self.passive_skill_label.setText(f'Passive: {chosen_name}')
+                        self.passive_skill_label.setStyleSheet(f'color: {tc}; font-weight: bold; padding: 5px;')
+                        self.passive_clear_btn.setVisible(True)
+                self._update_remove_button()
+                popup.close()
+        lst.itemClicked.connect(on_select)
+        pos = QCursor.pos()
+        if is_active:
+            pos = self.active_skill_btn.mapToGlobal(self.active_skill_btn.rect().bottomLeft())
+        else:
+            pos = self.passive_skill_btn.mapToGlobal(self.passive_skill_btn.rect().bottomLeft())
+        popup.move(pos)
+        popup.show()
+        search.setFocus()
+        return popup
     def _on_delete_pal(self):
         if not self.selected_pal_id:
             return
@@ -303,25 +430,24 @@ class PlayerPalActionDialog(QDialog):
             if 'search' in title.lower() or 'pal' in title.lower():
                 if 'search' in title.lower():
                     group.setTitle(t('player_pal.search_pal') if t else 'Search Pal')
-            elif 'skill' in title.lower():
-                if 'active' in title.lower():
-                    group.setTitle(t('player_pal.active_skills') if t else 'Active Skills')
-                elif 'passive' in title.lower():
-                    group.setTitle(t('player_pal.passive_skills') if t else 'Passive Skills')
-                elif 'scope' in title.lower() or 'apply' in title.lower():
-                    group.setTitle(t('player_pal.scope') if t else 'Apply To')
-            elif 'scope' in title.lower() or 'will' in title.lower():
-                group.setTitle(t('player_pal.scope') if t else 'Will Delete From')
+            elif 'active' in title.lower():
+                group.setTitle(t('player_pal.active_skills') if t else 'Active Skill')
+            elif 'passive' in title.lower():
+                group.setTitle(t('player_pal.passive_skills') if t else 'Passive Skill')
+            elif 'scope' in title.lower() or 'apply' in title.lower():
+                group.setTitle(t('player_pal.scope') if t else 'Apply To')
         self.pal_search_input.setPlaceholderText(t('player_pal.search_placeholder') if t else 'Type to search pals...')
-        self.active_search_input.setPlaceholderText(t('player_pal.skill_search_placeholder') if t else 'Type to search active skills...')
-        self.passive_search_input.setPlaceholderText(t('player_pal.skill_search_placeholder') if t else 'Type to search passive skills...')
+        self.active_skill_btn.setText(t('player_pal.select_active') if t else 'Select Active Skill')
+        self.passive_skill_btn.setText(t('player_pal.select_passive') if t else 'Select Passive Skill')
+        if not self.selected_active_skill_name:
+            self.active_skill_label.setText(t('player_pal.no_active_selected') if t else 'No active skill selected')
+        if not self.selected_passive_skill_name:
+            self.passive_skill_label.setText(t('player_pal.no_passive_selected') if t else 'No passive skill selected')
         if self.selected_pal_id:
             self.pal_info_label.setText(f'{self.selected_pal_name}: {self.selected_pal_id}')
         else:
             self.pal_info_label.setText(t('player_pal.select_pal') if t else 'Select a pal to delete from everywhere')
         self.skills_info_label.setText(t('player_pal.select_skill_info') if t else 'Select active and/or passive skills to remove from ALL pals everywhere.')
-        self.delete_player_pals_checkbox.setText(t('player_pal.player_pals') if t else 'Player Pals (Party + Palbox)')
-        self.delete_base_pals_checkbox.setText(t('player_pal.base_pals') if t else 'Base Pals (All bases)')
         self.skills_player_pals_checkbox.setText(t('player_pal.player_pals') if t else 'Player Pals (Party + Palbox)')
         self.skills_base_pals_checkbox.setText(t('player_pal.base_pals') if t else 'Base Pals (All bases)')
         self.delete_pal_btn.setText(t('player_pal.delete_pal') if t else 'Delete All Selected Pal')

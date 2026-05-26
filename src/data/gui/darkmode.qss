@@ -299,13 +299,52 @@ QMenu::separator {
 
 /* General QPushButton */
 QPushButton {
-    background-color: #555555;
-    color: white;
-    padding: 6px;
+    background-color: rgba(125,211,252,0.12);
+    color: #7DD3FC;
+    border: 1px solid rgba(125,211,252,0.2);
     border-radius: 4px;
+    padding: 6px 16px;
+    font-weight: 600;
 }
 QPushButton:hover {
-    background-color: #666666;
+    background-color: rgba(125,211,252,0.2);
+    color: #FFFFFF;
+    border-color: rgba(125,211,252,0.4);
+}
+QPushButton:pressed {
+    background-color: rgba(125,211,252,0.3);
+}
+QPushButton:disabled {
+    background-color: rgba(255,255,255,0.03);
+    color: rgba(148,163,184,0.4);
+    border-color: rgba(255,255,255,0.06);
+}
+
+/* QFileDialog */
+QFileDialog {
+    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,
+                stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);
+    color: #dfeefc;
+}
+QFileDialog QLabel { color: #dfeefc; }
+QFileDialog QLineEdit {
+    background: rgba(255,255,255,0.06);
+    color: #e2e8f0;
+    border: 1px solid rgba(125,211,252,0.2);
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+QFileDialog QTreeView {
+    background: rgba(255,255,255,0.03);
+    color: #e2e8f0;
+    border: 1px solid rgba(125,211,252,0.15);
+}
+QFileDialog QComboBox {
+    background: rgba(255,255,255,0.06);
+    color: #e2e8f0;
+    border: 1px solid rgba(125,211,252,0.2);
+    border-radius: 4px;
+    padding: 4px 8px;
 }
 
 /* QLineEdit */

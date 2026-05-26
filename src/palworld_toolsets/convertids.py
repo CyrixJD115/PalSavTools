@@ -77,7 +77,6 @@ def convert_steam_id():
     copy_button = QPushButton(f"{nf.icons['nf-cod-copy']}")
     copy_button.setFont(QFont('Segoe UI', 13))
     copy_button.setFixedWidth(40)
-    copy_button.setStyleSheet('QPushButton')
     copy_layout.addWidget(copy_button)
     copy_layout.addStretch()
     glass_layout.addLayout(copy_layout)

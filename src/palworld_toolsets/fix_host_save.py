@@ -262,6 +262,7 @@ def ask_string_with_icon(title, prompt, icon_path):
     class CustomDialog(QDialog):
         def __init__(self, parent):
             super().__init__(parent)
+            ThemeManager.load_styles(self)
             self.setWindowTitle(title)
             try:
                 self.setWindowIcon(QIcon(icon_path))

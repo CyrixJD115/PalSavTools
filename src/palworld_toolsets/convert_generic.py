@@ -1,6 +1,7 @@
 import sys, os, gc, threading, time
 from import_libs import *
 from loading_manager import run_with_loading, show_information
+from palworld_aio.ui.styles import ThemeManager
 from PySide6.QtCore import QEventLoop
 from PySide6.QtWidgets import QApplication, QFileDialog
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'palworld_save_tools', 'commands'))
@@ -21,6 +22,8 @@ def convert_json_to_sav(input_file, output_file):
         sys.argv = old_argv
 def file_picker(ext):
     app = QApplication.instance() or QApplication(sys.argv)
+    if not QApplication.instance():
+        ThemeManager.apply_global()
     path = None
     if ext == 'sav':
         path, _ = QFileDialog.getOpenFileName(None, 'Select JSON File', '', 'JSON Files (*.json)')

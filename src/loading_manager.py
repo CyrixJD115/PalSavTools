@@ -579,7 +579,28 @@ def _get_effective_parent(parent):
     if active and hasattr(active, 'geometry') and active.isVisible():
         return active
     return None
-_MSG_BOX_DARK_STYLESHEET = '\n    QMessageBox {\n        background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                    stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);\n        color: #dfeefc;\n    }\n    QMessageBox QLabel {\n        color: #dfeefc;\n    }\n    QPushButton {\n        background-color: #3a3a3a;\n        color: #dfeefc;\n        border: 1px solid #555555;\n        border-radius: 4px;\n        padding: 6px 16px;\n        min-width: 70px;\n    }\n    QPushButton:hover {\n        background-color: #4a4a4a;\n    }\n'
+_MSG_BOX_DARK_STYLESHEET = '''
+    QMessageBox {
+        background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,
+                    stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);
+        color: #dfeefc;
+    }
+    QMessageBox QLabel {
+        color: #dfeefc;
+    }
+    QMessageBox QPushButton {
+        background-color: rgba(125,211,252,0.12);
+        color: #7DD3FC;
+        border: 1px solid rgba(125,211,252,0.2);
+        border-radius: 4px;
+        padding: 6px 16px;
+        min-width: 70px;
+    }
+    QMessageBox QPushButton:hover {
+        background-color: rgba(125,211,252,0.2);
+        color: #FFFFFF;
+    }
+'''
 def _load_theme_to_msg_box(msg_box):
     try:
         msg_box.setStyleSheet(_MSG_BOX_DARK_STYLESHEET)

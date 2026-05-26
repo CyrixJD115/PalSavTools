@@ -233,8 +233,28 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             cmd = data.get('cmd')
             if cmd == 'error':
                 self.switch_to_error(data)
+            elif cmd == 'success':
+                self.switch_to_success(data)
             elif cmd == 'exit':
                 self.safe_exit()
+        def switch_to_success(self, data):
+            if hasattr(self, 'tick_timer'):
+                self.tick_timer.stop()
+            if hasattr(self, 'phrase_timer'):
+                self.phrase_timer.stop()
+            if hasattr(self, 'close_btn'):
+                self.close_btn.hide()
+            self.label.setText(data.get('message', 'Save Loaded Successfully'))
+            self.label.setStyleSheet('color: #22c55e; font-size: 18px; font-weight: 700; border: none; background: transparent;')
+            if hasattr(self, 'opacity_effect'):
+                self.label.setGraphicsEffect(None)
+            self.progress_bar.setRange(0, 100)
+            self.progress_bar.setValue(100)
+            self.progress_bar.setStyleSheet(
+                'QProgressBar { background: rgba(255,255,255,0.06); border: none; border-radius: 2px; }'
+                'QProgressBar::chunk { background: #22c55e; border-radius: 2px; }'
+            )
+            QTimer.singleShot(2000, self.safe_exit)
         def safe_exit(self):
             QApplication.quit()
             os._exit(0)
@@ -405,9 +425,15 @@ def run_with_loading(callback, func, *args, parent=None, **kwargs):
                 dialog = ErrorDialog(res, parent=parent)
                 dialog.exec()
         else:
-            cleanup()
-            if callback:
-                callback(res)
+            if loader_proc and loader_proc.poll() is None:
+                try:
+                    loader_proc.stdin.write((json.dumps({'cmd': 'success', 'message': t('loading.success') if 't' in dir() else 'Save Loaded Successfully'}) + '\n').encode())
+                    loader_proc.stdin.flush()
+                except:
+                    cleanup()
+            else:
+                cleanup()
+            QTimer.singleShot(2500, lambda: (cleanup(), callback(res) if callback else None))
     QTimer.singleShot(100, monitor)
 class ErrorDialog(QDialog):
     def __init__(self, error_text, parent=None):

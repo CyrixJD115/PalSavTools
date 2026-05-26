@@ -13,7 +13,11 @@ except ImportError:
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 LANGUAGES = {'zh_CN': {'name': 'Simplified Chinese', 'code': 'zh-CN'}, 'de_DE': {'name': 'German', 'code': 'de'}, 'es_ES': {'name': 'Spanish', 'code': 'es'}, 'fr_FR': {'name': 'French', 'code': 'fr'}, 'ru_RU': {'name': 'Russian', 'code': 'ru'}, 'ja_JP': {'name': 'Japanese', 'code': 'ja'}, 'ko_KR': {'name': 'Korean', 'code': 'ko'}}
 NEW_TRANSLATIONS = {
+    'loading.success': 'Save Loaded Successfully',
     'loading.cancel': 'ESC to cancel',
+    'tools.drag_hint': 'or drag & drop a Level.sav file here',
+    'dashboard.overview': 'World Overview',
+    'sidebar.locked': 'Load a save file first',
     'character_transfer.source_tooltip': 'Select the Level.sav file to use as the source (host).',
     'character_transfer.target_tooltip': 'Select the Level.sav file to use as the target.',
     'character_transfer.transfer_all_tooltip': 'Transfer all characters from source to target (in memory).',

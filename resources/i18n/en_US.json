@@ -1665,5 +1665,9 @@
   "character_transfer.save_tooltip": "Write changes to target Level.sav and player files.",
   "character_transfer.selection_none": "Source: N/A, Target: N/A",
   "character_transfer.selection_status": "Source: {source}, Target: {target}",
-  "loading.cancel": "ESC to cancel"
+  "loading.cancel": "ESC to cancel",
+  "loading.success": "Save Loaded Successfully",
+  "tools.drag_hint": "or drag & drop a Level.sav file here",
+  "dashboard.overview": "World Overview",
+  "sidebar.locked": "Load a save file first"
 }

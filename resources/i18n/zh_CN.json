@@ -1379,5 +1379,9 @@
   "character_transfer.save_tooltip": "将更改写入目标 Level.sav 和播放器文件。",
   "character_transfer.selection_none": "来源：不适用，目标：不适用",
   "character_transfer.selection_status": "源：{source}，目标：{target}",
-  "loading.cancel": "ESC取消"
+  "loading.cancel": "ESC取消",
+  "loading.success": "保存加载成功",
+  "tools.drag_hint": "或将 Level.sav 文件拖放到此处",
+  "dashboard.overview": "世界概况",
+  "sidebar.locked": "首先加载保存文件"
 }

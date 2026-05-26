@@ -229,6 +229,7 @@ class MainWindow(QMainWindow):
         self.sidebar.set_active('tools')
         self._setup_menus()
         self._setup_connections()
+        self._lock_ui()
         QTimer.singleShot(0, self._check_update)
         try:
             from common import unlock_self_folder
@@ -652,18 +653,25 @@ class MainWindow(QMainWindow):
                 self.header_widget.stop_pulse_animation()
         except Exception as e:
             print(f'Update check callback error: {e}')
+    def _lock_ui(self):
+        sidebar_locked = self.sidebar.set_lock_state(True)
+        if hasattr(self, 'tools_tab'):
+            self.tools_tab.set_tool_cards_enabled(False)
+
+    def _unlock_ui(self):
+        sidebar_locked = self.sidebar.set_lock_state(False)
+        if hasattr(self, 'tools_tab'):
+            self.tools_tab.set_tool_cards_enabled(True)
+
     def _on_load_finished(self, success):
         if success:
             self.refresh_all()
             self.results_widget.refresh_stats_before()
             self.status_bar.showMessage(t('status.loaded') if t else 'Save loaded successfully', 5000)
-            msg_box = self._create_message_box(QMessageBox.Information)
-            msg_box.setWindowTitle(t('success.title'))
-            msg_box.setText(t('save.loaded'))
-            msg_box.addButton(t('button.ok'), QMessageBox.AcceptRole)
-            msg_box.exec()
             if hasattr(self, 'base_inventory_tab'):
                 self.base_inventory_tab.refresh()
+            constants.is_ui_locked = False
+            self._unlock_ui()
         else:
             self.status_bar.showMessage(t('status.load_failed') if t else 'Failed to load save', 5000)
             msg_box = self._create_message_box(QMessageBox.Critical)

@@ -2,7 +2,7 @@ import os
 import sys
 from palworld_save_tools import json_tools
 import traceback
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QScrollArea, QSizePolicy, QSpacerItem, QGridLayout, QApplication, QDialog
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QScrollArea, QSizePolicy, QSpacerItem, QGridLayout, QApplication, QDialog, QStackedWidget
 from PySide6.QtCore import Qt, QSize, Signal, QPropertyAnimation, QEasingCurve, QRectF
 from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QDragEnterEvent, QDropEvent, QDragLeaveEvent, QPainter, QColor, QPen, QPainterPath
 from i18n import t
@@ -213,22 +213,211 @@ class ToolsTab(QWidget):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(18, 18, 18, 18)
         main_layout.setSpacing(14)
-        main_layout.addWidget(self._create_header_bar())
-        main_layout.addWidget(self._create_section('tools.section.converting', CONVERTING_TOOL_KEYS, self._run_converting_tool), stretch=1)
-        main_layout.addWidget(self._create_section('tools.section.management', MANAGEMENT_TOOL_KEYS, self._run_management_tool), stretch=1)
+
+        upper_row = QHBoxLayout()
+        upper_row.setSpacing(14)
+        upper_row.addWidget(self._create_save_card(), alignment=Qt.AlignTop)
+        upper_row.addWidget(self._create_overview_panel(), stretch=1)
+        main_layout.addLayout(upper_row, stretch=1)
+
+        footer_row = QHBoxLayout()
+        footer_row.setSpacing(14)
+        footer_row.addWidget(self._create_section('tools.section.converting', CONVERTING_TOOL_KEYS, self._run_converting_tool), stretch=1)
+        footer_row.addWidget(self._create_section('tools.section.management', MANAGEMENT_TOOL_KEYS, self._run_management_tool), stretch=1)
+        main_layout.addLayout(footer_row)
+
         self._drop_overlay = DropOverlay(self)
         self._drop_overlay.setVisible(False)
         self._drop_overlay.lower()
-    def _create_header_bar(self):
-        header = QFrame()
-        header.setObjectName('toolsHeader')
-        header_layout = QHBoxLayout(header)
-        header_layout.setContentsMargins(0, 0, 0, 0)
-        header_layout.setSpacing(16)
+
+    def _create_save_card(self):
+        card = QFrame()
+        card.setObjectName('saveCard')
+        card.setFixedWidth(340)
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(24, 24, 24, 24)
+        card_layout.setSpacing(12)
+
+        icon_label = QLabel('📁')
+        icon_label.setAlignment(Qt.AlignCenter)
+        icon_label.setStyleSheet('font-size: 36px; border: none; background: transparent;')
+        card_layout.addWidget(icon_label)
+
+        self._save_status_label = QLabel(t('tools.no_save_loaded') if t else 'No Save Loaded')
+        self._save_status_label.setAlignment(Qt.AlignCenter)
+        self._save_status_label.setWordWrap(True)
+        self._save_status_label.setStyleSheet('font-size: 15px; font-weight: 700; color: #e2e8f0; border: none; background: transparent;')
+        card_layout.addWidget(self._save_status_label)
+
+        self._save_path_label = QPushButton(t('tools.no_save_loaded') if t else 'No save loaded')
+        self._save_path_label.setObjectName('savePathLabel')
+        self._save_path_label.setFlat(True)
+        self._save_path_label.setCursor(QCursor(Qt.PointingHandCursor))
+        self._save_path_label.setStyleSheet('font-size: 11px; color: rgba(148,163,184,0.6); border: none; background: transparent; text-align: center;')
+        self._save_path_label.clicked.connect(lambda: self._on_save_path_label_clicked())
+        card_layout.addWidget(self._save_path_label)
+
         load_btn = QPushButton(t('menu.file.load_save') if t else 'Load Save')
         load_btn.setObjectName('loadSaveBtn')
         load_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        load_btn.setMinimumHeight(42)
         load_btn.clicked.connect(self._on_load_save_clicked)
+        load_btn.setStyleSheet('QPushButton { font-size: 14px; font-weight: 700; }')
+        card_layout.addWidget(load_btn)
+
+        hint_label = QLabel(t('tools.drag_hint') if t else 'or drag & drop a Level.sav file here')
+        hint_label.setAlignment(Qt.AlignCenter)
+        hint_label.setWordWrap(True)
+        hint_label.setStyleSheet('font-size: 11px; color: rgba(148,163,184,0.4); border: none; background: transparent;')
+        card_layout.addWidget(hint_label)
+
+        card_layout.addStretch()
+        return card
+
+    def _create_overview_panel(self):
+        self._overview_panel = QFrame()
+        self._overview_panel.setObjectName('overviewPanel')
+        self._overview_stack = QStackedWidget(self._overview_panel)
+        overview_layout = QVBoxLayout(self._overview_panel)
+        overview_layout.setContentsMargins(0, 0, 0, 0)
+        overview_layout.addWidget(self._overview_stack)
+
+        welcome = self._create_welcome_panel()
+        self._overview_stack.addWidget(welcome)
+
+        self._stats_panel = self._create_stats_panel()
+        self._overview_stack.addWidget(self._stats_panel)
+
+        self._overview_stack.setCurrentIndex(0)
+        return self._overview_panel
+
+    def _create_welcome_panel(self):
+        panel = QFrame()
+        panel.setObjectName('welcomePanel')
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(40, 40, 40, 40)
+        layout.setSpacing(16)
+
+        layout.addStretch(1)
+
+        logo = QLabel()
+        p = os.path.join(constants.get_src_path(), '..', 'resources', 'Xenolord.webp')
+        if os.path.exists(p):
+            pix = QPixmap(p)
+            logo.setPixmap(pix.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        logo.setAlignment(Qt.AlignCenter)
+        logo.setStyleSheet('border: none; background: transparent;')
+        layout.addWidget(logo)
+
+        title = QLabel('Palworld Save Tools')
+        title.setAlignment(Qt.AlignCenter)
+        title.setStyleSheet('font-size: 22px; font-weight: 700; color: #e2e8f0; border: none; background: transparent;')
+        layout.addWidget(title)
+
+        tips = QLabel(
+            '📁 Click <b>Load Save</b> to open your Level.sav<br>'
+            '🖱️ Or drag &amp; drop a save file onto this window<br>'
+            '🔧 Then use the tools below to manage your world'
+        )
+        tips.setAlignment(Qt.AlignCenter)
+        tips.setWordWrap(True)
+        tips.setStyleSheet('font-size: 13px; color: rgba(148,163,184,0.8); border: none; background: transparent; line-height: 1.6;')
+        layout.addWidget(tips)
+
+        layout.addStretch(1)
+        return panel
+
+    def _create_stats_panel(self):
+        panel = QFrame()
+        panel.setObjectName('statsPanel')
+        layout = QVBoxLayout(panel)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(16)
+
+        header = QLabel(t('dashboard.overview') if t else 'World Overview')
+        header.setAlignment(Qt.AlignCenter)
+        header.setStyleSheet('font-size: 16px; font-weight: 700; color: #7DD3FC; border: none; background: transparent;')
+        layout.addWidget(header)
+
+        grid = QGridLayout()
+        grid.setSpacing(12)
+
+        self._stat_cards = {}
+        stats = [
+            ('players', '👥', 'Players', '0'),
+            ('guilds', '🛡️', 'Guilds', '0'),
+            ('bases', '🏠', 'Bases', '0'),
+            ('pals', '🐉', 'Pals', '0'),
+        ]
+        for idx, (key, icon, label, default) in enumerate(stats):
+            card = self._create_stat_card(icon, label, default)
+            grid.addWidget(card, idx // 2, idx % 2)
+            self._stat_cards[key] = card
+
+        layout.addLayout(grid)
+        layout.addStretch()
+        return panel
+
+    def _create_stat_card(self, icon, label, value):
+        card = QFrame()
+        card.setObjectName('statCard')
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(16, 12, 16, 12)
+        card_layout.setSpacing(4)
+
+        icon_label = QLabel(icon)
+        icon_label.setAlignment(Qt.AlignCenter)
+        icon_label.setStyleSheet('font-size: 28px; border: none; background: transparent;')
+        card_layout.addWidget(icon_label)
+
+        value_label = QLabel(value)
+        value_label.setAlignment(Qt.AlignCenter)
+        value_label.setObjectName('statValue')
+        value_label.setStyleSheet('font-size: 22px; font-weight: 700; color: #e2e8f0; border: none; background: transparent;')
+        card._value_label = value_label
+        card_layout.addWidget(value_label)
+
+        name_label = QLabel(label)
+        name_label.setAlignment(Qt.AlignCenter)
+        name_label.setStyleSheet('font-size: 11px; color: rgba(148,163,184,0.6); border: none; background: transparent;')
+        card_layout.addWidget(name_label)
+
+        return card
+
+    def _update_stats(self):
+        if not hasattr(constants, 'loaded_level_json') or not constants.loaded_level_json:
+            return
+        wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+        group_data = wsd.get('GroupSaveDataMap', {}).get('value', [])
+        base_data = wsd.get('BaseCampSaveData', {}).get('value', [])
+        char_data = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+
+        total_players = sum(len(g['value']['RawData']['value'].get('players', [])) for g in group_data
+                            if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild')
+        total_guilds = sum(1 for g in group_data
+                           if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild')
+        total_bases = len(base_data)
+        total_pals = sum(1 for c in char_data
+                         if c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {})
+                         .get('SaveParameter', {}).get('struct_type') == 'PalIndividualCharacterSaveParameter'
+                         and not c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {})
+                         .get('SaveParameter', {}).get('value', {}).get('IsPlayer', {}).get('value'))
+
+        try:
+            self._stat_cards['players']._value_label.setText(str(total_players))
+            self._stat_cards['guilds']._value_label.setText(str(total_guilds))
+            self._stat_cards['bases']._value_label.setText(str(total_bases))
+            self._stat_cards['pals']._value_label.setText(str(total_pals))
+        except Exception:
+            pass
+
+    def _on_save_path_label_clicked(self):
+        if constants.current_save_path:
+            import subprocess
+            subprocess.Popen(['explorer', '/select,', os.path.join(constants.current_save_path, 'Level.sav')])
+
+    def _create_header_bar(self):
+        return QWidget()
         self._load_btn = load_btn
         header_layout.addWidget(load_btn, stretch=1)
         self._save_path_label = QLabel(t('tools.no_save_loaded') if t else 'No save loaded')
@@ -252,8 +441,14 @@ class ToolsTab(QWidget):
         if hasattr(self, 'parent_window') and self.parent_window:
             self.parent_window._load_save()
     def _on_save_load_finished(self, success):
-        if success and hasattr(self, '_save_path_label'):
-            self._save_path_label.setText(constants.current_save_path if hasattr(constants, 'current_save_path') and constants.current_save_path else t('tools.save_loaded'))
+        if success:
+            if hasattr(self, '_save_path_label') and hasattr(constants, 'current_save_path') and constants.current_save_path:
+                self._save_path_label.setText(constants.current_save_path)
+                self._save_status_label.setText(t('tools.save_loaded') if t else 'Save Loaded')
+                self._save_status_label.setStyleSheet('font-size: 15px; font-weight: 700; color: #22c55e; border: none; background: transparent;')
+            self._update_stats()
+            if hasattr(self, '_overview_stack'):
+                self._overview_stack.setCurrentIndex(1)
     def _create_section(self, section_key, tool_keys, run_handler):
         section_frame = QFrame()
         section_frame.setObjectName('glass')
@@ -410,11 +605,11 @@ class ToolsTab(QWidget):
         if hasattr(self, '_drop_overlay'):
             self._drop_overlay.setGeometry(self.rect())
     def refresh_labels(self):
-        if hasattr(self, '_load_btn') and self._load_btn:
-            self._load_btn.setText(t('menu.file.load_save') if t else 'Load Save')
         if hasattr(self, '_save_path_label') and self._save_path_label:
             if not (hasattr(constants, 'current_save_path') and constants.current_save_path):
                 self._save_path_label.setText(t('tools.no_save_loaded') if t else 'No save loaded')
+                self._save_status_label.setText(t('tools.no_save_loaded') if t else 'No Save Loaded')
+                self._save_status_label.setStyleSheet('font-size: 15px; font-weight: 700; color: #e2e8f0; border: none; background: transparent;')
         for title_label, section_key in self._section_titles:
             title_label.setText(t(section_key) if t else section_key)
         for card, key in self.tool_buttons:
@@ -424,5 +619,13 @@ class ToolsTab(QWidget):
             desc_key = TOOL_DESCRIPTIONS.get(key)
             if desc_key and hasattr(card, 'desc_label') and card.desc_label:
                 card.desc_label.setText(t(desc_key) if t else '')
+    def set_tool_cards_enabled(self, enabled):
+        for card, key in self.tool_buttons:
+            card.setEnabled(enabled)
+            if enabled:
+                card.setStyleSheet('')
+            else:
+                card.setStyleSheet('QFrame.toolCard { opacity: 0.4; } QFrame.toolCard:hover { background: transparent; }')
+
     def refresh(self):
         pass

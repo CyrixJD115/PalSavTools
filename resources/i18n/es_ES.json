@@ -1370,5 +1370,9 @@
   "character_transfer.save_tooltip": "Escriba cambios en los archivos Level.sav y Player de destino.",
   "character_transfer.selection_none": "Fuente: N/A, Objetivo: N/A",
   "character_transfer.selection_status": "Fuente: {fuente}, Destino: {objetivo}",
-  "loading.cancel": "ESC para cancelar"
+  "loading.cancel": "ESC para cancelar",
+  "loading.success": "Guardar cargado exitosamente",
+  "tools.drag_hint": "o arrastre y suelte un archivo Level.sav aquí",
+  "dashboard.overview": "Panorama mundial",
+  "sidebar.locked": "Cargue un archivo guardado primero"
 }

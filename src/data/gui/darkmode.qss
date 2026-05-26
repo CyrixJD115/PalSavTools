@@ -1775,3 +1775,40 @@ QScrollArea#skillsScrollArea QScrollBar::sub-page:horizontal {
     background: none;
 }
 
+/* Dashboard Save Card */
+QFrame#saveCard {
+    background: rgba(18,20,24,0.95);
+    border: 1px solid rgba(125,211,252,0.12);
+    border-radius: 12px;
+}
+
+/* Dashboard Overview Panel */
+QFrame#overviewPanel {
+    background: rgba(18,20,24,0.95);
+    border: 1px solid rgba(125,211,252,0.12);
+    border-radius: 12px;
+}
+
+/* Dashboard Welcome Panel */
+QFrame#welcomePanel {
+    background: transparent;
+    border: none;
+}
+
+/* Dashboard Stats Panel */
+QFrame#statsPanel {
+    background: transparent;
+    border: none;
+}
+
+/* Stat Card */
+QFrame#statCard {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(125,211,252,0.08);
+    border-radius: 10px;
+}
+QFrame#statCard:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(125,211,252,0.15);
+}
+

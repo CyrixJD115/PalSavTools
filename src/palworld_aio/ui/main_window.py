@@ -273,6 +273,7 @@ class MainWindow(QMainWindow):
         logging.getLogger().addHandler(handler)
         if self.user_settings.get('console_detached', False):
             self.status_stream.detach()
+            self.sidebar.set_console_visible(True)
     def _setup_ui(self):
         self.setWindowTitle(t('deletion.title') if t else 'All-in-One Tools')
         self.setMinimumSize(1448, 800)
@@ -670,7 +671,7 @@ class MainWindow(QMainWindow):
         self.user_settings['console_detached'] = self.status_stream.detached if self.status_stream else False
         self._save_user_settings()
     def _on_detach_state_changed(self, detached):
-        pass
+        self.sidebar.set_console_visible(detached)
     def _check_update(self):
         settings = get_update_settings()
         if not settings.get('check_updates', True):

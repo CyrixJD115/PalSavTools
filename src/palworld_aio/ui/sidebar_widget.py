@@ -93,7 +93,6 @@ class SidebarWidget(QWidget):
         layout.addStretch()
         self._console_btn = BottomBtn(ICONS['console'], t('console.detach') if t else 'Console')
         self._console_btn.clicked.connect(self.console_toggled.emit)
-        self._console_btn.set_active(True)
         layout.addWidget(self._console_btn)
         self._right_panel_btn = BottomBtn(ICONS['collapse_close'], t('sidebar.close') if t else 'Close Panel')
         self._right_panel_btn.clicked.connect(self._on_right_panel_toggle)
@@ -116,6 +115,8 @@ class SidebarWidget(QWidget):
         self._right_panel_visible = visible
         self._right_panel_btn.set_active(not visible)
         self._update_right_panel_icon()
+    def set_console_visible(self, visible):
+        self._console_btn.set_active(visible)
     def _update_right_panel_icon(self):
         if self._right_panel_visible:
             self._right_panel_btn.set_icon(ICONS['collapse_close'])

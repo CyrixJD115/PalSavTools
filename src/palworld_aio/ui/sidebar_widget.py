@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont, QCursor
+from PySide6.QtGui import QFont, QCursor, QPainter, QColor, QBrush
 try:
     import nerdfont as nf
 except:
@@ -26,6 +26,18 @@ class NavItem(QPushButton):
         self.setProperty('active', active)
         self.style().unpolish(self)
         self.style().polish(self)
+        self.update()
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        if self.property('active'):
+            painter = QPainter(self)
+            painter.setRenderHint(QPainter.Antialiasing)
+            pw, ph = 4, 20
+            px, py = 3, (self.height() - ph) // 2
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(QColor('#7DD3FC')))
+            painter.drawRoundedRect(px, py, pw, ph, pw / 2, pw / 2)
+            painter.end()
 class BottomBtn(QPushButton):
     def __init__(self, icon_code, tooltip, parent=None):
         super().__init__(parent)

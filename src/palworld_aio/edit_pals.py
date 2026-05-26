@@ -1597,8 +1597,6 @@ class PalInfoWidget(QFrame):
         self.hunger_bar.setFormat('-- / --')
         self.san_bar.setValue(0)
         self.san_bar.setFormat('-- / --')
-        self.stamina_bar.setValue(0)
-        self.stamina_bar.setFormat('-- / --')
         self.atk_lbl.setText('--')
         self.def_lbl.setText('--')
         self.wspd_lbl.setText('--')
@@ -2114,22 +2112,6 @@ class PalInfoWidget(QFrame):
         trust_row.addWidget(self.trust_bar, 1)
         right_layout.addLayout(trust_row, 1)
 
-        stamina_row = QHBoxLayout()
-        stamina_row.setSpacing(0)
-        stamina_icon = QLabel('\u26A1')
-        stamina_icon.setFixedSize(14, 14)
-        stamina_icon.setAlignment(Qt.AlignCenter)
-        stamina_icon.setStyleSheet('font-size: 8px; color: #F59E0B; background: transparent; border: none;')
-        stamina_row.addWidget(stamina_icon)
-        self.stamina_bar = QProgressBar()
-        self.stamina_bar.setFixedHeight(18)
-        self.stamina_bar.setRange(0, 100)
-        self.stamina_bar.setValue(0)
-        self.stamina_bar.setTextVisible(True)
-        self.stamina_bar.setStyleSheet('QProgressBar { background: rgba(40,30,20,0.6); border: 1px solid rgba(245,158,11,0.2); border-radius: 2px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #F59E0B,stop:1 #FBBF24); border-radius: 2px; }')
-        stamina_row.addWidget(self.stamina_bar, 1)
-        right_layout.addLayout(stamina_row, 1)
-
         hp_row = QHBoxLayout()
         hp_row.setSpacing(0)
         hp_icon = QLabel('\u2665')
@@ -2369,7 +2351,7 @@ class PalInfoWidget(QFrame):
 
         passive_title = QLabel(t('pal_editor.passive_skills') if t else 'Passive Skills')
         self._passive_title = passive_title
-        passive_title.setStyleSheet('font-size: 8px; font-weight: 600; color: #7DD3FC; background: transparent; border: none; padding-top: 1px;')
+        passive_title.setStyleSheet('font-size: 9px; font-weight: 700; color: #7DD3FC; background: transparent; border: none;')
         sb_layout.addWidget(passive_title)
 
         pg = QWidget()
@@ -2429,6 +2411,7 @@ class PalInfoWidget(QFrame):
                 return
             self._raw = raw
             _ensure_skill_data()
+            _ensure_passive_data()
             cid = extract_value(raw, 'CharacterID', '')
             level = extract_value(raw, 'Level', 1)
             nick = extract_value(raw, 'NickName', '')
@@ -2561,11 +2544,6 @@ class PalInfoWidget(QFrame):
             san_pct = int(min(float(san_val), 100))
             self.san_bar.setValue(san_pct)
             self.san_bar.setFormat(f'{int(san_val)} / 100')
-            stamina_val = float(extract_value(raw, 'SanityValue', 100.0))
-            stamina_max = 600.0
-            stamina_pct = int(min(stamina_val / stamina_max * 100, 100))
-            self.stamina_bar.setValue(stamina_pct)
-            self.stamina_bar.setFormat(f'{int(stamina_val)} / {int(stamina_max)}')
             self.trust_bar.setValue(int(trust_progress))
             self.trust_bar.setFormat('MAX' if trust_rank >= 10 else f'{int(trust_points)} / {int(trust_next)}')
             self.atk_lbl.setText(str(int(atk_val)))
@@ -2738,6 +2716,16 @@ class PalInfoWidget(QFrame):
                 power_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 power_lbl.setStyleSheet('font-size: 9px; font-weight: 700; color: #F59E0B; background: transparent; border: none;')
                 slot_layout.addWidget(power_lbl)
+                if e and skill_info:
+                    tip_parts = [f'<b>{move_name}</b>', f'Element: {skill_elem}', f'Power: {skill_power}']
+                    cd = skill_info.get('cooldown', 0)
+                    if cd:
+                        tip_parts.append(f'Cooldown: {cd}s')
+                    desc = skill_info.get('description', '')
+                    if desc:
+                        tip_parts.append('')
+                        tip_parts.append(desc)
+                    slot.setToolTip('<br>'.join(tip_parts))
                 self.active_skills_list.addWidget(slot)
             p_skills = raw.get('PassiveSkillList', {})
             if isinstance(p_skills, dict):
@@ -2777,6 +2765,25 @@ class PalInfoWidget(QFrame):
                     parent_frame.setStyleSheet(f'QFrame#passiveCard {{ background: {bg}; border: 1.5px solid {bd}; border-radius: 4px; padding: 3px 6px; }}')
                 if i < len(self.passive_cards):
                     self._set_passive_overlay(i, anim_mode)
+                parent_frame.setStyleSheet(
+                    parent_frame.styleSheet() +
+                    '\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }'
+                )
+                if p_clean:
+                    p_info = _PASSIVE_DATA.get(p_clean, {}) if isinstance(_PASSIVE_DATA, dict) else {}
+                    p_desc = p_info.get('description', '')
+                    tip_parts = [f'<b style="color:{tc}">{display_name}</b>']
+                    rank_labels = {1: 'Common', 2: 'Rare', 4: 'Epic', -99: 'Negative'}
+                    tip_parts.append(f"<i>{rank_labels.get(rank, f'Rank {rank}')}</i>")
+                    if p_desc:
+                        p_desc = p_desc.replace('{CharacterName}', 'Pal')
+                        for ei in range(1, 5):
+                            ev = p_info.get(f'effect{ei}', 0)
+                            ev_str = str(int(ev)) if isinstance(ev, float) and ev == int(ev) else f'{ev:.0f}' if isinstance(ev, float) else str(ev)
+                            p_desc = p_desc.replace(f'{{EffectValue{ei}}}', ev_str)
+                        tip_parts.append('')
+                        tip_parts.append(p_desc)
+                    parent_frame.setToolTip('<br>'.join(tip_parts))
             pskill_name = base.get('partner_skill', '') if base else ''
             pal_desc = base.get('description', '') if base else ''
             self.partner_name_lbl.setText(pskill_name or pal_name)

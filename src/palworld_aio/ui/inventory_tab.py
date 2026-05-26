@@ -660,8 +660,11 @@ class ItemPickerDialog(QDialog):
                 list_item.setIcon(QIcon(pixmap))
             item_name = item.get('name', 'Unknown')
             item_id = item.get('asset', '')
+            item_desc = item.get('description', '')
             category = item.get('category', 'misc')
             tooltip = f'<b>{item_name}</b><br>ID: {item_id}<br>Category: {category}'
+            if item_desc:
+                tooltip += f'<br><br><span style="color:#94a3b8;font-size:11px">{item_desc}</span>'
             list_item.setToolTip(tooltip)
             list_item.setSizeHint(QSize(80, 80))
             self.results_list.addItem(list_item)

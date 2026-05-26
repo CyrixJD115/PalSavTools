@@ -70,7 +70,7 @@ if '--spawn-loader' in sys.argv:
             self._target_pos = None
             self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.Tool | Qt.WindowStaysOnTopHint)
             self.setAttribute(Qt.WA_TranslucentBackground)
-            self.setMinimumSize(420, 340)
+            self.setMinimumSize(850, 500)
             self._drag_pos = QPoint()
             self.main_layout = QVBoxLayout(self)
             self.container = QFrame()
@@ -86,7 +86,7 @@ if '--spawn-loader' in sys.argv:
             self.listener.start()
             self.center_on_cursor_screen()
         def center_on_cursor_screen(self):
-            win_width, win_height = (420, 340)
+            win_width, win_height = (850, 500)
             if self.parent_geom:
                 px, py, pw, ph = self.parent_geom
                 center_x = px + pw // 2 - win_width // 2
@@ -148,8 +148,8 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
                     self._clear_sub_layout(child.layout())
         def setup_loader_ui(self, start_time):
             self.start_ts = start_time
-            self.setMinimumSize(420, 340)
-            self.resize(420, 340)
+            self.setMinimumSize(850, 500)
+            self.resize(850, 500)
 
             self.inner.addStretch(1)
             icon = QLabel()
@@ -157,7 +157,7 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             p = get_path('Xenolord.webp')
             if os.path.exists(p):
                 pix = QPixmap(p)
-                icon.setPixmap(pix.scaled(80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                icon.setPixmap(pix.scaled(120, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
             icon.setStyleSheet('border: none; background: transparent;')
             self.inner.addWidget(icon)
             self.inner.addSpacing(16)
@@ -181,16 +181,10 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             self.label.setAlignment(Qt.AlignCenter)
             self.label.setWordWrap(True)
             self.label.setObjectName('loadingLabel')
-            self.label.setStyleSheet('color: #e2e8f0; font-size: 15px; font-weight: 600; border: none; background: transparent;')
+            self.label.setStyleSheet('color: #e2e8f0; font-size: 18px; font-weight: 600; border: none; background: transparent;')
             self.opacity_effect = QGraphicsOpacityEffect(self.label)
             self.label.setGraphicsEffect(self.opacity_effect)
             self.inner.addWidget(self.label)
-            self.inner.addSpacing(8)
-
-            self.subtitle = QLabel('Please wait...')
-            self.subtitle.setAlignment(Qt.AlignCenter)
-            self.subtitle.setStyleSheet('color: rgba(148,163,184,0.7); font-size: 12px; border: none; background: transparent;')
-            self.inner.addWidget(self.subtitle)
             self.inner.addStretch(1)
 
             self.timer_label = QLabel('00:00')

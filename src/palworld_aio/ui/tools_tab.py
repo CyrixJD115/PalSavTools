@@ -365,6 +365,8 @@ class ToolsTab(QWidget):
             self._stat_cards['pals'].setText(str(total_pals))
         except:
             pass
+        if hasattr(self, 'parent_window') and self.parent_window and hasattr(self.parent_window, 'results_widget'):
+            self.parent_window.results_widget.refresh_stats_after()
 
     def _create_section(self, section_key, tool_keys, run_handler):
         section_frame = QFrame()

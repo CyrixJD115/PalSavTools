@@ -17845,7 +17845,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|AcidRain|/>."
+            "description": "Use on a Pal to teach\r\nAcid Rain."
         },
         {
             "name": "Skill Fruit: Air Blade",
@@ -17854,7 +17854,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|AirBlade|/>."
+            "description": "Use on a Pal to teach \r\nAir Blade."
         },
         {
             "name": "Skill Fruit: Air Cannon",
@@ -17863,7 +17863,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|AirCanon|/>."
+            "description": "Use on a Pal to teach \r\nAir Cannon."
         },
         {
             "name": "Dark Skill Fruit: Apocalypse",
@@ -17872,7 +17872,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Apocalypse|/>."
+            "description": "Use on a Pal to teach\r\nApocalypse."
         },
         {
             "name": "Water Skill Fruit: Hydro Jet",
@@ -17881,7 +17881,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|AquaJet|/>."
+            "description": "Use on a Pal to teach\r\nHydro Jet."
         },
         {
             "name": "Dragon Skill Fruit: Beam Slicer",
@@ -17890,7 +17890,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|BeamSlicer|/>."
+            "description": "Use on a Pal to teach\r\nBeam Slicer."
         },
         {
             "name": "Dragon Skill Fruit: Blast Cannon",
@@ -17899,7 +17899,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|BlastCanon|/>."
+            "description": "Use on a Pal to teach\r\nBlast Cannon."
         },
         {
             "name": "Ice Skill Fruit: Iceberg",
@@ -17908,7 +17908,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|BlizzardLance|/>."
+            "description": "Use on a Pal to teach\r\nIceberg."
         },
         {
             "name": "Water Skill Fruit: Bubble Blast",
@@ -17917,7 +17917,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|BubbleShot|/>."
+            "description": "Use on a Pal to teach\r\nBubble Blast."
         },
         {
             "name": "Dark Skill Fruit: Poison Shower",
@@ -17926,7 +17926,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|BubbleShower|/>."
+            "description": "Use on a Pal to teach \r\nPoison Shower."
         },
         {
             "name": "Dragon Skill Fruit: Charge Cannon",
@@ -17935,7 +17935,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|ChargeCanon|/>."
+            "description": "Use on a Pal to teach \r\nCharge Cannon."
         },
         {
             "name": "Dragon Skill Fruit: Comet",
@@ -17944,7 +17944,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Commet|/>."
+            "description": "Use on a Pal to teach\r\nComet Strike."
         },
         {
             "name": "Grass Skill Fruit: Crosswind",
@@ -17953,7 +17953,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|CrossWind|/>."
+            "description": "Use on a Pal to teach \r\nCrosswind."
         },
         {
             "name": "Dark Skill Fruit: Dark Arrow",
@@ -17962,7 +17962,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DarkArrow|/>."
+            "description": "Use on a Pal to teach\r\nDark Arrow."
         },
         {
             "name": "Dark Skill Fruit: Dark Cannon",
@@ -17971,7 +17971,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DarkCanon|/>."
+            "description": "Use on a Pal to teach\r\nDark Cannon."
         },
         {
             "name": "Dark Skill Fruit: Dark Laser",
@@ -17980,7 +17980,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DarkLaser|/>."
+            "description": "Use on a Pal to teach\r\nDark Laser."
         },
         {
             "name": "Dark Skill Fruit: Dark Whisp",
@@ -17989,7 +17989,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|DarkLegion|/>."
+            "description": "Use on a Pal to teach \r\nDark Whisp."
         },
         {
             "name": "Dark Skill Fruit: Umbral Surge",
@@ -17998,7 +17998,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DarkPulse|/>."
+            "description": "Use on a Pal to teach\r\nUmbral Surge."
         },
         {
             "name": "Dark Skill Fruit: Shadow Burst",
@@ -18007,7 +18007,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DarkWave|/>."
+            "description": "Use on a Pal to teach\r\nShadow Burst."
         },
         {
             "name": "Ice Skill Fruit: Diamond Rain",
@@ -18016,7 +18016,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DiamondFall|/>."
+            "description": "Use on a Pal to teach\r\nDiamond Rain."
         },
         {
             "name": "Water Skill Fruit: Torrential Blast",
@@ -18025,7 +18025,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|DiversionLaser|/>."
+            "description": "Use on a Pal to teach \r\nTorrential Blast."
         },
         {
             "name": "Dragon Skill Fruit: Draconic Breath",
@@ -18034,7 +18034,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DragonBreath|/>."
+            "description": "Use on a Pal to teach\r\nDraconic Breath."
         },
         {
             "name": "Dragon Skill Fruit: Dragon Cannon",
@@ -18043,7 +18043,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DragonCanon|/>."
+            "description": "Use on a Pal to teach\r\nDragon Cannon."
         },
         {
             "name": "Dragon Skill Fruit: Dragon Meteor",
@@ -18052,7 +18052,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DragonMeteor|/>."
+            "description": "Use on a Pal to teach\r\nDragon Meteor."
         },
         {
             "name": "Dragon Skill Fruit: Dragon Burst",
@@ -18061,7 +18061,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|DragonWave|/>."
+            "description": "Use on a Pal to teach\r\nDragon Burst."
         },
         {
             "name": "Electric Skill Fruit: Shockwave",
@@ -18070,7 +18070,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ElecWave|/>."
+            "description": "Use on a Pal to teach\r\nShockwave."
         },
         {
             "name": "Fire Skill Fruit: Volcanic Rain",
@@ -18079,7 +18079,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Eruption|/>."
+            "description": "Use on a Pal to teach\r\nVolcanic Rain."
         },
         {
             "name": "Fire Skill Fruit: Fire Ball",
@@ -18088,7 +18088,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FireBall|/>."
+            "description": "Use on a Pal to teach\r\nFire Ball."
         },
         {
             "name": "Fire Skill Fruit: Ignis Blast",
@@ -18097,7 +18097,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FireBlast|/>."
+            "description": "Use on a Pal to teach\r\nIgnis Blast."
         },
         {
             "name": "Fire Skill Fruit: Spirit Fire",
@@ -18106,7 +18106,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FireSeed|/>."
+            "description": "Use on a Pal to teach\r\nSpirit Fire."
         },
         {
             "name": "Fire Skill Fruit: Flame Funnel",
@@ -18115,7 +18115,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FlameFunnel|/>."
+            "description": "Use on a Pal to teach\r\nFlame Funnel."
         },
         {
             "name": "Fire Skill Fruit: Flame Wall",
@@ -18124,7 +18124,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FlameWall|/>."
+            "description": "Use on a Pal to teach\r\nFlame Wall."
         },
         {
             "name": "Fire Skill Fruit: Ignis Breath",
@@ -18133,7 +18133,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Flamethrower|/>."
+            "description": "Use on a Pal to teach\r\nIgnis Breath."
         },
         {
             "name": "Fire Skill Fruit: Flare Arrow",
@@ -18142,7 +18142,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FlareArrow|/>."
+            "description": "Use on a Pal to teach\r\nFlare Arrow."
         },
         {
             "name": "Fire Skill Fruit: Flare Storm",
@@ -18151,7 +18151,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FlareTornado|/>."
+            "description": "Use on a Pal to teach\r\nFlare Storm."
         },
         {
             "name": "Ice Skill Fruit: Crystal Breath",
@@ -18160,7 +18160,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|FrostBreath|/>."
+            "description": "Use on a Pal to teach\r\nCrystal Breath."
         },
         {
             "name": "Dark Skill Fruit: Spirit Flame",
@@ -18169,7 +18169,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|GhostFlame|/>."
+            "description": "Use on a Pal to teach\r\nSpirit Flame."
         },
         {
             "name": "Grass Skill Fruit: Grass Tornado",
@@ -18178,7 +18178,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|GrassTornado|/>."
+            "description": "Use on a Pal to teach \r\nGrass Tornado."
         },
         {
             "name": "Dark Skill Fruit: Dark Shot",
@@ -18187,7 +18187,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|GravityShot|/>."
+            "description": "Use on a Pal to teach \r\nDark Shot."
         },
         {
             "name": "Skill Fruit: Holy Burst",
@@ -18196,7 +18196,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|HolyBlast|/>."
+            "description": "Use on a Pal to teach \r\nHoly Burst."
         },
         {
             "name": "Water Skill Fruit: Hydro Laser",
@@ -18205,7 +18205,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|HydroPump|/>."
+            "description": "Use on a Pal to teach\r\nHydro Laser."
         },
         {
             "name": "Water Skill Fruit: Hydro Slicer",
@@ -18214,7 +18214,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|HydroSlicer|/>."
+            "description": "Use on a Pal to teach \r\nHydro Slicer."
         },
         {
             "name": "Skill Fruit: Pal Blast",
@@ -18223,7 +18223,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|HyperBeam|/>."
+            "description": "Use on a Pal to teach \r\nPal Blast."
         },
         {
             "name": "Ice Skill Fruit: Absolute Frost",
@@ -18232,7 +18232,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|IceAge|/>."
+            "description": "Use on a Pal to teach \r\nAbsolute Frost."
         },
         {
             "name": "Ice Skill Fruit: Icicle Cutter",
@@ -18241,7 +18241,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|IceBlade|/>."
+            "description": "Use on a Pal to teach\r\nIcicle Cutter."
         },
         {
             "name": "Ice Skill Fruit: Ice Missile",
@@ -18250,7 +18250,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|IceMissile|/>."
+            "description": "Use on a Pal to teach\r\nIce Missile."
         },
         {
             "name": "Ice Skill Fruit: Freeze Wall",
@@ -18259,7 +18259,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|IceWall|/>."
+            "description": "Use on a Pal to teach \r\nFreeze Wall."
         },
         {
             "name": "Ice Skill Fruit: Icicle Line",
@@ -18268,7 +18268,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|IcicleLine|/>."
+            "description": "Use on a Pal to teach\r\nIcicle Line."
         },
         {
             "name": "Ice Skill Fruit: Icicle Bullet",
@@ -18277,7 +18277,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|IciclePierce|/>."
+            "description": "Use on a Pal to teach \r\nIcicle Bullet."
         },
         {
             "name": "Ice Skill Fruit: Blizzard Spike",
@@ -18286,7 +18286,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|IcicleThrow|/>."
+            "description": "Use on a Pal to teach\r\nBlizzard Spike."
         },
         {
             "name": "Fire Skill Fruit: Ignis Rage",
@@ -18295,7 +18295,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Inferno|/>."
+            "description": "Use on a Pal to teach\r\nIgnis Rage."
         },
         {
             "name": "Electric Skill Fruit: Lightning Strike",
@@ -18304,7 +18304,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|LightningStrike|/>."
+            "description": "Use on a Pal to teach\r\nLightning Strike."
         },
         {
             "name": "Water Skill Fruit: Splash",
@@ -18313,7 +18313,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|LineGeyser|/>."
+            "description": "Use on a Pal to teach\r\nSplash."
         },
         {
             "name": "Electric Skill Fruit: Lightning Streak",
@@ -18322,7 +18322,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|LineThunder|/>."
+            "description": "Use on a Pal to teach\r\nLightning Streak."
         },
         {
             "name": "Electric Skill Fruit: Lock-on Laser",
@@ -18331,7 +18331,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|LockonLaser|/>."
+            "description": "Use on a Pal to teach\r\nLock-on Laser."
         },
         {
             "name": "Ground Skill Fruit: Bog Blast",
@@ -18340,7 +18340,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|MudShot|/>."
+            "description": "Use on a Pal to teach\r\nBog Blast."
         },
         {
             "name": "Dark Skill Fruit: Poison Blast",
@@ -18349,7 +18349,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|PoisonShot|/>."
+            "description": "Use on a Pal to teach\r\nPoison Blast."
         },
         {
             "name": "Skill Fruit: Power Bomb",
@@ -18358,7 +18358,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|PowerBall|/>."
+            "description": "Use on a Pal to teach \r\nPower Bomb."
         },
         {
             "name": "Skill Fruit: Power Shot",
@@ -18367,7 +18367,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|PowerShot|/>."
+            "description": "Use on a Pal to teach \r\nPower Shot."
         },
         {
             "name": "Dark Skill Fruit: Psycho Gravity",
@@ -18376,7 +18376,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Psychokinesis|/>."
+            "description": "Use on a Pal to teach\r\nPsycho Gravity."
         },
         {
             "name": "Thunder Skill Fruit: All Range Thunder",
@@ -18385,7 +18385,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|RangeThunder|/>."
+            "description": "Use on a Pal to teach \r\nAll Range Thunder."
         },
         {
             "name": "Grass Skill Fruit: Reflect Leaf",
@@ -18394,7 +18394,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|ReflectiveShuriken|/>."
+            "description": "Use on a Pal to teach \r\nReflect Leaf."
         },
         {
             "name": "Water Skill Fruit: Aqua Surge",
@@ -18403,7 +18403,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|RipTide|/>."
+            "description": "Use on a Pal to teach \r\nAqua Surge."
         },
         {
             "name": "Ground Skill Fruit: Stone Beat",
@@ -18412,7 +18412,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|RockBeat|/>."
+            "description": "Use on a Pal to teach \r\nStone Beat."
         },
         {
             "name": "Ground Skill Fruit: Rock Lance",
@@ -18421,7 +18421,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|RockLance|/>."
+            "description": "Use on a Pal to teach\r\nRock Lance."
         },
         {
             "name": "Grass Skill Fruit: Spine Vine",
@@ -18430,7 +18430,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|RootAttack|/>."
+            "description": "Use on a Pal to teach\r\nSpine Vine."
         },
         {
             "name": "Grass Skill Fruit: Circle Vine",
@@ -18439,7 +18439,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|RootLance|/>."
+            "description": "Use on a Pal to teach\r\nCircle Vine."
         },
         {
             "name": "Ground Skill Fruit: Sand Tornado",
@@ -18448,7 +18448,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|SandTornado|/>."
+            "description": "Use on a Pal to teach\r\nSand Tornado."
         },
         {
             "name": "Ground Skill Fruit: Sand Twister",
@@ -18457,7 +18457,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|SandTwister|/>."
+            "description": "Use on a Pal to teach\r\nSand Twister."
         },
         {
             "name": "Water Skill Fruit: Geyser Gush",
@@ -18466,7 +18466,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|SeaGush|/>."
+            "description": "Use on a Pal to teach \r\nGeyser Gush."
         },
         {
             "name": "Grass Skill Fruit: Seed Machine Gun",
@@ -18475,7 +18475,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|SeedMachinegun|/>."
+            "description": "Use on a Pal to teach \r\nSeed Machine Gun."
         },
         {
             "name": "Grass Skill Fruit: Seed Mine",
@@ -18484,7 +18484,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|SeedMine|/>."
+            "description": "Use on a Pal to teach\r\nSeed Mine."
         },
         {
             "name": "Skill Fruit: Implode",
@@ -18493,7 +18493,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|SelfDestruct|/>."
+            "description": "Use on a Pal to teach \r\nImplode."
         },
         {
             "name": "Dark Skill Fruit: Nightmare Ball",
@@ -18502,7 +18502,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ShadowBall|/>."
+            "description": "Use on a Pal to teach\r\nNightmare Ball."
         },
         {
             "name": "Grass Skill Fruit: Solar Blast",
@@ -18511,7 +18511,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|SolarBeam|/>."
+            "description": "Use on a Pal to teach \r\nSolar Blast."
         },
         {
             "name": "Grass Skill Fruit: Multicutter",
@@ -18520,7 +18520,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|SpecialCutter|/>."
+            "description": "Use on a Pal to teach\r\nMulticutter."
         },
         {
             "name": "Electric Skill Fruit: Spark Blast",
@@ -18529,7 +18529,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|SpreadPulse|/>."
+            "description": "Use on a Pal to teach\r\nSpark Blast."
         },
         {
             "name": "Ground Skill Fruit: Stone Blast",
@@ -18538,7 +18538,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|StoneShotgun|/>."
+            "description": "Use on a Pal to teach\r\nStone Blast."
         },
         {
             "name": "Electric Skill Fruit: Tri-Lightning",
@@ -18547,7 +18547,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThreeThunder|/>."
+            "description": "Use on a Pal to teach\r\nTri-Lightning."
         },
         {
             "name": "Ground Skill Fruit: Stone Cannon",
@@ -18556,7 +18556,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThrowRock|/>."
+            "description": "Use on a Pal to teach\r\nStone Cannon."
         },
         {
             "name": "Electric Skill Fruit: Electric Ball",
@@ -18565,7 +18565,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThunderBall|/>."
+            "description": "Use on a Pal to teach\r\nElectric Ball."
         },
         {
             "name": "Electric Skill Fruit: Plasma Funnel",
@@ -18574,7 +18574,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThunderFunnel|/>."
+            "description": "Use on a Pal to teach\r\nPlasma Funnel."
         },
         {
             "name": "Electric Skill Fruit: Thunder Rain",
@@ -18583,7 +18583,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThunderRain|/>."
+            "description": "Use on a Pal to teach\r\nThunder Rain."
         },
         {
             "name": "Electric Skill Fruit: Thunder Spear",
@@ -18592,7 +18592,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|ThunderSpear|/>."
+            "description": "Use on a Pal to teach \r\nThunder Spear."
         },
         {
             "name": "Electric Skill Fruit: Thunderstorm",
@@ -18601,7 +18601,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|ThunderStorm|/>."
+            "description": "Use on a Pal to teach\r\nThunderstorm."
         },
         {
             "name": "Electric Skill Fruit: Lightning Bolt",
@@ -18610,7 +18610,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Thunderbolt|/>."
+            "description": "Use on a Pal to teach\r\nLightning Bolt."
         },
         {
             "name": "Ground Skill Fruit: Rockburst",
@@ -18619,7 +18619,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|Tremor|/>."
+            "description": "Use on a Pal to teach\r\nRockburst."
         },
         {
             "name": "Electric Skill Fruit: TriSpark",
@@ -18628,7 +18628,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|TriSpark|/>."
+            "description": "Use on a Pal to teach\r\nTriSpark."
         },
         {
             "name": "Water Skill Fruit: Curtain Splash",
@@ -18637,7 +18637,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|WallSplash|/>."
+            "description": "Use on a Pal to teach\r\nCurtain Splash."
         },
         {
             "name": "Water Skill Fruit: Aqua Burst",
@@ -18646,7 +18646,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|WaterBall|/>."
+            "description": "Use on a Pal to teach\r\nAqua Burst."
         },
         {
             "name": "Water Skill Fruit: Aqua Gun",
@@ -18655,7 +18655,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach\r\n<activeSkillName id=|WaterGun|/>."
+            "description": "Use on a Pal to teach\r\nAqua Gun."
         },
         {
             "name": "Grass Skill Fruit: Wind Blast",
@@ -18664,7 +18664,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|WindBurst|/>."
+            "description": "Use on a Pal to teach \r\nWind Burst."
         },
         {
             "name": "Grass Skill Fruit: Wind Cutter",
@@ -18673,7 +18673,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWazaMachine",
-            "description": "Use on a Pal to teach \r\n<activeSkillName id=|WindCutter|/>."
+            "description": "Use on a Pal to teach \r\nWind Cutter."
         },
         {
             "name": "Melpaca Saddle",

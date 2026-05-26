@@ -218,6 +218,7 @@ def copy_icon_to_resources(export_path: Path, target_subdir: str) -> str | None:
 _ITEM_NAME_CACHE = {}
 _STRUCT_NAME_CACHE = {}
 _PAL_NAME_CACHE = {}
+_SKILL_NAME_CACHE = {}
 def _ensure_name_caches():
     if not _ITEM_NAME_CACHE:
         try:
@@ -243,6 +244,14 @@ def _ensure_name_caches():
                     _PAL_NAME_CACHE[p['asset'].lower()] = p['name']
         except Exception:
             pass
+    if not _SKILL_NAME_CACHE:
+        try:
+            skill_data = load_resource_json('skills.json')
+            for s in skill_data.get('skills', []):
+                if isinstance(s, dict) and 'asset' in s and ('name' in s):
+                    _SKILL_NAME_CACHE[s['asset'].lower()] = s['name']
+        except Exception:
+            pass
 def resolve_rich_text(text: str) -> str:
     import re
     _ensure_name_caches()
@@ -255,12 +264,14 @@ def resolve_rich_text(text: str) -> str:
             name = _STRUCT_NAME_CACHE.get(asset_id, '')
         elif tag_type == 'charactername':
             name = _PAL_NAME_CACHE.get(asset_id, '')
+        elif tag_type == 'activeskillname':
+            name = _SKILL_NAME_CACHE.get(asset_id, '')
         else:
             name = ''
         if name and '<' not in name:
             return name
         return asset_id
-    text = re.sub('<(itemName|mapObjectName|characterName)\\s+id=\\|([^|]+)\\|/>', _replace, text, flags=re.I)
+    text = re.sub('<(itemName|mapObjectName|characterName|activeSkillName)\\s+id=\\|([^|]+)\\|/>', _replace, text, flags=re.I)
     return text
 def find_and_copy_icon(search_name: str, target_subdir: str, export_subdirs: list[Path]=None) -> str | None:
     if not search_name:

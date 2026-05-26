@@ -393,7 +393,11 @@ class PalIcon(QFrame):
         pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         if nick:
             pal_name = f'{nick}'
-        self.setToolTip(f'{pal_name} [Lv.{level}]')
+        tip = f'{pal_name} [Lv.{level}]'
+        base = get_pal_base_data(cid)
+        if base and base.get('description'):
+            tip += f'\n\n{wrap_tooltip_text(base["description"])}'
+        self.setToolTip(tip)
         self.setStyleSheet('QFrame#palIconNew { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; } QFrame#palIconNew:hover { background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.25); }')
         self.bg.lower()
     def _clear_ui(self):

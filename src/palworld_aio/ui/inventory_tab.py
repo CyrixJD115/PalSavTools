@@ -597,6 +597,12 @@ class ItemPickerDialog(QDialog):
         self.results_list.itemClicked.connect(self._on_item_clicked)
         self.results_list.itemDoubleClicked.connect(self._on_item_double_clicked)
         layout.addWidget(self.results_list)
+        self.desc_label = QLabel('')
+        self.desc_label.setStyleSheet('color: #94a3b8; font-size: 11px; padding: 2px 4px;')
+        self.desc_label.setWordWrap(True)
+        self.desc_label.setVisible(False)
+        self.desc_label.setMaximumHeight(50)
+        layout.addWidget(self.desc_label)
         qty_layout = QHBoxLayout()
         self.qty_label = QLabel(t('inventory.quantity', default='Quantity:'))
         self.qty_spin = QSpinBox()
@@ -641,6 +647,7 @@ class ItemPickerDialog(QDialog):
             list_item.setData(Qt.UserRole, item.get('asset', ''))
             list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
             list_item.setData(Qt.UserRole + 3, type_a)
+            list_item.setData(Qt.UserRole + 4, item.get('description', ''))
             icon_path = item.get('icon', '')
             if icon_path:
                 pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
@@ -669,12 +676,18 @@ class ItemPickerDialog(QDialog):
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item = item.data(Qt.UserRole)
         type_a = item.data(Qt.UserRole + 3) or ''
+        item_desc = item.data(Qt.UserRole + 4) or ''
         is_singleton = type_a in SINGLETON_TYPE_A
         if not self._hide_quantity:
             self.qty_label.setVisible(not is_singleton)
             self.qty_spin.setVisible(not is_singleton)
             if is_singleton:
                 self.qty_spin.setValue(1)
+        if item_desc:
+            self.desc_label.setText(item_desc)
+            self.desc_label.setVisible(True)
+        else:
+            self.desc_label.setVisible(False)
     def _on_item_double_clicked(self, item: QListWidgetItem):
         self.selected_item = item.data(Qt.UserRole)
         self._add_item()

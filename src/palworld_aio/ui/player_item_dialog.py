@@ -91,6 +91,11 @@ class PlayerItemActionDialog(QDialog):
         self.item_info_label = QLabel(t('player_item.select_item') if t else 'Select an item to perform actions')
         self.item_info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
         layout.addWidget(self.item_info_label)
+        self.item_desc_label = QLabel('')
+        self.item_desc_label.setStyleSheet('color: #94a3b8; font-size: 11px; padding: 2px 5px;')
+        self.item_desc_label.setWordWrap(True)
+        self.item_desc_label.setVisible(False)
+        layout.addWidget(self.item_desc_label)
         action_layout = QHBoxLayout()
         self.add_btn = QPushButton(t('player_item.add_item') if t else 'Add Item')
         self.add_btn.clicked.connect(self._on_add_item)
@@ -145,6 +150,7 @@ class PlayerItemActionDialog(QDialog):
                 list_item.setData(Qt.UserRole, asset)
                 list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
                 list_item.setData(Qt.UserRole + 3, type_a)
+                list_item.setData(Qt.UserRole + 4, item.get('description', ''))
                 list_item.setToolTip(f'{name}\n({asset})')
                 icon_path = item.get('icon', '')
                 if icon_path:
@@ -165,8 +171,14 @@ class PlayerItemActionDialog(QDialog):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.text()
         type_a = item.data(Qt.UserRole + 3) or ''
+        item_desc = item.data(Qt.UserRole + 4) or ''
         self.item_info_label.setText(f'{self.selected_item_name}: {self.selected_item_id}')
         self.item_info_label.setStyleSheet('color: #4ade80; font-weight: bold; padding: 5px;')
+        if item_desc:
+            self.item_desc_label.setText(item_desc)
+            self.item_desc_label.setVisible(True)
+        else:
+            self.item_desc_label.setVisible(False)
         if type_a in SINGLETON_TYPE_A:
             self.qty_spin.setValue(1)
             self.qty_spin.setVisible(False)

@@ -81,6 +81,11 @@ class GuildItemPickerDialog(QDialog):
         self.info_label = QLabel(t('base_inventory.select_item') if t else 'Select an item to perform actions')
         self.info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
         layout.addWidget(self.info_label)
+        self.desc_label = QLabel('')
+        self.desc_label.setStyleSheet('color: #94a3b8; font-size: 11px; padding: 2px 5px;')
+        self.desc_label.setWordWrap(True)
+        self.desc_label.setVisible(False)
+        layout.addWidget(self.desc_label)
         guilds_container = QWidget()
         guilds_layout = QHBoxLayout(guilds_container)
         guilds_layout.setContentsMargins(0, 0, 0, 0)
@@ -151,6 +156,7 @@ class GuildItemPickerDialog(QDialog):
             list_item.setData(Qt.UserRole, asset)
             list_item.setData(Qt.UserRole + 1, name)
             list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
+            list_item.setData(Qt.UserRole + 3, item.get('description', ''))
             list_item.setToolTip(f'{name}\n({asset})')
             icon_path = item.get('icon', '')
             if icon_path:
@@ -169,8 +175,14 @@ class GuildItemPickerDialog(QDialog):
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.data(Qt.UserRole + 1)
+        item_desc = item.data(Qt.UserRole + 3) or ''
         self.info_label.setText(f'{self.selected_item_name}: {self.selected_item_id}')
         self.info_label.setStyleSheet('color: #4a9; padding: 5px;')
+        if item_desc:
+            self.desc_label.setText(item_desc)
+            self.desc_label.setVisible(True)
+        else:
+            self.desc_label.setVisible(False)
         self.find_btn.setEnabled(True)
         self.remove_btn.setEnabled(True)
         self._load_guilds_for_item()

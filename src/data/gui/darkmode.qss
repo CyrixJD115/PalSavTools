@@ -382,6 +382,29 @@ QDialog {
     font-family: "Segoe UI", Roboto, Arial;
 }
 
+/* QMessageBox / QInputDialog */
+QMessageBox, QInputDialog {
+    background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,
+                stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);
+    color: #dfeefc;
+    font-family: "Segoe UI", Roboto, Arial;
+}
+QMessageBox QLabel, QInputDialog QLabel {
+    color: #dfeefc;
+}
+QMessageBox QPushButton, QInputDialog QPushButton {
+    background-color: rgba(125,211,252,0.12);
+    color: #7DD3FC;
+    border: 1px solid rgba(125,211,252,0.2);
+    border-radius: 4px;
+    padding: 6px 16px;
+    min-width: 70px;
+}
+QMessageBox QPushButton:hover, QInputDialog QPushButton:hover {
+    background-color: rgba(125,211,252,0.2);
+    color: #FFFFFF;
+}
+
 /* Conversion Dialog Styling */
 QDialog QLabel#dialogTitle {
     font-size: 13px;

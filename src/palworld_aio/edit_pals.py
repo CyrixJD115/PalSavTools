@@ -3220,6 +3220,9 @@ class PalInfoWidget(QFrame):
             self._update_display(self.last_clicked_data)
         parent = self.parent()
         while parent:
+            if hasattr(parent, 'tools_tab'):
+                parent.tools_tab._update_stats()
+                break
             if hasattr(parent, '_update_party_slots'):
                 parent._update_party_slots()
             if hasattr(parent, 'palbox_slots') and hasattr(parent, 'party_slots'):
@@ -3236,6 +3239,18 @@ class PalInfoWidget(QFrame):
                         parent._highlight_palbox_slot(idx)
                 break
             parent = parent.parent()
+
+    def _update_dashboard_stats(self):
+        parent = self.parent()
+        while parent:
+            if hasattr(parent, 'tools_tab'):
+                parent.tools_tab._update_stats()
+                break
+            if hasattr(parent, 'settings'):
+                parent = parent.parent()
+            else:
+                parent = None
+
     def refresh_labels(self):
         self._no_data_overlay.setText(t('pal_editor.no_pal_data') if t else 'No Pal Data')
         if hasattr(self, '_lv_label'):
@@ -3444,6 +3459,7 @@ class PalEditorWidget(QWidget):
                 del self.party_pals[slot_index]
                 self._update_party_slots()
                 self.pal_info._clear_display()
+                self._update_dashboard_stats()
         else:
             abs_idx = (self.current_box_index - 1) * 30 + slot_index
             if abs_idx in self.palbox_pal_dict:
@@ -3460,6 +3476,7 @@ class PalEditorWidget(QWidget):
                 del self.palbox_pal_dict[abs_idx]
                 self._update_palbox_page()
                 self.pal_info._clear_display()
+                self._update_dashboard_stats()
     def _add_new_pal_at_slot(self, slot_index):
         sender = self.sender()
         is_party = sender in self.party_slots
@@ -3467,6 +3484,7 @@ class PalEditorWidget(QWidget):
         if dlg.exec() == QDialog.Accepted and dlg.created_item:
             self._update_party_slots()
             self._update_palbox_page()
+            self._update_dashboard_stats()
     def _focus_pal_info(self):
         self.pal_info.setFocus()
     def _highlight_party_slot(self, idx):

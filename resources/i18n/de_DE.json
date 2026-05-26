@@ -1391,5 +1391,7 @@
   "player_pal.select_active": "Wählen Sie „Aktive Fertigkeit“.",
   "player_pal.select_passive": "Wählen Sie Passive Fertigkeit",
   "player_pal.no_active_selected": "Kein aktiver Skill ausgewählt",
-  "player_pal.no_passive_selected": "Keine passive Fertigkeit ausgewählt"
+  "player_pal.no_passive_selected": "Keine passive Fertigkeit ausgewählt",
+  "player_item.inventory_items": "Inventargegenstände",
+  "player_item.key_items": "Schlüsselelemente"
 }

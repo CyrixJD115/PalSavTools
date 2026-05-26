@@ -1366,5 +1366,7 @@
   "player_pal.select_active": "액티브 스킬 선택",
   "player_pal.select_passive": "패시브 스킬 선택",
   "player_pal.no_active_selected": "활성 스킬을 선택하지 않았습니다.",
-  "player_pal.no_passive_selected": "패시브 스킬을 선택하지 않았습니다."
+  "player_pal.no_passive_selected": "패시브 스킬을 선택하지 않았습니다.",
+  "player_item.inventory_items": "인벤토리 아이템",
+  "player_item.key_items": "주요 품목"
 }

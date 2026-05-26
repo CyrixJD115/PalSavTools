@@ -1367,5 +1367,7 @@
   "player_pal.select_active": "アクティブスキルを選択",
   "player_pal.select_passive": "パッシブスキルを選択",
   "player_pal.no_active_selected": "アクティブなスキルが選択されていません",
-  "player_pal.no_passive_selected": "パッシブスキルが選択されていません"
+  "player_pal.no_passive_selected": "パッシブスキルが選択されていません",
+  "player_item.inventory_items": "在庫品目",
+  "player_item.key_items": "主要アイテム"
 }

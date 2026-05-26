@@ -1369,5 +1369,7 @@
   "player_pal.select_active": "选择主动技能",
   "player_pal.select_passive": "选择被动技能",
   "player_pal.no_active_selected": "未选择主动技能",
-  "player_pal.no_passive_selected": "未选择被动技能"
+  "player_pal.no_passive_selected": "未选择被动技能",
+  "player_item.inventory_items": "库存物品",
+  "player_item.key_items": "关键项目"
 }

@@ -1655,5 +1655,7 @@
   "player_pal.select_active": "Select Active Skill",
   "player_pal.select_passive": "Select Passive Skill",
   "player_pal.no_active_selected": "No active skill selected",
-  "player_pal.no_passive_selected": "No passive skill selected"
+  "player_pal.no_passive_selected": "No passive skill selected",
+  "player_item.inventory_items": "Inventory Items",
+  "player_item.key_items": "Key Items"
 }

@@ -1,15 +1,15 @@
 import os
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QScrollArea, QGroupBox, QCheckBox, QMessageBox, QSpinBox, QButtonGroup, QRadioButton, QFrame, QGridLayout, QAbstractItemView, QListView, QTabWidget, QComboBox
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QCheckBox, QMessageBox, QSpinBox, QFrame, QAbstractItemView, QListView, QTabWidget, QWidget
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
-from PySide6.QtGui import QPixmap, QIcon, QFont, QColor, QPainter, QPen
+from PySide6.QtGui import QPixmap, QIcon, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
-from PySide6.QtCore import Qt
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.inventory_manager import ItemData
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE
+SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -42,13 +42,14 @@ class PlayerItemActionDialog(QDialog):
         self.selected_item_name = None
         self.players_data = []
         self.players_with_item = set()
+        self._all_items = []
         self._setup_ui()
+        self._load_items()
+        self._load_players()
     def _setup_ui(self):
         self.setStyleSheet(DARK_THEME_STYLE)
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
-        search_group = QGroupBox(t('player_item.search_item') if t else 'Search Item')
-        search_layout = QVBoxLayout()
         search_bar_layout = QHBoxLayout()
         search_label = QLabel(t('common.search') if t else 'Search:')
         self.search_input = QLineEdit()
@@ -56,25 +57,16 @@ class PlayerItemActionDialog(QDialog):
         self.search_input.textChanged.connect(self._filter_items)
         search_bar_layout.addWidget(search_label)
         search_bar_layout.addWidget(self.search_input)
-        search_layout.addLayout(search_bar_layout)
-        self.results_list = QListWidget()
-        self.results_list.setViewMode(QListView.IconMode)
-        self.results_list.setIconSize(QSize(48, 48))
-        self.results_list.setSpacing(0)
-        self.results_list.setUniformItemSizes(True)
-        self.results_list.setGridSize(QSize(80, 80))
-        self.results_list.setResizeMode(QListWidget.Adjust)
-        self.results_list.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.results_list.setDragEnabled(False)
-        self.results_list.setAcceptDrops(False)
-        self.results_list.setItemDelegate(RarityBorderDelegate(self.results_list))
-        self.results_list.itemClicked.connect(self._on_item_clicked)
-        search_layout.addWidget(self.results_list)
+        layout.addLayout(search_bar_layout)
+        self.item_tabs = QTabWidget()
+        self._inv_grid = self._make_item_grid()
+        self.item_tabs.addTab(self._inv_grid, t('player_item.inventory_items') if t else 'Inventory Items')
+        self._key_grid = self._make_item_grid()
+        self.item_tabs.addTab(self._key_grid, t('player_item.key_items') if t else 'Key Items')
+        layout.addWidget(self.item_tabs)
         self.item_info_label = QLabel(t('player_item.select_item') if t else 'Select an item to perform actions')
         self.item_info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
-        search_layout.addWidget(self.item_info_label)
-        search_group.setLayout(search_layout)
-        layout.addWidget(search_group)
+        layout.addWidget(self.item_info_label)
         self.players_group = QGroupBox(t('player_item.players') if t else 'Select Players')
         players_layout = QVBoxLayout()
         btn_layout = QHBoxLayout()
@@ -99,14 +91,20 @@ class PlayerItemActionDialog(QDialog):
         self.players_group.setVisible(False)
         layout.addWidget(self.players_group)
         action_layout = QHBoxLayout()
-        self.remove_btn = QPushButton(t('player_item.remove_item') if t else 'Remove Item')
-        self.remove_btn.clicked.connect(self._on_remove_item)
-        self.remove_btn.setEnabled(False)
-        action_layout.addWidget(self.remove_btn)
+        self.qty_spin = QSpinBox()
+        self.qty_spin.setRange(1, 9999)
+        self.qty_spin.setValue(1)
+        self.qty_spin.setFixedWidth(70)
+        self.qty_spin.setVisible(False)
+        action_layout.addWidget(self.qty_spin)
         self.add_btn = QPushButton(t('player_item.add_item') if t else 'Add Item')
         self.add_btn.clicked.connect(self._on_add_item)
         self.add_btn.setEnabled(False)
         action_layout.addWidget(self.add_btn)
+        self.remove_btn = QPushButton(t('player_item.remove_item') if t else 'Remove Item')
+        self.remove_btn.clicked.connect(self._on_remove_item)
+        self.remove_btn.setEnabled(False)
+        action_layout.addWidget(self.remove_btn)
         action_layout.addStretch()
         close_btn = QPushButton(t('button.close') if t else 'Close')
         close_btn.clicked.connect(self.reject)
@@ -115,36 +113,66 @@ class PlayerItemActionDialog(QDialog):
         self.status_label = QLabel('')
         self.status_label.setStyleSheet('color: #4ade80; font-weight: bold; padding: 5px;')
         layout.addWidget(self.status_label)
-        items = ItemData.get_all_items()
-        for item in items:
-            name = item.get('name', 'Unknown')
-            asset = item.get('asset', '')
-            list_item = QListWidgetItem(name)
-            list_item.setData(Qt.UserRole, asset)
-            list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
-            list_item.setToolTip(f'{name}\n({asset})')
-            icon_path = item.get('icon', '')
-            if icon_path:
-                pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
-                if not pixmap.isNull():
-                    list_item.setIcon(QIcon(pixmap))
-            list_item.setSizeHint(QSize(80, 80))
-            self.results_list.addItem(list_item)
-        self._load_players()
+    def _make_item_grid(self):
+        grid = QListWidget()
+        grid.setViewMode(QListView.IconMode)
+        grid.setIconSize(QSize(48, 48))
+        grid.setSpacing(0)
+        grid.setUniformItemSizes(True)
+        grid.setGridSize(QSize(84, 84))
+        grid.setResizeMode(QListWidget.Adjust)
+        grid.setSelectionMode(QAbstractItemView.SingleSelection)
+        grid.setDragEnabled(False)
+        grid.setAcceptDrops(False)
+        grid.setItemDelegate(RarityBorderDelegate(grid))
+        grid.itemClicked.connect(self._on_item_clicked)
+        return grid
+    def _load_items(self):
+        self._all_items = ItemData.get_all_items()
+        for tab_idx, type_a_filter in enumerate([False, True]):
+            grid = self._inv_grid if tab_idx == 0 else self._key_grid
+            for item in self._all_items:
+                name = item.get('name', 'Unknown')
+                asset = item.get('asset', '')
+                type_a = item.get('type_a', '') or ItemData.get_item_type_a(asset)
+                is_essential = type_a == 'EPalItemTypeA::Essential'
+                if type_a_filter and (not is_essential):
+                    continue
+                if (not type_a_filter) and is_essential:
+                    continue
+                list_item = QListWidgetItem(name)
+                list_item.setData(Qt.UserRole, asset)
+                list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
+                list_item.setData(Qt.UserRole + 3, type_a)
+                list_item.setToolTip(f'{name}\n({asset})')
+                icon_path = item.get('icon', '')
+                if icon_path:
+                    pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))
+                    if not pixmap.isNull():
+                        list_item.setIcon(QIcon(pixmap))
+                list_item.setSizeHint(QSize(84, 84))
+                grid.addItem(list_item)
     def _filter_items(self, query: str):
         q = query.lower()
-        for i in range(self.results_list.count()):
-            item = self.results_list.item(i)
-            name = item.text()
-            asset = item.data(Qt.UserRole) or ''
-            item.setHidden(bool(q and q not in name.lower() and (q not in asset.lower())))
+        for grid in [self._inv_grid, self._key_grid]:
+            for i in range(grid.count()):
+                item = grid.item(i)
+                name = item.text()
+                asset = item.data(Qt.UserRole) or ''
+                item.setHidden(bool(q and q not in name.lower() and (q not in asset.lower())))
     def _on_item_clicked(self, item: QListWidgetItem):
         self.selected_item_id = item.data(Qt.UserRole)
         self.selected_item_name = item.text()
+        type_a = item.data(Qt.UserRole + 3) or ''
         self.item_info_label.setText(f'{self.selected_item_name}: {self.selected_item_id}')
-        self.item_info_label.setStyleSheet('color: #4a9; padding: 5px;')
-        self.remove_btn.setEnabled(True)
+        self.item_info_label.setStyleSheet('color: #4ade80; font-weight: bold; padding: 5px;')
+        if type_a in SINGLETON_TYPE_A:
+            self.qty_spin.setValue(1)
+            self.qty_spin.setVisible(False)
+        else:
+            self.qty_spin.setVisible(True)
         self.add_btn.setEnabled(True)
+        self.remove_btn.setEnabled(True)
         self.find_players_btn.setEnabled(True)
         self._update_player_list()
     def _load_players(self):
@@ -191,8 +219,6 @@ class PlayerItemActionDialog(QDialog):
             list_item.setCheckState(Qt.Checked if uid in self.players_with_item else Qt.Unchecked)
             list_item.setData(Qt.UserRole, uid)
             self.player_list.addItem(list_item)
-    def _player_has_item(self, player_uid, item_id):
-        return self._player_item_count(player_uid, item_id) > 0
     def _player_item_count(self, player_uid, item_id):
         try:
             from palworld_aio import constants
@@ -250,12 +276,10 @@ class PlayerItemActionDialog(QDialog):
                 item.setCheckState(Qt.Unchecked)
     def _select_all_players(self):
         for i in range(self.player_list.count()):
-            item = self.player_list.item(i)
-            item.setCheckState(Qt.Checked)
+            self.player_list.item(i).setCheckState(Qt.Checked)
     def _deselect_all_players(self):
         for i in range(self.player_list.count()):
-            item = self.player_list.item(i)
-            item.setCheckState(Qt.Unchecked)
+            self.player_list.item(i).setCheckState(Qt.Unchecked)
     def _get_selected_players(self):
         selected = []
         for i in range(self.player_list.count()):
@@ -270,39 +294,11 @@ class PlayerItemActionDialog(QDialog):
         if not selected_players:
             QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
             return
-        remove_dialog = QDialog(self)
-        remove_dialog.setWindowTitle(t('player_item.remove_options') if t else 'Remove Options')
-        remove_dialog.setMinimumWidth(300)
-        remove_layout = QVBoxLayout(remove_dialog)
-        remove_all_btn = QPushButton(t('player_item.remove_all') if t else 'Remove All')
-        remove_all_btn.clicked.connect(lambda: self._do_remove_all(remove_dialog, selected_players))
-        remove_layout.addWidget(remove_all_btn)
-        pct_layout = QHBoxLayout()
-        pct_label = QLabel(t('player_item.remove_percentage') if t else 'Remove Percentage:')
-        pct_layout.addWidget(pct_label)
-        pct_spin = QSpinBox()
-        pct_spin.setRange(1, 100)
-        pct_spin.setValue(50)
-        pct_layout.addWidget(pct_spin)
-        remove_layout.addLayout(pct_layout)
-        pct_btn = QPushButton(t('player_item.remove_pct') if t else 'Remove Percentage')
-        pct_btn.clicked.connect(lambda: self._do_remove_pct(remove_dialog, selected_players, pct_spin.value()))
-        remove_layout.addWidget(pct_btn)
-        cancel_btn = QPushButton(t('button.cancel') if t else 'Cancel')
-        cancel_btn.clicked.connect(remove_dialog.reject)
-        remove_layout.addWidget(cancel_btn)
-        remove_dialog.exec()
-    def _do_remove_all(self, dialog, selected_players):
-        dialog.accept()
         item_name = self.selected_item_name or 'this item'
         reply = QMessageBox.question(self, t('player_item.confirm_remove') if t else 'Confirm Remove', t('player_item.confirm_remove_msg').format(item_name=item_name, count=len(selected_players)) if t else f'Remove all "{item_name}" from {len(selected_players)} selected player(s)?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.item_action_selected.emit(self.selected_item_id, 'remove_all', selected_players)
             self._refresh_after_action()
-    def _do_remove_pct(self, dialog, selected_players, pct):
-        dialog.accept()
-        self.item_action_selected.emit(self.selected_item_id, f'remove_pct:{pct}', selected_players)
-        self._refresh_after_action()
     def _on_add_item(self):
         if not self.selected_item_id:
             return
@@ -310,41 +306,9 @@ class PlayerItemActionDialog(QDialog):
         if not selected_players:
             QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
             return
-        add_dialog = QDialog(self)
-        add_dialog.setWindowTitle(t('player_item.add_item_title') if t else 'Add Item Options')
-        add_dialog.setMinimumWidth(900)
-        add_layout = QVBoxLayout(add_dialog)
-        qty_layout = QHBoxLayout()
-        qty_label = QLabel(t('player_item.quantity') if t else 'Quantity:')
-        qty_layout.addWidget(qty_label)
-        qty_spin = QSpinBox()
-        qty_spin.setRange(1, 9999)
-        qty_spin.setValue(1)
-        qty_layout.addWidget(qty_spin)
-        add_layout.addLayout(qty_layout)
-        container_layout = QHBoxLayout()
-        container_label = QLabel(t('player_item.container_type') if t else 'Container:')
-        container_layout.addWidget(container_label)
-        container_combo = QComboBox()
-        container_combo.addItem(t('player_item.container_key') if t else 'Key Items', 'key')
-        container_combo.addItem(t('player_item.container_main') if t else 'Main Inventory', 'main')
-        container_combo.addItem(t('player_item.container_weapons') if t else 'Weapons', 'weapons')
-        container_combo.addItem(t('player_item.container_armor') if t else 'Armor', 'armor')
-        container_combo.addItem(t('player_item.container_food') if t else 'Food Bag', 'foodbag')
-        container_layout.addWidget(container_combo)
-        add_layout.addLayout(container_layout)
-        btn_layout = QHBoxLayout()
-        add_btn = QPushButton(t('button.add') if t else 'Add')
-        add_btn.clicked.connect(lambda: self._do_add_item(add_dialog, selected_players, qty_spin.value(), container_combo.currentData()))
-        btn_layout.addWidget(add_btn)
-        cancel_btn = QPushButton(t('button.cancel') if t else 'Cancel')
-        cancel_btn.clicked.connect(add_dialog.reject)
-        btn_layout.addWidget(cancel_btn)
-        add_layout.addLayout(btn_layout)
-        add_dialog.exec()
-    def _do_add_item(self, dialog, selected_players, quantity, container_type):
-        dialog.accept()
-        self.item_action_selected.emit(self.selected_item_id, f'add:{quantity}:{container_type}', selected_players)
+        qty = self.qty_spin.value()
+        container_type = ItemData.get_target_container(self.selected_item_id)
+        self.item_action_selected.emit(self.selected_item_id, f'add:{qty}:{container_type}', selected_players)
         self._refresh_after_action()
     def _refresh_after_action(self):
         item_name = self.selected_item_name or 'Item'

@@ -1349,5 +1349,7 @@
   "player_pal.select_active": "Sélectionnez une compétence active",
   "player_pal.select_passive": "Sélectionnez la compétence passive",
   "player_pal.no_active_selected": "Aucune compétence active sélectionnée",
-  "player_pal.no_passive_selected": "Aucune compétence passive sélectionnée"
+  "player_pal.no_passive_selected": "Aucune compétence passive sélectionnée",
+  "player_item.inventory_items": "Articles en stock",
+  "player_item.key_items": "Éléments clés"
 }

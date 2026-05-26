@@ -1360,5 +1360,7 @@
   "player_pal.select_active": "Seleccionar habilidad activa",
   "player_pal.select_passive": "Seleccionar habilidad pasiva",
   "player_pal.no_active_selected": "No se ha seleccionado ninguna habilidad activa",
-  "player_pal.no_passive_selected": "No se seleccionó ninguna habilidad pasiva"
+  "player_pal.no_passive_selected": "No se seleccionó ninguna habilidad pasiva",
+  "player_item.inventory_items": "Artículos de inventario",
+  "player_item.key_items": "Artículos clave"
 }

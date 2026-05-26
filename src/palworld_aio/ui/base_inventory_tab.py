@@ -158,9 +158,9 @@ class GuildItemPickerDialog(QDialog):
             list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
             list_item.setData(Qt.UserRole + 3, item.get('description', ''))
             item_desc = item.get('description', '')
-            tip = f'{name}\n({asset})'
+            tip = f'<b>{name}</b><br>({asset})'
             if item_desc:
-                tip += f'\n\n{wrap_tooltip_text(item_desc)}'
+                tip += f'<br><br>{wrap_tooltip_text(item_desc)}'
             list_item.setToolTip(tip)
             icon_path = item.get('icon', '')
             if icon_path:

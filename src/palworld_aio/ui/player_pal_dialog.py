@@ -197,10 +197,10 @@ class PlayerPalActionDialog(QDialog):
         for pal_id, pal_name in all_pals:
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)
-            tip = f'{pal_name}\n({pal_id})'
+            tip = f'<b>{pal_name}</b><br>({pal_id})'
             pdesc = self._pal_desc_map.get(pal_id.lower(), '')
             if pdesc:
-                tip += f'\n\n{wrap_tooltip_text(pdesc)}'
+                tip += f'<br><br>{wrap_tooltip_text(pdesc)}'
             list_item.setToolTip(tip)
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and (not pixmap.isNull()):
@@ -219,10 +219,10 @@ class PlayerPalActionDialog(QDialog):
         for pal_id, pal_name in filtered:
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)
-            tip = f'{pal_name}\n({pal_id})'
+            tip = f'<b>{pal_name}</b><br>({pal_id})'
             pdesc = self._pal_desc_map.get(pal_id.lower(), '')
             if pdesc:
-                tip += f'\n\n{wrap_tooltip_text(pdesc)}'
+                tip += f'<br><br>{wrap_tooltip_text(pdesc)}'
             list_item.setToolTip(tip)
             pixmap = self._get_pal_icon(pal_id)
             if pixmap and (not pixmap.isNull()):

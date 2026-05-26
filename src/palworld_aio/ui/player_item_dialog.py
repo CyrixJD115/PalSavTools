@@ -152,9 +152,9 @@ class PlayerItemActionDialog(QDialog):
                 list_item.setData(Qt.UserRole + 3, type_a)
                 list_item.setData(Qt.UserRole + 4, item.get('description', ''))
                 desc = item.get('description', '')
-                tip = f'{name}\n({asset})'
+                tip = f'<b>{name}</b><br>({asset})'
                 if desc:
-                    tip += f'\n\n{wrap_tooltip_text(desc)}'
+                    tip += f'<br><br>{wrap_tooltip_text(desc)}'
                 list_item.setToolTip(tip)
                 icon_path = item.get('icon', '')
                 if icon_path:

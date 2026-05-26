@@ -409,14 +409,11 @@ def load_json_files():
     if not host_json_gvas:
         return False
     host_json = host_json_gvas.properties
-    if not selected_target_player or selected_target_player == selected_source_player:
-        targ_json_gvas = fast_deepcopy(host_json_gvas)
-        targ_json = fast_deepcopy(host_json)
-    else:
-        targ_json_gvas = load_player_file(t_level_sav_path, selected_target_player)
-        if not targ_json_gvas:
-            return False
-        targ_json = targ_json_gvas.properties
+    target_uid = selected_target_player or selected_source_player
+    targ_json_gvas = load_player_file(t_level_sav_path, target_uid)
+    if not targ_json_gvas:
+        return False
+    targ_json = targ_json_gvas.properties
     return True
 def gather_inventory_ids(json_data):
     inv_info = json_data['SaveData']['value']['InventoryInfo']['value']

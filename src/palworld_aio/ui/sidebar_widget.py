@@ -42,6 +42,7 @@ class BottomBtn(QPushButton):
     def __init__(self, icon_code, tooltip, parent=None):
         super().__init__(parent)
         self.setProperty('sidebarItem', True)
+        self.setProperty('active', False)
         self.setCursor(QCursor(Qt.PointingHandCursor))
         self.setFont(QFont('Hack Nerd Font', 16))
         self.setFixedSize(SIDEBAR_W, ITEM_H)
@@ -49,6 +50,22 @@ class BottomBtn(QPushButton):
         self.setToolTip(tooltip)
     def set_icon(self, icon_code):
         self.setText(icon_code)
+    def set_active(self, active):
+        self.setProperty('active', active)
+        self.style().unpolish(self)
+        self.style().polish(self)
+        self.update()
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        if self.property('active'):
+            painter = QPainter(self)
+            painter.setRenderHint(QPainter.Antialiasing)
+            pw, ph = 4, 20
+            px, py = 3, (self.height() - ph) // 2
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(QColor('#7DD3FC')))
+            painter.drawRoundedRect(px, py, pw, ph, pw / 2, pw / 2)
+            painter.end()
 class SidebarWidget(QWidget):
     nav_changed = Signal(str)
     console_toggled = Signal()
@@ -75,7 +92,7 @@ class SidebarWidget(QWidget):
             layout.addWidget(item)
         layout.addStretch()
         self._console_btn = BottomBtn(ICONS['console'], t('console.detach') if t else 'Console')
-        self._console_btn.clicked.connect(self.console_toggled.emit)
+        self._console_btn.clicked.connect(self._on_console_toggle)
         layout.addWidget(self._console_btn)
         self._right_panel_btn = BottomBtn(ICONS['collapse_close'], t('sidebar.close') if t else 'Close Panel')
         self._right_panel_btn.clicked.connect(self._on_right_panel_toggle)
@@ -89,12 +106,18 @@ class SidebarWidget(QWidget):
         self._active_id = button_id
         for bid, btn in self._buttons.items():
             btn.set_active(bid == button_id)
+    def _on_console_toggle(self):
+        self._console_active = not getattr(self, '_console_active', False)
+        self._console_btn.set_active(self._console_active)
+        self.console_toggled.emit()
     def _on_right_panel_toggle(self):
         self._right_panel_visible = not self._right_panel_visible
+        self._right_panel_btn.set_active(not self._right_panel_visible)
         self._update_right_panel_icon()
         self.right_panel_toggled.emit()
     def set_right_panel_visible(self, visible):
         self._right_panel_visible = visible
+        self._right_panel_btn.set_active(not visible)
         self._update_right_panel_icon()
     def _update_right_panel_icon(self):
         if self._right_panel_visible:

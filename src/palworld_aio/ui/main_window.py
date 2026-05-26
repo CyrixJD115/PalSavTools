@@ -304,6 +304,8 @@ class MainWindow(QMainWindow):
         self.sidebar.nav_changed.connect(self._on_nav_changed)
         self.sidebar.console_toggled.connect(self._detach_status)
         self.sidebar.right_panel_toggled.connect(self._toggle_dashboard)
+        if not self.user_settings.get('right_panel_visible', True):
+            self._toggle_dashboard()
         body_layout.addWidget(self.sidebar)
         self._dashboard_collapsed = False
         self._dashboard_sizes = [1000, 400]
@@ -602,7 +604,7 @@ class MainWindow(QMainWindow):
     def _load_user_settings(self):
         base_path = constants.get_src_path()
         user_cfg_path = os.path.join(base_path, 'data', 'configs', 'user.cfg')
-        default_settings = {'language': 'en_US', 'show_icons': True, 'boot_preference': 'menu', 'console_detached': False, 'console_window_geometry': None}
+        default_settings = {'language': 'en_US', 'show_icons': True, 'boot_preference': 'menu', 'console_detached': False, 'console_window_geometry': None, 'right_panel_visible': True}
         if os.path.exists(user_cfg_path):
             try:
                 self.user_settings = json_tools.load(user_cfg_path)
@@ -657,6 +659,8 @@ class MainWindow(QMainWindow):
             self._dashboard_collapsed = True
         if hasattr(self, 'sidebar') and self.sidebar:
             self.sidebar.set_right_panel_visible(not self._dashboard_collapsed)
+        self.user_settings['right_panel_visible'] = not self._dashboard_collapsed
+        self._save_user_settings()
     def _toggle_maximize(self):
         if self.isMaximized():
             self.showNormal()

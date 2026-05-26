@@ -211,7 +211,7 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             self.tick_timer.start(250)
             self.phrase_timer = QTimer(self)
             self.phrase_timer.timeout.connect(self.cycle_phrase)
-            self.phrase_timer.start(3500)
+            self.phrase_timer.start(3000)
         def cycle_phrase(self):
             self.anim = QPropertyAnimation(self.opacity_effect, b'opacity')
             self.anim.setDuration(400)

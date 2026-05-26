@@ -8,7 +8,7 @@ from palworld_aio import constants
 from palworld_aio.inventory_manager import ItemData
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
-from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE
+from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, wrap_tooltip_text
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
@@ -151,7 +151,11 @@ class PlayerItemActionDialog(QDialog):
                 list_item.setData(Qt.UserRole + 2, item.get('rarity', 0))
                 list_item.setData(Qt.UserRole + 3, type_a)
                 list_item.setData(Qt.UserRole + 4, item.get('description', ''))
-                list_item.setToolTip(f'{name}\n({asset})')
+                desc = item.get('description', '')
+                tip = f'{name}\n({asset})'
+                if desc:
+                    tip += f'\n\n{wrap_tooltip_text(desc)}'
+                list_item.setToolTip(tip)
                 icon_path = item.get('icon', '')
                 if icon_path:
                     pixmap = ItemData.get_item_icon(icon_path, QSize(48, 48))

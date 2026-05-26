@@ -768,14 +768,14 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
         if source_guild:
             break
     if source_player:
-        source_player['player_uid'] = targ_uid
+        source_player['player_uid'] = str(targ_uid)
     if target_guild:
         raw = target_guild['value']['RawData']['value']
         raw['players'] = [p for p in raw['players'] if p.get('player_uid') != targ_uid]
         raw['players'].append(source_player)
         if raw.get('admin_player_uid') == host_guid:
-            raw['admin_player_uid'] = targ_uid
-        return True
+            raw['admin_player_uid'] = str(targ_uid)
+            return True
     zero_uuid = PalUUID(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
     if source_guild:
         cloned = fast_deepcopy(source_guild)
@@ -784,7 +784,7 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
         raw['group_id'] = UUID(os.urandom(16))
         raw['group_name'] = 'Transferred Guild'
         raw['players'] = [source_player]
-        raw['admin_player_uid'] = targ_uid
+        raw['admin_player_uid'] = str(targ_uid)
         raw['base_ids'] = []
         raw['map_object_instance_ids_base_camp_points'] = []
         raw['individual_character_handle_ids'] = []
@@ -798,7 +798,7 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
         raw['trailing_bytes'] = [0, 0, 0, 0]
         guilds.append(cloned)
         return True
-    new_g = {'key': UUID(os.urandom(16)), 'value': {'GroupType': {'value': {'value': 'EPalGroupType::Guild'}}, 'RawData': {'value': {'group_type': 'EPalGroupType::Guild', 'group_id': UUID(os.urandom(16)), 'group_name': 'Transferred Guild', 'individual_character_handle_ids': [], 'org_type': 0, 'leading_bytes': [0, 0, 0, 0], 'base_ids': [], 'unknown_1': 0, 'base_camp_level': 1, 'map_object_instance_ids_base_camp_points': [], 'guild_name': 'Transferred Guild', 'last_guild_name_modifier_player_uid': zero_uuid, 'unknown_2': [0, 0, 0, 0], 'admin_player_uid': targ_uid, 'players': [{'player_uid': targ_uid, 'player_info': {'last_online_real_time': target_world_tick, 'player_name': targ_json['SaveData']['value']['NickName']['value']}}], 'trailing_bytes': [0, 0, 0, 0]}}}}
+    new_g = {'key': UUID(os.urandom(16)), 'value': {'GroupType': {'value': {'value': 'EPalGroupType::Guild'}}, 'RawData': {'value': {'group_type': 'EPalGroupType::Guild', 'group_id': UUID(os.urandom(16)), 'group_name': 'Transferred Guild', 'individual_character_handle_ids': [], 'org_type': 0, 'leading_bytes': [0, 0, 0, 0], 'base_ids': [], 'unknown_1': 0, 'base_camp_level': 1, 'map_object_instance_ids_base_camp_points': [], 'guild_name': 'Transferred Guild', 'last_guild_name_modifier_player_uid': zero_uuid, 'unknown_2': [0, 0, 0, 0], 'admin_player_uid': str(targ_uid), 'players': [{'player_uid': str(targ_uid), 'player_info': {'last_online_real_time': target_world_tick, 'player_name': targ_json['SaveData']['value']['NickName']['value']}}], 'trailing_bytes': [0, 0, 0, 0]}}}}
     guilds.append(new_g)
     return True
 def transfer_tech_and_data():

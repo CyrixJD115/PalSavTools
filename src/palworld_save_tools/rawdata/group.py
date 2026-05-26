@@ -277,6 +277,8 @@ def encode_bytes(p: dict[str, Any]) -> bytes:
                         uid = _stdlib_uuid.UUID(uid)
                     elif isinstance(uid, _stdlib_uuid.UUID):
                         pass
+                    elif isinstance(uid, UUID):
+                        pass
                     else:
                         uid = _stdlib_uuid.UUID('00000000-0000-0000-0000-000000000000')
                     writer.guid(uid)

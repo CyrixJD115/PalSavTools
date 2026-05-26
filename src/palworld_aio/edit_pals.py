@@ -1436,7 +1436,7 @@ class PassiveEffectOverlay(QWidget):
             speed = h * 0.9
             for c in range(cols):
                 cx = c * col_w + 2
-                head_y = (self._phase * speed + c * h * 0.18) % cycle
+                head_y = (cycle - (self._phase * speed + c * h * 0.18)) % cycle
                 for i in range(15):
                     y = head_y - i * 5.5
                     if y < 0:
@@ -1525,7 +1525,7 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
         speed = h * 0.7
         for c in range(cols):
             cx = rect.x() + c * col_w + 1
-            head_y = (_anim_phase * speed + c * h * 0.12) % cycle
+            head_y = (cycle - (_anim_phase * speed + c * h * 0.12)) % cycle
             for i in range(6):
                 y = head_y - i * 3.0
                 if y < 0:

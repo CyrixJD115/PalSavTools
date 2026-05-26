@@ -6,7 +6,7 @@ from i18n import t
 from loading_manager import show_critical
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, extract_value, get_pal_data, calculate_max_hp, calculate_attack, calculate_defense, format_character_key
-from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLESHEET
+from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLESHEET, PICKER_SEARCH_STYLE
 class ThemedDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -499,9 +499,9 @@ class RadiusPreviewDialog(ThemedDialog):
         self._update_input_field_style()
     def _update_input_field_style(self):
         if self.input_field.text().strip():
-            self.input_field.setStyleSheet('\n                QLineEdit {\n                    background-color: rgba(255,255,255,0.1);\n                    color: #dfeefc;\n                    border: 1px solid rgba(255,255,255,0.2);\n                    border-radius: 4px;\n                    padding: 6px;\n                }\n            ')
+            self.input_field.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 10px; }')
         else:
-            self.input_field.setStyleSheet('\n                QLineEdit {\n                    background-color: rgba(255,255,255,0.05);\n                    color: #64748b;\n                    border: 1px solid rgba(255,255,255,0.1);\n                    border-radius: 4px;\n                    padding: 6px;\n                }\n            ')
+            self.input_field.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.04); color: #64748b; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 10px; }')
     def _on_input_applied(self):
         text = self.input_field.text().strip()
         if not text:
@@ -815,7 +815,7 @@ class ScrollableGuildSelectionDialog(ThemedDialog):
         self.search_input.setPlaceholderText(t('base.import.search_placeholder') if t else 'Search guild name, leader, coordinates...')
         self.search_input.setMinimumHeight(32)
         self.search_input.textChanged.connect(self._on_search_changed)
-        self.search_input.setStyleSheet(f'\n            QLineEdit {{\n                background-color: rgba(255,255,255,0.05);\n                color: {constants.TEXT};\n                border: 1px solid {constants.BORDER};\n                border-radius: {constants.CORNER_RADIUS}px;\n                padding: 8px 12px;\n                font-size: {constants.FONT_SIZE}px;\n            }}\n            QLineEdit:focus {{\n                border-color: {constants.ACCENT};\n            }}\n        ')
+        self.search_input.setStyleSheet(PICKER_SEARCH_STYLE)
         search_layout.addWidget(self.search_input)
         self.search_status = QLabel('')
         self.search_status.setStyleSheet(f'color: {constants.MUTED}; font-size: 11px;')

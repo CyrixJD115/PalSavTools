@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt, Signal, QSize, QPoint
 from PySide6.QtGui import QPixmap, QCursor, QFont
 from i18n import t
 from palworld_aio import constants
+from palworld_aio.ui.styles import PICKER_SEARCH_STYLE
 from palworld_aio.inventory_manager import ItemData
 CONTAINER_TYPE_MAP = {4: 'WeaponLoadOutContainerId', 6: 'WeaponLoadOutContainerId', 9: 'PlayerEquipArmorContainerId', 5: 'FoodEquipContainerId', 42: 'CommonContainerId'}
 def get_container_type_display(slot_count):
@@ -165,7 +166,7 @@ class UnassignedContainersTab(QWidget):
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText(t('containers.search_placeholder') if t else 'Search items...')
         self.search_input.setFixedWidth(200)
-        self.search_input.setStyleSheet('\n            QLineEdit {\n                background: rgba(255,255,255,0.06);\n                color: #e2e8f0;\n                border: 1px solid rgba(125,211,252,0.2);\n                border-radius: 4px;\n                padding: 4px 8px;\n            }\n            QLineEdit:focus {\n                border-color: rgba(125,211,252,0.4);\n            }\n        ')
+        self.search_input.setStyleSheet(PICKER_SEARCH_STYLE)
         self.search_input.returnPressed.connect(self._on_search)
         header_layout.addWidget(self.search_input)
         search_btn = QPushButton(t('containers.search_btn') if t else 'Search')

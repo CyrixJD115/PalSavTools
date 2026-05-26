@@ -19,7 +19,7 @@ from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
 from palworld_aio.inventory_manager import ItemData
-from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, wrap_tooltip_text
+from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, PICKER_SEARCH_STYLE, wrap_tooltip_text
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -866,7 +866,7 @@ class BaseInventoryTab(QWidget):
         layout.setSpacing(2)
         search = QLineEdit()
         search.setPlaceholderText(t('common.search') if t else 'Search...')
-        search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+        search.setStyleSheet(PICKER_SEARCH_STYLE)
         layout.addWidget(search)
         list_widget = QListWidget()
         list_widget.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
@@ -917,7 +917,7 @@ class BaseInventoryTab(QWidget):
         layout.setSpacing(2)
         search = QLineEdit()
         search.setPlaceholderText(t('common.search') if t else 'Search...')
-        search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+        search.setStyleSheet(PICKER_SEARCH_STYLE)
         layout.addWidget(search)
         list_widget = QListWidget()
         list_widget.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')

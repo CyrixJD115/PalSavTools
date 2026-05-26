@@ -4,6 +4,7 @@ from PySide6.QtGui import QFont, QCursor
 from i18n import t
 from palworld_aio.edit_pals import PalEditorWidget
 from palworld_aio import constants
+from palworld_aio.ui.styles import PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
 class PalEditorTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -62,10 +63,10 @@ class PalEditorTab(QWidget):
         layout.setSpacing(2)
         search = QLineEdit()
         search.setPlaceholderText(t('inventory.search_players', default='Search players...'))
-        search.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 8px; font-size: 12px; }')
+        search.setStyleSheet(PICKER_SEARCH_STYLE)
         layout.addWidget(search)
         lst = QListWidget()
-        lst.setStyleSheet('QListWidget { background: transparent; color: #e2e8f0; border: none; font-size: 12px; } QListWidget::item { padding: 3px 8px; border-radius: 3px; } QListWidget::item:hover { background: rgba(59,142,208,0.2); } QListWidget::item:selected { background: rgba(59,142,208,0.35); }')
+        lst.setStyleSheet(PICKER_LIST_STYLE)
         lst.setMaximumHeight(300)
         lst.setMinimumWidth(220)
         clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')

@@ -1458,7 +1458,7 @@ class MainWindow(QMainWindow):
         level_input = QLineEdit('1')
         level_input.setFixedWidth(40)
         level_input.setAlignment(Qt.AlignCenter)
-        level_input.setStyleSheet('QLineEdit { background-color: #2a2a2a; color: #fff; border: 1px solid #555; border-radius: 4px; padding: 4px; font-size: 13px; font-weight: bold; } QLineEdit:focus { border-color: #7DD3FC; }')
+        level_input.setStyleSheet('QLineEdit { background: rgba(255,255,255,0.06); color: #e2e8f0; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 4px 6px; font-size: 13px; font-weight: bold; } QLineEdit:focus { border-color: rgba(125,211,252,0.4); }')
         plus_btn = QPushButton('+')
         plus_btn.setFixedSize(28, 28)
         plus_btn.setStyleSheet('QPushButton { background-color: #333; color: #fff; border: 1px solid #555; border-radius: 4px; font-weight: bold; font-size: 14px; } QPushButton:hover { background-color: #444; }')

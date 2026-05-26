@@ -94,7 +94,7 @@ class SidebarWidget(QWidget):
         self._console_btn = BottomBtn(ICONS['console'], t('console.detach') if t else 'Console')
         self._console_btn.clicked.connect(self.console_toggled.emit)
         layout.addWidget(self._console_btn)
-        self._right_panel_btn = BottomBtn(ICONS['collapse_close'], t('sidebar.close') if t else 'Close Panel')
+        self._right_panel_btn = BottomBtn(ICONS['collapse_open'], t('sidebar.close') if t else 'Close Panel')
         self._right_panel_btn.clicked.connect(self._on_right_panel_toggle)
         layout.addWidget(self._right_panel_btn)
     def _on_item_clicked(self, button_id):
@@ -119,10 +119,10 @@ class SidebarWidget(QWidget):
         self._console_btn.set_active(visible)
     def _update_right_panel_icon(self):
         if self._right_panel_visible:
-            self._right_panel_btn.set_icon(ICONS['collapse_close'])
+            self._right_panel_btn.set_icon(ICONS['collapse_open'])
             self._right_panel_btn.setToolTip(t('sidebar.close') if t else 'Close Panel')
         else:
-            self._right_panel_btn.set_icon(ICONS['collapse_open'])
+            self._right_panel_btn.set_icon(ICONS['collapse_close'])
             self._right_panel_btn.setToolTip(t('sidebar.open') if t else 'Open Panel')
     def refresh_labels(self):
         nav_keys = {'tools': 'tools_tab', 'map': 'map.viewer', 'base_inventory': 'base_inventory.tab', 'player_inventory': 'inventory.tab', 'pal_editor': 'pal_editor.tab', 'players': 'deletion.search_players', 'guilds': 'deletion.search_guilds', 'bases': 'deletion.search_bases', 'exclusions': 'deletion.menu.exclusions'}

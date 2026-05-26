@@ -90,7 +90,10 @@ class ItemSlotWidget(QFrame):
             item_name = self.slot_data.get('item_name', 'Unknown')
             qty = self.slot_data.get('stack_count', 1)
             item_id = self.slot_data.get('item_id', '')
+            item_desc = self.slot_data.get('description', '')
             tooltip = f'<b>{item_name}</b><br>Qty: {qty}<br><i>{item_id}</i>'
+            if item_desc:
+                tooltip += f'<br><br><span style="color:#94a3b8;font-size:11px">{item_desc}</span>'
             QToolTip.showText(QCursor.pos(), tooltip)
         super().enterEvent(event)
 class EquipmentSlotWidget(QFrame):
@@ -1274,7 +1277,7 @@ class PlayerInventoryTab(QWidget):
                 max_index = max(existing_indices) if existing_indices else -1
                 new_slot_index = max_index + 1
         item_info = ItemData.get_item_by_asset(item_id)
-        new_slot = {'slot_index': new_slot_index, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': quantity, 'category': ItemData.get_item_category(item_id), 'container_type': actual_container_type, 'raw_data': None}
+        new_slot = {'slot_index': new_slot_index, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': quantity, 'category': ItemData.get_item_category(item_id), 'description': item_info.get('description', ''), 'container_type': actual_container_type, 'raw_data': None}
         container.update_slots(container.slots + [new_slot])
         self._update_raw_save_data(actual_container_type, container)
         self.inventory.save()

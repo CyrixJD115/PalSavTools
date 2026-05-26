@@ -57,8 +57,8 @@ class ItemData:
             name = item.get('name', '')
             if not name or name == item.get('asset', ''):
                 name = cls._friendly_name(asset_name)
-            return {'name': name, 'asset': item.get('asset', asset_name), 'icon': item.get('icon', '/icons/items/T_icon_unknown.webp'), 'rarity': item.get('rarity', 0), 'type_a': item.get('type_a', ''), 'type_b': item.get('type_b', '')}
-        return {'name': cls._friendly_name(asset_name), 'asset': asset_name, 'icon': '/icons/items/T_icon_unknown.webp', 'rarity': 0, 'type_a': '', 'type_b': ''}
+            return {'name': name, 'asset': item.get('asset', asset_name), 'icon': item.get('icon', '/icons/items/T_icon_unknown.webp'), 'rarity': item.get('rarity', 0), 'type_a': item.get('type_a', ''), 'type_b': item.get('type_b', ''), 'description': item.get('description', '')}
+        return {'name': cls._friendly_name(asset_name), 'asset': asset_name, 'icon': '/icons/items/T_icon_unknown.webp', 'rarity': 0, 'type_a': '', 'type_b': '', 'description': ''}
     @classmethod
     def _resolve_icon_path(cls, icon_path: str) -> str:
         base_path = constants.get_base_path()
@@ -208,7 +208,7 @@ class InventoryContainer:
         if not slot:
             return None
         item_info = ItemData.get_item_by_asset(slot.item_id)
-        return {'slot_index': slot.slot_index, 'item_id': slot.item_id, 'item_name': item_info.get('name', slot.item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': slot.count, 'category': ItemData.get_item_category(slot.item_id), 'rarity': ItemData.get_item_rarity(slot.item_id), 'raw_data': slot.raw_data}
+        return {'slot_index': slot.slot_index, 'item_id': slot.item_id, 'item_name': item_info.get('name', slot.item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': slot.count, 'category': ItemData.get_item_category(slot.item_id), 'rarity': ItemData.get_item_rarity(slot.item_id), 'description': item_info.get('description', ''), 'raw_data': slot.raw_data}
     def get_max_slots(self) -> int:
         return self._standardized_container.max_slots
     @property
@@ -236,7 +236,7 @@ class InventoryContainer:
         for slot in self._standardized_container.slots:
             if slot.item_id and slot.item_id != '':
                 item_info = ItemData.get_item_by_asset(slot.item_id)
-                items.append({'slot_index': slot.slot_index, 'item_id': slot.item_id, 'item_name': item_info.get('name', slot.item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': slot.count, 'category': ItemData.get_item_category(slot.item_id), 'rarity': ItemData.get_item_rarity(slot.item_id), 'raw_data': slot.raw_data})
+                items.append({'slot_index': slot.slot_index, 'item_id': slot.item_id, 'item_name': item_info.get('name', slot.item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': slot.count, 'category': ItemData.get_item_category(slot.item_id), 'rarity': ItemData.get_item_rarity(slot.item_id), 'description': item_info.get('description', ''), 'raw_data': slot.raw_data})
         return items
     def add_item(self, item_id: str, count: int, slot_index: Optional[int]=None, dynamic_item_id: Optional[uuid.UUID]=None) -> bool:
         return self._standardized_container.add_item(item_id, count, slot_index, dynamic_item_id)

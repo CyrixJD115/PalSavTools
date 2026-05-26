@@ -62,7 +62,7 @@ if '--spawn-loader' in sys.argv:
                     self.message_received.emit(data)
                 except Exception:
                     pass
-    class OverlayController(QWidget):
+    class OverlayController(QDialog):
         def __init__(self, start_time, phrases, parent_geom=None):
             super().__init__()
             self.phrases = phrases

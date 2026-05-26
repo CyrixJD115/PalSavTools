@@ -3569,6 +3569,8 @@ class PalEditorWidget(QWidget):
         while parent:
             if hasattr(parent, 'tools_tab'):
                 parent.tools_tab._update_stats()
+                if hasattr(parent, 'results_widget'):
+                    parent.results_widget.refresh_stats_after()
                 break
             parent = parent.parent() if parent.parent() else None
 

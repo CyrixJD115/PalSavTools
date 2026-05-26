@@ -769,13 +769,16 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
             break
     if source_player:
         source_player['player_uid'] = str(targ_uid)
+    targ_uid_str = str(targ_uid)
+    for g in guilds:
+        raw = g.get('value', {}).get('RawData', {}).get('value', {})
+        raw['players'] = [p for p in raw.get('players', []) if str(p.get('player_uid')) != targ_uid_str]
     if target_guild:
         raw = target_guild['value']['RawData']['value']
-        raw['players'] = [p for p in raw['players'] if str(p.get('player_uid')) != str(targ_uid)]
         raw['players'].append(source_player)
         if str(raw.get('admin_player_uid')) == str(host_guid):
             raw['admin_player_uid'] = str(targ_uid)
-            return True
+        return True
     zero_uuid = PalUUID(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
     if source_guild:
         cloned = fast_deepcopy(source_guild)

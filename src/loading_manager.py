@@ -192,7 +192,7 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             self.timer_label.setStyleSheet('color: rgba(148,163,184,0.4); font-size: 11px; border: none; background: transparent;')
             self.inner.addWidget(self.timer_label)
 
-            self.close_btn = QPushButton('ESC to cancel')
+            self.close_btn = QPushButton(t('loading.cancel'))
             self.close_btn.setFixedHeight(28)
             self.close_btn.clicked.connect(self.safe_exit)
             self.close_btn.setStyleSheet(

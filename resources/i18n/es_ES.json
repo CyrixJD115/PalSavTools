@@ -1369,5 +1369,6 @@
   "character_transfer.transfer_tooltip": "Transfiere los personajes seleccionados.",
   "character_transfer.save_tooltip": "Escriba cambios en los archivos Level.sav y Player de destino.",
   "character_transfer.selection_none": "Fuente: N/A, Objetivo: N/A",
-  "character_transfer.selection_status": "Fuente: {fuente}, Destino: {objetivo}"
+  "character_transfer.selection_status": "Fuente: {fuente}, Destino: {objetivo}",
+  "loading.cancel": "ESC para cancelar"
 }

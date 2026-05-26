@@ -1374,5 +1374,6 @@
   "character_transfer.transfer_tooltip": "Перенесите выбранных персонажей.",
   "character_transfer.save_tooltip": "Запишите изменения в целевые файлы Level.sav и проигрывателя.",
   "character_transfer.selection_none": "Источник: н/д, Цель: н/д",
-  "character_transfer.selection_status": "Источник: {source}, Цель: {target}"
+  "character_transfer.selection_status": "Источник: {source}, Цель: {target}",
+  "loading.cancel": "ESC для отмены"
 }

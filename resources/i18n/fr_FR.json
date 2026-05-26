@@ -1358,5 +1358,6 @@
   "character_transfer.transfer_tooltip": "Transférez le(s) personnage(s) sélectionné(s).",
   "character_transfer.save_tooltip": "Écrivez les modifications dans les fichiers Level.sav et le lecteur cibles.",
   "character_transfer.selection_none": "Source : N/A, Cible : N/A",
-  "character_transfer.selection_status": "Source : {source}, Cible : {target}"
+  "character_transfer.selection_status": "Source : {source}, Cible : {target}",
+  "loading.cancel": "ESC pour annuler"
 }

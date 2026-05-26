@@ -1376,5 +1376,6 @@
   "character_transfer.transfer_tooltip": "選択したキャラクターを転送します。",
   "character_transfer.save_tooltip": "ターゲットの Level.sav およびプレーヤー ファイルに変更を書き込みます。",
   "character_transfer.selection_none": "ソース: N/A、ターゲット: N/A",
-  "character_transfer.selection_status": "ソース: {source}、ターゲット: {target}"
+  "character_transfer.selection_status": "ソース: {source}、ターゲット: {target}",
+  "loading.cancel": "ESCでキャンセル"
 }

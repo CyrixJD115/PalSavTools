@@ -1400,5 +1400,6 @@
   "character_transfer.transfer_tooltip": "Übertragen Sie die ausgewählten Zeichen.",
   "character_transfer.save_tooltip": "Schreiben Sie Änderungen in die Ziel-Level.sav- und Player-Dateien.",
   "character_transfer.selection_none": "Quelle: N/A, Ziel: N/A",
-  "character_transfer.selection_status": "Quelle: {source}, Ziel: {target}"
+  "character_transfer.selection_status": "Quelle: {source}, Ziel: {target}",
+  "loading.cancel": "ESC zum Abbrechen"
 }

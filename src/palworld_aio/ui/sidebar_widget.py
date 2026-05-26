@@ -108,12 +108,12 @@ class SidebarWidget(QWidget):
             btn.set_active(bid == button_id)
     def _on_right_panel_toggle(self):
         self._right_panel_visible = not self._right_panel_visible
-        self._right_panel_btn.set_active(not self._right_panel_visible)
+        self._right_panel_btn.set_active(self._right_panel_visible)
         self._update_right_panel_icon()
         self.right_panel_toggled.emit()
     def set_right_panel_visible(self, visible):
         self._right_panel_visible = visible
-        self._right_panel_btn.set_active(not visible)
+        self._right_panel_btn.set_active(visible)
         self._update_right_panel_icon()
     def set_console_visible(self, visible):
         self._console_btn.set_active(visible)

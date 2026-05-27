@@ -296,7 +296,7 @@ def delete_guild(guild_id):
                 for h in handle_ids:
                     if isinstance(h, dict):
                         guid = normalize_uid(h.get('guid', ''))
-                        if guid not in deleted_uids:
+                        if guid not in deleted_uids_normalized:
                             cleaned_handles.append(h)
                     else:
                         cleaned_handles.append(h)
@@ -823,3 +823,42 @@ def gather_update_dynamic_containers_with_reporting():
     print(f'   [DEBUG] Orphaned containers removed: {len(orphaned_containers)}')
     print(f'   [DEBUG] New containers added: {len(new_containers)}')
     return report
+_RANK_COLORS = {-99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', '#7FFF5050', '#FF5555'), 1: ('rgba(255,255,255,0.12)', '#7FFFFFFF', '#FFFFFF'), 2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', '#7FFFD700', '#FFD700'), 4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC'), 5: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC')}
+rank_labels = {1: 'Common', 2: 'Rare', 3: 'Rare', 4: 'Epic', 5: 'Epic', -99: 'Negative'}
+_SKILL_EXCLUSION_NAMES = ['unknown skills', 'unknown skill', 'en_text', 'en text']
+_SKILL_EXCLUSION_PATTERNS = ['Predator', 'RaidCutter', '_GYM_', 'PartnerSkill', 'Unique_', 'Funnel_', 'Human_', 'Scratch', 'Throw', 'WorkAttack', 'SelfDestruct_Bee', 'Weapon_Use', 'CreepingBubble']
+_anim_phase = 0.0
+def passive_rank_color(rank):
+    if rank <= 0:
+        return _RANK_COLORS[-99]
+    if rank >= 5:
+        return _RANK_COLORS[5]
+    if rank >= 4:
+        return _RANK_COLORS[4]
+    if rank >= 2:
+        return _RANK_COLORS[2]
+    return _RANK_COLORS[1]
+def format_passive_description(p_info):
+    p_desc = p_info.get('description', '')
+    if p_desc:
+        p_desc = p_desc.replace('{CharacterName}', 'Pal')
+        for ei in range(1, 5):
+            ev = p_info.get(f'effect{ei}', 0)
+            ev_str = str(int(ev)) if isinstance(ev, float) and ev == int(ev) else f'{ev:.0f}' if isinstance(ev, float) else str(ev)
+            p_desc = p_desc.replace(f'{{EffectValue{ei}}}', ev_str)
+    return p_desc
+def load_game_data_map(fname, key):
+    base_dir = constants.get_base_path()
+    fp = os.path.join(base_dir, 'resources', 'game_data', fname)
+    try:
+        js = json_tools.load(fp)
+        if not isinstance(js, dict):
+            return {}
+        data = js.get(key, [])
+        result = {}
+        for x in data:
+            if isinstance(x, dict) and 'asset' in x and 'name' in x:
+                result[x['asset'].lower()] = x['name']
+        return result
+    except Exception:
+        return {}

@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QMessageBox, QInputDialog
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvasfile, gvasfile_to_sav, are_equal_uuids, as_uuid, is_valid_level, extract_value, format_duration, sanitize_filename
-from palworld_aio.data_manager import delete_base_camp
+from palworld_aio.data_manager import delete_base_camp, load_game_data_map
 from palworld_aio.dialogs import GameDaysInputDialog
 def scan_and_protect_death_bags(parent=None):
     if not constants.loaded_level_json:
@@ -1817,17 +1817,10 @@ def fix_illegal_pals_in_save(parent=None):
             PAL_EXP_TABLE = json_tools.load(exp_table_path)
         except:
             PAL_EXP_TABLE = {}
-        def load_map(fname, key):
-            try:
-                fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-                js = json_tools.load(fp)
-                return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
-            except:
-                return {}
-        PALMAP = load_map('characters.json', 'pals')
-        NPCMAP = load_map('characters.json', 'npcs')
-        PASSMAP = load_map('skills.json', 'passives')
-        SKILLMAP = load_map('skills.json', 'skills')
+        PALMAP = load_game_data_map('characters.json', 'pals')
+        NPCMAP = load_game_data_map('characters.json', 'npcs')
+        PASSMAP = load_game_data_map('skills.json', 'passives')
+        SKILLMAP = load_game_data_map('skills.json', 'skills')
         NAMEMAP = {**PALMAP, **NPCMAP}
         owner_nicknames = {}
         player_containers = {}

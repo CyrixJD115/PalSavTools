@@ -1191,7 +1191,7 @@ def update_passive_data():
     if not all_rows:
         print('  No passive rows found. Skipping.')
         return
-    passive_icon_subdirs = [EXPORT_TEXTURES_DIR / 'UI' / 'Common', EXPORT_TEXTURES_DIR / 'StatusParameterIcon']
+    passive_icon_subdirs = [EXPORT_TEXTURES_DIR / 'UI' / 'Common', EXPORT_TEXTURES_DIR / 'StatusParameterIcon', EXPORT_TEXTURES_DIR / 'UI' / 'Main_Menu']
     updated_passives = []
     for passive_id, row_data in sorted(all_rows.items()):
         passive_id_lower = passive_id.lower()
@@ -1210,14 +1210,12 @@ def update_passive_data():
             icon_filename = icon_path.split('/')[-1].split('.')[0] if '.' in icon_path else icon_path.split('/')[-1]
             copied_icon = find_and_copy_icon(icon_filename, 'passives', passive_icon_subdirs)
         if not copied_icon:
-            arrow_idx = max(1, min(abs(rank) if isinstance(rank, int) else 1, 4))
-            arrow_name = f'T_icon_skillstatus_rank_arrow_{arrow_idx:02d}'
             if isinstance(rank, int) and rank < 0:
-                arrow_name += '_negative'
+                arrow_idx = 0
+            else:
+                arrow_idx = min(max(abs(rank) if isinstance(rank, int) else 1, 0), 5)
+            arrow_name = f'T_icon_skillstatus_rank_arrow_{arrow_idx:02d}'
             copied_icon = find_and_copy_icon(arrow_name, 'passives', passive_icon_subdirs)
-            if not copied_icon and isinstance(rank, int) and rank < 0:
-                arrow_name = f'T_icon_skillstatus_rank_arrow_{arrow_idx:02d}'
-                copied_icon = find_and_copy_icon(arrow_name, 'passives', passive_icon_subdirs)
         l10n_name = passive_name_l10n.get(passive_id, None)
         display_name = l10n_name or passive_id
         desc_id = row_data.get('OverrideDescMsgID', '') if isinstance(row_data, dict) else ''

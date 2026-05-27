@@ -13,6 +13,7 @@ from loading_manager import show_information, show_warning, show_question
 import nerdfont as nf
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, extract_value, format_character_key, json_to_sav, calculate_max_hp, get_pal_data, safe_dict_get, safe_nested_get, resolve_name
+from palworld_aio import data_manager as dm
 from palworld_aio.ui.styles import DIALOG_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, INPUT_DIALOG_STYLE, TOOLTIP_STYLE, wrap_tooltip_text
 from palworld_aio.ui.sidebar_widget import NerdBtn
 _PAL_STYLESHEET = '\nQWidget#palRoot {\n    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:1,\n        stop:0 rgba(8,10,16,0.98),stop:0.5 rgba(6,12,20,0.98),stop:1 rgba(4,8,16,0.98));\n}\nQWidget#partyPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#partyPanel QLabel {\n    color: #C8D8E8;\n}\nQWidget#palboxPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel QLabel {\n    color: #C8D8E8;\n}\nQLabel#boxHeader {\n    font-size: 18px;\n    font-weight: 700;\n    color: #7DD3FC;\n    padding: 4px 8px;\n    background: rgba(125,211,252,0.06);\n    border-radius: 4px;\n    min-width: 80px;\n    qproperty-alignment: AlignCenter;\n}\nQPushButton#navBtn {\n    background: rgba(125,211,252,0.08);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 14px;\n    font-size: 14px;\n    font-weight: 600;\n    min-width: 32px;\n}\nQPushButton#navBtn:hover {\n    background: rgba(125,211,252,0.18);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton#navBtn:pressed {\n    background: rgba(125,211,252,0.1);\n}\n'
@@ -1194,8 +1195,6 @@ class _CircularIcon(QWidget):
             painter.setPen(QPen(QColor(100, 110, 130), 1))
             painter.setFont(QFont('Segoe UI', 16))
             painter.drawText(r, Qt.AlignCenter, '?')
-_SKILL_EXCLUSION_NAMES = ['unknown skills', 'unknown skill', 'en_text', 'en text']
-_SKILL_EXCLUSION_PATTERNS = ['Predator', 'RaidCutter', '_GYM_', 'PartnerSkill', 'Unique_', 'Funnel_', 'Human_', 'Scratch', 'Throw', 'WorkAttack', 'SelfDestruct_Bee', 'Weapon_Use', 'CreepingBubble']
 _SKILL_DATA = None
 _ELEMENT_DATA = None
 def _ensure_element_data():
@@ -1316,10 +1315,10 @@ def _learn_all_skills_raw(raw):
     mastered = []
     for asset_lower, skill_info in _SKILL_DATA.items():
         name = skill_info.get('name', '')
-        if any((exc in name.lower() for exc in _SKILL_EXCLUSION_NAMES)):
+        if any((exc in name.lower() for exc in dm._SKILL_EXCLUSION_NAMES)):
             continue
         original_asset = skill_info.get('asset', asset_lower)
-        if any((pat.lower() in original_asset.lower() for pat in _SKILL_EXCLUSION_PATTERNS)):
+        if any((pat.lower() in original_asset.lower() for pat in dm._SKILL_EXCLUSION_PATTERNS)):
             continue
         mastered.append(f'EPalWazaID::{original_asset}')
     ew_data = raw.get('EquipWaza', {})
@@ -1651,91 +1650,7 @@ class PassiveEffectOverlay(QWidget):
             grad.setColorAt(1, QColor(125, 211, 252, 0))
             painter.fillRect(QRectF(0, 0, w, h), grad)
         painter.end()
-_anim_phase = 0.0
-class _PassiveSkillDelegate(QStyledItemDelegate):
-    def paint(self, painter, option, index):
-        painter.save()
-        painter.setRenderHint(QPainter.Antialiasing)
-        rect = option.rect
-        rank = index.data(Qt.UserRole + 1)
-        if rank is None:
-            super().paint(painter, option, index)
-            painter.restore()
-            return
-        tc = index.data(Qt.UserRole + 3) or '#FFFFFF'
-        bd = index.data(Qt.UserRole + 4) or '#FFFFFFFF'
-        border = QColor(bd)
-        text_color = QColor(tc)
-        selected = option.state & QStyle.State_Selected
-        if selected:
-            painter.setPen(Qt.NoPen)
-            painter.setBrush(QBrush(QColor(59, 142, 208, 89)))
-            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
-        else:
-            fill = QColor(bd)
-            color_a = fill.darker(250)
-            color_a.setAlpha(min(255, fill.alpha()))
-            color_b = QColor(fill.red(), fill.green(), fill.blue(), min(255, fill.alpha() + 60))
-            grad = QLinearGradient(rect.x(), 0, rect.x() + rect.width(), 0)
-            grad.setColorAt(0, color_a)
-            grad.setColorAt(0.5, color_b)
-            grad.setColorAt(1, color_a)
-            painter.setPen(Qt.NoPen)
-            painter.setBrush(QBrush(grad))
-            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
-            border_pen = QPen(border)
-            border_pen.setWidthF(1.5)
-            painter.setPen(border_pen)
-            painter.setBrush(Qt.NoBrush)
-            painter.drawRoundedRect(QRectF(rect).adjusted(1, 2, -1, -2), 4, 4)
-            if rank >= 4:
-                is_wt = index.data(Qt.UserRole + 2)
-                if is_wt:
-                    self._paint_world_tree(painter, rect)
-                else:
-                    self._paint_legend_sweep(painter, rect)
-        painter.setPen(QPen(text_color))
-        text_rect = QRectF(rect.x() + 8, rect.y(), rect.width() - 12, rect.height())
-        painter.drawText(text_rect, Qt.AlignVCenter | Qt.AlignLeft, index.data(Qt.DisplayRole))
-        painter.restore()
-    def _paint_legend_sweep(self, painter, rect):
-        w = rect.width()
-        ph = _anim_phase * 1.04 * w % (w * 1.4) - w * 0.2
-        sweep = QLinearGradient(rect.x() + ph, 0, rect.x() + ph + w * 0.35, 0)
-        sweep.setColorAt(0, QColor(125, 211, 252, 0))
-        sweep.setColorAt(0.5, QColor(125, 211, 252, 40))
-        sweep.setColorAt(1, QColor(125, 211, 252, 0))
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(QBrush(sweep))
-        painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
-    def _paint_world_tree(self, painter, rect):
-        w, h = (rect.width(), rect.height())
-        cols = 9
-        col_w = w / cols
-        trail_h = h * 0.55
-        cycle = h + trail_h
-        speed = h * 0.7
-        for c in range(cols):
-            cx = rect.x() + c * col_w + 1
-            head_y = (cycle - (_anim_phase * speed + c * h * 0.12)) % cycle
-            for i in range(6):
-                y = head_y - i * 3.0
-                if y < 0:
-                    y += cycle
-                yy = rect.y() + y
-                if rect.y() <= yy < rect.y() + h:
-                    alpha = max(0, 140 - i * 25)
-                    painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(168, 85, 247, alpha))
-            for i in range(2):
-                y = head_y + i * 2.5
-                if y >= cycle:
-                    y -= cycle
-                yy = rect.y() + y
-                if rect.y() <= yy < rect.y() + h:
-                    alpha = 160 - i * 80
-                    painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(192, 132, 252, alpha))
-    def sizeHint(self, option, index):
-        return QSize(200, 28)
+
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8')}
     _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8'}
@@ -2550,6 +2465,7 @@ class PalInfoWidget(QFrame):
         placeholder_names = ['Runner', 'Swift', 'Legend', 'Surge of the World Tree']
         self.passive_slots = []
         self.passive_cards = []
+        self.passive_rank_icons = []
         for i, pname in enumerate(placeholder_names):
             card = QFrame()
             card.setObjectName('passiveCard')
@@ -2564,6 +2480,12 @@ class PalInfoWidget(QFrame):
             plbl = QLabel(pname)
             plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {default_tc}; background: transparent; border: none;')
             card_layout.addWidget(plbl, 1)
+            rank_icon = QLabel()
+            rank_icon.setFixedSize(14, 14)
+            rank_icon.setAlignment(Qt.AlignCenter)
+            rank_icon.setStyleSheet('background: transparent; border: none;')
+            rank_icon.hide()
+            card_layout.addWidget(rank_icon)
             chev = QLabel('❯❯❯')
             chev.setStyleSheet(f'font-size: 6px; color: rgba(255,255,255,0.15); background: transparent; border: none; letter-spacing: -1px;')
             card_layout.addWidget(chev)
@@ -2577,6 +2499,7 @@ class PalInfoWidget(QFrame):
             pg_layout.addWidget(card, row, col)
             self.passive_slots.append(plbl)
             self.passive_cards.append(card)
+            self.passive_rank_icons.append(rank_icon)
         self.passive_overlays = []
         for i, card in enumerate(self.passive_cards):
             overlay = PassiveEffectOverlay(card)
@@ -2928,6 +2851,7 @@ class PalInfoWidget(QFrame):
                 p_list = p_skills
             else:
                 p_list = []
+            _ensure_passive_data()
             for i in range(4):
                 display_name = '--'
                 tc = 'rgba(255,255,255,0.3)'
@@ -2947,8 +2871,7 @@ class PalInfoWidget(QFrame):
                     display_name = PalFrame._PASSMAP.get(p_clean, str(p_val))
                     bg, bd, tc = PalFrame._passive_rank_color(p_clean)
                     rank = PalFrame._PASSRANK.get(p_clean, 1)
-                    is_world_tree = 'world' in display_name.lower() and 'tree' in display_name.lower()
-                    if is_world_tree:
+                    if rank >= 5:
                         anim_mode = 'world_tree'
                     elif rank >= 4:
                         anim_mode = 'legend'
@@ -2965,9 +2888,22 @@ class PalInfoWidget(QFrame):
                 )
                 if p_clean:
                     p_info = _PASSIVE_DATA.get(p_clean, {}) if isinstance(_PASSIVE_DATA, dict) else {}
+                    icon_path = p_info.get('icon', '') if isinstance(p_info, dict) else ''
+                    if icon_path and i < len(self.passive_rank_icons):
+                        base_dir = constants.get_base_path()
+                        full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path.lstrip('/'))
+                        pix = _get_cached_pixmap(full_path, 14)
+                        if pix:
+                            self.passive_rank_icons[i].setPixmap(pix)
+                            self.passive_rank_icons[i].show()
+                        else:
+                            self.passive_rank_icons[i].hide()
+                    else:
+                        if i < len(self.passive_rank_icons):
+                            self.passive_rank_icons[i].hide()
                     p_desc = p_info.get('description', '')
                     tip_parts = [f'<b style="color:{tc}">{display_name}</b>']
-                    rank_labels = {1: 'Common', 2: 'Rare', 4: 'Epic', -99: 'Negative'}
+                    rank_labels = {1: 'Common', 2: 'Rare', 3: 'Rare', 4: 'Epic', 5: 'Epic', -99: 'Negative'}
                     tip_parts.append(f"<i>{rank_labels.get(rank, f'Rank {rank}')}</i>")
                     if p_desc:
                         p_desc = p_desc.replace('{CharacterName}', 'Pal')
@@ -2978,6 +2914,9 @@ class PalInfoWidget(QFrame):
                         tip_parts.append('')
                         tip_parts.append(p_desc)
                     parent_frame.setToolTip('<br>'.join(tip_parts))
+                else:
+                    if i < len(self.passive_rank_icons):
+                        self.passive_rank_icons[i].hide()
             pskill_name = base.get('partner_skill', '') if base else ''
             pal_desc = base.get('description', '') if base else ''
             self.partner_name_lbl.setText(pskill_name or pal_name)
@@ -3152,159 +3091,34 @@ class PalInfoWidget(QFrame):
             return
         self._show_skill_picker(t('edit_pals.passives'), PalFrame._PASSMAP, slot_idx, is_active=False)
     def _show_skill_picker(self, title, skill_map, slot_idx, is_active):
+        from palworld_aio.ui.skill_picker import SkillPicker
+        picker = SkillPicker(self)
         try:
-            import gc
-            gc.collect()
-            popup = QWidget()
-            popup.setWindowFlags(Qt.Popup | Qt.FramelessWindowHint)
-            self._popup = popup
-            popup.setStyleSheet(PICKER_BG_STYLE)
-            layout = QVBoxLayout(popup)
-            layout.setContentsMargins(4, 4, 4, 4)
-            layout.setSpacing(2)
-            search = QLineEdit()
-            search.setPlaceholderText('Search...')
-            search.setStyleSheet(PICKER_SEARCH_STYLE)
-            layout.addWidget(search)
-            lst = QListWidget()
-            lst.setStyleSheet(PICKER_LIST_STYLE)
-            lst.setMaximumHeight(300)
-            lst.setMinimumWidth(220)
-            clear_item = QListWidgetItem(t('common.clear') if t else '-- clear --')
-            lst.addItem(clear_item)
-            names = sorted(skill_map.values())
-            _ensure_skill_data()
-            for name in names:
-                if not name:
-                    continue
-                item = QListWidgetItem(name)
-                if is_active:
-                    asset = None
-                    for a, n in skill_map.items():
-                        if n == name:
-                            asset = a
-                            break
-                    if asset:
-                        key = asset.split('::')[-1].lower()
-                        if any((pat.lower() in key for pat in _SKILL_EXCLUSION_PATTERNS)):
-                            continue
-                        info = _SKILL_DATA.get(key, {}) if isinstance(_SKILL_DATA, dict) else {}
-                        elem = info.get('element', 'Normal')
-                        pwr = info.get('power', 0)
-                        epix = _get_element_pixmap(elem, 'small', 16)
-                        if epix:
-                            item.setIcon(QIcon(epix))
-                        item.setText(f'{pwr} - {name}')
-                        item.setData(Qt.UserRole, name)
-                        tip_parts = [f'<b>{name}</b>', f'Element: {elem}', f'Power: {pwr}']
-                        cd = info.get('cooldown', 0)
-                        if cd:
-                            tip_parts.append(f'Cooldown: {cd}s')
-                        desc = info.get('description', '')
-                        if desc:
-                            tip_parts.append('')
-                            tip_parts.append(desc)
-                        item.setToolTip('<br>'.join(tip_parts))
-                else:
-                    asset = None
-                    for a, n in skill_map.items():
-                        if n == name:
-                            asset = a
-                            break
-                    if asset:
-                        rank = PalFrame._PASSRANK.get(asset.lower(), 1)
-                        item.setData(Qt.UserRole, asset.lower())
-                        item.setData(Qt.UserRole + 1, rank)
-                        is_wt = 'world' in name.lower() and 'tree' in name.lower()
-                        item.setData(Qt.UserRole + 2, is_wt)
-                        bg, bd, tc = PalFrame._passive_rank_color(asset.lower())
-                        item.setData(Qt.UserRole + 3, tc)
-                        item.setData(Qt.UserRole + 4, bd)
-                        item.setForeground(QColor(tc))
-                        _ensure_passive_data()
-                        p_info = _PASSIVE_DATA.get(asset.lower(), {}) if isinstance(_PASSIVE_DATA, dict) else {}
-                        p_desc = p_info.get('description', '')
-                        rank_labels = {1: 'Common', 2: 'Rare', 4: 'Epic', -99: 'Negative'}
-                        tip_parts = [f'<b style="color:{tc}">{name}</b>', f"<i>{rank_labels.get(rank, f'Rank {rank}')}</i>"]
-                        if p_desc:
-                            p_desc = p_desc.replace('{CharacterName}', 'Pal')
-                            for ei in range(1, 5):
-                                ev = p_info.get(f'effect{ei}', 0)
-                                ev_str = str(int(ev)) if isinstance(ev, float) and ev == int(ev) else f'{ev:.0f}' if isinstance(ev, float) else str(ev)
-                                p_desc = p_desc.replace(f'{{EffectValue{ei}}}', ev_str)
-                            tip_parts.append('')
-                            tip_parts.append(p_desc)
-                        item.setToolTip('<br>'.join(tip_parts))
-                lst.addItem(item)
-            if not is_active:
-                lst.setItemDelegate(_PassiveSkillDelegate(lst))
             cur_data = self._raw.get('EquipWaza' if is_active else 'PassiveSkillList', {})
             cur_list = cur_data.get('value', {}).get('values', []) if isinstance(cur_data, dict) else cur_data if isinstance(cur_data, list) else []
             cur_val = cur_list[slot_idx] if slot_idx < len(cur_list) else ''
-            if cur_val:
-                if isinstance(cur_val, dict):
-                    cur_val = cur_val.get('value', '')
-                if cur_val and hasattr(cur_val, 'lower'):
-                    display = skill_map.get(cur_val.lower(), cur_val)
-                    for i in range(lst.count()):
-                        item = lst.item(i)
-                        found = False
-                        if is_active:
-                            found = item.data(Qt.UserRole) == display
-                        else:
-                            found = item.text() == display
-                        if found:
-                            lst.setCurrentRow(i)
-                            break
-            search.textChanged.connect(lambda t, l=lst: [l.item(i).setHidden(t.lower() not in l.item(i).text().lower()) for i in range(l.count())])
-            layout.addWidget(lst)
-            popup.move(QCursor.pos())
-            popup.show()
-            search.setFocus()
-            if not is_active:
-                anim_timer = QTimer(popup)
-                def _tick_anim():
-                    global _anim_phase
-                    _anim_phase = (_anim_phase + 0.03) % 10000.0
-                    lst.viewport().update()
-                anim_timer.timeout.connect(_tick_anim)
-                anim_timer.start(33)
-            chosen = None
-            def on_select():
-                nonlocal chosen
-                sel = lst.currentItem()
-                chosen = None
-                if sel:
-                    if is_active and sel.data(Qt.UserRole):
-                        chosen = sel.data(Qt.UserRole)
-                    else:
-                        chosen = sel.text()
-                popup.hide()
-            lst.itemClicked.connect(on_select)
-            search.returnPressed.connect(on_select)
-            while popup.isVisible():
-                QApplication.processEvents()
-                QThread.msleep(5)
-            if not is_active:
-                anim_timer.stop()
-            self._popup = None
-            if not chosen:
-                return
-            if chosen.startswith('--'):
-                asset = ''
-            else:
-                asset = None
-                for a, n in skill_map.items():
-                    if n == chosen:
-                        asset = a
-                        break
-                if not asset:
-                    return
-            QTimer.singleShot(0, lambda a=asset, s=slot_idx, ia=is_active: self._set_active_skill(s, a) if ia else self._set_passive_skill(s, a))
+            if isinstance(cur_val, dict):
+                cur_val = cur_val.get('value', '')
         except Exception:
-            import traceback
-            traceback.print_exc()
+            cur_val = ''
+        result = picker.pick(skill_map, is_active, current_value=cur_val if isinstance(cur_val, str) else '')
+        if result is None:
             return
+        if result == '':
+            asset = ''
+        else:
+            asset = None
+            for a, n in skill_map.items():
+                if n == result:
+                    asset = a
+                    break
+            if not asset:
+                asset_lower = result.lower()
+                if asset_lower in skill_map:
+                    asset = result
+                else:
+                    return
+        QTimer.singleShot(0, lambda a=asset, s=slot_idx, ia=is_active: self._set_active_skill(s, a) if ia else self._set_passive_skill(s, a))
     def _set_active_skill(self, slot_idx, asset):
         ew_data = self._raw.get('EquipWaza', {})
         cur = ew_data.get('value', {}).get('values', []) if isinstance(ew_data, dict) else ew_data if isinstance(ew_data, list) else []
@@ -4178,17 +3992,11 @@ class PalFrame(QFrame):
     _PASSRANK = {}
     _PASSFLAGS = {}
     _SKILLMAP = {}
-    _RANK_COLORS = {-99: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C1515,stop:0.5 #8A2020,stop:1 #5C1515)', '#7FFF5050', '#FF5555'), 1: ('rgba(255,255,255,0.12)', '#7FFFFFFF', '#FFFFFF'), 2: ('qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #5C4033,stop:0.5 #8B6914,stop:1 #5C4033)', '#7FFFD700', '#FFD700'), 4: ('qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #0D3B66,stop:0.5 #1A6B8A,stop:1 #0D3B66)', '#7F7DD3FC', '#7DD3FC')}
+    _RANK_COLORS = dm._RANK_COLORS
     @classmethod
     def _passive_rank_color(cls, asset_lower):
         rank = cls._PASSRANK.get(asset_lower, 1)
-        if rank <= 0:
-            return cls._RANK_COLORS[-99]
-        if rank >= 4:
-            return cls._RANK_COLORS[4]
-        if rank >= 2:
-            return cls._RANK_COLORS[2]
-        return cls._RANK_COLORS[1]
+        return dm.passive_rank_color(rank)
     @classmethod
     def _is_pal_passive(cls, asset_lower):
         flags = cls._PASSFLAGS.get(asset_lower, {})
@@ -4207,31 +4015,14 @@ class PalFrame(QFrame):
         with cls._maps_loaded_lock:
             if cls._maps_loaded:
                 return
-            base_dir = constants.get_base_path()
-        def load_map(fname, key):
-            try:
-                fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-                js = json_tools.load(fp)
-                if not isinstance(js, dict):
-                    return {}
-                data = js.get(key, [])
-                result = {}
-                for x in data:
-                    if isinstance(x, dict) and 'asset' in x and ('name' in x):
-                        result[x['asset'].lower()] = x['name']
-                return result
-            except Exception as e:
-                import traceback
-                traceback.print_exc()
-                return {}
-        cls._PASSMAP = load_map('skills.json', 'passives')
-        cls._SKILLMAP = load_map('skills.json', 'skills')
-        PALMAP = load_map('characters.json', 'pals')
-        NPCMAP = load_map('characters.json', 'npcs')
+        cls._PASSMAP = dm.load_game_data_map('skills.json', 'passives')
+        cls._SKILLMAP = dm.load_game_data_map('skills.json', 'skills')
+        PALMAP = dm.load_game_data_map('characters.json', 'pals')
+        NPCMAP = dm.load_game_data_map('characters.json', 'npcs')
         cls._NAMEMAP = {**PALMAP, **NPCMAP}
         cls._PASSFLAGS = {}
         try:
-            fp = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
+            fp = os.path.join(constants.get_base_path(), 'resources', 'game_data', 'skills.json')
             js = json_tools.load(fp)
             if isinstance(js, dict):
                 data = js.get('passives', [])
@@ -4243,7 +4034,7 @@ class PalFrame(QFrame):
                         cls._PASSFLAGS[asset_lower] = {'add_pal': x.get('add_pal', False), 'add_rare_pal': x.get('add_rare_pal', False), 'add_world_tree_pal': x.get('add_world_tree_pal', False), 'add_mutation_pal': x.get('add_mutation_pal', False), 'add_armor': x.get('add_armor', False), 'add_accessory': x.get('add_accessory', False), 'add_weapon': x.get('add_weapon', False), 'invoke_always': x.get('invoke_always', False), 'category': x.get('category', '')}
         except Exception:
             pass
-        cls._PASSMAP = {k: v for k, v in cls._PASSMAP.items() if not any((exc in v.lower() for exc in _SKILL_EXCLUSION_NAMES))}
+        cls._PASSMAP = {k: v for k, v in cls._PASSMAP.items() if not any((exc in v.lower() for exc in dm._SKILL_EXCLUSION_NAMES))}
         cls._PASSMAP = {passive_id: name for passive_id, name in cls._PASSMAP.items() if cls._is_pal_passive(passive_id)}
         cls._maps_loaded = True
     def __init__(self, pal_item, parent=None):

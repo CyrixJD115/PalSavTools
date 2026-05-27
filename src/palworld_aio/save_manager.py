@@ -13,6 +13,7 @@ from PySide6.QtCore import QObject, Signal
 from loading_manager import show_critical
 from palworld_save_tools.gvas import GvasFile
 from palworld_save_tools.palsav import decompress_sav_to_gvas
+from palworld_aio.data_manager import load_game_data_map
 from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 from palobject import MappingCacheObject, toUUID
@@ -218,17 +219,10 @@ class SaveManager(QObject):
             illegal_pals_by_owner = defaultdict(lambda: defaultdict(list), illegal_pals_by_owner)
         invalid_objects = defaultdict(lambda: defaultdict(int))
         self._setup_fresh_logs_folder(base_dir)
-        def load_map(fname, key):
-            try:
-                fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-                js = json_tools.load(fp)
-                return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
-            except:
-                return {}
-        PALMAP = load_map('characters.json', 'pals')
-        NPCMAP = load_map('characters.json', 'npcs')
-        PASSMAP = load_map('skills.json', 'passives')
-        SKILLMAP = load_map('skills.json', 'skills')
+        PALMAP = load_game_data_map('characters.json', 'pals')
+        NPCMAP = load_game_data_map('characters.json', 'npcs')
+        PASSMAP = load_game_data_map('skills.json', 'passives')
+        SKILLMAP = load_game_data_map('skills.json', 'skills')
         NAMEMAP = {**PALMAP, **NPCMAP}
         miss = {'Pals': set(), 'Passives': set(), 'Skills': set()}
         owner_pals_grouped = defaultdict(lambda: defaultdict(list))
@@ -580,16 +574,8 @@ class SaveManager(QObject):
                 else:
                     player_illegals[uid_str].append((uid_str, all_pals, location_groups))
             if guild_illegals:
-                base_dir = constants.get_base_path()
-                def load_map(fname, key):
-                    try:
-                        fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-                        js = json_tools.load(fp)
-                        return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
-                    except:
-                        return {}
-                PASSMAP = load_map('skills.json', 'passives')
-                SKILLMAP = load_map('skills.json', 'skills')
+                PASSMAP = load_game_data_map('skills.json', 'passives')
+                SKILLMAP = load_game_data_map('skills.json', 'skills')
                 guilds_illegal_dir = os.path.join(illegal_log_dir, 'Guilds')
                 os.makedirs(guilds_illegal_dir, exist_ok=True)
                 for guild_id, base_illegals_list in guild_illegals.items():
@@ -680,16 +666,8 @@ class SaveManager(QObject):
                             h.close()
                             logger.removeHandler(h)
             if player_illegals:
-                base_dir = constants.get_base_path()
-                def load_map(fname, key):
-                    try:
-                        fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-                        js = json_tools.load(fp)
-                        return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
-                    except:
-                        return {}
-                PASSMAP = load_map('skills.json', 'passives')
-                SKILLMAP = load_map('skills.json', 'skills')
+                PASSMAP = load_game_data_map('skills.json', 'passives')
+                SKILLMAP = load_game_data_map('skills.json', 'skills')
                 players_illegal_dir = os.path.join(illegal_log_dir, 'Players')
                 os.makedirs(players_illegal_dir, exist_ok=True)
                 for uid_str, illegals_list in player_illegals.items():
@@ -932,18 +910,10 @@ class SaveManager(QObject):
             print(f'Error creating Json Logger: {e}')
 def _process_dps_scan_worker(args):
     uid, pname, dps_file, log_folder = args
-    base_dir = constants.get_base_path()
-    def load_map(fname, key):
-        try:
-            fp = os.path.join(base_dir, 'resources', 'game_data', fname)
-            js = json_tools.load(fp)
-            return {x['asset'].lower(): x['name'] for x in js.get(key, [])}
-        except:
-            return {}
-    PALMAP = load_map('characters.json', 'pals')
-    NPCMAP = load_map('characters.json', 'npcs')
-    PASSMAP = load_map('skills.json', 'passives')
-    SKILLMAP = load_map('skills.json', 'skills')
+    PALMAP = load_game_data_map('characters.json', 'pals')
+    NPCMAP = load_game_data_map('characters.json', 'npcs')
+    PASSMAP = load_game_data_map('skills.json', 'passives')
+    SKILLMAP = load_game_data_map('skills.json', 'skills')
     NAMEMAP = {**PALMAP, **NPCMAP}
     formatted_pals = []
     illegal_pals = []

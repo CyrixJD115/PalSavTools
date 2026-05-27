@@ -78,7 +78,7 @@
         {
             "name": "Ancient Pal Bed",
             "asset": "Ancient_MedicalPalBed",
-            "icon": "/icons/structures/Ancient_MedicalPalBed.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Ancient_MedicalPalBed.webp"
         },
         {
             "name": "Ancient Pillar",
@@ -1589,6 +1589,11 @@
             "name": "EnemyCamp_JapaneseStyle_SlopedRoofCorner",
             "asset": "EnemyCamp_JapaneseStyle_SlopedRoofCorner",
             "icon": "/icons/structures/EnemyCamp_JapaneseStyle_SlopedRoofCorner.webp"
+        },
+        {
+            "name": "EnemyCamp_JapaneseStyle_SlopedRoofCornerReverse",
+            "asset": "EnemyCamp_JapaneseStyle_SlopedRoofCornerReverse",
+            "icon": "/icons/structures/EnemyCamp_JapaneseStyle_SlopedRoofCornerReverse.webp"
         },
         {
             "name": "EnemyCamp_JapaneseStyle_TriangleFoundation",
@@ -3896,6 +3901,11 @@
             "icon": "/icons/structures/T_icon_buildObject_OilPump.webp"
         },
         {
+            "name": "OilPump02",
+            "asset": "OilPump02",
+            "icon": "/icons/structures/T_icon_buildObject_OilPump02.webp"
+        },
+        {
             "name": "OilRig",
             "asset": "OilRig",
             "icon": "/icons/structures/OilRig.webp"
@@ -5643,7 +5653,7 @@
         {
             "name": "Ancient Pal Bed",
             "asset": "Ancient_MedicalPalBed",
-            "icon": "/icons/technologies/Ancient_MedicalPalBed.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Ancient_MedicalPalBed.webp",
             "type": "standard",
             "description": "Placing a soft mattress in this ancient recovery pod has turned it into the ultimate Pal Bed. It promotes higher rates of SAN recovery and whisks fatigue away faster than any other model. Similar in size to a Large Pal Bed, it can accommodate most Pals with ease."
         },
@@ -7529,6 +7539,13 @@
             "icon": "/icons/technologies/T_icon_buildObject_OilPump.webp",
             "type": "standard",
             "description": ""
+        },
+        {
+            "name": "oilpump02",
+            "asset": "OilPump02",
+            "icon": "/icons/technologies/T_icon_buildObject_OilPump02.webp",
+            "type": "boss",
+            "description": "-"
         },
         {
             "name": "Flame Cauldron",

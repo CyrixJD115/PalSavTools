@@ -3933,6 +3933,8 @@ class PalCreateDialog(QDialog):
             asset_lower = asset.lower()
             if any(asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_')):
                 continue
+            if 'oilrig' in asset_lower:
+                continue
             if asset_lower.startswith('boss_'):
                 base_id = asset[5:]
                 base_zukan = PalFrame._PAL_ZUKAN.get(base_id.lower(), -1)

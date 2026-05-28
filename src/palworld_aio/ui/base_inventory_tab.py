@@ -56,7 +56,17 @@ class GuildItemPickerDialog(QDialog):
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(10)
+
+        splitter = QSplitter(Qt.Horizontal)
+        splitter.setChildrenCollapsible(False)
+
+        left_widget = QWidget()
+        left_layout = QVBoxLayout(left_widget)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(5)
+
         search_layout = QHBoxLayout()
         search_label = QLabel(t('common.search') if t else 'Search:')
         self.search_input = QLineEdit()
@@ -64,7 +74,8 @@ class GuildItemPickerDialog(QDialog):
         self.search_input.textChanged.connect(self._filter_items)
         search_layout.addWidget(search_label)
         search_layout.addWidget(self.search_input)
-        layout.addLayout(search_layout)
+        left_layout.addLayout(search_layout)
+
         self.results_list = QListWidget()
         self.results_list.setViewMode(QListView.IconMode)
         self.results_list.setIconSize(QSize(48, 48))
@@ -77,23 +88,23 @@ class GuildItemPickerDialog(QDialog):
         self.results_list.setDragEnabled(False)
         self.results_list.viewport().setAcceptDrops(False)
         self.results_list.itemClicked.connect(self._on_item_clicked)
-        layout.addWidget(self.results_list)
+        left_layout.addWidget(self.results_list)
+
+        right_widget = QWidget()
+        right_layout = QVBoxLayout(right_widget)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(8)
+
         self.info_label = QLabel(t('base_inventory.select_item') if t else 'Select an item to perform actions')
         self.info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
-        layout.addWidget(self.info_label)
+        right_layout.addWidget(self.info_label)
+
         self.desc_label = QLabel('')
         self.desc_label.setStyleSheet('color: #94a3b8; font-size: 11px; padding: 2px 5px;')
         self.desc_label.setWordWrap(True)
         self.desc_label.setVisible(False)
-        layout.addWidget(self.desc_label)
-        guilds_container = QWidget()
-        guilds_layout = QHBoxLayout(guilds_container)
-        guilds_layout.setContentsMargins(0, 0, 0, 0)
-        guilds_layout.setSpacing(10)
-        left_panel = QWidget()
-        left_layout = QVBoxLayout(left_panel)
-        left_layout.setContentsMargins(0, 0, 0, 0)
-        left_layout.setSpacing(5)
+        right_layout.addWidget(self.desc_label)
+
         guilds_group = QGroupBox(t('base_inventory.select_guilds') if t else 'Select Guilds')
         guilds_inner_layout = QVBoxLayout()
         guild_buttons_layout = QHBoxLayout()
@@ -117,10 +128,8 @@ class GuildItemPickerDialog(QDialog):
         self.guild_list.setEnabled(False)
         guilds_inner_layout.addWidget(self.guild_list)
         guilds_group.setLayout(guilds_inner_layout)
-        left_layout.addWidget(guilds_group)
-        right_panel = QWidget()
-        right_layout = QVBoxLayout(right_panel)
-        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.addWidget(guilds_group)
+
         stats_group = QGroupBox(t('base_inventory.economy_stats') if t else 'Economy Stats')
         stats_layout = QVBoxLayout()
         self.stats_total_label = QLabel(f"{(t('base_inventory.total') if t else 'Total')}: 0")
@@ -135,9 +144,9 @@ class GuildItemPickerDialog(QDialog):
         stats_layout.addStretch()
         stats_group.setLayout(stats_layout)
         right_layout.addWidget(stats_group)
-        guilds_layout.addWidget(left_panel, 2)
-        guilds_layout.addWidget(right_panel, 1)
-        layout.addWidget(guilds_container)
+
+        right_layout.addStretch()
+
         btn_layout = QHBoxLayout()
         self.find_btn = QPushButton(t('base_inventory.find_containers') if t else 'Find Containers')
         self.find_btn.clicked.connect(self._on_find_containers)
@@ -147,7 +156,13 @@ class GuildItemPickerDialog(QDialog):
         close_btn = QPushButton(t('button.close') if t else 'Close')
         close_btn.clicked.connect(self.accept)
         btn_layout.addWidget(close_btn)
-        layout.addLayout(btn_layout)
+        right_layout.addLayout(btn_layout)
+
+        splitter.addWidget(left_widget)
+        splitter.addWidget(right_widget)
+        splitter.setSizes([220, 580])
+
+        layout.addWidget(splitter)
         items = ItemData.get_all_items()
         for item in items:
             if item.get('sort_id', 0) == 9999:

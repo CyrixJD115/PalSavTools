@@ -381,6 +381,17 @@ class PlayerInventory:
             PlayerInventory._BOSS_MAP_CACHE = {}
             return {}
 
+    def _save_player_sav(self):
+        if not self.player_gvas or not constants.current_save_path:
+            return
+        uid_clean = str(self.player_uid).replace('-', '').upper()
+        sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
+        try:
+            if hasattr(self.player_gvas, 'write'):
+                gvasfile_to_sav(self.player_gvas, sav_file)
+        except:
+            pass
+
     def _ensure_boss_defeat_flags(self, item_ids: list[str]) -> None:
         boss_item_ids = [i for i in item_ids if i.startswith('BossDefeatReward_')]
         if not boss_item_ids or not self.player_gvas:
@@ -459,6 +470,7 @@ class PlayerInventory:
         if success:
             self.save()
             self._ensure_boss_defeat_flags([item_id])
+            self._save_player_sav()
         return success
     def remove_item(self, container_type: str, slot_index: int) -> bool:
         container = self.get_container(container_type)

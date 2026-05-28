@@ -96,8 +96,6 @@ class GuildItemPickerDialog(QDialog):
         right_layout.setSpacing(8)
 
         info_frame = QFrame()
-        info_frame.setMaximumHeight(70)
-        info_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         info_frame.setStyleSheet('background: rgba(0,0,0,0.15); border-radius: 4px;')
         info_layout = QVBoxLayout(info_frame)
         info_layout.setContentsMargins(5, 2, 5, 2)
@@ -110,7 +108,7 @@ class GuildItemPickerDialog(QDialog):
         self.desc_label.setWordWrap(True)
         self.desc_label.setVisible(False)
         info_layout.addWidget(self.desc_label)
-        right_layout.addWidget(info_frame)
+        right_layout.addWidget(info_frame, 1)
 
         guilds_group = QGroupBox(t('base_inventory.select_guilds') if t else 'Select Guilds')
         guilds_inner_layout = QVBoxLayout()
@@ -134,25 +132,30 @@ class GuildItemPickerDialog(QDialog):
         self.guild_list.setSelectionMode(QAbstractItemView.NoSelection)
         self.guild_list.setEnabled(False)
         guilds_inner_layout.addWidget(self.guild_list)
-        guilds_group.setLayout(guilds_inner_layout)
-        right_layout.addWidget(guilds_group)
 
-        stats_group = QGroupBox(t('base_inventory.economy_stats') if t else 'Economy Stats')
-        stats_layout = QVBoxLayout()
+        sep = QFrame()
+        sep.setFrameShape(QFrame.HLine)
+        sep.setStyleSheet('background: rgba(255,255,255,0.1); max-height: 1px; margin: 4px 0;')
+        guilds_inner_layout.addWidget(sep)
+
+        stats_container = QWidget()
+        stats_container_layout = QHBoxLayout(stats_container)
+        stats_container_layout.setContentsMargins(0, 2, 0, 0)
+        stats_container_layout.setSpacing(8)
         self.stats_total_label = QLabel(f"{(t('base_inventory.total') if t else 'Total')}: 0")
-        self.stats_total_label.setStyleSheet('font-weight: bold; font-size: 13px;')
-        stats_layout.addWidget(self.stats_total_label)
+        self.stats_total_label.setStyleSheet('font-weight: bold; font-size: 12px;')
+        stats_container_layout.addWidget(self.stats_total_label)
         self.stats_guilds_label = QLabel(f"{(t('base_inventory.guilds') if t else 'Guilds')}: 0")
         self.stats_guilds_label.setStyleSheet('font-size: 12px;')
-        stats_layout.addWidget(self.stats_guilds_label)
+        stats_container_layout.addWidget(self.stats_guilds_label)
         self.stats_avg_label = QLabel(f"{(t('base_inventory.avg_per_guild') if t else 'Avg per guild')}: 0.0")
         self.stats_avg_label.setStyleSheet('font-size: 12px;')
-        stats_layout.addWidget(self.stats_avg_label)
-        stats_layout.addStretch()
-        stats_group.setLayout(stats_layout)
-        right_layout.addWidget(stats_group)
+        stats_container_layout.addWidget(self.stats_avg_label)
+        stats_container_layout.addStretch()
+        guilds_inner_layout.addWidget(stats_container)
 
-        right_layout.addStretch()
+        guilds_group.setLayout(guilds_inner_layout)
+        right_layout.addWidget(guilds_group, 1)
 
         btn_layout = QHBoxLayout()
         self.find_btn = QPushButton(t('base_inventory.find_containers') if t else 'Find Containers')
@@ -316,14 +319,19 @@ class GuildItemPickerDialog(QDialog):
         pct, ok = QInputDialog.getInt(self, t('base_inventory.remove_percentage') if t else 'Remove Percentage', t('base_inventory.enter_percentage') if t else 'Enter percentage to remove (1-100):', 50, 1, 100, 10)
         if ok:
             self.item_action_selected.emit(self.selected_item_id, f'remove_pct:{pct}', selected_guilds)
-            self.accept()
     def _do_remove_all(self, dialog, selected_guilds):
         dialog.accept()
         item_name = self.selected_item_name or 'this item'
-        reply = QMessageBox.question(self, t('base_inventory.confirm_remove_all') if t else 'Confirm Remove', t('base_inventory.confirm_remove_all_msg').format(item_name=item_name) if t else f'Remove all "{item_name}" from selected guilds?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(t('base_inventory.confirm_remove_all') if t else 'Confirm Remove')
+        msg_box.setText(t('base_inventory.confirm_remove_all_msg').format(item_name=item_name) if t else f'Remove all "{item_name}" from selected guilds?')
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg_box.setDefaultButton(QMessageBox.No)
+        msg_box.setStyleSheet(_DIALOG_STYLE)
+        reply = msg_box.exec()
         if reply == QMessageBox.Yes:
             self.item_action_selected.emit(self.selected_item_id, 'remove_all', selected_guilds)
-            self.accept()
 class EconomyStatsDialog(QDialog):
     def __init__(self, stats, item_name=None, parent=None):
         super().__init__(parent)

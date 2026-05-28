@@ -1054,7 +1054,7 @@ class PlayerInventoryTab(QWidget):
 
         total = len(to_add) + len(missing_unlocks)
         if not total:
-            QMessageBox.information(self, '', t('inventory.no_new_items', default='All key items already present.'))
+            self._themed_message_box(QMessageBox.Information, t('inventory.add_all_key_items', default='Add All Key Items'), t('inventory.no_new_items', default='All key items already present.'))
             return
         reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_key_items_confirm.title', default='Add All Key Items'), t('inventory.add_all_key_items_confirm.msg', count=total, default=f'Add all missing key items? ({total} items)'), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:

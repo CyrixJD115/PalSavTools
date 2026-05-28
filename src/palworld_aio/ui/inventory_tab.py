@@ -448,6 +448,8 @@ class InventoryGridWidget(QWidget):
     item_context_menu = Signal(dict, QPoint)
     empty_slot_context_menu = Signal(str, int, QPoint)
     item_selected = Signal(dict)
+    add_all_effigies_requested = Signal()
+    add_all_key_items_requested = Signal()
     def __init__(self, container_type: str='main', parent=None):
         super().__init__(parent)
         self.container_type = container_type
@@ -467,8 +469,25 @@ class InventoryGridWidget(QWidget):
         header.addStretch()
         self.sort_btn = QPushButton(t('inventory.sort', default='Sort'))
         self.sort_btn.setFixedSize(60, 24)
+        self.sort_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.sort_btn.setCursor(Qt.PointingHandCursor)
         self.sort_btn.clicked.connect(self._sort_items)
         header.addWidget(self.sort_btn)
+        header.addSpacing(4)
+        self.effigies_btn = QPushButton(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.effigies_btn.setFixedSize(120, 24)
+        self.effigies_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.5); color: #FFFFFF; }')
+        self.effigies_btn.setCursor(Qt.PointingHandCursor)
+        self.effigies_btn.clicked.connect(self.add_all_effigies_requested.emit)
+        self.effigies_btn.setVisible(self.container_type == 'key_items')
+        header.addWidget(self.effigies_btn)
+        self.key_items_btn = QPushButton(t('inventory.add_all_key_items', default='Add All Key Items'))
+        self.key_items_btn.setFixedSize(120, 24)
+        self.key_items_btn.setStyleSheet('QPushButton { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(99,102,241,0.25); border-color: rgba(99,102,241,0.5); color: #FFFFFF; }')
+        self.key_items_btn.setCursor(Qt.PointingHandCursor)
+        self.key_items_btn.clicked.connect(self.add_all_key_items_requested.emit)
+        self.key_items_btn.setVisible(self.container_type == 'key_items')
+        header.addWidget(self.key_items_btn)
         main_layout.addLayout(header)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -529,6 +548,8 @@ class InventoryGridWidget(QWidget):
     def refresh_labels(self):
         self.tab_label.setText(t(f'inventory.{self.container_type}', default=self.container_type.title()))
         self.sort_btn.setText(t('inventory.sort', default='Sort'))
+        self.effigies_btn.setText(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.key_items_btn.setText(t('inventory.add_all_key_items', default='Add All Key Items'))
     def clear(self):
         self.load_items([])
     def get_selected_slot(self):
@@ -764,6 +785,8 @@ class PlayerInventoryTab(QWidget):
         self.key_grid.item_selected.connect(self._on_item_selected)
         self.key_grid.item_context_menu.connect(self._show_item_context_menu)
         self.key_grid.empty_slot_context_menu.connect(self._show_empty_slot_context_menu)
+        self.key_grid.add_all_effigies_requested.connect(self._on_add_all_effigies)
+        self.key_grid.add_all_key_items_requested.connect(self._on_add_all_key_items)
         self.inv_tabs.addTab(self.key_grid, t('inventory.key_items', default='Key Items'))
         self.stats_tab = QWidget()
         stats_tab_layout = QVBoxLayout(self.stats_tab)
@@ -986,6 +1009,72 @@ class PlayerInventoryTab(QWidget):
         self.stats_panel.clear()
         for slot_widget in self.equip_slots.values():
             slot_widget.clear_item()
+    def _on_add_all_effigies(self):
+        if not self.inventory:
+            return
+        all_items = ItemData.get_all_items()
+        effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
+        if not effigies:
+            return
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
+        if reply != QMessageBox.Yes:
+            return
+        container = self.inventory.get_container('key')
+        if not container:
+            return
+        for item in effigies:
+            item_id = item['asset']
+            existing = [s for s in container.slots if s.get('item_id') == item_id]
+            if existing:
+                slot = existing[0]
+                container.set_item_count(slot['slot_index'], slot['stack_count'] + 1)
+            else:
+                container.add_item(item_id, 1)
+        self.inventory.save()
+        self._refresh_display()
+    def _on_add_all_key_items(self):
+        if not self.inventory:
+            return
+        all_items = ItemData.get_all_items()
+        unlock_assets = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
+        key_candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and i['asset'] not in unlock_assets]
+        existing_ids = {s.get('item_id') for s in self.inventory.get_container('key').slots}
+        to_add = [i for i in key_candidates if i['asset'] not in existing_ids]
+
+        missing_unlocks = []
+        unlocked_food = self.inventory.get_unlocked_food_slots()
+        for i in range(unlocked_food, len(FOOD_POUCH_ITEMS)):
+            missing_unlocks.append(FOOD_POUCH_ITEMS[i])
+        unlocked_acc = self.inventory.get_unlocked_accessory_slots()
+        for i in range(unlocked_acc - 2, len(ACCESSORY_UNLOCK_ITEMS)):
+            missing_unlocks.append(ACCESSORY_UNLOCK_ITEMS[i])
+        unlocked_weapon = self.inventory.get_unlocked_weapon_slots()
+        for i in range(unlocked_weapon - 4, len(WEAPON_UNLOCK_ITEMS)):
+            missing_unlocks.append(WEAPON_UNLOCK_ITEMS[i])
+
+        total = len(to_add) + len(missing_unlocks)
+        if not total:
+            QMessageBox.information(self, '', t('inventory.no_new_items', default='All key items already present.'))
+            return
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_key_items_confirm.title', default='Add All Key Items'), t('inventory.add_all_key_items_confirm.msg', count=total, default=f'Add all missing key items? ({total} items)'), QMessageBox.Yes | QMessageBox.No)
+        if reply != QMessageBox.Yes:
+            return
+        key_container = self.inventory.get_container('key')
+        if key_container:
+            std_container = key_container._standardized_container
+            slots_needed = len(key_container.slots) + total
+            if slots_needed > std_container.max_slots:
+                new_max = slots_needed + 50
+                std_container.expand_capacity(new_max)
+                std_container.container_data['value']['SlotNum']['value'] = new_max
+        for item_id in missing_unlocks:
+            self.inventory.add_item('key', item_id, 1)
+        for item in to_add:
+            self.inventory.add_item('key', item['asset'], 1)
+        key_container = self.inventory.get_container('key')
+        if key_container:
+            self._update_raw_save_data('key', key_container)
+        self._refresh_display()
     def _refresh_display(self):
         if not self.inventory:
             return
@@ -998,20 +1087,20 @@ class PlayerInventoryTab(QWidget):
             key_slot_count = max(50, len(key_container.slots) + 10)
             self.key_grid.load_items(key_container.slots, max_slots=key_slot_count)
         unlocked_food_slots = self.inventory.get_unlocked_food_slots() if self.inventory else 0
+        unlocked_accessory_slots = self.inventory.get_unlocked_accessory_slots() if self.inventory else 2
+        unlocked_weapon_slots = self.inventory.get_unlocked_weapon_slots() if self.inventory else 4
         for i in range(1, 6):
             slot_name = f'food{i}'
             if slot_name in self.equip_slots:
                 slot_widget = self.equip_slots[slot_name]
                 is_locked = i > unlocked_food_slots
                 slot_widget.set_locked(is_locked, lock_type='food' if is_locked else None)
-        unlocked_accessory_slots = self.inventory.get_unlocked_accessory_slots() if self.inventory else 2
         for i in range(1, 5):
             slot_name = f'accessory{i}'
             if slot_name in self.equip_slots:
                 slot_widget = self.equip_slots[slot_name]
                 is_locked = i > unlocked_accessory_slots
                 slot_widget.set_locked(is_locked, lock_type='accessory' if is_locked else None)
-        unlocked_weapon_slots = self.inventory.get_unlocked_weapon_slots() if self.inventory else 4
         for i in range(5, 7):
             slot_name = f'weapon{i}'
             if slot_name in self.equip_slots:

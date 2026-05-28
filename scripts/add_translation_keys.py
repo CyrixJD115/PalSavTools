@@ -35,6 +35,13 @@ NEW_TRANSLATIONS = {
     'character_transfer.save_tooltip': 'Write changes to target Level.sav and player files.',
     'character_transfer.selection_none': 'Source: N/A, Target: N/A',
     'character_transfer.selection_status': 'Source: {source}, Target: {target}',
+    'inventory.add_all_effigies': 'Add All Effigies',
+    'inventory.add_all_key_items': 'Add All Key Items',
+    'inventory.add_all_effigies_confirm.title': 'Add All Effigies',
+    'inventory.add_all_effigies_confirm.msg': 'Add all 13 effigy types to key items?',
+    'inventory.add_all_key_items_confirm.title': 'Add All Key Items',
+    'inventory.add_all_key_items_confirm.msg': 'Add all missing key items? ({count} items)',
+    'inventory.no_new_items': 'All key items already present.',
 }
 def add_english_keys():
     lang_file = PROJECT_ROOT / 'resources' / 'i18n' / 'en_US.json'

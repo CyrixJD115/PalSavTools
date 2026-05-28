@@ -1395,5 +1395,12 @@
   "edit_pals.ctx.max_all_stats": "Máximo de todas las estadísticas",
   "edit_pals.ctx.learn_all_moves": "Aprende todos los movimientos",
   "edit_pals.learn_all_success": "¡Todos los movimientos aprendidos con éxito!",
-  "edit_pals.learn_all_fail": "No pude aprender movimientos."
+  "edit_pals.learn_all_fail": "No pude aprender movimientos.",
+  "inventory.add_all_effigies": "Agregar todas las efigies",
+  "inventory.add_all_key_items": "Agregar todos los elementos clave",
+  "inventory.add_all_effigies_confirm.title": "Agregar todas las efigies",
+  "inventory.add_all_effigies_confirm.msg": "¿Agregar los 13 tipos de efigie a los elementos clave?",
+  "inventory.add_all_key_items_confirm.title": "Agregar todos los elementos clave",
+  "inventory.add_all_key_items_confirm.msg": "¿Agregar todos los elementos clave que faltan? ({count} artículos)",
+  "inventory.no_new_items": "Todos los elementos clave ya están presentes."
 }

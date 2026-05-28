@@ -1426,5 +1426,12 @@
   "edit_pals.ctx.max_all_stats": "Alle Statistiken maximieren",
   "edit_pals.ctx.learn_all_moves": "Lerne alle Bewegungen",
   "edit_pals.learn_all_success": "Alle Züge erfolgreich gelernt!",
-  "edit_pals.learn_all_fail": "Bewegungen konnten nicht gelernt werden."
+  "edit_pals.learn_all_fail": "Bewegungen konnten nicht gelernt werden.",
+  "inventory.add_all_effigies": "Alle Bildnisse hinzufügen",
+  "inventory.add_all_key_items": "Fügen Sie alle wichtigen Elemente hinzu",
+  "inventory.add_all_effigies_confirm.title": "Alle Bildnisse hinzufügen",
+  "inventory.add_all_effigies_confirm.msg": "Alle 13 Bildnistypen zu Schlüsselgegenständen hinzufügen?",
+  "inventory.add_all_key_items_confirm.title": "Fügen Sie alle wichtigen Elemente hinzu",
+  "inventory.add_all_key_items_confirm.msg": "Alle fehlenden Schlüsselelemente hinzufügen? ({count} Artikel)",
+  "inventory.no_new_items": "Alle wichtigen Artikel sind bereits vorhanden."
 }

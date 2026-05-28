@@ -1402,5 +1402,12 @@
   "edit_pals.ctx.max_all_stats": "すべてのステータスを最大化する",
   "edit_pals.ctx.learn_all_moves": "すべての動きを学ぶ",
   "edit_pals.learn_all_success": "すべての技が無事に習得されました！",
-  "edit_pals.learn_all_fail": "動きの学習に失敗しました。"
+  "edit_pals.learn_all_fail": "動きの学習に失敗しました。",
+  "inventory.add_all_effigies": "すべての人形を追加",
+  "inventory.add_all_key_items": "すべてのキーアイテムを追加",
+  "inventory.add_all_effigies_confirm.title": "すべての人形を追加",
+  "inventory.add_all_effigies_confirm.msg": "13 種類すべてのフィギュアをキーアイテムに追加しますか?",
+  "inventory.add_all_key_items_confirm.title": "すべてのキーアイテムを追加",
+  "inventory.add_all_key_items_confirm.msg": "不足している重要な項目をすべて追加しますか? ({count} 個のアイテム)",
+  "inventory.no_new_items": "すべての主要な項目はすでに存在します。"
 }

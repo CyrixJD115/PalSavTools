@@ -1400,5 +1400,12 @@
   "edit_pals.ctx.max_all_stats": "Макс. все характеристики",
   "edit_pals.ctx.learn_all_moves": "Изучите все движения",
   "edit_pals.learn_all_success": "Все движения успешно разучены!",
-  "edit_pals.learn_all_fail": "Не удалось выучить движения."
+  "edit_pals.learn_all_fail": "Не удалось выучить движения.",
+  "inventory.add_all_effigies": "Добавить все чучела",
+  "inventory.add_all_key_items": "Добавить все ключевые элементы",
+  "inventory.add_all_effigies_confirm.title": "Добавить все чучела",
+  "inventory.add_all_effigies_confirm.msg": "Добавить все 13 типов чучел к ключевым предметам?",
+  "inventory.add_all_key_items_confirm.title": "Добавить все ключевые элементы",
+  "inventory.add_all_key_items_confirm.msg": "Добавить все недостающие ключевые элементы? ({count} шт.)",
+  "inventory.no_new_items": "Все ключевые элементы уже присутствуют."
 }

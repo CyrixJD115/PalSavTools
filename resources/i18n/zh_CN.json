@@ -1404,5 +1404,12 @@
   "edit_pals.ctx.max_all_stats": "最大所有统计数据",
   "edit_pals.ctx.learn_all_moves": "学习所有动作",
   "edit_pals.learn_all_success": "所有动作都学会成功了！",
-  "edit_pals.learn_all_fail": "没能学会动作。"
+  "edit_pals.learn_all_fail": "没能学会动作。",
+  "inventory.add_all_effigies": "添加所有肖像",
+  "inventory.add_all_key_items": "添加所有关键项目",
+  "inventory.add_all_effigies_confirm.title": "添加所有肖像",
+  "inventory.add_all_effigies_confirm.msg": "将所有 13 种雕像类型添加到关键物品中？",
+  "inventory.add_all_key_items_confirm.title": "添加所有关键项目",
+  "inventory.add_all_key_items_confirm.msg": "添加所有缺失的关键项目？ （{count} 件）",
+  "inventory.no_new_items": "所有关键项目均已存在。"
 }

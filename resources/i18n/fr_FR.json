@@ -1384,5 +1384,12 @@
   "edit_pals.ctx.max_all_stats": "Toutes les statistiques maximales",
   "edit_pals.ctx.learn_all_moves": "Apprenez tous les mouvements",
   "edit_pals.learn_all_success": "Tous les mouvements appris avec succès !",
-  "edit_pals.learn_all_fail": "Impossible d'apprendre les mouvements."
+  "edit_pals.learn_all_fail": "Impossible d'apprendre les mouvements.",
+  "inventory.add_all_effigies": "Ajouter toutes les effigies",
+  "inventory.add_all_key_items": "Ajouter tous les éléments clés",
+  "inventory.add_all_effigies_confirm.title": "Ajouter toutes les effigies",
+  "inventory.add_all_effigies_confirm.msg": "Ajouter les 13 types d'effigies aux éléments clés ?",
+  "inventory.add_all_key_items_confirm.title": "Ajouter tous les éléments clés",
+  "inventory.add_all_key_items_confirm.msg": "Ajouter tous les éléments clés manquants ? ({count} éléments)",
+  "inventory.no_new_items": "Tous les éléments clés déjà présents."
 }

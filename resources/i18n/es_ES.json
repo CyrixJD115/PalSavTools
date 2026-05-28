@@ -1402,5 +1402,10 @@
   "inventory.add_all_effigies_confirm.msg": "¿Agregar los 13 tipos de efigie a los elementos clave?",
   "inventory.add_all_key_items_confirm.title": "Agregar todos los elementos clave",
   "inventory.add_all_key_items_confirm.msg": "¿Agregar todos los elementos clave que faltan? ({count} artículos)",
-  "inventory.no_new_items": "Todos los elementos clave ya están presentes."
+  "inventory.no_new_items": "Todos los elementos clave ya están presentes.",
+  "player_item.no_effigies_found": "No se encontraron efigies.",
+  "inventory.add_all_effigies_qty.title": "Agregar todas las efigies",
+  "inventory.add_all_effigies_qty.prompt": "¿Cuántas de cada tipo de efigie?",
+  "player_item.add_all_effigies_qty.title": "Agregar todas las efigies",
+  "player_item.add_all_effigies_qty.prompt": "¿Cuántas de cada tipo de efigie?"
 }

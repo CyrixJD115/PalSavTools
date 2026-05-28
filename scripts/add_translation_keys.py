@@ -42,6 +42,11 @@ NEW_TRANSLATIONS = {
     'inventory.add_all_key_items_confirm.title': 'Add All Key Items',
     'inventory.add_all_key_items_confirm.msg': 'Add all missing key items? ({count} items)',
     'inventory.no_new_items': 'All key items already present.',
+    'player_item.no_effigies_found': 'No effigies found.',
+    'inventory.add_all_effigies_qty.title': 'Add All Effigies',
+    'inventory.add_all_effigies_qty.prompt': 'How many of each effigy type?',
+    'player_item.add_all_effigies_qty.title': 'Add All Effigies',
+    'player_item.add_all_effigies_qty.prompt': 'How many of each effigy type?',
 }
 def add_english_keys():
     lang_file = PROJECT_ROOT / 'resources' / 'i18n' / 'en_US.json'
@@ -91,3 +96,6 @@ def main():
     print('=' * 60)
 if __name__ == '__main__':
     main()
+    for p in [Path.cwd() / 'uv.lock', PROJECT_ROOT / 'uv.lock']:
+        if p.exists():
+            p.unlink()

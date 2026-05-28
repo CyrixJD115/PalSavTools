@@ -1407,5 +1407,10 @@
   "inventory.add_all_effigies_confirm.msg": "Добавить все 13 типов чучел к ключевым предметам?",
   "inventory.add_all_key_items_confirm.title": "Добавить все ключевые элементы",
   "inventory.add_all_key_items_confirm.msg": "Добавить все недостающие ключевые элементы? ({count} шт.)",
-  "inventory.no_new_items": "Все ключевые элементы уже присутствуют."
+  "inventory.no_new_items": "Все ключевые элементы уже присутствуют.",
+  "player_item.no_effigies_found": "Фигурок не обнаружено.",
+  "inventory.add_all_effigies_qty.title": "Добавить все чучела",
+  "inventory.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?",
+  "player_item.add_all_effigies_qty.title": "Добавить все чучела",
+  "player_item.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?"
 }

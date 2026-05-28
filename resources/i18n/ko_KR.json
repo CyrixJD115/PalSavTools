@@ -1408,5 +1408,10 @@
   "inventory.add_all_effigies_confirm.msg": "주요 아이템에 13가지 조각상 유형을 모두 추가하시겠습니까?",
   "inventory.add_all_key_items_confirm.title": "모든 주요 항목 추가",
   "inventory.add_all_key_items_confirm.msg": "누락된 주요 항목을 모두 추가하시겠습니까? ({count}개 항목)",
-  "inventory.no_new_items": "모든 주요 항목이 이미 존재합니다."
+  "inventory.no_new_items": "모든 주요 항목이 이미 존재합니다.",
+  "player_item.no_effigies_found": "조각상을 찾을 수 없습니다.",
+  "inventory.add_all_effigies_qty.title": "모든 조각상 추가",
+  "inventory.add_all_effigies_qty.prompt": "각 인형 유형은 몇 개입니까?",
+  "player_item.add_all_effigies_qty.title": "모든 조각상 추가",
+  "player_item.add_all_effigies_qty.prompt": "각 인형 유형은 몇 개입니까?"
 }

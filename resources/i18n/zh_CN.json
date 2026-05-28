@@ -1411,5 +1411,10 @@
   "inventory.add_all_effigies_confirm.msg": "将所有 13 种雕像类型添加到关键物品中？",
   "inventory.add_all_key_items_confirm.title": "添加所有关键项目",
   "inventory.add_all_key_items_confirm.msg": "添加所有缺失的关键项目？ （{count} 件）",
-  "inventory.no_new_items": "所有关键项目均已存在。"
+  "inventory.no_new_items": "所有关键项目均已存在。",
+  "player_item.no_effigies_found": "没有找到肖像。",
+  "inventory.add_all_effigies_qty.title": "添加所有肖像",
+  "inventory.add_all_effigies_qty.prompt": "每种肖像类型有多少个？",
+  "player_item.add_all_effigies_qty.title": "添加所有肖像",
+  "player_item.add_all_effigies_qty.prompt": "每种肖像类型有多少个？"
 }

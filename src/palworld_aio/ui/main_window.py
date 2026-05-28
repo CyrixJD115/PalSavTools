@@ -788,6 +788,8 @@ class MainWindow(QMainWindow):
     def _open_bulk_player_item_dialog(self):
         dialog = PlayerItemActionDialog(self)
         dialog.item_action_selected.connect(self._on_player_item_action)
+        dialog.add_all_key_items_requested.connect(self._on_bulk_add_all_key_items)
+        dialog.add_all_effigies_requested.connect(self._on_bulk_add_all_effigies)
         dialog.exec()
     def _open_bulk_player_pal_dialog(self):
         dialog = PlayerPalActionDialog(self)
@@ -830,6 +832,96 @@ class MainWindow(QMainWindow):
             import traceback
             traceback.print_exc()
             self._show_error(t('player_item.error') if t else 'Error', str(e))
+        if hasattr(self, 'refresh_all'):
+            self.refresh_all()
+    def _on_bulk_add_all_effigies(self, player_uids, quantity):
+        from palworld_aio.inventory_manager import ItemData
+        from palworld_aio.base_inventory_manager import add_item_to_players
+        all_items = ItemData.get_all_items()
+        effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
+        if not effigies:
+            self._show_info(t('player_item.no_action') if t else 'No Action Taken', t('player_item.no_effigies_found', default='No effigies found.') if t else 'No effigies found.')
+            return
+        total = 0
+        for e in effigies:
+            r = add_item_to_players(e['asset'], quantity, 'key', player_uids)
+            total += r.get('added', 0)
+        self._show_info(t('player_item.add_complete') if t else 'Bulk Add Complete', f'Added {total} effigy items to selected player(s).')
+        if hasattr(self, 'refresh_all'):
+            self.refresh_all()
+    def _on_bulk_add_all_key_items(self, player_uids):
+        from palworld_aio.inventory_manager import ItemData, PlayerInventory, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
+        from palworld_aio.utils import gvasfile_to_sav
+        from palworld_aio.dynamic_item import sync_dynamic_items_with_registry
+        import os
+        all_items = ItemData.get_all_items()
+        unlock_assets = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
+        candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and i['asset'] not in unlock_assets and i.get('sort_id', 0) != 9999 and i.get('description', '').strip() not in ('', '-') and i.get('name', '') != i.get('asset', '') and 'en_text' not in i.get('name', '').lower()]
+        per_player_missing = {}
+        for uid in player_uids:
+            try:
+                inv = PlayerInventory(uid)
+                if not inv.load():
+                    continue
+                key_container = inv.containers.get('key')
+                existing = {s.get('item_id', '') for s in (key_container.slots if key_container else []) if s.get('item_id', '')}
+                missing = [c['asset'] for c in candidates if c['asset'] not in existing]
+                for item_id in FOOD_POUCH_ITEMS:
+                    if item_id not in existing:
+                        missing.append(item_id)
+                for item_id in ACCESSORY_UNLOCK_ITEMS:
+                    if item_id not in existing:
+                        missing.append(item_id)
+                for item_id in WEAPON_UNLOCK_ITEMS:
+                    if item_id not in existing:
+                        missing.append(item_id)
+                if missing:
+                    per_player_missing[uid] = missing
+            except:
+                continue
+        total_missing = sum(len(v) for v in per_player_missing.values())
+        if not total_missing:
+            self._show_info(t('player_item.add_complete') if t else 'Add All Key Items', t('inventory.no_new_items') if t else 'All key items already present.')
+            if hasattr(self, 'refresh_all'):
+                self.refresh_all()
+            return
+        players_affected = 0
+        for uid, item_ids in per_player_missing.items():
+            try:
+                inv = PlayerInventory(uid)
+                if not inv.load():
+                    continue
+                key_container = inv.containers.get('key')
+                if key_container:
+                    std_container = key_container._standardized_container
+                    slots_needed = len(key_container.slots) + len(item_ids)
+                    if slots_needed > std_container.max_slots:
+                        new_max = slots_needed + 50
+                        std_container.expand_capacity(new_max)
+                        std_container.container_data['value']['SlotNum']['value'] = new_max
+                for item_id in item_ids:
+                    inv.add_item('key', item_id, 1)
+                wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+                item_containers = wsd.get('ItemContainerSaveData', {}).get('value', [])
+                container_lookup = {}
+                for c in item_containers:
+                    cid = c.get('key', {}).get('ID', {}).get('value', '')
+                    if cid:
+                        container_lookup[cid] = c
+                for ctype, inventory_container in inv.containers.items():
+                    cid = str(inventory_container.container_id)
+                    if cid in container_lookup:
+                        raw_slots = inventory_container._standardized_container.get_raw_slots()
+                        container_lookup[cid]['value']['Slots']['value']['values'] = raw_slots
+                sync_dynamic_items_with_registry(inv.containers)
+                gvasfile_to_sav(inv.player_gvas, os.path.join(constants.current_save_path, 'Players', f'{str(uid).replace("-", "").upper()}.sav'))
+                players_affected += 1
+            except Exception as e:
+                print(f'Error adding key items to player {uid}: {e}')
+                continue
+        if players_affected > 0:
+            constants.invalidate_container_lookup()
+        self._show_info(t('player_item.add_complete') if t else 'Bulk Add Complete', f'Added {total_missing} key items to {players_affected} player(s).')
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
     def _on_player_pal_action(self, item_id, action, player_uids):

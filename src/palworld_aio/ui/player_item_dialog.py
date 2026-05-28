@@ -1,5 +1,5 @@
 import os
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QCheckBox, QMessageBox, QSpinBox, QFrame, QAbstractItemView, QListView, QTabWidget, QWidget
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QCheckBox, QMessageBox, QSpinBox, QFrame, QAbstractItemView, QListView, QTabWidget, QWidget, QInputDialog
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
 from PySide6.QtGui import QPixmap, QIcon, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
@@ -34,6 +34,8 @@ class RarityBorderDelegate(QStyledItemDelegate):
         painter.restore()
 class PlayerItemActionDialog(QDialog):
     item_action_selected = Signal(str, str, list)
+    add_all_key_items_requested = Signal(list)
+    add_all_effigies_requested = Signal(list, int)
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(t('player_item.title') if t else 'Bulk Player Item Management')
@@ -46,6 +48,7 @@ class PlayerItemActionDialog(QDialog):
         self._setup_ui()
         self._load_items()
         self._load_players()
+        self.item_tabs.currentChanged.connect(self._on_tab_changed)
     def _setup_ui(self):
         self.setStyleSheet(DARK_THEME_STYLE)
         layout = QVBoxLayout(self)
@@ -82,11 +85,25 @@ class PlayerItemActionDialog(QDialog):
         self.find_players_btn.setEnabled(False)
         btn_layout.addWidget(self.find_players_btn)
         players_layout.addLayout(btn_layout)
+        add_all_frame = QFrame()
+        add_all_layout = QHBoxLayout(add_all_frame)
+        add_all_layout.setContentsMargins(0, 0, 0, 0)
+        self.add_all_effigies_btn = QPushButton(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.add_all_effigies_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.5); color: #FFFFFF; }')
+        self.add_all_effigies_btn.setCursor(Qt.PointingHandCursor)
+        self.add_all_effigies_btn.clicked.connect(lambda: self._on_add_all_clicked(True))
+        add_all_layout.addWidget(self.add_all_effigies_btn)
+        self.add_all_key_items_btn = QPushButton(t('inventory.add_all_key_items', default='Add All Key Items'))
+        self.add_all_key_items_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.add_all_key_items_btn.setCursor(Qt.PointingHandCursor)
+        self.add_all_key_items_btn.clicked.connect(lambda: self._on_add_all_clicked(False))
+        add_all_layout.addWidget(self.add_all_key_items_btn)
+        add_all_layout.addStretch()
+        players_layout.addWidget(add_all_frame)
         self.player_list = QListWidget()
         self.player_list.setSelectionMode(QAbstractItemView.NoSelection)
         players_layout.addWidget(self.player_list)
         self.item_tabs.addTab(self._players_tab, t('player_item.players') if t else 'Select Players')
-        self._players_tab.setEnabled(False)
         layout.addWidget(self.item_tabs)
         self.item_info_label = QLabel(t('player_item.select_item') if t else 'Select an item to perform actions')
         self.item_info_label.setStyleSheet('color: #888; font-style: italic; padding: 5px;')
@@ -354,3 +371,42 @@ class PlayerItemActionDialog(QDialog):
             self._load_players()
             self._update_player_list()
             self._find_players_with_item()
+    def _get_checked_player_uids(self):
+        return [self.player_list.item(i).data(Qt.UserRole) for i in range(self.player_list.count()) if self.player_list.item(i).checkState() == Qt.Checked]
+    def _load_all_players(self):
+        self.player_list.clear()
+        self._players_tab.setEnabled(True)
+        self.select_all_btn.setEnabled(True)
+        self.deselect_all_btn.setEnabled(True)
+        for player in self.players_data:
+            uid = player.get('uid', '')
+            if not uid:
+                continue
+            text = f"{player.get('name', 'Unknown')} (Lv.{player.get('level', '?')}) - {player.get('guild_name', 'Unknown')}"
+            item = QListWidgetItem(text)
+            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+            item.setCheckState(Qt.Checked)
+            item.setData(Qt.UserRole, uid)
+            self.player_list.addItem(item)
+    def _on_tab_changed(self, idx):
+        if idx == 2 and self.player_list.count() == 0:
+            self._load_all_players()
+    def _on_add_all_clicked(self, is_effigies):
+        uids = self._get_checked_player_uids()
+        if not uids:
+            QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
+            return
+        if is_effigies:
+            qty, ok = QInputDialog.getInt(self,
+                t('player_item.add_all_effigies_qty.title', default='Add All Effigies'),
+                t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'),
+                1, 1, 9999)
+            if not ok:
+                return
+        name = 'Effigies' if is_effigies else 'Key Items'
+        reply = QMessageBox.question(self, f'Add All {name}', f'Add all {name.lower()} types to {len(uids)} player(s)?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            if is_effigies:
+                self.add_all_effigies_requested.emit(uids, qty)
+            else:
+                self.add_all_key_items_requested.emit(uids)

@@ -1433,5 +1433,10 @@
   "inventory.add_all_effigies_confirm.msg": "Alle 13 Bildnistypen zu Schlüsselgegenständen hinzufügen?",
   "inventory.add_all_key_items_confirm.title": "Fügen Sie alle wichtigen Elemente hinzu",
   "inventory.add_all_key_items_confirm.msg": "Alle fehlenden Schlüsselelemente hinzufügen? ({count} Artikel)",
-  "inventory.no_new_items": "Alle wichtigen Artikel sind bereits vorhanden."
+  "inventory.no_new_items": "Alle wichtigen Artikel sind bereits vorhanden.",
+  "player_item.no_effigies_found": "Keine Bildnisse gefunden.",
+  "inventory.add_all_effigies_qty.title": "Alle Bildnisse hinzufügen",
+  "inventory.add_all_effigies_qty.prompt": "Wie viele von jedem Bildnistyp?",
+  "player_item.add_all_effigies_qty.title": "Alle Bildnisse hinzufügen",
+  "player_item.add_all_effigies_qty.prompt": "Wie viele von jedem Bildnistyp?"
 }

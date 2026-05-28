@@ -1,6 +1,6 @@
 import os
 import json
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QScrollArea, QLabel, QPushButton, QFrame, QDialog, QLineEdit, QListWidget, QListWidgetItem, QSpinBox, QMessageBox, QTabWidget, QSizePolicy, QAbstractItemView, QMenu, QToolTip, QListView, QProgressBar, QComboBox, QApplication
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QScrollArea, QLabel, QPushButton, QFrame, QDialog, QLineEdit, QListWidget, QListWidgetItem, QSpinBox, QMessageBox, QTabWidget, QSizePolicy, QAbstractItemView, QMenu, QToolTip, QListView, QProgressBar, QComboBox, QApplication, QInputDialog
 from PySide6.QtCore import Qt, QSize, Signal, QPoint, QTimer, QThread
 from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
@@ -1030,11 +1030,20 @@ class PlayerInventoryTab(QWidget):
     def _on_add_all_effigies(self):
         if not self.inventory:
             return
+        qty, ok = QInputDialog.getInt(self,
+            t('inventory.add_all_effigies_qty.title', default='Add All Effigies'),
+            t('inventory.add_all_effigies_qty.prompt', default='How many of each effigy type?'),
+            1, 1, 9999)
+        if not ok:
+            return
         all_items = ItemData.get_all_items()
         effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
         if not effigies:
             return
-        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question,
+            t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'),
+            t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'),
+            QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
         container = self.inventory.get_container('key')
@@ -1045,9 +1054,9 @@ class PlayerInventoryTab(QWidget):
             existing = [s for s in container.slots if s.get('item_id') == item_id]
             if existing:
                 slot = existing[0]
-                container.set_item_count(slot['slot_index'], slot['stack_count'] + 1)
+                container.set_item_count(slot['slot_index'], slot['stack_count'] + qty)
             else:
-                container.add_item(item_id, 1)
+                container.add_item(item_id, qty)
         self.inventory.save()
         self._refresh_display()
     def _on_add_all_key_items(self):
@@ -1060,15 +1069,15 @@ class PlayerInventoryTab(QWidget):
         to_add = [i for i in key_candidates if i['asset'] not in existing_ids]
 
         missing_unlocks = []
-        unlocked_food = self.inventory.get_unlocked_food_slots()
-        for i in range(unlocked_food, len(FOOD_POUCH_ITEMS)):
-            missing_unlocks.append(FOOD_POUCH_ITEMS[i])
-        unlocked_acc = self.inventory.get_unlocked_accessory_slots()
-        for i in range(unlocked_acc - 2, len(ACCESSORY_UNLOCK_ITEMS)):
-            missing_unlocks.append(ACCESSORY_UNLOCK_ITEMS[i])
-        unlocked_weapon = self.inventory.get_unlocked_weapon_slots()
-        for i in range(unlocked_weapon - 4, len(WEAPON_UNLOCK_ITEMS)):
-            missing_unlocks.append(WEAPON_UNLOCK_ITEMS[i])
+        for item_id in FOOD_POUCH_ITEMS:
+            if item_id not in existing_ids:
+                missing_unlocks.append(item_id)
+        for item_id in ACCESSORY_UNLOCK_ITEMS:
+            if item_id not in existing_ids:
+                missing_unlocks.append(item_id)
+        for item_id in WEAPON_UNLOCK_ITEMS:
+            if item_id not in existing_ids:
+                missing_unlocks.append(item_id)
 
         total = len(to_add) + len(missing_unlocks)
         if not total:

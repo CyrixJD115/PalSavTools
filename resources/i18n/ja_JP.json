@@ -1409,5 +1409,10 @@
   "inventory.add_all_effigies_confirm.msg": "13 種類すべてのフィギュアをキーアイテムに追加しますか?",
   "inventory.add_all_key_items_confirm.title": "すべてのキーアイテムを追加",
   "inventory.add_all_key_items_confirm.msg": "不足している重要な項目をすべて追加しますか? ({count} 個のアイテム)",
-  "inventory.no_new_items": "すべての主要な項目はすでに存在します。"
+  "inventory.no_new_items": "すべての主要な項目はすでに存在します。",
+  "player_item.no_effigies_found": "人形は見つかりませんでした。",
+  "inventory.add_all_effigies_qty.title": "すべての人形を追加",
+  "inventory.add_all_effigies_qty.prompt": "各タイプの人形は何個ありますか?",
+  "player_item.add_all_effigies_qty.title": "すべての人形を追加",
+  "player_item.add_all_effigies_qty.prompt": "各タイプの人形は何個ありますか?"
 }

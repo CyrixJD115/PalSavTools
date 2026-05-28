@@ -585,7 +585,7 @@ class RarityBorderDelegate(QStyledItemDelegate):
         painter.restore()
 class ItemPickerDialog(QDialog):
     item_selected = Signal(str, int)
-    def __init__(self, parent=None, filter_type_a=None, filter_type_b=None, filter_exclude_type_a=None, hide_quantity=False):
+    def __init__(self, parent=None, filter_type_a=None, filter_type_b=None, filter_exclude_type_a=None, hide_quantity=False, exclude_assets=None):
         super().__init__(parent)
         self.setWindowTitle(t('inventory.select_item', default='Select Item'))
         self.setMinimumSize(840, 600)
@@ -595,6 +595,7 @@ class ItemPickerDialog(QDialog):
         self._filter_type_b = filter_type_b
         self._filter_exclude_type_a = filter_exclude_type_a
         self._hide_quantity = hide_quantity
+        self._exclude_assets = exclude_assets or set()
         self.setStyleSheet(DARK_THEME_STYLE)
         self._setup_ui()
         self._adjust_width()
@@ -669,6 +670,20 @@ class ItemPickerDialog(QDialog):
                     if type_a in self._filter_exclude_type_a:
                         continue
                 elif type_a == self._filter_exclude_type_a:
+                    continue
+            if type_a == 'EPalItemTypeA::Essential':
+                if 'Effigy' in item.get('name', ''):
+                    continue
+                if item.get('asset', '') in self._exclude_assets:
+                    continue
+                if item.get('sort_id', 0) == 9999:
+                    continue
+                desc = item.get('description', '').strip()
+                if desc in ('', '-'):
+                    continue
+                if item.get('name', '') == item.get('asset', ''):
+                    continue
+                if 'en_text' in item.get('name', '').lower():
                     continue
             list_item = QListWidgetItem(item.get('name', 'Unknown'))
             list_item.setData(Qt.UserRole, item.get('asset', ''))
@@ -1344,7 +1359,8 @@ class PlayerInventoryTab(QWidget):
             return
         container_type = getattr(self, '_context_container_type', 'main')
         if container_type == 'key_items':
-            dialog = ItemPickerDialog(self, filter_type_a='EPalItemTypeA::Essential')
+            exclude = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
+            dialog = ItemPickerDialog(self, filter_type_a='EPalItemTypeA::Essential', exclude_assets=exclude)
         else:
             dialog = ItemPickerDialog(self, filter_exclude_type_a='EPalItemTypeA::Essential')
         dialog.item_selected.connect(self._add_item_to_inventory)

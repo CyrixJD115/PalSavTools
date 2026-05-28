@@ -1030,11 +1030,16 @@ class PlayerInventoryTab(QWidget):
     def _on_add_all_effigies(self):
         if not self.inventory:
             return
-        qty, ok = QInputDialog.getInt(self,
-            t('inventory.add_all_effigies_qty.title', default='Add All Effigies'),
-            t('inventory.add_all_effigies_qty.prompt', default='How many of each effigy type?'),
-            1, 1, 9999)
-        if not ok:
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle(t('inventory.add_all_effigies_qty.title', default='Add All Effigies'))
+        dlg.setLabelText(t('inventory.add_all_effigies_qty.prompt', default='How many of each effigy type?'))
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setIntRange(1, 9999)
+        dlg.setIntValue(1)
+        dlg.setStyleSheet(DARK_THEME_STYLE)
+        if dlg.exec() == QDialog.Accepted:
+            qty = dlg.intValue()
+        else:
             return
         all_items = ItemData.get_all_items()
         effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]

@@ -365,6 +365,67 @@ class PlayerInventory:
                 if item_id in WEAPON_UNLOCK_ITEMS:
                     unlock_count += 1
         return base_slots + unlock_count
+    def _build_boss_key_map(self) -> dict[str, str]:
+        if not constants.loaded_level_json:
+            return {}
+        try:
+            wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+            bssd = wsd.get('BossSpawnerSaveData', {}).get('value', {})
+            respawn_flags = bssd.get('RespawnDisableFlag', {}).get('value', [])
+        except:
+            return {}
+        result = {}
+        for entry in respawn_flags:
+            key = entry.get('key', '')
+            if '_Boss_' in key:
+                suffix = key.split('_Boss_', 1)[1]
+                result[f'BossDefeatReward_{suffix}'] = key
+        return result
+
+    def _save_player_sav(self):
+        if not self.player_gvas or not constants.current_save_path:
+            return
+        uid_clean = str(self.player_uid).replace('-', '').upper()
+        sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
+        try:
+            gvasfile_to_sav(self.player_gvas, sav_file)
+        except:
+            pass
+
+    def _ensure_boss_defeat_flags(self, item_ids: list[str]) -> None:
+        boss_item_ids = [i for i in item_ids if i.startswith('BossDefeatReward_')]
+        if not boss_item_ids or not self.player_gvas:
+            return
+        boss_key_map = self._build_boss_key_map()
+        if not boss_key_map:
+            return
+        props = self.player_gvas.properties if hasattr(self.player_gvas, 'properties') else self.player_gvas.get('properties', {})
+        save_data = props.get('SaveData', {}).get('value', {})
+        if not save_data:
+            return
+        record_data = save_data.setdefault('RecordData', {'value': {}, 'type': 'StructProperty'})['value']
+        nbdf = record_data.setdefault('NormalBossDefeatFlag', {
+            'key_type': 'NameProperty', 'value_type': 'BoolProperty',
+            'key_struct_type': None, 'value_struct_type': None,
+            'id': None, 'value': [], 'type': 'MapProperty'
+        })
+        existing_keys = {e['key'] for e in nbdf['value']}
+        new_entries = []
+        for item_id in boss_item_ids:
+            boss_key = boss_key_map.get(item_id)
+            if boss_key and boss_key not in existing_keys:
+                new_entries.append({'key': boss_key, 'value': True})
+        if not new_entries:
+            return
+        nbdf['value'].extend(new_entries)
+        new_count = len(new_entries)
+        bdeti = record_data.setdefault('BossDefeatExpBonusTableIndex',
+            {'id': None, 'value': 0, 'type': 'IntProperty'})
+        bdeti['value'] = bdeti['value'] + new_count
+        btp = save_data.setdefault('bossTechnologyPoint',
+            {'id': None, 'value': 0, 'type': 'IntProperty'})
+        btp['value'] = btp['value'] + new_count
+
     def add_key_item(self, item_id: str, quantity: int=1) -> bool:
         return self.add_item('key', item_id, quantity)
     def get_equipment(self) -> dict:
@@ -404,6 +465,8 @@ class PlayerInventory:
         success = container._standardized_container.add_item(item_id, quantity, slot_index, dynamic_item_id)
         if success:
             self.save()
+            self._ensure_boss_defeat_flags([item_id])
+            self._save_player_sav()
         return success
     def remove_item(self, container_type: str, slot_index: int) -> bool:
         container = self.get_container(container_type)

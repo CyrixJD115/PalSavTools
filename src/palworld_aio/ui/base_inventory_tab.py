@@ -150,6 +150,10 @@ class GuildItemPickerDialog(QDialog):
         layout.addLayout(btn_layout)
         items = ItemData.get_all_items()
         for item in items:
+            if item.get('sort_id', 0) == 9999:
+                continue
+            if item['asset'].startswith('PalEgg_') or item['asset'].startswith('YakushimaParts'):
+                continue
             name = item.get('name', 'Unknown')
             asset = item.get('asset', '')
             list_item = QListWidgetItem(name)

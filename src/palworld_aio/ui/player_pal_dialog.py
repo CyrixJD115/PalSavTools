@@ -204,6 +204,8 @@ class PlayerPalActionDialog(QDialog):
                 continue
             if 'oilrig' in pal_id_lower:
                 continue
+            if 'tower' in pal_id_lower:
+                continue
             if pal_id_lower.startswith('boss_'):
                 base_id = pal_id[5:]
                 base_zukan = PalFrame._PAL_ZUKAN.get(base_id.lower(), -1)

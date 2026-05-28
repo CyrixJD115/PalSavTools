@@ -63,6 +63,7 @@ class PlayerPalActionDialog(QDialog):
         self.pal_search_input.textChanged.connect(self._search_pals)
         search_bar_layout.addWidget(search_label)
         search_bar_layout.addWidget(self.pal_search_input)
+        search_bar_layout.addStretch()
         search_layout.addLayout(search_bar_layout)
         self.pal_list = QListWidget()
         self.pal_list.setViewMode(QListView.IconMode)
@@ -191,31 +192,27 @@ class PlayerPalActionDialog(QDialog):
             return pixmap
         return None
     def _display_pals(self):
-        self.pal_list.clear()
-        all_pals = sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1])
-        for pal_id, pal_name in all_pals:
-            list_item = QListWidgetItem(pal_name)
-            list_item.setData(Qt.UserRole, pal_id)
-            tip = f'<b>{pal_name}</b><br>({pal_id})'
-            pdesc = self._pal_desc_map.get(pal_id.lower(), '')
-            if pdesc:
-                tip += f'<br><br>{wrap_tooltip_text(pdesc)}'
-            list_item.setToolTip(tip)
-            pixmap = self._get_pal_icon(pal_id)
-            if pixmap and (not pixmap.isNull()):
-                list_item.setIcon(QIcon(pixmap))
-            if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
-                list_item.setData(Qt.UserRole + 1, True)
-            list_item.setSizeHint(QSize(84, 84))
-            self.pal_list.addItem(list_item)
-    def _search_pals(self, query):
-        if not query:
-            self._display_pals()
-            return
+        self._search_pals('')
+    def _search_pals(self, query=None):
+        if query is None:
+            query = self.pal_search_input.text()
         query_lower = query.lower()
-        filtered = [(pid, name) for pid, name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]) if query_lower in name.lower() or query_lower in pid.lower()]
         self.pal_list.clear()
-        for pal_id, pal_name in filtered:
+        for pal_id, pal_name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]):
+            pal_id_lower = pal_id.lower()
+            if any(pal_id_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_')):
+                continue
+            if pal_id_lower.startswith('boss_'):
+                base_id = pal_id[5:]
+                base_zukan = PalFrame._PAL_ZUKAN.get(base_id.lower(), -1)
+                if base_zukan < 0:
+                    continue
+            else:
+                zukan_index = PalFrame._PAL_ZUKAN.get(pal_id_lower, 0)
+                if zukan_index < 0:
+                    continue
+            if query_lower and query_lower not in pal_name.lower() and query_lower not in pal_id.lower():
+                continue
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)
             tip = f'<b>{pal_name}</b><br>({pal_id})'

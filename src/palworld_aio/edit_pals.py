@@ -3865,12 +3865,15 @@ class PalCreateDialog(QDialog):
         self.setStyleSheet(DIALOG_STYLE)
         layout = QVBoxLayout(self)
         layout.setSpacing(8)
-        search_layout = QHBoxLayout()
-        search_layout.addWidget(QLabel('Search:'))
-        search_edit = QLineEdit()
-        search_edit.setPlaceholderText('Type to filter pals...')
-        search_layout.addWidget(search_edit)
-        layout.addLayout(search_layout)
+        # Search and filter controls
+        filter_layout = QHBoxLayout()
+        filter_layout.addWidget(QLabel('Search:'))
+        self._search_edit = QLineEdit()
+        self._search_edit.setPlaceholderText('Type to filter pals...')
+        filter_layout.addWidget(self._search_edit)
+        filter_layout.addStretch()
+        layout.addLayout(filter_layout)
+        
         self.pal_list = QListWidget()
         self.pal_list.setViewMode(QListWidget.IconMode)
         self.pal_list.setIconSize(QSize(48, 48))
@@ -3900,25 +3903,12 @@ class PalCreateDialog(QDialog):
                 self.selected_pal['name'] = item.text()
         self.pal_list.itemClicked.connect(on_select)
         self.pal_list.itemDoubleClicked.connect(lambda item: (on_select(item), self.accept()))
-        for asset, name in sorted(PalFrame._NAMEMAP.items()):
-            li = QListWidgetItem(name)
-            li.setData(Qt.UserRole, asset)
-            pix = _get_cached_pixmap(_get_pal_icon_path(asset), 48)
-            if pix:
-                li.setIcon(QIcon(pix))
-            pdesc = pal_descs.get(asset.lower(), '')
-            tip = f'<b>{name}</b><br>ID: {asset}'
-            if pdesc:
-                tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{wrap_tooltip_text(pdesc)}</span>'
-            li.setToolTip(tip)
-            li.setSizeHint(QSize(80, 80))
-            is_variant = any((asset.upper().startswith(p) for p in _BOSS_PREFIXES))
-            if is_variant:
-                badge = _get_boss_alpha_pixmap(14)
-                if badge and (not badge.isNull()):
-                    li.setData(Qt.UserRole + 1, True)
-            self.pal_list.addItem(li)
-        search_edit.textChanged.connect(lambda t: [self.pal_list.item(i).setHidden(t.lower() not in self.pal_list.item(i).text().lower()) for i in range(self.pal_list.count())])
+        
+        # Initial population
+        self._pal_descs_cache = pal_descs
+        self._filter_pal_list()
+        
+        self._search_edit.textChanged.connect(self._filter_pal_list)
         layout.addWidget(self.pal_list)
         m = layout.contentsMargins()
         frame_w = self.frameGeometry().width() - self.geometry().width()
@@ -3936,6 +3926,41 @@ class PalCreateDialog(QDialog):
         cancel_btn.clicked.connect(self.reject)
         nick_layout.addWidget(cancel_btn)
         layout.addLayout(nick_layout)
+    def _filter_pal_list(self):
+        search_text = self._search_edit.text().lower() if hasattr(self, '_search_edit') else ''
+        self.pal_list.clear()
+        for asset, name in sorted(PalFrame._NAMEMAP.items()):
+            asset_lower = asset.lower()
+            if any(asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_')):
+                continue
+            if asset_lower.startswith('boss_'):
+                base_id = asset[5:]
+                base_zukan = PalFrame._PAL_ZUKAN.get(base_id.lower(), -1)
+                if base_zukan < 0:
+                    continue
+            else:
+                zukan_index = PalFrame._PAL_ZUKAN.get(asset_lower, 0)
+                if zukan_index < 0:
+                    continue
+            if search_text and search_text not in name.lower() and search_text not in asset.lower():
+                continue
+            li = QListWidgetItem(name)
+            li.setData(Qt.UserRole, asset)
+            pix = _get_cached_pixmap(_get_pal_icon_path(asset), 48)
+            if pix:
+                li.setIcon(QIcon(pix))
+            pdesc = self._pal_descs_cache.get(asset.lower(), '')
+            tip = f'<b>{name}</b><br>ID: {asset}'
+            if pdesc:
+                tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{wrap_tooltip_text(pdesc)}</span>'
+            li.setToolTip(tip)
+            li.setSizeHint(QSize(80, 80))
+            is_variant = any((asset.upper().startswith(p) for p in _BOSS_PREFIXES))
+            if is_variant:
+                badge = _get_boss_alpha_pixmap(14)
+                if badge and (not badge.isNull()):
+                    li.setData(Qt.UserRole + 1, True)
+            self.pal_list.addItem(li)
     def _on_create(self):
         if not self.selected_pal['asset']:
             show_warning(self, 'Error', t('edit_pals.error_select_pal_type'))
@@ -4020,6 +4045,21 @@ class PalFrame(QFrame):
         PALMAP = dm.load_game_data_map('characters.json', 'pals')
         NPCMAP = dm.load_game_data_map('characters.json', 'npcs')
         cls._NAMEMAP = {**PALMAP, **NPCMAP}
+        # Load zukan_index for filtering non-paldeck pals
+        cls._PAL_ZUKAN = {}
+        try:
+            base_dir = constants.get_base_path()
+            fp = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+            js = json_tools.load(fp)
+            if isinstance(js, dict):
+                pals = js.get('pals', [])
+                for p in pals:
+                    if isinstance(p, dict) and 'asset' in p and 'stats' in p:
+                        asset_lower = p['asset'].lower()
+                        zukan_index = p['stats'].get('zukan_index', 0)
+                        cls._PAL_ZUKAN[asset_lower] = zukan_index
+        except Exception:
+            pass
         cls._PASSFLAGS = {}
         try:
             fp = os.path.join(constants.get_base_path(), 'resources', 'game_data', 'skills.json')

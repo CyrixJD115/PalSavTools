@@ -857,7 +857,7 @@ def load_game_data_map(fname, key):
         data = js.get(key, [])
         result = {}
         for x in data:
-            if isinstance(x, dict) and 'asset' in x and 'name' in x:
+            if isinstance(x, dict) and 'asset' in x and ('name' in x):
                 result[x['asset'].lower()] = x['name']
         return result
     except Exception:

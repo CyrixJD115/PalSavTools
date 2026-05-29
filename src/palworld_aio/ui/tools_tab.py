@@ -207,7 +207,6 @@ class StatIconBtn(QPushButton):
         super().__init__(icon, parent)
         font_family = self._resolve_nerdfont()
         self.setFont(QFont(font_family, 11))
-
     @staticmethod
     def _resolve_nerdfont():
         db = QFontDatabase()
@@ -220,7 +219,6 @@ class StatIconBtn(QPushButton):
         self.setCursor(QCursor(Qt.PointingHandCursor))
         self.setFocusPolicy(Qt.NoFocus)
         self.setStyleSheet('QPushButton { background: rgba(125,211,252,0.08); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.15); border-radius: 6px; } QPushButton:hover { background: rgba(125,211,252,0.15); border-color: rgba(125,211,252,0.3); color: #FFFFFF; } QPushButton:pressed { background: rgba(125,211,252,0.25); }')
-
     def paintEvent(self, event):
         sp = QStylePainter(self)
         opt = QStyleOptionButton()
@@ -228,7 +226,6 @@ class StatIconBtn(QPushButton):
         opt.text = ''
         sp.drawControl(QStyle.CE_PushButton, opt)
         sp.end()
-
         p = QPainter(self)
         p.setRenderHint(QPainter.TextAntialiasing | QPainter.Antialiasing)
         p.setFont(self.font())
@@ -239,8 +236,6 @@ class StatIconBtn(QPushButton):
         y = (self.height() - br.height()) / 2 - br.y()
         p.drawText(int(x), int(y), self.text())
         p.end()
-
-
 class ToolsTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -255,22 +250,17 @@ class ToolsTab(QWidget):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(18, 18, 18, 18)
         main_layout.setSpacing(14)
-
         main_layout.addWidget(self._create_save_card(), alignment=Qt.AlignHCenter)
-
         footer_row = QHBoxLayout()
         footer_row.setSpacing(14)
         footer_row.addWidget(self._create_section('tools.section.converting', CONVERTING_TOOL_KEYS, self._run_converting_tool), stretch=1)
         footer_row.addWidget(self._create_section('tools.section.management', MANAGEMENT_TOOL_KEYS, self._run_management_tool), stretch=1)
         main_layout.addLayout(footer_row)
-
         self._drop_overlay = DropOverlay(self)
         self._drop_overlay.setVisible(False)
         self._setup_save_manager_connection()
-
     def _create_header_bar(self):
         return QWidget()
-
     def _create_save_card(self):
         card = QFrame()
         card.setObjectName('saveCard')
@@ -278,18 +268,15 @@ class ToolsTab(QWidget):
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(24, 24, 24, 24)
         card_layout.setSpacing(12)
-
         icon_label = QLabel('📁')
         icon_label.setAlignment(Qt.AlignCenter)
         icon_label.setStyleSheet('font-size: 36px; border: none; background: transparent;')
         card_layout.addWidget(icon_label)
-
         self._save_status_label = QLabel(t('dashboard.no_save') if t else 'No Save Loaded')
         self._save_status_label.setAlignment(Qt.AlignCenter)
         self._save_status_label.setWordWrap(True)
         self._save_status_label.setStyleSheet('font-size: 15px; font-weight: 700; color: #e2e8f0; border: none; background: transparent;')
         card_layout.addWidget(self._save_status_label)
-
         self._save_path_label = QPushButton(t('tools.no_save_loaded') if t else 'No save loaded')
         self._save_path_label.setObjectName('savePathLabel')
         self._save_path_label.setFlat(True)
@@ -297,7 +284,6 @@ class ToolsTab(QWidget):
         self._save_path_label.setStyleSheet('font-size: 11px; color: rgba(148,163,184,0.6); border: none; background: transparent; text-align: center;')
         self._save_path_label.clicked.connect(lambda: self._on_save_path_label_clicked())
         card_layout.addWidget(self._save_path_label)
-
         self._load_btn = QPushButton(t('menu.file.load_save') if t else 'Load Save')
         self._load_btn.setObjectName('loadSaveBtn')
         self._load_btn.setCursor(QCursor(Qt.PointingHandCursor))
@@ -305,27 +291,19 @@ class ToolsTab(QWidget):
         self._load_btn.clicked.connect(self._on_load_save_clicked)
         self._load_btn.setStyleSheet('QPushButton { font-size: 14px; font-weight: 700; }')
         card_layout.addWidget(self._load_btn)
-
         self._drag_hint_label = QLabel(t('tools.drag_hint') if t else 'or drag & drop a Level.sav file here')
         self._drag_hint_label.setAlignment(Qt.AlignCenter)
         self._drag_hint_label.setWordWrap(True)
         self._drag_hint_label.setStyleSheet('font-size: 11px; color: rgba(148,163,184,0.4); border: none; background: transparent;')
         card_layout.addWidget(self._drag_hint_label)
-
         self._stats_frame = QFrame()
         self._stats_frame.setObjectName('saveStats')
         stats_layout = QHBoxLayout(self._stats_frame)
         stats_layout.setContentsMargins(0, 8, 0, 0)
         stats_layout.setSpacing(16)
-
         self._stat_cards = {}
         self._stat_label_refs = {}
-        stats = [
-            ('players', ICONS['players'], 'dashboard.stat_players'),
-            ('guilds', ICONS['guilds'], 'dashboard.stat_guilds'),
-            ('bases', ICONS['bases'], 'dashboard.stat_bases'),
-            ('pals', ICONS['pal_editor'], 'dashboard.stat_pals'),
-        ]
+        stats = [('players', ICONS['players'], 'dashboard.stat_players'), ('guilds', ICONS['guilds'], 'dashboard.stat_guilds'), ('bases', ICONS['bases'], 'dashboard.stat_bases'), ('pals', ICONS['pal_editor'], 'dashboard.stat_pals')]
         for key, icon, label_key in stats:
             box = QVBoxLayout()
             box.setSpacing(2)
@@ -348,15 +326,12 @@ class ToolsTab(QWidget):
             self._stat_label_refs[key] = lbl
         stats_layout.addStretch()
         card_layout.addWidget(self._stats_frame)
-
         card_layout.addStretch()
         return card
-
     def _on_save_path_label_clicked(self):
         if constants.current_save_path:
             import subprocess
             subprocess.Popen(['explorer', '/select,', os.path.join(constants.current_save_path, 'Level.sav')])
-
     def _setup_save_manager_connection(self):
         from palworld_aio.save_manager import save_manager
         import warnings
@@ -379,7 +354,6 @@ class ToolsTab(QWidget):
             self.refresh()
             if hasattr(self, '_stats_frame'):
                 self._stats_frame.setVisible(True)
-
     def _update_stats(self):
         if not hasattr(constants, 'loaded_level_json') or not constants.loaded_level_json:
             return
@@ -387,17 +361,10 @@ class ToolsTab(QWidget):
         group_data = wsd.get('GroupSaveDataMap', {}).get('value', [])
         base_data = wsd.get('BaseCampSaveData', {}).get('value', [])
         char_data = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
-
-        total_players = sum(len(g['value']['RawData']['value'].get('players', [])) for g in group_data
-                            if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild')
-        total_guilds = sum(1 for g in group_data
-                           if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild')
+        total_players = sum((len(g['value']['RawData']['value'].get('players', [])) for g in group_data if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild'))
+        total_guilds = sum((1 for g in group_data if g['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild'))
         total_bases = len(base_data)
-        total_pals = sum(1 for c in char_data
-                         if c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {})
-                         .get('SaveParameter', {}).get('struct_type') == 'PalIndividualCharacterSaveParameter'
-                         and not c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {})
-                         .get('SaveParameter', {}).get('value', {}).get('IsPlayer', {}).get('value'))
+        total_pals = sum((1 for c in char_data if c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('struct_type') == 'PalIndividualCharacterSaveParameter' and (not c.get('value', {}).get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {}).get('IsPlayer', {}).get('value'))))
         try:
             self._stat_cards['players'].setText(str(total_players))
             self._stat_cards['guilds'].setText(str(total_guilds))
@@ -407,7 +374,6 @@ class ToolsTab(QWidget):
             pass
         if hasattr(self, 'parent_window') and self.parent_window and hasattr(self.parent_window, 'results_widget'):
             self.parent_window.results_widget.refresh_stats_after()
-
     def _create_section(self, section_key, tool_keys, run_handler):
         section_frame = QFrame()
         section_frame.setObjectName('glass')
@@ -563,7 +529,6 @@ class ToolsTab(QWidget):
         super().resizeEvent(event)
         if hasattr(self, '_drop_overlay'):
             self._drop_overlay.setGeometry(self.rect())
-
     def refresh_labels(self):
         if hasattr(self, '_load_btn') and self._load_btn:
             self._load_btn.setText(t('menu.file.load_save') if t else 'Load Save')
@@ -593,6 +558,5 @@ class ToolsTab(QWidget):
         if hasattr(self, '_stat_label_refs'):
             for key, lbl in self._stat_label_refs.items():
                 lbl.setText(t('dashboard.stat_' + key) if t else key)
-
     def refresh(self):
         self._update_stats()

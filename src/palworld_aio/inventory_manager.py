@@ -380,7 +380,6 @@ class PlayerInventory:
         except:
             PlayerInventory._BOSS_MAP_CACHE = {}
             return {}
-
     def _save_player_sav(self):
         if not self.player_gvas or not constants.current_save_path:
             return
@@ -391,7 +390,6 @@ class PlayerInventory:
                 gvasfile_to_sav(self.player_gvas, sav_file)
         except:
             pass
-
     def _ensure_boss_defeat_flags(self, item_ids: list[str]) -> None:
         boss_item_ids = [i for i in item_ids if i.startswith('BossDefeatReward_')]
         if not boss_item_ids or not self.player_gvas:
@@ -404,11 +402,7 @@ class PlayerInventory:
         if not save_data:
             return
         record_data = save_data.setdefault('RecordData', {'value': {}, 'type': 'StructProperty'})['value']
-        nbdf = record_data.setdefault('NormalBossDefeatFlag', {
-            'key_type': 'NameProperty', 'value_type': 'BoolProperty',
-            'key_struct_type': None, 'value_struct_type': None,
-            'id': None, 'value': [], 'type': 'MapProperty'
-        })
+        nbdf = record_data.setdefault('NormalBossDefeatFlag', {'key_type': 'NameProperty', 'value_type': 'BoolProperty', 'key_struct_type': None, 'value_struct_type': None, 'id': None, 'value': [], 'type': 'MapProperty'})
         existing_keys = {e['key'] for e in nbdf['value']}
         new_entries = []
         for item_id in boss_item_ids:
@@ -423,13 +417,10 @@ class PlayerInventory:
             return
         nbdf['value'].extend(new_entries)
         new_count = len(new_entries)
-        bdeti = record_data.setdefault('BossDefeatExpBonusTableIndex',
-            {'id': None, 'value': 0, 'type': 'IntProperty'})
+        bdeti = record_data.setdefault('BossDefeatExpBonusTableIndex', {'id': None, 'value': 0, 'type': 'IntProperty'})
         bdeti['value'] = bdeti['value'] + new_count
-        btp = save_data.setdefault('bossTechnologyPoint',
-            {'id': None, 'value': 0, 'type': 'IntProperty'})
+        btp = save_data.setdefault('bossTechnologyPoint', {'id': None, 'value': 0, 'type': 'IntProperty'})
         btp['value'] = btp['value'] + new_count
-
     def add_key_item(self, item_id: str, quantity: int=1) -> bool:
         return self.add_item('key', item_id, quantity)
     def get_equipment(self) -> dict:

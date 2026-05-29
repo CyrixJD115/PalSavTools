@@ -115,13 +115,7 @@ def load_l10n_table(filename: str) -> dict[str, str]:
             if source:
                 result[key] = source
     return result
-_LEGACY_FALLBACK = {
-    'paldata.json': 'characters.json', 'npcdata.json': 'characters.json',
-    'passivedata.json': 'skills.json', 'skilldata.json': 'skills.json', 'elementdata.json': 'skills.json',
-    'structuredata.json': 'world.json', 'technologydata.json': 'world.json', 'labresearchdata.json': 'world.json',
-    'itemdata.json': 'items.json', 'items_dynamic.json': 'items.json',
-    'palpassivedata.json': 'skills.json',
-}
+_LEGACY_FALLBACK = {'paldata.json': 'characters.json', 'npcdata.json': 'characters.json', 'passivedata.json': 'skills.json', 'skilldata.json': 'skills.json', 'elementdata.json': 'skills.json', 'structuredata.json': 'world.json', 'technologydata.json': 'world.json', 'labresearchdata.json': 'world.json', 'itemdata.json': 'items.json', 'items_dynamic.json': 'items.json', 'palpassivedata.json': 'skills.json'}
 def load_resource_json(filename: str) -> dict:
     path = RESOURCES_DIR / filename
     if path.exists():
@@ -889,185 +883,16 @@ def update_structure_data():
     result = {'structures': updated_structures}
     save_resource_json('structuredata.json', result)
     print(f'  Total structures: {len(updated_structures)}')
-
-_EFFECT_LABEL_MAP = {
-    'ShotAttack': 'Attack',
-    'MeleeAttack': 'Melee Attack',
-    'Defense': 'Defense',
-    'MaxHP': 'Max HP',
-    'CraftSpeed': 'Work Speed',
-    'MoveSpeed': 'Movement Speed',
-    'MoveSpeed_Grass': 'Grass Movement Speed',
-    'MoveSpeed_Ground': 'Ground Movement Speed',
-    'MoveSpeed_Snow': 'Snow Movement Speed',
-    'MoveSpeed_Water': 'Water Movement Speed',
-    'SwimSpeed': 'Swim Speed',
-    'AttackSpeedUp': 'Attack Speed',
-    'ReloadSpeedUp': 'Reload Speed',
-    'AutoHPRegeneRate': 'HP Regeneration',
-    'Regene_HP': 'HP Regeneration',
-    'Regene_HP_Rate': 'HP Regeneration Rate',
-    'LifeSteal': 'Life Steal',
-    'Support': 'Support',
-    'Logging': 'Logging',
-    'Mining': 'Mining',
-    'CollectItem': 'Item Collection',
-    'CollectItemDrop': 'Item Drop',
-    'CollectItemDrop_NaturalObject': 'Natural Item Drop',
-    'BreedSpeed': 'Breeding Speed',
-    'MeatCutAddItemDrop': 'Meat Drop',
-    'CaptureLevel': 'Capture Power',
-    'MaxInventoryWeight': 'Max Inventory Weight',
-    'ItemWeightReduction': 'Item Weight Reduction',
-    'BulletAccuracy': 'Bullet Accuracy',
-    'BulletSpeed': 'Bullet Speed',
-    'Recoil': 'Recoil',
-    'Homing': 'Homing',
-    'Explosive': 'Explosion',
-    'ExplosionResist': 'Explosion Resistance',
-    'FallDamageRate': 'Fall Damage',
-    'TemperatureResist_Heat': 'Heat Resistance',
-    'TemperatureResist_Cold': 'Cold Resistance',
-    'ShieldDamageCutRate': 'Shield Damage Reduction',
-    'TemperatureInvalid_Heat': 'Heat Immunity',
-    'TemperatureInvalid_Cold': 'Cold Immunity',
-    'InvalidToxicGas': 'Toxic Gas Immunity',
-    'Nocturnal': 'Nocturnal',
-    'Mute': 'Mute',
-    'NonKilling': 'Non-Killing',
-    'KnockbackInvalid': 'Knockback Immunity',
-    'KnockbackInvalid_ForPassiveSkill': 'Knockback Immunity',
-    'LeanBackInvalid_ForPassiveSkill': 'Flinch Immunity',
-    'LowGravity': 'Low Gravity',
-    'EnemySightDetectionRate': 'Stealth',
-    'EquipmentDurabilityRate': 'Equipment Durability',
-    'DefeatEnemy_ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown Reduction on Defeat',
-    'Sanity_Decrease': 'Sanity Drain',
-    'FullStomatch_Decrease': 'Fullness Drain',
-    'FarmCropGrowupSpeed': 'Crop Growth Speed',
-    'FarmCropHarvestNumRate': 'Crop Harvest Amount',
-    'Fishing_SuccessAmountUp': 'Fishing Success Amount',
-    'Fishing_StartProgressAdd': 'Fishing Progress',
-    'Fishing_FailedAmountDown': 'Fishing Failed Amount Reduction',
-    'Fishing_ItemAddDrop': 'Fishing Extra Drop',
-    'Fishing_EnemyAddDrop': 'Fishing Enemy Extra Drop',
-    'Fishing_GoodTalentPalProbability': 'Fishing Good Pal Probability',
-    'Fishing_SearchProbabilityRateInNight': 'Fishing Night Search Probability',
-    'FishingSalvage_ItemDrop': 'Fishing Salvage Drop',
-    'ShopBuyPrice_Money_Increase': 'Shop Buy Price',
-    'ShopSellPrice_Money_Increase': 'Shop Sell Price',
-    'AttackRateHPThreshold': 'Attack (Low HP)',
-    'DefenseRateHPThreshold': 'Defense (Low HP)',
-    'RecoverHPOnHPThreshold': 'HP Recovery (Low HP)',
-    'DefeatEnemy_StackBuff': 'Stack Buff on Defeat',
-    'BulletHit_StackBuff': 'Stack Buff on Hit',
-    'SelfDeathAddItemDrop': 'Extra Drop on Death',
-    'GainItemDrop': 'Extra Item Drop',
-    'BreedSpeed_InBaseCamp': 'Breeding Speed (Base Camp)',
-    'DamageUpToNonBattleEnemy': 'Damage to Non-Battle Enemies',
-    'DamageUpPartnerSkillAttack': 'Partner Skill Damage',
-    'DamageUp_LastBullet': 'Last Bullet Damage',
-    'DamageRateByEquippedWeapon': 'Equipped Weapon Damage',
-    'BuildingDamageReduction': 'Building Damage Reduction',
-    'PlayerSP_DecreaseRate': 'SP Consumption',
-    'PlayerShield_RecoverStartTimeRate': 'Shield Recovery Delay',
-    'LifeDrainPower_AttackUp': 'Life Drain Attack',
-    'BodyPartsWeakDamage': 'Weak Point Damage',
-    'PlayerLowHealthBlast': 'Low Health Explosion',
-    'Player_ArrowExplosion': 'Arrow Explosion',
-    'SlipDamageRate_Burn': 'Burn Slip Damage',
-    'SlipDamageRate_Poison': 'Poison Slip Damage',
-    'PlayerInflictEffect_MeleeHitBarrier': 'Melee Hit Barrier',
-    'PlayerInflictEffect_WeakPointHit_DamageUp': 'Weak Point Damage Up',
-    'PlayerInflictEffect_AttackBurning_ApplyExplosion': 'Burning Attack Explosion',
-    'PlayerInflictEffect_AttackBurning_ApplyFireVortex': 'Burning Attack Fire Vortex',
-    'PlayerInflictEffect_AttackElectrified_ApplySpark': 'Electrified Attack Spark',
-    'PlayerInflictEffect_AttackIvyCling_ApplyExplosion': 'Ivy Cling Attack Explosion',
-    'PlayerInflictEffect_AttackMuddy_ApplyAttackDown': 'Muddy Attack Down',
-    'PlayerInflictEffect_AttackPoisoned_ApplyAttackDown': 'Poison Attack Down',
-    'PlayerInflictEffect_AttackWet_ApplyFreeze': 'Wet Attack Freeze',
-    'PlayerElementStepAttack_Fire': 'Fire Step Attack',
-    'PlayerElementStepAttack_Leaf': 'Grass Step Attack',
-    'PlayerElementStepAttack_Water': 'Water Step Attack',
-    'WorldTreeDecayImmunity': 'World Tree Decay Immunity',
-    'ForYakushimaDefenceRate': 'Yakushima Defense',
-    'DamageUpIfEquipped_YakushimaMagicWeapon': 'Yakushima Magic Weapon Damage',
-    'DamageUpIfEquipped_YakushimaMeleeWeapon': 'Yakushima Melee Weapon Damage',
-    'DamageUpIfEquipped_YakushimaRangedWeapon': 'Yakushima Ranged Weapon Damage',
-    'DamageUpIfEquipped_YakushimaSummonWeapon': 'Yakushima Summon Weapon Damage',
-    'PalExp_Increase': 'Pal EXP Gain',
-    'PalSP_Increase': 'Pal SP',
-    'PalEggHatchingSpeed': 'Egg Hatching Speed',
-    'EggAlphaConversion': 'Egg Alpha Conversion',
-    'EggObtainExtraEgg': 'Extra Egg Obtain',
-    'FriendshipPoint_Increase': 'Friendship Gain',
-    'ItemCorruptionSpeedRate': 'Item Corruption Speed',
-    'ClimbMoveSpeedRate': 'Climb Speed',
-    'RideJumpCount_Increase': 'Ride Jump Count',
-    'JumpCount_Increase': 'Jump Count',
-    'JumpPower_Increase': 'Jump Power',
-    'LavaDamageInvalid': 'Lava Damage Immunity',
-    'CaptureLevel_SneakBonus': 'Sneak Capture Bonus',
-    'CaptureLevelUpIfTarget_Freeze': 'Capture Power vs Frozen',
-    'CaptureLevelUpIfTarget_IvyCling': 'Capture Power vs Ivy Cling',
-    'Regene_Stomatch_Hungriest': 'Fullness Regeneration',
-    'Defuser_ExplosiveSpore': 'Explosive Spore Defense',
-    'SphereRecovery': 'Sphere Recovery',
-    'NightOwl': 'Night Owl',
-    'ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown',
-    'PartnerSkillCoolTime_Decrease': 'Partner Skill Cooldown',
-    'AvoidDurationUp_EquipSkill': 'Equip Skill Avoid Duration',
-    'AvoidDurationUp_PartnerSkill': 'Partner Skill Avoid Duration',
-    'Wind_Change_Negative': 'Negative Wind Change',
-}
-
-_WORK_TYPE_MAP = {
-    'EmitFlame': 'Kindling',
-    'Watering': 'Watering',
-    'Seeding': 'Planting',
-    'GenerateElectricity': 'Generating Electricity',
-    'Handcraft': 'Handiwork',
-    'Collection': 'Gathering',
-    'Deforest': 'Lumbering',
-    'Mining': 'Mining',
-    'Transport': 'Transporting',
-    'MonsterFarm': 'Ranching',
-    'ProductMedicine': 'Medicine Production',
-    'OilExtraction': 'Oil Extraction',
-    'Cool': 'Cooling',
-}
-
-_ELEMENT_MAP = {
-    'Fire': 'Fire',
-    'Water': 'Water',
-    'Leaf': 'Grass',
-    'Electricity': 'Electric',
-    'Ice': 'Ice',
-    'Earth': 'Ground',
-    'Dark': 'Dark',
-    'Dragon': 'Dragon',
-    'Normal': 'Neutral',
-}
-
-_ADDITIONAL_MAP = {
-    'Burn': 'Burn',
-    'Poison': 'Poison',
-    'Freeze': 'Freeze',
-    'Electrical': 'Electrified',
-    'IvyCling': 'Ivy Cling',
-    'Muddy': 'Muddy',
-    'Darkness': 'Darkness',
-    'Stun': 'Stun',
-    'Wetness': 'Wet',
-}
-
+_EFFECT_LABEL_MAP = {'ShotAttack': 'Attack', 'MeleeAttack': 'Melee Attack', 'Defense': 'Defense', 'MaxHP': 'Max HP', 'CraftSpeed': 'Work Speed', 'MoveSpeed': 'Movement Speed', 'MoveSpeed_Grass': 'Grass Movement Speed', 'MoveSpeed_Ground': 'Ground Movement Speed', 'MoveSpeed_Snow': 'Snow Movement Speed', 'MoveSpeed_Water': 'Water Movement Speed', 'SwimSpeed': 'Swim Speed', 'AttackSpeedUp': 'Attack Speed', 'ReloadSpeedUp': 'Reload Speed', 'AutoHPRegeneRate': 'HP Regeneration', 'Regene_HP': 'HP Regeneration', 'Regene_HP_Rate': 'HP Regeneration Rate', 'LifeSteal': 'Life Steal', 'Support': 'Support', 'Logging': 'Logging', 'Mining': 'Mining', 'CollectItem': 'Item Collection', 'CollectItemDrop': 'Item Drop', 'CollectItemDrop_NaturalObject': 'Natural Item Drop', 'BreedSpeed': 'Breeding Speed', 'MeatCutAddItemDrop': 'Meat Drop', 'CaptureLevel': 'Capture Power', 'MaxInventoryWeight': 'Max Inventory Weight', 'ItemWeightReduction': 'Item Weight Reduction', 'BulletAccuracy': 'Bullet Accuracy', 'BulletSpeed': 'Bullet Speed', 'Recoil': 'Recoil', 'Homing': 'Homing', 'Explosive': 'Explosion', 'ExplosionResist': 'Explosion Resistance', 'FallDamageRate': 'Fall Damage', 'TemperatureResist_Heat': 'Heat Resistance', 'TemperatureResist_Cold': 'Cold Resistance', 'ShieldDamageCutRate': 'Shield Damage Reduction', 'TemperatureInvalid_Heat': 'Heat Immunity', 'TemperatureInvalid_Cold': 'Cold Immunity', 'InvalidToxicGas': 'Toxic Gas Immunity', 'Nocturnal': 'Nocturnal', 'Mute': 'Mute', 'NonKilling': 'Non-Killing', 'KnockbackInvalid': 'Knockback Immunity', 'KnockbackInvalid_ForPassiveSkill': 'Knockback Immunity', 'LeanBackInvalid_ForPassiveSkill': 'Flinch Immunity', 'LowGravity': 'Low Gravity', 'EnemySightDetectionRate': 'Stealth', 'EquipmentDurabilityRate': 'Equipment Durability', 'DefeatEnemy_ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown Reduction on Defeat', 'Sanity_Decrease': 'Sanity Drain', 'FullStomatch_Decrease': 'Fullness Drain', 'FarmCropGrowupSpeed': 'Crop Growth Speed', 'FarmCropHarvestNumRate': 'Crop Harvest Amount', 'Fishing_SuccessAmountUp': 'Fishing Success Amount', 'Fishing_StartProgressAdd': 'Fishing Progress', 'Fishing_FailedAmountDown': 'Fishing Failed Amount Reduction', 'Fishing_ItemAddDrop': 'Fishing Extra Drop', 'Fishing_EnemyAddDrop': 'Fishing Enemy Extra Drop', 'Fishing_GoodTalentPalProbability': 'Fishing Good Pal Probability', 'Fishing_SearchProbabilityRateInNight': 'Fishing Night Search Probability', 'FishingSalvage_ItemDrop': 'Fishing Salvage Drop', 'ShopBuyPrice_Money_Increase': 'Shop Buy Price', 'ShopSellPrice_Money_Increase': 'Shop Sell Price', 'AttackRateHPThreshold': 'Attack (Low HP)', 'DefenseRateHPThreshold': 'Defense (Low HP)', 'RecoverHPOnHPThreshold': 'HP Recovery (Low HP)', 'DefeatEnemy_StackBuff': 'Stack Buff on Defeat', 'BulletHit_StackBuff': 'Stack Buff on Hit', 'SelfDeathAddItemDrop': 'Extra Drop on Death', 'GainItemDrop': 'Extra Item Drop', 'BreedSpeed_InBaseCamp': 'Breeding Speed (Base Camp)', 'DamageUpToNonBattleEnemy': 'Damage to Non-Battle Enemies', 'DamageUpPartnerSkillAttack': 'Partner Skill Damage', 'DamageUp_LastBullet': 'Last Bullet Damage', 'DamageRateByEquippedWeapon': 'Equipped Weapon Damage', 'BuildingDamageReduction': 'Building Damage Reduction', 'PlayerSP_DecreaseRate': 'SP Consumption', 'PlayerShield_RecoverStartTimeRate': 'Shield Recovery Delay', 'LifeDrainPower_AttackUp': 'Life Drain Attack', 'BodyPartsWeakDamage': 'Weak Point Damage', 'PlayerLowHealthBlast': 'Low Health Explosion', 'Player_ArrowExplosion': 'Arrow Explosion', 'SlipDamageRate_Burn': 'Burn Slip Damage', 'SlipDamageRate_Poison': 'Poison Slip Damage', 'PlayerInflictEffect_MeleeHitBarrier': 'Melee Hit Barrier', 'PlayerInflictEffect_WeakPointHit_DamageUp': 'Weak Point Damage Up', 'PlayerInflictEffect_AttackBurning_ApplyExplosion': 'Burning Attack Explosion', 'PlayerInflictEffect_AttackBurning_ApplyFireVortex': 'Burning Attack Fire Vortex', 'PlayerInflictEffect_AttackElectrified_ApplySpark': 'Electrified Attack Spark', 'PlayerInflictEffect_AttackIvyCling_ApplyExplosion': 'Ivy Cling Attack Explosion', 'PlayerInflictEffect_AttackMuddy_ApplyAttackDown': 'Muddy Attack Down', 'PlayerInflictEffect_AttackPoisoned_ApplyAttackDown': 'Poison Attack Down', 'PlayerInflictEffect_AttackWet_ApplyFreeze': 'Wet Attack Freeze', 'PlayerElementStepAttack_Fire': 'Fire Step Attack', 'PlayerElementStepAttack_Leaf': 'Grass Step Attack', 'PlayerElementStepAttack_Water': 'Water Step Attack', 'WorldTreeDecayImmunity': 'World Tree Decay Immunity', 'ForYakushimaDefenceRate': 'Yakushima Defense', 'DamageUpIfEquipped_YakushimaMagicWeapon': 'Yakushima Magic Weapon Damage', 'DamageUpIfEquipped_YakushimaMeleeWeapon': 'Yakushima Melee Weapon Damage', 'DamageUpIfEquipped_YakushimaRangedWeapon': 'Yakushima Ranged Weapon Damage', 'DamageUpIfEquipped_YakushimaSummonWeapon': 'Yakushima Summon Weapon Damage', 'PalExp_Increase': 'Pal EXP Gain', 'PalSP_Increase': 'Pal SP', 'PalEggHatchingSpeed': 'Egg Hatching Speed', 'EggAlphaConversion': 'Egg Alpha Conversion', 'EggObtainExtraEgg': 'Extra Egg Obtain', 'FriendshipPoint_Increase': 'Friendship Gain', 'ItemCorruptionSpeedRate': 'Item Corruption Speed', 'ClimbMoveSpeedRate': 'Climb Speed', 'RideJumpCount_Increase': 'Ride Jump Count', 'JumpCount_Increase': 'Jump Count', 'JumpPower_Increase': 'Jump Power', 'LavaDamageInvalid': 'Lava Damage Immunity', 'CaptureLevel_SneakBonus': 'Sneak Capture Bonus', 'CaptureLevelUpIfTarget_Freeze': 'Capture Power vs Frozen', 'CaptureLevelUpIfTarget_IvyCling': 'Capture Power vs Ivy Cling', 'Regene_Stomatch_Hungriest': 'Fullness Regeneration', 'Defuser_ExplosiveSpore': 'Explosive Spore Defense', 'SphereRecovery': 'Sphere Recovery', 'NightOwl': 'Night Owl', 'ActiveSkillCoolTime_Decrease': 'Active Skill Cooldown', 'PartnerSkillCoolTime_Decrease': 'Partner Skill Cooldown', 'AvoidDurationUp_EquipSkill': 'Equip Skill Avoid Duration', 'AvoidDurationUp_PartnerSkill': 'Partner Skill Avoid Duration', 'Wind_Change_Negative': 'Negative Wind Change'}
+_WORK_TYPE_MAP = {'EmitFlame': 'Kindling', 'Watering': 'Watering', 'Seeding': 'Planting', 'GenerateElectricity': 'Generating Electricity', 'Handcraft': 'Handiwork', 'Collection': 'Gathering', 'Deforest': 'Lumbering', 'Mining': 'Mining', 'Transport': 'Transporting', 'MonsterFarm': 'Ranching', 'ProductMedicine': 'Medicine Production', 'OilExtraction': 'Oil Extraction', 'Cool': 'Cooling'}
+_ELEMENT_MAP = {'Fire': 'Fire', 'Water': 'Water', 'Leaf': 'Grass', 'Electricity': 'Electric', 'Ice': 'Ice', 'Earth': 'Ground', 'Dark': 'Dark', 'Dragon': 'Dragon', 'Normal': 'Neutral'}
+_ADDITIONAL_MAP = {'Burn': 'Burn', 'Poison': 'Poison', 'Freeze': 'Freeze', 'Electrical': 'Electrified', 'IvyCling': 'Ivy Cling', 'Muddy': 'Muddy', 'Darkness': 'Darkness', 'Stun': 'Stun', 'Wetness': 'Wet'}
 def _format_effect_value(v):
     if isinstance(v, float):
         if v == int(v):
             return str(int(v))
         return f'{v:g}'
     return str(v)
-
 def _generate_passive_desc(passive_id, etype1, eval1, etype2, eval2, etype3, eval3):
     parts = []
     for etype, evalue in [(etype1, eval1), (etype2, eval2), (etype3, eval3)]:
@@ -1081,84 +906,56 @@ def _generate_passive_desc(passive_id, etype1, eval1, etype2, eval2, etype3, eva
     if parts:
         return '\r\n'.join(parts)
     return ''
-
 def _resolve_effect_label(etype):
     if not etype or etype == 'EPalPassiveSkillEffectType::no':
         return None
     name = etype.replace('EPalPassiveSkillEffectType::', '')
-
-    # Direct lookup
     if name in _EFFECT_LABEL_MAP:
         return _EFFECT_LABEL_MAP[name]
-
-    # Element Boost: ElementBoost_Fire -> Fire attack damage
-    m = re.match(r'ElementBoost_(\w+)', name)
+    m = re.match('ElementBoost_(\\w+)', name)
     if m:
         elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
         return f'{elem} attack damage'
-
-    # Element Boost Weakness: ElementBoostWeakness_Fire -> Fire attack damage (weakness)
-    m = re.match(r'ElementBoostWeakness_(\w+)', name)
+    m = re.match('ElementBoostWeakness_(\\w+)', name)
     if m:
         elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
         return f'{elem} attack damage (weakness)'
-
-    # Element Resist
-    m = re.match(r'ElementResist_(\w+)', name)
+    m = re.match('ElementResist_(\\w+)', name)
     if m:
         elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
         return f'{elem} damage resistance'
-
-    # Element type (ElementFire -> Fire type)
-    m = re.match(r'Element(\w+)', name)
+    m = re.match('Element(\\w+)', name)
     if m and m.group(1) in _ELEMENT_MAP:
         elem = _ELEMENT_MAP[m.group(1)]
         return f'{elem} type'
-
-    # Work Suitability Add Rank
-    m = re.match(r'WorkSuitabilityAddRank_(\w+)', name)
+    m = re.match('WorkSuitabilityAddRank_(\\w+)', name)
     if m:
         work = _WORK_TYPE_MAP.get(m.group(1), m.group(1))
         return f'{work}'
-
-    # Resist Additional Effect
-    m = re.match(r'ResistAdditionalEffect_(\w+)', name)
+    m = re.match('ResistAdditionalEffect_(\\w+)', name)
     if m:
         eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
         return f'{eff} resistance'
-
-    # Additional Effect (inflict)
-    m = re.match(r'AdditionalEffect_(\w+)', name)
+    m = re.match('AdditionalEffect_(\\w+)', name)
     if m:
         eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
         return f'Inflict {eff}'
-
-    # Attack conditionals: AttackRateIfAttacker_Burn
-    m = re.match(r'AttackRateIfAttacker_(\w+)', name)
+    m = re.match('AttackRateIfAttacker_(\\w+)', name)
     if m:
         eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
         return f'Attack vs {eff}'
-
-    # Damage conditionals: DamageRateIfDefender_Burn
-    m = re.match(r'DamageRateIfDefender_(\w+)', name)
+    m = re.match('DamageRateIfDefender_(\\w+)', name)
     if m:
         eff = _ADDITIONAL_MAP.get(m.group(1), m.group(1))
         return f'Damage vs {eff}'
-
-    # Element Add Item Drop
-    m = re.match(r'ElementAddItemDrop_(\w+)', name)
+    m = re.match('ElementAddItemDrop_(\\w+)', name)
     if m:
         elem = _ELEMENT_MAP.get(m.group(1), m.group(1))
         return f'{elem} item drop'
-
-    # CurveType -> skip (hidden/internal)
     if name == 'CurveType':
         return None
-
-    # Pipe-friendly display name
     display = name.replace('_', ' ')
     return display
-
 def update_passive_data():
     print('\n=== Updating Passive Data ===')
     passive_main = load_export_json('PassiveSkill/DT_PassiveSkill_Main.json')
@@ -1230,15 +1027,11 @@ def update_passive_data():
         if not desc_text and desc_id:
             desc_text = raw_skill_desc.get(passive_id, '')
         if desc_text:
-            _UI_COMMON_MAP = {
-                'COMMON_STATUS_HP': 'HP',
-                'COMMON_WORK_SUITABILITY_MonsterFarm': 'Ranching',
-                'COMMON_WORK_SUITABILITY_PALDEX': 'work suitability',
-            }
+            _UI_COMMON_MAP = {'COMMON_STATUS_HP': 'HP', 'COMMON_WORK_SUITABILITY_MonsterFarm': 'Ranching', 'COMMON_WORK_SUITABILITY_PALDEX': 'work suitability'}
             for uid, label in _UI_COMMON_MAP.items():
                 desc_text = desc_text.replace(f'<uiCommon id=|{uid}|/>', label)
-            clean = re.sub(r'<[^>]+>', '', desc_text).strip()
-            if clean and not clean.startswith("'s"):
+            clean = re.sub('<[^>]+>', '', desc_text).strip()
+            if clean and (not clean.startswith("'s")):
                 desc_text = clean
             else:
                 desc_text = ''
@@ -1410,7 +1203,6 @@ def _build_character_name_map():
     except Exception:
         pass
     return char_map
-
 def update_skill_data():
     print('\n=== Updating Skill Data ===')
     all_rows = get_all_rows_for_tables(['Waza/DT_WazaDataTable.json'])
@@ -1431,8 +1223,8 @@ def update_skill_data():
                 skill_desc_l10n[skill_asset] = desc_text
     _char_name_map = _build_character_name_map()
     for k, v in skill_desc_l10n.items():
-        v = re.sub(r"<characterName\s+id=\|(\w+)\|\s*/>", lambda m: _char_name_map.get(m.group(1), m.group(0)), v)
-        v = re.sub(r'<[^>]+>', '', v).strip()
+        v = re.sub('<characterName\\s+id=\\|(\\w+)\\|\\s*/>', lambda m: _char_name_map.get(m.group(1), m.group(0)), v)
+        v = re.sub('<[^>]+>', '', v).strip()
         skill_desc_l10n[k] = v
     if not all_rows:
         print('  No skill rows found. Skipping.')
@@ -1578,26 +1370,26 @@ def update_pal_descriptions():
             tail = parts[-1] if parts else id_val
             tail = tail[0].upper() + tail[1:].lower() if tail else ''
             return tail
-        desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_reference_msg, desc)
-        desc = re.sub(r'\{[^}]*\}', '?', desc)
-        desc = re.sub(r'<Status_Up>([^<]*)</>', r'\1', desc)
-        desc = re.sub(r'<Status_Keyword>([^<]*)</>', r'\1', desc)
-        desc = re.sub(r'<uiCommon\s+id=\|([^|]+)\|[^/>]*/>', _ui_common_readable, desc)
-        desc = re.sub(r'<img\s[^/>]*/>', '', desc)
-        desc = re.sub(r'<(activeSkillName|characterName|itemName|mapObjectName)\s[^/>]*/>', '', desc)
-        desc = re.sub(r'<[^>]*>', '', desc)
-        desc = re.sub(r'\|([A-Za-z0-9_]+)\|', _pipe_to_readable, desc)
-        desc = re.sub(r'\s+', ' ', desc)
+        desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_reference_msg, desc)
+        desc = re.sub('\\{[^}]*\\}', '?', desc)
+        desc = re.sub('<Status_Up>([^<]*)</>', '\\1', desc)
+        desc = re.sub('<Status_Keyword>([^<]*)</>', '\\1', desc)
+        desc = re.sub('<uiCommon\\s+id=\\|([^|]+)\\|[^/>]*/>', _ui_common_readable, desc)
+        desc = re.sub('<img\\s[^/>]*/>', '', desc)
+        desc = re.sub('<(activeSkillName|characterName|itemName|mapObjectName)\\s[^/>]*/>', '', desc)
+        desc = re.sub('<[^>]*>', '', desc)
+        desc = re.sub('\\|([A-Za-z0-9_]+)\\|', _pipe_to_readable, desc)
+        desc = re.sub('\\s+', ' ', desc)
         desc = desc.strip()
         return desc
-        desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_reference_msg, desc)
-        desc = re.sub(r'\{[^}]*\}', '', desc)
-        desc = re.sub(r'<Status_Up>([^<]*)</>', r'\1', desc)
-        desc = re.sub(r'<Status_Keyword>([^<]*)</>', r'\1', desc)
-        desc = re.sub(r'<(activeSkillName|img|uiCommon|characterName|itemName|mapObjectName)\s[^/>]*/>', '', desc)
-        desc = re.sub(r'<[^>]*>', '', desc)
-        desc = re.sub(r'\|\w+\|', '', desc)
-        desc = re.sub(r'\s+', ' ', desc)
+        desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_reference_msg, desc)
+        desc = re.sub('\\{[^}]*\\}', '', desc)
+        desc = re.sub('<Status_Up>([^<]*)</>', '\\1', desc)
+        desc = re.sub('<Status_Keyword>([^<]*)</>', '\\1', desc)
+        desc = re.sub('<(activeSkillName|img|uiCommon|characterName|itemName|mapObjectName)\\s[^/>]*/>', '', desc)
+        desc = re.sub('<[^>]*>', '', desc)
+        desc = re.sub('\\|\\w+\\|', '', desc)
+        desc = re.sub('\\s+', ' ', desc)
         desc = desc.strip()
         return desc
     updated = 0
@@ -1619,7 +1411,6 @@ def update_pal_descriptions():
         updated += 1
     save_resource_json('paldata.json', existing)
     print(f'  Updated {updated} pals with descriptions and partner skills')
-
 def update_items_dynamic():
     print('\n=== Updating Items PSP ===')
     item_table = load_export_json('Item/DT_ItemDataTable.json')
@@ -1771,10 +1562,9 @@ def update_boss_mapping():
             mapping[item_asset] = spawner_name
     output = {'boss_defeat_flag_map': mapping}
     save_resource_json('boss_mapping.json', output)
-    total_keys = sum(1 for v in mapping.values() if isinstance(v, str)) + sum(len(v) if isinstance(v, list) else 0 for v in mapping.values())
+    total_keys = sum((1 for v in mapping.values() if isinstance(v, str))) + sum((len(v) if isinstance(v, list) else 0 for v in mapping.values()))
     print(f'  Total mapped boss entries: {total_keys}')
     print(f'  Unique item assets mapped: {len(mapping)}')
-
 def update_world_map_area_data():
     print('\n=== Updating World Map Area Data ===')
     area_data = load_export_json('WorldMapAreaData/DT_WorldMapAreaData.json')
@@ -1789,7 +1579,6 @@ def update_world_map_area_data():
     output = {'areas': area_ids}
     save_resource_json('world_map_areas.json', output)
     print(f'  Total world map areas: {len(area_ids)}')
-
 def update_ui_icons():
     print('\n=== Updating UI Icons ===')
     target_subdir = 'ui'
@@ -2095,13 +1884,7 @@ def _write_merged_files():
             merged_group[merged_name] = {}
         for k in keys:
             merged_group[merged_name][k] = {}
-    src_map = {
-        'pals': 'paldata.json', 'npcs': 'npcdata.json',
-        'passives': 'passivedata.json', 'skills': 'skilldata.json', 'elements': 'elementdata.json',
-        'structures': 'structuredata.json', 'technology': 'technologydata.json',
-        'items': 'itemdata.json',
-        'lab_research': 'labresearchdata.json', 'items_dynamic': 'items_dynamic.json', 'friendship': 'friendship.json',
-    }
+    src_map = {'pals': 'paldata.json', 'npcs': 'npcdata.json', 'passives': 'passivedata.json', 'skills': 'skilldata.json', 'elements': 'elementdata.json', 'structures': 'structuredata.json', 'technology': 'technologydata.json', 'items': 'itemdata.json', 'lab_research': 'labresearchdata.json', 'items_dynamic': 'items_dynamic.json', 'friendship': 'friendship.json'}
     for merged_name, merged in merged_group.items():
         for key in list(merged.keys()):
             src_fname = src_map.get(key)
@@ -2123,11 +1906,7 @@ def _write_merged_files():
     print('  Merged files created successfully.')
 def _delete_individual_files():
     print('\n=== Cleaning Up Individual Files ===')
-    individual_files = [
-        'paldata.json', 'npcdata.json', 'passivedata.json', 'skilldata.json',
-        'elementdata.json', 'structuredata.json', 'technologydata.json',
-        'itemdata.json', 'labresearchdata.json', 'items_dynamic.json', 'palpassivedata.json',
-    ]
+    individual_files = ['paldata.json', 'npcdata.json', 'passivedata.json', 'skilldata.json', 'elementdata.json', 'structuredata.json', 'technologydata.json', 'itemdata.json', 'labresearchdata.json', 'items_dynamic.json', 'palpassivedata.json']
     for fname in individual_files:
         fpath = RESOURCES_DIR / fname
         if fpath.exists():

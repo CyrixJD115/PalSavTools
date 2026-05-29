@@ -128,10 +128,7 @@ if '--spawn-loader' in sys.argv:
                 from palworld_aio.ui.styles import ThemeManager
                 ThemeManager.apply_to_widget(self)
             except Exception:
-                self.setStyleSheet("""
-QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
-#mainContainer { background: rgba(18,20,24,0.95); border-radius: 16px; border: 1px solid rgba(125,211,252,0.12); }
-""")
+                self.setStyleSheet('\nQDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }\n#mainContainer { background: rgba(18,20,24,0.95); border-radius: 16px; border: 1px solid rgba(125,211,252,0.12); }\n')
         def clear_layout(self):
             while self.inner.count():
                 child = self.inner.takeAt(0)
@@ -150,7 +147,6 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             self.start_ts = start_time
             self.setMinimumSize(850, 500)
             self.resize(850, 500)
-
             self.inner.addStretch(1)
             icon = QLabel()
             icon.setAlignment(Qt.AlignCenter)
@@ -161,22 +157,17 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             icon.setStyleSheet('border: none; background: transparent;')
             self.inner.addWidget(icon)
             self.inner.addSpacing(16)
-
             self.progress_bar = QProgressBar()
             self.progress_bar.setRange(0, 0)
             self.progress_bar.setFixedHeight(4)
             self.progress_bar.setObjectName('loadingProgress')
-            self.progress_bar.setStyleSheet(
-                'QProgressBar { background: rgba(255,255,255,0.06); border: none; border-radius: 2px; }'
-                'QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #38bdf8,stop:1 #7c3aed); border-radius: 2px; }'
-            )
+            self.progress_bar.setStyleSheet('QProgressBar { background: rgba(255,255,255,0.06); border: none; border-radius: 2px; }QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #38bdf8,stop:1 #7c3aed); border-radius: 2px; }')
             pb_layout = QHBoxLayout()
             pb_layout.addStretch()
             pb_layout.addWidget(self.progress_bar)
             pb_layout.addStretch()
             self.inner.addLayout(pb_layout)
             self.inner.addSpacing(20)
-
             self.label = QLabel(random.choice(self.phrases))
             self.label.setAlignment(Qt.AlignCenter)
             self.label.setWordWrap(True)
@@ -186,26 +177,20 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
             self.label.setGraphicsEffect(self.opacity_effect)
             self.inner.addWidget(self.label)
             self.inner.addStretch(1)
-
             self.timer_label = QLabel('00:00')
             self.timer_label.setAlignment(Qt.AlignCenter)
             self.timer_label.setStyleSheet('color: rgba(148,163,184,0.4); font-size: 11px; border: none; background: transparent;')
             self.inner.addWidget(self.timer_label)
-
             self.close_btn = QPushButton(t('loading.cancel'))
             self.close_btn.setFixedHeight(28)
             self.close_btn.clicked.connect(self.safe_exit)
-            self.close_btn.setStyleSheet(
-                'QPushButton { background: rgba(255,255,255,0.04); color: rgba(148,163,184,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; font-size: 11px; }'
-                'QPushButton:hover { background: rgba(255,255,255,0.08); color: #e2e8f0; }'
-            )
+            self.close_btn.setStyleSheet('QPushButton { background: rgba(255,255,255,0.04); color: rgba(148,163,184,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; font-size: 11px; }QPushButton:hover { background: rgba(255,255,255,0.08); color: #e2e8f0; }')
             close_layout = QHBoxLayout()
             close_layout.addStretch()
             close_layout.addWidget(self.close_btn)
             close_layout.addStretch()
             self.inner.addLayout(close_layout)
             self.inner.addSpacing(4)
-
             self.tick_timer = QTimer(self)
             self.tick_timer.timeout.connect(self.update_loader)
             self.tick_timer.start(250)
@@ -250,10 +235,7 @@ QDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }
                 self.label.setGraphicsEffect(None)
             self.progress_bar.setRange(0, 100)
             self.progress_bar.setValue(100)
-            self.progress_bar.setStyleSheet(
-                'QProgressBar { background: rgba(255,255,255,0.06); border: none; border-radius: 2px; }'
-                'QProgressBar::chunk { background: #22c55e; border-radius: 2px; }'
-            )
+            self.progress_bar.setStyleSheet('QProgressBar { background: rgba(255,255,255,0.06); border: none; border-radius: 2px; }QProgressBar::chunk { background: #22c55e; border-radius: 2px; }')
             QTimer.singleShot(1000, self.safe_exit)
         def safe_exit(self):
             QApplication.quit()
@@ -482,7 +464,7 @@ class ErrorDialog(QDialog):
             from palworld_aio.ui.styles import ThemeManager
             ThemeManager.apply_to_widget(self)
         except Exception:
-            self.setStyleSheet("QWidget{background:rgba(12,14,18,0.98);color:#e2e8f0}QLabel{color:#7DD3FC}")
+            self.setStyleSheet('QWidget{background:rgba(12,14,18,0.98);color:#e2e8f0}QLabel{color:#7DD3FC}')
     def setup_error_ui(self):
         self.container = QFrame()
         self.container.setObjectName('mainContainer')
@@ -605,28 +587,7 @@ def _get_effective_parent(parent):
     if active and hasattr(active, 'geometry') and active.isVisible():
         return active
     return None
-_MSG_BOX_DARK_STYLESHEET = '''
-    QMessageBox {
-        background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,
-                    stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);
-        color: #dfeefc;
-    }
-    QMessageBox QLabel {
-        color: #dfeefc;
-    }
-    QMessageBox QPushButton {
-        background-color: rgba(125,211,252,0.12);
-        color: #7DD3FC;
-        border: 1px solid rgba(125,211,252,0.2);
-        border-radius: 4px;
-        padding: 6px 16px;
-        min-width: 70px;
-    }
-    QMessageBox QPushButton:hover {
-        background-color: rgba(125,211,252,0.2);
-        color: #FFFFFF;
-    }
-'''
+_MSG_BOX_DARK_STYLESHEET = '\n    QMessageBox {\n        background: qlineargradient(spread:pad, x1:0.0, y1:0.0, x2:1.0, y2:1.0,\n                    stop:0 #07080a, stop:0.5 #08101a, stop:1 #05060a);\n        color: #dfeefc;\n    }\n    QMessageBox QLabel {\n        color: #dfeefc;\n    }\n    QMessageBox QPushButton {\n        background-color: rgba(125,211,252,0.12);\n        color: #7DD3FC;\n        border: 1px solid rgba(125,211,252,0.2);\n        border-radius: 4px;\n        padding: 6px 16px;\n        min-width: 70px;\n    }\n    QMessageBox QPushButton:hover {\n        background-color: rgba(125,211,252,0.2);\n        color: #FFFFFF;\n    }\n'
 def _load_theme_to_msg_box(msg_box):
     try:
         msg_box.setStyleSheet(_MSG_BOX_DARK_STYLESHEET)

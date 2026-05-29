@@ -483,7 +483,7 @@ def backend_worker(venv_py: Path, signals: 'WorkerSignals'):
                         if line and (not line.startswith('#')):
                             if line.startswith('git+'):
                                 git_packages.append(line)
-                            elif 'pyside6-essentials' not in line and not line.startswith('./') and not line.startswith('..'):
+                            elif 'pyside6-essentials' not in line and (not line.startswith('./')) and (not line.startswith('..')):
                                 with open(temp_req_path, 'a') as f_out:
                                     f_out.write(line + '\n')
             for git_req in git_packages:
@@ -673,7 +673,7 @@ def main():
                                 if line and (not line.startswith('#')):
                                     if line.startswith('git+'):
                                         git_packages.append(line)
-                                    elif 'pyside6-essentials' not in line and not line.startswith('./') and not line.startswith('..'):
+                                    elif 'pyside6-essentials' not in line and (not line.startswith('./')) and (not line.startswith('..')):
                                         with open(temp_req_path, 'a') as f_out:
                                             f_out.write(line + '\n')
                     for git_req in git_packages:

@@ -168,7 +168,7 @@ class PlayerItemActionDialog(QDialog):
                 is_essential = type_a == 'EPalItemTypeA::Essential'
                 if type_a_filter and (not is_essential):
                     continue
-                if (not type_a_filter) and is_essential:
+                if not type_a_filter and is_essential:
                     continue
                 if item.get('sort_id', 0) == 9999:
                     continue
@@ -403,10 +403,7 @@ class PlayerItemActionDialog(QDialog):
             QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
             return
         if is_effigies:
-            qty, ok = QInputDialog.getInt(self,
-                t('player_item.add_all_effigies_qty.title', default='Add All Effigies'),
-                t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'),
-                1, 1, 9999)
+            qty, ok = QInputDialog.getInt(self, t('player_item.add_all_effigies_qty.title', default='Add All Effigies'), t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'), 1, 1, 9999)
             if not ok:
                 return
         name = 'Effigies' if is_effigies else 'Key Items'

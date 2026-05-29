@@ -1059,10 +1059,7 @@ class PlayerInventoryTab(QWidget):
         effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
         if not effigies:
             return
-        reply = self._themed_message_box(QMessageBox.Question,
-            t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'),
-            t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'),
-            QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
         container = self.inventory.get_container('key')
@@ -1083,10 +1080,9 @@ class PlayerInventoryTab(QWidget):
             return
         all_items = ItemData.get_all_items()
         unlock_assets = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
-        key_candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and i['asset'] not in unlock_assets and i.get('sort_id', 0) != 9999 and i.get('description', '').strip() not in ('', '-') and i.get('name', '') != i.get('asset', '') and 'en_text' not in i.get('name', '').lower()]
+        key_candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and (i['asset'] not in unlock_assets) and (i.get('sort_id', 0) != 9999) and (i.get('description', '').strip() not in ('', '-')) and (i.get('name', '') != i.get('asset', '')) and ('en_text' not in i.get('name', '').lower())]
         existing_ids = {s.get('item_id') for s in self.inventory.get_container('key').slots}
         to_add = [i for i in key_candidates if i['asset'] not in existing_ids]
-
         missing_unlocks = []
         for item_id in FOOD_POUCH_ITEMS:
             if item_id not in existing_ids:
@@ -1097,7 +1093,6 @@ class PlayerInventoryTab(QWidget):
         for item_id in WEAPON_UNLOCK_ITEMS:
             if item_id not in existing_ids:
                 missing_unlocks.append(item_id)
-
         total = len(to_add) + len(missing_unlocks)
         if not total:
             self._themed_message_box(QMessageBox.Information, t('inventory.add_all_key_items', default='Add All Key Items'), t('inventory.no_new_items', default='All key items already present.'))
@@ -1208,10 +1203,7 @@ class PlayerInventoryTab(QWidget):
         if not self.current_player_uid:
             QMessageBox.warning(self, t('inventory.select_player', default='Select Player...'), t('inventory.select_player_first', default='Please select a player first.'))
             return
-        reply = self._themed_message_box(QMessageBox.Question,
-            t('inventory.unlock_all_map_confirm.title', default='Unlock All Map + Fast Travel'),
-            t('inventory.unlock_all_map_confirm.msg', count=1, default='Unlock all fast travel points, reveal all map areas, and unlock world map for 1 player?'),
-            QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.unlock_all_map_confirm.title', default='Unlock All Map + Fast Travel'), t('inventory.unlock_all_map_confirm.msg', count=1, default='Unlock all fast travel points, reveal all map areas, and unlock world map for 1 player?'), QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.unlock_all_map_requested.emit([self.current_player_uid])
     def _update_stats(self):
@@ -1686,5 +1678,3 @@ class QuantityDialog(QDialog):
         layout.addLayout(btn_layout)
     def get_quantity(self) -> int:
         return self.spin_box.value()
-
-

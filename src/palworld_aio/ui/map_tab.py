@@ -18,7 +18,6 @@ from .map_markers import BaseMarker, PlayerMarker
 from .map_effects import DeleteEffect, ImportEffect, ExportEffect, CalibrationEffect
 from .map_items import ExclusionZoneItem, PolygonExclusionZoneItem, BaseRadiusRing, ZonePreviewItem
 from .map_view import MapGraphicsView
-
 class MapTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)

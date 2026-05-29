@@ -8,15 +8,7 @@ from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_
 from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 from palworld_save_tools.gvas import GvasFile
 from palworld_aio.ui.styles import ThemeManager
-_TRANSFER_STEPS = {
-    'character': True,
-    'tech_data': True,
-    'inventory': True,
-    'guild': True,
-    'pals': True,
-    'dynamics': True,
-    'timestamps': True,
-}
+_TRANSFER_STEPS = {'character': True, 'tech_data': True, 'inventory': True, 'guild': True, 'pals': True, 'dynamics': True, 'timestamps': True}
 player_list_cache = []
 def _load_sav(path):
     with open(path, 'rb') as f:
@@ -1053,7 +1045,7 @@ def finalize_save_task():
         except Exception as e:
             errors.append(f'Player {target_uid}: {e}')
     if errors:
-        print(f'[ERROR] Save errors: {"; ".join(errors)}')
+        print(f"[ERROR] Save errors: {'; '.join(errors)}")
         return False
     return True
 def select_file():

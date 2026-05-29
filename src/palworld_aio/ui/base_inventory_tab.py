@@ -58,15 +58,12 @@ class GuildItemPickerDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(10)
-
         content_layout = QHBoxLayout()
         content_layout.setSpacing(10)
-
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(5)
-
         search_layout = QHBoxLayout()
         search_label = QLabel(t('common.search') if t else 'Search:')
         self.search_input = QLineEdit()
@@ -75,7 +72,6 @@ class GuildItemPickerDialog(QDialog):
         search_layout.addWidget(search_label)
         search_layout.addWidget(self.search_input)
         left_layout.addLayout(search_layout)
-
         self.results_list = QListWidget()
         self.results_list.setViewMode(QListView.IconMode)
         self.results_list.setIconSize(QSize(48, 48))
@@ -89,12 +85,10 @@ class GuildItemPickerDialog(QDialog):
         self.results_list.viewport().setAcceptDrops(False)
         self.results_list.itemClicked.connect(self._on_item_clicked)
         left_layout.addWidget(self.results_list)
-
         right_widget = QWidget()
         right_layout = QVBoxLayout(right_widget)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(8)
-
         info_frame = QFrame()
         info_frame.setStyleSheet('background: rgba(0,0,0,0.15); border-radius: 4px;')
         info_layout = QVBoxLayout(info_frame)
@@ -113,7 +107,6 @@ class GuildItemPickerDialog(QDialog):
         self.desc_label.setVisible(False)
         info_layout.addWidget(self.desc_label)
         right_layout.addWidget(info_frame, 3)
-
         guilds_group = QGroupBox(t('base_inventory.select_guilds') if t else 'Select Guilds')
         guilds_inner_layout = QVBoxLayout()
         guild_buttons_layout = QHBoxLayout()
@@ -136,12 +129,10 @@ class GuildItemPickerDialog(QDialog):
         self.guild_list.setSelectionMode(QAbstractItemView.NoSelection)
         self.guild_list.setEnabled(False)
         guilds_inner_layout.addWidget(self.guild_list)
-
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
         sep.setStyleSheet('background: rgba(255,255,255,0.1); max-height: 1px; margin: 4px 0;')
         guilds_inner_layout.addWidget(sep)
-
         stats_container = QWidget()
         stats_container_layout = QHBoxLayout(stats_container)
         stats_container_layout.setContentsMargins(0, 2, 0, 0)
@@ -157,10 +148,8 @@ class GuildItemPickerDialog(QDialog):
         stats_container_layout.addWidget(self.stats_avg_label)
         stats_container_layout.addStretch()
         guilds_inner_layout.addWidget(stats_container)
-
         guilds_group.setLayout(guilds_inner_layout)
         right_layout.addWidget(guilds_group, 7)
-
         btn_layout = QHBoxLayout()
         self.find_btn = QPushButton(t('base_inventory.find_containers') if t else 'Find Containers')
         self.find_btn.clicked.connect(self._on_find_containers)
@@ -171,10 +160,8 @@ class GuildItemPickerDialog(QDialog):
         close_btn.clicked.connect(self.accept)
         btn_layout.addWidget(close_btn)
         right_layout.addLayout(btn_layout)
-
         content_layout.addWidget(left_widget, 3)
         content_layout.addWidget(right_widget, 2)
-
         layout.addLayout(content_layout)
         items = ItemData.get_all_items()
         for item in items:

@@ -200,7 +200,7 @@ class PlayerPalActionDialog(QDialog):
         self.pal_list.clear()
         for pal_id, pal_name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]):
             pal_id_lower = pal_id.lower()
-            if any(pal_id_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_')):
+            if any((pal_id_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_'))):
                 continue
             if 'oilrig' in pal_id_lower:
                 continue
@@ -215,7 +215,7 @@ class PlayerPalActionDialog(QDialog):
                 zukan_index = PalFrame._PAL_ZUKAN.get(pal_id_lower, 0)
                 if zukan_index < 0:
                     continue
-            if query_lower and query_lower not in pal_name.lower() and query_lower not in pal_id.lower():
+            if query_lower and query_lower not in pal_name.lower() and (query_lower not in pal_id.lower()):
                 continue
             list_item = QListWidgetItem(pal_name)
             list_item.setData(Qt.UserRole, pal_id)

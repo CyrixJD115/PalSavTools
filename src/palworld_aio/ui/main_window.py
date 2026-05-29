@@ -655,10 +655,8 @@ class MainWindow(QMainWindow):
             print(f'Update check callback error: {e}')
     def _lock_ui(self):
         pass
-
     def _unlock_ui(self):
         pass
-
     def _on_load_finished(self, success):
         if success:
             self.refresh_all()
@@ -858,7 +856,7 @@ class MainWindow(QMainWindow):
         import os
         all_items = ItemData.get_all_items()
         unlock_assets = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
-        candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and i['asset'] not in unlock_assets and i.get('sort_id', 0) != 9999 and i.get('description', '').strip() not in ('', '-') and i.get('name', '') != i.get('asset', '') and 'en_text' not in i.get('name', '').lower()]
+        candidates = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' not in i.get('name', '') and (i['asset'] not in unlock_assets) and (i.get('sort_id', 0) != 9999) and (i.get('description', '').strip() not in ('', '-')) and (i.get('name', '') != i.get('asset', '')) and ('en_text' not in i.get('name', '').lower())]
         per_player_missing = {}
         for uid in player_uids:
             try:
@@ -881,7 +879,7 @@ class MainWindow(QMainWindow):
                     per_player_missing[uid] = missing
             except:
                 continue
-        total_missing = sum(len(v) for v in per_player_missing.values())
+        total_missing = sum((len(v) for v in per_player_missing.values()))
         if not total_missing:
             self._show_info(t('player_item.add_complete') if t else 'Add All Key Items', t('inventory.no_new_items') if t else 'All key items already present.')
             if hasattr(self, 'refresh_all'):
@@ -916,7 +914,7 @@ class MainWindow(QMainWindow):
                         raw_slots = inventory_container._standardized_container.get_raw_slots()
                         container_lookup[cid]['value']['Slots']['value']['values'] = raw_slots
                 sync_dynamic_items_with_registry(inv.containers)
-                gvasfile_to_sav(inv.player_gvas, os.path.join(constants.current_save_path, 'Players', f'{str(uid).replace("-", "").upper()}.sav'))
+                gvasfile_to_sav(inv.player_gvas, os.path.join(constants.current_save_path, 'Players', f"{str(uid).replace('-', '').upper()}.sav"))
                 players_affected += 1
             except Exception as e:
                 print(f'Error adding key items to player {uid}: {e}')
@@ -963,25 +961,13 @@ class MainWindow(QMainWindow):
                 if not save_data:
                     continue
                 record_data = save_data.setdefault('RecordData', {'value': {}, 'type': 'StructProperty'})['value']
-                ft_flag = record_data.setdefault('FastTravelPointUnlockFlag', {
-                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
-                    'key_struct_type': None, 'value_struct_type': None,
-                    'id': None, 'value': [], 'type': 'MapProperty'
-                })
+                ft_flag = record_data.setdefault('FastTravelPointUnlockFlag', {'key_type': 'NameProperty', 'value_type': 'BoolProperty', 'key_struct_type': None, 'value_struct_type': None, 'id': None, 'value': [], 'type': 'MapProperty'})
                 ft_flag['value'] = [{'key': g, 'value': True} for g in ft_guids]
-                area_flag = record_data.setdefault('FindAreaFlagMap', {
-                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
-                    'key_struct_type': None, 'value_struct_type': None,
-                    'id': None, 'value': [], 'type': 'MapProperty'
-                })
+                area_flag = record_data.setdefault('FindAreaFlagMap', {'key_type': 'NameProperty', 'value_type': 'BoolProperty', 'key_struct_type': None, 'value_struct_type': None, 'id': None, 'value': [], 'type': 'MapProperty'})
                 area_flag['value'] = [{'key': k, 'value': True} for k in all_area_keys]
-                wm_flag = record_data.setdefault('UnlockedWorldMapFlags', {
-                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
-                    'key_struct_type': None, 'value_struct_type': None,
-                    'id': None, 'value': [], 'type': 'MapProperty'
-                })
+                wm_flag = record_data.setdefault('UnlockedWorldMapFlags', {'key_type': 'NameProperty', 'value_type': 'BoolProperty', 'key_struct_type': None, 'value_struct_type': None, 'id': None, 'value': [], 'type': 'MapProperty'})
                 wm_flag['value'] = [{'key': 'MainMap', 'value': True}, {'key': 'Tree', 'value': True}]
-                gvasfile_to_sav(gvas, os.path.join(constants.current_save_path, 'Players', f'{str(uid).replace("-", "").upper()}.sav'))
+                gvasfile_to_sav(gvas, os.path.join(constants.current_save_path, 'Players', f"{str(uid).replace('-', '').upper()}.sav"))
                 players_affected += 1
             except Exception as e:
                 print(f'Error unlocking map for player {uid}: {e}')

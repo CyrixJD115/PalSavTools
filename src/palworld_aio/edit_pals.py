@@ -398,7 +398,7 @@ class PalIcon(QFrame):
         tip = f'{pal_name} [Lv.{level}]'
         base = get_pal_base_data(cid)
         if base and base.get('description'):
-            tip += f'\n\n{wrap_tooltip_text(base["description"])}'
+            tip += f"\n\n{wrap_tooltip_text(base['description'])}"
         self.setToolTip(tip)
         self.setStyleSheet('QFrame#palIconNew { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; } QFrame#palIconNew:hover { background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.25); }')
         self.bg.lower()
@@ -695,7 +695,7 @@ class PartySlotWidget(QFrame):
         tip = f'{pal_name} [Lv.{level}]'
         base = get_pal_base_data(cid)
         if base and base.get('description'):
-            tip += f'<br><br>{wrap_tooltip_text(base["description"])}'
+            tip += f"<br><br>{wrap_tooltip_text(base['description'])}"
         self.setToolTip(tip)
         is_boss = cid.upper().startswith('BOSS_')
         is_lucky = extract_value(raw, 'IsRarePal', False)
@@ -1099,7 +1099,7 @@ class PalboxSlotWidget(QFrame):
         tip = f'{pal_name} [Lv.{level}]'
         base = get_pal_base_data(cid)
         if base and base.get('description'):
-            tip += f'<br><br>{wrap_tooltip_text(base["description"])}'
+            tip += f"<br><br>{wrap_tooltip_text(base['description'])}"
         self.setToolTip(tip)
         self.setStyleSheet('QFrame#palboxSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#palboxSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
         self.resizeEvent(None)
@@ -1421,7 +1421,7 @@ def build_pal_context_menu(parent, raw):
     fav_sub.setObjectName('editPalsContextMenu')
     lock_actions = []
     for i in range(4):
-        sub_a = fav_sub.addAction(f'{t("edit_pals.ctx.lock_level")} {i}')
+        sub_a = fav_sub.addAction(f"{t('edit_pals.ctx.lock_level')} {i}")
         sub_a.setCheckable(True)
         sub_a.setChecked(fav_idx == i)
         lock_actions.append(sub_a)
@@ -1679,7 +1679,6 @@ class PassiveEffectOverlay(QWidget):
             grad.setColorAt(1, QColor(125, 211, 252, 0))
             painter.fillRect(QRectF(0, 0, w, h), grad)
         painter.end()
-
 class PalInfoWidget(QFrame):
     _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8')}
     _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8'}
@@ -1979,7 +1978,6 @@ class PalInfoWidget(QFrame):
         self.exp_header_bar.setStyleSheet('QProgressBar { background: rgba(40,30,40,0.4); border: none; border-radius: 1px; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #EC4899,stop:1 #F472B6); border-radius: 1px; }')
         header_layout.addWidget(self.exp_header_bar)
         parent.addWidget(header)
-
     def _on_portrait_context_menu(self, pos):
         if not self._raw:
             return
@@ -2006,31 +2004,26 @@ class PalInfoWidget(QFrame):
                 show_warning(self, t('edit_pals.ctx.learn_all_moves'), t('edit_pals.learn_all_fail'))
         elif action == actions['delete']:
             pass
-
     def _on_fav_set(self, idx):
         if not self._raw:
             return
         self._raw['FavoriteIndex'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': idx}}
         self._refresh()
-
     def _build_body(self, parent):
         body = QWidget()
         body.setStyleSheet('background: transparent; border: none;')
         body_layout = QVBoxLayout(body)
         body_layout.setContentsMargins(0, 0, 0, 0)
         body_layout.setSpacing(2)
-
         columns = QHBoxLayout()
         columns.setContentsMargins(0, 0, 0, 0)
         columns.setSpacing(4)
-
         left_col = QWidget()
         left_col.setStyleSheet('background: transparent; border: none;')
         left_col.setFixedWidth(110)
         left_layout = QVBoxLayout(left_col)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(2)
-
         self.star_container = QWidget()
         self.star_container.setCursor(Qt.PointingHandCursor)
         self.star_container.installEventFilter(self)
@@ -2047,7 +2040,6 @@ class PalInfoWidget(QFrame):
         self._star_shine_timer.timeout.connect(self._tick_star_shine)
         self._star_shine_phase = 0.0
         left_layout.addWidget(self.star_container)
-
         portrait_frame = QFrame()
         self.portrait_frame = portrait_frame
         portrait_frame.setFixedSize(88, 88)
@@ -2084,7 +2076,7 @@ class PalInfoWidget(QFrame):
         self.lock_overlay.setFixedSize(14, 14)
         self.lock_overlay.setAlignment(Qt.AlignCenter)
         self.lock_overlay.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
-        self.lock_overlay.setText('\U0001F512')
+        self.lock_overlay.setText('🔒')
         self.lock_overlay.move(62, 4)
         self.lock_overlay.hide()
         self.boss_overlay = QLabel(self.bracket_wrapper)
@@ -2111,7 +2103,7 @@ class PalInfoWidget(QFrame):
             self.awake_overlay.setPixmap(awake_overlay_pix)
         else:
             self.awake_overlay.setStyleSheet('font-size: 10px; background: transparent; border: none;')
-            self.awake_overlay.setText('\U0001F525')
+            self.awake_overlay.setText('🔥')
         self.awake_overlay.move(62, 62)
         self.awake_overlay.hide()
         self.rotating_circle = RotatingCircleWidget(self.bracket_wrapper)
@@ -2121,7 +2113,6 @@ class PalInfoWidget(QFrame):
         self.rotating_circle.lower()
         pf_layout.addWidget(self.bracket_wrapper, 0, Qt.AlignCenter)
         left_layout.addWidget(portrait_frame, 0, Qt.AlignCenter)
-
         soul_row = QHBoxLayout()
         soul_row.setContentsMargins(0, 0, 0, 0)
         soul_row.setSpacing(2)
@@ -2140,7 +2131,6 @@ class PalInfoWidget(QFrame):
         self.stat_plus_lbl.installEventFilter(self)
         soul_row.addWidget(self.stat_plus_lbl)
         left_layout.addLayout(soul_row, 1)
-
         ivs_row = QHBoxLayout()
         ivs_row.setSpacing(4)
         self.iv_icon = QLabel()
@@ -2173,7 +2163,6 @@ class PalInfoWidget(QFrame):
         ivs_row.addWidget(self.ivs_def_lbl)
         ivs_row.addStretch()
         left_layout.addLayout(ivs_row, 1)
-
         souls_row = QHBoxLayout()
         souls_row.setSpacing(4)
         self.soul_row_icon = QLabel()
@@ -2213,15 +2202,12 @@ class PalInfoWidget(QFrame):
         souls_row.addWidget(self.soul_craft_lbl)
         souls_row.addStretch()
         left_layout.addLayout(souls_row, 1)
-
         columns.addWidget(left_col)
-
         right_col = QWidget()
         right_col.setStyleSheet('background: transparent; border: none;')
         right_layout = QVBoxLayout(right_col)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(1)
-
         trust_row = QHBoxLayout()
         trust_row.setSpacing(0)
         trust_icon = QLabel()
@@ -2241,10 +2227,9 @@ class PalInfoWidget(QFrame):
         self.trust_bar.setStyleSheet('QProgressBar { background: rgba(30,20,25,0.6); border: 1px solid rgba(244,114,182,0.20); border-radius: 2px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #EC4899,stop:1 #F472B6); border-radius: 2px; }')
         trust_row.addWidget(self.trust_bar, 1)
         right_layout.addLayout(trust_row, 1)
-
         hp_row = QHBoxLayout()
         hp_row.setSpacing(0)
-        hp_icon = QLabel('\u2665')
+        hp_icon = QLabel('♥')
         hp_icon.setFixedSize(14, 14)
         hp_icon.setAlignment(Qt.AlignCenter)
         hp_icon.setStyleSheet('font-size: 8px; color: #EF4444; background: transparent; border: none;')
@@ -2257,10 +2242,9 @@ class PalInfoWidget(QFrame):
         self.hp_bar.setStyleSheet('QProgressBar { background: rgba(20,40,30,0.6); border: 1px solid rgba(16,185,129,0.2); border-radius: 2px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #10B981,stop:1 #34D399); border-radius: 2px; }')
         hp_row.addWidget(self.hp_bar, 1)
         right_layout.addLayout(hp_row, 1)
-
         hunger_row = QHBoxLayout()
         hunger_row.setSpacing(0)
-        hunger_icon = QLabel('\u26AC')
+        hunger_icon = QLabel('⚬')
         hunger_icon.setFixedSize(14, 14)
         hunger_icon.setAlignment(Qt.AlignCenter)
         hunger_icon.setStyleSheet('font-size: 8px; color: #F59E0B; background: transparent; border: none;')
@@ -2273,10 +2257,9 @@ class PalInfoWidget(QFrame):
         self.hunger_bar.setStyleSheet('QProgressBar { background: rgba(40,30,20,0.6); border: 1px solid rgba(245,158,11,0.2); border-radius: 2px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #F59E0B,stop:1 #FBBF24); border-radius: 2px; }')
         hunger_row.addWidget(self.hunger_bar, 1)
         right_layout.addLayout(hunger_row, 1)
-
         san_row = QHBoxLayout()
         san_row.setSpacing(0)
-        san_icon = QLabel('\u2726')
+        san_icon = QLabel('✦')
         san_icon.setFixedSize(14, 14)
         san_icon.setAlignment(Qt.AlignCenter)
         san_icon.setStyleSheet('font-size: 8px; color: #10B981; background: transparent; border: none;')
@@ -2289,13 +2272,12 @@ class PalInfoWidget(QFrame):
         self.san_bar.setStyleSheet('QProgressBar { background: rgba(20,30,40,0.6); border: 1px solid rgba(56,189,248,0.2); border-radius: 2px; text-align: center; font-size: 7px; font-weight: 700; color: #FFFFFF; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #38BDF8,stop:1 #7DD3FC); border-radius: 2px; }')
         san_row.addWidget(self.san_bar, 1)
         right_layout.addLayout(san_row, 1)
-
         stats_q = QFrame()
         stats_q.setStyleSheet('background: transparent; border: none;')
         stats_grid = QGridLayout(stats_q)
         stats_grid.setContentsMargins(4, 1, 4, 1)
         stats_grid.setSpacing(2)
-        atk_icon = QLabel('\u2694')
+        atk_icon = QLabel('⚔')
         atk_icon.setFixedSize(14, 14)
         atk_icon.setAlignment(Qt.AlignCenter)
         atk_icon.setStyleSheet('font-size: 9px; color: #EF4444; background: transparent; border: none;')
@@ -2308,7 +2290,7 @@ class PalInfoWidget(QFrame):
         self.atk_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.atk_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.atk_lbl, 0, 2, Qt.AlignVCenter)
-        def_icon = QLabel('\u2696')
+        def_icon = QLabel('⚖')
         def_icon.setFixedSize(14, 14)
         def_icon.setAlignment(Qt.AlignCenter)
         def_icon.setStyleSheet('font-size: 9px; color: #3B82F6; background: transparent; border: none;')
@@ -2321,7 +2303,7 @@ class PalInfoWidget(QFrame):
         self.def_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.def_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.def_lbl, 1, 2, Qt.AlignVCenter)
-        wspd_icon = QLabel('\u2692')
+        wspd_icon = QLabel('⚒')
         wspd_icon.setFixedSize(14, 14)
         wspd_icon.setAlignment(Qt.AlignCenter)
         wspd_icon.setStyleSheet('font-size: 9px; color: #A78BFA; background: transparent; border: none;')
@@ -2335,10 +2317,8 @@ class PalInfoWidget(QFrame):
         self.wspd_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.wspd_lbl, 2, 2, Qt.AlignVCenter)
         right_layout.addWidget(stats_q)
-
         columns.addWidget(right_col, 1)
         body_layout.addLayout(columns)
-
         suit_card = QFrame()
         suit_card.setObjectName('suitFoodCard')
         suit_card.setStyleSheet('QFrame#suitFoodCard { background: rgba(255,255,255,0.02); border: 1px solid rgba(125,211,252,0.1); border-radius: 4px; }')
@@ -2412,9 +2392,7 @@ class PalInfoWidget(QFrame):
             self.food_icon_labels.append(fc)
         card_layout.addLayout(food_row)
         body_layout.addWidget(suit_card)
-
         parent.addWidget(body, 1)
-
     def _build_skills(self, parent):
         skill_box = QFrame()
         skill_box.setObjectName('skillBox')
@@ -2422,7 +2400,6 @@ class PalInfoWidget(QFrame):
         sb_layout = QVBoxLayout(skill_box)
         sb_layout.setContentsMargins(4, 2, 4, 2)
         sb_layout.setSpacing(3)
-
         self.partner_frame = QFrame()
         self.partner_frame.setObjectName('partnerBox')
         self.partner_frame.hide()
@@ -2449,7 +2426,6 @@ class PalInfoWidget(QFrame):
         self.partner_desc_lbl.setWordWrap(True)
         self.partner_desc_lbl.setStyleSheet('font-size: 8px; color: #9CA3AF; background: transparent; border: none; padding: 0 2px;')
         partner_layout.addWidget(self.partner_desc_lbl)
-
         self.active_skills_frame = QFrame()
         self.active_skills_frame.setObjectName('activeSkillsBox')
         self.active_skills_frame.setStyleSheet('QFrame#activeSkillsBox { background: transparent; border: none; }')
@@ -2474,16 +2450,13 @@ class PalInfoWidget(QFrame):
         self.active_skills_list.setSpacing(2)
         as_layout.addLayout(self.active_skills_list)
         self.active_skills_frame.setFixedHeight(100)
-
         sb_layout.addWidget(self.active_skills_frame)
         self.partner_frame.setFixedHeight(100)
         sb_layout.addWidget(self.partner_frame)
-
         passive_title = QLabel(t('pal_editor.passive_skills') if t else 'Passive Skills')
         self._passive_title = passive_title
         passive_title.setStyleSheet('font-size: 9px; font-weight: 700; color: #7DD3FC; background: transparent; border: none;')
         sb_layout.addWidget(passive_title)
-
         pg = QWidget()
         pg.setStyleSheet('background: transparent; border: none;')
         pg_layout = QGridLayout(pg)
@@ -2534,7 +2507,6 @@ class PalInfoWidget(QFrame):
             overlay = PassiveEffectOverlay(card)
             self.passive_overlays.append(overlay)
         sb_layout.addWidget(pg)
-
         parent.addWidget(skill_box)
     def _update_display(self, pal_data):
         try:
@@ -2799,8 +2771,7 @@ class PalInfoWidget(QFrame):
                 self.portrait_icon.setPixmap(pix)
             tip = f'{pal_name} [Lv.{level}]'
             if base and base.get('description'):
-                tip += f'<br><br>{wrap_tooltip_text(base["description"])}'
-            # Set tooltip on portrait_frame to ensure unified tooltip style
+                tip += f"<br><br>{wrap_tooltip_text(base['description'])}"
             self.portrait_frame.setToolTip(tip)
             equip_waza_data = raw.get('EquipWaza', {})
             if isinstance(equip_waza_data, dict):
@@ -2911,10 +2882,7 @@ class PalInfoWidget(QFrame):
                     parent_frame.setStyleSheet(f'QFrame#passiveCard {{ background: {bg}; border: 1.5px solid {bd}; border-radius: 4px; padding: 3px 6px; }}')
                 if i < len(self.passive_cards):
                     self._set_passive_overlay(i, anim_mode)
-                parent_frame.setStyleSheet(
-                    parent_frame.styleSheet() +
-                    '\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }'
-                )
+                parent_frame.setStyleSheet(parent_frame.styleSheet() + '\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }')
                 if p_clean:
                     p_info = _PASSIVE_DATA.get(p_clean, {}) if isinstance(_PASSIVE_DATA, dict) else {}
                     icon_path = p_info.get('icon', '') if isinstance(p_info, dict) else ''
@@ -2927,9 +2895,8 @@ class PalInfoWidget(QFrame):
                             self.passive_rank_icons[i].show()
                         else:
                             self.passive_rank_icons[i].hide()
-                    else:
-                        if i < len(self.passive_rank_icons):
-                            self.passive_rank_icons[i].hide()
+                    elif i < len(self.passive_rank_icons):
+                        self.passive_rank_icons[i].hide()
                     p_desc = p_info.get('description', '')
                     tip_parts = [f'<b style="color:{tc}">{display_name}</b>']
                     rank_labels = {1: 'Common', 2: 'Rare', 3: 'Rare', 4: 'Epic', 5: 'Epic', -99: 'Negative'}
@@ -2943,9 +2910,8 @@ class PalInfoWidget(QFrame):
                         tip_parts.append('')
                         tip_parts.append(p_desc)
                     parent_frame.setToolTip('<br>'.join(tip_parts))
-                else:
-                    if i < len(self.passive_rank_icons):
-                        self.passive_rank_icons[i].hide()
+                elif i < len(self.passive_rank_icons):
+                    self.passive_rank_icons[i].hide()
             pskill_name = base.get('partner_skill', '') if base else ''
             pal_desc = base.get('description', '') if base else ''
             self.partner_name_lbl.setText(pskill_name or pal_name)
@@ -3257,7 +3223,6 @@ class PalInfoWidget(QFrame):
                         parent._highlight_palbox_slot(idx)
                 break
             parent = parent.parent()
-
     def refresh_labels(self):
         self._no_data_overlay.setText(t('pal_editor.no_pal_data') if t else 'No Pal Data')
         if hasattr(self, '_lv_label'):
@@ -3406,7 +3371,7 @@ class PalEditorWidget(QWidget):
             slot._context_click = False
         if idx in self.party_pals:
             pal = self.party_pals[idx]
-            if not is_context and self._clicked_pal is pal and self.selected_pal_slot == ('party', idx):
+            if not is_context and self._clicked_pal is pal and (self.selected_pal_slot == ('party', idx)):
                 self._clicked_pal = None
                 self.selected_pal_slot = None
                 self._clear_party_highlight()
@@ -3433,7 +3398,7 @@ class PalEditorWidget(QWidget):
             slot._context_click = False
         pals_on_page = self._get_palbox_page_pals()
         if idx < len(pals_on_page) and pals_on_page[idx] is not None:
-            if not is_context and self._clicked_pal is pals_on_page[idx] and self.selected_pal_slot == ('palbox', idx):
+            if not is_context and self._clicked_pal is pals_on_page[idx] and (self.selected_pal_slot == ('palbox', idx)):
                 self._clicked_pal = None
                 self.selected_pal_slot = None
                 self._clear_palbox_highlight()
@@ -3643,7 +3608,6 @@ class PalEditorWidget(QWidget):
             self._load_pals()
     def _process_pending_changes(self):
         pass
-
     def _update_dashboard_stats(self):
         parent = self.parent()
         while parent:
@@ -3651,7 +3615,6 @@ class PalEditorWidget(QWidget):
                 parent.tools_tab.refresh()
                 break
             parent = parent.parent() if parent.parent() else None
-
     def refresh_labels(self):
         if hasattr(self, '_party_header'):
             self._party_header.setText(t('pal_editor.party') if t else 'PARTY')
@@ -3894,7 +3857,6 @@ class PalCreateDialog(QDialog):
         self.setStyleSheet(DIALOG_STYLE)
         layout = QVBoxLayout(self)
         layout.setSpacing(8)
-        # Search and filter controls
         filter_layout = QHBoxLayout()
         filter_layout.addWidget(QLabel('Search:'))
         self._search_edit = QLineEdit()
@@ -3902,7 +3864,6 @@ class PalCreateDialog(QDialog):
         filter_layout.addWidget(self._search_edit)
         filter_layout.addStretch()
         layout.addLayout(filter_layout)
-        
         self.pal_list = QListWidget()
         self.pal_list.setViewMode(QListWidget.IconMode)
         self.pal_list.setIconSize(QSize(48, 48))
@@ -3932,11 +3893,8 @@ class PalCreateDialog(QDialog):
                 self.selected_pal['name'] = item.text()
         self.pal_list.itemClicked.connect(on_select)
         self.pal_list.itemDoubleClicked.connect(lambda item: (on_select(item), self.accept()))
-        
-        # Initial population
         self._pal_descs_cache = pal_descs
         self._filter_pal_list()
-        
         self._search_edit.textChanged.connect(self._filter_pal_list)
         layout.addWidget(self.pal_list)
         m = layout.contentsMargins()
@@ -3960,7 +3918,7 @@ class PalCreateDialog(QDialog):
         self.pal_list.clear()
         for asset, name in sorted(PalFrame._NAMEMAP.items()):
             asset_lower = asset.lower()
-            if any(asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_')):
+            if any((asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_'))):
                 continue
             if 'oilrig' in asset_lower:
                 continue
@@ -3975,7 +3933,7 @@ class PalCreateDialog(QDialog):
                 zukan_index = PalFrame._PAL_ZUKAN.get(asset_lower, 0)
                 if zukan_index < 0:
                     continue
-            if search_text and search_text not in name.lower() and search_text not in asset.lower():
+            if search_text and search_text not in name.lower() and (search_text not in asset.lower()):
                 continue
             li = QListWidgetItem(name)
             li.setData(Qt.UserRole, asset)
@@ -4078,7 +4036,6 @@ class PalFrame(QFrame):
         PALMAP = dm.load_game_data_map('characters.json', 'pals')
         NPCMAP = dm.load_game_data_map('characters.json', 'npcs')
         cls._NAMEMAP = {**PALMAP, **NPCMAP}
-        # Load zukan_index for filtering non-paldeck pals
         cls._PAL_ZUKAN = {}
         try:
             base_dir = constants.get_base_path()
@@ -4087,7 +4044,7 @@ class PalFrame(QFrame):
             if isinstance(js, dict):
                 pals = js.get('pals', [])
                 for p in pals:
-                    if isinstance(p, dict) and 'asset' in p and 'stats' in p:
+                    if isinstance(p, dict) and 'asset' in p and ('stats' in p):
                         asset_lower = p['asset'].lower()
                         zukan_index = p['stats'].get('zukan_index', 0)
                         cls._PAL_ZUKAN[asset_lower] = zukan_index

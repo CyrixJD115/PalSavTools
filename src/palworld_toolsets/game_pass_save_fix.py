@@ -188,8 +188,7 @@ class GamePassSaveFixWidget(QWidget):
             try:
                 meta_json = sav_to_json(meta_path)
                 old_name = meta_json['properties']['SaveData']['value'].get('WorldName', {}).get('value', 'Unknown World')
-                QMessageBox.information(self, t('world.rename.title'),
-                    t('xgp.msg.world_rename_info', old=old_name))
+                QMessageBox.information(self, t('world.rename.title'), t('xgp.msg.world_rename_info', old=old_name))
                 new_name = ask_string_with_icon(t('world.rename.title'), t('world.rename.prompt', old=old_name), ICON_PATH)
                 if new_name:
                     meta_json['properties']['SaveData']['value']['WorldName']['value'] = new_name
@@ -201,9 +200,7 @@ class GamePassSaveFixWidget(QWidget):
         if not self.is_admin():
             self.message_signal.emit('critical', t('xgp.err.admin_required.title'), t('xgp.err.admin_required.msg'))
             return
-        reply = QMessageBox.warning(self, t('xgp.admin_warning.title'),
-            t('xgp.admin_warning.msg'),
-            QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.warning(self, t('xgp.admin_warning.title'), t('xgp.admin_warning.msg'), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
         run_with_loading(None, lambda: self.transfer_steam_to_gamepass(folder))

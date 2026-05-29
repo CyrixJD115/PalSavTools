@@ -4,11 +4,19 @@ from PySide6.QtWidgets import QHeaderView, QWidget, QTreeWidget, QTreeWidgetItem
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon, QFont
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_sav
 from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 from palworld_save_tools.gvas import GvasFile
 from palworld_aio.ui.styles import ThemeManager
+_TRANSFER_STEPS = {
+    'character': True,
+    'tech_data': True,
+    'inventory': True,
+    'guild': True,
+    'pals': True,
+    'dynamics': True,
+    'timestamps': True,
+}
 player_list_cache = []
 def _load_sav(path):
     with open(path, 'rb') as f:
@@ -16,7 +24,7 @@ def _load_sav(path):
     return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
 def _write_sav(gvas_file, path):
     data = gvas_file.write(PALWORLD_CUSTOM_PROPERTIES)
-    t = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name else 49
+    t = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name or 'Pal.PalLocalWorldSaveGame' in gvas_file.header.save_game_class_name else 49
     tmp = path + '.tmp'
     with open(tmp, 'wb') as f:
         f.write(compress_gvas_to_sav(data, t))
@@ -116,8 +124,8 @@ def as_uuid(val):
     return str(val).lower() if val else ''
 def are_equal_uuids(a, b):
     return as_uuid(a) == as_uuid(b)
-def fast_deepcopy(json_dict):
-    return pickle.loads(pickle.dumps(json_dict, -1))
+def fast_deepcopy(obj):
+    return pickle.loads(pickle.dumps(obj, -1))
 def _is_post_v1_save(wsd):
     try:
         for c in wsd.get('CharacterSaveParameterMap', {}).get('value', []):
@@ -453,25 +461,32 @@ def transfer_all_characters():
             targ_json_gvas = fast_deepcopy(host_json_gvas)
             targ_json = targ_json_gvas.properties
             t0 = time.perf_counter()
-            char_res = transfer_character_only(host_guid, targ_uid)
+            if _TRANSFER_STEPS['character']:
+                transfer_character_only(host_guid, targ_uid)
             t_char = time.perf_counter() - t0
             t0 = time.perf_counter()
-            transfer_tech_and_data()
+            if _TRANSFER_STEPS['tech_data']:
+                transfer_tech_and_data()
             t_tech = time.perf_counter() - t0
             t0 = time.perf_counter()
-            transfer_inventory_only()
+            if _TRANSFER_STEPS['inventory']:
+                transfer_inventory_only()
             t_inv = time.perf_counter() - t0
             t0 = time.perf_counter()
-            transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict)
+            if _TRANSFER_STEPS['guild']:
+                transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict)
             t_guild = time.perf_counter() - t0
             t0 = time.perf_counter()
-            transfer_pals_only()
+            if _TRANSFER_STEPS['pals']:
+                transfer_pals_only()
             t_pals = time.perf_counter() - t0
-            sync_player_timestamps(targ_uid, targ_lvl)
+            if _TRANSFER_STEPS['timestamps']:
+                sync_player_timestamps(targ_uid, targ_lvl)
             modified_target_players.add(selected_target_player)
             modified_targets_data[selected_target_player] = (fast_deepcopy(targ_json), targ_json_gvas, selected_source_player)
             print(f'[{i + 1}/{total_players}]{player_uuid} | Char: {t_char:.3f}s | Inv: {t_inv:.3f}s | Pals: {t_pals:.3f}s | Total: {time.perf_counter() - player_start:.3f}s')
-        gather_and_update_dynamic_containers()
+        if _TRANSFER_STEPS['dynamics']:
+            gather_and_update_dynamic_containers()
         print(f'Bulk transfer completed in {time.perf_counter() - total_start:.2f}s.')
     def on_bulk_finished():
         load_players(targ_lvl, is_source=False)
@@ -562,28 +577,35 @@ def main(skip_msgbox=False, skip_gui=False):
     os.makedirs(tgt_players_folder, exist_ok=True)
     if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
         _normalize_level_data(targ_lvl, target_is_post_v1)
-    if not transfer_character_only(host_guid, targ_uid):
-        print('[FAIL]Character + containers')
-        return
-    print('[SUCCESS]Character + containers')
-    if not transfer_tech_and_data():
-        print('[FAIL]Tech + data')
-        return
-    print('[SUCCESS]Tech + data')
-    if not transfer_inventory_only():
-        print('[FAIL]Inventory')
-        return
-    print('[SUCCESS]Inventory')
-    if not transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
-        print('[FAIL]Guild transfer')
-        return
-    print('[SUCCESS]Guild transfer')
-    if not transfer_pals_only():
-        print('[FAIL]Pals')
-        return
-    print('[SUCCESS]Pals')
-    gather_and_update_dynamic_containers()
-    sync_player_timestamps(targ_uid, targ_lvl)
+    if _TRANSFER_STEPS['character']:
+        if not transfer_character_only(host_guid, targ_uid):
+            print('[FAIL]Character + containers')
+            return
+        print('[SUCCESS]Character + containers')
+    if _TRANSFER_STEPS['tech_data']:
+        if not transfer_tech_and_data():
+            print('[FAIL]Tech + data')
+            return
+        print('[SUCCESS]Tech + data')
+    if _TRANSFER_STEPS['inventory']:
+        if not transfer_inventory_only():
+            print('[FAIL]Inventory')
+            return
+        print('[SUCCESS]Inventory')
+    if _TRANSFER_STEPS['guild']:
+        if not transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
+            print('[FAIL]Guild transfer')
+            return
+        print('[SUCCESS]Guild transfer')
+    if _TRANSFER_STEPS['pals']:
+        if not transfer_pals_only():
+            print('[FAIL]Pals')
+            return
+        print('[SUCCESS]Pals')
+    if _TRANSFER_STEPS['dynamics']:
+        gather_and_update_dynamic_containers()
+    if _TRANSFER_STEPS['timestamps']:
+        sync_player_timestamps(targ_uid, targ_lvl)
     modified_target_players.add(selected_target_player)
     modified_targets_data[selected_target_player] = (fast_deepcopy(targ_json), targ_json_gvas, selected_source_player)
     if not skip_gui:
@@ -746,89 +768,80 @@ def sync_player_timestamps(targ_uid, target_lvl):
         return False
 from palworld_save_tools.archive import UUID as PalUUID
 def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict):
-    if 'GroupSaveDataMap' not in targ_lvl or targ_lvl['GroupSaveDataMap'].get('value') is None:
-        targ_lvl['GroupSaveDataMap'] = {'value': []}
-    guilds = targ_lvl['GroupSaveDataMap']['value']
-    target_guild = None
-    for g in guilds:
-        raw = g.get('value', {}).get('RawData', {}).get('value', {})
-        if any((str(p.get('player_uid')) == str(targ_uid) for p in raw.get('players', []))):
-            target_guild = g
-            break
-    source_player = None
-    source_guild = None
-    for g in source_guild_dict.values():
-        raw = g.get('value', {}).get('RawData', {}).get('value', {})
-        for p in raw.get('players', []):
-            if str(p['player_uid']) == str(host_guid):
-                source_player = fast_deepcopy(p)
-                source_guild = g
-                break
-        if source_guild:
-            break
-    if source_player:
-        source_player['player_uid'] = str(targ_uid)
-    targ_uid_str = str(targ_uid)
-    for g in guilds:
-        raw = g.get('value', {}).get('RawData', {}).get('value', {})
-        raw['players'] = [p for p in raw.get('players', []) if str(p.get('player_uid')) != targ_uid_str]
-    if target_guild:
-        raw = target_guild['value']['RawData']['value']
-        raw['players'].append(source_player)
-        if raw.get('_format_version') == 'new':
-            raw['_format_version'] = 'old'
-            raw.pop('_v1_header', None)
-        if str(raw.get('admin_player_uid')) == str(host_guid):
-            raw['admin_player_uid'] = str(targ_uid)
+    try:
+        srcg = host_json.get('SaveData', {}).get('value', {}).get('GroupId', {}).get('value', '')
+        srcg_str = _normalize_lid(srcg)
+        src_guild_entry = source_guild_dict.get(srcg_str) if srcg_str else None
+        if src_guild_entry is None:
+            for gid, ge in source_guild_dict.items():
+                ge_players = ge['value']['RawData']['value']['players']
+                for pl in ge_players:
+                    if are_equal_uuids(pl.get('player_uid', ''), host_guid):
+                        src_guild_entry = ge
+                        break
+                if src_guild_entry:
+                    break
+        if src_guild_entry is None:
+            return True
+        src_guild_data = src_guild_entry['value']['RawData']['value']
+        tgt_group_map = targ_lvl.get('GroupSaveDataMap', {}).get('value', [])
+        tgt_guild_entry = None
+        for ge in tgt_group_map:
+            if ge['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild':
+                g_players = ge['value']['RawData']['value']['players']
+                for pl in g_players:
+                    if are_equal_uuids(pl.get('player_uid', ''), targ_uid):
+                        tgt_guild_entry = ge
+                        break
+                if tgt_guild_entry:
+                    break
+        if tgt_guild_entry is None:
+            new_guild_entry = fast_deepcopy(src_guild_entry)
+            new_guild_entry['value']['RawData']['value']['group_id'] = str(UUID(os.urandom(16)))
+            for pl in new_guild_entry['value']['RawData']['value']['players']:
+                pl['player_uid'] = str(targ_uid)
+            tgt_group_map.append(new_guild_entry)
+            if 'GroupId' in targ_json['SaveData']['value']:
+                targ_json['SaveData']['value']['GroupId']['value'] = new_guild_entry['value']['RawData']['value']['group_id']
+            return True
+        tgt_group_id = tgt_guild_entry['value']['RawData']['value']['group_id']
+        tgt_guild_data = tgt_guild_entry['value']['RawData']['value']
+        if 'name' in src_guild_data:
+            tgt_guild_data['name'] = src_guild_data['name']
+        if src_guild_data.get('guild_level', 0) > tgt_guild_data.get('guild_level', 0):
+            tgt_guild_data['guild_level'] = src_guild_data['guild_level']
+        tgt_guild_data['admin_player_uid'] = str(targ_uid)
+        if 'GroupId' in targ_json['SaveData']['value']:
+            targ_json['SaveData']['value']['GroupId']['value'] = tgt_group_id
         return True
-    zero_uuid = PalUUID(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
-    if source_guild:
-        cloned = fast_deepcopy(source_guild)
-        cloned['key'] = UUID(os.urandom(16))
-        raw = cloned['value']['RawData']['value']
-        raw['group_id'] = UUID(os.urandom(16))
-        raw['group_name'] = 'Transferred Guild'
-        raw['players'] = [source_player]
-        raw['admin_player_uid'] = str(targ_uid)
-        raw['base_ids'] = []
-        raw['map_object_instance_ids_base_camp_points'] = []
-        raw['individual_character_handle_ids'] = []
-        raw['org_type'] = 0
-        raw['leading_bytes'] = [0, 0, 0, 0]
-        raw['unknown_1'] = 0
-        raw['base_camp_level'] = 1
-        raw['guild_name'] = 'Transferred Guild'
-        raw['last_guild_name_modifier_player_uid'] = zero_uuid
-        raw['unknown_2'] = [0, 0, 0, 0]
-        raw['trailing_bytes'] = [0, 0, 0, 0]
-        guilds.append(cloned)
-        return True
-    new_g = {'key': UUID(os.urandom(16)), 'value': {'GroupType': {'value': {'value': 'EPalGroupType::Guild'}}, 'RawData': {'value': {'group_type': 'EPalGroupType::Guild', 'group_id': UUID(os.urandom(16)), 'group_name': 'Transferred Guild', 'individual_character_handle_ids': [], 'org_type': 0, 'leading_bytes': [0, 0, 0, 0], 'base_ids': [], 'unknown_1': 0, 'base_camp_level': 1, 'map_object_instance_ids_base_camp_points': [], 'guild_name': 'Transferred Guild', 'last_guild_name_modifier_player_uid': zero_uuid, 'unknown_2': [0, 0, 0, 0], 'admin_player_uid': str(targ_uid), 'players': [{'player_uid': str(targ_uid), 'player_info': {'last_online_real_time': target_world_tick, 'player_name': targ_json['SaveData']['value']['NickName']['value']}}], 'trailing_bytes': [0, 0, 0, 0]}}}}
-    guilds.append(new_g)
-    return True
+    except Exception as e:
+        print(f'[FAIL] transfer_guild: {e}')
+        return False
 def transfer_tech_and_data():
     try:
-        targ_save = targ_json['SaveData']['value']
-        host_save = host_json['SaveData']['value']
-        if 'TechnologyPoint' in host_save:
-            targ_save['TechnologyPoint'] = fast_deepcopy(host_save['TechnologyPoint'])
-        elif 'TechnologyPoint' in targ_save:
-            targ_save['TechnologyPoint']['value'] = 0
-        if 'bossTechnologyPoint' in host_save:
-            targ_save['bossTechnologyPoint'] = fast_deepcopy(host_save['bossTechnologyPoint'])
-        elif 'bossTechnologyPoint' in targ_save:
-            targ_save['bossTechnologyPoint']['value'] = 0
-        targ_save['UnlockedRecipeTechnologyNames'] = fast_deepcopy(host_save.get('UnlockedRecipeTechnologyNames', {}))
-        targ_save['PlayerCharacterMakeData'] = fast_deepcopy(host_save.get('PlayerCharacterMakeData', {}))
-        if 'RecordData' in host_save:
-            targ_save['RecordData'] = fast_deepcopy(host_save['RecordData'])
-        elif 'RecordData' in targ_save:
-            del targ_save['RecordData']
+        src_sd = host_json['SaveData']['value']
+        tgt_sd = targ_json['SaveData']['value']
+        tech_keys = ['SkillMap', 'PlayerTechData', 'player_tech_data']
+        for k in tech_keys:
+            if k in src_sd:
+                tgt_sd[k] = fast_deepcopy(src_sd[k])
+        appearance_keys = ['PlayerCustomName', 'PlayerCustomNameCharacterName', 'PlayerCustomNameCharacterName2', 'PlayerCustomNameCharacterName3']
+        for k in appearance_keys:
+            if k in src_sd:
+                tgt_sd[k] = fast_deepcopy(src_sd[k])
+        for k in ['PlayerCharacterAppearanceData', 'PlayerCustomName', 'PlayerCustomNameCharacterName', 'PlayerCustomNameCharacterName2', 'PlayerCustomNameCharacterName3', 'PlayerInputAllowDieData', 'PlayerTechnologyData', 'PlayerTechnologyData2', 'TechnologyPoint', 'TechnologyPoint2', 'BossTechnologyPoint', 'AdditionalTechnologyPoint']:
+            if k in src_sd:
+                tgt_sd[k] = fast_deepcopy(src_sd[k])
+        record_keys = ['PlayerCaptureRecordData', 'PlayerCaptureRecordData2', 'PlayerDefeatBossRecordData', 'PlayerDiscoverMapData', 'PlayerExploreMapData', 'PlayerExploreMapData2', 'PlayerMapPingData', 'PlayerDungeonData', 'PlayerDungeonData2', 'BuildObjectMapData', 'SkyPresetData', 'PlayerSpawnLocationData']
+        for k in record_keys:
+            if k in src_sd:
+                tgt_sd[k] = fast_deepcopy(src_sd[k])
         if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-            _normalize_player_save_data(targ_save, target_is_post_v1)
-    except:
+            _normalize_player_save_data(tgt_sd, target_is_post_v1)
+        return True
+    except Exception as e:
+        print(f'[FAIL] transfer_tech_and_data: {e}')
         return False
-    return True
 def transfer_character_only(host_guid, targ_uid):
     host_instance_id = host_json['SaveData']['value']['IndividualId']['value']['InstanceId']['value']
     exported_map = None
@@ -853,7 +866,10 @@ def transfer_character_only(host_guid, targ_uid):
             c['value'] = fast_deepcopy(exported_map['value'])
             if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
                 _normalize_save_parameter(c['value']['RawData']['value']['object']['SaveParameter']['value'], target_is_post_v1)
-            ind = c['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {}).get('IndividualId', {}).get('value')
+            sp = c['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {})
+            if 'OwnerPlayerUId' in sp:
+                sp['OwnerPlayerUId']['value'] = targ_uid
+            ind = sp.get('IndividualId', {}).get('value')
             if ind:
                 ind['InstanceId']['value'] = targ_instance_id
                 ind['PlayerUId']['value'] = targ_uid
@@ -863,7 +879,12 @@ def transfer_character_only(host_guid, targ_uid):
         new_entry = fast_deepcopy(exported_map)
         new_entry['key']['PlayerUId']['value'] = targ_uid
         new_entry['key']['InstanceId']['value'] = targ_instance_id
-        ind = new_entry['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {}).get('IndividualId', {}).get('value')
+        if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
+            _normalize_save_parameter(new_entry['value']['RawData']['value']['object']['SaveParameter']['value'], target_is_post_v1)
+        sp = new_entry['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {})
+        if 'OwnerPlayerUId' in sp:
+            sp['OwnerPlayerUId']['value'] = targ_uid
+        ind = sp.get('IndividualId', {}).get('value')
         if ind:
             ind['InstanceId']['value'] = targ_instance_id
             ind['PlayerUId']['value'] = targ_uid
@@ -910,20 +931,17 @@ def transfer_pals_only():
         targ_uid = UUID.from_str(selected_target_player or selected_source_player)
     except:
         return False
-    zero = UUID.from_str('00000000-0000-0000-0000-000000000000')
-    if not hasattr(transfer_pals_only, 'used_ids'):
-        transfer_pals_only.used_ids = set()
-        for cmap_name in ['level_json', 'targ_lvl']:
-            data = level_json if cmap_name == 'level_json' else targ_lvl
-            for ch in data.get('CharacterSaveParameterMap', {}).get('value', []):
-                transfer_pals_only.used_ids.add(str(ch['key']['InstanceId']['value']))
+    zero = PalUUID.from_str('00000000-0000-0000-0000-000000000000')
+    used_ids = set()
+    for ch in targ_lvl.get('CharacterSaveParameterMap', {}).get('value', []):
+        used_ids.add(str(ch['key']['InstanceId']['value']))
     def bump_guid_str(s):
         v = str(s).lower()
         t = str.maketrans('0123456789abcdef', '123456789abcdef0')
         bumped = v.translate(t)
-        while bumped in transfer_pals_only.used_ids:
+        while bumped in used_ids:
             bumped = bumped.translate(t)
-        transfer_pals_only.used_ids.add(bumped)
+        used_ids.add(bumped)
         return bumped
     targ_guild_id = zero
     for entry in targ_lvl.get('GroupSaveDataMap', {}).get('value', []):
@@ -1022,17 +1040,21 @@ def get_val_safe(p):
     except:
         return {}
 def finalize_save_task():
-    print(t('Now saving the data...'))
-    _write_sav(target_gvas_file, t_level_sav_path)
-    tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
-    for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items():
+    errors = []
+    try:
+        _write_sav(target_gvas_file, t_level_sav_path)
+    except Exception as e:
+        errors.append(f'Level.sav: {e}')
+    for target_uid, (json_data, gvas_obj, src_uid) in modified_targets_data.items():
         try:
-            t_host_sav_path = os.path.join(tgt_players_folder, target_player + '.sav')
-            os.makedirs(os.path.dirname(t_host_sav_path), exist_ok=True)
-            gvas_obj.properties = json_data
-            _write_sav(gvas_obj, t_host_sav_path)
+            tgt_dir = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
+            os.makedirs(tgt_dir, exist_ok=True)
+            _write_sav(gvas_obj, os.path.join(tgt_dir, f'{target_uid}.sav'))
         except Exception as e:
-            print(f'Error saving player {target_player}: {e}')
+            errors.append(f'Player {target_uid}: {e}')
+    if errors:
+        print(f'[ERROR] Save errors: {"; ".join(errors)}')
+        return False
     return True
 def select_file():
     return QFileDialog.getOpenFileName(None, 'Select Palworld Save File', '', 'Palworld Saves(*.sav *.json);;All Files(*)')[0]

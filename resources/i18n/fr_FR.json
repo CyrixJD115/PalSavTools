@@ -1431,9 +1431,13 @@
   "edit_pals.ctx.bulk_sync_passives": "Passifs de synchronisation en masse",
   "edit_pals.bulk_sync_title": "Passifs de synchronisation groupée – {name}",
   "edit_pals.bulk_sync_found": "Trouvé {count} {nom}",
-  "edit_pals.bulk_sync_success": "Mise à jour des passifs {count} {name} !",
+  "edit_pals.bulk_sync_success": "{count} {name} mis à jour !",
   "edit_pals.learnt_skills_title": "Compétences acquises",
   "edit_pals.learnt_skills_count": "{count} compétences acquises",
   "edit_pals.confirm_remove_skill": "Supprimer {name} des mouvements appris ?",
-  "edit_pals.learnt_skills_removed": "{name} supprimé des mouvements appris."
+  "edit_pals.learnt_skills_removed": "{name} supprimé des mouvements appris.",
+  "edit_pals.ctx.bulk_sync_pal": "Synchronisation groupée avec Pal",
+  "edit_pals.bulk_sync_pal_title": "Synchronisation groupée avec Pal",
+  "edit_pals.bulk_sync_apply": "Appliquer la synchronisation groupée",
+  "edit_pals.bulk_sync_no_changes": "Aucun changement détecté."
 }

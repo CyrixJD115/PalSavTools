@@ -1449,9 +1449,13 @@
   "edit_pals.ctx.bulk_sync_passives": "一括同期パッシブ",
   "edit_pals.bulk_sync_title": "一括同期パッシブ - {name}",
   "edit_pals.bulk_sync_found": "{count} {name} が見つかりました",
-  "edit_pals.bulk_sync_success": "{count} {name} パッシブを更新しました!",
+  "edit_pals.bulk_sync_success": "{count} {name} を更新しました!",
   "edit_pals.learnt_skills_title": "習得したスキル",
   "edit_pals.learnt_skills_count": "{count} 個のスキルを学習しました",
   "edit_pals.confirm_remove_skill": "学習した動きから {name} を削除しますか?",
-  "edit_pals.learnt_skills_removed": "{name} が学習した動きから削除されました。"
+  "edit_pals.learnt_skills_removed": "{name} が学習した動きから削除されました。",
+  "edit_pals.ctx.bulk_sync_pal": "バルク同期パル",
+  "edit_pals.bulk_sync_pal_title": "バルク同期パル",
+  "edit_pals.bulk_sync_apply": "一括同期を適用する",
+  "edit_pals.bulk_sync_no_changes": "変化は検出されませんでした。"
 }

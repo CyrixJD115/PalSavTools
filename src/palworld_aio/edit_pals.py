@@ -442,8 +442,8 @@ class PalIcon(QFrame):
                 self.rightClicked.emit(self.slot_index, 'learn_all')
             elif action == actions['learned']:
                 self.rightClicked.emit(self.slot_index, 'learnt_skills')
-            elif action == actions['bulk_sync_passives']:
-                self.rightClicked.emit(self.slot_index, 'bulk_sync_passives')
+            elif action == actions['bulk_sync_pal']:
+                self.rightClicked.emit(self.slot_index, 'bulk_sync_pal')
             elif action == actions['delete']:
                 self.rightClicked.emit(self.slot_index, 'delete')
         else:
@@ -663,8 +663,8 @@ class PartySlotWidget(QFrame):
                 self.rightClicked.emit(self.slot_index, 'learn_all')
             elif action == actions['learned']:
                 self.rightClicked.emit(self.slot_index, 'learnt_skills')
-            elif action == actions['bulk_sync_passives']:
-                self.rightClicked.emit(self.slot_index, 'bulk_sync_passives')
+            elif action == actions['bulk_sync_pal']:
+                self.rightClicked.emit(self.slot_index, 'bulk_sync_pal')
             elif action == actions['delete']:
                 self.rightClicked.emit(self.slot_index, 'delete')
         else:
@@ -970,8 +970,8 @@ class PalboxSlotWidget(QFrame):
                 self.rightClicked.emit(self.slot_index, 'learn_all')
             elif action == actions['learned']:
                 self.rightClicked.emit(self.slot_index, 'learnt_skills')
-            elif action == actions['bulk_sync_passives']:
-                self.rightClicked.emit(self.slot_index, 'bulk_sync_passives')
+            elif action == actions['bulk_sync_pal']:
+                self.rightClicked.emit(self.slot_index, 'bulk_sync_pal')
             elif action == actions['delete']:
                 self.rightClicked.emit(self.slot_index, 'delete')
         else:
@@ -1446,10 +1446,10 @@ def build_pal_context_menu(parent, raw):
     learn_action = menu.addAction(t('edit_pals.ctx.learn_all_moves'))
     learned_action = menu.addAction(t('edit_pals.ctx.learnt_skills'))
     menu.addSeparator()
-    bulk_sync_action = menu.addAction(t('edit_pals.ctx.bulk_sync_passives'))
+    bulk_sync_action = menu.addAction(t('edit_pals.ctx.bulk_sync_pal'))
     menu.addSeparator()
     delete_action = menu.addAction(t('edit_pals.delete'))
-    actions = {'boss': boss_action, 'lucky': lucky_action, 'awake': awake_action, 'dna': dna_action, 'fav': (fav_action, lock_actions), 'max': max_action, 'learn': learn_action, 'learned': learned_action, 'bulk_sync_passives': bulk_sync_action, 'delete': delete_action}
+    actions = {'boss': boss_action, 'lucky': lucky_action, 'awake': awake_action, 'dna': dna_action, 'fav': (fav_action, lock_actions), 'max': max_action, 'learn': learn_action, 'learned': learned_action, 'bulk_sync_pal': bulk_sync_action, 'delete': delete_action}
     return (menu, actions)
 def _get_raw_from_item(pal_item):
     if not pal_item:
@@ -2031,25 +2031,20 @@ class PalInfoWidget(QFrame):
         elif action == actions['learned']:
             if self._raw:
                 _show_learned_moves_dialog(self._raw, self)
-        elif action == actions['bulk_sync_passives']:
+        elif action == actions['bulk_sync_pal']:
             if self._raw:
-                self._on_bulk_sync_passives()
+                self._on_bulk_sync_pal()
         elif action == actions['delete']:
             pass
-    def _on_bulk_sync_passives(self):
+    def _on_bulk_sync_pal(self):
         if not self._raw:
             return
-        cid = extract_value(self._raw, 'CharacterID', '')
-        base_id = cid.lower()
-        if base_id.startswith('boss_'):
-            base_id = base_id[5:]
-        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         owner = self.parent()
         while owner and not hasattr(owner, 'party_pals'):
             owner = owner.parent()
-        if not owner or not hasattr(owner, '_bulk_sync_passives'):
+        if not owner or not hasattr(owner, '_bulk_sync_pal'):
             return
-        owner._bulk_sync_passives(self._raw)
+        owner._bulk_sync_pal(self._raw)
     def _on_fav_set(self, idx):
         if not self._raw:
             return
@@ -3450,162 +3445,113 @@ def _show_learned_moves_dialog(raw, parent):
     il.addLayout(btn_row)
     dlg.content_layout.addWidget(inner)
     dlg.exec()
-class BulkSyncPassiveDialog(FramelessDialog):
-    def __init__(self, pal_name, cid, affected_count, parent=None):
-        super().__init__('edit_pals.bulk_sync_title', parent)
-        self.set_title_text(t('edit_pals.bulk_sync_title', name=pal_name))
+_EDITABLE_KEYS = {
+    'CharacterID', 'NickName', 'Level', 'Exp', 'Gender',
+    'Talent_HP', 'Talent_Shot', 'Talent_Defense',
+    'Rank_HP', 'Rank_Attack', 'Rank_Defence', 'Rank_CraftSpeed', 'Rank',
+    'FriendshipPoint', 'IsRarePal', 'bIsAwakening', 'bImportedCharacter',
+    'FavoriteIndex', 'EquipWaza', 'MasteredWaza', 'PassiveSkillList',
+    'Hp', 'MaxHP'
+}
+class BulkSyncPalDialog(FramelessDialog):
+    def __init__(self, pal_item, pal_editor, parent=None):
+        super().__init__('edit_pals.bulk_sync_pal_title', parent)
+        self.pal_editor = pal_editor
+        raw = _get_raw_from_item(pal_item)
+        if not raw:
+            self.reject()
+            return
+        cid = extract_value(raw, 'CharacterID', '')
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
+        self.set_title_text(f'{t("edit_pals.bulk_sync_pal_title")} - {pal_name}')
         self.setModal(True)
-        self.setMinimumSize(400, 380)
-        self.setMaximumSize(500, 450)
-        self._selected = [None, None, None, None]
-        self._result = None
-        self._build_ui(pal_name, cid, affected_count)
-    def _build_ui(self, pal_name, cid, affected_count):
+        self.setMinimumSize(420, 700)
+        self.setMinimumWidth(420)
+        self.setMaximumWidth(500)
+        self.setMaximumHeight(780)
+        base_id = cid.lower().replace('boss_', '')
+        self._affected = []
+        for pi in list(pal_editor.party_pals.values()):
+            pr = _get_raw_from_item(pi)
+            if pr and extract_value(pr, 'CharacterID', '').lower().replace('boss_', '') == base_id:
+                self._affected.append(pi)
+        for pi in pal_editor.palbox_pal_dict.values():
+            pr = _get_raw_from_item(pi)
+            if pr and extract_value(pr, 'CharacterID', '').lower().replace('boss_', '') == base_id:
+                self._affected.append(pi)
+
         inner = QWidget()
-        inner.setStyleSheet('QWidget { background: transparent; }')
+        inner.setStyleSheet('QWidget#bulkSyncInner { background: transparent; }')
         il = QVBoxLayout(inner)
         il.setContentsMargins(8, 4, 8, 8)
         il.setSpacing(6)
-        info_lbl = QLabel(t('edit_pals.bulk_sync_found', count=affected_count, name=pal_name))
-        info_lbl.setStyleSheet('font-size: 11px; font-weight: 600; color: #9CA3AF; background: transparent; border: none; padding: 2px 4px;')
-        il.addWidget(info_lbl)
-        pg = QWidget()
-        pg.setStyleSheet('background: transparent; border: none;')
-        pg_layout = QGridLayout(pg)
-        pg_layout.setContentsMargins(0, 0, 0, 0)
-        pg_layout.setSpacing(4)
-        _, _, default_tc = PalFrame._RANK_COLORS[1]
-        default_bg = PalFrame._RANK_COLORS[1][0]
-        self._cards = []
-        self._card_labels = []
-        self._card_overlays = []
-        self._card_rank_icons = []
-        for i in range(4):
-            card = QFrame()
-            card.setObjectName('passiveCard')
-            card.setFixedHeight(28)
-            card.setStyleSheet(f'QFrame#passiveCard {{ background: {default_bg}; border: 1.5px solid rgba(255,255,255,0.06); border-radius: 4px; }} QFrame#passiveCard:hover {{ border: 1.5px solid rgba(125,211,252,0.25); }}')
-            cl = QHBoxLayout(card)
-            cl.setContentsMargins(6, 0, 6, 0)
-            cl.setSpacing(2)
-            cl.setAlignment(Qt.AlignVCenter)
-            plbl = QLabel('--')
-            plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {default_tc}; background: transparent; border: none;')
-            cl.addWidget(plbl, 1)
-            rank_icon = QLabel()
-            rank_icon.setFixedSize(14, 14)
-            rank_icon.setAlignment(Qt.AlignCenter)
-            rank_icon.setStyleSheet('background: transparent; border: none;')
-            rank_icon.hide()
-            cl.addWidget(rank_icon)
-            chev = QLabel('❯❯❯')
-            chev.setStyleSheet(f'font-size: 6px; color: rgba(255,255,255,0.15); background: transparent; border: none; letter-spacing: -1px;')
-            cl.addWidget(chev)
-            card.setCursor(Qt.PointingHandCursor)
-            self._cards.append(card)
-            self._card_labels.append(plbl)
-            self._card_rank_icons.append(rank_icon)
-            overlay = PassiveEffectOverlay(card)
-            self._card_overlays.append(overlay)
-            def _make_click_handler(idx):
-                def handler():
-                    self._on_card_click(idx)
-                return handler
-            card.mousePressEvent = lambda ev, idx=i: self._on_card_click(idx)
-            card.setContextMenuPolicy(Qt.CustomContextMenu)
-            card.customContextMenuRequested.connect(lambda pos, idx=i: self._on_card_context(pos, idx))
-            row, col = (i // 2, i % 2)
-            pg_layout.addWidget(card, row, col)
-        il.addWidget(pg)
-        self._passive_pg = pg
-        self._passive_pg_layout = pg_layout
+        header = QHBoxLayout()
+        header.setSpacing(8)
+        icon_path = _get_pal_icon_path(cid)
+        pix = _get_cached_pixmap(icon_path, 48)
+        icon_lbl = QLabel()
+        icon_lbl.setFixedSize(48, 48)
+        icon_lbl.setAlignment(Qt.AlignCenter)
+        if pix:
+            icon_lbl.setPixmap(pix)
+        icon_lbl.setStyleSheet('background: transparent; border: none;')
+        header.addWidget(icon_lbl)
+        info_col = QVBoxLayout()
+        info_col.setSpacing(2)
+        name_lbl = QLabel(pal_name)
+        name_lbl.setStyleSheet('font-size: 14px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
+        info_col.addWidget(name_lbl)
+        count_lbl = QLabel(t('edit_pals.bulk_sync_found', count=len(self._affected), name=pal_name))
+        count_lbl.setStyleSheet('font-size: 11px; font-weight: 600; color: #9CA3AF; background: transparent; border: none;')
+        info_col.addWidget(count_lbl)
+        info_col.addStretch()
+        header.addLayout(info_col, 1)
+        il.addLayout(header)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setStyleSheet('QScrollArea { background: transparent; border: 1px solid rgba(125,211,252,0.12); border-radius: 4px; } QScrollBar:vertical { width: 4px; background: rgba(255,255,255,0.02); border-radius: 2px; } QScrollBar::handle:vertical { background: rgba(125,211,252,0.15); border-radius: 2px; min-height: 20px; } QScrollBar::handle:vertical:hover { background: rgba(125,211,252,0.3); } QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }')
+        self._pal_info = PalInfoWidget()
+        self._pal_info.setMinimumWidth(400)
+        self._pal_info.set_clicked_pal(pal_item)
+        self._pal_info.setStyleSheet(self._pal_info.styleSheet() + '\nQWidget#palInfoInner { border: none; }')
+        pal_info_container = QWidget()
+        pic_layout = QVBoxLayout(pal_info_container)
+        pic_layout.setContentsMargins(0, 0, 0, 0)
+        pic_layout.addWidget(self._pal_info)
+        scroll.setWidget(pal_info_container)
+        il.addWidget(scroll, 1)
         btn_row = QHBoxLayout()
         btn_row.addStretch()
         cancel_btn = QPushButton('Cancel')
         cancel_btn.setStyleSheet('QPushButton { background: rgba(255,255,255,0.05); color: #9CA3AF; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 6px 16px; font-size: 12px; font-weight: 600; } QPushButton:hover { background: rgba(255,255,255,0.1); color: #FFFFFF; }')
         cancel_btn.clicked.connect(self.reject)
         btn_row.addWidget(cancel_btn)
-        apply_btn = QPushButton('Apply')
+        apply_btn = QPushButton(t('edit_pals.bulk_sync_apply'))
         apply_btn.setStyleSheet('QPushButton { background: rgba(16,185,129,0.15); color: #4ADE80; border: 1px solid rgba(16,185,129,0.3); border-radius: 4px; padding: 6px 20px; font-size: 12px; font-weight: 700; } QPushButton:hover { background: rgba(16,185,129,0.25); color: #FFFFFF; }')
-        apply_btn.clicked.connect(lambda: self._on_apply(pal_name, cid, affected_count))
+        apply_btn.clicked.connect(lambda: self._on_apply(pal_name))
         btn_row.addWidget(apply_btn)
         il.addLayout(btn_row)
         self.content_layout.addWidget(inner)
-    def _on_card_click(self, idx):
-        from palworld_aio.ui.skill_picker import SkillPicker
-        picker = SkillPicker(self)
-        result = picker.pick(PalFrame._PASSMAP, is_active=False, current_value=self._selected[idx] or '')
-        if result is None:
+    def _on_apply(self, pal_name):
+        current_raw = self._pal_info._raw if hasattr(self._pal_info, '_raw') and self._pal_info._raw else None
+        if not current_raw:
+            self.reject()
             return
-        if result == '':
-            self._selected[idx] = None
-            self._update_card_display(idx)
-            return
-        self._selected[idx] = result
-        self._update_card_display(idx)
-    def _on_card_context(self, pos, idx):
-        if not self._selected[idx]:
-            return
-        menu = QMenu(self)
-        menu.setObjectName('editPalsContextMenu')
-        clear_action = menu.addAction('Clear')
-        action = menu.exec(self._cards[idx].mapToGlobal(pos))
-        if action == clear_action:
-            self._selected[idx] = None
-            self._update_card_display(idx)
-    def _update_card_display(self, idx):
-        card = self._cards[idx]
-        lbl = self._card_labels[idx]
-        p_val = self._selected[idx]
-        if p_val:
-            display_name = PalFrame._PASSMAP.get(p_val.lower(), p_val)
-            bg, bd, tc = PalFrame._passive_rank_color(p_val.lower())
-            rank = PalFrame._PASSRANK.get(p_val.lower(), 1)
-            anim_mode = None
-            if rank >= 5:
-                anim_mode = 'world_tree'
-            elif rank >= 4:
-                anim_mode = 'legend'
-            lbl.setText(display_name)
-            lbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {tc}; background: transparent; border: none;')
-            card.setStyleSheet(f'QFrame#passiveCard {{ background: {bg}; border: 1.5px solid {bd}; border-radius: 4px; }}')
-            if idx < len(self._card_overlays):
-                self._card_overlays[idx].setGeometry(0, 0, card.width(), card.height())
-                self._card_overlays[idx].set_mode(anim_mode)
-            _ensure_passive_data()
-            p_info = _PASSIVE_DATA.get(p_val.lower(), {})
-            if p_info and isinstance(p_info, dict):
-                icon_path = p_info.get('icon', '')
-                if icon_path and idx < len(self._card_rank_icons):
-                    base_dir = constants.get_base_path()
-                    full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path.lstrip('/'))
-                    pix = _get_cached_pixmap(full_path, 14)
-                    if pix:
-                        self._card_rank_icons[idx].setPixmap(pix)
-                        self._card_rank_icons[idx].show()
-                    else:
-                        self._card_rank_icons[idx].hide()
-        else:
-            _, _, default_tc = PalFrame._RANK_COLORS[1]
-            default_bg = PalFrame._RANK_COLORS[1][0]
-            lbl.setText('--')
-            lbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {default_tc}; background: transparent; border: none;')
-            card.setStyleSheet(f'QFrame#passiveCard {{ background: {default_bg}; border: 1.5px solid rgba(255,255,255,0.06); border-radius: 4px; }}')
-            if idx < len(self._card_overlays):
-                self._card_overlays[idx].set_mode(None)
-            if idx < len(self._card_rank_icons):
-                self._card_rank_icons[idx].hide()
-    def _on_apply(self, pal_name, cid, affected_count):
-        selected = [s for s in self._selected if s is not None]
-        if len(selected) == 0:
-            show_warning(self, 'Bulk Sync', 'Select at least one passive skill.')
-            return
-        while len(selected) < 4:
-            selected.append('')
-        self._result = selected[:4]
+        for pal_item in self._affected:
+            target_raw = _get_raw_from_item(pal_item)
+            if not target_raw:
+                continue
+            for key in _EDITABLE_KEYS:
+                if key in current_raw:
+                    target_raw[key] = current_raw[key]
+                else:
+                    target_raw.pop(key, None)
+        self.pal_editor.pal_info._refresh()
+        self.pal_editor._update_party_slots()
+        self.pal_editor._update_palbox_page()
         self.accept()
-    def get_selected(self):
-        return self._result
+        show_information(self, 'Bulk Sync', t('edit_pals.bulk_sync_success', count=len(self._affected), name=pal_name))
 class PalEditorWidget(QWidget):
     _process_lock = threading.Lock()
     def __init__(self, parent=None):
@@ -3841,45 +3787,25 @@ class PalEditorWidget(QWidget):
         elif action == 'learnt_skills':
             if raw:
                 _show_learned_moves_dialog(raw, self)
-        elif action == 'bulk_sync_passives':
+        elif action == 'bulk_sync_pal':
             if raw:
-                self._bulk_sync_passives(raw)
-    def _bulk_sync_passives(self, raw):
-        cid = extract_value(raw, 'CharacterID', '')
-        base_id = cid.lower()
-        if base_id.startswith('boss_'):
-            base_id = base_id[5:]
-        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
-        affected = []
-        for idx, pal_item in self.party_pals.items():
-            p_raw = _get_raw_from_item(pal_item)
-            if p_raw:
-                p_cid = extract_value(p_raw, 'CharacterID', '').lower().replace('boss_', '')
-                if p_cid == base_id:
-                    affected.append(pal_item)
-        for abs_idx, pal_item in self.palbox_pal_dict.items():
-            p_raw = _get_raw_from_item(pal_item)
-            if p_raw:
-                p_cid = extract_value(p_raw, 'CharacterID', '').lower().replace('boss_', '')
-                if p_cid == base_id:
-                    affected.append(pal_item)
-        if not affected:
-            show_information(self, 'Bulk Sync', 'No matching pals found.')
+                self._bulk_sync_pal(raw)
+    def _bulk_sync_pal(self, raw):
+        pal_item = None
+        for pi in list(self.party_pals.values()):
+            if _get_raw_from_item(pi) is raw:
+                pal_item = pi
+                break
+        if not pal_item:
+            for pi in self.palbox_pal_dict.values():
+                if _get_raw_from_item(pi) is raw:
+                    pal_item = pi
+                    break
+        if not pal_item:
+            show_information(self, 'Bulk Sync', 'Pal not found.')
             return
-        dlg = BulkSyncPassiveDialog(pal_name, base_id, len(affected), self)
-        if dlg.exec() != QDialog.Accepted:
-            return
-        selected = dlg.get_selected()
-        if not selected:
-            return
-        for pal_item in affected:
-            p_raw = _get_raw_from_item(pal_item)
-            if p_raw:
-                p_raw['PassiveSkillList'] = {'array_type': 'NameProperty', 'id': None, 'value': {'values': [s for s in selected if s]}, 'type': 'ArrayProperty'}
-        self.pal_info._refresh()
-        self._update_party_slots()
-        self._update_palbox_page()
-        show_information(self, 'Bulk Sync', t('edit_pals.bulk_sync_success', count=len(affected), name=pal_name))
+        dlg = BulkSyncPalDialog(pal_item, self, self)
+        dlg.exec()
     def _delete_pal_at_slot(self, slot_index, is_party=None):
         if is_party is None:
             is_party = self.selected_pal_slot and self.selected_pal_slot[0] == 'party'

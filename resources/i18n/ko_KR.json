@@ -1439,5 +1439,9 @@
   "xgp.msg.some_converted_success": "총 {total}개의 저장 파일 중 {successful}개를 성공적으로 변환했습니다.",
   "xgp.msg.conversion_done.title": "변환 완료",
   "xgp.msg.conversion_failed.title": "변환 실패",
-  "xgp.msg.no_saves_converted": "저장 파일이 성공적으로 변환되지 않았습니다."
+  "xgp.msg.no_saves_converted": "저장 파일이 성공적으로 변환되지 않았습니다.",
+  "func_manager.fix_unassigned_pals.title": "할당되지 않은 친구 수정",
+  "func_manager.fix_unassigned_pals.msg": "소유자 UID가 없는 {count}명의 친구를 수정했습니다.",
+  "func_manager.fix_unassigned_pals.confirm.title": "할당되지 않은 친구 수정",
+  "func_manager.fix_unassigned_pals.confirm.msg": "할당되지 않은 친구를 수정하시겠습니까? (컨테이너 소유자에게 할당됩니다.)"
 }

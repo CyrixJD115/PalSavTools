@@ -5,6 +5,7 @@ from palworld_save_tools.archive import UUID
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import are_equal_uuids, as_uuid, fast_deepcopy
+from palworld_aio.container_ownership import ContainerOwnership
 def normalize_uid(uid):
     if isinstance(uid, dict):
         uid = uid.get('value', uid)
@@ -268,6 +269,10 @@ def delete_guild(guild_id):
     manager = BaseInventoryManager.get_instance()
     if manager:
         manager.invalidate_cache()
+    ownership = ContainerOwnership.build(
+        char_map,
+        wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    )
     for ch in char_map[:]:
         try:
             raw = ch['value']['RawData']['value']
@@ -278,7 +283,12 @@ def delete_guild(guild_id):
                     char_map.remove(ch)
                     continue
             owner = sp.get('OwnerPlayerUId', {}).get('value')
-            if owner and str(owner).replace('-', '').lower() in deleted_uids:
+            owner_norm = str(owner).replace('-', '').lower() if owner else ''
+            if owner_norm in deleted_uids:
+                char_map.remove(ch)
+                continue
+            effective = ownership.get_effective_owner(ch.get('key', {}).get('InstanceId', {}).get('value'), owner)
+            if effective and effective in deleted_uids:
                 char_map.remove(ch)
         except:
             pass
@@ -314,6 +324,10 @@ def delete_player(uid, delete_files=True):
     base_list = wsd.get('BaseCampSaveData', {}).get('value', [])
     uid_clean = str(uid).replace('-', '').lower()
     zero = UUID.from_str('00000000-0000-0000-0000-000000000000')
+    ownership = ContainerOwnership.build(
+        char_map,
+        wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    )
     for ch in char_map[:]:
         try:
             raw = ch['value']['RawData']['value']
@@ -324,7 +338,11 @@ def delete_player(uid, delete_files=True):
                     char_map.remove(ch)
                     continue
             owner = sp.get('OwnerPlayerUId', {}).get('value')
-            if owner and str(owner).replace('-', '').lower() == uid_clean:
+            owner_norm = str(owner).replace('-', '').lower() if owner else ''
+            if owner_norm == uid_clean:
+                char_map.remove(ch)
+                continue
+            if ownership.get_effective_owner(ch.get('key', {}).get('InstanceId', {}).get('value'), owner) == uid_clean:
                 char_map.remove(ch)
         except:
             pass

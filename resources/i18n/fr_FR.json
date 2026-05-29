@@ -1422,5 +1422,9 @@
   "xgp.msg.some_converted_success": "Conversion réussie de {successful} sur {total} fichiers de sauvegarde.",
   "xgp.msg.conversion_done.title": "Conversion effectuée",
   "xgp.msg.conversion_failed.title": "Échec de la conversion",
-  "xgp.msg.no_saves_converted": "Aucun fichier de sauvegarde n'a été converti avec succès."
+  "xgp.msg.no_saves_converted": "Aucun fichier de sauvegarde n'a été converti avec succès.",
+  "func_manager.fix_unassigned_pals.title": "Corriger les amis non attribués",
+  "func_manager.fix_unassigned_pals.msg": "Correction de {count} copain(s) sans UID de propriétaire.",
+  "func_manager.fix_unassigned_pals.confirm.title": "Corriger les amis non attribués",
+  "func_manager.fix_unassigned_pals.confirm.msg": "Réparer les amis non attribués ? (Ils seront attribués au propriétaire du conteneur.)"
 }

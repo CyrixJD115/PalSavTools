@@ -1728,5 +1728,9 @@
   "xgp.msg.some_converted_success": "Successfully converted {successful} out of {total} save files.",
   "xgp.msg.conversion_done.title": "Conversion Done",
   "xgp.msg.conversion_failed.title": "Conversion Failed",
-  "xgp.msg.no_saves_converted": "No save files were converted successfully."
+  "xgp.msg.no_saves_converted": "No save files were converted successfully.",
+  "func_manager.fix_unassigned_pals.title": "Fix Unassigned Pals",
+  "func_manager.fix_unassigned_pals.msg": "Fixed {count} pal(s) without owner UID.",
+  "func_manager.fix_unassigned_pals.confirm.title": "Fix Unassigned Pals",
+  "func_manager.fix_unassigned_pals.confirm.msg": "Fix unassigned pal(s)? (They will be assigned to the container owner.)"
 }

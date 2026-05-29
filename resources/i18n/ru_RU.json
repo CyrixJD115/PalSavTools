@@ -1438,5 +1438,9 @@
   "xgp.msg.some_converted_success": "Успешно преобразовано {successful} из {total} файлов сохранения.",
   "xgp.msg.conversion_done.title": "Преобразование завершено",
   "xgp.msg.conversion_failed.title": "Конвертация не удалась",
-  "xgp.msg.no_saves_converted": "Ни один файл сохранения не был успешно конвертирован."
+  "xgp.msg.no_saves_converted": "Ни один файл сохранения не был успешно конвертирован.",
+  "func_manager.fix_unassigned_pals.title": "Исправить неназначенных друзей",
+  "func_manager.fix_unassigned_pals.msg": "Исправлено количество друзей ({count}) без UID владельца.",
+  "func_manager.fix_unassigned_pals.confirm.title": "Исправить неназначенных друзей",
+  "func_manager.fix_unassigned_pals.confirm.msg": "Исправить неназначенных приятелей? (Они будут назначены владельцу контейнера.)"
 }

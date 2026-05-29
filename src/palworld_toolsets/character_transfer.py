@@ -8,6 +8,7 @@ from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_
 from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 from palworld_save_tools.gvas import GvasFile
 from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.container_ownership import ContainerOwnership
 _TRANSFER_STEPS = {'character': True, 'tech_data': True, 'inventory': True, 'guild': True, 'pals': True, 'dynamics': True, 'timestamps': True}
 player_list_cache = []
 def _load_sav(path):
@@ -73,6 +74,10 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
     try:
         player_uid_clean = str(player_uid).lower().replace('-', '')
         char_map = level_json.get('CharacterSaveParameterMap', {}).get('value', [])
+        ownership = ContainerOwnership.build(
+            char_map,
+            level_json.get('CharacterContainerSaveData', {}).get('value', [])
+        )
         pal_count = 0
         for entry in char_map:
             try:
@@ -82,14 +87,11 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
                 sp_val = sp['value']
                 if sp_val.get('IsPlayer', {}).get('value', False):
                     continue
+                inst_val = entry.get('key', {}).get('InstanceId', {}).get('value')
                 owner_uid_obj = sp_val.get('OwnerPlayerUId', {})
-                if not owner_uid_obj:
-                    continue
-                owner_uid = str(owner_uid_obj.get('value', '') if isinstance(owner_uid_obj, dict) else owner_uid_obj)
-                if owner_uid:
-                    owner_uid_clean = str(owner_uid).lower().replace('-', '')
-                    if owner_uid_clean == player_uid_clean:
-                        pal_count += 1
+                owner_uid = str(owner_uid_obj.get('value', '') if isinstance(owner_uid_obj, dict) else owner_uid_obj) if owner_uid_obj else ''
+                if ownership.get_effective_owner(inst_val, owner_uid) == player_uid_clean:
+                    pal_count += 1
             except Exception:
                 continue
         return pal_count
@@ -942,15 +944,20 @@ def transfer_pals_only():
         if any((str(p.get('player_uid')) == str(targ_uid) for p in plist)):
             targ_guild_id = raw.get('group_id', zero)
             break
+    ownership = ContainerOwnership.build(
+        level_json.get('CharacterSaveParameterMap', {}).get('value', []),
+        level_json.get('CharacterContainerSaveData', {}).get('value', [])
+    )
     src_params = []
     id_map = {}
     for ch in level_json['CharacterSaveParameterMap']['value']:
         try:
             v = ch['value']['RawData']['value']['object']['SaveParameter']['value']
             owner = v.get('OwnerPlayerUId')
-            if not owner or str(owner.get('value')) != str(host_guid):
+            inst_id = ch['key']['InstanceId']['value']
+            if not ownership.belongs_to_player(inst_id, owner, host_guid):
                 continue
-            old_inst = ch['key']['InstanceId']['value']
+            old_inst = inst_id
             bumped = bump_guid_str(old_inst)
             new_inst = UUID.from_str(bumped)
             id_map[str(old_inst)] = new_inst

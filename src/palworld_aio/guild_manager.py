@@ -4,6 +4,7 @@ from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import are_equal_uuids, as_uuid, fast_deepcopy
 from palworld_aio.data_manager import delete_base_camp
+from palworld_aio.container_ownership import ContainerOwnership
 def move_player_to_guild(player_uid, target_guild_id):
     if not constants.current_save_path or not constants.loaded_level_json:
         return False
@@ -60,12 +61,18 @@ def move_player_to_guild(player_uid, target_guild_id):
         target_raw['admin_player_uid'] = found['player_uid']
     new_gid_obj = target_raw['group_id']
     cmap = wsd['CharacterSaveParameterMap']['value']
+    ownership = ContainerOwnership.build(
+        cmap,
+        wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    )
     moved_instance_ids = []
     for character in cmap:
         try:
             raw = character['value']['RawData']['value']
             sp = raw['object']['SaveParameter']['value']
-            if nu(sp.get('OwnerPlayerUId', {}).get('value')) == player_uid_clean:
+            inst_val = character['key']['InstanceId']['value']
+            owner = sp.get('OwnerPlayerUId', {}).get('value')
+            if ownership.belongs_to_player(inst_val, owner, player_uid):
                 inst = character['key']['InstanceId']['value']
                 moved_instance_ids.append(inst)
                 raw['group_id'] = new_gid_obj
@@ -153,15 +160,25 @@ def rebuild_all_players_pals():
     def nu(x):
         return str(x).replace('-', '').lower()
     real_players = {p.get('player_uid') for g in gmap for p in g.get('value', {}).get('RawData', {}).get('value', {}).get('players', []) if p.get('player_uid')}
+    real_players_by_norm = {}
+    for p in real_players:
+        p_norm = str(p).replace('-', '').lower() if p else ''
+        if p_norm:
+            real_players_by_norm[p_norm] = p
+    ownership = ContainerOwnership.build(cmap, containers)
     id_map = {}
     new_params = []
     for ch in cmap:
         try:
             raw = ch['value']['RawData']['value']
             sp = raw['object']['SaveParameter']['value']
-            owner = sp['OwnerPlayerUId']['value']
-            if owner not in real_players:
-                continue
+            owner = sp.get('OwnerPlayerUId', {}).get('value')
+            owner_norm = str(owner).replace('-', '').lower() if owner else ''
+            if not owner_norm or owner_norm not in real_players_by_norm:
+                effective = ownership.get_effective_owner(ch.get('key', {}).get('InstanceId', {}).get('value'), owner)
+                if effective not in real_players_by_norm:
+                    continue
+                owner = real_players_by_norm[effective]
         except:
             continue
         cp = fast_deepcopy(ch)

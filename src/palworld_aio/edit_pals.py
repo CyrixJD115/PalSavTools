@@ -16,6 +16,7 @@ from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, ex
 from palworld_aio import data_manager as dm
 from palworld_aio.ui.styles import DIALOG_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, INPUT_DIALOG_STYLE, TOOLTIP_STYLE, wrap_tooltip_text
 from palworld_aio.ui.sidebar_widget import NerdBtn
+from palworld_aio.container_ownership import ContainerOwnership
 _PAL_STYLESHEET = '\nQWidget#palRoot {\n    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:1,\n        stop:0 rgba(8,10,16,0.98),stop:0.5 rgba(6,12,20,0.98),stop:1 rgba(4,8,16,0.98));\n}\nQWidget#partyPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#partyPanel QLabel {\n    color: #C8D8E8;\n}\nQWidget#palboxPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel {\n    background: rgba(12,16,24,0.85);\n    border: 1px solid rgba(125,211,252,0.15);\n    border-radius: 8px;\n}\nQWidget#palInfoPanel QLabel {\n    color: #C8D8E8;\n}\nQLabel#boxHeader {\n    font-size: 18px;\n    font-weight: 700;\n    color: #7DD3FC;\n    padding: 4px 8px;\n    background: rgba(125,211,252,0.06);\n    border-radius: 4px;\n    min-width: 80px;\n    qproperty-alignment: AlignCenter;\n}\nQPushButton#navBtn {\n    background: rgba(125,211,252,0.08);\n    color: #7DD3FC;\n    border: 1px solid rgba(125,211,252,0.2);\n    border-radius: 6px;\n    padding: 6px 14px;\n    font-size: 14px;\n    font-weight: 600;\n    min-width: 32px;\n}\nQPushButton#navBtn:hover {\n    background: rgba(125,211,252,0.18);\n    border-color: rgba(125,211,252,0.4);\n    color: #FFFFFF;\n}\nQPushButton#navBtn:pressed {\n    background: rgba(125,211,252,0.1);\n}\n'
 def _load_pal_exp_table():
     try:
@@ -3638,6 +3639,12 @@ class PalEditorWidget(QWidget):
         target_uid = self.player_uid.replace('-', '').lower() if self.player_uid else ''
         target_party = str(self.party_container).lower() if self.party_container else ''
         target_palbox = str(self.palbox_container).lower() if self.palbox_container else ''
+
+        ownership = ContainerOwnership.build(
+            cmap,
+            constants.loaded_level_json.get('properties', {}).get('worldSaveData', {}).get('value', {}).get('CharacterContainerSaveData', {}).get('value', [])
+        )
+
         for item in cmap:
             try:
                 raw = item.get('value', {}).get('RawData', {}).get('value', {})
@@ -3648,16 +3655,22 @@ class PalEditorWidget(QWidget):
                     continue
                 if 'IsPlayer' in raw:
                     continue
+                inst_id_val = item.get('key', {}).get('InstanceId', {}).get('value')
+                inst_id = str(inst_id_val) if inst_id_val else ''
+                slot_id = raw.get('SlotId', {}).get('value', {}).get('ContainerId', {}).get('value', {}).get('ID', {}).get('value')
+                slot_id_str = str(slot_id).lower() if slot_id else ''
                 owner_uid = raw.get('OwnerPlayerUId', {}).get('value')
                 owner_uid_str = str(owner_uid).replace('-', '').lower() if owner_uid else ''
                 if not owner_uid_str or owner_uid_str != target_uid:
-                    continue
-                slot_id = raw.get('SlotId', {}).get('value', {}).get('ContainerId', {}).get('value', {}).get('ID', {}).get('value')
-                slot_id_str = str(slot_id).lower() if slot_id else ''
+                    if ownership.get_effective_owner(inst_id, owner_uid) != target_uid:
+                        continue
                 slot_index = raw.get('SlotId', {}).get('value', {}).get('SlotIndex', {}).get('value', 0)
                 if slot_id_str == target_party:
                     self.party_pals[slot_index] = item
                 elif slot_id_str == target_palbox:
+                    csi = ownership.get_slot_index(inst_id)
+                    if csi is not None:
+                        slot_index = csi
                     self.palbox_pal_dict[slot_index] = item
             except (KeyError, TypeError, AttributeError):
                 continue

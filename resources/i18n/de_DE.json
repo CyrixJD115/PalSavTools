@@ -1464,5 +1464,9 @@
   "xgp.msg.some_converted_success": "{successful} von {total} gespeicherten Dateien erfolgreich konvertiert.",
   "xgp.msg.conversion_done.title": "Konvertierung abgeschlossen",
   "xgp.msg.conversion_failed.title": "Konvertierung fehlgeschlagen",
-  "xgp.msg.no_saves_converted": "Es wurden keine Sicherungsdateien erfolgreich konvertiert."
+  "xgp.msg.no_saves_converted": "Es wurden keine Sicherungsdateien erfolgreich konvertiert.",
+  "func_manager.fix_unassigned_pals.title": "Korrigieren Sie nicht zugewiesene Freunde",
+  "func_manager.fix_unassigned_pals.msg": "{count} Kumpel(s) ohne Besitzer-UID behoben.",
+  "func_manager.fix_unassigned_pals.confirm.title": "Korrigieren Sie nicht zugewiesene Freunde",
+  "func_manager.fix_unassigned_pals.confirm.msg": "Nicht zugewiesene(n) Kumpel reparieren? (Sie werden dem Containereigentümer zugewiesen.)"
 }

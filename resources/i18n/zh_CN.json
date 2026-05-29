@@ -1442,5 +1442,9 @@
   "xgp.msg.some_converted_success": "已成功转换 {success} 个（共 {total} 个）保存文件。",
   "xgp.msg.conversion_done.title": "转换完成",
   "xgp.msg.conversion_failed.title": "转换失败",
-  "xgp.msg.no_saves_converted": "没有成功转换保存文件。"
+  "xgp.msg.no_saves_converted": "没有成功转换保存文件。",
+  "func_manager.fix_unassigned_pals.title": "修复未分配的好友",
+  "func_manager.fix_unassigned_pals.msg": "修复了 {count} 个没有所有者 UID 的好友。",
+  "func_manager.fix_unassigned_pals.confirm.title": "修复未分配的好友",
+  "func_manager.fix_unassigned_pals.confirm.msg": "修复未分配的好友？ （它们将被分配给集装箱所有者。）"
 }

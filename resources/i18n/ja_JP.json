@@ -1440,5 +1440,9 @@
   "xgp.msg.some_converted_success": "{合計} 個の保存ファイルのうち {成功} 個を正常に変換しました。",
   "xgp.msg.conversion_done.title": "変換が完了しました",
   "xgp.msg.conversion_failed.title": "変換に失敗しました",
-  "xgp.msg.no_saves_converted": "保存ファイルは正常に変換されませんでした。"
+  "xgp.msg.no_saves_converted": "保存ファイルは正常に変換されませんでした。",
+  "func_manager.fix_unassigned_pals.title": "未割り当ての仲間を修正する",
+  "func_manager.fix_unassigned_pals.msg": "オーナー UID のない {count} 人の仲間を修正しました。",
+  "func_manager.fix_unassigned_pals.confirm.title": "未割り当ての仲間を修正する",
+  "func_manager.fix_unassigned_pals.confirm.msg": "未割り当ての仲間を修正しますか? (コンテナ所有者に割り当てられます。)"
 }

@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QHeaderView, QMainWindow, QWidget, QLineEdit, QTre
 from PySide6.QtGui import QIcon, QFont
 from PySide6.QtCore import Qt, QTimer
 from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.container_ownership import ContainerOwnership
 import struct
 import io
 player_list_cache = []
@@ -97,7 +98,12 @@ def get_player_level_from_cspm(level_json, player_uid):
 def get_player_pals_count_from_cspm(level_json, player_uid):
     try:
         player_uid_clean = str(player_uid).lower().replace('-', '')
-        char_map = level_json.get('properties', {}).get('worldSaveData', {}).get('value', {}).get('CharacterSaveParameterMap', {}).get('value', [])
+        level_data = level_json.get('properties', {}).get('worldSaveData', {}).get('value', {})
+        char_map = level_data.get('CharacterSaveParameterMap', {}).get('value', [])
+        ownership = ContainerOwnership.build(
+            char_map,
+            level_data.get('CharacterContainerSaveData', {}).get('value', [])
+        )
         pal_count = 0
         for entry in char_map:
             try:
@@ -107,14 +113,11 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
                 sp_val = sp['value']
                 if sp_val.get('IsPlayer', {}).get('value', False):
                     continue
+                inst_val = entry.get('key', {}).get('InstanceId', {}).get('value')
                 owner_uid_obj = sp_val.get('OwnerPlayerUId', {})
-                if not owner_uid_obj:
-                    continue
-                owner_uid = str(owner_uid_obj.get('value', '') if isinstance(owner_uid_obj, dict) else owner_uid_obj)
-                if owner_uid:
-                    owner_uid_clean = str(owner_uid).lower().replace('-', '')
-                    if owner_uid_clean == player_uid_clean:
-                        pal_count += 1
+                owner_uid = str(owner_uid_obj.get('value', '') if isinstance(owner_uid_obj, dict) else owner_uid_obj) if owner_uid_obj else ''
+                if ownership.get_effective_owner(inst_val, owner_uid) == player_uid_clean:
+                    pal_count += 1
             except Exception:
                 continue
         return pal_count

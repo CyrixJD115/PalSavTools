@@ -22,6 +22,7 @@ import palworld_coord
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvas_wrapper, wrapper_to_sav, sav_to_gvasfile, extract_value, sanitize_filename, format_duration_short, resolve_name
+from palworld_aio.container_ownership import ContainerOwnership
 from palworld_aio.guild_manager import rebuild_all_guilds
 from palworld_aio.func_manager import check_is_illegal_pal
 class SaveManager(QObject):
@@ -259,6 +260,10 @@ class SaveManager(QObject):
                         if result:
                             player_containers[result[0]] = result[1]
         cmap = data.get('CharacterSaveParameterMap', {}).get('value', [])
+        ownership = ContainerOwnership.build(
+            cmap,
+            data.get('CharacterContainerSaveData', {}).get('value', [])
+        )
         guild_bases = defaultdict(set)
         for item in cmap:
             rawf = item.get('value', {}).get('RawData', {}).get('value', {})
@@ -276,8 +281,13 @@ class SaveManager(QObject):
             inst = item.get('key', {}).get('InstanceId', {}).get('value')
             gid = str(rawf.get('group_id', 'Unknown')).lower()
             uid_val = raw.get('OwnerPlayerUId', {}).get('value')
-            u_str = str(uid_val).replace('-', '').lower() if uid_val else '00000000000000000000000000000000'
-            is_worker = u_str == '00000000000000000000000000000000'
+            u_str = str(uid_val).replace('-', '').lower() if uid_val else ''
+            is_worker = not u_str
+            if is_worker:
+                effective = ownership.get_effective_owner(inst, '')
+                if effective and (effective in valid_player_uids or effective in player_containers):
+                    u_str = effective
+                    is_worker = False
             base = str(raw.get('SlotId', {}).get('value', {}).get('ContainerId', {}).get('value', {}).get('ID', {}).get('value')).lower()
             if is_worker:
                 guild_bases[gid].add(base)
@@ -434,12 +444,19 @@ class SaveManager(QObject):
         def count_owned_pals(level_json):
             owned_count = {}
             try:
-                char_map = level_json['properties']['worldSaveData']['value']['CharacterSaveParameterMap']['value']
+                level_data = level_json['properties']['worldSaveData']['value']
+                char_map = level_data['CharacterSaveParameterMap']['value']
+                ownership = ContainerOwnership.build(
+                    char_map,
+                    level_data.get('CharacterContainerSaveData', {}).get('value', [])
+                )
                 for item in char_map:
                     try:
-                        owner_uid = item['value']['RawData']['value']['object']['SaveParameter']['value']['OwnerPlayerUId']['value']
-                        if owner_uid:
-                            owned_count[owner_uid] = owned_count.get(owner_uid, 0) + 1
+                        sp = item['value']['RawData']['value']['object']['SaveParameter']['value']
+                        owner_uid = sp.get('OwnerPlayerUId', {}).get('value')
+                        effective = ownership.get_effective_owner(item.get('key', {}).get('InstanceId', {}).get('value'), owner_uid)
+                        if effective:
+                            owned_count[effective] = owned_count.get(effective, 0) + 1
                     except:
                         continue
             except:
@@ -497,7 +514,7 @@ class SaveManager(QObject):
                     results = list(executor.map(lambda p: self._top_process_player(p, playerdir, log_folder), players))
                 for uid, pname, uniques, caught, encounters in results:
                     level = constants.player_levels.get(str(uid).replace('-', ''), '?')
-                    owned = owned_counts.get(uid, 0)
+                    owned = owned_counts.get(str(uid).replace('-', '').lower(), 0)
                     last = next((p.get('player_info', {}).get('last_online_real_time') for p in players if p.get('player_uid') == uid), None)
                     lastseen = 'Unknown' if last is None else format_duration_short((tick - int(last)) / 10000000.0)
                     logger.info(f'Player: {pname} | UID: {uid} | Level: {level} | Caught: {caught} | Owned: {owned} | Encounters: {encounters} | Uniques: {uniques} | Last Online: {lastseen}')
@@ -864,12 +881,19 @@ class SaveManager(QObject):
         def count_owned_pals(level_json):
             owned_count = {}
             try:
-                char_map = level_json['properties']['worldSaveData']['value']['CharacterSaveParameterMap']['value']
+                level_data = level_json['properties']['worldSaveData']['value']
+                char_map = level_data['CharacterSaveParameterMap']['value']
+                ownership = ContainerOwnership.build(
+                    char_map,
+                    level_data.get('CharacterContainerSaveData', {}).get('value', [])
+                )
                 for item in char_map:
                     try:
-                        owner_uid = item['value']['RawData']['value']['object']['SaveParameter']['value']['OwnerPlayerUId']['value']
-                        if owner_uid:
-                            owned_count[owner_uid] = owned_count.get(owner_uid, 0) + 1
+                        sp = item['value']['RawData']['value']['object']['SaveParameter']['value']
+                        owner_uid = sp.get('OwnerPlayerUId', {}).get('value')
+                        effective = ownership.get_effective_owner(item.get('key', {}).get('InstanceId', {}).get('value'), owner_uid)
+                        if effective:
+                            owned_count[effective] = owned_count.get(effective, 0) + 1
                     except:
                         continue
             except:
@@ -896,7 +920,7 @@ class SaveManager(QObject):
                     level = constants.player_levels.get(uid.replace('-', ''), None)
                     if level == '?' or level == 'Unknown':
                         level = None
-                    pals_count = owned_counts.get(uid, 0)
+                    pals_count = owned_counts.get(str(uid).replace('-', '').lower(), 0)
                     formatted_uid = uid
                     if len(uid) == 32:
                         formatted_uid = f'{uid[:8]}-{uid[8:12]}-{uid[12:16]}-{uid[16:20]}-{uid[20:]}'

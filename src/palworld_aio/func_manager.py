@@ -12,6 +12,7 @@ from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvasfile, gvasfile_to_sav, are_equal_uuids, as_uuid, is_valid_level, extract_value, format_duration, sanitize_filename
 from palworld_aio.data_manager import delete_base_camp, load_game_data_map
 from palworld_aio.dialogs import GameDaysInputDialog
+from palworld_aio.container_ownership import ContainerOwnership
 def scan_and_protect_death_bags(parent=None):
     if not constants.loaded_level_json:
         return {'dropped_pals': 0, 'death_penalty_chests': 0}
@@ -116,16 +117,24 @@ def build_player_levels():
 def delete_player_pals(wsd, to_delete_uids):
     char_save_map = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
     removed_pals = 0
-    uids_set = {uid.replace('-', '') for uid in to_delete_uids if uid}
+    uids_set = {uid.replace('-', '').lower() for uid in to_delete_uids if uid}
+    ownership = ContainerOwnership.build(
+        char_save_map,
+        wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    )
     new_map = []
     for entry in char_save_map:
         try:
             val = entry['value']['RawData']['value']['object']['SaveParameter']['value']
             struct_type = entry['value']['RawData']['value']['object']['SaveParameter']['struct_type']
             owner_uid = val.get('OwnerPlayerUId', {}).get('value')
-            if owner_uid:
-                owner_uid = str(owner_uid).replace('-', '')
-            if struct_type in ('PalIndividualCharacterSaveParameter', 'PlayerCharacterSaveParameter') and owner_uid in uids_set:
+            owner_uid_str = str(owner_uid).replace('-', '').lower() if owner_uid else ''
+            in_delete_set = owner_uid_str in uids_set
+            if not in_delete_set:
+                effective = ownership.get_effective_owner(entry.get('key', {}).get('InstanceId', {}).get('value'), owner_uid)
+                if effective in uids_set:
+                    in_delete_set = True
+            if struct_type in ('PalIndividualCharacterSaveParameter', 'PlayerCharacterSaveParameter') and in_delete_set:
                 removed_pals += 1
                 continue
         except:
@@ -1797,6 +1806,62 @@ def _process_dps_file_worker(args):
     except Exception as e:
         print(f'Error processing {filename}: {e}')
     return result
+def fix_unassigned_pals(parent=None):
+    if not constants.current_save_path or not constants.loaded_level_json:
+        return 0
+    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+    cmap = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+    ownership = ContainerOwnership.build(cmap, wsd.get('CharacterContainerSaveData', {}).get('value', []))
+    from palworld_aio.utils import resolve_name
+    PALMAP = load_game_data_map('characters.json', 'pals')
+    NPCMAP = load_game_data_map('characters.json', 'npcs')
+    NAMEMAP = {**PALMAP, **NPCMAP}
+    player_names = {}
+    group_map = wsd.get('GroupSaveDataMap', {}).get('value', [])
+    for g in group_map:
+        try:
+            for p in g['value']['RawData']['value'].get('players', []):
+                uid = p.get('player_uid')
+                name = p.get('player_info', {}).get('player_name', 'Unknown')
+                if uid:
+                    player_names[str(uid).replace('-', '').lower()] = name
+        except Exception:
+            pass
+    fixed_count = 0
+    for item in cmap:
+        try:
+            raw = item.get('value', {}).get('RawData', {}).get('value', {})
+            if not raw:
+                continue
+            raw = raw.get('object', {}).get('SaveParameter', {}).get('value', {})
+            if not raw:
+                continue
+            if 'IsPlayer' in raw:
+                continue
+            owner = raw.get('OwnerPlayerUId', {}).get('value')
+            if owner:
+                continue
+            inst_val = item.get('key', {}).get('InstanceId', {}).get('value')
+            effective = ownership.get_effective_owner(inst_val, '')
+            if not effective:
+                continue
+            uid_with_dashes = f'{effective[:8]}-{effective[8:12]}-{effective[12:16]}-{effective[16:20]}-{effective[20:]}'
+            raw['OwnerPlayerUId'] = {
+                'struct_type': 'Guid',
+                'struct_id': '00000000-0000-0000-0000-000000000000',
+                'id': None,
+                'value': UUID.from_str(uid_with_dashes),
+                'type': 'StructProperty'
+            }
+            fixed_count += 1
+            pname = player_names.get(effective, 'Unknown')
+            cid = raw.get('CharacterID', {}).get('value', '')
+            pal_name = resolve_name(cid, NAMEMAP) or cid
+            print(f'[FIX_UNASSIGNED] Fixed pal {pal_name}: assigned to {pname} ({effective})')
+        except Exception:
+            continue
+    return fixed_count
+
 def fix_illegal_pals_in_save(parent=None):
     if not constants.current_save_path or not constants.loaded_level_json:
         return 0
@@ -2311,6 +2376,7 @@ def extract_player_container_ids_from_level(player_uid):
         print(f'extract_player_container_ids_from_level: Orphaned containers (likely player inventory): {len(orphaned_container_ids)}')
         sample_orphans = list(orphaned_container_ids)[:10]
         print(f"extract_player_container_ids_from_level: Sample orphaned IDs: {[x[:8] + '...' for x in sample_orphans]}")
+        ownership = ContainerOwnership.build(char_map, wsd.get('CharacterContainerSaveData', {}).get('value', []))
         for entry in char_map:
             try:
                 raw_data = entry.get('value', {}).get('RawData', {}).get('value', {})
@@ -2330,7 +2396,9 @@ def extract_player_container_ids_from_level(player_uid):
                     owner_uid = owner_uid.get('value', '')
                 owner_uid_clean = str(owner_uid).replace('-', '').lower()
                 is_player_char = save_param_val.get('IsPlayer', {}).get('value', False)
-                if owner_uid_clean == player_uid_clean and (not is_player_char):
+                if is_player_char:
+                    continue
+                if ownership.get_effective_owner(entry.get('key', {}).get('InstanceId', {}).get('value'), owner_uid) == player_uid_clean:
                     player_pals.append(entry)
             except Exception as e:
                 continue

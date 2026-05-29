@@ -1334,6 +1334,35 @@ def _learn_all_skills_raw(raw):
             seen.add(skill)
             mastered_unique.append(skill)
     raw['MasteredWaza'] = {'array_type': 'EnumProperty', 'id': None, 'value': {'values': mastered_unique}, 'type': 'ArrayProperty'}
+    cid = extract_value(raw, 'CharacterID', '')
+    base_data = get_pal_base_data(cid)
+    elements = base_data.get('elements', []) if base_data else []
+    if elements:
+        ew_data = raw.get('EquipWaza', {})
+        e_list = ew_data.get('value', {}).get('values', []) if isinstance(ew_data, dict) else ew_data if isinstance(ew_data, list) else []
+        if not isinstance(e_list, list):
+            e_list = []
+        filled = [s for s in e_list if s]
+        if len(filled) < 3:
+            matching = []
+            elem_lower = [e.lower() for e in elements]
+            for asset_lower, skill_info in _SKILL_DATA.items():
+                name = skill_info.get('name', '')
+                if any((exc in name.lower() for exc in dm._SKILL_EXCLUSION_NAMES)):
+                    continue
+                original_asset = skill_info.get('asset', asset_lower)
+                if any((pat.lower() in original_asset.lower() for pat in dm._SKILL_EXCLUSION_PATTERNS)):
+                    continue
+                skill_elem = (skill_info.get('element') or '').lower()
+                if skill_elem in elem_lower:
+                    entry = f'EPalWazaID::{original_asset}'
+                    if entry not in filled:
+                        matching.append((entry, skill_info.get('power', 0)))
+            matching.sort(key=lambda x: x[1], reverse=True)
+            need = 3 - len(filled)
+            for entry, _ in matching[:need]:
+                filled.append(entry)
+            raw['EquipWaza'] = {'array_type': 'EnumProperty', 'id': None, 'value': {'values': filled[:3]}, 'type': 'ArrayProperty'}
 def _toggle_boss_raw(raw, enable):
     cid = extract_value(raw, 'CharacterID', '')
     if enable:

@@ -1549,6 +1549,12 @@ class PlayerInventoryTab(QWidget):
         modified_stats = self.stats_panel.get_stats()
         new_level = self.stats_panel.get_level()
         new_exp = self.stats_panel.get_exp()
+        from palworld_aio.player_manager import set_player_level
+        set_player_level(self.current_player_uid, new_level)
+        if hasattr(self.parent_window, '_refresh_players'):
+            self.parent_window._refresh_players()
+        if hasattr(self.parent_window, 'pal_editor_tab'):
+            self.parent_window.pal_editor_tab.refresh()
         stat_map_reverse = {'hp': '最大HP', 'stamina': '最大SP', 'attack': '攻撃力', 'defense': '防御力', 'work_speed': '作業速度', 'weight': '所持重量'}
         for entry in char_map:
             raw = entry.get('value', {}).get('RawData', {}).get('value', {})
@@ -1561,12 +1567,6 @@ class PlayerInventoryTab(QWidget):
             uid_obj = entry.get('key', {}).get('PlayerUId', {})
             player_uid = str(uid_obj.get('value', '')).replace('-', '') if isinstance(uid_obj, dict) else ''
             if player_uid == uid_clean:
-                if 'Level' in sp_val:
-                    level_val = sp_val['Level'].get('value', {})
-                    if isinstance(level_val, dict):
-                        level_val['value'] = new_level
-                    else:
-                        sp_val['Level']['value'] = {'value': new_level}
                 if 'Exp' in sp_val:
                     sp_val['Exp']['value'] = new_exp
                 if 'GotStatusPointList' in sp_val:

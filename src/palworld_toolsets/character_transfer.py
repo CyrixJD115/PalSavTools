@@ -5,10 +5,9 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon, QFont
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-try:
-    from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
-except ImportError:
-    from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
+from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_sav
+from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
+from palworld_save_tools.gvas import GvasFile
 from palworld_aio.ui.styles import ThemeManager
 player_list_cache = []
 def extract_value(data, key, default_value=''):
@@ -196,12 +195,22 @@ class CharacterTransferWindow(QWidget):
         targ_json = None
         target_gvas_file = None
         targ_json_gvas = None
-        player_list_cache = []
         modified_target_players = set()
         modified_targets_data = {}
         import gc
         gc.collect()
         event.accept()
+def _load_sav(path):
+    with open(path, 'rb') as f:
+        raw_gvas, _ = decompress_sav_to_gvas(f.read())
+    return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
+def _write_sav(gvas_file, path):
+    data = gvas_file.write(PALWORLD_CUSTOM_PROPERTIES)
+    t = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name else 49
+    tmp = path + '.tmp'
+    with open(tmp, 'wb') as f:
+        f.write(compress_gvas_to_sav(data, t))
+    os.replace(tmp, path)
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
@@ -1014,18 +1023,14 @@ def get_val_safe(p):
         return {}
 def finalize_save_task():
     print(t('Now saving the data...'))
-    tmp_world = t_level_sav_path + '.tmp'
-    gvasfile_to_sav(target_gvas_file, tmp_world)
-    os.replace(tmp_world, t_level_sav_path)
+    _write_sav(target_gvas_file, t_level_sav_path)
     tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
     for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items():
         try:
             t_host_sav_path = os.path.join(tgt_players_folder, target_player + '.sav')
             os.makedirs(os.path.dirname(t_host_sav_path), exist_ok=True)
             gvas_obj.properties = json_data
-            tmp_player = t_host_sav_path + '.tmp'
-            gvasfile_to_sav(gvas_obj, tmp_player)
-            os.replace(tmp_player, t_host_sav_path)
+            _write_sav(gvas_obj, t_host_sav_path)
         except Exception as e:
             print(f'Error saving player {target_player}: {e}')
     return True
@@ -1046,7 +1051,7 @@ def load_player_file(level_sav_path, player_uid, use_source_folder=False):
     if not os.path.exists(player_file_path):
         print(f'Error!', f'Invalid file {player_file_path}')
         return
-    return sav_to_gvasfile(player_file_path)
+    return _load_sav(player_file_path)
 def load_players(save_json, is_source):
     guild_dict = source_guild_dict if is_source else target_guild_dict
     if guild_dict:
@@ -1085,7 +1090,7 @@ def source_level_file():
     def task():
         global source_world_tick
         print('Now loading the data from Source Save...')
-        gvas_file = sav_to_gvasfile(tmp)
+        gvas_file = _load_sav(tmp)
         wsd = gvas_file.properties['worldSaveData']['value']
         try:
             source_world_tick = wsd['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
@@ -1127,7 +1132,7 @@ def target_level_file():
     def task():
         global target_world_tick
         print('Now loading the data from Target Save...')
-        gvas_file = sav_to_gvasfile(tmp)
+        gvas_file = _load_sav(tmp)
         wsd = gvas_file.properties['worldSaveData']['value']
         try:
             target_world_tick = wsd['GameTimeSaveData']['value']['RealDateTimeTicks']['value']

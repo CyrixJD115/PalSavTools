@@ -844,10 +844,21 @@ def transfer_character_only(host_guid, targ_uid):
             c['value'] = fast_deepcopy(exported_map['value'])
             if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
                 _normalize_save_parameter(c['value']['RawData']['value']['object']['SaveParameter']['value'], target_is_post_v1)
+            ind = c['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {}).get('IndividualId', {}).get('value')
+            if ind:
+                ind['InstanceId']['value'] = targ_instance_id
+                ind['PlayerUId']['value'] = targ_uid
             updated = True
             break
     if not updated:
-        char_list.append(fast_deepcopy(exported_map))
+        new_entry = fast_deepcopy(exported_map)
+        new_entry['key']['PlayerUId']['value'] = targ_uid
+        new_entry['key']['InstanceId']['value'] = targ_instance_id
+        ind = new_entry['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {}).get('IndividualId', {}).get('value')
+        if ind:
+            ind['InstanceId']['value'] = targ_instance_id
+            ind['PlayerUId']['value'] = targ_uid
+        char_list.append(new_entry)
     targ_lvl.setdefault('CharacterContainerSaveData', {'value': []})
     targ_lvl.setdefault('ItemContainerSaveData', {'value': []})
     host_save = host_json['SaveData']['value']
@@ -962,7 +973,7 @@ def transfer_pals_only():
                 if p:
                     pv = p['value']['RawData']['value']['object']['SaveParameter']['value']
                     pv['SlotId']['value']['ContainerId']['value']['ID']['value'] = new_cid
-                    pv['SlotId']['value']['SlotIndex']['value'] = idx
+                    pv['SlotId']['value']['SlotIndex']['value'] = slot.get('SlotIndex', {}).get('value', idx)
     new_box = fast_deepcopy(src_pal['value']['Slots']['value'].get('values', []))
     remap_slots(new_box, t_pal_id)
     tgt_pal['value']['Slots']['value']['values'] = new_box

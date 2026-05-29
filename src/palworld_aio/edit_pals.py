@@ -1,5 +1,6 @@
 import os
 import math
+import re
 from palworld_save_tools import json_tools
 import uuid
 import threading

@@ -1412,5 +1412,12 @@
   "inventory.add_all_effigies_qty.title": "Добавить все чучела",
   "inventory.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?",
   "player_item.add_all_effigies_qty.title": "Добавить все чучела",
-  "player_item.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?"
+  "player_item.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?",
+  "inventory.unlock_all_map": "Разблокировать всю карту + быстрое путешествие",
+  "inventory.select_player_first": "Пожалуйста, сначала выберите игрока.",
+  "inventory.unlock_all_map_confirm.title": "Разблокировать всю карту + быстрое путешествие",
+  "inventory.unlock_all_map_confirm.msg": "Разблокировать все точки быстрого перемещения, раскрыть все области карты и разблокировать карту мира для игроков: {count}?",
+  "inventory.unlock_all_map_success.title": "Разблокировать всю карту",
+  "inventory.unlock_all_map_success.msg": "Разблокировка всей карты завершена успешно!",
+  "inventory.unlock_all_map_bulk_success.msg": "Разблокированная карта + быстрое путешествие для игроков ({count})."
 }

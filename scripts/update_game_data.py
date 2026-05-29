@@ -1775,6 +1775,21 @@ def update_boss_mapping():
     print(f'  Total mapped boss entries: {total_keys}')
     print(f'  Unique item assets mapped: {len(mapping)}')
 
+def update_world_map_area_data():
+    print('\n=== Updating World Map Area Data ===')
+    area_data = load_export_json('WorldMapAreaData/DT_WorldMapAreaData.json')
+    if not area_data:
+        print('  No world map area data found. Skipping.')
+        return
+    rows = get_rows(area_data)
+    if not rows:
+        print('  No area rows found. Skipping.')
+        return
+    area_ids = sorted(rows.keys())
+    output = {'areas': area_ids}
+    save_resource_json('world_map_areas.json', output)
+    print(f'  Total world map areas: {len(area_ids)}')
+
 def update_ui_icons():
     print('\n=== Updating UI Icons ===')
     target_subdir = 'ui'
@@ -2248,6 +2263,7 @@ def main():
     _run_step('Updating lab research data...', update_lab_research_data)
     _run_step('Updating UI icons...', update_ui_icons)
     _run_step('Updating boss mapping...', update_boss_mapping)
+    _run_step('Updating world map areas...', update_world_map_area_data)
     _run_step('Updating map data...', update_map_data)
     _run_step('Writing merged game data files...', _write_merged_files)
     _run_step('Deleting individual source files...', _delete_individual_files)

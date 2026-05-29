@@ -1414,5 +1414,12 @@
   "inventory.add_all_effigies_qty.title": "すべての人形を追加",
   "inventory.add_all_effigies_qty.prompt": "各タイプの人形は何個ありますか?",
   "player_item.add_all_effigies_qty.title": "すべての人形を追加",
-  "player_item.add_all_effigies_qty.prompt": "各タイプの人形は何個ありますか?"
+  "player_item.add_all_effigies_qty.prompt": "各タイプの人形は何個ありますか?",
+  "inventory.unlock_all_map": "すべてのマップのロックを解除 + ファストトラベル",
+  "inventory.select_player_first": "最初にプレーヤーを選択してください。",
+  "inventory.unlock_all_map_confirm.title": "すべてのマップのロックを解除 + ファストトラベル",
+  "inventory.unlock_all_map_confirm.msg": "すべてのファスト トラベル ポイントのロックを解除し、すべてのマップ エリアを公開し、{count} 人のプレイヤーの世界マップのロックを解除しますか?",
+  "inventory.unlock_all_map_success.title": "すべてのマップのロックを解除",
+  "inventory.unlock_all_map_success.msg": "すべてのマップのロック解除が正常に完了しました。",
+  "inventory.unlock_all_map_bulk_success.msg": "{count} 人のプレイヤーのマップ + ファスト トラベルがロック解除されました。"
 }

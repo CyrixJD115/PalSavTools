@@ -1416,5 +1416,12 @@
   "inventory.add_all_effigies_qty.title": "添加所有肖像",
   "inventory.add_all_effigies_qty.prompt": "每种肖像类型有多少个？",
   "player_item.add_all_effigies_qty.title": "添加所有肖像",
-  "player_item.add_all_effigies_qty.prompt": "每种肖像类型有多少个？"
+  "player_item.add_all_effigies_qty.prompt": "每种肖像类型有多少个？",
+  "inventory.unlock_all_map": "解锁全地图+快速旅行",
+  "inventory.select_player_first": "请先选择一名玩家。",
+  "inventory.unlock_all_map_confirm.title": "解锁全地图+快速旅行",
+  "inventory.unlock_all_map_confirm.msg": "为 {count} 名玩家解锁所有快速旅行点、显示所有地图区域并解锁世界地图？",
+  "inventory.unlock_all_map_success.title": "解锁所有地图",
+  "inventory.unlock_all_map_success.msg": "解锁全部地图成功完成！",
+  "inventory.unlock_all_map_bulk_success.msg": "已解锁地图 + {count} 名玩家的快速旅行。"
 }

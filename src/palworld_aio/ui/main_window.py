@@ -378,6 +378,7 @@ class MainWindow(QMainWindow):
         from .inventory_tab import PlayerInventoryTab
         self.inventory_tab = PlayerInventoryTab(self)
         self.stacked_widget.addWidget(self.inventory_tab)
+        self.inventory_tab.unlock_all_map_requested.connect(self._on_bulk_unlock_all_map)
     def _setup_pal_editor_tab(self):
         from .pal_editor_tab import PalEditorTab
         self.pal_editor_tab = PalEditorTab(self)
@@ -790,6 +791,7 @@ class MainWindow(QMainWindow):
         dialog.item_action_selected.connect(self._on_player_item_action)
         dialog.add_all_key_items_requested.connect(self._on_bulk_add_all_key_items)
         dialog.add_all_effigies_requested.connect(self._on_bulk_add_all_effigies)
+        dialog.unlock_all_map_requested.connect(self._on_bulk_unlock_all_map)
         dialog.exec()
     def _open_bulk_player_pal_dialog(self):
         dialog = PlayerPalActionDialog(self)
@@ -924,6 +926,67 @@ class MainWindow(QMainWindow):
         self._show_info(t('player_item.add_complete') if t else 'Bulk Add Complete', f'Added {total_missing} key items to {players_affected} player(s).')
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
+    def _on_bulk_unlock_all_map(self, player_uids):
+        import json, os
+        from palworld_aio.inventory_manager import PlayerInventory
+        from palworld_aio.utils import gvasfile_to_sav, sav_to_gvasfile
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        ref_path = os.path.join(base_dir, 'resources', 'game_data', 'reference_unlock_data.json')
+        areas_path = os.path.join(base_dir, 'resources', 'game_data', 'world_map_areas.json')
+        ref_data = json.load(open(ref_path, 'r'))
+        area_ids = json.load(open(areas_path, 'r'))
+        ft_guids = sorted(set(ref_data.get('FastTravelPointUnlockFlag_guids', [])))
+        area_guids_set = set(ref_data.get('FindAreaFlagMap_keys', []))
+        all_area_keys = sorted(area_guids_set | set(area_ids if isinstance(area_ids, list) else area_ids.get('areas', [])))
+        players_affected = 0
+        for uid in player_uids:
+            try:
+                uid_clean = str(uid).replace('-', '').upper()
+                sav_path = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
+                existing = sav_to_gvasfile(sav_path) if os.path.exists(sav_path) else None
+                if existing:
+                    eprops = existing.properties if hasattr(existing, 'properties') else existing.get('properties', {})
+                    esave = eprops.get('SaveData', {}).get('value', {})
+                    erecord = esave.get('RecordData', {}).get('value', {})
+                    eft = erecord.get('FastTravelPointUnlockFlag', {})
+                    eentries = eft.get('value', [])
+                    eft_set = {e['key'] for e in eentries if e.get('value', False)}
+                    if eft_set == set(ft_guids):
+                        players_affected += 1
+                        continue
+                inv = PlayerInventory(uid)
+                if not inv.load():
+                    continue
+                gvas = inv.player_gvas
+                props = gvas.properties if hasattr(gvas, 'properties') else gvas.get('properties', {})
+                save_data = props.get('SaveData', {}).get('value', {})
+                if not save_data:
+                    continue
+                record_data = save_data.setdefault('RecordData', {'value': {}, 'type': 'StructProperty'})['value']
+                ft_flag = record_data.setdefault('FastTravelPointUnlockFlag', {
+                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
+                    'key_struct_type': None, 'value_struct_type': None,
+                    'id': None, 'value': [], 'type': 'MapProperty'
+                })
+                ft_flag['value'] = [{'key': g, 'value': True} for g in ft_guids]
+                area_flag = record_data.setdefault('FindAreaFlagMap', {
+                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
+                    'key_struct_type': None, 'value_struct_type': None,
+                    'id': None, 'value': [], 'type': 'MapProperty'
+                })
+                area_flag['value'] = [{'key': k, 'value': True} for k in all_area_keys]
+                wm_flag = record_data.setdefault('UnlockedWorldMapFlags', {
+                    'key_type': 'NameProperty', 'value_type': 'BoolProperty',
+                    'key_struct_type': None, 'value_struct_type': None,
+                    'id': None, 'value': [], 'type': 'MapProperty'
+                })
+                wm_flag['value'] = [{'key': 'MainMap', 'value': True}, {'key': 'Tree', 'value': True}]
+                gvasfile_to_sav(gvas, os.path.join(constants.current_save_path, 'Players', f'{str(uid).replace("-", "").upper()}.sav'))
+                players_affected += 1
+            except Exception as e:
+                print(f'Error unlocking map for player {uid}: {e}')
+                continue
+        self._show_info(t('player_item.add_complete') if t else 'Unlock Complete', t('inventory.unlock_all_map_bulk_success.msg', count=players_affected, default=f'Unlocked map + fast travel for {players_affected} player(s).'))
     def _on_player_pal_action(self, item_id, action, player_uids):
         from palworld_aio.edit_pals import delete_pal_from_all, remove_skill_from_all_pals
         from PySide6.QtWidgets import QMessageBox

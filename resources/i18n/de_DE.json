@@ -1398,7 +1398,7 @@
   "character_transfer.target_tooltip": "Wählen Sie die Datei Level.sav aus, die als Ziel verwendet werden soll.",
   "character_transfer.transfer_all_tooltip": "Übertragen Sie alle Zeichen von der Quelle zum Ziel (im Speicher).",
   "character_transfer.transfer_tooltip": "Übertragen Sie die ausgewählten Zeichen.",
-  "character_transfer.save_tooltip": "Schreiben Sie Änderungen in die Ziel-Level.sav- und Player-Dateien.",
+  "character_transfer.save_tooltip": "Schreiben Sie Änderungen in die Level.sav- und Player-Zieldateien.",
   "character_transfer.selection_none": "Quelle: N/A, Ziel: N/A",
   "character_transfer.selection_status": "Quelle: {source}, Ziel: {target}",
   "loading.cancel": "ESC zum Abbrechen",
@@ -1438,5 +1438,12 @@
   "inventory.add_all_effigies_qty.title": "Alle Bildnisse hinzufügen",
   "inventory.add_all_effigies_qty.prompt": "Wie viele von jedem Bildnistyp?",
   "player_item.add_all_effigies_qty.title": "Alle Bildnisse hinzufügen",
-  "player_item.add_all_effigies_qty.prompt": "Wie viele von jedem Bildnistyp?"
+  "player_item.add_all_effigies_qty.prompt": "Wie viele von jedem Bildnistyp?",
+  "inventory.unlock_all_map": "Schalte alle Karten + Schnellreisen frei",
+  "inventory.select_player_first": "Bitte wählen Sie zuerst einen Spieler aus.",
+  "inventory.unlock_all_map_confirm.title": "Schalte alle Karten + Schnellreisen frei",
+  "inventory.unlock_all_map_confirm.msg": "Alle Schnellreisepunkte freischalten, alle Kartenbereiche aufdecken und die Weltkarte für {count} Spieler freischalten?",
+  "inventory.unlock_all_map_success.title": "Schalte alle Karten frei",
+  "inventory.unlock_all_map_success.msg": "Alle Karten freischalten, erfolgreich abgeschlossen!",
+  "inventory.unlock_all_map_bulk_success.msg": "Freigeschaltete Karte + Schnellreise für {count} Spieler."
 }

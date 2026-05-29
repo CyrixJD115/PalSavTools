@@ -456,12 +456,14 @@ class InventoryGridWidget(QWidget):
         self.slots = {}
         self.current_items = []
         self.max_visible_slots = 42
+        self.header_layout = None
         self._setup_ui()
     def _setup_ui(self):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(4)
         header = QHBoxLayout()
+        self.header_layout = header
         self.tab_label = QLabel(t(f'inventory.{self.container_type}', default=self.container_type.title()))
         self.tab_label.setFont(QFont(constants.FONT_FAMILY, constants.FONT_SIZE, QFont.Bold))
         self.tab_label.setObjectName('sectionHeader')
@@ -472,8 +474,6 @@ class InventoryGridWidget(QWidget):
         self.sort_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
         self.sort_btn.setCursor(Qt.PointingHandCursor)
         self.sort_btn.clicked.connect(self._sort_items)
-        header.addWidget(self.sort_btn)
-        header.addSpacing(4)
         self.effigies_btn = QPushButton(t('inventory.add_all_effigies', default='Add All Effigies'))
         self.effigies_btn.setFixedSize(120, 24)
         self.effigies_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.5); color: #FFFFFF; }')
@@ -488,6 +488,13 @@ class InventoryGridWidget(QWidget):
         self.key_items_btn.clicked.connect(self.add_all_key_items_requested.emit)
         self.key_items_btn.setVisible(self.container_type == 'key_items')
         header.addWidget(self.key_items_btn)
+        header.addSpacing(4)
+        self.sort_btn = QPushButton(t('inventory.sort', default='Sort'))
+        self.sort_btn.setFixedSize(60, 24)
+        self.sort_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.sort_btn.setCursor(Qt.PointingHandCursor)
+        self.sort_btn.clicked.connect(self._sort_items)
+        header.addWidget(self.sort_btn)
         main_layout.addLayout(header)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -744,6 +751,7 @@ class ItemPickerDialog(QDialog):
             self.item_selected.emit(self.selected_item, self.qty_spin.value())
             self.accept()
 class PlayerInventoryTab(QWidget):
+    unlock_all_map_requested = Signal(list)
     saved = Signal()
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -798,6 +806,12 @@ class PlayerInventoryTab(QWidget):
         self.main_grid.item_selected.connect(self._on_item_selected)
         self.main_grid.item_context_menu.connect(self._show_item_context_menu)
         self.main_grid.empty_slot_context_menu.connect(self._show_empty_slot_context_menu)
+        self.unlock_all_map_btn = QPushButton(t('inventory.unlock_all_map', default='Unlock All Map + Fast Travel'))
+        self.unlock_all_map_btn.setStyleSheet('QPushButton { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(74,222,128,0.25); border-color: rgba(74,222,128,0.5); color: #FFFFFF; }')
+        self.unlock_all_map_btn.setCursor(Qt.PointingHandCursor)
+        self.unlock_all_map_btn.setFixedHeight(24)
+        self.unlock_all_map_btn.clicked.connect(self._on_unlock_all_map_clicked)
+        self.main_grid.header_layout.insertWidget(self.main_grid.header_layout.indexOf(self.main_grid.sort_btn), self.unlock_all_map_btn)
         self.inv_tabs.addTab(self.main_grid, t('inventory.main', default='Inventory'))
         self.key_grid = InventoryGridWidget('key_items')
         self.key_grid.item_selected.connect(self._on_item_selected)
@@ -1190,6 +1204,16 @@ class PlayerInventoryTab(QWidget):
                 if key_container:
                     self._update_raw_save_data('key', key_container)
                 self._refresh_display()
+    def _on_unlock_all_map_clicked(self):
+        if not self.current_player_uid:
+            QMessageBox.warning(self, t('inventory.select_player', default='Select Player...'), t('inventory.select_player_first', default='Please select a player first.'))
+            return
+        reply = self._themed_message_box(QMessageBox.Question,
+            t('inventory.unlock_all_map_confirm.title', default='Unlock All Map + Fast Travel'),
+            t('inventory.unlock_all_map_confirm.msg', count=1, default='Unlock all fast travel points, reveal all map areas, and unlock world map for 1 player?'),
+            QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.unlock_all_map_requested.emit([self.current_player_uid])
     def _update_stats(self):
         if not self.current_player_uid or not constants.loaded_level_json:
             return
@@ -1624,6 +1648,8 @@ class PlayerInventoryTab(QWidget):
         self.stats_panel.refresh_labels()
         self.main_grid.refresh_labels()
         self.key_grid.refresh_labels()
+        if hasattr(self, 'unlock_all_map_btn'):
+            self.unlock_all_map_btn.setText(t('inventory.unlock_all_map', default='Unlock All Map + Fast Travel'))
         self.inv_tabs.setTabText(0, t('inventory.main', default='Inventory'))
         self.inv_tabs.setTabText(1, t('inventory.key_items', default='Key Items'))
         self.inv_tabs.setTabText(2, t('inventory.stats', default='Stats'))
@@ -1660,3 +1686,5 @@ class QuantityDialog(QDialog):
         layout.addLayout(btn_layout)
     def get_quantity(self) -> int:
         return self.spin_box.value()
+
+

@@ -36,6 +36,7 @@ class PlayerItemActionDialog(QDialog):
     item_action_selected = Signal(str, str, list)
     add_all_key_items_requested = Signal(list)
     add_all_effigies_requested = Signal(list, int)
+    unlock_all_map_requested = Signal(list)
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(t('player_item.title') if t else 'Bulk Player Item Management')
@@ -98,6 +99,11 @@ class PlayerItemActionDialog(QDialog):
         self.add_all_key_items_btn.setCursor(Qt.PointingHandCursor)
         self.add_all_key_items_btn.clicked.connect(lambda: self._on_add_all_clicked(False))
         add_all_layout.addWidget(self.add_all_key_items_btn)
+        self.unlock_all_map_btn = QPushButton(t('inventory.unlock_all_map', default='Unlock All Map + Fast Travel'))
+        self.unlock_all_map_btn.setStyleSheet('QPushButton { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(74,222,128,0.25); border-color: rgba(74,222,128,0.5); color: #FFFFFF; }')
+        self.unlock_all_map_btn.setCursor(Qt.PointingHandCursor)
+        self.unlock_all_map_btn.clicked.connect(lambda: self._on_unlock_all_map_clicked())
+        add_all_layout.addWidget(self.unlock_all_map_btn)
         add_all_layout.addStretch()
         players_layout.addWidget(add_all_frame)
         self.player_list = QListWidget()
@@ -410,3 +416,11 @@ class PlayerItemActionDialog(QDialog):
                 self.add_all_effigies_requested.emit(uids, qty)
             else:
                 self.add_all_key_items_requested.emit(uids)
+    def _on_unlock_all_map_clicked(self):
+        uids = self._get_checked_player_uids()
+        if not uids:
+            QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
+            return
+        reply = QMessageBox.question(self, t('inventory.unlock_all_map_confirm.title', default='Unlock All Map + Fast Travel'), t('inventory.unlock_all_map_confirm.msg', count=len(uids), default=f'Unlock all fast travel points, reveal all map areas, and unlock world map for {len(uids)} player(s)?'), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.unlock_all_map_requested.emit(uids)

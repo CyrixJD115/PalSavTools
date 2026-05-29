@@ -1396,5 +1396,12 @@
   "inventory.add_all_effigies_qty.title": "Ajouter toutes les effigies",
   "inventory.add_all_effigies_qty.prompt": "Combien de chaque type d’effigie ?",
   "player_item.add_all_effigies_qty.title": "Ajouter toutes les effigies",
-  "player_item.add_all_effigies_qty.prompt": "Combien de chaque type d’effigie ?"
+  "player_item.add_all_effigies_qty.prompt": "Combien de chaque type d’effigie ?",
+  "inventory.unlock_all_map": "Débloquez toutes les cartes + Voyage rapide",
+  "inventory.select_player_first": "Veuillez d'abord sélectionner un joueur.",
+  "inventory.unlock_all_map_confirm.title": "Débloquez toutes les cartes + Voyage rapide",
+  "inventory.unlock_all_map_confirm.msg": "Débloquer tous les points de déplacement rapide, révéler toutes les zones de la carte et débloquer la carte du monde pour {count} joueur(s) ?",
+  "inventory.unlock_all_map_success.title": "Débloquer toute la carte",
+  "inventory.unlock_all_map_success.msg": "Débloquez toutes les cartes terminées avec succès !",
+  "inventory.unlock_all_map_bulk_success.msg": "Carte déverrouillée + voyage rapide pour {count} joueur(s)."
 }

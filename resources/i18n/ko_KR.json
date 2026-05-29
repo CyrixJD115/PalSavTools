@@ -1413,5 +1413,12 @@
   "inventory.add_all_effigies_qty.title": "모든 조각상 추가",
   "inventory.add_all_effigies_qty.prompt": "각 인형 유형은 몇 개입니까?",
   "player_item.add_all_effigies_qty.title": "모든 조각상 추가",
-  "player_item.add_all_effigies_qty.prompt": "각 인형 유형은 몇 개입니까?"
+  "player_item.add_all_effigies_qty.prompt": "각 인형 유형은 몇 개입니까?",
+  "inventory.unlock_all_map": "모든 지도 잠금 해제 + 빠른 이동",
+  "inventory.select_player_first": "먼저 플레이어를 선택해주세요.",
+  "inventory.unlock_all_map_confirm.title": "모든 지도 잠금 해제 + 빠른 이동",
+  "inventory.unlock_all_map_confirm.msg": "{count}명의 플레이어를 위해 모든 빠른 이동 지점을 잠금 해제하고, 모든 지도 영역을 공개하고, 세계 지도를 잠금 해제하시겠습니까?",
+  "inventory.unlock_all_map_success.title": "모든 지도 잠금 해제",
+  "inventory.unlock_all_map_success.msg": "모든 맵 잠금 해제가 성공적으로 완료되었습니다!",
+  "inventory.unlock_all_map_bulk_success.msg": "{count}명의 플레이어를 위한 잠금 해제된 지도 + 빠른 이동."
 }

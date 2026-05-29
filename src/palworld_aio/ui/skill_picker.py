@@ -1,7 +1,7 @@
 import os
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QListWidget, QListWidgetItem, QStyledItemDelegate, QApplication
 from PySide6.QtCore import Qt, QTimer, QRectF, QSize, QPoint, QThread
-from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QLinearGradient, QIcon, QCursor
+from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QLinearGradient, QIcon, QCursor, QFontMetrics
 from PySide6.QtWidgets import QStyle
 from i18n import t
 from palworld_aio import constants as palworld_constants
@@ -66,7 +66,17 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
                 icon_right = 24
         painter.setPen(QPen(text_color))
         text_rect = QRectF(rect.x() + 8, rect.y(), rect.width() - (8 + icon_right), rect.height())
-        painter.drawText(text_rect, Qt.AlignVCenter | Qt.AlignLeft, index.data(Qt.DisplayRole))
+        display_text = index.data(Qt.DisplayRole)
+        tf = painter.font()
+        if QFontMetrics(tf).horizontalAdvance(display_text) > text_rect.width():
+            for sz in range(tf.pointSize() - 1, 5, -1):
+                tf.setPointSize(sz)
+                if QFontMetrics(tf).horizontalAdvance(display_text) <= text_rect.width():
+                    painter.setFont(tf)
+                    break
+            else:
+                display_text = QFontMetrics(tf).elidedText(display_text, Qt.ElideRight, int(text_rect.width()))
+        painter.drawText(text_rect, Qt.AlignVCenter | Qt.AlignLeft, display_text)
         painter.restore()
     def _paint_legend_sweep(self, painter, rect):
         w = rect.width()

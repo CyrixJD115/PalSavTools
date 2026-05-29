@@ -2813,6 +2813,7 @@ class PalInfoWidget(QFrame):
                 slot_layout.setAlignment(Qt.AlignVCenter)
                 name_lbl = QLabel(move_name)
                 name_lbl.setStyleSheet('font-size: 9px; font-weight: 600; color: #E2E8F0; background: transparent; border: none;')
+                slot._name_lbl = name_lbl
                 slot_layout.addWidget(name_lbl, 1)
                 elem_badge = QLabel()
                 elem_badge.setFixedSize(18, 18)
@@ -2918,9 +2919,46 @@ class PalInfoWidget(QFrame):
             self.partner_name_lbl.setText(pskill_name or pal_name)
             self.partner_lvl_lbl.setText(f'Lv {max(1, condenser_rank)}')
             self.partner_desc_lbl.setText(pal_desc or f'Partner skill for {pal_name}. Effects scale with level.')
+            QTimer.singleShot(0, self._fit_labels)
         except Exception:
             import traceback
             traceback.print_exc()
+    def _fit_labels(self):
+        for label in self.passive_slots:
+            self._shrink_to_fit(label)
+        for i in range(self.active_skills_list.count()):
+            item = self.active_skills_list.itemAt(i)
+            if not item or not item.widget():
+                continue
+            slot = item.widget()
+            name_lbl = getattr(slot, '_name_lbl', None)
+            if name_lbl:
+                self._shrink_to_fit(name_lbl)
+        self._shrink_to_fit(self.partner_name_lbl)
+    def _shrink_to_fit(self, label):
+        text = label.text()
+        if not text or text in ('--', ''):
+            return
+        w = label.width()
+        if w <= 0:
+            return
+        ss = label.styleSheet()
+        m = re.search(r'font-size:\s*(\d+)px', ss)
+        if not m:
+            return
+        cur = int(m.group(1))
+        if cur <= 6:
+            return
+        f = label.font()
+        f.setPointSize(cur)
+        if QFontMetrics(f).horizontalAdvance(text) <= w:
+            return
+        for sz in range(cur - 1, 5, -1):
+            f.setPointSize(sz)
+            if QFontMetrics(f).horizontalAdvance(text) <= w:
+                label.setStyleSheet(re.sub(r'font-size:\s*\d+px', f'font-size:{sz}px', ss))
+                return
+        label.setStyleSheet(re.sub(r'font-size:\s*\d+px', 'font-size:6px', ss))
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Type.MouseButtonPress and event.button() == Qt.LeftButton:
             if obj is self.name_lbl:

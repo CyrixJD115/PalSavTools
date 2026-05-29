@@ -10,6 +10,17 @@ from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PR
 from palworld_save_tools.gvas import GvasFile
 from palworld_aio.ui.styles import ThemeManager
 player_list_cache = []
+def _load_sav(path):
+    with open(path, 'rb') as f:
+        raw_gvas, _ = decompress_sav_to_gvas(f.read())
+    return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
+def _write_sav(gvas_file, path):
+    data = gvas_file.write(PALWORLD_CUSTOM_PROPERTIES)
+    t = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name else 49
+    tmp = path + '.tmp'
+    with open(tmp, 'wb') as f:
+        f.write(compress_gvas_to_sav(data, t))
+    os.replace(tmp, path)
 def extract_value(data, key, default_value=''):
     value = data.get(key, default_value)
     if isinstance(value, dict):
@@ -200,17 +211,6 @@ class CharacterTransferWindow(QWidget):
         import gc
         gc.collect()
         event.accept()
-def _load_sav(path):
-    with open(path, 'rb') as f:
-        raw_gvas, _ = decompress_sav_to_gvas(f.read())
-    return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
-def _write_sav(gvas_file, path):
-    data = gvas_file.write(PALWORLD_CUSTOM_PROPERTIES)
-    t = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name else 49
-    tmp = path + '.tmp'
-    with open(tmp, 'wb') as f:
-        f.write(compress_gvas_to_sav(data, t))
-    os.replace(tmp, path)
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()

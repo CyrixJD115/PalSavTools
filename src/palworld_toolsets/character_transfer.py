@@ -1012,45 +1012,22 @@ def get_val_safe(p):
         return p['value']['RawData']['value']['object']['SaveParameter']['value']
     except:
         return {}
-def _process_player_file_worker(args):
-    target_player, json_data, gvas_obj, source_guid, src_players_folder, tgt_players_folder = args
-    try:
-        t_host_sav_path = os.path.join(tgt_players_folder, target_player + '.sav')
-        os.makedirs(os.path.dirname(t_host_sav_path), exist_ok=True)
-        gvas_obj.properties = json_data
-        tmp_player = t_host_sav_path + '.tmp'
-        gvasfile_to_sav(gvas_obj, tmp_player)
-        os.replace(tmp_player, t_host_sav_path)
-        src_dps_path = os.path.join(src_players_folder, source_guid + '_dps.sav')
-        tgt_dps_path = os.path.join(tgt_players_folder, target_player + '_dps.sav')
-        if os.path.exists(src_dps_path):
-            pal_id = json_data['SaveData']['value']['PalStorageContainerId']['value']['ID']['value']
-            dps_gvas = sav_to_gvasfile(src_dps_path)
-            for pal in dps_gvas.properties.get('value', []):
-                if 'SlotId' in pal and 'ContainerId' in pal['SlotId']:
-                    pal['SlotId']['ContainerId']['ID']['value'] = pal_id
-            gvasfile_to_sav(dps_gvas, tgt_dps_path)
-            return (True, target_player, f'DPS save updated from {src_dps_path} to {tgt_dps_path}')
-        else:
-            return (True, target_player, f'DPS source file missing: {src_dps_path}')
-    except Exception as e:
-        return (False, target_player, f'Error processing {target_player}: {e}')
 def finalize_save_task():
     print(t('Now saving the data...'))
     tmp_world = t_level_sav_path + '.tmp'
     gvasfile_to_sav(target_gvas_file, tmp_world)
     os.replace(tmp_world, t_level_sav_path)
-    src_players_folder = os.path.join(os.path.dirname(level_sav_path), 'Players')
     tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
-    args_list = [(target_player, json_data, gvas_obj, source_guid, src_players_folder, tgt_players_folder) for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items()]
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = {executor.submit(_process_player_file_worker, args): args[0] for args in args_list}
-        for future in as_completed(futures):
-            success, player, msg = future.result()
-            if success:
-                print(msg)
-            else:
-                print(f'⚠ {msg}')
+    for target_player, (json_data, gvas_obj, source_guid) in modified_targets_data.items():
+        try:
+            t_host_sav_path = os.path.join(tgt_players_folder, target_player + '.sav')
+            os.makedirs(os.path.dirname(t_host_sav_path), exist_ok=True)
+            gvas_obj.properties = json_data
+            tmp_player = t_host_sav_path + '.tmp'
+            gvasfile_to_sav(gvas_obj, tmp_player)
+            os.replace(tmp_player, t_host_sav_path)
+        except Exception as e:
+            print(f'Error saving player {target_player}: {e}')
     return True
 def select_file():
     return QFileDialog.getOpenFileName(None, 'Select Palworld Save File', '', 'Palworld Saves(*.sav *.json);;All Files(*)')[0]

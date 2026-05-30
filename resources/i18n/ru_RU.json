@@ -1,5 +1,4 @@
 {
-  "1. Use LocalData.sav from the 'resources' folder": "1. Использовать LocalData.sav из папки 'resources'",
   "2. Create backups of each existing LocalData.sav": "2. Создать резервные копии каждого существующего LocalData.sav",
   "3. Copy LocalData.sav to all other worlds/servers": "3. Скопировать LocalData.sav во все остальные миры/серверы",
   "About PST": "О PST",
@@ -823,7 +822,6 @@
   "restoremap.menu.title": "Восстановить карту",
   "restoremap.notfound": "Файл LocalData.sav не найден: {file}",
   "restoremap.success": "Восстановление успешно завершено!",
-  "restoremap.warn.1": "Будет использован файл LocalData.sav из папки resources.",
   "restoremap.warn.2": "Будут созданы резервные копии каждого существующего LocalData.sav.",
   "restoremap.warn.3": "LocalData.sav будет скопирован во все другие миры/сервера.",
   "save.load_failed": "Не удалось загрузить сохранение",
@@ -1458,5 +1456,10 @@
   "edit_pals.bulk_sync_no_changes": "Никаких изменений не обнаружено.",
   "calibrate.tree_button": "Калибровка дерева",
   "calibrate.tree_no_players": "На древовидной карте игроков не найдено",
-  "calibrate.tree_label": "Player {n}/{total}:tree({ox},{oy}) - щелкните там, где должно быть (щелчок правой кнопкой мыши = отменить)"
+  "calibrate.tree_label": "Player {n}/{total}:tree({ox},{oy}) - щелкните там, где должно быть (щелчок правой кнопкой мыши = отменить)",
+  "1.Clear fog from each existing LocalData.sav": "1. Очистите туман из каждого существующего файла LocalData.sav.",
+  "2.Create backups of each LocalData.sav before modifying": "2.Создавайте резервные копии каждого файла LocalData.sav перед изменением.",
+  "3.Preserve all existing map data (icons, markers, etc.)": "3. Сохраните все существующие данные карты (значки, маркеры и т. д.).",
+  "Clearing fog in: {path}": "Рассеялся туман: {path}",
+  "Fog cleared successfully!": "Туман успешно рассеялся!"
 }

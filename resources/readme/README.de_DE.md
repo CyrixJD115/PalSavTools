@@ -256,10 +256,7 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>Klicken Sie hier, um die Anweisungen zum Entsperren der Karte zu erweitern</summary>
 
-1. Kopieren Sie `LocalData.sav` von `resources\`
-2. Suchen Sie Ihren Server-/Weltspeicherordner
-3. Ersetzen Sie die vorhandene Datei `LocalData.sav` durch die kopierte Datei
-4. Starten Sie das Spiel mit einer vollständig freigeschalteten Karte
+1. Verwenden Sie das Tool **Karte wiederherstellen** auf der Registerkarte „Extras" — es findet und aktualisiert automatisch alle Ihre Speicherdateien
 
 > **Hinweis:** Verwenden Sie das Tool **Karte wiederherstellen** auf der Registerkarte „Extras“, um die freigeschaltete Karte mit automatischen Backups auf ALLE Ihre Welten/Server gleichzeitig anzuwenden.
 

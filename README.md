@@ -256,10 +256,7 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>Click to expand map unlock instructions</summary>
 
-1. Copy `LocalData.sav` from `resources\`
-2. Find your server/world save folder
-3. Replace the existing `LocalData.sav` with the copied file
-4. Launch the game with a fully unlocked map
+1. Use the **Restore Map** tool in the Tools tab — it automatically finds and updates all your save files
 
 > **Note:** Use the **Restore Map** tool in the Tools tab to apply the unlocked map to ALL your worlds/servers at once with automatic backups.
 

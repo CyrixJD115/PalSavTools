@@ -1,5 +1,4 @@
 {
-  "1. Use LocalData.sav from the 'resources' folder": "1. Use LocalData.sav from the 'resources' folder",
   "2. Create backups of each existing LocalData.sav": "2. Create backups of each existing LocalData.sav",
   "3. Copy LocalData.sav to all other worlds/servers": "3. Copy LocalData.sav to all other worlds/servers",
   "About PST": "About PST",
@@ -1139,7 +1138,6 @@
   "restoremap.menu.title": "Restore Map",
   "restoremap.notfound": "LocalData.sav not found: {file}",
   "restoremap.success": "Restore completed successfully!",
-  "restoremap.warn.1": "This will use LocalData.sav from the resources folder.",
   "restoremap.warn.2": "This will create backups of each existing LocalData.sav.",
   "restoremap.warn.3": "This will copy LocalData.sav to all other worlds/servers.",
   "save.already_loaded.options": "A save is already loaded. What would you like to do?",
@@ -1748,5 +1746,10 @@
   "edit_pals.bulk_sync_no_changes": "No changes detected.",
   "calibrate.tree_button": "Calibrate Tree",
   "calibrate.tree_no_players": "No players found on tree map",
-  "calibrate.tree_label": "Player {n}/{total}: tree({ox},{oy}) - click where it should be  (right-click=undo)"
+  "calibrate.tree_label": "Player {n}/{total}: tree({ox},{oy}) - click where it should be  (right-click=undo)",
+  "1.Clear fog from each existing LocalData.sav": "1.Clear fog from each existing LocalData.sav",
+  "2.Create backups of each LocalData.sav before modifying": "2.Create backups of each LocalData.sav before modifying",
+  "3.Preserve all existing map data (icons, markers, etc.)": "3.Preserve all existing map data (icons, markers, etc.)",
+  "Clearing fog in: {path}": "Clearing fog in: {path}",
+  "Fog cleared successfully!": "Fog cleared successfully!"
 }

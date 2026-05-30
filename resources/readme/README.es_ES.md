@@ -256,10 +256,7 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>Haga clic para ampliar las instrucciones de desbloqueo del mapa</summary>
 
-1. Copiar `LocalData.sav` de `resources\`
-2. Encuentra tu servidor/carpeta de guardado mundial
-3. Reemplace el `LocalData.sav` existente con el archivo copiado.
-4. Inicie el juego con un mapa completamente desbloqueado.
+1. Use la herramienta **Restaurar mapa** en la pestaña Herramientas — busca y actualiza automáticamente todos sus archivos de guardado
 
 > **Nota:** Utilice la herramienta **Restaurar mapa** en la pestaña Herramientas para aplicar el mapa desbloqueado a TODOS sus mundos/servidores a la vez con copias de seguridad automáticas.
 

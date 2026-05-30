@@ -9,7 +9,10 @@ def decode(reader: FArchiveReader, type_name: str, size: int, path: str) -> dict
     return value
 def decode_bytes(parent_reader: FArchiveReader, b_bytes: Sequence[int]) -> dict[str, Any]:
     reader = parent_reader.internal_copy(bytes(b_bytes), debug=False)
-    data = {'state': reader.byte(), 'id': reader.guid()}
+    data: dict[str, Any] = {}
+    data['model_id'] = reader.fstring()
+    data['foliage_preset_type'] = reader.byte()
+    data['cell_coord'] = {'x': reader.i64(), 'y': reader.i64(), 'z': reader.i64()}
     data['trailing_bytes'] = reader.byte_list(4)
     if not reader.eof():
         data['unknown_bytes'] = [int(b) for b in reader.read_to_end()]
@@ -23,12 +26,13 @@ def encode(writer: FArchiveWriter, property_type: str, properties: dict[str, Any
     return writer.property_inner(property_type, properties)
 def encode_bytes(p: dict[str, Any]) -> bytes:
     writer = FArchiveWriter()
-    writer.byte(p['state'])
-    writer.guid(p['id'])
+    writer.fstring(p['model_id'])
+    writer.byte(p['foliage_preset_type'])
+    writer.i64(p['cell_coord']['x'])
+    writer.i64(p['cell_coord']['y'])
+    writer.i64(p['cell_coord']['z'])
     writer.write(bytes(p['trailing_bytes']))
     if 'unknown_bytes' in p:
         writer.write(bytes(p['unknown_bytes']))
-    if 'trailing_bytes' in p:
-        writer.write(bytes(p['trailing_bytes']))
     encoded_bytes = writer.bytes()
     return encoded_bytes

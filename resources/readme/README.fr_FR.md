@@ -256,10 +256,7 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>Cliquez pour développer les instructions de déverrouillage de la carte</summary>
 
-1. Copiez `LocalData.sav` de `resources\`
-2. Recherchez votre dossier de sauvegarde serveur/monde
-3. Remplacez le `LocalData.sav` existant par le fichier copié
-4. Lancez le jeu avec une carte entièrement déverrouillée
+1. Utilisez l'outil **Restaurer la carte** dans l'onglet Outils — il trouve et met à jour automatiquement tous vos fichiers de sauvegarde
 
 > **Remarque :** Utilisez l'outil **Restaurer la carte** dans l'onglet Outils pour appliquer la carte déverrouillée à TOUS vos mondes/serveurs à la fois avec des sauvegardes automatiques.
 

@@ -256,10 +256,7 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>点击展开地图解锁说明</summary>
 
-1. 从 `resources\` 复制 `LocalData.sav`
-2.找到你的服务器/世界保存文件夹
-3.用复制的文件替换现有的`LocalData.sav`
-4. 使用完全解锁的地图启动游戏
+1. 使用工具选项卡中的**恢复地图**工具 — 它会自动查找并更新您的所有存档文件
 
 > **注意：** 使用“工具”选项卡中的“恢复地图”工具，通过自动备份将解锁的地图一次性应用到您的所有世界/服务器。
 

@@ -1,4 +1,5 @@
 {
+  "1. Use LocalData.sav from the 'resources' folder": "1. 'resources' フォルダの LocalData.sav を使用",
   "2. Create backups of each existing LocalData.sav": "2. 既存の LocalData.sav のバックアップを作成",
   "3. Copy LocalData.sav to all other worlds/servers": "3. LocalData.sav を他のすべてのワールド/サーバーにコピー",
   "About PST": "PSTについて",
@@ -65,7 +66,7 @@
   "Total Pages:": "合計ページ数：",
   "Total SlotNum:": "SlotNum 合計：",
   "Total Slots:": "合計スロット数：",
-  "Total worlds/servers updated: {copied_count}": "更新されたワールド/サーバーの合計: {copyed_count}",
+  "Total worlds/servers updated: {copied_count}": "更新されたワールド/サーバーの合計：{copied_count}",
   "Transfer": "転送",
   "Transfer All": "すべて転送",
   "Transfer Successful": "転送成功",
@@ -825,6 +826,7 @@
   "restoremap.menu.title": "マップ復元",
   "restoremap.notfound": "LocalData.sav が見つかりません: {file}",
   "restoremap.success": "マップの復元が正常に完了しました！",
+  "restoremap.warn.1": "resources フォルダ内の LocalData.sav を使用します。",
   "restoremap.warn.2": "各ワールドの既存の LocalData.sav のバックアップを作成します。",
   "restoremap.warn.3": "LocalData.sav を他のすべてのワールド／サーバーにコピーします。",
   "save.load_failed": "セーブデータの読み込みに失敗しました",
@@ -1458,10 +1460,5 @@
   "edit_pals.bulk_sync_no_changes": "変化は検出されませんでした。",
   "calibrate.tree_button": "ツリーの調整",
   "calibrate.tree_no_players": "ツリーマップにプレイヤーが見つかりません",
-  "calibrate.tree_label": "プレーヤー {n}/{total}:​​tree({ox},{oy}) - 必要な場所をクリックします (右クリック = 元に戻す)",
-  "1.Clear fog from each existing LocalData.sav": "1.既存の各 LocalData.sav からフォグをクリアします。",
-  "2.Create backups of each LocalData.sav before modifying": "2.変更する前に、各 LocalData.sav のバックアップを作成します。",
-  "3.Preserve all existing map data (icons, markers, etc.)": "3.既存の地図データ（アイコン、マーカーなど）をすべて保存します。",
-  "Clearing fog in: {path}": "霧をクリアしています: {path}",
-  "Fog cleared successfully!": "無事に霧が晴れました！"
+  "calibrate.tree_label": "プレーヤー {n}/{total}:​​tree({ox},{oy}) - 必要な場所をクリックします (右クリック = 元に戻す)"
 }

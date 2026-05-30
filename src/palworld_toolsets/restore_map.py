@@ -17,39 +17,8 @@ def backup_local_data(subfolder_path):
     if os.path.exists(original_local_data):
         shutil.copy(original_local_data, backup_file)
         print(t('Backup created at: {backup_file}', backup_file=backup_file))
-def clear_fog_in_local_data(path):
-    with open(path, 'rb') as f:
-        data = f.read()
-    raw_gvas, save_type = decompress_sav_to_gvas(data)
-    gvas = GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES)
-    sd = gvas.properties['SaveData']['value']
-    raw = bytearray(raw_gvas)
-    search_off = 0
-
-    if 'WorldMapUISaveDataMap' in sd:
-        for entry in sd['WorldMapUISaveDataMap']['value']:
-            mv = entry['value']['MaskTextureData']['value']['values']
-            sig = bytes(mv[:64])
-            pos = raw.find(sig, search_off)
-            if pos < 0:
-                print(f'  WARNING: Could not locate {entry["key"]} mask data')
-                continue
-            raw[pos:pos+len(mv)] = b'\x00' * len(mv)
-            search_off = pos + len(mv)
-        print('  WorldMapUISaveDataMap fog cleared')
-    elif 'WorldMapMaskTextureV4' in sd:
-        mv = sd['WorldMapMaskTextureV4']['value']
-        sig = bytes(mv[:64])
-        pos = raw.find(sig, search_off)
-        if pos >= 0:
-            raw[pos:pos+len(mv)] = b'\x00' * len(mv)
-        print('  WorldMapMaskTextureV4 fog cleared')
-
-    sav = compress_gvas_to_sav(bytes(raw), save_type)
-    with open(path, 'wb') as f:
-        f.write(sav)
-def clear_fog_in_all_subfolders():
-    updated_count = 0
+def copy_to_all_subfolders(source_file, file_size):
+    copied_count = 0
     for folder in os.listdir(savegames_path):
         folder_path = os.path.join(savegames_path, folder)
         if os.path.isdir(folder_path):
@@ -57,13 +26,14 @@ def clear_fog_in_all_subfolders():
             for subfolder in subfolders:
                 subfolder_path = os.path.join(folder_path, subfolder)
                 target_path = os.path.join(subfolder_path, 'LocalData.sav')
-                if os.path.exists(target_path):
+                if source_file != target_path:
                     backup_local_data(subfolder_path)
-                    print(t('Clearing fog in: {path}', path=subfolder_path))
-                    clear_fog_in_local_data(target_path)
-                    updated_count += 1
+                    shutil.copy(source_file, target_path)
+                    copied_count += 1
+                    print(t('Copied LocalData.sav to: {path}', path=subfolder_path))
     print('=' * 80)
-    print(t('Total worlds/servers updated: {copied_count}', copied_count=updated_count))
+    print(t('Total worlds/servers updated: {copied_count}', copied_count=copied_count))
+    print(t('LocalData.sav Size: {file_size} bytes', file_size=file_size))
     print('=' * 80)
 def center_window(win):
     win_center = win.frameGeometry().center()
@@ -76,6 +46,11 @@ def center_window(win):
     geo.moveCenter(screen_geometry.center())
     win.move(geo.topLeft())
 def restore_map():
+    resources_file = os.path.join(get_base_directory(), 'resources', 'LocalData.sav')
+    if not os.path.exists(resources_file):
+        parent = QApplication.activeWindow()
+        show_critical(parent, t('Error'), t('LocalData.sav not found: {file}', file=resources_file))
+        return
     class RestoreMapDialog(QDialog):
         def __init__(self):
             super().__init__()
@@ -102,15 +77,15 @@ def restore_map():
             glass_layout.addWidget(tip_label)
             steps_layout = QVBoxLayout()
             step_font = QFont('Segoe UI', 10)
-            step1_label = QLabel(t('1.Clear fog from each existing LocalData.sav'))
+            step1_label = QLabel(t("1.Use LocalData.sav from the 'resources' folder"))
             step1_label.setFont(step_font)
             step1_label.setAlignment(Qt.AlignCenter)
             steps_layout.addWidget(step1_label)
-            step2_label = QLabel(t('2.Create backups of each LocalData.sav before modifying'))
+            step2_label = QLabel(t('2.Create backups of each existing LocalData.sav'))
             step2_label.setFont(step_font)
             step2_label.setAlignment(Qt.AlignCenter)
             steps_layout.addWidget(step2_label)
-            step3_label = QLabel(t('3.Preserve all existing map data (icons, markers, etc.)'))
+            step3_label = QLabel(t('3.Copy LocalData.sav to all other worlds/servers'))
             step3_label.setFont(step_font)
             step3_label.setAlignment(Qt.AlignCenter)
             steps_layout.addWidget(step3_label)
@@ -134,6 +109,11 @@ def restore_map():
             button_layout.addWidget(self.no_button)
             button_layout.addStretch()
             glass_layout.addLayout(button_layout)
+            hint_label = QLabel(t('restore_map.source', file=resources_file))
+            hint_label.setFont(QFont('Segoe UI', 9))
+            hint_label.setAlignment(Qt.AlignCenter)
+            hint_label.setStyleSheet('color: rgba(223,238,252,0.7);')
+            glass_layout.addWidget(hint_label)
             main_layout.addWidget(glass_frame)
             center_window(self)
             self.setModal(True)
@@ -143,8 +123,9 @@ def restore_map():
                 self.activateWindow()
                 self.raise_()
         def on_yes(self):
-            clear_fog_in_all_subfolders()
-            self.result_label.setText(t('Fog cleared successfully!'))
+            file_size = os.path.getsize(resources_file)
+            copy_to_all_subfolders(resources_file, file_size)
+            self.result_label.setText(t('Restore completed successfully!'))
             self.yes_button.setEnabled(False)
             self.no_button.setEnabled(False)
             QTimer.singleShot(2000, self.accept)

@@ -1,38 +1,36 @@
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_sav
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 from palworld_save_tools.gvas import GvasFile
+from palworld_save_tools.palsav import decompress_sav_to_gvas, compress_gvas_to_sav
 from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 
 path = sys.argv[1]
 with open(path, 'rb') as f:
     data = f.read()
-raw_gvas, save_type = decompress_sav_to_gvas(data)
+raw_gvas, _ = decompress_sav_to_gvas(data)
 gvas = GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES)
-sd = gvas.properties['SaveData']['value']
-raw = bytearray(raw_gvas)
-search_off = 0
+d = gvas.dump()
+sd = d['properties']['SaveData']['value']
 
 if 'WorldMapUISaveDataMap' in sd:
     for entry in sd['WorldMapUISaveDataMap']['value']:
-        mv = entry['value']['MaskTextureData']['value']['values']
-        sig = bytes(mv[:64])
-        pos = raw.find(sig, search_off)
-        if pos >= 0:
-            raw[pos:pos+len(mv)] = b'\x00' * len(mv)
-            search_off = pos + len(mv)
+        mask = entry['value']['MaskTextureData']['value']
+        mask['values'] = b'\x00' * len(mask['values'])
     print('WorldMapUISaveDataMap fog cleared')
 elif 'WorldMapMaskTextureV4' in sd:
-    mv = sd['WorldMapMaskTextureV4']['value']
-    sig = bytes(mv[:64])
-    pos = raw.find(sig, search_off)
-    if pos >= 0:
-        raw[pos:pos+len(mv)] = b'\x00' * len(mv)
+    mask = sd['WorldMapMaskTextureV4']['value']
+    mask['values'] = b'\x00' * len(mask['values'])
     print('WorldMapMaskTextureV4 fog cleared')
 
-sav = compress_gvas_to_sav(bytes(raw), save_type)
+hl = sd.get('Local_HiddenLocationFlagMap', {}).get('value', [])
+for entry in hl:
+    entry['value'] = True
+print(f'Hidden locations set: {len(hl)} entries')
+
+ng = GvasFile.load(d)
+st = 50 if 'Pal.PalWorldSaveGame' in ng.header.save_game_class_name or 'Pal.PalLocalWorldSaveGame' in ng.header.save_game_class_name else 49
+sav = compress_gvas_to_sav(ng.write(SKP_PALWORLD_CUSTOM_PROPERTIES), st)
 with open(path, 'wb') as f:
     f.write(sav)
-
-print(f'Saved ({len(sav)} bytes)')
+print('Saved')

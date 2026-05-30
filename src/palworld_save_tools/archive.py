@@ -204,12 +204,7 @@ class FArchiveReader:
                 break
             type_name = self.fstring()
             size = self.u64()
-            try:
-                properties[name] = self.property(type_name, size, f'{path}.{name}')
-            except Exception as e:
-                if self.debug:
-                    logger.debug(f'Error reading property {name} at {path}: {e}')
-                break
+            properties[name] = self.property(type_name, size, f'{path}.{name}')
         return properties
     def _read_StructProperty(self, size, path):
         return self.struct(path)
@@ -253,7 +248,6 @@ class FArchiveReader:
         key_type = self.fstring()
         value_type = self.fstring()
         _id = self.optional_guid()
-        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
         key_path = path + '.Key'
@@ -271,25 +265,13 @@ class FArchiveReader:
             key = self.prop_value(key_type, key_struct_type, key_path)
             v = self.prop_value(value_type, value_struct_type, value_path)
             values.append({'key': key, 'value': v})
-        remaining = size - (self.data.tell() - payload_start)
-        if remaining > 0:
-            self.read(remaining)
-        elif remaining < 0 and self.debug:
-            logger.debug(f'MapProperty at {path} over-consumed by {-remaining} bytes')
         return {'key_type': key_type, 'value_type': value_type, 'key_struct_type': key_struct_type, 'value_struct_type': value_struct_type, 'id': _id, 'value': values}
     def _read_SetProperty(self, size, path):
         set_type = self.fstring()
         _id = self.optional_guid()
-        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
-        values = [self.properties_until_end() for _ in range(count)]
-        remaining = size - (self.data.tell() - payload_start)
-        if remaining > 0:
-            self.read(remaining)
-        elif remaining < 0 and self.debug:
-            logger.debug(f'SetProperty at {path} over-consumed by {-remaining} bytes')
-        return {'set_type': set_type, 'id': _id, 'value': values}
+        return {'set_type': set_type, 'id': _id, 'value': [self.properties_until_end() for _ in range(count)]}
     _READ_PROPERTY_DISPATCH: dict[str, Any] = {'StructProperty': _read_StructProperty, 'IntProperty': _read_IntProperty, 'UInt16Property': _read_UInt16Property, 'UInt32Property': _read_UInt32Property, 'UInt64Property': _read_UInt64Property, 'Int64Property': _read_Int64Property, 'FixedPoint64Property': _read_FixedPoint64Property, 'FloatProperty': _read_FloatProperty, 'StrProperty': _read_StrProperty, 'NameProperty': _read_NameProperty, 'EnumProperty': _read_EnumProperty, 'BoolProperty': _read_BoolProperty, 'ByteProperty': _read_ByteProperty, 'ArrayProperty': _read_ArrayProperty, 'MapProperty': _read_MapProperty, 'SetProperty': _read_SetProperty}
     def property(self, type_name: str, size: int, path: str, nested_caller_path: str='') -> dict[str, Any]:
         if path in self.custom_properties and (path is not nested_caller_path or nested_caller_path == ''):

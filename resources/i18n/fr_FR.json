@@ -1,4 +1,5 @@
 {
+  "1. Use LocalData.sav from the 'resources' folder": "1. Utiliser LocalData.sav du dossier 'resources'",
   "2. Create backups of each existing LocalData.sav": "2. Créer des sauvegardes pour chaque LocalData.sav existant",
   "3. Copy LocalData.sav to all other worlds/servers": "3. Copier LocalData.sav vers tous les autres mondes/serveurs",
   "About PST": "À propos de PST",
@@ -65,7 +66,7 @@
   "Total Pages:": "Nombre total de pages :",
   "Total SlotNum:": "Nombre total de SlotNum :",
   "Total Slots:": "Nombre total de slots :",
-  "Total worlds/servers updated: {copied_count}": "Nombre total de mondes/serveurs mis à jour : {copied_count}",
+  "Total worlds/servers updated: {copied_count}": "Nombre total de mondes/serveurs mis à jour : {copied_count}",
   "Transfer": "Transférer",
   "Transfer All": "Tout transférer",
   "Transfer Successful": "Transfert réussi",
@@ -807,6 +808,7 @@
   "restoremap.menu.title": "Restaurer la carte",
   "restoremap.notfound": "LocalData.sav introuvable : {file}",
   "restoremap.success": "Restauration effectuée avec succès !",
+  "restoremap.warn.1": "Cela utilisera le fichier LocalData.sav du dossier resources.",
   "restoremap.warn.2": "Cela créera des sauvegardes de chaque LocalData.sav existant.",
   "restoremap.warn.3": "Cela copiera LocalData.sav vers tous les autres mondes/serveurs.",
   "save.load_failed": "Erreur lors du chargement de la sauvegarde",
@@ -1440,10 +1442,5 @@
   "edit_pals.bulk_sync_no_changes": "Aucun changement détecté.",
   "calibrate.tree_button": "Calibrer l'arbre",
   "calibrate.tree_no_players": "Aucun joueur trouvé sur la carte arborescente",
-  "calibrate.tree_label": "Joueur {n}/{total} : tree({ox},{oy}) - cliquez là où il devrait être (clic droit=annuler)",
-  "1.Clear fog from each existing LocalData.sav": "1.Effacer le brouillard de chaque LocalData.sav existant",
-  "2.Create backups of each LocalData.sav before modifying": "2.Créez des sauvegardes de chaque LocalData.sav avant de le modifier",
-  "3.Preserve all existing map data (icons, markers, etc.)": "3. Préservez toutes les données cartographiques existantes (icônes, marqueurs, etc.)",
-  "Clearing fog in: {path}": "Dissiper le brouillard dans : {path}",
-  "Fog cleared successfully!": "Le brouillard s'est dissipé avec succès !"
+  "calibrate.tree_label": "Joueur {n}/{total} : tree({ox},{oy}) - cliquez là où il devrait être (clic droit=annuler)"
 }

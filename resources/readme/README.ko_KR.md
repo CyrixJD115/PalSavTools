@@ -256,7 +256,10 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 <details>
 <summary>지도 잠금 해제 지침을 펼치려면 클릭하세요</summary>
 
-1. 도구 탭의 **지도 복원** 도구를 사용하세요 — 모든 저장 파일을 자동으로 찾아서 업데이트합니다
+1. `resources\`에서 `LocalData.sav`을 복사합니다.
+2. 서버/월드 저장 폴더 찾기
+3. 기존 `LocalData.sav`을 복사된 파일로 교체
+4. 완전히 잠금 해제된 지도로 게임을 시작하세요.
 
 > **참고:** 도구 탭의 **지도 복원** 도구를 사용하면 자동 백업을 통해 잠금 해제된 지도를 모든 월드/서버에 한 번에 적용할 수 있습니다.
 

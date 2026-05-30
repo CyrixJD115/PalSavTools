@@ -1,4 +1,5 @@
 {
+  "1. Use LocalData.sav from the 'resources' folder": "1. Usar LocalData.sav de la carpeta 'resources'",
   "2. Create backups of each existing LocalData.sav": "2. Crear copias de seguridad de cada LocalData.sav existente",
   "3. Copy LocalData.sav to all other worlds/servers": "3. Copiar LocalData.sav a todos los demás mundos/servidores",
   "About PST": "Acerca de PST",
@@ -818,6 +819,7 @@
   "restoremap.menu.title": "Restaurar mapa",
   "restoremap.notfound": "No se encontró LocalData.sav: {file}",
   "restoremap.success": "¡Restauración completada con éxito!",
+  "restoremap.warn.1": "Esto usará LocalData.sav de la carpeta de recursos.",
   "restoremap.warn.2": "Esto creará copias de seguridad de cada LocalData.sav existente.",
   "restoremap.warn.3": "Esto copiará LocalData.sav a todos los demás mundos/servidores.",
   "save.load_failed": "Error al cargar el guardado",
@@ -1451,10 +1453,5 @@
   "edit_pals.bulk_sync_no_changes": "No se detectaron cambios.",
   "calibrate.tree_button": "Calibrar árbol",
   "calibrate.tree_no_players": "No se encontraron jugadores en el mapa del árbol.",
-  "calibrate.tree_label": "Reproductor {n}/{total}: ​​árbol({ox},{oy}) - haz clic donde debería estar (clic derecho=deshacer)",
-  "1.Clear fog from each existing LocalData.sav": "1.Elimine la niebla de cada LocalData.sav existente",
-  "2.Create backups of each LocalData.sav before modifying": "2.Cree copias de seguridad de cada LocalData.sav antes de modificarlo.",
-  "3.Preserve all existing map data (icons, markers, etc.)": "3.Conserve todos los datos del mapa existentes (iconos, marcadores, etc.)",
-  "Clearing fog in: {path}": "Despejando niebla en: {ruta}",
-  "Fog cleared successfully!": "¡La niebla se disipó con éxito!"
+  "calibrate.tree_label": "Reproductor {n}/{total}: ​​árbol({ox},{oy}) - haz clic donde debería estar (clic derecho=deshacer)"
 }

@@ -1,4 +1,5 @@
 {
+  "1. Use LocalData.sav from the 'resources' folder": "1. LocalData.sav aus dem 'resources'-Ordner verwenden",
   "2. Create backups of each existing LocalData.sav": "2. Backups aller bestehenden LocalData.sav erstellen",
   "3. Copy LocalData.sav to all other worlds/servers": "3. LocalData.sav in alle anderen Welten/Server kopieren",
   "About PST": "Über PST",
@@ -65,7 +66,7 @@
   "Total Pages:": "Gesamtseiten:",
   "Total SlotNum:": "Gesamt SlotNum:",
   "Total Slots:": "Gesamtslots:",
-  "Total worlds/servers updated: {copied_count}": "Gesamtzahl der aktualisierten Welten/Server: {copied_count}",
+  "Total worlds/servers updated: {copied_count}": "Gesamtanzahl der aktualisierten Welten/Server: {copied_count}",
   "Transfer": "Übertragen",
   "Transfer All": "Alles übertragen",
   "Transfer Successful": "Übertragung erfolgreich",
@@ -849,6 +850,7 @@
   "restoremap.menu.title": "Karte wiederherstellen",
   "restoremap.notfound": "LocalData.sav nicht gefunden: {file}",
   "restoremap.success": "Wiederherstellung erfolgreich abgeschlossen!",
+  "restoremap.warn.1": "Dies verwendet die LocalData.sav aus dem Ressourcen-Ordner.",
   "restoremap.warn.2": "Dies erstellt Backups jeder vorhandenen LocalData.sav.",
   "restoremap.warn.3": "Dies kopiert LocalData.sav in alle anderen Welten/Server.",
   "save.load_failed": "Fehler beim Laden der Speicherdatei",
@@ -1482,10 +1484,5 @@
   "edit_pals.bulk_sync_no_changes": "Keine Änderungen festgestellt.",
   "calibrate.tree_button": "Baum kalibrieren",
   "calibrate.tree_no_players": "Auf der Baumkarte wurden keine Spieler gefunden",
-  "calibrate.tree_label": "Spieler {n}/{total}: ​​tree({ox},{oy}) – klicken Sie auf die Stelle, an der er sein soll (Rechtsklick = Rückgängig machen)",
-  "1.Clear fog from each existing LocalData.sav": "1.Beseitigen Sie Nebel aus jeder vorhandenen LocalData.sav",
-  "2.Create backups of each LocalData.sav before modifying": "2.Erstellen Sie Sicherungen aller LocalData.sav, bevor Sie Änderungen vornehmen",
-  "3.Preserve all existing map data (icons, markers, etc.)": "3. Alle vorhandenen Kartendaten (Symbole, Markierungen usw.) beibehalten",
-  "Clearing fog in: {path}": "Nebel auflösen in: {path}",
-  "Fog cleared successfully!": "Nebel erfolgreich beseitigt!"
+  "calibrate.tree_label": "Spieler {n}/{total}: ​​tree({ox},{oy}) – klicken Sie auf die Stelle, an der er sein soll (Rechtsklick = Rückgängig machen)"
 }

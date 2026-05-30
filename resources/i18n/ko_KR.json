@@ -1,4 +1,5 @@
 {
+  "1. Use LocalData.sav from the 'resources' folder": "1. 'resources' 폴더의 LocalData.sav 사용",
   "2. Create backups of each existing LocalData.sav": "2. 기존 LocalData.sav 백업 생성",
   "3. Copy LocalData.sav to all other worlds/servers": "3. LocalData.sav을 다른 모든 월드/서버로 복사",
   "About PST": "PST 정보",
@@ -65,7 +66,7 @@
   "Total Pages:": "총 페이지 수:",
   "Total SlotNum:": "SlotNum 총합:",
   "Total Slots:": "총 슬롯 수:",
-  "Total worlds/servers updated: {copied_count}": "업데이트된 총 월드/서버 수: {copied_count}",
+  "Total worlds/servers updated: {copied_count}": "업데이트된 월드/서버 총 수: {copied_count}",
   "Transfer": "이전",
   "Transfer All": "모두 이전",
   "Transfer Successful": "이전 성공",
@@ -825,6 +826,7 @@
   "restoremap.menu.title": "맵 복원",
   "restoremap.notfound": "LocalData.sav 파일을 찾을 수 없습니다: {file}",
   "restoremap.success": "맵 복원이 성공적으로 완료되었습니다!",
+  "restoremap.warn.1": "resources 폴더의 LocalData.sav 파일을 사용합니다.",
   "restoremap.warn.2": "각 월드의 기존 LocalData.sav 파일을 백업합니다.",
   "restoremap.warn.3": "LocalData.sav 파일을 모든 다른 월드/서버에 복사합니다.",
   "save.load_failed": "저장 파일 로드 실패",
@@ -1457,10 +1459,5 @@
   "edit_pals.bulk_sync_no_changes": "변경사항이 감지되지 않았습니다.",
   "calibrate.tree_button": "트리 교정",
   "calibrate.tree_no_players": "트리 맵에서 플레이어를 찾을 수 없습니다.",
-  "calibrate.tree_label": "플레이어 {n}/{total}: ​​tree({ox},{oy}) - 있어야 할 위치를 클릭하세요(오른쪽 클릭=실행 취소).",
-  "1.Clear fog from each existing LocalData.sav": "1. 기존 LocalData.sav에서 안개를 제거합니다.",
-  "2.Create backups of each LocalData.sav before modifying": "2. 수정하기 전에 각 LocalData.sav의 백업을 생성합니다.",
-  "3.Preserve all existing map data (icons, markers, etc.)": "3. 기존 지도 데이터(아이콘, 마커 등)를 모두 보존합니다.",
-  "Clearing fog in: {path}": "안개 제거: {path}",
-  "Fog cleared successfully!": "안개가 성공적으로 제거되었습니다!"
+  "calibrate.tree_label": "플레이어 {n}/{total}: ​​tree({ox},{oy}) - 있어야 할 위치를 클릭하세요(오른쪽 클릭=실행 취소)."
 }

@@ -193,6 +193,15 @@ class MapTab(QWidget):
         self.btn_calibrate.clicked.connect(self._on_calibrate_toggle)
         self.btn_calibrate.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.btn_calibrate)
+        self.btn_calibrate_tree = QPushButton()
+        self.btn_calibrate_tree.setIcon(QIcon(os.path.join(base_dir, 'resources', 'calibrate.webp')))
+        self.btn_calibrate_tree.setIconSize(QSize(22, 22))
+        self.btn_calibrate_tree.setToolTip(t('calibrate.tree_button'))
+        self.btn_calibrate_tree.setCheckable(True)
+        self.btn_calibrate_tree.setChecked(False)
+        self.btn_calibrate_tree.clicked.connect(self._on_calibrate_tree_toggle)
+        self.btn_calibrate_tree.setStyleSheet(btn_css + tip_css)
+        overlay_layout.addWidget(self.btn_calibrate_tree)
         self.toggle_map_bases = QPushButton()
         self.toggle_map_bases.setIcon(QIcon(os.path.join(base_dir, 'resources', 'baseicon.webp')))
         self.toggle_map_bases.setIconSize(QSize(22, 22))
@@ -248,6 +257,15 @@ class MapTab(QWidget):
         self._calibration_effect = None
         self._calibration_label.move(10, 50)
         self._calibration_label.setVisible(False)
+        self._tree_cal_points = []
+        self._tree_cal_players = []
+        self._tree_cal_markers = []
+        self._tree_cal_label = QLabel('', self.view)
+        self._tree_cal_label.setStyleSheet('background: rgba(0,0,0,180); color: #ffcc00; padding: 6px 12px; border-radius: 4px; font-size: 12px;')
+        self._tree_cal_effect = None
+        self._tree_cal_label.move(10, 50)
+        self._tree_cal_label.setVisible(False)
+        self._undo_tree_cal = None
         self._sidebar_widget = QWidget()
         self._sidebar_widget.setMinimumWidth(340)
         self._sidebar_widget.setAttribute(Qt.WA_StyledBackground, True)
@@ -402,6 +420,9 @@ class MapTab(QWidget):
             self._show_all_radius_rings()
     def _on_calibrate_toggle(self, checked):
         if checked:
+            if self.btn_calibrate_tree.isChecked():
+                self.btn_calibrate_tree.setChecked(False)
+                self._on_calibrate_tree_toggle(False)
             self._calibration_points = []
             self._calibration_bases = []
             for guild in self.guilds_data.values():
@@ -537,11 +558,10 @@ class MapTab(QWidget):
                 tx_sum += wy * s - rx
             ty = ty_sum / n
             tx = tx_sum / n
-        import os, palworld_coord
+        import os, re
         coord_path = os.path.join(os.path.dirname(palworld_coord.__file__), '__init__.py')
         with open(coord_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        import re
         content = re.sub('__transl_x_new = -?\\d+', f'__transl_x_new = {round(tx)}', content)
         content = re.sub('__transl_y_new = -?\\d+', f'__transl_y_new = {round(ty)}', content)
         content = re.sub('__scale_new = \\d+', f'__scale_new = {round(s)}', content)
@@ -568,30 +588,186 @@ class MapTab(QWidget):
         msg.setWindowTitle(t('calibrate.complete_title'))
         msg.setText(t('calibrate.complete_msg', s=round(s), tx=round(tx), ty=round(ty)))
         msg.exec()
+    def _on_calibrate_tree_toggle(self, checked):
+        if checked:
+            if self.btn_calibrate.isChecked():
+                self.btn_calibrate.setChecked(False)
+                self._on_calibrate_toggle(False)
+            self._tree_cal_points = []
+            self._tree_cal_players = []
+            for player in self.players_data:
+                if player.get('map_type') == 'tree' and 'save_coords' in player:
+                    self._tree_cal_players.append(player)
+            if not self._tree_cal_players:
+                show_information(self, t('calibrate.complete_title'), t('calibrate.tree_no_players'))
+                self.btn_calibrate_tree.setChecked(False)
+                return
+            if self.current_map != 'tree':
+                self.toggle_map_type.setChecked(True)
+                self._on_map_type_toggle(True)
+            self.view.set_calibration_mode(True)
+            self.view.calibration_clicked.connect(self._on_calibrate_tree_click)
+            self._undo_tree_cal = self.view.empty_space_right_clicked.connect(self._on_tree_cal_undo)
+            self._tree_cal_label.setVisible(True)
+            self._update_tree_cal_label()
+        else:
+            self.view.set_calibration_mode(False)
+            try:
+                self.view.calibration_clicked.disconnect(self._on_calibrate_tree_click)
+            except:
+                pass
+            try:
+                self.view.empty_space_right_clicked.disconnect(self._on_tree_cal_undo)
+            except:
+                pass
+            if self._tree_cal_effect:
+                self._tree_cal_effect.stop()
+                self.scene.removeItem(self._tree_cal_effect)
+                self._tree_cal_effect = None
+            self._clear_tree_cal_markers()
+            self._tree_cal_label.setVisible(False)
+    def _clear_tree_cal_markers(self):
+        for m in self._tree_cal_markers:
+            self.scene.removeItem(m)
+        self._tree_cal_markers.clear()
+    def _on_tree_cal_undo(self, pos=None):
+        if not self._tree_cal_points:
+            return
+        if self._tree_cal_effect:
+            self._tree_cal_effect.stop()
+            self.scene.removeItem(self._tree_cal_effect)
+            self._tree_cal_effect = None
+        self._tree_cal_points.pop()
+        if self._tree_cal_markers:
+            for _ in range(2):
+                m = self._tree_cal_markers.pop()
+                self.scene.removeItem(m)
+        self._update_tree_cal_label()
+    def _update_tree_cal_label(self):
+        n = len(self._tree_cal_points)
+        total = len(self._tree_cal_players)
+        if n < total:
+            player = self._tree_cal_players[n]
+            rx, ry = (player['save_coords'][0], player['save_coords'][1])
+            pt = palworld_coord.sav_to_treemap(rx, ry)
+            self._tree_cal_label.setText(t('calibrate.tree_label', n=n + 1, total=total, ox=pt.x, oy=pt.y))
+            self._tree_cal_label.adjustSize()
+            sx, sy = palworld_coord.treemap_to_pixel(pt.x, pt.y, self.map_width, self.map_height)
+            self.view.animate_to_coords(sx, sy)
+            self._tree_cal_effect = CalibrationEffect(sx, sy)
+            self.scene.addItem(self._tree_cal_effect)
+        else:
+            self._tree_cal_label.setText(t('calibrate.computing', n=n))
+            self._tree_cal_label.adjustSize()
+            self._compute_tree_calibration()
+    def _on_calibrate_tree_click(self, scene_x, scene_y):
+        if self._tree_cal_effect:
+            self._tree_cal_effect.stop()
+            self.scene.removeItem(self._tree_cal_effect)
+            self._tree_cal_effect = None
+        px, py = (int(scene_x), int(scene_y))
+        idx = len(self._tree_cal_points)
+        player = self._tree_cal_players[idx]
+        self._tree_cal_points.append((player['save_coords'][0], player['save_coords'][1], px, py))
+        marker = self.scene.addEllipse(px - 4, py - 4, 8, 8, QPen(QColor('#ffcc00'), 2), QBrush(QColor(255, 204, 0, 80)))
+        self._tree_cal_markers.append(marker)
+        label = self.scene.addSimpleText(f'{idx + 1}', QFont('Arial', 10))
+        label.setPos(px + 6, py - 8)
+        label.setBrush(QBrush(QColor('#ffcc00')))
+        self._tree_cal_markers.append(label)
+        self._update_tree_cal_label()
+    def _compute_tree_calibration(self):
+        from PySide6.QtWidgets import QMessageBox
+        pts = self._tree_cal_points
+        if len(pts) < 1:
+            show_information(self, t('calibrate.complete_title'), t('calibrate.need_points'))
+            self.btn_calibrate_tree.setChecked(False)
+            self._tree_cal_label.setVisible(False)
+            return
+        W = float(self.map_width) if self.map_width > 0 else 8192.0
+        H = float(self.map_height) if self.map_height > 0 else 8192.0
+        if len(pts) == 1:
+            s = 724.0
+            rx, ry, px, py = pts[0]
+            wx, wy = palworld_coord.treemap_pixel_to_cursor(px, py, W, H)
+            ty = ry - wx * s
+            tx = wy * s - rx
+        else:
+            n = float(len(pts))
+            sum_wx, sum_wy, sum_rx, sum_ry = (0.0, 0.0, 0.0, 0.0)
+            sum_wx2, sum_wy2, sum_wx_ry, sum_wy_rx = (0.0, 0.0, 0.0, 0.0)
+            for rx, ry, px, py in pts:
+                wx, wy = palworld_coord.treemap_pixel_to_cursor(px, py, W, H)
+                sum_wx += wx
+                sum_wy += wy
+                sum_rx += rx
+                sum_ry += ry
+                sum_wx2 += wx * wx
+                sum_wy2 += wy * wy
+                sum_wx_ry += wx * ry
+                sum_wy_rx += wy * rx
+            denom_y = n * sum_wx2 - sum_wx * sum_wx
+            denom_x = n * sum_wy2 - sum_wy * sum_wy
+            s1 = (n * sum_wx_ry - sum_wx * sum_ry) / denom_y if denom_y != 0.0 else (sum_ry / n if n > 0 else 0.0)
+            s2 = (n * sum_wy_rx - sum_wy * sum_rx) / denom_x if denom_x != 0.0 else (sum_rx / n if n > 0 else 0.0)
+            s = (s1 + s2) / 2.0
+            ty_sum, tx_sum = (0.0, 0.0)
+            for rx, ry, px, py in pts:
+                wx, wy = palworld_coord.treemap_pixel_to_cursor(px, py, W, H)
+                ty_sum += ry - wx * s
+                tx_sum += wy * s - rx
+            ty = ty_sum / n
+            tx = tx_sum / n
+        import os, re
+        coord_path = os.path.join(os.path.dirname(palworld_coord.__file__), '__init__.py')
+        with open(coord_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        content = re.sub('__treemap_transl_x = -?\\d+', f'__treemap_transl_x = {round(tx)}', content)
+        content = re.sub('__treemap_transl_y = -?\\d+', f'__treemap_transl_y = {round(ty)}', content)
+        content = re.sub('__treemap_scale = \\d+', f'__treemap_scale = {round(s)}', content)
+        with open(coord_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        self._tree_cal_label.setText(t('calibrate.done', s=round(s), tx=round(tx), ty=round(ty)))
+        self._tree_cal_label.adjustSize()
+        self.view.set_calibration_mode(False)
+        try:
+            self.view.calibration_clicked.disconnect(self._on_calibrate_tree_click)
+        except:
+            pass
+        try:
+            self.view.empty_space_right_clicked.disconnect(self._on_tree_cal_undo)
+        except:
+            pass
+        if self._tree_cal_effect:
+            self._tree_cal_effect.stop()
+            self.scene.removeItem(self._tree_cal_effect)
+            self._tree_cal_effect = None
+        self._clear_tree_cal_markers()
+        self.btn_calibrate_tree.setChecked(False)
+        msg = QMessageBox(parent=self)
+        msg.setWindowTitle(t('calibrate.complete_title'))
+        msg.setText(t('calibrate.complete_msg', s=round(s), tx=round(tx), ty=round(ty)))
+        msg.exec()
     def _recalc_img_coords(self):
         is_tree = self.current_map == 'tree'
         coord_range = palworld_coord.get_treemap_coord_range() if is_tree else 1000
         for guild in self.guilds_data.values():
             for base in guild['bases']:
-                if 'raw_x' in base:
+                base_map = base.get('map_type', 'world')
+                if ('raw_x' in base) and (base_map == 'tree') == is_tree:
                     if is_tree:
-                        pt = palworld_coord.sav_to_treemap(base['raw_x'], base['raw_y'])
-                        ix, iy = palworld_coord.treemap_to_pixel(pt.x, pt.y, self.map_width, self.map_height)
+                        ix, iy = palworld_coord.treemap_to_pixel(base['coords'][0], base['coords'][1], self.map_width, self.map_height)
                     else:
-                        pt = palworld_coord.sav_to_map(base['raw_x'], base['raw_y'], new=True)
-                        ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range)
+                        ix, iy = self._to_image_coordinates(base['coords'][0], base['coords'][1], self.map_width, self.map_height, coord_range)
                     base['img_coords'] = (ix, iy)
         for player in self.players_data:
-            if 'save_coords' in player:
-                rx, ry = (player['save_coords'][0], player['save_coords'][1])
+            player_map = player.get('map_type', 'world')
+            if (player_map == 'tree') == is_tree:
                 if is_tree:
-                    pt = palworld_coord.sav_to_treemap(rx, ry)
-                    ix, iy = palworld_coord.treemap_to_pixel(pt.x, pt.y, self.map_width, self.map_height)
+                    ix, iy = palworld_coord.treemap_to_pixel(player['coords'][0], player['coords'][1], self.map_width, self.map_height)
                 else:
-                    pt = palworld_coord.sav_to_map(rx, ry, new=True)
-                    ix, iy = self._to_image_coordinates(pt.x, pt.y, self.map_width, self.map_height, coord_range)
+                    ix, iy = self._to_image_coordinates(player['coords'][0], player['coords'][1], self.map_width, self.map_height, coord_range)
                 player['img_coords'] = (ix, iy)
-                player['coords'] = (pt.x, pt.y)
     def _on_tab_changed(self, index):
         if index == 0:
             self.info_label.setText(t('map.info.select_base') if t else 'Click on a base marker or list item to view details')
@@ -665,12 +841,11 @@ class MapTab(QWidget):
                         base_val = base_map[bid_str]
                         try:
                             translation = base_val['RawData']['value']['transform']['translation']
-                            bx, by = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
+                            pt = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
+                            bx, by = pt.x, pt.y
                             if bx is not None:
                                 img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
-                                save_x, save_y = palworld_coord.map_to_sav(bx, by, new=True)
-                                old_bx, old_by = palworld_coord.sav_to_map(save_x, save_y, new=False)
-                                valid_bases.append({'base_id': bid, 'coords': (old_bx, old_by), 'img_coords': (img_x, img_y), 'z': translation['z'], 'raw_x': translation['x'], 'raw_y': translation['y'], 'data': {'key': bid, 'value': base_val}, 'guild_id': gid, 'guild_name': g_val['RawData']['value'].get('guild_name', t('map.unknown.guild') if t else 'Unknown'), 'leader_name': leader_name, 'guild_level': guild_level, 'member_count': member_count, 'total_bases': total_bases, 'base_position': base_position})
+                                valid_bases.append({'base_id': bid, 'coords': (bx, by), 'img_coords': (img_x, img_y), 'z': translation['z'], 'map_type': 'world', 'raw_x': translation['x'], 'raw_y': translation['y'], 'data': {'key': bid, 'value': base_val}, 'guild_id': gid, 'guild_name': g_val['RawData']['value'].get('guild_name', t('map.unknown.guild') if t else 'Unknown'), 'leader_name': leader_name, 'guild_level': guild_level, 'member_count': member_count, 'total_bases': total_bases, 'base_position': base_position})
                                 base_position += 1
                         except:
                             pass
@@ -703,14 +878,22 @@ class MapTab(QWidget):
                 if not translation or 'x' not in translation:
                     continue
                 x, y, z = (translation.get('x', 0), translation.get('y', 0), translation.get('z', 0))
-                bx, by = palworld_coord.sav_to_map(x, y, new=True)
+                pt = palworld_coord.sav_to_map(x, y, new=True)
+                bx, by = pt.x, pt.y
+                map_type = 'world'
+                if bx is not None and (abs(bx) > 1000 or abs(by) > 1000):
+                    pt2 = palworld_coord.sav_to_treemap(x, y)
+                    if abs(pt2.x) <= 2500 and abs(pt2.y) <= 2500:
+                        map_type = 'tree'
+                        bx, by = pt2.x, pt2.y
                 if bx is not None:
-                    img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
-                    save_x, save_y = palworld_coord.map_to_sav(bx, by, new=True)
-                    old_bx, old_by = palworld_coord.sav_to_map(save_x, save_y, new=False)
+                    if map_type == 'tree':
+                        img_x, img_y = palworld_coord.treemap_to_pixel(bx, by, self.map_width, self.map_height)
+                    else:
+                        img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
                     pal_count = constants.PLAYER_PAL_COUNTS.get(player_uid, 0)
                     guild_name = save_manager.get_guild_name_by_id(gid)
-                    players.append({'player_uid': player_uid, 'player_name': name, 'level': level, 'coords': (old_bx, old_by), 'img_coords': (img_x, img_y), 'save_coords': (x, y, z), 'guild_name': guild_name, 'guild_id': gid, 'last_seen': lastseen, 'pal_count': pal_count})
+                    players.append({'player_uid': player_uid, 'player_name': name, 'level': level, 'coords': (bx, by), 'img_coords': (img_x, img_y), 'map_type': map_type, 'save_coords': (x, y, z), 'guild_name': guild_name, 'guild_id': gid, 'last_seen': lastseen, 'pal_count': pal_count})
             except Exception as e:
                 continue
         return players
@@ -733,21 +916,26 @@ class MapTab(QWidget):
         self.player_markers.clear()
         show_base_markers = hasattr(self, 'toggle_map_bases') and self.toggle_map_bases.isChecked()
         show_player_markers = hasattr(self, 'toggle_map_players') and self.toggle_map_players.isChecked()
-        if show_base_markers and self.current_map == 'world':
+        is_tree_view = self.current_map == 'tree'
+        if show_base_markers:
             if self.config['marker']['type'] == 'dot':
                 marker_pixmap = self._create_dot_pixmap(int(self.config['marker']['dot']['size']))
             else:
                 marker_pixmap = self.base_icon_pixmap
             for guild in self.filtered_guilds.values():
                 for base in guild['bases']:
+                    if base.get('map_type', 'world') != ('tree' if is_tree_view else 'world'):
+                        continue
                     img_x, img_y = base['img_coords']
                     marker = BaseMarker(base, img_x, img_y, marker_pixmap, self.config)
                     marker.scale_to_zoom(self.view.current_zoom)
                     marker.setZValue(10)
                     self.scene.addItem(marker)
                     self.base_markers.append(marker)
-        if show_player_markers and self.current_map == 'world':
+        if show_player_markers:
             for player in self.filtered_players_data:
+                if player.get('map_type', 'world') != ('tree' if is_tree_view else 'world'):
+                    continue
                 img_x, img_y = player['img_coords']
                 marker = PlayerMarker(player, img_x, img_y, self.player_icon_pixmap)
                 self.scene.addItem(marker)
@@ -954,6 +1142,8 @@ class MapTab(QWidget):
         if self.search_text:
             for guild in self.filtered_guilds.values():
                 for base in guild['bases']:
+                    if base.get('map_type', 'world') != 'world':
+                        continue
                     base_id = base.get('base_id')
                     if base_id:
                         save_radius = self._get_base_radius(base)
@@ -1070,6 +1260,8 @@ class MapTab(QWidget):
         self._hide_all_radius_rings()
         for guild in self.guilds_data.values():
             for base in guild['bases']:
+                if base.get('map_type', 'world') != 'world':
+                    continue
                 base_id = base.get('base_id')
                 if base_id:
                     save_radius = self._get_base_radius(base)
@@ -1323,7 +1515,8 @@ class MapTab(QWidget):
                     successful_imports += 1
                     try:
                         raw_t = exported_data['base_camp']['value']['RawData']['value']['transform']['translation']
-                        bx, by = palworld_coord.sav_to_map(raw_t['x'], raw_t['y'], new=True)
+                        pt = palworld_coord.sav_to_map_by_z(raw_t['x'], raw_t['y'], raw_t.get('z', 0))
+                        bx, by = pt.x, pt.y
                         img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
                         imported_coords_list.append((bx, by, img_x, img_y))
                         self._play_effect(ImportEffect, img_x, img_y)

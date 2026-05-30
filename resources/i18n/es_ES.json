@@ -1450,5 +1450,8 @@
   "edit_pals.ctx.bulk_sync_pal": "Amigo de sincronización masiva",
   "edit_pals.bulk_sync_pal_title": "Amigo de sincronización masiva",
   "edit_pals.bulk_sync_apply": "Aplicar sincronización masiva",
-  "edit_pals.bulk_sync_no_changes": "No se detectaron cambios."
+  "edit_pals.bulk_sync_no_changes": "No se detectaron cambios.",
+  "calibrate.tree_button": "Calibrar árbol",
+  "calibrate.tree_no_players": "No se encontraron jugadores en el mapa del árbol.",
+  "calibrate.tree_label": "Reproductor {n}/{total}: ​​árbol({ox},{oy}) - haz clic donde debería estar (clic derecho=deshacer)"
 }

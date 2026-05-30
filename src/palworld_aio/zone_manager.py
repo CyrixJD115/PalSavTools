@@ -135,8 +135,8 @@ def is_point_in_exclusion(world_x: float, world_y: float) -> bool:
             if x1 <= world_x <= x2 and y1 <= world_y <= y2:
                 return True
     return False
-def is_point_in_exclusion_save_coords(save_x: float, save_y: float) -> bool:
-    world_x, world_y = palworld_coord.sav_to_map(save_x, save_y, new=True)
+def is_point_in_exclusion_save_coords(save_x: float, save_y: float, save_z: float = 0.0) -> bool:
+    world_x, world_y = palworld_coord.sav_to_map_by_z(save_x, save_y, save_z)
     return is_point_in_exclusion(world_x, world_y)
 def world_to_scene(world_x: float, world_y: float, map_width: int=2048, map_height: int=2048) -> Tuple[float, float]:
     img_x = (world_x + 1000) / 2000 * map_width

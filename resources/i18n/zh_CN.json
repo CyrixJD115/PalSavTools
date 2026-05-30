@@ -1459,5 +1459,8 @@
   "edit_pals.ctx.bulk_sync_pal": "批量同步伙伴",
   "edit_pals.bulk_sync_pal_title": "批量同步伙伴",
   "edit_pals.bulk_sync_apply": "应用批量同步",
-  "edit_pals.bulk_sync_no_changes": "未检测到任何变化。"
+  "edit_pals.bulk_sync_no_changes": "未检测到任何变化。",
+  "calibrate.tree_button": "校准树",
+  "calibrate.tree_no_players": "在树状地图上找不到玩家",
+  "calibrate.tree_label": "玩家 {n}/{total}：tree({ox},{oy}) - 单击应在的位置（右键单击=撤消）"
 }

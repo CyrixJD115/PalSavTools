@@ -1745,5 +1745,8 @@
   "edit_pals.ctx.bulk_sync_pal": "Bulk Sync Pal",
   "edit_pals.bulk_sync_pal_title": "Bulk Sync Pal",
   "edit_pals.bulk_sync_apply": "Apply Bulk Sync",
-  "edit_pals.bulk_sync_no_changes": "No changes detected."
+  "edit_pals.bulk_sync_no_changes": "No changes detected.",
+  "calibrate.tree_button": "Calibrate Tree",
+  "calibrate.tree_no_players": "No players found on tree map",
+  "calibrate.tree_label": "Player {n}/{total}: tree({ox},{oy}) - click where it should be  (right-click=undo)"
 }

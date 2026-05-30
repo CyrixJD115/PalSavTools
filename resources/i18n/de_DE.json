@@ -1481,5 +1481,8 @@
   "edit_pals.ctx.bulk_sync_pal": "Massensynchronisierungspartner",
   "edit_pals.bulk_sync_pal_title": "Massensynchronisierungspartner",
   "edit_pals.bulk_sync_apply": "Wenden Sie die Massensynchronisierung an",
-  "edit_pals.bulk_sync_no_changes": "Keine Änderungen festgestellt."
+  "edit_pals.bulk_sync_no_changes": "Keine Änderungen festgestellt.",
+  "calibrate.tree_button": "Baum kalibrieren",
+  "calibrate.tree_no_players": "Auf der Baumkarte wurden keine Spieler gefunden",
+  "calibrate.tree_label": "Spieler {n}/{total}: ​​tree({ox},{oy}) – klicken Sie auf die Stelle, an der er sein soll (Rechtsklick = Rückgängig machen)"
 }

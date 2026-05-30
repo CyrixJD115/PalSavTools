@@ -1439,5 +1439,8 @@
   "edit_pals.ctx.bulk_sync_pal": "Synchronisation groupée avec Pal",
   "edit_pals.bulk_sync_pal_title": "Synchronisation groupée avec Pal",
   "edit_pals.bulk_sync_apply": "Appliquer la synchronisation groupée",
-  "edit_pals.bulk_sync_no_changes": "Aucun changement détecté."
+  "edit_pals.bulk_sync_no_changes": "Aucun changement détecté.",
+  "calibrate.tree_button": "Calibrer l'arbre",
+  "calibrate.tree_no_players": "Aucun joueur trouvé sur la carte arborescente",
+  "calibrate.tree_label": "Joueur {n}/{total} : tree({ox},{oy}) - cliquez là où il devrait être (clic droit=annuler)"
 }

@@ -1457,5 +1457,8 @@
   "edit_pals.ctx.bulk_sync_pal": "バルク同期パル",
   "edit_pals.bulk_sync_pal_title": "バルク同期パル",
   "edit_pals.bulk_sync_apply": "一括同期を適用する",
-  "edit_pals.bulk_sync_no_changes": "変化は検出されませんでした。"
+  "edit_pals.bulk_sync_no_changes": "変化は検出されませんでした。",
+  "calibrate.tree_button": "ツリーの調整",
+  "calibrate.tree_no_players": "ツリーマップにプレイヤーが見つかりません",
+  "calibrate.tree_label": "プレーヤー {n}/{total}:​​tree({ox},{oy}) - 必要な場所をクリックします (右クリック = 元に戻す)"
 }

@@ -76,8 +76,9 @@ def get_entity_location(entity_data):
             if translation:
                 save_x = float(translation.get('x', 0))
                 save_y = float(translation.get('y', 0))
+                save_z = float(translation.get('z', 0))
                 import palworld_coord
-                world_x, world_y = palworld_coord.sav_to_map(save_x, save_y, new=True)
+                world_x, world_y = palworld_coord.sav_to_map_by_z(save_x, save_y, save_z)
                 return (world_x, world_y)
     except Exception as e:
         logging.warning(f'Failed to extract entity location: {e}')

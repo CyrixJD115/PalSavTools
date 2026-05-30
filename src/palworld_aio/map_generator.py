@@ -35,8 +35,8 @@ def extract_guild_bases_from_save():
             if bid_str in base_map:
                 try:
                     translation = base_map[bid_str]['RawData']['value']['transform']['translation']
-                    x, y = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
-                    guild_bases.append({'guild': guild_name, 'leader': leader_name, 'x': x, 'y': y, 'z': translation['z'], 'raw_x': translation['x'], 'raw_y': translation['y']})
+                    pt = palworld_coord.sav_to_map_by_z(translation['x'], translation['y'], translation['z'])
+                    guild_bases.append({'guild': guild_name, 'leader': leader_name, 'x': pt.x, 'y': pt.y, 'z': translation['z'], 'raw_x': translation['x'], 'raw_y': translation['y']})
                 except:
                     continue
     return guild_bases
@@ -127,7 +127,7 @@ def generate_world_map(output_path=None, map_type='world'):
             img_x, img_y = palworld_coord.treemap_to_pixel(x_world, y_world, base_map.width(), base_map.height())
             return (img_x, img_y)
         return (x_img, y_img)
-    map_z_threshold = 5000
+    map_z_threshold = palworld_coord.MAP_Z_THRESHOLD
     base_count = 0
     for base_data in guild_bases:
         base_z = base_data.get('z', 0)

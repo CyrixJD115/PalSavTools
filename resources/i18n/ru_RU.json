@@ -1455,5 +1455,8 @@
   "edit_pals.ctx.bulk_sync_pal": "Массовая синхронизация с приятелем",
   "edit_pals.bulk_sync_pal_title": "Массовая синхронизация с приятелем",
   "edit_pals.bulk_sync_apply": "Применить массовую синхронизацию",
-  "edit_pals.bulk_sync_no_changes": "Никаких изменений не обнаружено."
+  "edit_pals.bulk_sync_no_changes": "Никаких изменений не обнаружено.",
+  "calibrate.tree_button": "Калибровка дерева",
+  "calibrate.tree_no_players": "На древовидной карте игроков не найдено",
+  "calibrate.tree_label": "Player {n}/{total}:tree({ox},{oy}) - щелкните там, где должно быть (щелчок правой кнопкой мыши = отменить)"
 }

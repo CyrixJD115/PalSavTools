@@ -148,7 +148,7 @@ def get_base_coords(base_id):
         if are_equal_uuids(b['key'], base_id):
             try:
                 trans = b['value']['RawData']['value']['transform']['translation']
-                return palworld_coord.sav_to_map(trans['x'], trans['y'], new=True)
+                return palworld_coord.sav_to_map_by_z(trans['x'], trans['y'], trans['z'])
             except:
                 return (None, None)
     return (None, None)

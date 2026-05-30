@@ -1453,7 +1453,7 @@
   "Fog cleared successfully!": "Туман успешно рассеялся!",
   "inventory.add_all_effigies": "Добавить все чучела",
   "inventory.add_all_effigies_confirm.title": "Добавить все чучела",
-  "inventory.add_all_effigies_confirm.msg": "Добавить все 12 типов чучел к ключевым предметам?",
+  "inventory.add_all_effigies_confirm.msg": "Добавить все типы изображений ({count}) в ключевые элементы?",
   "inventory.add_all_effigies_done": "Добавлены изображения к ключевым предметам.",
   "player_item.no_effigies_found": "Фигурок не обнаружено.",
   "inventory.add_all_effigies_qty.title": "Добавить все чучела",

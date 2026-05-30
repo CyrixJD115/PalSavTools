@@ -1479,7 +1479,7 @@
   "Fog cleared successfully!": "Nebel erfolgreich beseitigt!",
   "inventory.add_all_effigies": "Alle Bildnisse hinzufügen",
   "inventory.add_all_effigies_confirm.title": "Alle Bildnisse hinzufügen",
-  "inventory.add_all_effigies_confirm.msg": "Alle 12 Bildnistypen zu Schlüsselgegenständen hinzufügen?",
+  "inventory.add_all_effigies_confirm.msg": "Alle {count} Bildnistypen zu Schlüsselelementen hinzufügen?",
   "inventory.add_all_effigies_done": "Bildnisse zu Schlüsselgegenständen hinzugefügt.",
   "player_item.no_effigies_found": "Keine Bildnisse gefunden.",
   "inventory.add_all_effigies_qty.title": "Alle Bildnisse hinzufügen",

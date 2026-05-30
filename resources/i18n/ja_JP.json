@@ -1455,7 +1455,7 @@
   "Fog cleared successfully!": "無事に霧が晴れました！",
   "inventory.add_all_effigies": "すべての人形を追加",
   "inventory.add_all_effigies_confirm.title": "すべての人形を追加",
-  "inventory.add_all_effigies_confirm.msg": "12 種類すべてのフィギュアをキーアイテムに追加しますか?",
+  "inventory.add_all_effigies_confirm.msg": "すべての {count} 種類のフィギュアをキーアイテムに追加しますか?",
   "inventory.add_all_effigies_done": "キーアイテムに人形を追加しました。",
   "player_item.no_effigies_found": "人形は見つかりませんでした。",
   "inventory.add_all_effigies_qty.title": "すべての人形を追加",

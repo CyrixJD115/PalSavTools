@@ -1457,7 +1457,7 @@
   "Fog cleared successfully!": "消雾成功！",
   "inventory.add_all_effigies": "添加所有肖像",
   "inventory.add_all_effigies_confirm.title": "添加所有肖像",
-  "inventory.add_all_effigies_confirm.msg": "将全部 12 种雕像类型添加到关键物品中？",
+  "inventory.add_all_effigies_confirm.msg": "将所有 {count} 个雕像类型添加到关键项目中？",
   "inventory.add_all_effigies_done": "为关键物品添加了肖像。",
   "player_item.no_effigies_found": "没有找到肖像。",
   "inventory.add_all_effigies_qty.title": "添加所有肖像",

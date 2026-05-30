@@ -1454,7 +1454,7 @@
   "Fog cleared successfully!": "안개가 성공적으로 제거되었습니다!",
   "inventory.add_all_effigies": "모든 조각상 추가",
   "inventory.add_all_effigies_confirm.title": "모든 조각상 추가",
-  "inventory.add_all_effigies_confirm.msg": "주요 아이템에 12가지 조각상 유형을 모두 추가하시겠습니까?",
+  "inventory.add_all_effigies_confirm.msg": "주요 아이템에 모든 {count}개의 인형 유형을 추가하시겠습니까?",
   "inventory.add_all_effigies_done": "주요 아이템에 조각상을 추가했습니다.",
   "player_item.no_effigies_found": "조각상을 찾을 수 없습니다.",
   "inventory.add_all_effigies_qty.title": "모든 조각상 추가",

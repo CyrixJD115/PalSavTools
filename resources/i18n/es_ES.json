@@ -1448,7 +1448,7 @@
   "Fog cleared successfully!": "¡La niebla se disipó con éxito!",
   "inventory.add_all_effigies": "Agregar todas las efigies",
   "inventory.add_all_effigies_confirm.title": "Agregar todas las efigies",
-  "inventory.add_all_effigies_confirm.msg": "¿Agregar los 12 tipos de efigie a los elementos clave?",
+  "inventory.add_all_effigies_confirm.msg": "¿Agregar todos los tipos de efigie {count} a elementos clave?",
   "inventory.add_all_effigies_done": "Se agregaron efigies a elementos clave.",
   "player_item.no_effigies_found": "No se encontraron efigies.",
   "inventory.add_all_effigies_qty.title": "Agregar todas las efigies",

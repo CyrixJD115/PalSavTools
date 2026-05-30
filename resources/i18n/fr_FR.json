@@ -1437,7 +1437,7 @@
   "Fog cleared successfully!": "Le brouillard s'est dissipé avec succès !",
   "inventory.add_all_effigies": "Ajouter toutes les effigies",
   "inventory.add_all_effigies_confirm.title": "Ajouter toutes les effigies",
-  "inventory.add_all_effigies_confirm.msg": "Ajouter les 12 types d'effigies aux éléments clés ?",
+  "inventory.add_all_effigies_confirm.msg": "Ajouter tous les {count} types d'effigies aux éléments clés ?",
   "inventory.add_all_effigies_done": "Ajout d'effigies aux éléments clés.",
   "player_item.no_effigies_found": "Aucune effigie trouvée.",
   "inventory.add_all_effigies_qty.title": "Ajouter toutes les effigies",

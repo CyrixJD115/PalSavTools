@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QStyledItemDelegate
 from i18n import t
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, STATS_PANEL_STYLE, MENU_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, wrap_tooltip_text
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
-from palworld_aio.player_manager import add_all_effigies_to_players
+from palworld_aio.player_manager import add_all_effigies_to_players, EFFIGY_ITEM_IDS
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 from palworld_aio import constants
 EQUIP_SLOT_FILTERS = {'weapon': {'type_a': ['EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon']}, 'head': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorHead'}, 'body': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorBody'}, 'shield': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::Shield'}, 'accessory': {'type_a': 'EPalItemTypeA::Accessory'}, 'glider': {'type_a': 'EPalItemTypeA::Glider'}, 'sphere_mod': {'type_a': 'EPalItemTypeA::CaptureItemModifier'}, 'food': {'type_a': 'EPalItemTypeA::Food'}}
@@ -1056,7 +1056,7 @@ class PlayerInventoryTab(QWidget):
             qty = dlg.intValue()
         else:
             return
-        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all 12 effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg').format(count=len(EFFIGY_ITEM_IDS)) if t else f'Add all {len(EFFIGY_ITEM_IDS)} effigy types to key items?', QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
         add_all_effigies_to_players([self.current_player_uid], qty)

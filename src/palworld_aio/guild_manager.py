@@ -61,10 +61,7 @@ def move_player_to_guild(player_uid, target_guild_id):
         target_raw['admin_player_uid'] = found['player_uid']
     new_gid_obj = target_raw['group_id']
     cmap = wsd['CharacterSaveParameterMap']['value']
-    ownership = ContainerOwnership.build(
-        cmap,
-        wsd.get('CharacterContainerSaveData', {}).get('value', [])
-    )
+    ownership = ContainerOwnership.build(cmap, wsd.get('CharacterContainerSaveData', {}).get('value', []))
     moved_instance_ids = []
     for character in cmap:
         try:

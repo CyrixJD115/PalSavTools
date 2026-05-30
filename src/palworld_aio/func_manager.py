@@ -119,10 +119,7 @@ def delete_player_pals(wsd, to_delete_uids):
     char_save_map = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
     removed_pals = 0
     uids_set = {uid.replace('-', '').lower() for uid in to_delete_uids if uid}
-    ownership = ContainerOwnership.build(
-        char_save_map,
-        wsd.get('CharacterContainerSaveData', {}).get('value', [])
-    )
+    ownership = ContainerOwnership.build(char_save_map, wsd.get('CharacterContainerSaveData', {}).get('value', []))
     new_map = []
     for entry in char_save_map:
         try:
@@ -1847,13 +1844,7 @@ def fix_unassigned_pals(parent=None):
             if not effective:
                 continue
             uid_with_dashes = f'{effective[:8]}-{effective[8:12]}-{effective[12:16]}-{effective[16:20]}-{effective[20:]}'
-            raw['OwnerPlayerUId'] = {
-                'struct_type': 'Guid',
-                'struct_id': '00000000-0000-0000-0000-000000000000',
-                'id': None,
-                'value': UUID.from_str(uid_with_dashes),
-                'type': 'StructProperty'
-            }
+            raw['OwnerPlayerUId'] = {'struct_type': 'Guid', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': UUID.from_str(uid_with_dashes), 'type': 'StructProperty'}
             fixed_count += 1
             pname = player_names.get(effective, 'Unknown')
             cid = raw.get('CharacterID', {}).get('value', '')
@@ -1862,7 +1853,6 @@ def fix_unassigned_pals(parent=None):
         except Exception:
             continue
     return fixed_count
-
 def fix_illegal_pals_in_save(parent=None):
     if not constants.current_save_path or not constants.loaded_level_json:
         return 0

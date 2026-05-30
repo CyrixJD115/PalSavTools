@@ -100,10 +100,7 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
         player_uid_clean = str(player_uid).lower().replace('-', '')
         level_data = level_json.get('properties', {}).get('worldSaveData', {}).get('value', {})
         char_map = level_data.get('CharacterSaveParameterMap', {}).get('value', [])
-        ownership = ContainerOwnership.build(
-            char_map,
-            level_data.get('CharacterContainerSaveData', {}).get('value', [])
-        )
+        ownership = ContainerOwnership.build(char_map, level_data.get('CharacterContainerSaveData', {}).get('value', []))
         pal_count = 0
         for entry in char_map:
             try:

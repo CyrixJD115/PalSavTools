@@ -708,8 +708,8 @@ class MapTab(QWidget):
                 sum_wy_rx += wy * rx
             denom_y = n * sum_wx2 - sum_wx * sum_wx
             denom_x = n * sum_wy2 - sum_wy * sum_wy
-            s1 = (n * sum_wx_ry - sum_wx * sum_ry) / denom_y if denom_y != 0.0 else (sum_ry / n if n > 0 else 0.0)
-            s2 = (n * sum_wy_rx - sum_wy * sum_rx) / denom_x if denom_x != 0.0 else (sum_rx / n if n > 0 else 0.0)
+            s1 = (n * sum_wx_ry - sum_wx * sum_ry) / denom_y if denom_y != 0.0 else sum_ry / n if n > 0 else 0.0
+            s2 = (n * sum_wy_rx - sum_wy * sum_rx) / denom_x if denom_x != 0.0 else sum_rx / n if n > 0 else 0.0
             s = (s1 + s2) / 2.0
             ty_sum, tx_sum = (0.0, 0.0)
             for rx, ry, px, py in pts:
@@ -754,7 +754,7 @@ class MapTab(QWidget):
         for guild in self.guilds_data.values():
             for base in guild['bases']:
                 base_map = base.get('map_type', 'world')
-                if ('raw_x' in base) and (base_map == 'tree') == is_tree:
+                if 'raw_x' in base and (base_map == 'tree') == is_tree:
                     if is_tree:
                         ix, iy = palworld_coord.treemap_to_pixel(base['coords'][0], base['coords'][1], self.map_width, self.map_height)
                     else:
@@ -842,7 +842,7 @@ class MapTab(QWidget):
                         try:
                             translation = base_val['RawData']['value']['transform']['translation']
                             pt = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
-                            bx, by = pt.x, pt.y
+                            bx, by = (pt.x, pt.y)
                             if bx is not None:
                                 img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
                                 valid_bases.append({'base_id': bid, 'coords': (bx, by), 'img_coords': (img_x, img_y), 'z': translation['z'], 'map_type': 'world', 'raw_x': translation['x'], 'raw_y': translation['y'], 'data': {'key': bid, 'value': base_val}, 'guild_id': gid, 'guild_name': g_val['RawData']['value'].get('guild_name', t('map.unknown.guild') if t else 'Unknown'), 'leader_name': leader_name, 'guild_level': guild_level, 'member_count': member_count, 'total_bases': total_bases, 'base_position': base_position})
@@ -879,13 +879,13 @@ class MapTab(QWidget):
                     continue
                 x, y, z = (translation.get('x', 0), translation.get('y', 0), translation.get('z', 0))
                 pt = palworld_coord.sav_to_map(x, y, new=True)
-                bx, by = pt.x, pt.y
+                bx, by = (pt.x, pt.y)
                 map_type = 'world'
                 if bx is not None and (abs(bx) > 1000 or abs(by) > 1000):
                     pt2 = palworld_coord.sav_to_treemap(x, y)
                     if abs(pt2.x) <= 2500 and abs(pt2.y) <= 2500:
                         map_type = 'tree'
-                        bx, by = pt2.x, pt2.y
+                        bx, by = (pt2.x, pt2.y)
                 if bx is not None:
                     if map_type == 'tree':
                         img_x, img_y = palworld_coord.treemap_to_pixel(bx, by, self.map_width, self.map_height)
@@ -1516,7 +1516,7 @@ class MapTab(QWidget):
                     try:
                         raw_t = exported_data['base_camp']['value']['RawData']['value']['transform']['translation']
                         pt = palworld_coord.sav_to_map_by_z(raw_t['x'], raw_t['y'], raw_t.get('z', 0))
-                        bx, by = pt.x, pt.y
+                        bx, by = (pt.x, pt.y)
                         img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
                         imported_coords_list.append((bx, by, img_x, img_y))
                         self._play_effect(ImportEffect, img_x, img_y)

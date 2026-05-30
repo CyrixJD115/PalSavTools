@@ -269,10 +269,7 @@ def delete_guild(guild_id):
     manager = BaseInventoryManager.get_instance()
     if manager:
         manager.invalidate_cache()
-    ownership = ContainerOwnership.build(
-        char_map,
-        wsd.get('CharacterContainerSaveData', {}).get('value', [])
-    )
+    ownership = ContainerOwnership.build(char_map, wsd.get('CharacterContainerSaveData', {}).get('value', []))
     for ch in char_map[:]:
         try:
             raw = ch['value']['RawData']['value']
@@ -324,10 +321,7 @@ def delete_player(uid, delete_files=True):
     base_list = wsd.get('BaseCampSaveData', {}).get('value', [])
     uid_clean = str(uid).replace('-', '').lower()
     zero = UUID.from_str('00000000-0000-0000-0000-000000000000')
-    ownership = ContainerOwnership.build(
-        char_map,
-        wsd.get('CharacterContainerSaveData', {}).get('value', [])
-    )
+    ownership = ContainerOwnership.build(char_map, wsd.get('CharacterContainerSaveData', {}).get('value', []))
     for ch in char_map[:]:
         try:
             raw = ch['value']['RawData']['value']

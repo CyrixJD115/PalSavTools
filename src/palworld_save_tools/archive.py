@@ -243,11 +243,13 @@ class FArchiveReader:
         return {'id': _id, 'value': {'type': enum_type, 'value': enum_value}}
     def _read_ArrayProperty(self, size, path):
         array_type = self.fstring()
-        return {'array_type': array_type, 'id': self.optional_guid(), 'value': self.array_property(array_type, size - 4, path)}
+        _id = self.optional_guid()
+        return {'array_type': array_type, 'id': _id, 'value': self.array_property(array_type, size, path)}
     def _read_MapProperty(self, size, path):
         key_type = self.fstring()
         value_type = self.fstring()
         _id = self.optional_guid()
+        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
         key_path = path + '.Key'
@@ -265,13 +267,21 @@ class FArchiveReader:
             key = self.prop_value(key_type, key_struct_type, key_path)
             v = self.prop_value(value_type, value_struct_type, value_path)
             values.append({'key': key, 'value': v})
+        remaining = size - (self.data.tell() - payload_start)
+        if remaining > 0:
+            self.data.read(remaining)
         return {'key_type': key_type, 'value_type': value_type, 'key_struct_type': key_struct_type, 'value_struct_type': value_struct_type, 'id': _id, 'value': values}
     def _read_SetProperty(self, size, path):
         set_type = self.fstring()
         _id = self.optional_guid()
+        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
-        return {'set_type': set_type, 'id': _id, 'value': [self.properties_until_end() for _ in range(count)]}
+        values = [self.properties_until_end() for _ in range(count)]
+        remaining = size - (self.data.tell() - payload_start)
+        if remaining > 0:
+            self.data.read(remaining)
+        return {'set_type': set_type, 'id': _id, 'value': values}
     _READ_PROPERTY_DISPATCH: dict[str, Any] = {'StructProperty': _read_StructProperty, 'IntProperty': _read_IntProperty, 'UInt16Property': _read_UInt16Property, 'UInt32Property': _read_UInt32Property, 'UInt64Property': _read_UInt64Property, 'Int64Property': _read_Int64Property, 'FixedPoint64Property': _read_FixedPoint64Property, 'FloatProperty': _read_FloatProperty, 'StrProperty': _read_StrProperty, 'NameProperty': _read_NameProperty, 'EnumProperty': _read_EnumProperty, 'BoolProperty': _read_BoolProperty, 'ByteProperty': _read_ByteProperty, 'ArrayProperty': _read_ArrayProperty, 'MapProperty': _read_MapProperty, 'SetProperty': _read_SetProperty}
     def property(self, type_name: str, size: int, path: str, nested_caller_path: str='') -> dict[str, Any]:
         if path in self.custom_properties and (path is not nested_caller_path or nested_caller_path == ''):
@@ -341,7 +351,7 @@ class FArchiveReader:
                 prop_values.append(self.struct_value(type_name, f'{path}.{prop_name}'))
             value = {'prop_name': prop_name, 'prop_type': prop_type, 'values': prop_values, 'type_name': type_name, 'id': _id}
         else:
-            value = {'values': self.array_value(array_type, count, size, path)}
+            value = {'values': self.array_value(array_type, count, size - 4, path)}
         return value
     def array_value(self, array_type: str, count: int, size: int, path: str):
         values = []

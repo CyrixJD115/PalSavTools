@@ -74,10 +74,7 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
     try:
         player_uid_clean = str(player_uid).lower().replace('-', '')
         char_map = level_json.get('CharacterSaveParameterMap', {}).get('value', [])
-        ownership = ContainerOwnership.build(
-            char_map,
-            level_json.get('CharacterContainerSaveData', {}).get('value', [])
-        )
+        ownership = ContainerOwnership.build(char_map, level_json.get('CharacterContainerSaveData', {}).get('value', []))
         pal_count = 0
         for entry in char_map:
             try:
@@ -944,10 +941,7 @@ def transfer_pals_only():
         if any((str(p.get('player_uid')) == str(targ_uid) for p in plist)):
             targ_guild_id = raw.get('group_id', zero)
             break
-    ownership = ContainerOwnership.build(
-        level_json.get('CharacterSaveParameterMap', {}).get('value', []),
-        level_json.get('CharacterContainerSaveData', {}).get('value', [])
-    )
+    ownership = ContainerOwnership.build(level_json.get('CharacterSaveParameterMap', {}).get('value', []), level_json.get('CharacterContainerSaveData', {}).get('value', []))
     src_params = []
     id_map = {}
     for ch in level_json['CharacterSaveParameterMap']['value']:

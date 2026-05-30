@@ -260,10 +260,7 @@ class SaveManager(QObject):
                         if result:
                             player_containers[result[0]] = result[1]
         cmap = data.get('CharacterSaveParameterMap', {}).get('value', [])
-        ownership = ContainerOwnership.build(
-            cmap,
-            data.get('CharacterContainerSaveData', {}).get('value', [])
-        )
+        ownership = ContainerOwnership.build(cmap, data.get('CharacterContainerSaveData', {}).get('value', []))
         guild_bases = defaultdict(set)
         for item in cmap:
             rawf = item.get('value', {}).get('RawData', {}).get('value', {})
@@ -446,10 +443,7 @@ class SaveManager(QObject):
             try:
                 level_data = level_json['properties']['worldSaveData']['value']
                 char_map = level_data['CharacterSaveParameterMap']['value']
-                ownership = ContainerOwnership.build(
-                    char_map,
-                    level_data.get('CharacterContainerSaveData', {}).get('value', [])
-                )
+                ownership = ContainerOwnership.build(char_map, level_data.get('CharacterContainerSaveData', {}).get('value', []))
                 for item in char_map:
                     try:
                         sp = item['value']['RawData']['value']['object']['SaveParameter']['value']
@@ -883,10 +877,7 @@ class SaveManager(QObject):
             try:
                 level_data = level_json['properties']['worldSaveData']['value']
                 char_map = level_data['CharacterSaveParameterMap']['value']
-                ownership = ContainerOwnership.build(
-                    char_map,
-                    level_data.get('CharacterContainerSaveData', {}).get('value', [])
-                )
+                ownership = ContainerOwnership.build(char_map, level_data.get('CharacterContainerSaveData', {}).get('value', []))
                 for item in char_map:
                     try:
                         sp = item['value']['RawData']['value']['object']['SaveParameter']['value']

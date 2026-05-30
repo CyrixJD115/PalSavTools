@@ -2040,7 +2040,7 @@ class PalInfoWidget(QFrame):
         if not self._raw:
             return
         owner = self.parent()
-        while owner and not hasattr(owner, 'party_pals'):
+        while owner and (not hasattr(owner, 'party_pals')):
             owner = owner.parent()
         if not owner or not hasattr(owner, '_bulk_sync_pal'):
             return
@@ -2812,7 +2812,7 @@ class PalInfoWidget(QFrame):
                 self.portrait_icon.setPixmap(pix)
             tip = f'<b>{pal_name}</b> [Lv.{level}]'
             if base and base.get('description'):
-                tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{wrap_tooltip_text(base["description"])}</span>'
+                tip += f"""<br><br><span style="color:#94a3b8;font-size:11px">{wrap_tooltip_text(base['description'])}</span>"""
             self.portrait_frame.setToolTip(tip)
             equip_waza_data = raw.get('EquipWaza', {})
             if isinstance(equip_waza_data, dict):
@@ -2983,7 +2983,7 @@ class PalInfoWidget(QFrame):
         if w <= 0:
             return
         ss = label.styleSheet()
-        m = re.search(r'font-size:\s*(\d+)px', ss)
+        m = re.search('font-size:\\s*(\\d+)px', ss)
         if not m:
             return
         cur = int(m.group(1))
@@ -2996,9 +2996,9 @@ class PalInfoWidget(QFrame):
         for sz in range(cur - 1, 5, -1):
             f.setPointSize(sz)
             if QFontMetrics(f).horizontalAdvance(text) <= w:
-                label.setStyleSheet(re.sub(r'font-size:\s*\d+px', f'font-size:{sz}px', ss))
+                label.setStyleSheet(re.sub('font-size:\\s*\\d+px', f'font-size:{sz}px', ss))
                 return
-        label.setStyleSheet(re.sub(r'font-size:\s*\d+px', 'font-size:6px', ss))
+        label.setStyleSheet(re.sub('font-size:\\s*\\d+px', 'font-size:6px', ss))
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Type.MouseButtonPress and event.button() == Qt.LeftButton:
             if obj is self.name_lbl:
@@ -3445,14 +3445,7 @@ def _show_learned_moves_dialog(raw, parent):
     il.addLayout(btn_row)
     dlg.content_layout.addWidget(inner)
     dlg.exec()
-_EDITABLE_KEYS = {
-    'CharacterID', 'NickName', 'Level', 'Exp', 'Gender',
-    'Talent_HP', 'Talent_Shot', 'Talent_Defense',
-    'Rank_HP', 'Rank_Attack', 'Rank_Defence', 'Rank_CraftSpeed', 'Rank',
-    'FriendshipPoint', 'IsRarePal', 'bIsAwakening', 'bImportedCharacter',
-    'FavoriteIndex', 'EquipWaza', 'MasteredWaza', 'PassiveSkillList',
-    'Hp', 'MaxHP'
-}
+_EDITABLE_KEYS = {'CharacterID', 'NickName', 'Level', 'Exp', 'Gender', 'Talent_HP', 'Talent_Shot', 'Talent_Defense', 'Rank_HP', 'Rank_Attack', 'Rank_Defence', 'Rank_CraftSpeed', 'Rank', 'FriendshipPoint', 'IsRarePal', 'bIsAwakening', 'bImportedCharacter', 'FavoriteIndex', 'EquipWaza', 'MasteredWaza', 'PassiveSkillList', 'Hp', 'MaxHP'}
 class BulkSyncPalDialog(FramelessDialog):
     def __init__(self, pal_item, pal_editor, parent=None):
         super().__init__('edit_pals.bulk_sync_pal_title', parent)
@@ -3463,7 +3456,7 @@ class BulkSyncPalDialog(FramelessDialog):
             return
         cid = extract_value(raw, 'CharacterID', '')
         pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
-        self.set_title_text(f'{t("edit_pals.bulk_sync_pal_title")} - {pal_name}')
+        self.set_title_text(f"{t('edit_pals.bulk_sync_pal_title')} - {pal_name}")
         self.setModal(True)
         self.setMinimumSize(380, 700)
         base_id = cid.lower().replace('boss_', '')
@@ -3476,7 +3469,6 @@ class BulkSyncPalDialog(FramelessDialog):
             pr = _get_raw_from_item(pi)
             if pr and extract_value(pr, 'CharacterID', '').lower().replace('boss_', '') == base_id:
                 self._affected.append(pi)
-
         inner = QWidget()
         inner.setStyleSheet('QWidget#bulkSyncInner { background: transparent; }')
         il = QVBoxLayout(inner)
@@ -3967,12 +3959,7 @@ class PalEditorWidget(QWidget):
         target_uid = self.player_uid.replace('-', '').lower() if self.player_uid else ''
         target_party = str(self.party_container).lower() if self.party_container else ''
         target_palbox = str(self.palbox_container).lower() if self.palbox_container else ''
-
-        ownership = ContainerOwnership.build(
-            cmap,
-            constants.loaded_level_json.get('properties', {}).get('worldSaveData', {}).get('value', {}).get('CharacterContainerSaveData', {}).get('value', [])
-        )
-
+        ownership = ContainerOwnership.build(cmap, constants.loaded_level_json.get('properties', {}).get('worldSaveData', {}).get('value', {}).get('CharacterContainerSaveData', {}).get('value', []))
         for item in cmap:
             try:
                 raw = item.get('value', {}).get('RawData', {}).get('value', {})

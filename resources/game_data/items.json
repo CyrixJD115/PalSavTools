@@ -118,7 +118,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "This accessory extends the invincibility period granted from rolls/sidesteps.",
-            "sort_id": 2257
+            "sort_id": 2258
         },
         {
             "name": "Wumpo Charm",
@@ -628,7 +628,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Dark damage, and greatly raises the Dragon damage of the Pal fighting alongside you.",
-            "sort_id": 2253
+            "sort_id": 2254
         },
         {
             "name": "Katress Ring",
@@ -638,7 +638,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Neutral damage, and greatly raises the Dark damage of the Pal fighting alongside you.",
-            "sort_id": 2252
+            "sort_id": 2253
         },
         {
             "name": "Menasting Terra Ring",
@@ -648,7 +648,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Electric damage, and greatly raises the Ground damage of the Pal fighting alongside you.",
-            "sort_id": 2250
+            "sort_id": 2251
         },
         {
             "name": "Fenglope Lux Ring",
@@ -658,7 +658,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Water damage, and greatly raises the Electric damage of the Pal fighting alongside you.",
-            "sort_id": 2249
+            "sort_id": 2250
         },
         {
             "name": "Blazehowl Ring",
@@ -668,7 +668,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Grass damage, and greatly raises the Fire damage of the Pal fighting alongside you.",
-            "sort_id": 2247
+            "sort_id": 2248
         },
         {
             "name": "Faleris Ring",
@@ -678,7 +678,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Ice damage, and greatly raises the Fire damage of the Pal fighting alongside you.",
-            "sort_id": 2255
+            "sort_id": 2256
         },
         {
             "name": "Cryolinx Ring",
@@ -688,7 +688,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Dragon damage, and greatly raises the Ice damage of the Pal fighting alongside you.",
-            "sort_id": 2254
+            "sort_id": 2255
         },
         {
             "name": "Vaelet Ring",
@@ -698,7 +698,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Ground damage, and greatly raises the Grass damage of the Pal fighting alongside you.",
-            "sort_id": 2251
+            "sort_id": 2252
         },
         {
             "name": "Faleris Aqua Ring",
@@ -708,7 +708,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "An accessory that significantly reduces Fire damage, and greatly raises the Water damage of the Pal fighting alongside you.",
-            "sort_id": 2248
+            "sort_id": 2249
         },
         {
             "name": "Dogen Emblem",
@@ -2018,7 +2018,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Phantom Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9239
+            "sort_id": 9240
         },
         {
             "name": "Wumpo Charm Schematic",
@@ -2228,7 +2228,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Elphidran Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9235
+            "sort_id": 9236
         },
         {
             "name": "Katress Ring Schematic",
@@ -2238,7 +2238,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Katress Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9234
+            "sort_id": 9235
         },
         {
             "name": "Menasting Terra Ring Schematic",
@@ -2248,7 +2248,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Menasting Terra Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9232
+            "sort_id": 9233
         },
         {
             "name": "Fenglope Lux Ring Schematic",
@@ -2258,7 +2258,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Fenglope Lux Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9231
+            "sort_id": 9232
         },
         {
             "name": "Blazehowl Ring Schematic",
@@ -2268,7 +2268,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Blazehowl Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9229
+            "sort_id": 9230
         },
         {
             "name": "Faleris Ring Schematic",
@@ -2278,7 +2278,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Faleris Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9237
+            "sort_id": 9238
         },
         {
             "name": "Cryolinx Ring Schematic",
@@ -2288,7 +2288,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Cryolinx Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9236
+            "sort_id": 9237
         },
         {
             "name": "Vaelet Ring Schematic",
@@ -2298,7 +2298,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Vaelet Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9233
+            "sort_id": 9234
         },
         {
             "name": "Faleris Aqua Ring Schematic",
@@ -2308,7 +2308,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Faleris Aqua Ring\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9230
+            "sort_id": 9231
         },
         {
             "name": "Dogen Emblem Schematic",
@@ -5831,6 +5831,16 @@
             "sort_id": 9228
         },
         {
+            "name": "Jetragon's Talisman Schematic",
+            "asset": "Blueprint_Otomo_DFDragon_ElementBoost_1",
+            "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
+            "rarity": 3,
+            "type_a": "EPalItemTypeA::Blueprint",
+            "type_b": "EPalItemTypeB::Blueprint",
+            "description": "When in inventory, unlocks recipe for Jetragon's Talisman ().Can be crafted at Production Assembly Line.",
+            "sort_id": 9229
+        },
+        {
             "name": "Anubis's Talisman Schematic",
             "asset": "Blueprint_Otomo_DFEarth_ElementBoost_1",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
@@ -6018,7 +6028,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Trust\r\n ().\r\nCan be crafted at Production Assembly Line.",
-            "sort_id": 9238
+            "sort_id": 9239
         },
         {
             "name": "Growth Acceleration Bell Schematic",
@@ -15601,6 +15611,16 @@
             "sort_id": 2246
         },
         {
+            "name": "Jetragon's Talisman",
+            "asset": "Otomo_DFDragon_ElementBoost_1",
+            "icon": "/icons/items/T_itemicon_Accessory_Otomo_DFDragon_ElementBoost_1.webp",
+            "rarity": 3,
+            "type_a": "EPalItemTypeA::Accessory",
+            "type_b": "EPalItemTypeB::Accessory",
+            "description": "An accessory that greatly raises the Defense of the Pal fighting alongside you, in addition to their Dragon damage.",
+            "sort_id": 2247
+        },
+        {
             "name": "Anubis's Talisman",
             "asset": "Otomo_DFEarth_ElementBoost_1",
             "icon": "/icons/items/T_itemicon_Accessory_Otomo_DFEarth_ElementBoost_1.webp",
@@ -15988,7 +16008,7 @@
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
             "description": "Equipping this makes it easier to increase your bonds with your Pals.",
-            "sort_id": 2256
+            "sort_id": 2257
         },
         {
             "name": "Growth Acceleration Bell",
@@ -16767,7 +16787,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialPalEgg",
-            "description": "A Mutated Egg. This egg stands out from all the rest, due to the rare mutations that it has undergone. Place it in a Egg Incubator to incubate it.",
+            "description": "A Large Mutated Egg. This egg stands out from all the rest, due to the rare mutations that it has undergone. Place it in a Egg Incubator to incubate it.",
             "sort_id": 5747
         },
         {
@@ -17221,6 +17241,46 @@
             "sort_id": 6255
         },
         {
+            "name": "PalPassiveSkillChange_Consumable_MutationPal_Babysitter",
+            "asset": "PalPassiveSkillChange_Consumable_MutationPal_Babysitter",
+            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
+            "rarity": 4,
+            "type_a": "EPalItemTypeA::Consume",
+            "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
+            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
+            "sort_id": 6261
+        },
+        {
+            "name": "PalPassiveSkillChange_Consumable_MutationPal_ExplosionResist",
+            "asset": "PalPassiveSkillChange_Consumable_MutationPal_ExplosionResist",
+            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
+            "rarity": 4,
+            "type_a": "EPalItemTypeA::Consume",
+            "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
+            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
+            "sort_id": 6264
+        },
+        {
+            "name": "PalPassiveSkillChange_Consumable_MutationPal_Immortal",
+            "asset": "PalPassiveSkillChange_Consumable_MutationPal_Immortal",
+            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
+            "rarity": 4,
+            "type_a": "EPalItemTypeA::Consume",
+            "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
+            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
+            "sort_id": 6263
+        },
+        {
+            "name": "PalPassiveSkillChange_Consumable_MutationPal_Mutant",
+            "asset": "PalPassiveSkillChange_Consumable_MutationPal_Mutant",
+            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
+            "rarity": 4,
+            "type_a": "EPalItemTypeA::Consume",
+            "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
+            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
+            "sort_id": 6262
+        },
+        {
             "name": "Disposable Implant: Lunker",
             "asset": "PalPassiveSkillChange_Consumable_Nushi",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
@@ -17269,6 +17329,16 @@
             "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
             "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
             "sort_id": 9999
+        },
+        {
+            "name": "PalPassiveSkillChange_Consumable_RideJumpCount_Increase2",
+            "asset": "PalPassiveSkillChange_Consumable_RideJumpCount_Increase2",
+            "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
+            "rarity": 4,
+            "type_a": "EPalItemTypeA::Consume",
+            "type_b": "EPalItemTypeB::ConsumePassiveSkillChange",
+            "description": "An implant embedded into a Pal's body \r\nto change its passive skill.\r\nWhen stored in Key Items, it allows you to \r\nselect the corresponding passive skill at \r\na Pal Surgery Table.",
+            "sort_id": 6265
         },
         {
             "name": "Disposable Implant: Savior",
@@ -22187,7 +22257,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "An assault rifle made from Solite ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
+            "description": "An assault rifle made from Soralite Ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
             "sort_id": 575
         },
         {
@@ -22207,7 +22277,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "An assault rifle made from Solite ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
+            "description": "An assault rifle made from Soralite Ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
             "sort_id": 576
         },
         {
@@ -22217,7 +22287,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "An assault rifle made from Solite ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
+            "description": "An assault rifle made from Soralite Ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
             "sort_id": 577
         },
         {
@@ -22227,7 +22297,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "An assault rifle made from Solite ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
+            "description": "An assault rifle made from Soralite Ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
             "sort_id": 578
         },
         {
@@ -22237,7 +22307,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "An assault rifle made from Solite ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
+            "description": "An assault rifle made from Soralite Ingots. It has added reinforcements that allow it to fire stronger ammunition, without sacrificing any of its previous versatility.",
             "sort_id": 579
         },
         {
@@ -22247,7 +22317,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Solite ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 155
         },
         {
@@ -22257,7 +22327,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Solite ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 156
         },
         {
@@ -22267,7 +22337,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Solite ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 157
         },
         {
@@ -22277,7 +22347,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Solite ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 158
         },
         {
@@ -22287,7 +22357,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Solite ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 159
         },
         {
@@ -22297,7 +22367,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow crafted from Solite ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
+            "description": "A bow crafted from Soralite Ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
             "sort_id": 260
         },
         {
@@ -22317,7 +22387,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow crafted from Solite ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
+            "description": "A bow crafted from Soralite Ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
             "sort_id": 261
         },
         {
@@ -22327,7 +22397,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow crafted from Solite ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
+            "description": "A bow crafted from Soralite Ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
             "sort_id": 262
         },
         {
@@ -22337,7 +22407,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow crafted from Solite ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
+            "description": "A bow crafted from Soralite Ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
             "sort_id": 263
         },
         {
@@ -22347,7 +22417,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow crafted from Solite ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
+            "description": "A bow crafted from Soralite Ingots. Boasting considerable improvements in velocity and piercing power, this high-precision weapon excels at ranged combat.",
             "sort_id": 264
         },
         {
@@ -22357,7 +22427,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "A grenade launcher made from Solite ingots. Its reliable trajectories result in precise long-range bombings.",
+            "description": "A grenade launcher made from Soralite Ingots. Its reliable trajectories result in precise long-range bombings.",
             "sort_id": 715
         },
         {
@@ -22377,7 +22447,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "A grenade launcher made from Solite ingots. Its reliable trajectories result in precise long-range bombings.",
+            "description": "A grenade launcher made from Soralite Ingots. Its reliable trajectories result in precise long-range bombings.",
             "sort_id": 716
         },
         {
@@ -22387,7 +22457,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "A grenade launcher made from Solite ingots. Its reliable trajectories result in precise long-range bombings.",
+            "description": "A grenade launcher made from Soralite Ingots. Its reliable trajectories result in precise long-range bombings.",
             "sort_id": 717
         },
         {
@@ -22397,7 +22467,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "A grenade launcher made from Solite ingots. Its reliable trajectories result in precise long-range bombings.",
+            "description": "A grenade launcher made from Soralite Ingots. Its reliable trajectories result in precise long-range bombings.",
             "sort_id": 718
         },
         {
@@ -22407,7 +22477,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "A grenade launcher made from Solite ingots. Its reliable trajectories result in precise long-range bombings.",
+            "description": "A grenade launcher made from Soralite Ingots. Its reliable trajectories result in precise long-range bombings.",
             "sort_id": 719
         },
         {
@@ -22447,7 +22517,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "A shotgun made from Solite ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
+            "description": "A shotgun made from Soralite Ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
             "sort_id": 440
         },
         {
@@ -22467,7 +22537,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "A shotgun made from Solite ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
+            "description": "A shotgun made from Soralite Ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
             "sort_id": 441
         },
         {
@@ -22477,7 +22547,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "A shotgun made from Solite ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
+            "description": "A shotgun made from Soralite Ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
             "sort_id": 442
         },
         {
@@ -22487,7 +22557,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "A shotgun made from Solite ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
+            "description": "A shotgun made from Soralite Ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
             "sort_id": 443
         },
         {
@@ -22497,7 +22567,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "A shotgun made from Solite ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
+            "description": "A shotgun made from Soralite Ingots. Boasting immense firepower at point-blank range, the special magazine ensures longer rounds of sustained shooting.",
             "sort_id": 444
         },
         {
@@ -22507,7 +22577,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "A submachine gun made from Solite ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
+            "description": "A submachine gun made from Soralite Ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
             "sort_id": 635
         },
         {
@@ -22527,7 +22597,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "A submachine gun made from Solite ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
+            "description": "A submachine gun made from Soralite Ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
             "sort_id": 636
         },
         {
@@ -22537,7 +22607,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "A submachine gun made from Solite ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
+            "description": "A submachine gun made from Soralite Ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
             "sort_id": 637
         },
         {
@@ -22547,7 +22617,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "A submachine gun made from Solite ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
+            "description": "A submachine gun made from Soralite Ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
             "sort_id": 638
         },
         {
@@ -22557,7 +22627,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponAssaultRifle",
-            "description": "A submachine gun made from Solite ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
+            "description": "A submachine gun made from Soralite Ingots. The improved ammo and magazine ensure that this weapon is one to be reckoned with.",
             "sort_id": 639
         },
         {
@@ -30262,6 +30332,12 @@
             "dynamic": {
                 "type": "armor",
                 "durability": 22000.0
+            }
+        },
+        "Otomo_DFDragon_ElementBoost_1": {
+            "dynamic": {
+                "type": "armor",
+                "durability": 0.0
             }
         }
     }

@@ -835,17 +835,10 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
     def _on_bulk_add_all_effigies(self, player_uids, quantity):
-        from palworld_aio.inventory_manager import ItemData
-        from palworld_aio.base_inventory_manager import add_item_to_players
-        all_items = ItemData.get_all_items()
-        effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
-        if not effigies:
-            self._show_info(t('player_item.no_action') if t else 'No Action Taken', t('player_item.no_effigies_found', default='No effigies found.') if t else 'No effigies found.')
-            return
-        total = 0
-        for e in effigies:
-            r = add_item_to_players(e['asset'], quantity, 'key', player_uids)
-            total += r.get('added', 0)
+        from palworld_aio.player_manager import add_all_effigies_to_players
+        from palworld_aio import constants
+        total = add_all_effigies_to_players(player_uids, quantity)
+        constants.invalidate_container_lookup()
         self._show_info(t('player_item.add_complete') if t else 'Bulk Add Complete', f'Added {total} effigy items to selected player(s).')
         if hasattr(self, 'refresh_all'):
             self.refresh_all()

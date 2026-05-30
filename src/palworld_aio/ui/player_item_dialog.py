@@ -8,6 +8,7 @@ from palworld_aio import constants
 from palworld_aio.inventory_manager import ItemData
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
+from palworld_aio.player_manager import add_all_effigies_to_players
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, wrap_tooltip_text
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 class RarityBorderDelegate(QStyledItemDelegate):
@@ -403,7 +404,7 @@ class PlayerItemActionDialog(QDialog):
             QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
             return
         if is_effigies:
-            qty, ok = QInputDialog.getInt(self, t('player_item.add_all_effigies_qty.title', default='Add All Effigies'), t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'), 1, 1, 9999)
+            qty, ok = QInputDialog.getInt(self, t('player_item.add_all_effigies_qty.title', default='Add All Effigies'), t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'), 999, 1, 9999)
             if not ok:
                 return
         name = 'Effigies' if is_effigies else 'Key Items'

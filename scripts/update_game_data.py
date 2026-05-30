@@ -1700,6 +1700,46 @@ def update_lab_research_data():
         return
     save_resource_json('labresearchdata.json', all_rows)
 MAP_EXPORT_DIR = EXPORT_TEXTURES_DIR / 'UI' / 'Map'
+RELIC_TYPE_EXPORT_PATH = 'Player/DT_PlayerStatusRankMasterDataTable.json'
+RELIC_OUTPUT_FILE = 'relic_data.json'
+def update_relic_data():
+    print('\n=== Updating Relic Data ===')
+    data = load_export_json(RELIC_TYPE_EXPORT_PATH)
+    if not data:
+        print('  No relic data found. Skipping.')
+        return
+    rows = {}
+    if isinstance(data, list):
+        for table in data:
+            if isinstance(table, dict):
+                r = table.get('Rows', {})
+                if r:
+                    rows.update(r)
+    elif isinstance(data, dict):
+        rows = data.get('Rows', {})
+    if not rows:
+        print('  No relic rows found. Skipping.')
+        return
+    per_type = {}
+    for row in rows.values():
+        if not isinstance(row, dict):
+            continue
+        rt = row.get('RelicType', '')
+        need = row.get('RequiredRelicNum', 0)
+        if isinstance(need, dict):
+            need = need.get('value', 0)
+        if rt:
+            per_type.setdefault(rt, []).append(int(need) if need else 0)
+    result = {}
+    for relic_type, needs in sorted(per_type.items()):
+        total = sum(needs)
+        result[relic_type] = {'cumulative_max': total, 'max_rank': len(needs), 'per_rank': needs}
+    path = RESOURCES_DIR / RELIC_OUTPUT_FILE
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    print(f'  Saved: {RELIC_OUTPUT_FILE} ({len(result)} relic types)')
+    for rt, rd in result.items():
+        print(f'    {rt}: {rd["cumulative_max"]} total relics, {rd["max_rank"]} ranks')
 def update_map_data():
     map_files = ['T_TreeMap.png', 'T_WorldMap.png']
     for fname in map_files:
@@ -2040,6 +2080,7 @@ def main():
     _run_step('Updating items dynamic...', update_items_dynamic)
     _run_step('Updating pal passive data...', update_pal_passive_data)
     _run_step('Updating lab research data...', update_lab_research_data)
+    _run_step('Updating relic data...', update_relic_data)
     _run_step('Updating UI icons...', update_ui_icons)
     _run_step('Updating boss mapping...', update_boss_mapping)
     _run_step('Updating world map areas...', update_world_map_area_data)

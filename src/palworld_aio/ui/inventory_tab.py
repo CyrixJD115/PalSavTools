@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QStyledItemDelegate
 from i18n import t
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, STATS_PANEL_STYLE, MENU_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, wrap_tooltip_text
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
+from palworld_aio.player_manager import add_all_effigies_to_players
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 from palworld_aio import constants
 EQUIP_SLOT_FILTERS = {'weapon': {'type_a': ['EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon']}, 'head': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorHead'}, 'body': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorBody'}, 'shield': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::Shield'}, 'accessory': {'type_a': 'EPalItemTypeA::Accessory'}, 'glider': {'type_a': 'EPalItemTypeA::Glider'}, 'sphere_mod': {'type_a': 'EPalItemTypeA::CaptureItemModifier'}, 'food': {'type_a': 'EPalItemTypeA::Food'}}
@@ -1042,39 +1043,28 @@ class PlayerInventoryTab(QWidget):
         for slot_widget in self.equip_slots.values():
             slot_widget.clear_item()
     def _on_add_all_effigies(self):
-        if not self.inventory:
+        if not self.current_player_uid:
             return
         dlg = QInputDialog(self)
         dlg.setWindowTitle(t('inventory.add_all_effigies_qty.title', default='Add All Effigies'))
         dlg.setLabelText(t('inventory.add_all_effigies_qty.prompt', default='How many of each effigy type?'))
         dlg.setInputMode(QInputDialog.IntInput)
         dlg.setIntRange(1, 9999)
-        dlg.setIntValue(1)
+        dlg.setIntValue(999)
         dlg.setStyleSheet(DARK_THEME_STYLE)
         if dlg.exec() == QDialog.Accepted:
             qty = dlg.intValue()
         else:
             return
-        all_items = ItemData.get_all_items()
-        effigies = [i for i in all_items if i.get('type_a') == 'EPalItemTypeA::Essential' and 'Effigy' in i.get('name', '')]
-        if not effigies:
-            return
-        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all {len(effigies)} effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg', default=f'Add all 12 effigy types to key items?'), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
-        container = self.inventory.get_container('key')
-        if not container:
-            return
-        for item in effigies:
-            item_id = item['asset']
-            existing = [s for s in container.slots if s.get('item_id') == item_id]
-            if existing:
-                slot = existing[0]
-                container.set_item_count(slot['slot_index'], slot['stack_count'] + qty)
-            else:
-                container.add_item(item_id, qty)
-        self.inventory.save()
+        add_all_effigies_to_players([self.current_player_uid], qty)
+        constants.invalidate_container_lookup()
+        from palworld_aio.inventory_manager import get_player_inventory
+        self.inventory = get_player_inventory(self.current_player_uid)
         self._refresh_display()
+        self._themed_message_box(QMessageBox.Information, t('Done') if t else 'Done', t('inventory.add_all_effigies_done', default='Added effigies to key items.'))
     def _on_add_all_key_items(self):
         if not self.inventory:
             return

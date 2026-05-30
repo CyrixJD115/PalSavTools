@@ -616,7 +616,7 @@
             "icon": "/icons/structures/DamagableRock0019.webp"
         },
         {
-            "name": "Solite",
+            "name": "Soralite",
             "asset": "DamagableRock0020",
             "icon": "/icons/structures/DamagableRock0020.webp"
         },
@@ -4511,7 +4511,7 @@
             "icon": "/icons/structures/T_icon_buildObject_SkinChange.webp"
         },
         {
-            "name": "Solite Mine",
+            "name": "Soralite Mine",
             "asset": "SkyIslandOrePit",
             "icon": "/icons/structures/T_icon_buildObject_SkyIslandOrePit.webp"
         },
@@ -9060,7 +9060,7 @@
             "description": "Azure Oath Flag and Azure Oath Banner set. Proof of your victory over the Azure Oath."
         },
         {
-            "name": "Solite Quarry",
+            "name": "Soralite Quarry",
             "asset": "SkyIslandOrePit",
             "icon": "/icons/technologies/T_icon_buildObject_SkyIslandOrePit.webp",
             "type": "boss",

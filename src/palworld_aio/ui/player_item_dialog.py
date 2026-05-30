@@ -282,8 +282,8 @@ class PlayerItemActionDialog(QDialog):
         try:
             from palworld_aio import constants
             import os
-            uid_clean = str(player_uid).replace('-', '').lower()
-            sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean.upper()}.sav')
+            uid_clean = str(player_uid).replace('-', '').upper()
+            sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
             if not os.path.exists(sav_file):
                 return 0
             gvas = sav_to_gvasfile(sav_file)

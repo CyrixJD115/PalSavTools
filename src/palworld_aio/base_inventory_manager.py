@@ -1046,12 +1046,12 @@ def remove_item_from_players(item_id, percentage=None, player_uids=None):
             player_uid = player.get('uid', '')
             if not player_uid:
                 continue
-            uid_clean = str(player_uid).replace('-', '').lower()
+            uid_clean = str(player_uid).replace('-', '').upper()
             player_modified = False
             try:
                 if not constants.current_save_path:
                     continue
-                sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean.upper()}.sav')
+                sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
                 if not os.path.exists(sav_file):
                     continue
                 gvas = sav_to_gvasfile(sav_file)
@@ -1147,11 +1147,11 @@ def add_item_to_players(item_id, quantity=1, container_type='key', player_uids=N
             player_uid = player.get('uid', '')
             if not player_uid:
                 continue
-            uid_clean = str(player_uid).replace('-', '').lower()
+            uid_clean = str(player_uid).replace('-', '').upper()
             try:
                 if not constants.current_save_path:
                     continue
-                sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean.upper()}.sav')
+                sav_file = os.path.join(constants.current_save_path, 'Players', f'{uid_clean}.sav')
                 if not os.path.exists(sav_file):
                     continue
                 gvas = sav_to_gvasfile(sav_file)

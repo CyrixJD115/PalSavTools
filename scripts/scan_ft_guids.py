@@ -1,6 +1,59 @@
-import sys, os, json
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from palworld_aio.utils import sav_to_gvasfile
+import sys, os, json, mmap, shutil, subprocess
+from pathlib import Path
+
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_PROJECT_DIR = _SCRIPT_DIR.parent
+_VENV_DIR = _PROJECT_DIR / '.venv'
+_SRC_DIR = _PROJECT_DIR / 'src'
+
+def _venv_python():
+    return _VENV_DIR / 'Scripts' / 'python.exe' if os.name == 'nt' else _VENV_DIR / 'bin' / 'python'
+
+def _ensure_venv():
+    vpy = _venv_python()
+    if vpy.exists():
+        return True
+    print('Creating virtual environment...')
+    if _VENV_DIR.exists():
+        shutil.rmtree(_VENV_DIR, ignore_errors=True)
+    if subprocess.run(['uv', 'venv', str(_VENV_DIR)]).returncode != 0:
+        print('Failed to create venv')
+        return False
+    print('Installing dependencies...')
+    if subprocess.run(['uv', 'pip', 'install', '-r', str(_PROJECT_DIR / 'requirements.txt')]).returncode != 0:
+        print('Failed to install dependencies')
+        if _VENV_DIR.exists():
+            shutil.rmtree(_VENV_DIR, ignore_errors=True)
+        return False
+    uv_lock = _PROJECT_DIR / 'uv.lock'
+    if uv_lock.exists():
+        uv_lock.unlink()
+    print('Environment ready')
+    return True
+
+def _load_save_tools():
+    sys.path.insert(0, str(_SRC_DIR))
+    global decompress_sav_to_gvas, GvasFile, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES
+    from palworld_save_tools.palsav import decompress_sav_to_gvas
+    from palworld_save_tools.gvas import GvasFile
+    from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS
+    import palobject
+    SKP_PALWORLD_CUSTOM_PROPERTIES = palobject.SKP_PALWORLD_CUSTOM_PROPERTIES
+
+def sav_to_gvasfile(path):
+    if 'decompress_sav_to_gvas' not in globals():
+        _load_save_tools()
+    file_size = os.path.getsize(path)
+    if file_size > 100 * 1024 * 1024:
+        with open(path, 'rb') as f:
+            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+                raw_gvas, _ = decompress_sav_to_gvas(mm.read())
+    else:
+        with open(path, 'rb') as f:
+            data = f.read()
+        raw_gvas, _ = decompress_sav_to_gvas(data)
+    return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
+
 def get_record_data(gvas):
     props = gvas.properties if hasattr(gvas, 'properties') else gvas.get('properties', {})
     save_data = props.get('SaveData', {}).get('value', {})
@@ -44,6 +97,11 @@ def scan_saves(players_dir):
             print(f'  Skipping {fname}: {e}')
     return (scanned, per_player_ft, area_keys, world_flags, area_barrier)
 def main():
+    vpy = _venv_python()
+    if not vpy.exists() or os.path.abspath(sys.executable) != os.path.abspath(str(vpy)):
+        if not _ensure_venv():
+            sys.exit(1)
+        os.execv(str(vpy), [str(vpy), __file__] + sys.argv[1:])
     saves_dir = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), '..', 'TestSaves', 'PylarUpdated', 'Players')
     output = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file__), '..', 'resources', 'game_data', 'reference_unlock_data.json')
     if not os.path.isdir(saves_dir):

@@ -652,31 +652,47 @@ def gather_and_update_dynamic_containers():
     from palworld_save_tools.archive import UUID as PalUUID
     src_container_ids = _collect_container_ids(host_json)
     tgt_container_ids = _collect_container_ids(targ_json)
+    src_char_ids = set()
+    tgt_char_ids = set()
+    if host_json and 'SaveData' in host_json:
+        hsd = host_json['SaveData']['value']
+        src_char_ids.add(hsd['PalStorageContainerId']['value']['ID']['value'])
+        src_char_ids.add(hsd['OtomoCharacterContainerId']['value']['ID']['value'])
+    if targ_json and 'SaveData' in targ_json:
+        tsd = targ_json['SaveData']['value']
+        tgt_char_ids.add(tsd['PalStorageContainerId']['value']['ID']['value'])
+        tgt_char_ids.add(tsd['OtomoCharacterContainerId']['value']['ID']['value'])
     for _, (pj, _, _) in modified_targets_data.items():
         ids = _collect_container_ids(pj)
         src_container_ids |= ids
         tgt_container_ids |= ids
+    for _, (pj, _, _) in modified_targets_data.items():
+        pj_sd = pj['SaveData']['value']
+        cids = {pj_sd['PalStorageContainerId']['value']['ID']['value'], pj_sd['OtomoCharacterContainerId']['value']['ID']['value']}
+        src_char_ids |= cids
+        tgt_char_ids |= cids
     needed = set()
-    for c in level_json.get('ItemContainerSaveData', {}).get('value', []):
-        try:
-            if c['key']['ID']['value'] not in src_container_ids:
-                continue
-        except:
-            continue
-        for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+    for container_type in ['ItemContainerSaveData', 'CharacterContainerSaveData']:
+        for c in level_json.get(container_type, {}).get('value', []):
             try:
-                item = slot.get('RawData', {}).get('value', {}).get('item', {})
-                if not isinstance(item, dict):
+                if c['key']['ID']['value'] not in src_container_ids and c['key']['ID']['value'] not in src_char_ids:
                     continue
-                dyn_id = item.get('dynamic_id', {})
-                if not isinstance(dyn_id, dict):
-                    continue
-                lid = dyn_id.get('local_id_in_created_world', '')
-                norm = _normalize_lid(lid)
-                if norm:
-                    needed.add(norm)
             except:
                 continue
+            for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+                try:
+                    item = slot.get('RawData', {}).get('value', {}).get('item', {})
+                    if not isinstance(item, dict):
+                        continue
+                    dyn_id = item.get('dynamic_id', {})
+                    if not isinstance(dyn_id, dict):
+                        continue
+                    lid = dyn_id.get('local_id_in_created_world', '')
+                    norm = _normalize_lid(lid)
+                    if norm:
+                        needed.add(norm)
+                except:
+                    continue
     src_containers = level_json['DynamicItemSaveData']['value']['values']
     tgt_containers = targ_lvl['DynamicItemSaveData']['value']['values']
     dynamic_guids = set()
@@ -717,32 +733,49 @@ def gather_and_update_dynamic_containers():
         except:
             continue
     tgt_dict.update(preserved_map)
-    for c in targ_lvl.get('ItemContainerSaveData', {}).get('value', []):
-        try:
-            if c['key']['ID']['value'] not in tgt_container_ids:
-                continue
-        except:
-            continue
-        for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+    all_container_ids = src_container_ids | tgt_container_ids | src_char_ids | tgt_char_ids
+    remap_count = 0
+    unmapped_items = []
+    for container_type in ['ItemContainerSaveData', 'CharacterContainerSaveData']:
+        for c in targ_lvl.get(container_type, {}).get('value', []):
             try:
-                raw = slot.get('RawData', {})
-                if not isinstance(raw, dict):
+                if c['key']['ID']['value'] not in all_container_ids:
                     continue
-                val = raw.get('value', {})
-                if not isinstance(val, dict):
-                    continue
-                item = val.get('item', {})
-                if not isinstance(item, dict):
-                    continue
-                dyn_id = item.get('dynamic_id', {})
-                if not isinstance(dyn_id, dict):
-                    continue
-                lid = dyn_id.get('local_id_in_created_world', '')
-                norm = _normalize_lid(lid)
-                if norm in id_map:
-                    dyn_id['local_id_in_created_world'] = PalUUID.from_str(id_map[norm])
             except:
                 continue
+            for slot in c.get('value', {}).get('Slots', {}).get('value', {}).get('values', []):
+                try:
+                    raw = slot.get('RawData', {})
+                    if not isinstance(raw, dict):
+                        continue
+                    val = raw.get('value', {})
+                    if not isinstance(val, dict):
+                        continue
+                    if 'item' not in val:
+                        continue
+                    item = val.get('item', {})
+                    if not isinstance(item, dict):
+                        continue
+                    dyn_id = item.get('dynamic_id', {})
+                    if not isinstance(dyn_id, dict) or not dyn_id:
+                        continue
+                    lid = dyn_id.get('local_id_in_created_world', '')
+                    norm = _normalize_lid(lid)
+                    if not norm:
+                        continue
+                    if norm in id_map:
+                        dyn_id['local_id_in_created_world'] = PalUUID.from_str(id_map[norm])
+                        remap_count += 1
+                    elif norm not in tgt_dict:
+                        dyn_id['local_id_in_created_world'] = PalUUID.from_str('00000000-0000-0000-0000-000000000000')
+                        if len(unmapped_items) < 20:
+                            unmapped_items.append(norm[:24])
+                except:
+                    continue
+    if remap_count or unmapped_items:
+        print(f'[DYNAMICS] Remapped: {remap_count}, Unmapped: {len(unmapped_items)}')
+        for u in unmapped_items[:10]:
+            print(f'[DYNAMICS]   Unmapped: {u}..')
     targ_lvl['DynamicItemSaveData']['value']['values'] = list(tgt_dict.values())
 def sync_player_timestamps(targ_uid, target_lvl):
     global target_world_tick
@@ -989,7 +1022,10 @@ def transfer_pals_only():
             cp_raw = cp['value']['RawData']['value']
             cp_raw['group_id'] = str(targ_guild_id)
             pv = cp_raw['object']['SaveParameter']['value']
-            pv['OwnerPlayerUId']['value'] = targ_uid
+            if 'OwnerPlayerUId' not in pv:
+                pv['OwnerPlayerUId'] = {'struct_type': 'Guid', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': targ_uid, 'type': 'StructProperty'}
+            else:
+                pv['OwnerPlayerUId']['value'] = targ_uid
             for k in ['OldOwnerPlayerUIds', 'MapObjectConcreteInstanceIdAssignedToExpedition']:
                 pv.pop(k, None)
             src_params.append(cp)

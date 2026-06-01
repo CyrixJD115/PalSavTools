@@ -821,30 +821,6 @@ from palworld_save_tools.archive import UUID as PalUUID
 from palworld_save_tools.archive import FArchiveWriter
 def _new_guid():
     return PalUUID(os.urandom(16))
-def _rebuild_opaque_bytes(raw):
-    try:
-        from palworld_save_tools.archive import FArchiveReader
-        opaque = bytes(raw['_opaque_all_remaining_bytes'])
-        v1 = raw.get('_v1_header')
-        if v1:
-            opaque = opaque[len(v1):]
-        r = FArchiveReader(opaque, debug=False)
-        nw = FArchiveWriter()
-        if opaque[:4] == b'\x00\x00\x00\x00':
-            nw.write(r.read(4))
-        nw.guid(raw['admin_player_uid'])
-        nw.write(r.read(4 + 4 + 2 + 4 + 4 + 4 + 4))
-        r.i32()
-        players = raw.get('players', [])
-        nw.i32(len(players))
-        for p in players:
-            nw.i64(p['player_info']['last_online_real_time'])
-            nw.fstring(p['player_info']['player_name'])
-            nw.write(b'\x00' * 31)
-        nw.write(r.read_to_end())
-        raw['_opaque_all_remaining_bytes'] = [int(b) for b in nw.bytes()]
-    except Exception as e:
-        print(f'_rebuild_opaque_bytes error: {e}')
 def _set_player_groupid(targ_json, group_id):
     sd = targ_json['SaveData']['value']
     sd['GroupId'] = {'id': None, 'value': group_id, 'type': 'StructProperty', 'struct_type': 'Guid', 'struct_id': '00000000-0000-0000-0000-000000000000'}
@@ -885,8 +861,6 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict, 
                 target_raw['players'].append(source_player)
             if str(target_raw.get('admin_player_uid')) == str(host_guid):
                 target_raw['admin_player_uid'] = targ_uid
-            if '_opaque_all_remaining_bytes' in target_raw:
-                _rebuild_opaque_bytes(target_raw)
             _set_player_groupid(targ_json, target_raw.get('group_id'))
             return True
         if source_entry:
@@ -1140,10 +1114,11 @@ def get_val_safe(p):
         return {}
 def finalize_save_task():
     errors = []
-    try:
-        _write_sav(target_gvas_file, t_level_sav_path)
-    except Exception as e:
-        errors.append(f'Level.sav: {e}')
+    if modified_targets_data or modified_target_players:
+        try:
+            _write_sav(target_gvas_file, t_level_sav_path)
+        except Exception as e:
+            errors.append(f'Level.sav: {e}')
     for target_uid, (json_data, gvas_obj, src_uid) in modified_targets_data.items():
         try:
             tgt_dir = os.path.join(os.path.dirname(t_level_sav_path), 'Players')

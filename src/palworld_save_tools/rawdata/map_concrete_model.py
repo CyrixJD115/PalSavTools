@@ -205,6 +205,8 @@ def encode_bytes(p: Optional[dict[str, Any]]) -> bytes:
             writer.write(bytes(p['trailing_bytes']))
         case 'PalMapObjectPickupItemOnLevelModel':
             writer.u32(1 if p['auto_picked_up'] else 0)
+            if 'unknown_bytes' in p:
+                writer.write(bytes(p['unknown_bytes']))
         case 'PalMapObjectDropItemModel':
             writer.u32(1 if p['auto_picked_up'] else 0)
             writer.guid(p['pickupdable_player_uid'])

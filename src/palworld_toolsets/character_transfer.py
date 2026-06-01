@@ -413,6 +413,7 @@ def load_json_files():
     target_uid = selected_target_player or selected_source_player
     targ_json_gvas = load_player_file(t_level_sav_path, target_uid)
     if not targ_json_gvas:
+        print(f'Target player file for {target_uid} not found. Player does not exist in target world. Load the game once with this save, then run the transfer again.')
         return False
     targ_json = targ_json_gvas.properties
     return True
@@ -456,9 +457,11 @@ def transfer_all_characters():
             try:
                 targ_json_gvas = load_player_file(t_level_sav_path, selected_target_player)
                 if targ_json_gvas is None:
-                    targ_json_gvas = fast_deepcopy(host_json_gvas)
+                    print(f'[SKIP] {player_uuid} - Player does not exist in target world. Run the transfer again after loading the game once.')
+                    continue
             except:
-                targ_json_gvas = fast_deepcopy(host_json_gvas)
+                print(f'[SKIP] {player_uuid} - Player does not exist in target world. Run the transfer again after loading the game once.')
+                continue
             targ_json = targ_json_gvas.properties
             t0 = time.perf_counter()
             if _TRANSFER_STEPS['character']:
@@ -863,16 +866,6 @@ def transfer_guild(targ_lvl, targ_json, host_guid, targ_uid, source_guild_dict, 
                 target_raw['admin_player_uid'] = targ_uid
             _set_player_groupid(targ_json, target_raw.get('group_id'))
             return True
-        if source_entry:
-            new_guild_entry = fast_deepcopy(source_entry)
-            raw = new_guild_entry['value']['RawData']['value']
-            raw['group_id'] = str(PalUUID(os.urandom(16)))
-            raw['players'] = [pl for pl in raw.get('players', []) if str(pl.get('player_uid')) == str(host_guid)]
-            for pl in raw['players']:
-                pl['player_uid'] = str(targ_uid)
-            guilds.append(new_guild_entry)
-            _set_player_groupid(targ_json, raw.get('group_id'))
-            return True
         return False
     except Exception as e:
         print(f'[GUILD ERROR] {e}')
@@ -1145,22 +1138,10 @@ def load_player_file(level_sav_path, player_uid, use_source_folder=False):
         base_folder = os.path.normpath(os.path.join(os.path.dirname(level_sav_path), '..', 'Players'))
         player_file_path = os.path.join(base_folder, f'{player_uid.upper()}.sav')
     if not os.path.exists(player_file_path):
-        global host_json_gvas
-        if host_json_gvas is not None:
-            clone = fast_deepcopy(host_json_gvas)
-            clone.save_type = getattr(host_json_gvas, 'save_type', 50)
-            sd = clone.properties['SaveData']['value']
-            sd['PlayerUId']['value'] = player_uid
-            sd['IndividualId']['value']['PlayerUId']['value'] = player_uid
-            sd['IndividualId']['value']['InstanceId']['value'] = str(uuid.uuid4()).upper()
-            if 'LastSaveDate' in sd:
-                sd['LastSaveDate']['value'] = int(time.time() * 10000000)
-            print(f'Synthesized player data for {player_uid} in memory')
-            return clone
-        print(f'Error!', f'Player file {player_file_path} not present.')
+        print(f'Error! Player file {player_file_path} not present.')
         return None
     if not os.path.exists(player_file_path):
-        print(f'Error!', f'Invalid file {player_file_path}')
+        print(f'Error! Invalid file {player_file_path}')
         return
     return _load_sav(player_file_path)
 def load_players(save_json, is_source):

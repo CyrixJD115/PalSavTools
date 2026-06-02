@@ -784,7 +784,6 @@ def _bump_guid_str(s, used):
         bumped = bumped.translate(t)
     used.add(bumped)
     return bumped
-
 def sync_player_timestamps(targ_uid, target_lvl):
     global target_world_tick
     try:
@@ -1004,7 +1003,7 @@ def transfer_pals_only():
     source_pals = scan_source_pals(host_guid, level_json, host_json)
     for pal_data in source_pals:
         if not migrate_pal_via_api(pal_data, targ_uid, targ_lvl, targ_json, target_guild_id):
-            print(f'[FAIL] Pal migration failed for instance {pal_data["instance_id"]}')
+            print(f"[FAIL] Pal migration failed for instance {pal_data['instance_id']}")
             return False
     return True
 def get_val_safe(p):

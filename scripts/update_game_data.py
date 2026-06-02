@@ -1390,13 +1390,13 @@ def update_pal_descriptions():
             return f'_PH({m.group(1)})_'
         desc = re.sub('\\{(Passive\\d+_EffectValue\\d+|ReferencePassive\\d+_EffectValue\\d+|ActiveSkillMainValueByRank|ActiveSkillOverWriteEffectTime|ReferenceMsgId_\\w+)\\}', _preserve_effect, desc)
         desc = re.sub('\\{[^}]*\\}', '?', desc)
-        desc = re.sub(r'_PH\(([^)]+)\)_', r'{\1}', desc)
+        desc = re.sub('_PH\\(([^)]+)\\)_', '{\\1}', desc)
         desc = re.sub('<Status_Up>([^<]*)</>', '\\1', desc)
         desc = re.sub('<Status_Keyword>([^<]*)</>', '\\1', desc)
-        desc = re.sub('<img\\s+id=\\|ElemIcon_([^|]+)\\|[^/>]*/>', r'[ICON:ElemIcon_\1]', desc)
+        desc = re.sub('<img\\s+id=\\|ElemIcon_([^|]+)\\|[^/>]*/>', '[ICON:ElemIcon_\\1]', desc)
         desc = re.sub('<img\\s[^/>]*/>', '', desc)
-        desc = re.sub('<uiCommon\\s+id=\\|COMMON_ELEMENT_NAME_(\\w+)\\|[^/>]*/>', r'[ELEM:\1]', desc)
-        desc = re.sub('<uiCommon\\s+id=\\|ADDITIONAL_EFFECT_(\\w+)\\|[^/>]*/>', r'[EFFECT:\1]', desc)
+        desc = re.sub('<uiCommon\\s+id=\\|COMMON_ELEMENT_NAME_(\\w+)\\|[^/>]*/>', '[ELEM:\\1]', desc)
+        desc = re.sub('<uiCommon\\s+id=\\|ADDITIONAL_EFFECT_(\\w+)\\|[^/>]*/>', '[EFFECT:\\1]', desc)
         desc = re.sub('<uiCommon\\s+id=\\|([^|]+)\\|[^/>]*/>', _ui_common_readable, desc)
         desc = re.sub('<(activeSkillName|characterName|itemName|mapObjectName)\\s[^/>]*/>', '', desc)
         desc = re.sub('<[^>]*>', '', desc)
@@ -1406,7 +1406,7 @@ def update_pal_descriptions():
         return desc
     def _work_suitability_readable(m):
         name = m.group(1)
-        parts = re.findall(r'[A-Z][a-z]*', name)
+        parts = re.findall('[A-Z][a-z]*', name)
         if parts:
             return parts[0] if len(parts) == 1 else ' '.join(parts)
         return name
@@ -1421,9 +1421,9 @@ def update_pal_descriptions():
         pskill_name = partner_skill_names.get(base_asset, partner_skill_names.get(asset.lower(), ''))
         pal_desc = pal_descriptions.get(base_asset, pal_descriptions.get(asset.lower(), ''))
         if pal_desc:
-            pal_desc = re.sub('<img\\s+id=\\|ElemIcon_([^|]+)\\|[^/>]*/>', r'[ICON:ElemIcon_\1]', pal_desc)
-            pal_desc = re.sub('<uiCommon\\s+id=\\|COMMON_ELEMENT_NAME_(\\w+)\\|[^/>]*/>', r'[ELEM:\1]', pal_desc)
-            pal_desc = re.sub('<uiCommon\\s+id=\\|ADDITIONAL_EFFECT_(\\w+)\\|[^/>]*/>', r'[EFFECT:\1]', pal_desc)
+            pal_desc = re.sub('<img\\s+id=\\|ElemIcon_([^|]+)\\|[^/>]*/>', '[ICON:ElemIcon_\\1]', pal_desc)
+            pal_desc = re.sub('<uiCommon\\s+id=\\|COMMON_ELEMENT_NAME_(\\w+)\\|[^/>]*/>', '[ELEM:\\1]', pal_desc)
+            pal_desc = re.sub('<uiCommon\\s+id=\\|ADDITIONAL_EFFECT_(\\w+)\\|[^/>]*/>', '[EFFECT:\\1]', pal_desc)
             pal_desc = re.sub('<uiCommon\\s+id=\\|COMMON_WORK_SUITABILITY_(\\w+)\\|[^/>]*/>', _work_suitability_readable, pal_desc)
             pal_desc = resolve_rich_text(pal_desc)
             pal_desc = _cleanup_game_tags(pal_desc)
@@ -1555,7 +1555,7 @@ def update_pal_descriptions():
                 pal_entry['active_skill_overwrite_effect'] = values
     append_text = {}
     for k, v in _append_l10n_lower.items():
-        rank_match = re.search(r'_Rank_\d+', k, re.IGNORECASE)
+        rank_match = re.search('_Rank_\\d+', k, re.IGNORECASE)
         if rank_match:
             append_text[k] = v
     ref_data = load_resource_json('reference_unlock_data.json')

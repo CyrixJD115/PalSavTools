@@ -8,13 +8,7 @@ from palworld_aio.inventory_manager import ItemData
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
 from .container_ids_tab import ContainerSlotWidget, get_container_type_display, get_container_icon
 from .inventory_tab import ItemSlotWidget, GRID_COLS, InventoryGridWidget, EquipmentSlotWidget, EQUIP_SLOT_FILTERS
-CONTAINER_TYPES = [
-    ('CommonContainerId', 'container_selector.slot_main', 'Regular Inventory'),
-    ('EssentialContainerId', 'container_selector.slot_key', 'Key Items'),
-    ('WeaponLoadOutContainerId', 'container_selector.slot_weapons', 'Weapons'),
-    ('PlayerEquipArmorContainerId', 'container_selector.slot_armor', 'Armor'),
-    ('FoodEquipContainerId', 'container_selector.slot_food', 'Food Bag'),
-]
+CONTAINER_TYPES = [('CommonContainerId', 'container_selector.slot_main', 'Regular Inventory'), ('EssentialContainerId', 'container_selector.slot_key', 'Key Items'), ('WeaponLoadOutContainerId', 'container_selector.slot_weapons', 'Weapons'), ('PlayerEquipArmorContainerId', 'container_selector.slot_armor', 'Armor'), ('FoodEquipContainerId', 'container_selector.slot_food', 'Food Bag')]
 INVENTORY_CONTAINER_TYPES = {'CommonContainerId', 'EssentialContainerId'}
 EQUIPMENT_CONTAINER_TYPES = {'WeaponLoadOutContainerId', 'PlayerEquipArmorContainerId', 'FoodEquipContainerId'}
 INV_VIEWS = [('regular', 'Regular Inventory'), ('equipment', 'Equipped Inventory'), ('key', 'Key Items')]
@@ -225,8 +219,8 @@ class ContainerSelectorDialog(QDialog):
         weapon_grid.setSpacing(2)
         weapon_grid.setContentsMargins(0, 0, 0, 0)
         for i, (r, c) in enumerate([(0, 0), (1, 0), (2, 0), (3, 0), (0, 1), (1, 1)]):
-            slot = EquipmentSlotWidget(f'weapon{i+1}', f'W{i+1}')
-            self._equip_slots[f'weapon{i+1}'] = slot
+            slot = EquipmentSlotWidget(f'weapon{i + 1}', f'W{i + 1}')
+            self._equip_slots[f'weapon{i + 1}'] = slot
             weapon_grid.addWidget(slot, r, c)
         weapon_grid.setAlignment(Qt.AlignLeft)
         left_col.addLayout(weapon_grid)
@@ -238,8 +232,8 @@ class ContainerSelectorDialog(QDialog):
         acc_grid.setSpacing(2)
         acc_grid.setContentsMargins(0, 0, 0, 0)
         for i, (r, c) in enumerate([(0, 0), (1, 0), (0, 1), (1, 1)]):
-            slot = EquipmentSlotWidget(f'accessory{i+1}', f'A{i+1}')
-            self._equip_slots[f'accessory{i+1}'] = slot
+            slot = EquipmentSlotWidget(f'accessory{i + 1}', f'A{i + 1}')
+            self._equip_slots[f'accessory{i + 1}'] = slot
             acc_grid.addWidget(slot, r, c)
         acc_grid.setAlignment(Qt.AlignLeft)
         left_col.addLayout(acc_grid)
@@ -251,8 +245,8 @@ class ContainerSelectorDialog(QDialog):
         food_grid.setSpacing(2)
         food_grid.setContentsMargins(0, 0, 0, 0)
         for i in range(5):
-            slot = EquipmentSlotWidget(f'food{i+1}', f'F{i+1}')
-            self._equip_slots[f'food{i+1}'] = slot
+            slot = EquipmentSlotWidget(f'food{i + 1}', f'F{i + 1}')
+            self._equip_slots[f'food{i + 1}'] = slot
             food_grid.addWidget(slot, 0, i)
         food_grid.setAlignment(Qt.AlignLeft)
         left_col.addLayout(food_grid)
@@ -280,7 +274,7 @@ class ContainerSelectorDialog(QDialog):
             lbl.setText(t('container_selector.auto_none'))
             lbl.setStyleSheet('font-size: 9px; color: #7dd3fc;')
         self._update_selection_display()
-        self.update_btn.setEnabled(any(v is not None for v in self.selected_containers.values()))
+        self.update_btn.setEnabled(any((v is not None for v in self.selected_containers.values())))
     def _update_selection_display(self):
         for cid, w in self.container_widgets.items():
             w.setStyleSheet(self._get_container_style(cid))
@@ -369,7 +363,7 @@ class ContainerSelectorDialog(QDialog):
                         continue
                     slots = cont.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
                     slot_count = len(slots)
-                    item_count = sum(1 for s in slots if s.get('RawData', {}).get('value', {}).get('item', {}).get('static_id'))
+                    item_count = sum((1 for s in slots if s.get('RawData', {}).get('value', {}).get('item', {}).get('static_id')))
                     if item_count == 0 or slot_count <= 1:
                         continue
                     ct = self._categorize_container(cont)
@@ -397,7 +391,7 @@ class ContainerSelectorDialog(QDialog):
             ct = self.orphaned_containers_dict.get(cid, {}).get('container_type', 'regular')
             ct_map = {0: 'regular', 1: 'equipment', 2: 'key'}
             w.setVisible(ct == ct_map.get(idx, 'regular'))
-        visible = sum(1 for w in self.container_widgets.values() if w.isVisible())
+        visible = sum((1 for w in self.container_widgets.values() if w.isVisible()))
         self.status_label.setText(t('container_selector.found_containers', count=visible))
     def _categorize_slot_count(self, slot_count):
         return 'regular'
@@ -424,9 +418,9 @@ class ContainerSelectorDialog(QDialog):
                 has_equip = True
             else:
                 has_regular = True
-        if has_key and not has_regular and not has_equip:
+        if has_key and (not has_regular) and (not has_equip):
             return 'key'
-        if has_equip and not has_regular and not has_key:
+        if has_equip and (not has_regular) and (not has_key):
             return 'equipment'
         return 'regular'
     def _load_player_inventories(self):
@@ -492,16 +486,7 @@ class ContainerSelectorDialog(QDialog):
                         for slot_name, slot_widget in self._equip_slots.items():
                             slot_widget.clear_item()
                         wsd_cont = wsd.get('ItemContainerSaveData', {}).get('value', [])
-                        slot_map = {
-                            'weapon1': ('WeaponLoadOutContainerId', 0), 'weapon2': ('WeaponLoadOutContainerId', 1), 'weapon3': ('WeaponLoadOutContainerId', 2),
-                            'weapon4': ('WeaponLoadOutContainerId', 3), 'weapon5': ('WeaponLoadOutContainerId', 4), 'weapon6': ('WeaponLoadOutContainerId', 5),
-                            'head': ('PlayerEquipArmorContainerId', 0), 'body': ('PlayerEquipArmorContainerId', 1), 'shield': ('PlayerEquipArmorContainerId', 4),
-                            'glider': ('PlayerEquipArmorContainerId', 5), 'sphere_mod': ('PlayerEquipArmorContainerId', 8),
-                            'accessory1': ('PlayerEquipArmorContainerId', 2), 'accessory2': ('PlayerEquipArmorContainerId', 3),
-                            'accessory3': ('PlayerEquipArmorContainerId', 6), 'accessory4': ('PlayerEquipArmorContainerId', 7),
-                            'food1': ('FoodEquipContainerId', 0), 'food2': ('FoodEquipContainerId', 1), 'food3': ('FoodEquipContainerId', 2),
-                            'food4': ('FoodEquipContainerId', 3), 'food5': ('FoodEquipContainerId', 4),
-                        }
+                        slot_map = {'weapon1': ('WeaponLoadOutContainerId', 0), 'weapon2': ('WeaponLoadOutContainerId', 1), 'weapon3': ('WeaponLoadOutContainerId', 2), 'weapon4': ('WeaponLoadOutContainerId', 3), 'weapon5': ('WeaponLoadOutContainerId', 4), 'weapon6': ('WeaponLoadOutContainerId', 5), 'head': ('PlayerEquipArmorContainerId', 0), 'body': ('PlayerEquipArmorContainerId', 1), 'shield': ('PlayerEquipArmorContainerId', 4), 'glider': ('PlayerEquipArmorContainerId', 5), 'sphere_mod': ('PlayerEquipArmorContainerId', 8), 'accessory1': ('PlayerEquipArmorContainerId', 2), 'accessory2': ('PlayerEquipArmorContainerId', 3), 'accessory3': ('PlayerEquipArmorContainerId', 6), 'accessory4': ('PlayerEquipArmorContainerId', 7), 'food1': ('FoodEquipContainerId', 0), 'food2': ('FoodEquipContainerId', 1), 'food3': ('FoodEquipContainerId', 2), 'food4': ('FoodEquipContainerId', 3), 'food5': ('FoodEquipContainerId', 4)}
                         equip_items = {}
                         for ct_name in ['WeaponLoadOutContainerId', 'PlayerEquipArmorContainerId', 'FoodEquipContainerId']:
                             cid_obj = inv_info.get(ct_name, {}).get('value', {}).get('ID', {})
@@ -520,7 +505,7 @@ class ContainerSelectorDialog(QDialog):
                                         if not sid:
                                             continue
                                         item_data = ItemData.get_item_by_asset(sid)
-                                        equip_items[(ct_name, si)] = {'item_id': sid, 'item_name': item_data.get('name', sid), 'stack_count': rd.get('count', 1), 'icon_path': item_data.get('icon', '')}
+                                        equip_items[ct_name, si] = {'item_id': sid, 'item_name': item_data.get('name', sid), 'stack_count': rd.get('count', 1), 'icon_path': item_data.get('icon', '')}
                                     break
                         for slot_name, (ct, idx) in slot_map.items():
                             sw = self._equip_slots.get(slot_name)
@@ -573,7 +558,7 @@ class ContainerSelectorDialog(QDialog):
         ic = container_data.get('item_count', 0)
         icon = get_container_icon(container_data.get('slot_count', 0))
         self._preview_header.setText(f'{icon} {ctype}')
-        self._preview_info.setText(f'{sc} slots | {ic} items | {container_data.get("id", "")}')
+        self._preview_info.setText(f"{sc} slots | {ic} items | {container_data.get('id', '')}")
         items = container_data.get('items', [])
         if items:
             for i, item in enumerate(items):
@@ -623,7 +608,7 @@ class ContainerSelectorDialog(QDialog):
             lbl.setText(f'{tn}: {container_id[:8]}... ({ic} items)')
             lbl.setStyleSheet('font-size: 9px; color: #ffffff; font-weight: 600;')
         self._update_selection_display()
-        self.update_btn.setEnabled(any(v is not None for v in self.selected_containers.values()))
+        self.update_btn.setEnabled(any((v is not None for v in self.selected_containers.values())))
         self._reload_inv_tab(container_type)
     def _reload_inv_tab(self, container_type):
         ct_to_tab = {'CommonContainerId': 'regular', 'EssentialContainerId': 'key', 'WeaponLoadOutContainerId': 'equipment', 'PlayerEquipArmorContainerId': 'equipment', 'FoodEquipContainerId': 'equipment'}

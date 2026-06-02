@@ -95,7 +95,7 @@ class ContainerContentsDialog(QDialog):
         super().__init__(parent)
         self.container_data = container_data
         cid = container_data.get('id', '')
-        self.setWindowTitle(f"Container Contents - {cid[:8]}...")
+        self.setWindowTitle(f'Container Contents - {cid[:8]}...')
         self.setMinimumSize(600, 500)
         self.setStyleSheet('\n            QDialog {\n                background-color: rgba(18, 20, 24, 0.95);\n                border: 1px solid rgba(125, 211, 252, 0.2);\n            }\n        ')
         self._setup_ui()

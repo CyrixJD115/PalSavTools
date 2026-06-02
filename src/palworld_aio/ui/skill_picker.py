@@ -141,7 +141,7 @@ class SkillPicker(QWidget):
     def _on_search(self, text):
         for i in range(self._list.count()):
             item = self._list.item(i)
-            if not (item.flags() & Qt.ItemIsSelectable):
+            if not item.flags() & Qt.ItemIsSelectable:
                 continue
             item.setHidden(text.lower() not in item.text().lower())
     def _on_select(self):

@@ -403,13 +403,16 @@ class PalIcon(QFrame):
             pskill_desc = base.get('description', '')
             if pskill_desc:
                 _p = raw.get('PassiveSkillList', {})
-                if isinstance(_p, dict): _pl = _p.get('value', {}).get('values', [])
-                elif isinstance(_p, list): _pl = _p
-                else: _pl = []
+                if isinstance(_p, dict):
+                    _pl = _p.get('value', {}).get('values', [])
+                elif isinstance(_p, list):
+                    _pl = _p
+                else:
+                    _pl = []
                 _cr = int(extract_value(raw, 'Rank', 0)) if isinstance(extract_value(raw, 'Rank', 0), (int, float)) else 0
                 _res = _resolve_partner_desc(pskill_desc, _pl, _cr, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
                 _ht = _partner_desc_to_html(_res, PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}, tooltip=True)
-                tip += f"<br><br>{_ht}"
+                tip += f'<br><br>{_ht}'
         self.setToolTip(tip)
         self.setStyleSheet('QFrame#palIconNew { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; } QFrame#palIconNew:hover { background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.25); }')
         self.bg.lower()
@@ -717,13 +720,16 @@ class PartySlotWidget(QFrame):
             pskill_desc = base.get('description', '')
             if pskill_desc:
                 _p = raw.get('PassiveSkillList', {})
-                if isinstance(_p, dict): _pl = _p.get('value', {}).get('values', [])
-                elif isinstance(_p, list): _pl = _p
-                else: _pl = []
+                if isinstance(_p, dict):
+                    _pl = _p.get('value', {}).get('values', [])
+                elif isinstance(_p, list):
+                    _pl = _p
+                else:
+                    _pl = []
                 _cr = int(extract_value(raw, 'Rank', 0)) if isinstance(extract_value(raw, 'Rank', 0), (int, float)) else 0
                 _res = _resolve_partner_desc(pskill_desc, _pl, _cr, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
                 _ht = _partner_desc_to_html(_res, PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}, tooltip=True)
-                tip += f"<br><br>{_ht}"
+                tip += f'<br><br>{_ht}'
         self.setToolTip(tip)
         is_boss = cid.upper().startswith('BOSS_')
         is_lucky = extract_value(raw, 'IsRarePal', False)
@@ -1134,13 +1140,16 @@ class PalboxSlotWidget(QFrame):
             pskill_desc = base.get('description', '')
             if pskill_desc:
                 _p = raw.get('PassiveSkillList', {})
-                if isinstance(_p, dict): _pl = _p.get('value', {}).get('values', [])
-                elif isinstance(_p, list): _pl = _p
-                else: _pl = []
+                if isinstance(_p, dict):
+                    _pl = _p.get('value', {}).get('values', [])
+                elif isinstance(_p, list):
+                    _pl = _p
+                else:
+                    _pl = []
                 _cr = int(extract_value(raw, 'Rank', 0)) if isinstance(extract_value(raw, 'Rank', 0), (int, float)) else 0
                 _res = _resolve_partner_desc(pskill_desc, _pl, _cr, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
                 _ht = _partner_desc_to_html(_res, PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}, tooltip=True)
-                tip += f"<br><br>{_ht}"
+                tip += f'<br><br>{_ht}'
         self.setToolTip(tip)
         self.setStyleSheet('QFrame#palboxSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#palboxSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
         self.resizeEvent(None)
@@ -1306,7 +1315,7 @@ def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values
                 p_info = _PASSIVE_DATA.get(p_clean, {})
                 rank_variant = min(star_count + 1, 5)
                 if rank_variant > 1:
-                    base_clean = re.sub(r'_\d+$', '', p_clean)
+                    base_clean = re.sub('_\\d+$', '', p_clean)
                     variant_key = f'{base_clean}_{rank_variant}'
                     variant_info = _PASSIVE_DATA.get(variant_key.lower(), {})
                     if isinstance(variant_info, dict) and variant_info.get(f'effect{eff_num}', None) is not None:
@@ -1338,15 +1347,15 @@ def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values
         append_data = _ensure_append_text_data()
         text = append_data.get(key.lower(), '')
         if text:
-            text = re.sub(r'<Status_Up>([^<]*)</>', r'\1', text)
-            text = re.sub(r'<[^>]+>', '', text)
+            text = re.sub('<Status_Up>([^<]*)</>', '\\1', text)
+            text = re.sub('<[^>]+>', '', text)
             return text
         return ''
-    desc = re.sub(r'\{Passive(\d+)_EffectValue(\d+)\}', _resolve_effect, desc_raw)
-    desc = re.sub(r'\{ReferencePassive(\d+)_EffectValue(\d+)\}', _resolve_effect, desc)
-    desc = re.sub(r'\{ActiveSkillMainValueByRank\}', _resolve_main_value, desc)
-    desc = re.sub(r'\{ActiveSkillOverWriteEffectTime\}', _resolve_overwrite_effect, desc)
-    desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_refmsgid, desc)
+    desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc_raw)
+    desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
+    desc = re.sub('\\{ActiveSkillMainValueByRank\\}', _resolve_main_value, desc)
+    desc = re.sub('\\{ActiveSkillOverWriteEffectTime\\}', _resolve_overwrite_effect, desc)
+    desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_refmsgid, desc)
     return desc
 def _partner_desc_to_html(desc, elem_colors_map, tooltip=False):
     if not desc:
@@ -1377,9 +1386,9 @@ def _partner_desc_to_html(desc, elem_colors_map, tooltip=False):
     def _effect_name_html(m):
         effect = m.group(1)
         return f'<span style="color:#FBBF24;font-weight:600;">{effect}</span>'
-    desc = re.sub(r'\[ICON:([^\]]+)\]', _elem_icon_html, desc)
-    desc = re.sub(r'\[ELEM:([^\]]+)\]', _elem_name_html, desc)
-    desc = re.sub(r'\[EFFECT:([^\]]+)\]', _effect_name_html, desc)
+    desc = re.sub('\\[ICON:([^\\]]+)\\]', _elem_icon_html, desc)
+    desc = re.sub('\\[ELEM:([^\\]]+)\\]', _elem_name_html, desc)
+    desc = re.sub('\\[EFFECT:([^\\]]+)\\]', _effect_name_html, desc)
     if tooltip:
         return desc
     return f'<div style="color:#9CA3AF;font-size:8px;line-height:1.4;">{desc}</div>'
@@ -1404,29 +1413,29 @@ def _clean_desc_for_tooltip(desc, passives=None):
                                 return str(int(ev))
                             return str(ev)
             return '?'
-        desc = re.sub(r'\{Passive(\d+)_EffectValue(\d+)\}', _resolve_effect, desc)
-        desc = re.sub(r'\{ReferencePassive(\d+)_EffectValue(\d+)\}', _resolve_effect, desc)
-        desc = re.sub(r'\{ActiveSkillMainValueByRank\}', '?', desc)
-        desc = re.sub(r'\{ActiveSkillOverWriteEffectTime\}', '?', desc)
+        desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
+        desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
+        desc = re.sub('\\{ActiveSkillMainValueByRank\\}', '?', desc)
+        desc = re.sub('\\{ActiveSkillOverWriteEffectTime\\}', '?', desc)
     else:
-        desc = re.sub(r'\{Passive\d+_EffectValue\d+\}', '?', desc)
-        desc = re.sub(r'\{ReferencePassive\d+_EffectValue\d+\}', '?', desc)
-        desc = re.sub(r'\{ActiveSkillMainValueByRank\}', '?', desc)
-        desc = re.sub(r'\{ActiveSkillOverWriteEffectTime\}', '?', desc)
+        desc = re.sub('\\{Passive\\d+_EffectValue\\d+\\}', '?', desc)
+        desc = re.sub('\\{ReferencePassive\\d+_EffectValue\\d+\\}', '?', desc)
+        desc = re.sub('\\{ActiveSkillMainValueByRank\\}', '?', desc)
+        desc = re.sub('\\{ActiveSkillOverWriteEffectTime\\}', '?', desc)
     def _resolve_refmsgid_clean(m):
         msg_id = m.group(1)
         append_data = _ensure_append_text_data()
         text = append_data.get(f'{msg_id.lower()}_rank_1', '')
         if text:
-            text = re.sub(r'<Status_Up>([^<]*)</>', r'\1', text)
-            text = re.sub(r'<[^>]+>', '', text)
+            text = re.sub('<Status_Up>([^<]*)</>', '\\1', text)
+            text = re.sub('<[^>]+>', '', text)
             return text
         return ''
-    desc = re.sub(r'\{ReferenceMsgId_(\w+)\}', _resolve_refmsgid_clean, desc)
-    desc = re.sub(r'\s+', ' ', desc).strip()
-    desc = re.sub(r'\[ICON:[^\]]+\]', '', desc)
-    desc = re.sub(r'\[ELEM:([^\]]+)\]', r'\1', desc)
-    desc = re.sub(r'\[EFFECT:([^\]]+)\]', r'\1', desc)
+    desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_refmsgid_clean, desc)
+    desc = re.sub('\\s+', ' ', desc).strip()
+    desc = re.sub('\\[ICON:[^\\]]+\\]', '', desc)
+    desc = re.sub('\\[ELEM:([^\\]]+)\\]', '\\1', desc)
+    desc = re.sub('\\[EFFECT:([^\\]]+)\\]', '\\1', desc)
     return desc
 _UI_ICONS_DATA = None
 def _ensure_ui_icons_data():
@@ -3009,7 +3018,7 @@ class PalInfoWidget(QFrame):
                 if pskill_desc:
                     pskill_resolved = _resolve_partner_desc(pskill_desc, p_list, condenser_rank, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
                     pskill_html = _partner_desc_to_html(pskill_resolved, self._ELEMENT_COLORS, tooltip=True)
-                    tip += f"""<br><br><span style="color:#94a3b8;font-size:11px">{pskill_html}</span>"""
+                    tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{pskill_html}</span>'
             self.portrait_frame.setToolTip(tip)
             equip_waza_data = raw.get('EquipWaza', {})
             if isinstance(equip_waza_data, dict):

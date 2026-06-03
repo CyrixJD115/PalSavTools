@@ -1313,8 +1313,12 @@ class BasePalsContentWidget(QFrame):
             if not reply:
                 return
             import gc
-            pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['IsPlayer'] = {'id': None, 'type': 'BoolProperty', 'value': True}
-            pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['CharacterID']['value'] = 'None'
+            try:
+                cmap = constants.loaded_level_json['properties']['worldSaveData']['value']['CharacterSaveParameterMap']['value']
+                if pal['character_entry'] in cmap:
+                    cmap.remove(pal['character_entry'])
+            except Exception:
+                pass
             self._pals[pal_idx] = None
             self._rebuild()
             return

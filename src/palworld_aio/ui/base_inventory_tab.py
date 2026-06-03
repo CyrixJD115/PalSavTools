@@ -12,6 +12,7 @@ resources_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__
 if resources_path not in sys.path:
     sys.path.insert(0, resources_path)
 from i18n import t
+from loading_manager import show_information, show_warning
 from palworld_aio import constants
 from palworld_aio.base_inventory_manager import BaseInventoryManager, get_container_image_path, find_item_locations_efficient
 from palworld_aio.widgets import StatsPanel
@@ -1268,7 +1269,11 @@ class BasePalsContentWidget(QFrame):
             fav_val = int(action.split('_')[-1])
             _set_fav_raw(raw, fav_val)
         elif action == 'learn_all':
-            _learn_all_skills_raw(raw)
+            try:
+                _learn_all_skills_raw(raw)
+                show_information(self, t('edit_pals.ctx.learn_all_moves'), t('edit_pals.learn_all_success'))
+            except Exception:
+                show_warning(self, t('edit_pals.ctx.learn_all_moves'), t('edit_pals.learn_all_fail'))
         elif action == 'learnt_skills':
             _show_learned_moves_dialog(raw, self)
         elif action == 'bulk_sync_pal':

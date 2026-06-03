@@ -1060,11 +1060,16 @@ class BasePalsContentWidget(QFrame):
         self._current_base_id = base_id
         self._current_page = 1
         self._total_pages = max(1, (len(self._pals) + self.SLOTS_PER_PAGE - 1) // self.SLOTS_PER_PAGE)
+        self._selected_idx = -1
+        self.pal_info.set_clicked_pal(None)
+        self.pal_info._clear_display()
         self._rebuild()
-    def clear(self):
+    def clear(self, clear_base=True):
         self._pals = []
         self._current_page = 1
         self._total_pages = 1
+        if clear_base:
+            self._current_base_id = None
         self._rebuild()
     def refresh_labels(self):
         page_text = t('base_inventory.page') if t else None
@@ -1077,8 +1082,6 @@ class BasePalsContentWidget(QFrame):
             self.page_label.setText(f'Page {self._current_page}/{self._total_pages}')
         if self._pals:
             self.stats_label.setText(t('base_inventory.working_pals_count').format(count=self._pal_count()) if t else f'Working Pals: {self._pal_count()}')
-        else:
-            self.placeholder.setText(t('base_inventory.base_pals_empty') if t else 'Select a Guild/Base to view working pals')
         if hasattr(self, 'pal_info') and self.pal_info:
             self.pal_info.refresh_labels()
     def _prev_page(self):
@@ -1115,6 +1118,19 @@ class BasePalsContentWidget(QFrame):
         if self._current_page > self._total_pages:
             self._current_page = self._total_pages
         if self._pal_count() == 0:
+            if self._current_base_id:
+                self.placeholder.hide()
+                self.grid_container_widget.show()
+                self.stats_label.show()
+                self.page_label.hide()
+                self.prev_page_btn.hide()
+                self.next_page_btn.hide()
+                self.stats_label.setText(t('base_inventory.working_pals_count').format(count=0) if t else 'Working Pals: 0')
+                self._selected_idx = -1
+                self.pal_info.set_clicked_pal(None)
+                self.pal_info._clear_display()
+                self._update_page()
+                return
             self.placeholder.show()
             self.grid_container_widget.hide()
             self.stats_label.hide()

@@ -22,7 +22,7 @@ from palworld_aio.utils import format_duration_short
 from i18n import t
 from palworld_aio.inventory_manager import ItemData
 from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, PICKER_SEARCH_STYLE, wrap_tooltip_text, CONTENT_PANEL_STYLE, slot_full, slot_selected
-from palworld_aio.edit_pals import _clean_desc_for_tooltip, build_pal_context_menu, _get_cached_pixmap, _get_pal_icon_path, safe_nested_get, extract_value, resolve_name, get_pal_base_data, _resolve_partner_desc, _partner_desc_to_html, StrokedLabel, _get_element_pixmap, PalFrame, _strip_prefix_label, PalInfoWidget, _get_boss_alpha_pixmap, _get_boss_shiny_pixmap, _get_awake_pixmap, _get_ui_icon_pixmap, _generate_pal_save_param, _toggle_boss_raw, _toggle_lucky_raw, _toggle_awake_raw, _toggle_dna_raw, _set_fav_raw, _learn_all_skills_raw, _show_learned_moves_dialog
+from palworld_aio.edit_pals import _clean_desc_for_tooltip, build_pal_context_menu, _get_cached_pixmap, _get_pal_icon_path, safe_nested_get, extract_value, resolve_name, get_pal_base_data, _resolve_partner_desc, _partner_desc_to_html, StrokedLabel, _get_element_pixmap, PalFrame, _strip_prefix_label, PalInfoWidget, _get_boss_alpha_pixmap, _get_boss_shiny_pixmap, _get_awake_pixmap, _get_ui_icon_pixmap, _generate_pal_save_param, _toggle_boss_raw, _toggle_lucky_raw, _toggle_awake_raw, _toggle_dna_raw, _set_fav_raw, _learn_all_skills_raw, _show_learned_moves_dialog, _register_pal_instance_to_guild
 from palworld_aio.base_inventory_manager import get_base_worker_pals
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
@@ -1081,7 +1081,7 @@ class BasePalsContentWidget(QFrame):
         else:
             self.page_label.setText(f'Page {self._current_page}/{self._total_pages}')
         if self._pals:
-            self.stats_label.setText(t('base_inventory.working_pals_count').format(count=len(self._pals)) if t else f'Working Pals: {len(self._pals)}')
+            self.stats_label.setText(t('base_inventory.working_pals_count').format(count=self._pal_count()) if t else f'Working Pals: {self._pal_count()}')
         else:
             self.placeholder.setText(t('base_inventory.base_pals_empty') if t else 'Select a Guild/Base to view working pals')
 
@@ -1119,10 +1119,10 @@ class BasePalsContentWidget(QFrame):
         self._select_pal(0)
 
     def _rebuild(self):
-        self._total_pages = max(1, (len(self._pals) + self.SLOTS_PER_PAGE - 1) // self.SLOTS_PER_PAGE)
+        self._total_pages = max(1, (self._pal_count() + self.SLOTS_PER_PAGE - 1) // self.SLOTS_PER_PAGE)
         if self._current_page > self._total_pages:
             self._current_page = self._total_pages
-        if not self._pals:
+        if self._pal_count() == 0:
             self.placeholder.show()
             self.grid_container_widget.hide()
             self.stats_label.hide()
@@ -1136,7 +1136,7 @@ class BasePalsContentWidget(QFrame):
         self.page_label.show()
         self.prev_page_btn.show()
         self.next_page_btn.show()
-        self.stats_label.setText(t('base_inventory.working_pals_count').format(count=len(self._pals)) if t else f'Working Pals: {len(self._pals)}')
+        self.stats_label.setText(t('base_inventory.working_pals_count').format(count=self._pal_count()) if t else f'Working Pals: {self._pal_count()}')
         self._update_page()
 
     def eventFilter(self, obj, event):
@@ -1148,22 +1148,27 @@ class BasePalsContentWidget(QFrame):
             return True
         return super().eventFilter(obj, event)
 
+    def _pal_count(self):
+        return sum(1 for p in self._pals if p is not None)
+
     def _grid_idx_to_pal_idx(self, grid_idx):
         return (self._current_page - 1) * self.SLOTS_PER_PAGE + grid_idx
 
     def _select_pal(self, idx):
         pal_idx = self._grid_idx_to_pal_idx(idx)
+        pal = self._pals[pal_idx] if pal_idx < len(self._pals) and self._pals[pal_idx] is not None else None
         if self._selected_idx >= 0:
             prev = self.grid.itemAt(self._selected_idx)
             if prev and prev.widget():
                 prev.widget().set_selected(False)
-        self._selected_idx = idx
-        item = self.grid.itemAt(idx)
-        if item and item.widget():
-            item.widget().set_selected(True)
-        pal = self._pals[pal_idx] if pal_idx < len(self._pals) and self._pals[pal_idx] is not None else None
         if pal:
+            self._selected_idx = idx
+            item = self.grid.itemAt(idx)
+            if item and item.widget():
+                item.widget().set_selected(True)
             self.pal_info.set_clicked_pal(pal['character_entry'])
+        else:
+            self._selected_idx = -1
 
     def _on_pal_hovered(self, idx):
         pal_idx = self._grid_idx_to_pal_idx(idx)
@@ -1210,6 +1215,13 @@ class BasePalsContentWidget(QFrame):
             slot_idx = next((i for i, p in enumerate(self._pals) if p is None), len(self._pals))
             entry = _generate_pal_save_param(cid, nick, '00000000-0000-0000-0000-000000000000', container_id, slot_idx)
             instance_id = entry.get('key', {}).get('InstanceId', {}).get('value', instance_id)
+            guild_id = None
+            parent = self.parent()
+            while parent:
+                if hasattr(parent, '_current_guild_id'):
+                    guild_id = parent._current_guild_id
+                    break
+                parent = parent.parent()
             if constants.loaded_level_json:
                 try:
                     wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
@@ -1222,6 +1234,8 @@ class BasePalsContentWidget(QFrame):
                                 slots = cont.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
                                 slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_idx}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
                                 break
+                    if guild_id:
+                        _register_pal_instance_to_guild(instance_id, guild_id)
                 except Exception:
                     pass
             new_pal = {'slot_index': 0, 'instance_id': instance_id, 'character_entry': entry}
@@ -1321,6 +1335,9 @@ class BasePalsContentWidget(QFrame):
                 pass
             self._pals[pal_idx] = None
             self._rebuild()
+            self.pal_info.last_clicked_data = None
+            self.pal_info._hovered_data = None
+            self.pal_info._clear_display()
             return
         item = self.grid.itemAt(idx)
         if item and item.widget():

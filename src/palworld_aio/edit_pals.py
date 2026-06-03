@@ -1604,6 +1604,25 @@ def _max_stats_raw(raw):
     raw['FriendshipPoint'] = {'id': None, 'type': 'IntProperty', 'value': 200000}
     raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': True}
     raw['Level'] = {'id': None, 'type': 'IntProperty', 'value': {'id': None, 'value': 80}}
+def _register_pal_instance_to_guild(instance_id, group_id):
+    if not constants.loaded_level_json:
+        return
+    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+    if 'GroupSaveDataMap' not in wsd:
+        return
+    gid_norm = str(group_id).replace('-', '').lower()
+    for g in wsd['GroupSaveDataMap']['value']:
+        try:
+            gid = str(g['key']).replace('-', '').lower()
+            if gid == gid_norm:
+                g_raw = g['value']['RawData']['value']
+                hids = g_raw.get('individual_character_handle_ids', [])
+                hids.append({'guid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id})
+                g_raw['individual_character_handle_ids'] = hids
+                break
+        except Exception:
+            pass
+
 def build_pal_context_menu(parent, raw):
     from PySide6.QtWidgets import QMenu
     menu = QMenu(parent)
@@ -4574,13 +4593,7 @@ class PalCreateDialog(QDialog):
                 slots = safe_nested_get(cont, ['value', 'Slots', 'value', 'values'], [])
                 slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_to_use}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
                 break
-        if 'GroupSaveDataMap' in wsd:
-            for g in wsd['GroupSaveDataMap']['value']:
-                if g['value']['RawData']['value']['group_id'] == group_id:
-                    hids = g['value']['RawData']['value'].get('individual_character_handle_ids', [])
-                    hids.append({'guid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id})
-                    g['value']['RawData']['value']['individual_character_handle_ids'] = hids
-                    break
+        _register_pal_instance_to_guild(instance_id, group_id)
         if self.is_party:
             self.pal_editor.party_pals[self.slot_index] = pal_item
         else:

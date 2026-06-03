@@ -1471,5 +1471,8 @@
   "edit_pals.bulk_sync_preview": "Aperçu (copain source) :",
   "edit_pals.bulk_sync_no_selection": "Aucun ami sélectionné pour la synchronisation.",
   "edit_pals.set_trust_rank_msg": "Niveau de confiance (0-10) :",
-  "edit_pals.work_skill_books_hint": "Les niveaux de compétences professionnelles sont dérivés des passifs et des statistiques de base. Utilisez des cahiers de travail pour les augmenter."
+  "edit_pals.work_skill_books_hint": "Les niveaux de compétences professionnelles sont dérivés des passifs et des statistiques de base. Utilisez des cahiers de travail pour les augmenter.",
+  "edit_pals.bulk_sync_cancel": "Annuler",
+  "edit_pals.bulk_sync_all": "Tous",
+  "edit_pals.bulk_sync_none": "Aucun"
 }

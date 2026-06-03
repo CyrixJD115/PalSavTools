@@ -1491,5 +1491,8 @@
   "edit_pals.bulk_sync_preview": "预览（来源朋友）：",
   "edit_pals.bulk_sync_no_selection": "没有选择同步好友。",
   "edit_pals.set_trust_rank_msg": "信任等级（0-10）：",
-  "edit_pals.work_skill_books_hint": "工作技能水平源自被动技能和基础统计数据。使用工作簿来增加它们。"
+  "edit_pals.work_skill_books_hint": "工作技能水平源自被动技能和基础统计数据。使用工作簿来增加它们。",
+  "edit_pals.bulk_sync_cancel": "取消",
+  "edit_pals.bulk_sync_all": "全部",
+  "edit_pals.bulk_sync_none": "没有任何"
 }

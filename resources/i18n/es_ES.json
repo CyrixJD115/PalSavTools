@@ -1482,5 +1482,8 @@
   "edit_pals.bulk_sync_preview": "Vista previa (amigo fuente):",
   "edit_pals.bulk_sync_no_selection": "No se seleccionaron amigos para sincronizar.",
   "edit_pals.set_trust_rank_msg": "Rango de confianza (0-10):",
-  "edit_pals.work_skill_books_hint": "Los niveles de habilidades laborales se derivan de pasivos y estadísticas básicas. Utilice libros de trabajo para aumentarlos."
+  "edit_pals.work_skill_books_hint": "Los niveles de habilidades laborales se derivan de pasivos y estadísticas básicas. Utilice libros de trabajo para aumentarlos.",
+  "edit_pals.bulk_sync_cancel": "Cancelar",
+  "edit_pals.bulk_sync_all": "Todo",
+  "edit_pals.bulk_sync_none": "Ninguno"
 }

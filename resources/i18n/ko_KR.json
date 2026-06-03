@@ -1488,5 +1488,8 @@
   "edit_pals.bulk_sync_preview": "미리보기(소스 친구):",
   "edit_pals.bulk_sync_no_selection": "동기화할 친구를 선택하지 않았습니다.",
   "edit_pals.set_trust_rank_msg": "신뢰 순위(0-10):",
-  "edit_pals.work_skill_books_hint": "작업 스킬 레벨은 패시브 및 기본 통계에서 파생됩니다. 통합 문서를 사용하여 늘리십시오."
+  "edit_pals.work_skill_books_hint": "작업 스킬 레벨은 패시브 및 기본 통계에서 파생됩니다. 통합 문서를 사용하여 늘리십시오.",
+  "edit_pals.bulk_sync_cancel": "취소",
+  "edit_pals.bulk_sync_all": "모두",
+  "edit_pals.bulk_sync_none": "없음"
 }

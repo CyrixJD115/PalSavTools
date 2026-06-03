@@ -1777,5 +1777,8 @@
   "edit_pals.bulk_sync_preview": "Preview (source pal):",
   "edit_pals.bulk_sync_no_selection": "No pals selected for syncing.",
   "edit_pals.set_trust_rank_msg": "Trust Rank (0-10):",
-  "edit_pals.work_skill_books_hint": "Work skill levels are derived from passives and base stats. Use work books to increase them."
+  "edit_pals.work_skill_books_hint": "Work skill levels are derived from passives and base stats. Use work books to increase them.",
+  "edit_pals.bulk_sync_cancel": "Cancel",
+  "edit_pals.bulk_sync_all": "All",
+  "edit_pals.bulk_sync_none": "None"
 }

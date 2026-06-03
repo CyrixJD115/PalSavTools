@@ -1513,5 +1513,8 @@
   "edit_pals.bulk_sync_preview": "Vorschau (Quelle: Kumpel):",
   "edit_pals.bulk_sync_no_selection": "Keine Freunde für die Synchronisierung ausgewählt.",
   "edit_pals.set_trust_rank_msg": "Vertrauensrang (0-10):",
-  "edit_pals.work_skill_books_hint": "Die Arbeitsfähigkeitsstufen werden aus Passiven und Basiswerten abgeleitet. Verwenden Sie Arbeitsbücher, um sie zu steigern."
+  "edit_pals.work_skill_books_hint": "Die Arbeitsfähigkeitsstufen werden aus Passiven und Basiswerten abgeleitet. Verwenden Sie Arbeitsbücher, um sie zu steigern.",
+  "edit_pals.bulk_sync_cancel": "Stornieren",
+  "edit_pals.bulk_sync_all": "Alle",
+  "edit_pals.bulk_sync_none": "Keiner"
 }

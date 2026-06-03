@@ -1489,5 +1489,8 @@
   "edit_pals.bulk_sync_preview": "プレビュー (ソース pal):",
   "edit_pals.bulk_sync_no_selection": "同期する友達が選択されていません。",
   "edit_pals.set_trust_rank_msg": "信頼ランク (0-10):",
-  "edit_pals.work_skill_books_hint": "作業スキル レベルは、パッシブと基本ステータスから派生します。ワークブックを使用して増やしてください。"
+  "edit_pals.work_skill_books_hint": "作業スキル レベルは、パッシブと基本ステータスから派生します。ワークブックを使用して増やしてください。",
+  "edit_pals.bulk_sync_cancel": "キャンセル",
+  "edit_pals.bulk_sync_all": "全て",
+  "edit_pals.bulk_sync_none": "なし"
 }

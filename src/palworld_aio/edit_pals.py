@@ -2296,7 +2296,7 @@ class PalInfoWidget(QFrame):
         columns.setSpacing(4)
         left_col = QWidget()
         left_col.setStyleSheet('background: transparent; border: none;')
-        left_col.setFixedWidth(110)
+        left_col.setFixedWidth(120)
         left_layout = QVBoxLayout(left_col)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(2)
@@ -2565,7 +2565,7 @@ class PalInfoWidget(QFrame):
         self._atk_label = atk_label
         atk_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(atk_label, 0, 1, Qt.AlignVCenter)
-        self.atk_lbl = QLabel('3599')
+        self.atk_lbl = QLabel('0')
         self.atk_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.atk_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.atk_lbl, 0, 2, Qt.AlignVCenter)
@@ -2578,7 +2578,7 @@ class PalInfoWidget(QFrame):
         self._def_label = def_label
         def_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(def_label, 1, 1, Qt.AlignVCenter)
-        self.def_lbl = QLabel('2791')
+        self.def_lbl = QLabel('0')
         self.def_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.def_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.def_lbl, 1, 2, Qt.AlignVCenter)
@@ -2591,7 +2591,7 @@ class PalInfoWidget(QFrame):
         self._wspd_label = wspd_label
         wspd_label.setStyleSheet('font-size: 9px; color: #9CA3AF; background: transparent; border: none;')
         stats_grid.addWidget(wspd_label, 2, 1, Qt.AlignVCenter)
-        self.wspd_lbl = QLabel('127')
+        self.wspd_lbl = QLabel('0')
         self.wspd_lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.wspd_lbl.setStyleSheet('font-size: 10px; font-weight: 700; color: #E2E8F0; background: transparent; border: none;')
         stats_grid.addWidget(self.wspd_lbl, 2, 2, Qt.AlignVCenter)
@@ -2898,14 +2898,40 @@ class PalInfoWidget(QFrame):
             base_craft = stats.get('craft_speed', 100)
             base_stomach = stats.get('max_full_stomach', 300)
             base_food = stats.get('food_amount', 5)
-            if atk_val == 0 or True:
-                talent_shot_tmp = extract_value(raw, 'Talent_Shot', 0)
-                rank_atk_tmp = extract_value(raw, 'Rank_Attack', 0)
-                atk_val = calculate_shot_attack(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank)
+            _ensure_passive_data()
+            p_skills = raw.get('PassiveSkillList', {})
+            if isinstance(p_skills, dict):
+                p_list = p_skills.get('value', {}).get('values', [])
+            elif isinstance(p_skills, list):
+                p_list = p_skills
+            else:
+                p_list = []
+            passive_shot_bonus = 0
+            passive_def_bonus = 0
+            passive_craft_bonus = 0
+            for pv in p_list:
+                p_clean = str(pv.get('value', pv) if isinstance(pv, dict) else pv).lower() if pv else ''
+                if p_clean and p_clean in _PASSIVE_DATA:
+                    p_info = _PASSIVE_DATA[p_clean]
+                    for ei in range(1, 5):
+                        etype = p_info.get(f'efftype{ei}', '')
+                        ev = p_info.get(f'effect{ei}', 0)
+                        if 'ShotAttack' in str(etype):
+                            passive_shot_bonus += float(ev)
+                        elif 'Defense' in str(etype) and 'ElementResist' not in str(etype) and ('Resist' not in str(etype)) and ('Rate' not in str(etype)):
+                            passive_def_bonus += float(ev)
+                        elif 'CraftSpeed' in str(etype):
+                            passive_craft_bonus += float(ev)
+            talent_shot_tmp = extract_value(raw, 'Talent_Shot', 0)
+            rank_atk_tmp = extract_value(raw, 'Rank_Attack', 0)
+            atk_val = calculate_shot_attack(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank) if base else atk_val
+            atk_val = math.floor(atk_val * (1 + passive_shot_bonus / 100))
             if def_val == 0:
                 def_val = base_def
             if wspd_val == 0:
                 wspd_val = base_craft
+            def_val = math.floor(def_val * (1 + passive_def_bonus / 100))
+            wspd_val = math.floor(wspd_val * (1 + passive_craft_bonus / 100))
             ws = base.get('work_suitabilities', {}) if base else {}
             for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)
@@ -3777,7 +3803,7 @@ class BulkSyncPalDialog(FramelessDialog):
         pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
         self.set_title_text(f"{t('edit_pals.bulk_sync_pal_title')} - {pal_name}")
         self.setModal(True)
-        self.setMinimumSize(420, 750)
+        self.setMinimumSize(740, 750)
         self._all_candidates = []
         if candidates is not None:
             self._all_candidates = list(candidates)
@@ -3850,11 +3876,12 @@ class BulkSyncPalDialog(FramelessDialog):
             cb = QCheckBox(display)
             cb.setChecked(True)
             cb.setStyleSheet('QCheckBox { color: #E2E8F0; font-size: 11px; font-weight: 600; spacing: 6px; } QCheckBox::indicator { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(125,211,252,0.3); background: rgba(0,0,0,0.3); } QCheckBox::indicator:checked { background: rgba(16,185,129,0.5); border-color: #10B981; }')
+            cb.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
             pal_list_layout.addWidget(cb)
             self._checkboxes.append(cb)
         pal_scroll.setWidget(pal_list_inner)
         left_col.addWidget(pal_scroll, 1)
-        body.addLayout(left_col)
+        body.addLayout(left_col, 1)
         right_col = QVBoxLayout()
         right_col.setSpacing(3)
         preview_label = QLabel(t('edit_pals.bulk_sync_preview'))
@@ -3867,21 +3894,22 @@ class BulkSyncPalDialog(FramelessDialog):
         self._pal_info = PalInfoWidget()
         self._pal_info.set_clicked_pal(pal_item)
         self._pal_info.setStyleSheet(self._pal_info.styleSheet() + '\nQWidget#palInfoInner { border: none; }')
+        self._pal_info.setMinimumWidth(0)
         scroll.setWidget(self._pal_info)
         right_col.addWidget(scroll, 1)
         body.addLayout(right_col, 1)
         il.addLayout(body, 1)
         btn_row = QHBoxLayout()
         btn_row.addStretch()
-        cancel_btn = QPushButton('Cancel')
+        cancel_btn = QPushButton(t('edit_pals.bulk_sync_cancel'))
         cancel_btn.setStyleSheet('QPushButton { background: rgba(255,255,255,0.05); color: #9CA3AF; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 6px 16px; font-size: 12px; font-weight: 600; } QPushButton:hover { background: rgba(255,255,255,0.1); color: #FFFFFF; }')
         cancel_btn.clicked.connect(self.reject)
         btn_row.addWidget(cancel_btn)
-        sel_all_btn = QPushButton('All')
+        sel_all_btn = QPushButton(t('edit_pals.bulk_sync_all'))
         sel_all_btn.setStyleSheet('QPushButton { background: rgba(125,211,252,0.08); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 600; } QPushButton:hover { background: rgba(125,211,252,0.15); color: #FFFFFF; }')
         sel_all_btn.clicked.connect(lambda: self._set_all_checked(True))
         btn_row.addWidget(sel_all_btn)
-        sel_none_btn = QPushButton('None')
+        sel_none_btn = QPushButton(t('edit_pals.bulk_sync_none'))
         sel_none_btn.setStyleSheet('QPushButton { background: rgba(255,255,255,0.04); color: #9CA3AF; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 600; } QPushButton:hover { background: rgba(255,255,255,0.08); color: #FFFFFF; }')
         sel_none_btn.clicked.connect(lambda: self._set_all_checked(False))
         btn_row.addWidget(sel_none_btn)

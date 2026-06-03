@@ -1,8 +1,9 @@
 import os
 import sys
+from functools import partial
 from palworld_save_tools import json_tools
 import time
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QComboBox, QTreeWidget, QTreeWidgetItem, QSplitter, QFrame, QScrollArea, QGridLayout, QGroupBox, QMenu, QHeaderView, QMessageBox, QFileDialog, QInputDialog, QDialog, QCheckBox, QSpinBox, QDoubleSpinBox, QSizePolicy, QAbstractItemView, QSpacerItem, QTabWidget, QTabBar, QStyleOptionTab, QStyle, QApplication, QStyledItemDelegate, QListWidget, QListWidgetItem, QLineEdit, QListView
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QComboBox, QTreeWidget, QTreeWidgetItem, QSplitter, QFrame, QScrollArea, QGridLayout, QGroupBox, QMenu, QHeaderView, QMessageBox, QFileDialog, QInputDialog, QDialog, QCheckBox, QSpinBox, QDoubleSpinBox, QSizePolicy, QAbstractItemView, QSpacerItem, QTabWidget, QTabBar, QStyleOptionTab, QStyle, QApplication, QStyledItemDelegate, QListWidget, QListWidgetItem, QLineEdit, QListView, QStackedWidget
 from PySide6.QtCore import Qt, Signal, QTimer, QPropertyAnimation, QEasingCurve, QSize, QPoint, QRect, QEvent, QMargins, QThread
 from PySide6.QtGui import QPixmap, QIcon, QFont, QAction, QCursor, QPainter, QColor, QBrush, QPen, QLinearGradient, QPalette, QMouseEvent, QWheelEvent, QResizeEvent, QPaintEvent, QContextMenuEvent, QDragEnterEvent, QDragMoveEvent, QDropEvent, QDrag
 from PySide6.QtWidgets import QStyledItemDelegate
@@ -20,7 +21,8 @@ from palworld_aio.utils import format_duration_short
 from i18n import t
 from palworld_aio.inventory_manager import ItemData
 from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, PICKER_SEARCH_STYLE, wrap_tooltip_text
-from palworld_aio.edit_pals import _clean_desc_for_tooltip
+from palworld_aio.edit_pals import _clean_desc_for_tooltip, build_pal_context_menu, _get_cached_pixmap, _get_pal_icon_path, safe_nested_get, extract_value, resolve_name, get_pal_base_data, _resolve_partner_desc, _partner_desc_to_html, StrokedLabel, _get_element_pixmap, PalFrame, _strip_prefix_label, PalInfoWidget, _get_boss_alpha_pixmap, _get_boss_shiny_pixmap, _get_awake_pixmap, _get_ui_icon_pixmap, _generate_pal_save_param, _toggle_boss_raw, _toggle_lucky_raw, _toggle_awake_raw, _toggle_dna_raw, _set_fav_raw, _learn_all_skills_raw, _show_learned_moves_dialog
+from palworld_aio.base_inventory_manager import get_base_worker_pals
 class RarityBorderDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -708,6 +710,544 @@ class ContainerInfoWidget(QWidget):
             self.image_label.setText('📦')
     def _update_styles(self):
         self.setStyleSheet('\n                QWidget {\n                    background-color: rgba(20, 25, 35, 0.8);\n                    border: 1px solid rgba(255, 255, 255, 0.1);\n                    border-radius: 6px;\n                    color: #e0e0e0;\n                }\n                QLabel {\n                    color: #e0e0e0;\n                }\n                QLabel[bold="true"] {\n                    font-weight: bold;\n                }\n            ')
+class _BasePalIcon(QFrame):
+    clicked = Signal(int)
+    rightClicked = Signal(int, str)
+    entered = Signal(int)
+    left = Signal()
+    def __init__(self, pal_data=None, slot_index=0, parent=None):
+        super().__init__(parent)
+        self.pal_data = pal_data
+        self.slot_index = slot_index
+        self.selected = False
+        self.setObjectName('basePalSlot')
+        self.setMinimumSize(56, 56)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setCursor(Qt.PointingHandCursor)
+        self.setMouseTracking(True)
+        self._children = []
+        self._build()
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if not hasattr(self, '_children'):
+            return
+        w, h = (self.width(), self.height())
+        for c in self._children:
+            try:
+                kind = c._slot_child_kind
+                cw, ch = (c.width(), c.height())
+                if kind == 'icon':
+                    c.move((w - cw) // 2, (h - ch) // 2)
+                elif kind == 'boss':
+                    c.move(2, 2)
+                elif kind == 'element0':
+                    c.move(w - cw - 2, 2)
+                elif kind == 'element1':
+                    c.move(w - cw - 2, 12)
+                elif kind == 'dna':
+                    c.move(2, h - ch - 2)
+                elif kind == 'lock':
+                    c.move((w - cw) // 2, 1)
+                elif kind == 'level':
+                    c.move((w - cw) // 2, h - ch - 3)
+                elif kind == 'awake':
+                    c.move(w - cw - 2, h - ch - 2)
+            except Exception:
+                pass
+    def enterEvent(self, event):
+        self.entered.emit(self.slot_index)
+        super().enterEvent(event)
+    def leaveEvent(self, event):
+        self.left.emit()
+        super().leaveEvent(event)
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit(self.slot_index)
+        super().mousePressEvent(event)
+    def contextMenuEvent(self, event):
+        if self.pal_data:
+            self.clicked.emit(self.slot_index)
+            raw = self._get_raw()
+            if not raw:
+                return
+            menu, actions = build_pal_context_menu(self, raw)
+            action = menu.exec(event.globalPos())
+            if action == actions['boss']:
+                self.rightClicked.emit(self.slot_index, 'boss_toggle')
+            elif action == actions['lucky']:
+                self.rightClicked.emit(self.slot_index, 'lucky_toggle')
+            elif action == actions['awake']:
+                self.rightClicked.emit(self.slot_index, 'awake_toggle')
+            elif action == actions['dna']:
+                self.rightClicked.emit(self.slot_index, 'dna_toggle')
+            elif action in actions['fav'][1]:
+                idx = actions['fav'][1].index(action)
+                self.rightClicked.emit(self.slot_index, f'fav_set_{idx}')
+            elif action == actions['max']:
+                self.rightClicked.emit(self.slot_index, 'max_all_stats')
+            elif action == actions['learn']:
+                self.rightClicked.emit(self.slot_index, 'learn_all')
+            elif action == actions['learned']:
+                self.rightClicked.emit(self.slot_index, 'learnt_skills')
+            elif action == actions['bulk_sync_pal']:
+                self.rightClicked.emit(self.slot_index, 'bulk_sync_pal')
+            elif action == actions['delete']:
+                self.rightClicked.emit(self.slot_index, 'delete')
+        else:
+            from PySide6.QtWidgets import QMenu
+            menu = QMenu(self)
+            menu.setObjectName('editPalsContextMenu')
+            add_action = menu.addAction(t('edit_pals.add_new_pal'))
+            action = menu.exec(event.globalPos())
+            if action == add_action:
+                self.rightClicked.emit(self.slot_index, 'add_new')
+    def _get_raw(self):
+        if not self.pal_data:
+            return None
+        try:
+            if 'data' in self.pal_data:
+                return self.pal_data['data']
+            return safe_nested_get(self.pal_data, ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value'])
+        except Exception:
+            return None
+    def _build(self):
+        was_selected = self.selected
+        for c in list(self._children):
+            c.deleteLater()
+        self._children = []
+        raw = self._get_raw()
+        if not raw or not isinstance(raw, dict):
+            self.setStyleSheet('QFrame#basePalSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#basePalSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
+            return
+        cid = extract_value(raw, 'CharacterID', '')
+        level = extract_value(raw, 'Level', 1)
+        nick = extract_value(raw, 'NickName', '')
+        is_boss = cid.upper().startswith('BOSS_')
+        is_lucky = extract_value(raw, 'IsRarePal', False)
+        is_awake = bool(extract_value(raw, 'bIsAwakening', False))
+        is_imported = bool(extract_value(raw, 'bImportedCharacter', False))
+        fav_idx = extract_value(raw, 'FavoriteIndex', 0)
+        icon_path = _get_pal_icon_path(cid)
+        pix = _get_cached_pixmap(icon_path, 38)
+        icon_lbl = QLabel(self)
+        icon_lbl.setFixedSize(38, 38)
+        icon_lbl.setAlignment(Qt.AlignCenter)
+        if pix:
+            icon_lbl.setPixmap(pix)
+        icon_lbl.setStyleSheet('background: transparent; border: none;')
+        icon_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+        icon_lbl._slot_child_kind = 'icon'
+        icon_lbl.show()
+        self._children.append(icon_lbl)
+        base_el_data = get_pal_base_data(cid)
+        if base_el_data:
+            els = list(base_el_data.get('elements', {}))
+            for ei, en in enumerate(els[:2]):
+                ep = _get_element_pixmap(en, 'small', 8 if len(els) > 1 else 10)
+                if ep:
+                    eb = QLabel(self)
+                    eb.setFixedSize(10, 10)
+                    eb.setAlignment(Qt.AlignCenter)
+                    eb.setPixmap(ep)
+                    eb.setStyleSheet('background: transparent; border: none;')
+                    eb.setAttribute(Qt.WA_TransparentForMouseEvents)
+                    eb._slot_child_kind = f'element{ei}'
+                    eb.show()
+                    self._children.append(eb)
+        level_lbl = StrokedLabel(f'{level}', self)
+        level_lbl.setStyleSheet('color: #7DD3FC; font-size: 8px; font-weight: bold; background: rgba(0,0,0,0.7); border: 1px solid rgba(125,211,252,0.25); border-radius: 3px; padding: 0 3px;')
+        level_lbl.setFixedSize(18, 11)
+        level_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+        level_lbl._slot_child_kind = 'level'
+        level_lbl.show()
+        self._children.append(level_lbl)
+        if is_boss:
+            boss_pix = _get_boss_alpha_pixmap(14)
+            if boss_pix:
+                badge = QLabel(self)
+                badge.setPixmap(boss_pix)
+                badge.setFixedSize(14, 14)
+                badge.setAlignment(Qt.AlignCenter)
+                badge.setStyleSheet('background: transparent; border: none;')
+                badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                badge._slot_child_kind = 'boss'
+                badge.show()
+                self._children.append(badge)
+        elif is_lucky:
+            shiny_pix = _get_boss_shiny_pixmap(14)
+            if shiny_pix:
+                badge = QLabel(self)
+                badge.setPixmap(shiny_pix)
+                badge.setFixedSize(14, 14)
+                badge.setAlignment(Qt.AlignCenter)
+                badge.setStyleSheet('background: transparent; border: none;')
+                badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                badge._slot_child_kind = 'boss'
+                badge.show()
+                self._children.append(badge)
+        if is_awake:
+            awake_pix = _get_awake_pixmap(12)
+            if awake_pix:
+                awake_badge = QLabel(self)
+                awake_badge.setPixmap(awake_pix)
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+                awake_badge.setStyleSheet('background: transparent; border: none;')
+            else:
+                awake_badge = QLabel('🔥', self)
+                awake_badge.setStyleSheet('font-size: 9px; background: transparent;')
+                awake_badge.setFixedSize(12, 12)
+                awake_badge.setAlignment(Qt.AlignCenter)
+            awake_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            awake_badge._slot_child_kind = 'awake'
+            awake_badge.show()
+            self._children.append(awake_badge)
+        if is_imported:
+            dna_pix = _get_ui_icon_pixmap('dna', 12)
+            if dna_pix:
+                dna_badge = QLabel(self)
+                dna_badge.setPixmap(dna_pix)
+                dna_badge.setFixedSize(14, 14)
+                dna_badge.setAlignment(Qt.AlignCenter)
+                dna_badge.setAttribute(Qt.WA_TranslucentBackground)
+                dna_badge.setStyleSheet('background: transparent; border: none;')
+                dna_badge._slot_child_kind = 'dna'
+                dna_badge.show()
+                self._children.append(dna_badge)
+        if fav_idx and int(fav_idx) > 0:
+            lock_key = f'lock_{int(fav_idx)}'
+            lock_pix = _get_ui_icon_pixmap(lock_key, 14) or _get_ui_icon_pixmap('lock_1', 14) or _get_ui_icon_pixmap('lock', 14)
+            if not lock_pix:
+                lock_badge = QLabel('🔒', self)
+                lock_badge.setStyleSheet('font-size: 9px; color: rgba(255,255,255,0.65); background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;')
+                lock_badge.setFixedSize(14, 14)
+                lock_badge.setAlignment(Qt.AlignCenter)
+            else:
+                lock_badge = QLabel(self)
+                lock_badge.setPixmap(lock_pix)
+                lock_badge.setFixedSize(14, 14)
+                lock_badge.setStyleSheet('background: transparent; border: none;')
+            lock_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+            lock_badge._slot_child_kind = 'lock'
+            lock_badge.show()
+            self._children.append(lock_badge)
+        PalFrame._load_maps()
+        pal_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
+        if nick:
+            pal_name = nick
+        tip = f'{pal_name} [Lv.{level}]'
+        base = get_pal_base_data(cid)
+        if base:
+            pskill_desc = base.get('description', '')
+            if pskill_desc:
+                _p = raw.get('PassiveSkillList', {})
+                if isinstance(_p, dict):
+                    _pl = _p.get('value', {}).get('values', [])
+                elif isinstance(_p, list):
+                    _pl = _p
+                else:
+                    _pl = []
+                _cr = int(extract_value(raw, 'Rank', 0)) if isinstance(extract_value(raw, 'Rank', 0), (int, float)) else 0
+                _res = _resolve_partner_desc(pskill_desc, _pl, _cr, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
+                el_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
+                _ht = _partner_desc_to_html(_res, el_colors, tooltip=True)
+                tip += f'<br><br>{_ht}'
+        self.setToolTip(tip)
+        self.setStyleSheet('QFrame#basePalSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; } QFrame#basePalSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
+        if was_selected:
+            self.setStyleSheet('QFrame#basePalSlot { background: rgba(125,211,252,0.1); border: 2px solid #7DD3FC; border-radius: 6px; }')
+        self.resizeEvent(None)
+    def set_selected(self, selected):
+        self.selected = selected
+        if selected:
+            self.setStyleSheet('QFrame#basePalSlot { background: rgba(125,211,252,0.1); border: 2px solid #7DD3FC; border-radius: 6px; }')
+        else:
+            self.setStyleSheet('QFrame#basePalSlot { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; } QFrame#basePalSlot:hover { background: rgba(125,211,252,0.06); border: 1px solid rgba(125,211,252,0.2); }')
+    def update_display(self):
+        self._build()
+
+class BasePalsContentWidget(QWidget):
+    COLS = 6
+    ROWS = 5
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._pals = []
+        self._icons = []
+        self._selected_idx = -1
+        self._current_base_id = None
+        self._grid_size = self.COLS * self.ROWS
+        self._setup_ui()
+
+    def _setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.placeholder_frame = QFrame()
+        self.placeholder_frame.setObjectName('basePalsPlaceholder')
+        self.placeholder_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.placeholder_frame.setStyleSheet('QFrame#basePalsPlaceholder { background: rgba(18,20,24,0.65); border: 1px solid rgba(125,211,252,0.15); border-radius: 10px; }')
+        ph_layout = QVBoxLayout(self.placeholder_frame)
+        self.placeholder = QLabel(t('base_inventory.base_pals_empty') if t else 'Select a Guild/Base to view working pals')
+        self.placeholder.setAlignment(Qt.AlignCenter)
+        self.placeholder.setMinimumHeight(400)
+        self.placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.placeholder.setStyleSheet('QLabel { color: #A6B8C8; font-size: 14px; background: transparent; }')
+        ph_layout.addWidget(self.placeholder)
+        layout.addWidget(self.placeholder_frame)
+        self.content_frame = QFrame()
+        self.content_frame.setObjectName('basePalsContent')
+        self.content_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.content_frame.setStyleSheet('QFrame#basePalsContent { background: rgba(18,20,24,0.65); border: 1px solid rgba(125,211,252,0.15); border-radius: 10px; }')
+        content_layout = QVBoxLayout(self.content_frame)
+        content_layout.setContentsMargins(8, 8, 8, 8)
+        content_layout.setSpacing(8)
+        self.splitter = QSplitter(Qt.Horizontal)
+        self.splitter.setChildrenCollapsible(False)
+        left_panel = QWidget()
+        left_layout = QVBoxLayout(left_panel)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(5)
+        grid_container = QWidget()
+        grid_container.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.grid = QGridLayout(grid_container)
+        self.grid.setHorizontalSpacing(2)
+        self.grid.setVerticalSpacing(4)
+        self.grid.setContentsMargins(0, 0, 0, 0)
+        for row in range(self.ROWS):
+            self.grid.setRowStretch(row, 1)
+            for col in range(self.COLS):
+                self.grid.setColumnStretch(col, 1)
+                slot = _BasePalIcon(None, row * self.COLS + col)
+                slot.clicked.connect(self._on_pal_clicked)
+                slot.rightClicked.connect(self._on_pal_right_clicked)
+                slot.entered.connect(self._on_pal_hovered)
+                slot.left.connect(self._on_pal_hover_left)
+                self.grid.addWidget(slot, row, col)
+                self._icons.append(slot)
+        left_layout.addWidget(grid_container)
+        self.stats_label = QLabel(t('base_inventory.working_pals_count').format(count=0) if t else 'Working Pals: 0')
+        self.stats_label.setStyleSheet('font-weight: bold; font-size: 12px; color: #7DD3FC; padding: 2px 4px;')
+        left_layout.addWidget(self.stats_label)
+        self.splitter.addWidget(left_panel)
+        right_panel = QWidget()
+        right_panel.setFixedWidth(350)
+        right_layout = QVBoxLayout(right_panel)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(0)
+        self.pal_info = PalInfoWidget()
+        self.pal_info.pal_data_changed.connect(self._on_pal_info_changed)
+        right_layout.addWidget(self.pal_info)
+        self.splitter.addWidget(right_panel)
+        self.splitter.setStretchFactor(0, 1)
+        self.splitter.setStretchFactor(1, 0)
+        content_layout.addWidget(self.splitter)
+        layout.addWidget(self.content_frame)
+        self.content_frame.hide()
+
+    def set_pals(self, pals_data, base_id=None):
+        self._pals = pals_data
+        self._current_base_id = base_id
+        self._rebuild()
+
+    def clear(self):
+        self._pals = []
+        self._rebuild()
+
+    def refresh_labels(self):
+        if self._pals:
+            self.stats_label.setText(t('base_inventory.working_pals_count').format(count=len(self._pals)) if t else f'Working Pals: {len(self._pals)}')
+        else:
+            self.placeholder.setText(t('base_inventory.base_pals_empty') if t else 'Select a Guild/Base to view working pals')
+
+    def _rebuild(self):
+        needed = len(self._pals)
+        if needed > self._grid_size:
+            extra = needed - self._grid_size
+            for i in range(extra):
+                row = (self._grid_size + i) // self.COLS
+                col = (self._grid_size + i) % self.COLS
+                slot = _BasePalIcon(None, self._grid_size + i)
+                slot.clicked.connect(self._on_pal_clicked)
+                slot.rightClicked.connect(self._on_pal_right_clicked)
+                slot.entered.connect(self._on_pal_hovered)
+                slot.left.connect(self._on_pal_hover_left)
+                self.grid.addWidget(slot, row, col)
+                self._icons.append(slot)
+            self._grid_size = max(self._grid_size + extra, needed)
+        for i, slot in enumerate(self._icons):
+            if i < len(self._pals):
+                slot.pal_data = self._pals[i]['character_entry']
+            else:
+                slot.pal_data = None
+            slot.slot_index = i
+            slot.update_display()
+        if not self._pals:
+            self.placeholder_frame.show()
+            self.content_frame.hide()
+            return
+        self.placeholder_frame.hide()
+        self.content_frame.show()
+        self.stats_label.setText(t('base_inventory.working_pals_count').format(count=len(self._pals)) if t else f'Working Pals: {len(self._pals)}')
+        self._selected_idx = -1
+        self._select_pal(0)
+
+    def _select_pal(self, idx):
+        if self._selected_idx >= 0:
+            prev = self.grid.itemAt(self._selected_idx)
+            if prev and prev.widget():
+                prev.widget().set_selected(False)
+        self._selected_idx = idx
+        item = self.grid.itemAt(idx)
+        if item and item.widget():
+            item.widget().set_selected(True)
+        pal = self._pals[idx] if idx < len(self._pals) else None
+        if pal:
+            self.pal_info.set_clicked_pal(pal['character_entry'])
+
+    def _on_pal_hovered(self, idx):
+        pal = self._pals[idx] if idx < len(self._pals) else None
+        if pal:
+            self.pal_info.set_hover_pal(pal['character_entry'])
+
+    def _on_pal_hover_left(self):
+        self.pal_info.clear_hover()
+
+    def _on_pal_clicked(self, idx):
+        self._select_pal(idx)
+
+    def _add_new_pal(self):
+        from palworld_aio.edit_pals import PalCreateDialog, _generate_pal_save_param
+        PalFrame._load_maps()
+        stub = type('Stub', (), {
+            'party_container': None,
+            'palbox_container': '00000000-0000-0000-0000-000000000000',
+            'player_uid': '00000000-0000-0000-0000-000000000000',
+            'current_box_index': 1,
+            'palbox_pal_dict': {},
+        })()
+        dlg = PalCreateDialog(stub, False, 0)
+        from PySide6.QtWidgets import QPushButton
+        for btn in dlg.findChildren(QPushButton):
+            if btn.text() in ('Create', t('edit_pals.create')):
+                try:
+                    btn.clicked.disconnect()
+                except:
+                    pass
+                btn.clicked.connect(lambda checked, d=dlg: d.accept())
+                break
+        if dlg.exec() == QDialog.Accepted and dlg.selected_pal['asset']:
+            cid = dlg.selected_pal['asset']
+            nick = dlg.nick_edit.text().strip() or ''
+            if self._current_base_id:
+                from palworld_aio.base_inventory_manager import get_base_worker_container_id
+                container_id = get_base_worker_container_id(self._current_base_id)
+            else:
+                container_id = '00000000-0000-0000-0000-000000000000'
+            import uuid
+            instance_id = str(uuid.uuid4()).upper()
+            entry = _generate_pal_save_param(cid, nick, '00000000-0000-0000-0000-000000000000', container_id, len(self._pals))
+            instance_id = entry.get('key', {}).get('InstanceId', {}).get('value', instance_id)
+            if constants.loaded_level_json:
+                try:
+                    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+                    cmap = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+                    cmap.append(entry)
+                    if container_id and container_id != '00000000-0000-0000-0000-000000000000':
+                        char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
+                        for cont in char_containers:
+                            if str(cont.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower() == container_id.replace('-', '').lower():
+                                slots = cont.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
+                                slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': len(self._pals)}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
+                                break
+                except Exception:
+                    pass
+            self._pals.append({'slot_index': 0, 'instance_id': instance_id, 'character_entry': entry})
+            self._rebuild()
+            self._trigger_save()
+
+    def _trigger_save(self):
+        parent = self.parent()
+        while parent:
+            if hasattr(parent, '_trigger_auto_save'):
+                parent._trigger_auto_save()
+                break
+            parent = parent.parent()
+
+    def _on_pal_info_changed(self):
+        for icon in self._icons:
+            icon.update_display()
+
+    def _on_pal_right_clicked(self, idx, action):
+        pal = self._pals[idx] if idx < len(self._pals) else None
+        if not pal:
+            if action == 'add_new':
+                self._add_new_pal()
+                return
+            return
+        raw = safe_nested_get(pal['character_entry'], ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value'])
+        if not raw:
+            return
+        if action == 'boss_toggle':
+            cur_is_boss = extract_value(raw, 'CharacterID', '').upper().startswith('BOSS_')
+            _toggle_boss_raw(raw, not cur_is_boss)
+        elif action == 'lucky_toggle':
+            cur = extract_value(raw, 'IsRarePal', False)
+            _toggle_lucky_raw(raw, not cur)
+        elif action == 'awake_toggle':
+            cur = bool(extract_value(raw, 'bIsAwakening', False))
+            _toggle_awake_raw(raw, not cur)
+        elif action == 'dna_toggle':
+            cur = bool(extract_value(raw, 'bImportedCharacter', False))
+            _toggle_dna_raw(raw, not cur)
+        elif action == 'max_all_stats':
+            from palworld_aio.edit_pals import _max_stats_raw
+            _max_stats_raw(raw)
+        elif action.startswith('fav_set_'):
+            fav_val = int(action.split('_')[-1])
+            _set_fav_raw(raw, fav_val)
+        elif action == 'learn_all':
+            _learn_all_skills_raw(raw)
+        elif action == 'learnt_skills':
+            _show_learned_moves_dialog(raw, self)
+        elif action == 'bulk_sync_pal':
+            from palworld_aio.edit_pals import _get_raw_from_item, BulkSyncPalDialog
+            stub = type('Stub', (), {
+                'party_pals': {},
+                'palbox_pal_dict': {},
+                'pal_info': type('Stub', (), {'_refresh': lambda self: None})(),
+                '_update_party_slots': lambda self: None,
+                '_update_palbox_page': lambda self: None,
+            })()
+            dlg = BulkSyncPalDialog(pal['character_entry'], stub, self)
+            cid = extract_value(raw, 'CharacterID', '')
+            base_id = cid.lower().replace('boss_', '')
+            affected = []
+            for p in self._pals:
+                pr = _get_raw_from_item(p['character_entry'])
+                if pr and pr is not raw and extract_value(pr, 'CharacterID', '').lower().replace('boss_', '') == base_id:
+                    affected.append(p['character_entry'])
+            dlg._affected = affected
+            display_name = _strip_prefix_label(resolve_name(cid, PalFrame._NAMEMAP) or cid)
+            for child in dlg.findChildren(QLabel):
+                text = child.text()
+                if 'found' in text.lower() or text.startswith(t('edit_pals.bulk_sync_found', count=0, name='').split('{')[0] if t else 'Found'):
+                    child.setText(t('edit_pals.bulk_sync_found', count=len(affected), name=display_name) if t else f'Found {len(affected)} pals matching {display_name}')
+                    break
+            if dlg.exec() == QDialog.Accepted:
+                for icon in self._icons:
+                    icon.update_display()
+        elif action == 'delete':
+            import gc
+            pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['IsPlayer'] = {'id': None, 'type': 'BoolProperty', 'value': True}
+            pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['CharacterID']['value'] = 'None'
+            self._pals.pop(idx)
+            self._rebuild()
+            return
+        item = self.grid.itemAt(idx)
+        if item and item.widget():
+            item.widget().update_display()
+        self.pal_info.set_clicked_pal(pal['character_entry'])
+
 class BaseInventoryTab(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -766,6 +1306,11 @@ class BaseInventoryTab(QWidget):
             self.inventory_grid.refresh_labels()
         if hasattr(self, 'placeholder_label'):
             self.placeholder_label.setText(t('base_inventory.select_guild_base_hint', default='Select a Guild/Base to edit their inventory'))
+        if hasattr(self, 'tab_bar') and self.tab_bar.count() == 2:
+            self.tab_bar.setTabText(0, t('base_inventory.tab_inventory') if t else 'Inventory')
+            self.tab_bar.setTabText(1, t('base_inventory.tab_base_pals') if t else 'Base Pals')
+        if hasattr(self, 'base_pals_widget'):
+            self.base_pals_widget.refresh_labels()
         current_container_id = None
         if self.manager.current_container:
             current_container_id = self.manager.current_container.get('id')
@@ -815,19 +1360,26 @@ class BaseInventoryTab(QWidget):
         self.clear_item_button.setVisible(False)
         header_layout.addWidget(self.clear_item_button)
         layout.addLayout(header_layout)
-        self.content_area = QFrame()
-        self.content_area.setObjectName('baseInventoryContent')
-        self.content_area.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.content_area.setStyleSheet('QFrame#baseInventoryContent { background: rgba(18,20,24,0.65); border: 1px solid rgba(125,211,252,0.15); border-radius: 10px; }')
-        content_layout = QVBoxLayout(self.content_area)
-        content_layout.setContentsMargins(8, 8, 8, 8)
-        content_layout.setSpacing(0)
+        self.tab_bar = QTabBar()
+        self.tab_bar.addTab(t('base_inventory.tab_inventory') if t else 'Inventory')
+        self.tab_bar.addTab(t('base_inventory.tab_base_pals') if t else 'Base Pals')
+        self.tab_bar.setStyleSheet('QTabBar { font-size: 11px; } QTabBar::tab { background: rgba(40,45,55,0.5); color: #aaa; border: 1px solid rgba(255,255,255,0.05); border-bottom: none; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 6px 14px; margin-right: 2px; } QTabBar::tab:selected { background: rgba(125,211,252,0.15); color: #fff; border-color: rgba(125,211,252,0.3); } QTabBar::tab:hover:!selected { background: rgba(255,255,255,0.05); color: #ddd; }')
+        layout.addWidget(self.tab_bar)
+        self.content_stack = QStackedWidget()
+        self.content_stack.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.inventory_page = QFrame()
+        self.inventory_page.setObjectName('baseInventoryContent')
+        self.inventory_page.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.inventory_page.setStyleSheet('QFrame#baseInventoryContent { background: rgba(18,20,24,0.65); border: 1px solid rgba(125,211,252,0.15); border-radius: 10px; }')
+        inv_layout = QVBoxLayout(self.inventory_page)
+        inv_layout.setContentsMargins(8, 8, 8, 8)
+        inv_layout.setSpacing(0)
         self.placeholder_label = QLabel(t('base_inventory.select_guild_base_hint', default='Select a Guild/Base to edit their inventory'))
         self.placeholder_label.setAlignment(Qt.AlignCenter)
         self.placeholder_label.setMinimumHeight(400)
         self.placeholder_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.placeholder_label.setStyleSheet('QLabel { color: #A6B8C8; font-size: 14px; background: transparent; }')
-        content_layout.addWidget(self.placeholder_label)
+        inv_layout.addWidget(self.placeholder_label)
         self.splitter = QSplitter(Qt.Horizontal)
         self.splitter.setChildrenCollapsible(False)
         left_panel = QWidget()
@@ -850,10 +1402,16 @@ class BaseInventoryTab(QWidget):
         self.inventory_grid = InventoryGridWidget()
         right_layout.addWidget(self.inventory_grid)
         self.splitter.addWidget(right_panel)
-        content_layout.addWidget(self.splitter)
-        layout.addWidget(self.content_area)
+        inv_layout.addWidget(self.splitter)
         self.splitter.hide()
         self.splitter.setSizes([300, 700])
+        self.content_stack.addWidget(self.inventory_page)
+        self.base_pals_widget = BasePalsContentWidget()
+        self.content_stack.addWidget(self.base_pals_widget)
+        layout.addWidget(self.content_stack)
+        self.tab_bar.currentChanged.connect(self._on_tab_changed)
+        self.tab_bar.setCurrentIndex(0)
+        self._last_tab_index = 0
     def _create_styled_combo(self):
         combo = StyledCombo()
         combo.setMinimumWidth(180)
@@ -865,6 +1423,15 @@ class BaseInventoryTab(QWidget):
         self.inventory_grid.item_added.connect(self._trigger_auto_save)
         self.inventory_grid.item_removed.connect(self._trigger_auto_save)
         self.inventory_grid.item_count_changed.connect(self._trigger_auto_save)
+    def _on_tab_changed(self, index):
+        self.content_stack.setCurrentIndex(index)
+        if index == 1 and self._current_base_id:
+            pals = get_base_worker_pals(self._current_base_id)
+            self.base_pals_widget.set_pals(pals, self._current_base_id)
+        can_filter = index == 0
+        self.item_button.setVisible(can_filter)
+        self.clear_item_button.setVisible(can_filter and bool(self.selected_item_id))
+
     def _show_content(self):
         self.placeholder_label.hide()
         self.splitter.show()
@@ -874,6 +1441,7 @@ class BaseInventoryTab(QWidget):
         self.container_list.clear()
         self.container_info.set_container_info(None)
         self.inventory_grid.clear()
+        self.base_pals_widget.clear()
     def _update_theme(self):
         self.setStyleSheet('\n                QWidget {\n                    background-color: #121418;\n                    color: #e0e0e0;\n                }\n                QComboBox {\n                    background-color: rgba(30, 35, 45, 0.8);\n                    border: 1px solid rgba(255, 255, 255, 0.2);\n                    border-radius: 4px;\n                    padding: 4px 8px;\n                    color: #e0e0e0;\n                }\n                QComboBox::drop-down {\n                    border-left: 1px solid rgba(255, 255, 255, 0.2);\n                }\n                QPushButton {\n                    background-color: rgba(74, 144, 226, 0.8);\n                    border: 1px solid rgba(74, 144, 226, 1.0);\n                    border-radius: 4px;\n                    padding: 6px 12px;\n                    color: white;\n                    font-weight: bold;\n                }\n                QPushButton:hover {\n                    background-color: rgba(74, 144, 226, 1.0);\n                }\n                QPushButton:pressed {\n                    background-color: rgba(50, 120, 200, 1.0);\n                }\n                QSplitter::handle {\n                    background-color: rgba(255, 255, 255, 0.1);\n                }\n                QSplitter::handle:hover {\n                    background-color: rgba(255, 255, 255, 0.2);\n                }\n            ')
     def refresh(self):
@@ -1084,6 +1652,8 @@ class BaseInventoryTab(QWidget):
             self._load_containers_for_base_filtered(base_id)
         else:
             self._load_containers_for_base(base_id)
+        pals = get_base_worker_pals(base_id)
+        self.base_pals_widget.set_pals(pals, base_id)
     def _load_containers_for_base(self, base_id):
         self.container_list.clear()
         guild_id = self._current_guild_id
@@ -1487,7 +2057,5 @@ class BaseInventoryTab(QWidget):
                     if base_id:
                         self._load_containers_for_base(base_id)
                         self._restore_container_selection(current_container_id)
-                    self._trigger_auto_save()
-                    self._show_info(t('base_inventory.container_slots_modified').format(new_count=new_slot_count) if t else f'Container slots modified to {new_slot_count}')
-                else:
-                    self._show_warning(t('base_inventory.failed_to_modify_slots') if t else 'Failed to modify container slots')
+            self._trigger_save()
+

@@ -579,7 +579,7 @@ def _get_effective_parent(parent):
         if hasattr(current, 'isWindow') and current.isWindow() and current.isVisible():
             if hasattr(current, 'windowTitle') and current.windowTitle():
                 return current
-        current = current.parent()
+        current = current.parentWidget() if hasattr(current, 'parentWidget') else current.parent()
     for widget in QApplication.topLevelWidgets():
         if widget.isVisible() and widget.isWindow() and hasattr(widget, 'windowTitle') and widget.windowTitle() and (not isinstance(widget, QDialog)) and hasattr(widget, 'geometry'):
             return widget

@@ -1901,6 +1901,7 @@ class PassiveEffectOverlay(QWidget):
             painter.fillRect(QRectF(0, 0, w, h), grad)
         painter.end()
 class PalInfoWidget(QFrame):
+    pal_data_changed = Signal()
     _ELEMENT_MAP = {'Normal': ('⚪', '#9CA3AF'), 'Fire': ('🔥', '#EF4444'), 'Water': ('💧', '#3B82F6'), 'Leaf': ('🌿', '#4ADE80'), 'Grass': ('🌿', '#4ADE80'), 'Electricity': ('⚡', '#FBBF24'), 'Electric': ('⚡', '#FBBF24'), 'Ice': ('❄️', '#67E8F9'), 'Earth': ('🪨', '#A78BFA'), 'Ground': ('🪨', '#A78BFA'), 'Dark': ('🌑', '#6B21A8'), 'Dragon': ('🐉', '#818CF8'), 'None': ('○', '#6B7280')}
     _ELEMENT_COLORS = {'Normal': '#9CA3AF', 'Fire': '#EF4444', 'Water': '#3B82F6', 'Leaf': '#4ADE80', 'Grass': '#4ADE80', 'Electricity': '#FBBF24', 'Electric': '#FBBF24', 'Ice': '#67E8F9', 'Earth': '#A78BFA', 'Ground': '#A78BFA', 'Dark': '#6B21A8', 'Dragon': '#818CF8', 'None': '#6B7280'}
     NATIVE_WORK_ORDER = ('EmitFlame', 'Watering', 'Seeding', 'GenerateElectricity', 'Handcraft', 'Collection', 'Deforest', 'Mining', 'ProductMedicine', 'Cool', 'Transport', 'MonsterFarm')
@@ -3523,7 +3524,16 @@ class PalInfoWidget(QFrame):
                     elif ptype == 'palbox':
                         parent._highlight_palbox_slot(idx)
                 break
-            parent = parent.parent()
+            try:
+                parent = parent.parentWidget() if hasattr(parent, 'parentWidget') else parent.parent()
+            except TypeError:
+                break
+            if parent is None:
+                break
+        try:
+            self.pal_data_changed.emit()
+        except:
+            pass
     def refresh_labels(self):
         self._no_data_overlay.setText(t('pal_editor.no_pal_data') if t else 'No Pal Data')
         if hasattr(self, '_lv_label'):
@@ -3764,8 +3774,8 @@ class BulkSyncPalDialog(FramelessDialog):
         self.pal_editor.pal_info._refresh()
         self.pal_editor._update_party_slots()
         self.pal_editor._update_palbox_page()
-        self.accept()
         show_information(self, 'Bulk Sync', t('edit_pals.bulk_sync_success', count=len(self._affected), name=pal_name))
+        self.accept()
 class PalEditorWidget(QWidget):
     _process_lock = threading.Lock()
     def __init__(self, parent=None):

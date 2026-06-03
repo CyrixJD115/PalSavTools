@@ -1122,6 +1122,58 @@ def remove_item_from_players(item_id, percentage=None, player_uids=None):
 def add_item_to_players(item_id, quantity=1, container_type='key', player_uids=None):
     if not constants.loaded_level_json:
         return {'added': 0, 'players_affected': 0, 'containers_modified': 0}
+
+def get_base_worker_pals(base_id):
+    if not constants.loaded_level_json:
+        return []
+    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+    base_list = wsd.get('BaseCampSaveData', {}).get('value', [])
+    base_id_low = str(base_id).replace('-', '').lower()
+    base_entry = next((b for b in base_list if str(b.get('key', '')).replace('-', '').lower() == base_id_low), None)
+    if not base_entry:
+        return []
+    try:
+        wd = base_entry['value']['WorkerDirector']['value']['RawData']['value']
+        container_id = str(wd.get('container_id', '')).replace('-', '').lower()
+    except (KeyError, TypeError):
+        return []
+    if not container_id or container_id == '00000000000000000000000000000000':
+        return []
+    char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    wc = next((c for c in char_containers if str(c.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower() == container_id), None)
+    if not wc:
+        return []
+    slot_values = wc.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
+    char_map = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+    pals = []
+    for slot in slot_values:
+        try:
+            slot_raw = slot.get('RawData', {}).get('value', {})
+            instance_id = str(slot_raw.get('instance_id', '')).replace('-', '').lower()
+            slot_index = slot.get('SlotIndex', {}).get('value', 0)
+            if not instance_id or instance_id == '00000000000000000000000000000000':
+                continue
+            char_entry = next((c for c in char_map if str(c.get('key', {}).get('InstanceId', {}).get('value', '')).replace('-', '').lower() == instance_id), None)
+            if not char_entry:
+                continue
+            pals.append({'slot_index': slot_index, 'instance_id': instance_id, 'character_entry': char_entry})
+        except Exception:
+            continue
+    return pals
+
+def get_base_worker_container_id(base_id):
+    if not constants.loaded_level_json:
+        return None
+    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+    base_list = wsd.get('BaseCampSaveData', {}).get('value', [])
+    base_id_low = str(base_id).replace('-', '').lower()
+    base_entry = next((b for b in base_list if str(b.get('key', '')).replace('-', '').lower() == base_id_low), None)
+    if not base_entry:
+        return None
+    try:
+        return str(base_entry['value']['WorkerDirector']['value']['RawData']['value'].get('container_id', ''))
+    except (KeyError, TypeError):
+        return None
     from palworld_aio.inventory_manager import ItemData
     if container_type == 'main' and ItemData.is_essential_item(item_id):
         container_type = 'key'

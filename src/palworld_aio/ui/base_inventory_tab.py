@@ -1099,7 +1099,7 @@ class BasePalsContentWidget(QFrame):
         start = (self._current_page - 1) * self.SLOTS_PER_PAGE
         for i, slot in enumerate(self._icons):
             pal_idx = start + i
-            if pal_idx < len(self._pals):
+            if pal_idx < len(self._pals) and self._pals[pal_idx] is not None:
                 slot.pal_data = self._pals[pal_idx]['character_entry']
             else:
                 slot.pal_data = None
@@ -1161,13 +1161,13 @@ class BasePalsContentWidget(QFrame):
         item = self.grid.itemAt(idx)
         if item and item.widget():
             item.widget().set_selected(True)
-        pal = self._pals[pal_idx] if pal_idx < len(self._pals) else None
+        pal = self._pals[pal_idx] if pal_idx < len(self._pals) and self._pals[pal_idx] is not None else None
         if pal:
             self.pal_info.set_clicked_pal(pal['character_entry'])
 
     def _on_pal_hovered(self, idx):
         pal_idx = self._grid_idx_to_pal_idx(idx)
-        pal = self._pals[pal_idx] if pal_idx < len(self._pals) else None
+        pal = self._pals[pal_idx] if pal_idx < len(self._pals) and self._pals[pal_idx] is not None else None
         if pal:
             self.pal_info.set_hover_pal(pal['character_entry'])
 
@@ -1207,7 +1207,8 @@ class BasePalsContentWidget(QFrame):
                 container_id = '00000000-0000-0000-0000-000000000000'
             import uuid
             instance_id = str(uuid.uuid4()).upper()
-            entry = _generate_pal_save_param(cid, nick, '00000000-0000-0000-0000-000000000000', container_id, len(self._pals))
+            slot_idx = next((i for i, p in enumerate(self._pals) if p is None), len(self._pals))
+            entry = _generate_pal_save_param(cid, nick, '00000000-0000-0000-0000-000000000000', container_id, slot_idx)
             instance_id = entry.get('key', {}).get('InstanceId', {}).get('value', instance_id)
             if constants.loaded_level_json:
                 try:
@@ -1219,11 +1220,15 @@ class BasePalsContentWidget(QFrame):
                         for cont in char_containers:
                             if str(cont.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower() == container_id.replace('-', '').lower():
                                 slots = cont.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
-                                slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': len(self._pals)}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
+                                slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_idx}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': instance_id, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
                                 break
                 except Exception:
                     pass
-            self._pals.append({'slot_index': 0, 'instance_id': instance_id, 'character_entry': entry})
+            new_pal = {'slot_index': 0, 'instance_id': instance_id, 'character_entry': entry}
+            if slot_idx < len(self._pals):
+                self._pals[slot_idx] = new_pal
+            else:
+                self._pals.append(new_pal)
             self._rebuild()
             self._trigger_save()
 
@@ -1241,7 +1246,7 @@ class BasePalsContentWidget(QFrame):
 
     def _on_pal_right_clicked(self, idx, action):
         pal_idx = self._grid_idx_to_pal_idx(idx)
-        pal = self._pals[pal_idx] if pal_idx < len(self._pals) else None
+        pal = self._pals[pal_idx] if pal_idx < len(self._pals) and self._pals[pal_idx] is not None else None
         if not pal:
             if action == 'add_new':
                 self._add_new_pal()
@@ -1307,7 +1312,7 @@ class BasePalsContentWidget(QFrame):
             import gc
             pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['IsPlayer'] = {'id': None, 'type': 'BoolProperty', 'value': True}
             pal['character_entry']['value']['RawData']['value']['object']['SaveParameter']['value']['CharacterID']['value'] = 'None'
-            self._pals.pop(pal_idx)
+            self._pals[pal_idx] = None
             self._rebuild()
             return
         item = self.grid.itemAt(idx)

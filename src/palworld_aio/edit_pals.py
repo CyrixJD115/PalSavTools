@@ -4629,8 +4629,6 @@ class PalFrame(QFrame):
     @classmethod
     def _is_pal_passive(cls, asset_lower):
         flags = cls._PASSFLAGS.get(asset_lower, {})
-        if not flags.get('invoke_always', False):
-            return False
         if flags.get('category', '') != 'EPalPassiveCategory::SortDisplayable':
             return False
         if flags.get('add_weapon', False) or flags.get('add_armor', False) or flags.get('add_accessory', False):

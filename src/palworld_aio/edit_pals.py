@@ -4190,12 +4190,13 @@ class PalEditorWidget(QWidget):
     def _process_pending_changes(self):
         pass
     def _update_dashboard_stats(self):
-        parent = self.parent()
-        while parent:
-            if hasattr(parent, 'tools_tab'):
-                parent.tools_tab.refresh()
+        app = QApplication.instance()
+        if app is None:
+            return
+        for w in app.topLevelWidgets():
+            if hasattr(w, 'tools_tab'):
+                w.tools_tab.refresh()
                 break
-            parent = parent.parent() if parent.parent() else None
     def refresh_labels(self):
         if hasattr(self, '_party_header'):
             self._party_header.setText(t('pal_editor.party') if t else 'PARTY')

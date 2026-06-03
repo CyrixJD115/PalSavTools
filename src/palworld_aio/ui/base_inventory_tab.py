@@ -1256,12 +1256,13 @@ class BasePalsContentWidget(QFrame):
             parent = parent.parent()
 
     def _refresh_dashboard(self):
-        parent = self.parent()
-        while parent:
-            if hasattr(parent, 'tools_tab'):
-                parent.tools_tab.refresh()
+        app = QApplication.instance()
+        if app is None:
+            return
+        for w in app.topLevelWidgets():
+            if hasattr(w, 'tools_tab'):
+                w.tools_tab.refresh()
                 break
-            parent = parent.parent()
 
     def _on_pal_info_changed(self):
         for icon in self._icons:

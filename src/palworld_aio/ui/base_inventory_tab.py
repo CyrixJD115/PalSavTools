@@ -12,7 +12,7 @@ resources_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__
 if resources_path not in sys.path:
     sys.path.insert(0, resources_path)
 from i18n import t
-from loading_manager import show_information, show_warning
+from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants
 from palworld_aio.base_inventory_manager import BaseInventoryManager, get_container_image_path, find_item_locations_efficient
 from palworld_aio.widgets import StatsPanel

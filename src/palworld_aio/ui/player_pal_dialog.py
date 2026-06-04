@@ -1,4 +1,5 @@
 import os
+import re
 from palworld_save_tools import json_tools
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit, QListWidget, QListWidgetItem, QGroupBox, QMessageBox, QAbstractItemView, QListView, QTabWidget, QCheckBox, QWidget, QStyledItemDelegate, QFrame
 from PySide6.QtCore import Qt, Signal, QSize, QTimer
@@ -210,40 +211,52 @@ class PlayerPalActionDialog(QDialog):
             query = self.pal_search_input.text()
         query_lower = query.lower()
         self.pal_list.clear()
-        for pal_id, pal_name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]):
-            pal_id_lower = pal_id.lower()
-            if any((pal_id_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'gym_', 'police_'))):
+        for asset, name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]):
+            asset_lower = asset.lower()
+            if any((asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'police_'))):
                 continue
-            if 'oilrig' in pal_id_lower:
+            if 'oilrig' in asset_lower:
                 continue
-            if 'tower' in pal_id_lower:
+            if 'tower' in asset_lower:
                 continue
-            if pal_id_lower.startswith('boss_'):
-                base_id = pal_id[5:]
-                base_zukan = PalFrame._PAL_ZUKAN.get(base_id.lower(), -1)
-                if base_zukan < 0:
-                    continue
-            else:
-                zukan_index = PalFrame._PAL_ZUKAN.get(pal_id_lower, 0)
-                if zukan_index < 0:
-                    continue
-            if query_lower and query_lower not in pal_name.lower() and (query_lower not in pal_id.lower()):
+            if '_bossrush' in asset_lower:
                 continue
-            list_item = QListWidgetItem(pal_name)
-            list_item.setData(Qt.UserRole, pal_id)
-            tip = f'<b>{pal_name}</b><br>({pal_id})'
-            pdesc = self._pal_desc_map.get(pal_id.lower(), '')
-            passives = self._pal_passives_map.get(pal_id.lower(), [])
+            if asset_lower.startswith('gym_') and (not asset_lower.endswith('_otomo')):
+                continue
+            otomo_key = asset_lower + '_otomo'
+            if otomo_key in PalFrame._NAMEMAP:
+                continue
+            boss_otomo_key = 'boss_' + asset_lower + '_otomo'
+            if boss_otomo_key in PalFrame._NAMEMAP:
+                continue
+            base_id = asset_lower
+            for prefix in ('boss_', 'gym_'):
+                if base_id.startswith(prefix):
+                    base_id = base_id[len(prefix):]
+            base_id = re.sub('_\\d+$', '', base_id)
+            base_id = re.sub('_avatar|_servant|_otomo', '', base_id)
+            zukan = PalFrame._PAL_ZUKAN.get(base_id, -99)
+            if zukan == -99:
+                pass
+            elif zukan < 0:
+                continue
+            if query_lower and query_lower not in name.lower() and (query_lower not in asset.lower()):
+                continue
+            list_item = QListWidgetItem(name)
+            list_item.setData(Qt.UserRole, asset)
+            tip = f'<b>{name}</b><br>({asset})'
+            pdesc = self._pal_desc_map.get(asset.lower(), '')
+            passives = self._pal_passives_map.get(asset.lower(), [])
             if pdesc:
-                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(pal_id.lower()), self._pal_overwrite_effect_map.get(pal_id.lower()))
+                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(asset.lower()), self._pal_overwrite_effect_map.get(asset.lower()))
                 elem_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
                 html_desc = _partner_desc_to_html(resolved, elem_colors, tooltip=True)
                 tip += f'<br><br>{html_desc}'
             list_item.setToolTip(tip)
-            pixmap = self._get_pal_icon(pal_id)
+            pixmap = self._get_pal_icon(asset)
             if pixmap and (not pixmap.isNull()):
                 list_item.setIcon(QIcon(pixmap))
-            if any((pal_id.upper().startswith(p) for p in _BOSS_PREFIXES)):
+            if any((asset.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
             list_item.setSizeHint(QSize(84, 84))
             self.pal_list.addItem(list_item)

@@ -1474,5 +1474,17 @@
   "edit_pals.work_skill_books_hint": "Les niveaux de compétences professionnelles sont dérivés des passifs et des statistiques de base. Utilisez des cahiers de travail pour les augmenter.",
   "edit_pals.bulk_sync_cancel": "Annuler",
   "edit_pals.bulk_sync_all": "Tous",
-  "edit_pals.bulk_sync_none": "Aucun"
+  "edit_pals.bulk_sync_none": "Aucun",
+  "base_inventory.all_structures": "Toutes les structures",
+  "base_inventory.select_structure_action": "Sélectionner une action de structure",
+  "base_inventory.search_structures": "Structures de recherche...",
+  "base_inventory.select_structure": "Sélectionnez une structure pour effectuer des actions",
+  "base_inventory.delete_structure_btn": "Supprimer la structure",
+  "base_inventory.no_structures": "Aucune structure trouvée",
+  "base_inventory.structures_removed": "{count} structures supprimées de {guilds} guildes",
+  "base_inventory.no_structures_removed": "Aucune structure trouvée à supprimer",
+  "base_inventory.confirm_delete_structures": "Confirmer la suppression des structures",
+  "base_inventory.confirm_delete_structures_msg": "Êtes-vous sûr de vouloir supprimer TOUS les \"{structure_name}\" des guildes sélectionnées ? Cette action ne peut pas être annulée.",
+  "base_inventory.structures_affected": "{count} structures affectées",
+  "base_inventory.find_bases": "Trouver des bases"
 }

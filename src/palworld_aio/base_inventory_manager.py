@@ -1172,6 +1172,171 @@ def get_base_worker_container_id(base_id):
 def add_item_to_players(item_id, quantity=1, container_type='key', player_uids=None):
     if not constants.loaded_level_json:
         return {'added': 0, 'players_affected': 0, 'containers_modified': 0}
+def find_structure_locations_efficient(structure_asset):
+    if not constants.loaded_level_json:
+        return {}
+    try:
+        wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+        map_objs = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+        base_guild_lookup = constants.base_guild_lookup
+        structure_asset_low = structure_asset.lower()
+        result = {}
+        for obj in map_objs:
+            oid = obj.get('MapObjectId', {}).get('value', '')
+            if not oid or oid.lower() != structure_asset_low:
+                continue
+            bp = obj.get('Model', {}).get('value', {}).get('BuildProcess', {}).get('value', {}).get('RawData', {}).get('value', {})
+            if bp.get('state') != 1:
+                continue
+            mr = obj.get('Model', {}).get('value', {}).get('RawData', {}).get('value', {})
+            if not isinstance(mr, dict):
+                continue
+            base_camp_id = mr.get('base_camp_id_belong_to')
+            if not base_camp_id:
+                continue
+            base_camp_id_str = str(base_camp_id)
+            base_id_low = base_camp_id_str.replace('-', '').lower()
+            guild_info = base_guild_lookup.get(base_id_low)
+            if not guild_info:
+                for k, v in base_guild_lookup.items():
+                    if k.replace('-', '').lower() == base_id_low:
+                        guild_info = v
+                        break
+            if not guild_info:
+                continue
+            guild_id = guild_info.get('GuildID', '')
+            if not guild_id:
+                continue
+            guild_id_low = str(guild_id).replace('-', '').lower()
+            instance_id = str(mr.get('instance_id', '')).replace('-', '').lower()
+            if guild_id_low not in result:
+                result[guild_id_low] = {}
+            if base_id_low not in result[guild_id_low]:
+                result[guild_id_low][base_id_low] = []
+            if instance_id and instance_id != '00000000000000000000000000000000' and instance_id not in result[guild_id_low][base_id_low]:
+                result[guild_id_low][base_id_low].append(instance_id)
+        return result
+    except Exception as e:
+        print(f'find_structure_locations_efficient error: {e}')
+        import traceback
+        traceback.print_exc()
+        return {}
+def get_structure_economy_stats(structure_asset):
+    if not constants.loaded_level_json:
+        return None
+    try:
+        locations = find_structure_locations_efficient(structure_asset)
+        if not locations:
+            return {'structure_asset': structure_asset, 'total_count': 0, 'guilds_with_item': 0, 'avg_per_guild': 0, 'guild_details': []}
+        guild_counts = {}
+        for guild_id_low, bases in locations.items():
+            count = sum(len(instances) for instances in bases.values())
+            if count > 0:
+                guild_counts[guild_id_low] = count
+        total = sum(guild_counts.values())
+        guild_count = len(guild_counts)
+        avg = total / guild_count if guild_count > 0 else 0.0
+        guild_details = []
+        base_guild_lookup = constants.base_guild_lookup
+        for gid, count in guild_counts.items():
+            guild_name = 'Unknown Guild'
+            for k, v in base_guild_lookup.items():
+                if str(v.get('GuildID', '')).replace('-', '').lower() == gid:
+                    guild_name = v.get('GuildName', 'Unknown Guild')
+                    break
+            guild_details.append({'guild_id': gid, 'guild_name': guild_name, 'count': count})
+        guild_details.sort(key=lambda x: x['count'], reverse=True)
+        return {'structure_asset': structure_asset, 'total_count': total, 'guilds_with_item': guild_count, 'avg_per_guild': avg, 'guild_details': guild_details}
+    except Exception as e:
+        print(f'get_structure_economy_stats error: {e}')
+        import traceback
+        traceback.print_exc()
+        return None
+def remove_structure_from_guilds(structure_asset, guild_ids=None):
+    if not constants.loaded_level_json:
+        return {'removed': 0, 'containers_affected': 0}
+    removed_count = 0
+    containers_affected = 0
+    try:
+        locations = find_structure_locations_efficient(structure_asset)
+        if not locations:
+            return {'removed': 0, 'containers_affected': 0}
+        wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+        map_objs = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+        item_containers = wsd.get('ItemContainerSaveData', {}).get('value', [])
+        dynamic_items = wsd.get('DynamicItemSaveData', {}).get('value', {}).get('values', [])
+        deleted_instance_ids = set()
+        deleted_container_ids = set()
+        structure_asset_low = structure_asset.lower()
+        new_map_objs = []
+        for obj in map_objs:
+            oid = obj.get('MapObjectId', {}).get('value', '')
+            if not oid or oid.lower() != structure_asset_low:
+                new_map_objs.append(obj)
+                continue
+            bp = obj.get('Model', {}).get('value', {}).get('BuildProcess', {}).get('value', {}).get('RawData', {}).get('value', {})
+            if bp.get('state') != 1:
+                new_map_objs.append(obj)
+                continue
+            mr = obj.get('Model', {}).get('value', {}).get('RawData', {}).get('value', {})
+            if not isinstance(mr, dict):
+                new_map_objs.append(obj)
+                continue
+            base_camp_id = mr.get('base_camp_id_belong_to')
+            if not base_camp_id:
+                new_map_objs.append(obj)
+                continue
+            base_id_low = str(base_camp_id).replace('-', '').lower()
+            guild_info = constants.base_guild_lookup.get(base_id_low)
+            if not guild_info:
+                for k, v in constants.base_guild_lookup.items():
+                    if k.replace('-', '').lower() == base_id_low:
+                        guild_info = v
+                        break
+            if not guild_info:
+                new_map_objs.append(obj)
+                continue
+            guild_id = guild_info.get('GuildID', '')
+            if not guild_id:
+                new_map_objs.append(obj)
+                continue
+            guild_id_low = str(guild_id).replace('-', '').lower()
+            if guild_ids is not None and guild_id_low not in guild_ids:
+                new_map_objs.append(obj)
+                continue
+            instance_id = str(mr.get('instance_id', '')).replace('-', '').lower()
+            if instance_id and instance_id != '00000000000000000000000000000000':
+                deleted_instance_ids.add(instance_id)
+            concrete_id = str(mr.get('concrete_model_instance_id', '')).replace('-', '').lower()
+            if concrete_id and concrete_id != '00000000000000000000000000000000':
+                deleted_instance_ids.add(concrete_id)
+            mm = obj.get('ConcreteModel', {}).get('value', {}).get('ModuleMap', {}).get('value', [])
+            for mod in mm:
+                raw_mod = mod.get('value', {}).get('RawData', {}).get('value', {})
+                if 'target_container_id' in raw_mod:
+                    cid = str(raw_mod['target_container_id']).replace('-', '').lower()
+                    if cid and cid != '00000000000000000000000000000000':
+                        deleted_container_ids.add(cid)
+            removed_count += 1
+        map_objs[:] = new_map_objs
+        if deleted_container_ids:
+            item_containers[:] = [c for c in item_containers if str(c.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower() not in deleted_container_ids]
+            dynamic_items[:] = [d for d in dynamic_items if str(d.get('RawData', {}).get('value', {}).get('container_id', '')).replace('-', '').lower() not in deleted_container_ids]
+            containers_affected = len(deleted_container_ids)
+        if deleted_instance_ids:
+            try:
+                from palworld_aio.func_manager import _cleanup_orphaned_works
+                _cleanup_orphaned_works(wsd, deleted_instance_ids=deleted_instance_ids)
+            except Exception:
+                pass
+        if removed_count > 0 or containers_affected > 0:
+            constants.invalidate_container_lookup()
+        return {'removed': removed_count, 'containers_affected': containers_affected}
+    except Exception as e:
+        print(f'remove_structure_from_guilds error: {e}')
+        import traceback
+        traceback.print_exc()
+        return {'removed': 0, 'containers_affected': 0}
     from palworld_aio.inventory_manager import ItemData
     if container_type == 'main' and ItemData.is_essential_item(item_id):
         container_type = 'key'

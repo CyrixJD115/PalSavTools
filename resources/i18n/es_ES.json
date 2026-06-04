@@ -1485,5 +1485,17 @@
   "edit_pals.work_skill_books_hint": "Los niveles de habilidades laborales se derivan de pasivos y estadísticas básicas. Utilice libros de trabajo para aumentarlos.",
   "edit_pals.bulk_sync_cancel": "Cancelar",
   "edit_pals.bulk_sync_all": "Todo",
-  "edit_pals.bulk_sync_none": "Ninguno"
+  "edit_pals.bulk_sync_none": "Ninguno",
+  "base_inventory.all_structures": "Todas las estructuras",
+  "base_inventory.select_structure_action": "Seleccionar acción de estructura",
+  "base_inventory.search_structures": "Estructuras de búsqueda...",
+  "base_inventory.select_structure": "Seleccionar una estructura para realizar acciones",
+  "base_inventory.delete_structure_btn": "Eliminar estructura",
+  "base_inventory.no_structures": "No se encontraron estructuras",
+  "base_inventory.structures_removed": "{count} estructuras eliminadas de {gremios} gremios",
+  "base_inventory.no_structures_removed": "No se encontraron estructuras para eliminar",
+  "base_inventory.confirm_delete_structures": "Confirmar eliminar estructuras",
+  "base_inventory.confirm_delete_structures_msg": "¿Estás seguro de que deseas eliminar TODOS los \"{structure_name}\" de los gremios seleccionados? Esta acción no se puede deshacer.",
+  "base_inventory.structures_affected": "{count} estructuras afectadas",
+  "base_inventory.find_bases": "encontrar bases"
 }

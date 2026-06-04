@@ -1490,5 +1490,17 @@
   "edit_pals.work_skill_books_hint": "Уровни рабочих навыков определяются на основе пассивных способностей и базовых характеристик. Используйте трудовые книжки для их увеличения.",
   "edit_pals.bulk_sync_cancel": "Отмена",
   "edit_pals.bulk_sync_all": "Все",
-  "edit_pals.bulk_sync_none": "Никто"
+  "edit_pals.bulk_sync_none": "Никто",
+  "base_inventory.all_structures": "Все структуры",
+  "base_inventory.select_structure_action": "Выберите действие структуры",
+  "base_inventory.search_structures": "Поисковые структуры...",
+  "base_inventory.select_structure": "Выберите структуру для выполнения действий",
+  "base_inventory.delete_structure_btn": "Удалить структуру",
+  "base_inventory.no_structures": "Структуры не найдены",
+  "base_inventory.structures_removed": "Из гильдий {guilds} удалено построек: {count}.",
+  "base_inventory.no_structures_removed": "Не найдено структур, которые можно было бы удалить",
+  "base_inventory.confirm_delete_structures": "Подтвердить удаление структур",
+  "base_inventory.confirm_delete_structures_msg": "Вы уверены, что хотите удалить ВСЕ «{structure_name}» из выбранных гильдий? Это действие невозможно отменить.",
+  "base_inventory.structures_affected": "Затронуто {count} строений",
+  "base_inventory.find_bases": "Найти базы"
 }

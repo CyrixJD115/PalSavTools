@@ -1516,5 +1516,17 @@
   "edit_pals.work_skill_books_hint": "Die Arbeitsfähigkeitsstufen werden aus Passiven und Basiswerten abgeleitet. Verwenden Sie Arbeitsbücher, um sie zu steigern.",
   "edit_pals.bulk_sync_cancel": "Stornieren",
   "edit_pals.bulk_sync_all": "Alle",
-  "edit_pals.bulk_sync_none": "Keiner"
+  "edit_pals.bulk_sync_none": "Keiner",
+  "base_inventory.all_structures": "Alle Strukturen",
+  "base_inventory.select_structure_action": "Wählen Sie Strukturaktion aus",
+  "base_inventory.search_structures": "Suchstrukturen...",
+  "base_inventory.select_structure": "Wählen Sie eine Struktur aus, um Aktionen auszuführen",
+  "base_inventory.delete_structure_btn": "Struktur löschen",
+  "base_inventory.no_structures": "Keine Strukturen gefunden",
+  "base_inventory.structures_removed": "{count} Strukturen wurden aus {guilds} Gilden entfernt",
+  "base_inventory.no_structures_removed": "Es wurden keine Strukturen zum Entfernen gefunden",
+  "base_inventory.confirm_delete_structures": "Bestätigen Sie „Strukturen löschen“.",
+  "base_inventory.confirm_delete_structures_msg": "Sind Sie sicher, dass Sie ALLE „{structure_name}“ aus ausgewählten Gilden löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "base_inventory.structures_affected": "{count} Strukturen betroffen",
+  "base_inventory.find_bases": "Stützpunkte finden"
 }

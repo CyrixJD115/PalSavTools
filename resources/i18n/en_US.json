@@ -1780,5 +1780,17 @@
   "edit_pals.work_skill_books_hint": "Work skill levels are derived from passives and base stats. Use work books to increase them.",
   "edit_pals.bulk_sync_cancel": "Cancel",
   "edit_pals.bulk_sync_all": "All",
-  "edit_pals.bulk_sync_none": "None"
+  "edit_pals.bulk_sync_none": "None",
+  "base_inventory.all_structures": "All Structures",
+  "base_inventory.select_structure_action": "Select Structure Action",
+  "base_inventory.search_structures": "Search structures...",
+  "base_inventory.select_structure": "Select a structure to perform actions",
+  "base_inventory.delete_structure_btn": "Delete Structure",
+  "base_inventory.no_structures": "No structures found",
+  "base_inventory.structures_removed": "{count} structures removed from {guilds} guilds",
+  "base_inventory.no_structures_removed": "No structures found to remove",
+  "base_inventory.confirm_delete_structures": "Confirm Delete Structures",
+  "base_inventory.confirm_delete_structures_msg": "Are you sure you want to delete ALL \"{structure_name}\" from selected guilds? This action cannot be undone.",
+  "base_inventory.structures_affected": "{count} structures affected",
+  "base_inventory.find_bases": "Find Bases"
 }

@@ -1492,5 +1492,17 @@
   "edit_pals.work_skill_books_hint": "作業スキル レベルは、パッシブと基本ステータスから派生します。ワークブックを使用して増やしてください。",
   "edit_pals.bulk_sync_cancel": "キャンセル",
   "edit_pals.bulk_sync_all": "全て",
-  "edit_pals.bulk_sync_none": "なし"
+  "edit_pals.bulk_sync_none": "なし",
+  "base_inventory.all_structures": "すべての構造物",
+  "base_inventory.select_structure_action": "構造アクションの選択",
+  "base_inventory.search_structures": "構造を検索...",
+  "base_inventory.select_structure": "アクションを実行する構造を選択してください",
+  "base_inventory.delete_structure_btn": "構造の削除",
+  "base_inventory.no_structures": "構造物が見つかりません",
+  "base_inventory.structures_removed": "{count} 個の建造物が {guilds} ギルドから削除されました",
+  "base_inventory.no_structures_removed": "削除する構造物が見つかりません",
+  "base_inventory.confirm_delete_structures": "構造の削除の確認",
+  "base_inventory.confirm_delete_structures_msg": "選択したギルドからすべての「{struct_name}」を削除してもよろしいですか?この操作は元に戻すことができません。",
+  "base_inventory.structures_affected": "{count} 個の構造物が影響を受ける",
+  "base_inventory.find_bases": "拠点を探す"
 }

@@ -1494,5 +1494,17 @@
   "edit_pals.work_skill_books_hint": "工作技能水平源自被动技能和基础统计数据。使用工作簿来增加它们。",
   "edit_pals.bulk_sync_cancel": "取消",
   "edit_pals.bulk_sync_all": "全部",
-  "edit_pals.bulk_sync_none": "没有任何"
+  "edit_pals.bulk_sync_none": "没有任何",
+  "base_inventory.all_structures": "所有结构",
+  "base_inventory.select_structure_action": "选择结构动作",
+  "base_inventory.search_structures": "搜索结构...",
+  "base_inventory.select_structure": "选择一个结构来执行操作",
+  "base_inventory.delete_structure_btn": "删除结构",
+  "base_inventory.no_structures": "未找到结构",
+  "base_inventory.structures_removed": "从 {guilds} 个公会中删除了 {count} 个结构",
+  "base_inventory.no_structures_removed": "未找到可移除的结构",
+  "base_inventory.confirm_delete_structures": "确认删除结构",
+  "base_inventory.confirm_delete_structures_msg": "您确定要从选定的公会中删除所有“{struct_name}”吗？此操作无法撤消。",
+  "base_inventory.structures_affected": "受影响的 {count} 个结构",
+  "base_inventory.find_bases": "寻找基地"
 }

@@ -1491,5 +1491,17 @@
   "edit_pals.work_skill_books_hint": "작업 스킬 레벨은 패시브 및 기본 통계에서 파생됩니다. 통합 문서를 사용하여 늘리십시오.",
   "edit_pals.bulk_sync_cancel": "취소",
   "edit_pals.bulk_sync_all": "모두",
-  "edit_pals.bulk_sync_none": "없음"
+  "edit_pals.bulk_sync_none": "없음",
+  "base_inventory.all_structures": "모든 구조물",
+  "base_inventory.select_structure_action": "구조 작업 선택",
+  "base_inventory.search_structures": "구조 검색...",
+  "base_inventory.select_structure": "작업을 수행할 구조를 선택하세요.",
+  "base_inventory.delete_structure_btn": "구조 삭제",
+  "base_inventory.no_structures": "구조를 찾을 수 없습니다.",
+  "base_inventory.structures_removed": "{guilds} 길드에서 {count}개의 구조물이 제거되었습니다.",
+  "base_inventory.no_structures_removed": "제거할 구조를 찾을 수 없습니다.",
+  "base_inventory.confirm_delete_structures": "구조 삭제 확인",
+  "base_inventory.confirm_delete_structures_msg": "선택한 길드에서 모든 \"{structure_name}\"을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+  "base_inventory.structures_affected": "영향을 받은 구조물 {count}개",
+  "base_inventory.find_bases": "기지 찾기"
 }

@@ -21,7 +21,7 @@ from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
 from palworld_aio.inventory_manager import ItemData
-from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, PICKER_SEARCH_STYLE, wrap_tooltip_text, CONTENT_PANEL_STYLE, slot_full, slot_selected
+from palworld_aio.ui.styles import MENU_STYLE, DIALOG_STYLE as _DIALOG_STYLE, INPUT_DIALOG_STYLE, PICKER_SEARCH_STYLE, wrap_tooltip_text, CONTENT_PANEL_STYLE, slot_full, slot_selected
 from palworld_aio.edit_pals import _clean_desc_for_tooltip, build_pal_context_menu, _get_cached_pixmap, _get_pal_icon_path, safe_nested_get, extract_value, resolve_name, get_pal_base_data, _resolve_partner_desc, _partner_desc_to_html, StrokedLabel, _get_element_pixmap, PalFrame, _strip_prefix_label, PalInfoWidget, _get_boss_alpha_pixmap, _get_boss_shiny_pixmap, _get_awake_pixmap, _get_ui_icon_pixmap, _generate_pal_save_param, _toggle_boss_raw, _toggle_lucky_raw, _toggle_awake_raw, _toggle_dna_raw, _set_fav_raw, _learn_all_skills_raw, _show_learned_moves_dialog, _register_pal_instance_to_guild
 from palworld_aio.base_inventory_manager import get_base_worker_pals
 class RarityBorderDelegate(QStyledItemDelegate):
@@ -297,11 +297,12 @@ class GuildItemPickerDialog(QDialog):
             return
         selected_guilds = self._get_selected_guild_ids()
         if not selected_guilds:
-            QMessageBox.warning(self, t('base_inventory.no_guilds_selected') if t else 'No guilds selected', t('base_inventory.no_guilds_selected') if t else 'Please select at least one guild.')
+            show_warning(self, t('base_inventory.no_guilds_selected') if t else 'No guilds selected', t('base_inventory.no_guilds_selected') if t else 'Please select at least one guild.')
             return
         dialog = QDialog(self)
         dialog.setWindowTitle(t('base_inventory.remove_from_guilds') if t else 'Remove from Guilds')
         dialog.setMinimumSize(300, 120)
+        dialog.setStyleSheet(_DIALOG_STYLE)
         layout = QVBoxLayout(dialog)
         label = QLabel(t('base_inventory.choose_remove_type') if t else 'Choose remove type:')
         layout.addWidget(label)
@@ -314,7 +315,16 @@ class GuildItemPickerDialog(QDialog):
         dialog.exec()
     def _do_remove_pct(self, dialog, selected_guilds):
         dialog.accept()
-        pct, ok = QInputDialog.getInt(self, t('base_inventory.remove_percentage') if t else 'Remove Percentage', t('base_inventory.enter_percentage') if t else 'Enter percentage to remove (1-100):', 50, 1, 100, 10)
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle(t('base_inventory.remove_percentage') if t else 'Remove Percentage')
+        dlg.setLabelText(t('base_inventory.enter_percentage') if t else 'Enter percentage to remove (1-100):')
+        dlg.setIntValue(50)
+        dlg.setIntRange(1, 100)
+        dlg.setIntStep(10)
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
+        ok = dlg.exec() == QDialog.Accepted
+        pct = dlg.intValue() if ok else 50
         if ok:
             self.item_action_selected.emit(self.selected_item_id, f'remove_pct:{pct}', selected_guilds)
     def _do_remove_all(self, dialog, selected_guilds):
@@ -330,6 +340,264 @@ class GuildItemPickerDialog(QDialog):
         reply = msg_box.exec()
         if reply == QMessageBox.Yes:
             self.item_action_selected.emit(self.selected_item_id, 'remove_all', selected_guilds)
+class GuildStructurePickerDialog(QDialog):
+    structure_action_selected = Signal(str, str, list)
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(t('base_inventory.select_structure_action') if t else 'Structure Actions')
+        self.setMinimumSize(1200, 650)
+        self.selected_structure_asset = None
+        self.selected_structure_name = None
+        self.guild_locations = {}
+        self.guild_structure_counts = {}
+        self.setStyleSheet(_DIALOG_STYLE)
+        self._setup_ui()
+        self._load_structure_data()
+    def _setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(10)
+        content_layout = QHBoxLayout()
+        content_layout.setSpacing(10)
+        left_widget = QWidget()
+        left_layout = QVBoxLayout(left_widget)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(5)
+        search_layout = QHBoxLayout()
+        search_label = QLabel(t('common.search') if t else 'Search:')
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText(t('base_inventory.search_structures') if t else 'Type to search structures...')
+        self.search_input.textChanged.connect(self._filter_structures)
+        search_layout.addWidget(search_label)
+        search_layout.addWidget(self.search_input)
+        left_layout.addLayout(search_layout)
+        self.results_list = QListWidget()
+        self.results_list.setViewMode(QListView.IconMode)
+        self.results_list.setIconSize(QSize(48, 48))
+        self.results_list.setSpacing(0)
+        self.results_list.setUniformItemSizes(True)
+        self.results_list.setGridSize(QSize(80, 80))
+        self.results_list.setResizeMode(QListWidget.Adjust)
+        self.results_list.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.results_list.setDragEnabled(False)
+        self.results_list.viewport().setAcceptDrops(False)
+        self.results_list.itemClicked.connect(self._on_structure_clicked)
+        left_layout.addWidget(self.results_list)
+        right_widget = QWidget()
+        right_layout = QVBoxLayout(right_widget)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(8)
+        info_frame = QFrame()
+        info_frame.setStyleSheet('background: rgba(0,0,0,0.15); border-radius: 4px;')
+        info_layout = QVBoxLayout(info_frame)
+        info_layout.setContentsMargins(5, 2, 5, 2)
+        info_layout.setSpacing(0)
+        self.info_label = QLabel(t('base_inventory.select_structure') if t else 'Select a structure to perform actions')
+        self.info_label.setStyleSheet('color: #888; font-style: italic; padding: 2px;')
+        info_layout.addWidget(self.info_label)
+        self.code_label = QLabel('')
+        self.code_label.setStyleSheet('color: #6b7280; font-size: 10px; font-family: monospace; padding: 0 2px;')
+        self.code_label.setVisible(False)
+        info_layout.addWidget(self.code_label)
+        right_layout.addWidget(info_frame, 3)
+        guilds_group = QGroupBox(t('base_inventory.select_guilds') if t else 'Select Guilds')
+        guilds_inner_layout = QVBoxLayout()
+        guild_buttons_layout = QHBoxLayout()
+        guild_buttons_layout.setSpacing(5)
+        self.select_all_btn = QPushButton(t('base_inventory.select_all_guilds') if t else 'Select All')
+        self.select_all_btn.clicked.connect(self._select_all_guilds)
+        self.select_all_btn.setEnabled(False)
+        self.deselect_all_btn = QPushButton(t('base_inventory.deselect_all_guilds') if t else 'Deselect All')
+        self.deselect_all_btn.clicked.connect(self._deselect_all_guilds)
+        self.deselect_all_btn.setEnabled(False)
+        self.find_btn = QPushButton(t('base_inventory.find_bases') if t else 'Find Bases')
+        self.find_btn.clicked.connect(self._on_find_bases)
+        self.find_btn.setEnabled(False)
+        self.delete_btn = QPushButton(t('base_inventory.delete_structure_btn') if t else 'Delete Structure')
+        self.delete_btn.clicked.connect(self._on_delete_structure)
+        self.delete_btn.setEnabled(False)
+        guild_buttons_layout.addWidget(self.select_all_btn)
+        guild_buttons_layout.addWidget(self.deselect_all_btn)
+        guild_buttons_layout.addWidget(self.find_btn)
+        guild_buttons_layout.addWidget(self.delete_btn)
+        guild_buttons_layout.addStretch()
+        guilds_inner_layout.addLayout(guild_buttons_layout)
+        self.guild_list = QListWidget()
+        self.guild_list.setSelectionMode(QAbstractItemView.NoSelection)
+        self.guild_list.setEnabled(False)
+        guilds_inner_layout.addWidget(self.guild_list)
+        sep = QFrame()
+        sep.setFrameShape(QFrame.HLine)
+        sep.setStyleSheet('background: rgba(255,255,255,0.1); max-height: 1px; margin: 4px 0;')
+        guilds_inner_layout.addWidget(sep)
+        stats_container = QWidget()
+        stats_container_layout = QHBoxLayout(stats_container)
+        stats_container_layout.setContentsMargins(0, 2, 0, 0)
+        stats_container_layout.setSpacing(8)
+        self.stats_total_label = QLabel(f"{(t('base_inventory.total') if t else 'Total')}: 0")
+        self.stats_total_label.setStyleSheet('font-weight: bold; font-size: 12px;')
+        stats_container_layout.addWidget(self.stats_total_label)
+        self.stats_guilds_label = QLabel(f"{(t('base_inventory.guilds') if t else 'Guilds')}: 0")
+        self.stats_guilds_label.setStyleSheet('font-size: 12px;')
+        stats_container_layout.addWidget(self.stats_guilds_label)
+        self.stats_avg_label = QLabel(f"{(t('base_inventory.avg_per_guild') if t else 'Avg per guild')}: 0.0")
+        self.stats_avg_label.setStyleSheet('font-size: 12px;')
+        stats_container_layout.addWidget(self.stats_avg_label)
+        stats_container_layout.addStretch()
+        guilds_inner_layout.addWidget(stats_container)
+        guilds_group.setLayout(guilds_inner_layout)
+        right_layout.addWidget(guilds_group, 7)
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+        close_btn = QPushButton(t('button.close') if t else 'Close')
+        close_btn.clicked.connect(self.accept)
+        btn_layout.addWidget(close_btn)
+        right_layout.addLayout(btn_layout)
+        content_layout.addWidget(left_widget, 3)
+        content_layout.addWidget(right_widget, 2)
+        layout.addLayout(content_layout)
+    def _load_structure_data(self):
+        from palworld_aio.base_inventory_manager import load_structure_data
+        sd = load_structure_data()
+        structures = sd.get('structures', [])
+        base_path = constants.get_base_path()
+        for s in structures:
+            name = s.get('name', '')
+            asset = s.get('asset', '')
+            if name == '---' or not asset or name == 'en Text':
+                continue
+            asset_lower = asset.lower()
+            name_lower = name.lower()
+            if any(asset_lower.startswith(p) or name_lower.startswith(p) for p in ('common', 'enemycamp', 'palegg', 'pickupitem', 'damagable', 'destroyable', 'treasurebox', 'yakushima', 'dev_itemchest', 'altar_raidbossarea', 'antiair', 'banyan', 'deathpenaltychest', 'decal', 'dummyfoliage', 'oilrig', 'palbox_raidbossarea', 'meteordrop_', 'supplydrop', 'table1', 'droppedcharacter', 'trap_movingpanel', 'woodcrusher', 'palstorage_terminal', 'house_1')) or any(q in asset_lower or q in name_lower for q in ('_grade', '_test', '_autoturret')):
+                continue
+            list_item = QListWidgetItem(name)
+            list_item.setData(Qt.UserRole, asset)
+            list_item.setData(Qt.UserRole + 1, name)
+            icon_rel = s.get('icon', '')
+            if icon_rel:
+                icon_clean = icon_rel.lstrip('/')
+                icon_abs = os.path.join(base_path, 'resources', 'game_data', icon_clean)
+                if os.path.exists(icon_abs):
+                    pixmap = QPixmap(icon_abs)
+                    if not pixmap.isNull():
+                        scaled = pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        list_item.setIcon(QIcon(scaled))
+            tip = f'<b>{name}</b><br>({asset})'
+            list_item.setToolTip(tip)
+            list_item.setSizeHint(QSize(80, 80))
+            self.results_list.addItem(list_item)
+    def _filter_structures(self, query: str):
+        q = query.lower()
+        for i in range(self.results_list.count()):
+            item = self.results_list.item(i)
+            name = item.text()
+            asset = item.data(Qt.UserRole) or ''
+            item.setHidden(bool(q and q not in name.lower() and (q not in asset.lower())))
+    def _on_structure_clicked(self, item: QListWidgetItem):
+        self.selected_structure_asset = item.data(Qt.UserRole)
+        self.selected_structure_name = item.data(Qt.UserRole + 1)
+        self.info_label.setText(self.selected_structure_name)
+        self.info_label.setStyleSheet('color: #4ade80; font-weight: bold; font-size: 13px; padding: 2px;')
+        self.code_label.setText(self.selected_structure_asset)
+        self.code_label.setVisible(True)
+        self.find_btn.setEnabled(True)
+        self.delete_btn.setEnabled(True)
+        self._load_guilds_for_structure()
+    def _load_guilds_for_structure(self):
+        self.guild_list.clear()
+        self.guild_locations = {}
+        self.guild_structure_counts = {}
+        if not self.selected_structure_asset:
+            return
+        try:
+            from palworld_aio.base_inventory_manager import find_structure_locations_efficient, get_structure_economy_stats
+            locations = find_structure_locations_efficient(self.selected_structure_asset)
+            stats = get_structure_economy_stats(self.selected_structure_asset)
+            if stats:
+                guild_details = stats.get('guild_details', [])
+                for gd in guild_details:
+                    gid = gd.get('guild_id', '')
+                    count = gd.get('count', 0)
+                    if gid:
+                        self.guild_structure_counts[gid] = count
+            if locations:
+                base_guild_lookup = constants.base_guild_lookup
+                for guild_id_normalized, bases in locations.items():
+                    guild_name = 'Unknown Guild'
+                    for gid_key, ginfo in base_guild_lookup.items():
+                        if str(ginfo.get('GuildID', '')).replace('-', '').lower() == guild_id_normalized:
+                            guild_name = ginfo.get('GuildName', 'Unknown Guild')
+                            break
+                    self.guild_locations[guild_id_normalized] = {'name': guild_name, 'bases': bases}
+                    count = self.guild_structure_counts.get(guild_id_normalized, 0)
+                    display_text = f'{guild_name}: {count}'
+                    list_item = QListWidgetItem(display_text)
+                    list_item.setFlags(list_item.flags() | Qt.ItemIsUserCheckable)
+                    list_item.setCheckState(Qt.Checked)
+                    list_item.setData(Qt.UserRole, guild_id_normalized)
+                    self.guild_list.addItem(list_item)
+                self.guild_list.setEnabled(True)
+                self.select_all_btn.setEnabled(True)
+                self.deselect_all_btn.setEnabled(True)
+                total = stats.get('total_count', 0) if stats else 0
+                guilds = stats.get('guilds_with_item', 0) if stats else 0
+                avg = stats.get('avg_per_guild', 0.0) if stats else 0.0
+                self.stats_total_label.setText(f"{(t('base_inventory.total') if t else 'Total')}: {total}")
+                self.stats_guilds_label.setText(f"{(t('base_inventory.guilds') if t else 'Guilds')}: {guilds}")
+                self.stats_avg_label.setText(f"{(t('base_inventory.avg_per_guild') if t else 'Avg per guild')}: {avg:.1f}")
+            else:
+                self.guild_list.addItem(t('base_inventory.no_structures') if t else 'No structures found')
+                self.guild_list.setEnabled(False)
+                self.select_all_btn.setEnabled(False)
+                self.deselect_all_btn.setEnabled(False)
+                self.stats_total_label.setText(f"{(t('base_inventory.total') if t else 'Total')}: 0")
+                self.stats_guilds_label.setText(f"{(t('base_inventory.guilds') if t else 'Guilds')}: 0")
+                self.stats_avg_label.setText(f"{(t('base_inventory.avg_per_guild') if t else 'Avg per guild')}: 0.0")
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            self.guild_list.addItem(t('base_inventory.no_structures') if t else 'Error loading guilds')
+            self.guild_list.setEnabled(False)
+    def _select_all_guilds(self):
+        for i in range(self.guild_list.count()):
+            item = self.guild_list.item(i)
+            if item.flags() & Qt.ItemIsUserCheckable:
+                item.setCheckState(Qt.Checked)
+    def _deselect_all_guilds(self):
+        for i in range(self.guild_list.count()):
+            item = self.guild_list.item(i)
+            if item.flags() & Qt.ItemIsUserCheckable:
+                item.setCheckState(Qt.Unchecked)
+    def _get_selected_guild_ids(self):
+        selected = []
+        for i in range(self.guild_list.count()):
+            item = self.guild_list.item(i)
+            if item.checkState() == Qt.Checked:
+                selected.append(item.data(Qt.UserRole))
+        return selected
+    def _on_find_bases(self):
+        if self.selected_structure_asset:
+            selected_guilds = self._get_selected_guild_ids()
+            self.structure_action_selected.emit(self.selected_structure_asset, 'find', selected_guilds)
+    def _on_delete_structure(self):
+        if not self.selected_structure_asset:
+            return
+        selected_guilds = self._get_selected_guild_ids()
+        if not selected_guilds:
+            show_warning(self, t('base_inventory.no_guilds_selected') if t else 'No guilds selected', t('base_inventory.no_guilds_selected') if t else 'Please select at least one guild.')
+            return
+        structure_name = self.selected_structure_name or self.selected_structure_asset
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(t('base_inventory.confirm_delete_structures') if t else 'Confirm Delete Structures')
+        msg_box.setText(t('base_inventory.confirm_delete_structures_msg').format(structure_name=structure_name) if t else f'Are you sure you want to delete ALL "{structure_name}" from selected guilds? This action cannot be undone.')
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg_box.setDefaultButton(QMessageBox.No)
+        msg_box.setStyleSheet(_DIALOG_STYLE)
+        reply = msg_box.exec()
+        if reply == QMessageBox.Yes:
+            self.structure_action_selected.emit(self.selected_structure_asset, 'delete_all', selected_guilds)
+
 class EconomyStatsDialog(QDialog):
     def __init__(self, stats, item_name=None, parent=None):
         super().__init__(parent)
@@ -338,6 +606,7 @@ class EconomyStatsDialog(QDialog):
         title = t('base_inventory.economy_title').format(item_name=self.item_name) if t else f'Economy Stats: {self.item_name}'
         self.setWindowTitle(title)
         self.setMinimumSize(900, 600)
+        self.setStyleSheet(_DIALOG_STYLE)
         self._setup_ui()
     def _setup_ui(self):
         layout = QVBoxLayout(self)
@@ -384,6 +653,7 @@ class ContainerSlotModificationDialog(QDialog):
         self.setWindowTitle(t('base_inventory.modify_container_slots') if t else 'Modify Container Slots')
         self.setModal(True)
         self.setMinimumWidth(350)
+        self.setStyleSheet(_DIALOG_STYLE)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(15, 15, 15, 15)
         layout.setSpacing(10)
@@ -542,6 +812,7 @@ class ContainerListWidget(QTreeWidget):
                         dialog = QDialog(self)
                         dialog.setWindowTitle(t('base_inventory.container_details') if t else 'Container Details')
                         dialog.setModal(True)
+                        dialog.setStyleSheet(_DIALOG_STYLE)
                         layout = QVBoxLayout(dialog)
                         details_text = f"\n                        <h3>{container_info['name']}</h3>\n                        <p><b>Type:</b> {container_info['type']}</p>\n                        <p><b>Slots:</b> {container_info['slot_count']}</p>\n                        <p><b>Location:</b> {container_info['location']}</p>\n                        <p><b>Container ID:</b> {container_info['id']}</p>\n                        "
                         label = QLabel(details_text)
@@ -616,8 +887,7 @@ class ContainerListWidget(QTreeWidget):
             if base_inventory_tab is None:
                 self._show_warning('Could not find inventory manager')
                 return
-            reply = QMessageBox.question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:
+            if show_question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?'):
                 if base_inventory_tab.manager.clear_container(container_id):
                     base_inventory_tab.manager.select_container(container_id)
                     base_inventory_tab._refresh_container_ui()
@@ -1398,6 +1668,8 @@ class BaseInventoryTab(QWidget):
         if hasattr(self, 'clear_item_button'):
             self.clear_item_button.setVisible(bool(self.selected_item_id))
             self.clear_item_button.setToolTip(t('base_inventory.clear_item') if t else 'Clear Item Filter')
+        if hasattr(self, 'structure_button'):
+            self.structure_button.setText(t('base_inventory.all_structures') if t else 'All Structures')
         if hasattr(self, 'inventory_grid'):
             self.inventory_grid.refresh_labels()
         if hasattr(self, 'placeholder_label'):
@@ -1471,6 +1743,13 @@ class BaseInventoryTab(QWidget):
         self.clear_item_button.clicked.connect(self._clear_item_filter)
         self.clear_item_button.setVisible(False)
         header_layout.addWidget(self.clear_item_button)
+        self.structure_button = QPushButton(t('base_inventory.all_structures') if t else 'All Structures')
+        self.structure_button.setMinimumWidth(120)
+        self.structure_button.setMaximumHeight(28)
+        self.structure_button.setStyleSheet('QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; }')
+        self.structure_button.setCursor(Qt.PointingHandCursor)
+        self.structure_button.clicked.connect(self._show_structure_picker)
+        header_layout.addWidget(self.structure_button)
         layout.addLayout(header_layout)
         self.content_area = QFrame()
         self.content_area.setObjectName('baseInventoryContent')
@@ -1536,6 +1815,7 @@ class BaseInventoryTab(QWidget):
         can_filter = inv_active
         self.item_button.setVisible(can_filter)
         self.clear_item_button.setVisible(can_filter and bool(self.selected_item_id))
+        self.structure_button.setVisible(can_filter)
     def _create_styled_combo(self):
         combo = StyledCombo()
         combo.setMinimumWidth(180)
@@ -1866,8 +2146,7 @@ class BaseInventoryTab(QWidget):
         if not self.manager.inventory_container:
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
             return
-        reply = QMessageBox.question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+        if show_question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?'):
             container_id = self.manager.current_container['id'] if self.manager.current_container else None
             if container_id:
                 if self.manager.clear_container(container_id):
@@ -1887,8 +2166,7 @@ class BaseInventoryTab(QWidget):
         if is_guild_chest:
             self._show_warning('Cannot delete Guild Chest')
             return
-        reply = QMessageBox.question(self, t('base_inventory.delete_container') if t else 'Delete Container', t('base_inventory.delete_container_confirm') if t else 'Are you sure you want to delete this container and its map object? This action cannot be undone.', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+        if show_question(self, t('base_inventory.delete_container') if t else 'Delete Container', t('base_inventory.delete_container_confirm') if t else 'Are you sure you want to delete this container and its map object? This action cannot be undone.'):
             if self.manager.delete_container(container_id):
                 base_id = container_info.get('base_id')
                 if base_id:
@@ -1989,9 +2267,9 @@ class BaseInventoryTab(QWidget):
                                     all_items[item_id] = item_name
         return all_items
     def _show_info(self, message):
-        QMessageBox.information(self, t('info.title') if t else 'Information', message)
+        show_information(self, t('info.title') if t else 'Information', message)
     def _show_warning(self, message):
-        QMessageBox.warning(self, t('warning.title') if t else 'Warning', message)
+        show_warning(self, t('warning.title') if t else 'Warning', message)
     def _show_item_context_menu(self, slot_data, pos):
         if not slot_data:
             return
@@ -2013,7 +2291,16 @@ class BaseInventoryTab(QWidget):
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
             return
         current_count = slot_data.get('stack_count', 0)
-        new_count, ok = QInputDialog.getInt(self, t('base_inventory.edit_quantity') if t else 'Edit Quantity', t('base_inventory.current_count') if t else f'Current count: {current_count}', current_count, 0, 9999, 1)
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle(t('base_inventory.edit_quantity') if t else 'Edit Quantity')
+        dlg.setLabelText(t('base_inventory.current_count') if t else f'Current count: {current_count}')
+        dlg.setIntValue(current_count)
+        dlg.setIntRange(0, 9999)
+        dlg.setIntStep(1)
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
+        ok = dlg.exec() == QDialog.Accepted
+        new_count = dlg.intValue() if ok else current_count
         if ok:
             slot_index = slot_data.get('slot_index', 0)
             if self.manager.update_item_count(slot_index, new_count):
@@ -2144,6 +2431,48 @@ class BaseInventoryTab(QWidget):
         self.item_button.setText(t('base_inventory.all_items') if t else 'All Items')
         self.clear_item_button.setVisible(False)
         self._reset_filters()
+    def _show_structure_picker(self):
+        dialog = GuildStructurePickerDialog(self)
+        dialog.structure_action_selected.connect(self._on_structure_action_selected)
+        dialog.exec()
+    def _on_structure_action_selected(self, structure_asset: str, action: str, guild_ids: list = None):
+        structure_name = structure_asset.replace('_', ' ').title()
+        if action == 'find':
+            self._filter_guilds_and_bases_by_structure(structure_asset)
+        elif action == 'delete_all':
+            from palworld_aio.base_inventory_manager import remove_structure_from_guilds
+            result = remove_structure_from_guilds(structure_asset, guild_ids)
+            if result and result.get('removed', 0) > 0:
+                guilds_count = len(guild_ids) if guild_ids else 0
+                msg = t('base_inventory.structures_removed').format(count=result.get('removed', 0), guilds=guilds_count) if t else f"Removed {result.get('removed', 0)} structures from {guilds_count} guilds"
+                containers = result.get('containers_affected', 0)
+                if containers > 0:
+                    msg += f" ({(t('base_inventory.structures_affected').format(count=containers) if t else f'{containers} containers affected')})"
+                self._show_info(msg)
+                self._trigger_auto_save()
+            else:
+                self._show_warning(t('base_inventory.no_structures_removed') if t else 'No structures found to remove')
+    def _filter_guilds_and_bases_by_structure(self, structure_asset):
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            from palworld_aio.base_inventory_manager import find_structure_locations_efficient
+            locations = find_structure_locations_efficient(structure_asset)
+            self._guilds_data = []
+            if locations:
+                all_guilds = self.manager.load_guilds()
+                for guild in all_guilds:
+                    guild_id_key = str(guild['id']).replace('-', '').lower()
+                    if guild_id_key in locations:
+                        self._guilds_data.append(guild)
+                if self._guilds_data:
+                    self._on_guild_changed(self._guilds_data[0]['id'])
+                    if hasattr(self.parent, 'status_bar'):
+                        self.parent.status_bar.showMessage(f'Found {structure_asset} in {len(self._guilds_data)} guild(s)', 3000)
+            else:
+                self._show_info(t('base_inventory.no_structures') if t else f'No guilds found with this structure')
+                self._load_guilds()
+        finally:
+            QApplication.restoreOverrideCursor()
     def _modify_container_slots(self):
         if not self.manager.inventory_container:
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')

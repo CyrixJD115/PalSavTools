@@ -18657,11 +18657,11 @@
             "partner_skill": "Electro-Massage Incubation",
             "description": "Can be ridden as a flying mount. While in your base, shortens the time it takes to incubate eggs by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
-                "Plesiosaur_PartnerSkill_1",
-                "Plesiosaur_PartnerSkill_2",
-                "Plesiosaur_PartnerSkill_3",
-                "Plesiosaur_PartnerSkill_4",
-                "Plesiosaur_PartnerSkill_5"
+                "ThunderFluffyBird_PartnerSkill_1",
+                "ThunderFluffyBird_PartnerSkill_2",
+                "ThunderFluffyBird_PartnerSkill_3",
+                "ThunderFluffyBird_PartnerSkill_4",
+                "ThunderFluffyBird_PartnerSkill_5"
             ]
         },
         {
@@ -39203,11 +39203,11 @@
             "partner_skill": "Electro-Massage Incubation",
             "description": "Can be ridden as a flying mount. While in your base, shortens the time it takes to incubate eggs by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
-                "Plesiosaur_PartnerSkill_1",
-                "Plesiosaur_PartnerSkill_2",
-                "Plesiosaur_PartnerSkill_3",
-                "Plesiosaur_PartnerSkill_4",
-                "Plesiosaur_PartnerSkill_5"
+                "ThunderFluffyBird_PartnerSkill_1",
+                "ThunderFluffyBird_PartnerSkill_2",
+                "ThunderFluffyBird_PartnerSkill_3",
+                "ThunderFluffyBird_PartnerSkill_4",
+                "ThunderFluffyBird_PartnerSkill_5"
             ]
         },
         {

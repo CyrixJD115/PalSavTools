@@ -269,7 +269,7 @@ def download_uv(rid: str) -> bool:
             for member in tf.getmembers():
                 if member.name.endswith("/uv") and not member.name.endswith("/uvx"):
                     member.name = "uv"
-                    tf.extract(member, rid_dir)
+                    tf.extract(member, rid_dir, filter='data')
                     break
 
     if os.path.exists(archive_path):

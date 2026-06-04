@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -53,10 +52,18 @@ tmp/
 
 .build/
 uv.lock
-PST.Bootstrapper/
-dist/
+/PST.Bootstrapper/
 
 Logs/
+
+# Build
+build/dist/
+build/PST.Bootstrapper/bin/
+build/PST.Bootstrapper/obj/
+build/PST.Bootstrapper/payload/
+
+# pyooz (Cython)
+src/palworld_save_tools/pyooz/build/
 
 # External assets
 Exports/

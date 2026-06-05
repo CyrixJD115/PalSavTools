@@ -42,11 +42,13 @@ def sync_version():
     print(f'Synchronized version to {version} and branch to main')
 def build_with_cx_freeze():
     print('Running cx_Freeze build...')
+    env = os.environ.copy()
+    env.setdefault('PYTHONHOME', sys.base_prefix)
     python_exe = os.path.join(VENV_DIR, 'Scripts', 'python.exe') if sys.platform == 'win32' else os.path.join(VENV_DIR, 'bin', 'python')
     if os.path.exists(python_exe):
-        subprocess.check_call([python_exe, 'setup_freeze.py', 'build'])
+        subprocess.check_call([python_exe, 'setup_freeze.py', 'build'], env=env)
     else:
-        subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'])
+        subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'], env=env)
     if os.path.exists('uv.lock'):
         os.remove('uv.lock')
 def clean_build_artifacts():

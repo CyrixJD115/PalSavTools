@@ -1,55 +1,30 @@
-import sys
+import logging
+from palsav import setup_logging
 from palsav.compressor import Compressor
 from palsav.compressor.oozlib import OozLib
 from palsav.compressor.zlib import Zlib
 from palsav.compressor.enums import SaveType
-
-from loguru import logger
-
+logger = logging.getLogger(__name__)
 compressor = Compressor()
 oozlib = OozLib()
 z_lib = Zlib()
-
-
-def configure_logging(debug: bool = False):
-    if debug:
-        logger.remove()
-        logger.add(
-            sys.stdout,
-            colorize=True,
-            level="DEBUG",
-            format="{time:YYYY-MM-DD HH:mm:ss} | <level>{level: <8}</level> | <cyan>{name}</cyan>:<blue>{function}</blue>:{line} 🡆 {message}",
-        )
-    else:
-        logger.remove()
-        logger.add(
-            sys.stdout, format="<level>{level}</level> 🡆 {message}", level="INFO"
-        )
-
-
-def decompress_sav_to_gvas(data: bytes, debug: bool = False) -> tuple[bytes, int]:
-    configure_logging(debug)
+def decompress_sav_to_gvas(data: bytes, debug: bool=False) -> tuple[bytes, int]:
+    setup_logging(debug=debug, quiet=True)
     format = compressor.check_sav_format(data)
-
     if format is None:
-        raise Exception("Unknown save format")
-
+        raise Exception('Unknown save format')
     match format:
         case SaveType.PLZ | SaveType.CNK:
             return z_lib.decompress(data)
         case SaveType.PLM:
             return oozlib.decompress(data)
         case _:
-            raise Exception("Unknown save format")
-
-
-def compress_gvas_to_sav(data: bytes, save_type: int, debug: bool = False) -> bytes:
-    configure_logging(debug)
+            raise Exception('Unknown save format')
+def compress_gvas_to_sav(data: bytes, save_type: int, debug: bool=False) -> bytes:
+    setup_logging(debug=debug, quiet=True)
     format = compressor.check_savtype_format(save_type)
-
     if format is None:
-        raise Exception("Unknown save type format")
-
+        raise Exception('Unknown save type format')
     match format:
         case SaveType.PLZ | SaveType.CNK:
             return z_lib.compress(data, save_type)

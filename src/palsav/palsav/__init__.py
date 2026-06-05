@@ -1,15 +1,12 @@
 import logging
 import sys
-
 class TimeFormatter(logging.Formatter):
     def formatTime(self, record, datefmt=None):
         from time import strftime, gmtime
         return strftime('%I:%M:%S %p', gmtime(record.created))
-
 _LOG_FORMAT = '[%(asctime)s] [%(levelname)s] %(message)s'
 _DEBUG_FORMAT = '[%(asctime)s] [%(levelname)s] %(message)s [%(funcName)s:%(lineno)d]'
 _LOGGED = False
-
 def setup_logging(level=logging.INFO, debug=False, debug_log=False, quiet=False):
     global _LOGGED
     root = logging.getLogger()
@@ -26,15 +23,4 @@ def setup_logging(level=logging.INFO, debug=False, debug_log=False, quiet=False)
         fh.setFormatter(TimeFormatter(_DEBUG_FORMAT))
         root.addHandler(fh)
     _LOGGED = True
-
-from . import (
-    commands,
-    compressor,
-    archive,
-    gvas,
-    json_tools,
-    palsav,
-    paltypes,
-    rawdata,
-    _cityhash,
-)
+from . import commands, compressor, archive, gvas, json_tools, palsav, paltypes, rawdata, _cityhash

@@ -1,6 +1,7 @@
 from typing import Any, Optional, Sequence
 
-from loguru import logger
+import logging
+logger = logging.getLogger(__name__)
 from palsav.archive import (
     FArchiveReader,
     FArchiveWriter,

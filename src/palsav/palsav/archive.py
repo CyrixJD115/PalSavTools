@@ -1,4 +1,5 @@
 import base64
+import copy
 import io
 import math
 import os
@@ -989,11 +990,11 @@ class FArchiveWriter:
         self.u32(len(property["value"]))
         for entry in property["value"]:
             self.prop_value(
-                property["key_type"], property.get("key_struct_type"), entry["key"]
+                property["key_type"], property["key_struct_type"], entry["key"]
             )
             self.prop_value(
                 property["value_type"],
-                property.get("value_struct_type"),
+                property["value_struct_type"],
                 entry["value"],
             )
         return self.data.tell() - start
@@ -1034,6 +1035,7 @@ class FArchiveWriter:
                 raise Exception(
                     f"Unknown custom property type: {property['custom_type']}"
                 )
+            property = copy.deepcopy(property)
             return custom[1](self, property_type, property)
         handler = FArchiveWriter._PROPERTY_DISPATCH.get(property_type)
         if handler is None:

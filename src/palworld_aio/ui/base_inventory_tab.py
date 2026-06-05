@@ -468,7 +468,7 @@ class GuildStructurePickerDialog(QDialog):
                 continue
             asset_lower = asset.lower()
             name_lower = name.lower()
-            if any(asset_lower.startswith(p) or name_lower.startswith(p) for p in ('common', 'enemycamp', 'palegg', 'pickupitem', 'damagable', 'destroyable', 'treasurebox', 'yakushima', 'dev_itemchest', 'altar_raidbossarea', 'antiair', 'banyan', 'deathpenaltychest', 'decal', 'dummyfoliage', 'oilrig', 'palbox_raidbossarea', 'meteordrop_', 'supplydrop', 'table1', 'droppedcharacter', 'trap_movingpanel', 'woodcrusher', 'palstorage_terminal', 'house_1')) or any(q in asset_lower or q in name_lower for q in ('_grade', '_test', '_autoturret')):
+            if any((asset_lower.startswith(p) or name_lower.startswith(p) for p in ('common', 'enemycamp', 'palegg', 'pickupitem', 'damagable', 'destroyable', 'treasurebox', 'yakushima', 'dev_itemchest', 'altar_raidbossarea', 'antiair', 'banyan', 'deathpenaltychest', 'decal', 'dummyfoliage', 'oilrig', 'palbox_raidbossarea', 'meteordrop_', 'supplydrop', 'table1', 'droppedcharacter', 'trap_movingpanel', 'woodcrusher', 'palstorage_terminal', 'house_1'))) or any((q in asset_lower or q in name_lower for q in ('_grade', '_test', '_autoturret'))):
                 continue
             list_item = QListWidgetItem(name)
             list_item.setData(Qt.UserRole, asset)
@@ -597,7 +597,6 @@ class GuildStructurePickerDialog(QDialog):
         reply = msg_box.exec()
         if reply == QMessageBox.Yes:
             self.structure_action_selected.emit(self.selected_structure_asset, 'delete_all', selected_guilds)
-
 class EconomyStatsDialog(QDialog):
     def __init__(self, stats, item_name=None, parent=None):
         super().__init__(parent)
@@ -2435,7 +2434,7 @@ class BaseInventoryTab(QWidget):
         dialog = GuildStructurePickerDialog(self)
         dialog.structure_action_selected.connect(self._on_structure_action_selected)
         dialog.exec()
-    def _on_structure_action_selected(self, structure_asset: str, action: str, guild_ids: list = None):
+    def _on_structure_action_selected(self, structure_asset: str, action: str, guild_ids: list=None):
         structure_name = structure_asset.replace('_', ' ').title()
         if action == 'find':
             self._filter_guilds_and_bases_by_structure(structure_asset)

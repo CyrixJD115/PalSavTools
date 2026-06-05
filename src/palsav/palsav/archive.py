@@ -468,6 +468,7 @@ class FArchiveReader:
         key_type = self.fstring()
         value_type = self.fstring()
         _id = self.optional_guid()
+        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
         key_path = path + ".Key"
@@ -485,6 +486,9 @@ class FArchiveReader:
             key = self.prop_value(key_type, key_struct_type, key_path)
             v = self.prop_value(value_type, value_struct_type, value_path)
             values.append({"key": key, "value": v})
+        remaining = size - (self.data.tell() - payload_start)
+        if remaining > 0:
+            self.data.read(remaining)
         return {
             "key_type": key_type,
             "value_type": value_type,
@@ -497,12 +501,17 @@ class FArchiveReader:
     def _read_SetProperty(self, size, path):
         set_type = self.fstring()
         _id = self.optional_guid()
+        payload_start = self.data.tell()
         self.u32()
         count = self.u32()
+        values = [self.properties_until_end() for _ in range(count)]
+        remaining = size - (self.data.tell() - payload_start)
+        if remaining > 0:
+            self.data.read(remaining)
         return {
             "set_type": set_type,
             "id": _id,
-            "value": [self.properties_until_end() for _ in range(count)],
+            "value": values,
         }
 
     _PROPERTY_DISPATCH: dict[str, Callable] = {
@@ -555,6 +564,8 @@ class FArchiveReader:
             return self.u32()
         elif type_name == "StrProperty":
             return self.fstring()
+        elif type_name == "Int64Property":
+            return self.i64()
         else:
             raise Exception(f"Unknown property value type: {type_name} ({path})")
 
@@ -1076,6 +1087,8 @@ class FArchiveWriter:
             self.u32(value)
         elif type_name == "StrProperty":
             self.fstring(value)
+        elif type_name == "Int64Property":
+            self.i64(value)
         else:
             raise Exception(f"Unknown property value type: {type_name}")
 

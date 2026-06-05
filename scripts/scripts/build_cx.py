@@ -42,32 +42,15 @@ def sync_version():
     print(f'Synchronized version to {version} and branch to main')
 def build_with_cx_freeze():
     print('Running cx_Freeze build...')
-    import sysconfig
-    cfg_path = os.path.join(sys.base_prefix, 'pyvenv.cfg')
-    print(f'  sys.base_prefix={sys.base_prefix}')
-    print(f'  sys.prefix={sys.prefix}')
-    print(f'  pyvenv.cfg exists at base_prefix: {os.path.exists(cfg_path)}')
-    print(f'  sys.executable={sys.executable}')
-    try:
-        base_cfg = sysconfig.get_config_var('BINDIR')
-        print(f'  BINDIR={base_cfg}')
-    except:
-        pass
-    env = os.environ.copy()
-    env.setdefault('PYTHONHOME', sys.base_prefix)
-    env.setdefault('PYTHONPATH', os.path.join(sys.base_prefix, 'Lib'))
-    os.environ.setdefault('PYTHONHOME', sys.base_prefix)
     python_exe = os.path.join(VENV_DIR, 'Scripts', 'python.exe') if sys.platform == 'win32' else os.path.join(VENV_DIR, 'bin', 'python')
     if os.path.exists(python_exe):
-        subprocess.check_call([python_exe, 'setup_freeze.py', 'build'], env=env)
+        subprocess.check_call([python_exe, 'setup_freeze.py', 'build'])
     else:
-        subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'], env=env)
+        subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'])
     if os.path.exists('uv.lock'):
         os.remove('uv.lock')
 def clean_build_artifacts():
     items = ['PalworldSaveTools.egg-info', 'src/PalworldSaveTools.egg-info', 'Backups', 'PST_standalone', 'Logs', 'psp_windows', 'ppe_windows', 'updated_worldmap.png', 'PalDefender', 'XGP_converted_saves', 'saves']
-    if not USE_EXISTING_VENV:
-        items.extend(['.venv'])
     for item in items:
         if os.path.exists(item):
             print(f'Removing {item}...')

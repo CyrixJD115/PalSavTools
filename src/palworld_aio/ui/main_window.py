@@ -25,7 +25,7 @@ from palworld_aio.data_manager import get_guilds, get_guild_members, get_bases, 
 from palworld_aio.func_manager import delete_empty_guilds, delete_inactive_players, delete_inactive_bases, delete_duplicated_players, delete_unreferenced_data, delete_non_base_map_objects, delete_invalid_structure_map_objects, delete_all_skins, unlock_all_private_chests, remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, fix_missions, reset_anti_air_turrets, reset_dungeons, reset_oilrig, reset_invader, reset_supply, unlock_viewing_cage_for_player, fix_all_negative_timestamps, reset_selected_player_timestamp, detect_and_trim_overfilled_inventories, unlock_all_technologies_for_player, unlock_all_lab_research_for_guild, modify_container_slots, fix_unassigned_pals, fix_illegal_pals_in_save, repair_structures, edit_game_days
 from palworld_aio.guild_manager import move_player_to_guild, rebuild_all_guilds, make_member_leader, rename_guild, set_guild_level
 from palworld_aio.base_manager import export_base_json, import_base_json, clone_base_complete, update_base_area_range
-from palworld_aio.backup_manager import export_base_backup
+from palworld_aio.backup_manager import export_base_backup, load_base_file
 from palworld_aio.player_manager import rename_player
 from palworld_aio.map_generator import generate_world_map
 from palworld_aio.dialogs import InputDialog, DaysInputDialog, LevelInputDialog, RadiusInputDialog, PalDefenderDialog, GameDaysInputDialog
@@ -1656,7 +1656,7 @@ class MainWindow(QMainWindow):
         self.refresh_all()
         self._show_info(t('Done'), t('guild.leader_changed'))
     def _import_base_to_guild(self, gid):
-        file_paths, _ = QFileDialog.getOpenFileNames(self, 'Select Base JSON Files', '', 'JSON Files(*.json)')
+        file_paths, _ = QFileDialog.getOpenFileNames(self, 'Select Base Files', '', 'Base Files (*.json *.pstbase)')
         if not file_paths:
             return
         successful_imports = 0
@@ -1664,7 +1664,7 @@ class MainWindow(QMainWindow):
         failed_files = []
         for file_path in file_paths:
             try:
-                exported_data = json_tools.load(file_path)
+                exported_data = load_base_file(file_path)
                 if import_base_json(constants.loaded_level_json, exported_data, gid):
                     successful_imports += 1
                 else:

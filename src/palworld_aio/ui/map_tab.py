@@ -9,7 +9,7 @@ import palworld_coord
 from palworld_aio import constants
 from palworld_aio.data_manager import delete_base_camp, get_tick
 from palworld_aio.base_manager import export_base_json, import_base_json, update_base_area_range
-from palworld_aio.backup_manager import export_base_backup
+from palworld_aio.backup_manager import export_base_backup, load_base_file
 from palworld_aio.guild_manager import rename_guild
 from palworld_aio.widgets import BaseHoverOverlay, PlayerHoverOverlay
 from palworld_aio.dialogs import RadiusInputDialog, InputDialog, ZoneManagementDialog
@@ -1533,7 +1533,7 @@ class MapTab(QWidget):
             except Exception as e:
                 show_critical(self, t('error.title') if t else 'Error', f'Failed to delete guild: {str(e)}')
     def _import_base_to_guild(self, guild_id):
-        file_paths, _ = QFileDialog.getOpenFileNames(self, t('base.import_multi') if t else 'Import Bases(Multi-File)', '', 'JSON Files(*.json)')
+        file_paths, _ = QFileDialog.getOpenFileNames(self, t('base.import_multi') if t else 'Import Bases(Multi-File)', '', 'Base Files (*.json *.pstbase)')
         if not file_paths:
             return
         successful_imports = 0
@@ -1542,7 +1542,7 @@ class MapTab(QWidget):
         imported_coords_list = []
         for file_path in file_paths:
             try:
-                exported_data = json_tools.load(file_path)
+                exported_data = load_base_file(file_path)
                 if import_base_json(constants.loaded_level_json, exported_data, guild_id):
                     constants.invalidate_container_lookup()
                     if self.parent_window and hasattr(self.parent_window, 'base_inventory_tab'):

@@ -62,6 +62,15 @@ def decompress_pst3(raw_bytes):
     return cbor2.loads(cbor_bytes)
 
 
+def load_base_file(file_path):
+    if file_path.endswith('.pstbase'):
+        with open(file_path, "rb") as f:
+            return decompress_pst3(f.read())
+    else:
+        from palsav import json_tools
+        return json_tools.load(file_path)
+
+
 def get_container_uuid(container_key, inv_info):
     try:
         container = inv_info.get(container_key, {})

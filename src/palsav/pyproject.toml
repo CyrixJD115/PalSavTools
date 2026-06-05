@@ -12,7 +12,7 @@ license = "MIT"
 dependencies = [
     "loguru>=0.7.3",
     "orjson>=3.11.8",
-    "pyooz @ git+https://github.com/CyrixJD115/oozle-cypy.git",
+    "pyooz",
     "setuptools>=68.0",
 ]
 
@@ -21,6 +21,9 @@ performance = ["recordclass"]
 
 [project.scripts]
 palsav = "palsav.cli:main"
+
+[tool.uv.sources]
+pyooz = { path = "./pyooz" }
 
 [tool.setuptools.packages.find]
 include = ["palsav*"]

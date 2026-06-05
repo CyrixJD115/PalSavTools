@@ -92,7 +92,6 @@ Uses `orjson` for fast JSON serialization/deserialization. GC is automatically d
 
 | Package | Notes |
 |---------|-------|
-| `loguru` | Logging |
 | `orjson` | Fast JSON serialization |
 | `pyoozle` | Oodle compression/decompression |
 | `setuptools` | Build backend |

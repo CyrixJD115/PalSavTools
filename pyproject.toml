@@ -13,7 +13,6 @@ dependencies = [
     "pyside6-essentials",
     "Pillow",
     "cx-freeze>=8.3.0",
-    "loguru",
     "nerdfont",
     "packaging",
     "palsav-flex",

@@ -1,14 +1,12 @@
 import argparse
-import sys
+import logging
 import os
-from loguru import logger
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
 
 
 def main():
-    import loguru
-
-    loguru.logger.remove()
-
     parser = argparse.ArgumentParser(
         prog="palsav backup",
         description="Backup and restore Palworld players and bases",
@@ -73,8 +71,6 @@ def main():
     )
 
     args = parser.parse_args()
-
-    logger.add(sys.stdout, format="<level>{level}</level> 🡆 {message}", level="INFO")
 
     if not args.command:
         parser.print_help()

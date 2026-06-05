@@ -1612,6 +1612,100 @@ def _toggle_dna_raw(raw, enable):
     raw['bImportedCharacter'] = {'id': None, 'type': 'BoolProperty', 'value': enable}
 def _set_fav_raw(raw, idx):
     raw['FavoriteIndex'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': idx}}
+_WORK_SUIT_ENUM_TYPE = 'EPalWorkSuitability'
+def _work_suit_enum_value(short_key: str) -> str:
+    return f'EPalWorkSuitability::{short_key}'
+def _work_suit_short_key(enum_val: str) -> str:
+    return enum_val.split('::')[-1] if '::' in enum_val else enum_val
+def _get_added_work_suitabilities(raw: dict) -> dict[str, int]:
+    container = raw.get('GotWorkSuitabilityAddRankList', {})
+    values = container.get('value', {}).get('values', [])
+    if not values:
+        return {}
+    added: dict[str, int] = {}
+    for entry in values:
+        ws_val = entry.get('WorkSuitability', {})
+        ws_str = ws_val.get('value', {}).get('value', '') if isinstance(ws_val, dict) else ''
+        rank_val = entry.get('Rank', {})
+        rank_v = rank_val.get('value', 0) if isinstance(rank_val, dict) else 0
+        if ws_str:
+            added[_work_suit_short_key(ws_str)] = int(rank_v) if rank_v else 0
+    return added
+def _get_passive_work_suitabilities(raw: dict) -> dict[str, int]:
+    pskills = raw.get('PassiveSkillList', {})
+    p_list = pskills.get('value', {}).get('values', []) if isinstance(pskills, dict) else pskills if isinstance(pskills, list) else []
+    result: dict[str, int] = {}
+    for p in p_list:
+        pv = p.get('value', p) if isinstance(p, dict) else p
+        if isinstance(pv, str) and pv.startswith('WorkSuitabilityAddRank_'):
+            ws_key = pv[len('WorkSuitabilityAddRank_'):]
+            result[ws_key] = result.get(ws_key, 0) + 1
+    return result
+def _get_effective_work_suitabilities(raw: dict) -> dict[str, int]:
+    added = _get_added_work_suitabilities(raw)
+    passive_ws = _get_passive_work_suitabilities(raw)
+    cid = extract_value(raw, 'CharacterID', '')
+    base_data = get_pal_base_data(cid)
+    ws_base = base_data.get('work_suitabilities', {}) if base_data else {}
+    all_keys = set(list(ws_base.keys()) + list(added.keys()) + list(passive_ws.keys()))
+    result: dict[str, int] = {}
+    for k in all_keys:
+        total = ws_base.get(k, 0) + added.get(k, 0) + passive_ws.get(k, 0)
+        result[k] = total
+    return result
+def _set_work_suitability(raw: dict, ws_key: str, target_level: int):
+    cid = extract_value(raw, 'CharacterID', '')
+    base_data = get_pal_base_data(cid)
+    ws_base = base_data.get('work_suitabilities', {}) if base_data else {}
+    base_level = ws_base.get(ws_key, 0)
+    passive_ws = _get_passive_work_suitabilities(raw)
+    passive_bonus = passive_ws.get(ws_key, 0)
+    added = max(0, target_level - base_level - passive_bonus)
+    eu = '00000000-0000-0000-0000-000000000000'
+    enum_val = _work_suit_enum_value(ws_key)
+    entry = {
+        'WorkSuitability': {
+            'id': None, 'type': 'EnumProperty',
+            'value': {'type': _WORK_SUIT_ENUM_TYPE, 'value': enum_val}
+        },
+        'Rank': {
+            'id': None, 'type': 'IntProperty', 'value': added
+        }
+    }
+    container = raw.get('GotWorkSuitabilityAddRankList')
+    if added > 0:
+        if not container or not container.get('type'):
+            raw['GotWorkSuitabilityAddRankList'] = {
+                'array_type': 'StructProperty', 'id': None, 'type': 'ArrayProperty',
+                'value': {
+                    'prop_name': 'GotWorkSuitabilityAddRankList',
+                    'prop_type': 'StructProperty',
+                    'type_name': 'PalWorkSuitabilityInfo',
+                    'id': eu, 'values': [entry]
+                }
+            }
+        else:
+            values = container.get('value', {}).get('values', [])
+            found = False
+            for i, v in enumerate(values):
+                ws = v.get('WorkSuitability', {})
+                ws_v = ws.get('value', {}).get('value', '') if isinstance(ws, dict) else ''
+                if ws_v == enum_val:
+                    values[i] = entry
+                    found = True
+                    break
+            if not found:
+                values.append(entry)
+    else:
+        if container and container.get('type'):
+            values = container.get('value', {}).get('values', [])
+            new_values = [v for v in values if v.get('WorkSuitability', {}).get('value', {}).get('value', '') != enum_val]
+            if len(new_values) != len(values):
+                if new_values:
+                    container['value']['values'] = new_values
+                else:
+                    raw.pop('GotWorkSuitabilityAddRankList', None)
+_WS_MAX_ORDER = ('EmitFlame', 'Watering', 'Seeding', 'GenerateElectricity', 'Handcraft', 'Collection', 'Deforest', 'Mining', 'ProductMedicine', 'Cool', 'Transport', 'MonsterFarm')
 def _max_stats_raw(raw):
     raw['Talent_HP'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}
     raw['Talent_Shot'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 100}}
@@ -1624,6 +1718,8 @@ def _max_stats_raw(raw):
     raw['FriendshipPoint'] = {'id': None, 'type': 'IntProperty', 'value': 200000}
     raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': True}
     raw['Level'] = {'id': None, 'type': 'IntProperty', 'value': {'id': None, 'value': 80}}
+    for k in _WS_MAX_ORDER:
+        _set_work_suitability(raw, k, 10)
 def _register_pal_instance_to_guild(instance_id, group_id):
     if not constants.loaded_level_json:
         return
@@ -2932,7 +3028,7 @@ class PalInfoWidget(QFrame):
                 wspd_val = base_craft
             def_val = math.floor(def_val * (1 + passive_def_bonus / 100))
             wspd_val = math.floor(wspd_val * (1 + passive_craft_bonus / 100))
-            ws = base.get('work_suitabilities', {}) if base else {}
+            ws = _get_effective_work_suitabilities(raw)
             for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)
                 if ws_level > 0:
@@ -3377,7 +3473,26 @@ class PalInfoWidget(QFrame):
         if dlg.exec() == QDialog.Accepted:
             self._set_level(dlg.intValue())
     def _on_work_skill_click(self, ws_key, lbl):
-        show_information(self, t('edit_pals.work_skill_level'), t('edit_pals.work_skill_books_hint'))
+        if not self._raw:
+            return
+        effective = _get_effective_work_suitabilities(self._raw)
+        cur = effective.get(ws_key, 0)
+        cid = extract_value(self._raw, 'CharacterID', '')
+        base_data = get_pal_base_data(cid)
+        ws_base = base_data.get('work_suitabilities', {}) if base_data else {}
+        base_level = ws_base.get(ws_key, 0)
+        display_name = self._WORK_SUITABILITY_DISPLAY.get(ws_key, ws_key)
+        dlg = QInputDialog(self)
+        dlg.setWindowTitle(f'{display_name} {t("edit_pals.work_skill_level")}')
+        dlg.setLabelText(t('edit_pals.work_skill_level_msg', skill=display_name))
+        dlg.setInputMode(QInputDialog.IntInput)
+        dlg.setIntRange(base_level, 10)
+        dlg.setIntValue(cur)
+        dlg.setStyleSheet(INPUT_DIALOG_STYLE)
+        if dlg.exec() == QDialog.Accepted:
+            new_level = dlg.intValue()
+            _set_work_suitability(self._raw, ws_key, new_level)
+            self._refresh()
     def _on_trust_click(self):
         if not self._raw:
             return
@@ -3611,6 +3726,8 @@ class PalInfoWidget(QFrame):
         self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': 5}}
         self._raw['FriendshipPoint'] = {'id': None, 'type': 'IntProperty', 'value': 200000}
         self._raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': True}
+        for k in _WS_MAX_ORDER:
+            _set_work_suitability(self._raw, k, 10)
         self._set_level(80)
     def _refresh(self):
         if self.last_clicked_data:
@@ -3790,7 +3907,7 @@ def _show_learned_moves_dialog(raw, parent):
     il.addLayout(btn_row)
     dlg.content_layout.addWidget(inner)
     dlg.exec()
-_EDITABLE_KEYS = {'Level', 'Exp', 'Gender', 'Talent_HP', 'Talent_Shot', 'Talent_Defense', 'Rank_HP', 'Rank_Attack', 'Rank_Defence', 'Rank_CraftSpeed', 'Rank', 'FriendshipPoint', 'IsRarePal', 'bIsAwakening', 'bImportedCharacter', 'FavoriteIndex', 'EquipWaza', 'MasteredWaza', 'PassiveSkillList', 'Hp', 'MaxHP'}
+_EDITABLE_KEYS = {'Level', 'Exp', 'Gender', 'Talent_HP', 'Talent_Shot', 'Talent_Defense', 'Rank_HP', 'Rank_Attack', 'Rank_Defence', 'Rank_CraftSpeed', 'Rank', 'FriendshipPoint', 'IsRarePal', 'bIsAwakening', 'bImportedCharacter', 'FavoriteIndex', 'EquipWaza', 'MasteredWaza', 'PassiveSkillList', 'Hp', 'MaxHP', 'GotWorkSuitabilityAddRankList'}
 class BulkSyncPalDialog(FramelessDialog):
     def __init__(self, pal_item, pal_editor, parent=None, candidates=None):
         super().__init__('edit_pals.bulk_sync_pal_title', parent)

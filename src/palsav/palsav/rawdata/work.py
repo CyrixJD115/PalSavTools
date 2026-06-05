@@ -5,13 +5,13 @@ from palsav.archive import *
 
 WORK_BASE_TYPES = set(
     [
-        # "EPalWorkableType::Illegal",
+        "EPalWorkableType::Illegal",
         "EPalWorkableType::Progress",
-        # "EPalWorkableType::CollectItem",
-        # "EPalWorkableType::TransportItem",
+        "EPalWorkableType::CollectItem",
+        "EPalWorkableType::TransportItem",
         "EPalWorkableType::TransportItemInBaseCamp",
         "EPalWorkableType::ReviveCharacter",
-        # "EPalWorkableType::CollectResource",
+        "EPalWorkableType::CollectResource",
         "EPalWorkableType::Booth",
         "EPalWorkableType::LevelObject",
         "EPalWorkableType::Repair",

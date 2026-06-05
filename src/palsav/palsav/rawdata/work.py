@@ -132,9 +132,7 @@ def decode_bytes(
             data["transform"]["trailing_bytes"] = reader.byte_list(8)
 
     if not reader.eof():
-        raise Exception(
-            f"Warning: EOF not reached for {work_type}, remaining bytes: {reader.read_to_end()!r}"
-        )
+        data["unknown_bytes"] = reader.read_to_end()
 
     return data
 
@@ -156,7 +154,7 @@ def decode_work_assign_bytes(
     data["fixed"] = reader.u32() > 0
     data["trailing_bytes"] = reader.byte_list(4)
     if not reader.eof():
-        raise Exception("Warning: EOF not reached")
+        data["unknown_bytes"] = reader.read_to_end()
 
     return data
 
@@ -261,6 +259,9 @@ def encode_bytes(p: dict[str, Any], work_type: str) -> bytes:
             writer.guid(p["transform"]["map_object_instance_id"])
             writer.write(coerce_bytes(p["transform"]["trailing_bytes"]))
 
+    if "unknown_bytes" in p:
+        writer.write(coerce_bytes(p["unknown_bytes"]))
+
     encoded_bytes = writer.bytes()
     return encoded_bytes
 
@@ -276,5 +277,7 @@ def encode_work_assign_bytes(p: dict[str, Any]) -> bytes:
     writer.byte(p["state"])
     writer.u32(1 if p["fixed"] else 0)
     writer.write(coerce_bytes(p["trailing_bytes"]))
+    if "unknown_bytes" in p:
+        writer.write(coerce_bytes(p["unknown_bytes"]))
     encoded_bytes = writer.bytes()
     return encoded_bytes

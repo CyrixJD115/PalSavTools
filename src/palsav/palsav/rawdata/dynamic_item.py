@@ -38,7 +38,7 @@ def decode_bytes(
         data["durability"] = reader.float()
         data["trailing_bytes"] = reader.byte_list(4)
         if not reader.eof():
-            raise Exception("Warning: EOF not reached")
+            data["unknown_bytes"] = reader.read_to_end()
     else:
         cur_pos = reader.data.tell()
         temp_data: dict[str, Any] = {"type": "weapon"}
@@ -49,7 +49,7 @@ def decode_bytes(
             temp_data["passive_skill_list"] = reader.tarray(lambda r: r.fstring())
             temp_data["trailing_bytes"] = reader.byte_list(4)
             if not reader.eof():
-                raise Exception("Warning: EOF not reached")
+                temp_data["unknown_bytes"] = reader.read_to_end()
             data |= temp_data
         except Exception as e:
             logger.debug(

@@ -76,7 +76,7 @@ def decode_bytes(
             data["unlock_item"] = reader.fstring()
             data["trailing_bytes"] = reader.byte_list(12)
     if not reader.eof():
-        raise Exception(f"Warning: EOF not reached for module type {module_type}")
+        data["unknown_bytes"] = reader.read_to_end()
     return data
 
 
@@ -122,7 +122,10 @@ def encode_bytes(p: dict[str, Any], module_type: str) -> bytes:
             writer.fstring(p["unlock_item"])
             writer.write(coerce_bytes(p["trailing_bytes"]))
         case _:
-            writer.write(coerce_bytes(p.get("unknown_bytes", [])))
+            pass
+
+    if "unknown_bytes" in p:
+        writer.write(coerce_bytes(p["unknown_bytes"]))
 
     encoded_bytes = writer.bytes()
     return encoded_bytes

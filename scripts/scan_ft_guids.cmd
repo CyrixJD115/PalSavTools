@@ -6,6 +6,6 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\scan_ft_guids.py %*
+".venv\Scripts\python.exe" scripts\scripts\scan_ft_guids.py %*
 pause
 exit /b %errorlevel%

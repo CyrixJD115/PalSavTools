@@ -6,5 +6,5 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\clean_code.py
+".venv\Scripts\python.exe" scripts\scripts\clean_code.py
 pause

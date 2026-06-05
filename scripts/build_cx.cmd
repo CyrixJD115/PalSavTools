@@ -6,6 +6,6 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\build_cx.py %*
+".venv\Scripts\python.exe" scripts\scripts\build_cx.py %*
 pause
 exit /b %errorlevel%

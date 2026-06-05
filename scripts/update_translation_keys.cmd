@@ -6,5 +6,5 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\update_translation_keys.py
+".venv\Scripts\python.exe" scripts\scripts\update_translation_keys.py
 pause

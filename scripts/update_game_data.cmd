@@ -6,6 +6,6 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\update_game_data.py %*
+".venv\Scripts\python.exe" scripts\scripts\update_game_data.py %*
 pause
 exit /b %errorlevel%

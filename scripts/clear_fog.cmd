@@ -11,6 +11,6 @@ if "%~1"=="" (
     pause
     exit /b 1
 )
-uv run python scripts\scripts\clear_fog.py %*
+".venv\Scripts\python.exe" scripts\scripts\clear_fog.py %*
 pause
 exit /b %errorlevel%

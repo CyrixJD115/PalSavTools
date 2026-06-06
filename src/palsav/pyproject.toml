@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 license = "MIT"
 dependencies = [
     "orjson>=3.11.8",
-    "pyooz",
+    "palooz",
     "setuptools>=68.0",
 ]
 
@@ -22,7 +22,7 @@ performance = ["recordclass"]
 palsav = "palsav.cli:main"
 
 [tool.uv.sources]
-pyooz = { path = "./pyooz" }
+palooz = { path = "./palooz" }
 
 [tool.setuptools.packages.find]
 include = ["palsav*"]

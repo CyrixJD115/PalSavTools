@@ -54,21 +54,21 @@ class OozLib(Compressor):
         if os.path.isdir(local_ooz_path):
             sys.path.insert(0, local_ooz_path)
         try:
-            import ooz
+            import palooz
         except ImportError:
-            raise ImportError(f"Failed to import 'ooz' module. Make sure the Ooz library exists in {local_ooz_path}")
-        self.ooz = ooz
+            raise ImportError(f"Failed to import 'palooz' module. Make sure the palooz library exists in {local_ooz_path}")
+        self.palooz = palooz
     def compress(self, data: bytes, save_type: int) -> bytes:
-        logger.info('Starting compression process with libooz...')
+        logger.info('Starting compression process with palooz...')
         uncompressed_len = len(data)
         if uncompressed_len == 0:
             raise ValueError('Input data for compression must not be empty.')
         if save_type != SaveType.PLM.value:
             raise ValueError(f'Unhandled compression type: 0x{save_type:02X}, only 0x31 (PLM) is supported')
         logger.debug('Compressing data...')
-        compressed_data = self.ooz.compress(OodleCompressor.Kraken, OodleLevel.Normal, data, uncompressed_len)
+        compressed_data = self.palooz.compress(OodleCompressor.Kraken, OodleLevel.Normal, data, uncompressed_len)
         if not compressed_data:
-            raise RuntimeError(f'Ooz_Compress failed or returned empty result (code: {compressed_data})')
+            raise RuntimeError(f'palooz compress failed or returned empty result (code: {compressed_data})')
         compressed_len = len(compressed_data)
         magic_bytes = self._get_magic(save_type)
         logger.info(f'Compression successful, compressed size: {compressed_len:,} bytes')
@@ -81,7 +81,7 @@ class OozLib(Compressor):
         sav_data = self.build_sav(compressed_data, uncompressed_len, compressed_len, magic_bytes, save_type)
         return sav_data
     def decompress(self, data: bytes) -> bytes:
-        logger.info('Starting decompression process with libooz...')
+        logger.info('Starting decompression process with palooz...')
         if not data:
             raise ValueError('SAV data cannot be empty')
         format_result = self.check_sav_format(data)
@@ -98,7 +98,7 @@ class OozLib(Compressor):
         logger.debug(f'  Data offset: {data_offset} bytes')
         logger.debug('Detected PLM format (Oodle), starting decompression...')
         compressed_data = data[data_offset:data_offset + compressed_len]
-        decompressed = self.ooz.decompress(compressed_data, uncompressed_len)
+        decompressed = self.palooz.decompress(compressed_data, uncompressed_len)
         if len(decompressed) != uncompressed_len:
             raise ValueError(f'Decompressed data length {len(decompressed)} does not match expected uncompressed length {uncompressed_len}')
         logger.info(f'Decompression successful, decompressed size: {len(decompressed):,} bytes')

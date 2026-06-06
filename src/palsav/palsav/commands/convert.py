@@ -29,7 +29,7 @@ def main():
     parser.add_argument('--from-json', action='store_true', help='Override heuristics and convert JSON file to SAV')
     parser.add_argument('--output', '-o', help='Output file (default: <filename>.json or <filename>.sav)')
     parser.add_argument('--force', '-f', action='store_true', help='Force overwriting output file if it already exists without prompting')
-    parser.add_argument('--library', '-l', choices=['zlib', 'libooz'], default='libooz', help="Compression library used to convert JSON files to SAV files. 'zlib' for zlib compression, 'libooz' for libooz compression (default: libooz)")
+    parser.add_argument('--library', '-l', choices=['zlib', 'palooz'], default='palooz', help="Compression library used to convert JSON files to SAV files. 'zlib' for zlib compression, 'palooz' for palooz compression (default: palooz)")
     parser.add_argument('--convert-nan-to-null', action='store_true', help='Convert NaN/Inf/-Inf floats to null when converting from SAV to JSON. This will lose information in the event Inf/-Inf is in the sav file (default: false)')
     parser.add_argument('--custom-properties', default=','.join(set(PALWORLD_CUSTOM_PROPERTIES.keys()) - DISABLED_PROPERTIES), type=lambda t: [s.strip() for s in t.split(',')], help="Comma-separated list of custom properties to decode, or 'all' for all known properties. This can be used to speed up processing by excluding properties that are not of interest. (default: all)")
     parser.add_argument('--minify-json', action='store_true', help='Minify JSON output')

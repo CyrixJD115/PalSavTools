@@ -58,6 +58,9 @@ Logs/
 # pyooz (Cython)
 src/palsav/pyooz/build/
 
+# Test saves
+pal-save/
+
 # External assets
 Exports/
 Backups/

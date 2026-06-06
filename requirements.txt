@@ -10,4 +10,3 @@ cbor2
 zstandard
 
 ./src/palsav
-./src/palsav/pyooz

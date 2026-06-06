@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt, QTimer
 from palworld_aio.ui.styles import ThemeManager
 import ssl
 def _get_ssl_context():
-    ca_file = os.path.join(get_src_directory(), 'cert', 'cacert.pem')
+    ca_file = os.path.join(get_resources_directory(), 'cert', 'cacert.pem')
     if os.path.exists(ca_file):
         context = ssl.create_default_context(cafile=ca_file)
         return context

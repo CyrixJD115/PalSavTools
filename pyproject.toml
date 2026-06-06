@@ -22,7 +22,12 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-palsav-flex = { path = "./src/palsav" }
+palsav-flex = { workspace = true, editable = true }
+
+[tool.uv.workspace]
+members = [
+    "src/palsav",
+]
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]

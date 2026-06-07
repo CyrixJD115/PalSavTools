@@ -479,6 +479,11 @@ def migrate_inventory_via_player_inventory(target_uid, items, t_level_sav_path, 
             inv.add_item(item['container_type'], item['item_id'], item['count'], item['slot_index'])
         inv.save()
         return True
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f'[FAIL] migrate_inventory_via_player_inventory: {e}')
+        return False
     finally:
         constants.loaded_level_json = old_level
         constants.current_save_path = old_path
@@ -983,12 +988,34 @@ def transfer_character_only(host_guid, targ_uid):
                 targ_lvl[container_list]['value'].append(fast_deepcopy(c))
     return True
 def transfer_inventory_only():
+    import shutil
     try:
         items = scan_source_inventory(host_json, level_json)
         if not items:
             return True
+        uid_str = str(selected_target_player or selected_source_player)
+        src_dir = os.path.join(os.path.dirname(level_sav_path), 'Players')
+        tgt_dir = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
+        os.makedirs(tgt_dir, exist_ok=True)
+        uid_upper = uid_str.upper()
+        uid_nodash = uid_str.replace('-', '').upper()
+        src_candidates = [
+            os.path.join(src_dir, f'{uid_upper}.sav'),
+            os.path.join(src_dir, f'{uid_nodash}.sav'),
+            os.path.join(os.path.dirname(level_sav_path), '..', 'Players', f'{uid_upper}.sav'),
+            os.path.join(os.path.dirname(level_sav_path), '..', 'Players', f'{uid_nodash}.sav'),
+        ]
+        tgt_path = os.path.join(tgt_dir, f'{uid_nodash}.sav')
+        if not os.path.exists(tgt_path):
+            for src_path in src_candidates:
+                src_path = os.path.normpath(src_path)
+                if os.path.exists(src_path):
+                    shutil.copy2(src_path, tgt_path)
+                    break
         return migrate_inventory_via_player_inventory(str(targ_uid), items, t_level_sav_path, targ_lvl)
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print(f'[FAIL] transfer_inventory_only: {e}')
         return False
 def transfer_pals_only():

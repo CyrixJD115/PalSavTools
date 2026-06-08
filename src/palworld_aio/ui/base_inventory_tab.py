@@ -16,7 +16,7 @@ from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants
 from palworld_aio.base_inventory_manager import BaseInventoryManager, get_container_image_path, find_item_locations_efficient
 from palworld_aio.widgets import StatsPanel
-from palworld_aio.ui.inventory_tab import InventoryGridWidget, ItemPickerDialog
+from palworld_aio.ui.inventory_tab import InventoryGridWidget, ItemPickerDialog, InventoryLoadoutDialog, _group_inventory_items
 from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
@@ -1708,6 +1708,8 @@ class BaseInventoryTab(QWidget):
             self.inv_tab_btn.setText(t('base_inventory.tab_inventory') if t else 'Inventory')
         if hasattr(self, 'pals_tab_btn'):
             self.pals_tab_btn.setText(t('base_inventory.tab_base_pals') if t else 'Base Pals')
+        if hasattr(self, 'loadout_btn'):
+            self.loadout_btn.setText(t('inventory.loadouts_btn', default='Loadouts'))
         if hasattr(self, 'base_pals_widget'):
             self.base_pals_widget.refresh_labels()
         current_container_id = None
@@ -1756,6 +1758,12 @@ class BaseInventoryTab(QWidget):
         self.pals_tab_btn.setCursor(Qt.PointingHandCursor)
         self.pals_tab_btn.clicked.connect(lambda: self._switch_tab(1))
         header_layout.addWidget(self.pals_tab_btn)
+        self.loadout_btn = QPushButton(t('inventory.loadouts_btn', default='Loadouts'))
+        self.loadout_btn.setFixedHeight(28)
+        self.loadout_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.loadout_btn.setCursor(Qt.PointingHandCursor)
+        self.loadout_btn.clicked.connect(self._on_inventory_loadout)
+        header_layout.addWidget(self.loadout_btn)
         header_layout.addStretch()
         self.item_button = QPushButton(t('base_inventory.all_items') if t else 'All Items')
         self.item_button.setMinimumWidth(100)
@@ -2127,6 +2135,32 @@ class BaseInventoryTab(QWidget):
                 self._load_containers_for_base(base_id)
         else:
             self._load_containers_for_base(base_id)
+    def _on_inventory_loadout(self):
+        if not self.manager.inventory_container:
+            from loading_manager import show_warning
+            show_warning(self, t('base_inventory.loadouts_title', default='Inventory Loadouts'), t('base_inventory.select_container_first', default='Please select a container first'))
+            return
+        def _get_items():
+            if not self.manager.inventory_container:
+                return []
+            return _group_inventory_items(self.manager.inventory_container.get_items())
+        def _apply_items(regular, key_items):
+            if not self.manager.inventory_container:
+                return
+            for item in regular:
+                slot_idx = self.manager.find_empty_slot()
+                if slot_idx == -1:
+                    break
+                self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
+            for item in key_items:
+                slot_idx = self.manager.find_empty_slot()
+                if slot_idx == -1:
+                    break
+                self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
+            self._refresh_container_ui()
+            self._trigger_auto_save()
+        dlg = InventoryLoadoutDialog(self, _get_items, _apply_items)
+        dlg.exec()
     def _on_container_selected(self, container_id):
         container_info = next((c for c in self.manager.containers if c['id'] == container_id), None)
         if container_info:

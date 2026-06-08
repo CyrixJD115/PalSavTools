@@ -6,6 +6,8 @@ from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QColor, QPainter, QPen
 from PySide6.QtWidgets import QStyledItemDelegate
 from i18n import t
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, STATS_PANEL_STYLE, MENU_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, wrap_tooltip_text, slot_full, slot_rarity, slot_selected, CONTENT_PANEL_STYLE, SLOT_EMPTY_STYLE, SLOT_HOVER_STYLE
+from palsav import json_tools
+from palworld_aio import constants as _constants
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
 from palworld_aio.edit_pals import _clean_desc_for_tooltip
 from palworld_aio.player_manager import add_all_effigies_to_players, EFFIGY_ITEM_IDS
@@ -800,6 +802,12 @@ class PlayerInventoryTab(QWidget):
         self.title_label.setAlignment(Qt.AlignCenter)
         header.addWidget(self.title_label)
         header.addStretch()
+        self.loadout_btn = QPushButton(t('inventory.loadouts_btn', default='Loadouts'))
+        self.loadout_btn.setFixedHeight(28)
+        self.loadout_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.loadout_btn.setCursor(Qt.PointingHandCursor)
+        self.loadout_btn.clicked.connect(self._on_inventory_loadout)
+        header.addWidget(self.loadout_btn)
         self.player_select_btn = QPushButton(t('inventory.select_player', default='Select Player...'))
         self.player_select_btn.setMinimumWidth(220)
         self.player_select_btn.setMaximumHeight(28)
@@ -1218,6 +1226,37 @@ class PlayerInventoryTab(QWidget):
                 if key_container:
                     self._update_raw_save_data('key', key_container)
                 self._refresh_display()
+    def _on_inventory_loadout(self):
+        if not self.current_player_uid:
+            QMessageBox.warning(self, t('inventory.select_player', default='Select Player...'), t('inventory.select_player_first', default='Please select a player first.'))
+            return
+        def _get_items():
+            if not self.inventory:
+                return []
+            all_items = []
+            main_c = self.inventory.get_container('main')
+            if main_c:
+                all_items.extend(_group_inventory_items(main_c.slots))
+            key_c = self.inventory.get_container('key')
+            if key_c:
+                all_items.extend(_group_inventory_items(key_c.slots))
+            return all_items
+        def _apply_items(regular, key_items):
+            if not self.inventory:
+                return
+            for item in regular:
+                self.inventory.add_item('main', item['id'], item['qty'])
+            for item in key_items:
+                self.inventory.add_item('key', item['id'], item['qty'])
+            main_c = self.inventory.get_container('main')
+            if main_c:
+                self._update_raw_save_data('main', main_c)
+            key_c = self.inventory.get_container('key')
+            if key_c:
+                self._update_raw_save_data('key', key_c)
+            self._refresh_display()
+        dlg = InventoryLoadoutDialog(self, _get_items, _apply_items)
+        dlg.exec()
     def _on_unlock_all_map_clicked(self):
         if not self.current_player_uid:
             QMessageBox.warning(self, t('inventory.select_player', default='Select Player...'), t('inventory.select_player_first', default='Please select a player first.'))
@@ -1696,6 +1735,8 @@ class PlayerInventoryTab(QWidget):
         self.stats_panel.refresh_labels()
         self.main_grid.refresh_labels()
         self.key_grid.refresh_labels()
+        if hasattr(self, 'loadout_btn'):
+            self.loadout_btn.setText(t('inventory.loadouts_btn', default='Loadouts'))
         if hasattr(self, 'unlock_all_map_btn'):
             self.unlock_all_map_btn.setText(t('inventory.unlock_all_map', default='Unlock All Map + Fast Travel'))
         self.inv_tabs.setTabText(0, t('inventory.main', default='Inventory'))
@@ -1730,7 +1771,146 @@ class QuantityDialog(QDialog):
         btn_layout.addWidget(ok_btn)
         cancel_btn = QPushButton(t('button.cancel', default='Cancel'))
         cancel_btn.clicked.connect(self.reject)
-        btn_layout.addWidget(cancel_btn)
+        btn_layout.addStretch()
         layout.addLayout(btn_layout)
     def get_quantity(self) -> int:
         return self.spin_box.value()
+def _group_inventory_items(slots):
+    items = {}
+    for s in slots:
+        item_id = s.get('item_id', '')
+        if not item_id:
+            continue
+        qty = s.get('stack_count', 1)
+        items[item_id] = items.get(item_id, 0) + qty
+    result = []
+    for item_id, qty in items.items():
+        info = ItemData.get_item_by_asset(item_id)
+        result.append({'id': item_id, 'qty': qty, 'name': info.get('name', item_id), 'type_a': info.get('type_a', '')})
+    return result
+def _is_key_item(item):
+    return item.get('type_a') == 'EPalItemTypeA::Essential'
+def _split_regular_key(items):
+    reg = [{'id': i['id'], 'qty': i['qty'], 'name': i.get('name', i['id'])} for i in items if not _is_key_item(i)]
+    key = [{'id': i['id'], 'qty': i['qty'], 'name': i.get('name', i['id'])} for i in items if _is_key_item(i)]
+    return reg, key
+class InventoryLoadoutDialog(QDialog):
+    def __init__(self, parent, get_current_items_fn, apply_loadout_fn, title=None):
+        super().__init__(parent)
+        self._get_items = get_current_items_fn
+        self._apply_fn = apply_loadout_fn
+        self.setWindowTitle(title or t('inventory.loadouts_title', default='Inventory Loadouts'))
+        self.setMinimumSize(420, 400)
+        self.setMaximumSize(520, 500)
+        self.setStyleSheet(DARK_THEME_STYLE)
+        self._setup_ui()
+    def _setup_ui(self):
+        base_dir = _constants.get_src_path()
+        self._loadouts_path = os.path.join(base_dir, 'data', 'configs', 'inventory_loadouts.json')
+        self._load_loadouts()
+        inner = QWidget()
+        inner.setStyleSheet('QWidget { background: transparent; }')
+        il = QVBoxLayout(inner)
+        il.setContentsMargins(8, 4, 8, 8)
+        il.setSpacing(6)
+        list_lbl = QLabel(t('inventory.loadouts_saved', default='Saved Loadouts:'))
+        list_lbl.setStyleSheet('font-size: 10px; font-weight: 600; color: #7DD3FC; background: transparent; border: none;')
+        il.addWidget(list_lbl)
+        self.list_widget = QListWidget()
+        self.list_widget.setStyleSheet('QListWidget { background: rgba(10,14,20,0.95); border: 1px solid rgba(125,211,252,0.15); border-radius: 4px; color: #E2E8F0; font-size: 10px; } QListWidget::item { padding: 6px 8px; } QListWidget::item:hover { background: rgba(125,211,252,0.08); } QListWidget::item:selected { background: rgba(125,211,252,0.15); color: #7DD3FC; }')
+        self._refresh_list()
+        il.addWidget(self.list_widget, 1)
+        info_lbl = QLabel(t('inventory.loadouts_info', default='Regular items will go to Main, Key Items to Key Items tab.'))
+        info_lbl.setStyleSheet('font-size: 9px; color: #94a3b8; background: transparent; border: none; padding: 2px 0;')
+        info_lbl.setWordWrap(True)
+        il.addWidget(info_lbl)
+        btn_row = QHBoxLayout()
+        btn_row.setSpacing(4)
+        save_btn = QPushButton(t('inventory.loadouts_save', default='Save Current'))
+        save_btn.setStyleSheet('QPushButton { background: rgba(16,185,129,0.12); color: #4ADE80; border: 1px solid rgba(16,185,129,0.25); border-radius: 4px; padding: 6px 14px; font-size: 10px; font-weight: 600; } QPushButton:hover { background: rgba(16,185,129,0.22); color: #FFFFFF; }')
+        btn_row.addWidget(save_btn)
+        load_btn = QPushButton(t('inventory.loadouts_apply', default='Apply Selected'))
+        load_btn.setStyleSheet('QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.25); border-radius: 4px; padding: 6px 14px; font-size: 10px; font-weight: 600; } QPushButton:hover { background: rgba(125,211,252,0.22); color: #FFFFFF; }')
+        btn_row.addWidget(load_btn)
+        delete_btn = QPushButton(t('inventory.loadouts_delete_btn', default='Delete'))
+        delete_btn.setStyleSheet('QPushButton { background: rgba(251,113,133,0.12); color: #FB7185; border: 1px solid rgba(251,113,133,0.25); border-radius: 4px; padding: 6px 14px; font-size: 10px; font-weight: 600; } QPushButton:hover { background: rgba(251,113,133,0.22); color: #FFFFFF; }')
+        btn_row.addWidget(delete_btn)
+        btn_row.addStretch()
+        close_btn = QPushButton(t('inventory.loadouts_close', default='Close'))
+        close_btn.setStyleSheet('QPushButton { background: rgba(125,211,252,0.08); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 4px; padding: 6px 20px; font-size: 10px; font-weight: 600; } QPushButton:hover { background: rgba(125,211,252,0.16); color: #FFFFFF; }')
+        btn_row.addWidget(close_btn)
+        il.addLayout(btn_row)
+        save_btn.clicked.connect(self._do_save)
+        load_btn.clicked.connect(self._do_load)
+        delete_btn.clicked.connect(self._do_delete)
+        close_btn.clicked.connect(self.accept)
+        self.list_widget.itemDoubleClicked.connect(self._do_load)
+        dlg_layout = QVBoxLayout(self)
+        dlg_layout.setContentsMargins(0, 0, 0, 0)
+        dlg_layout.addWidget(inner)
+    def _load_loadouts(self):
+        if os.path.exists(self._loadouts_path):
+            try:
+                self._loadouts = json_tools.load(self._loadouts_path)
+            except Exception:
+                self._loadouts = {}
+        else:
+            self._loadouts = {}
+    def _save_loadouts(self):
+        try:
+            os.makedirs(os.path.dirname(self._loadouts_path), exist_ok=True)
+            json_tools.dump(self._loadouts, self._loadouts_path, indent=2)
+        except Exception as e:
+            from loading_manager import show_warning
+            show_warning(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_save_error', error=str(e), default=f'Failed to save: {e}'))
+    def _refresh_list(self):
+        self.list_widget.clear()
+        for name in sorted(self._loadouts.keys()):
+            item = QListWidgetItem(name)
+            item.setData(Qt.UserRole, name)
+            self.list_widget.addItem(item)
+    def _do_save(self):
+        items = self._get_items()
+        if not items:
+            from loading_manager import show_warning
+            show_warning(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_no_items', default='No items to save.'))
+            return
+        name, ok = QInputDialog.getText(self, t('inventory.loadouts_save_title', default='Save Loadout'), t('inventory.loadouts_save_prompt', default='Loadout name:'), text='')
+        if not ok or not name.strip():
+            return
+        name = name.strip()
+        reg, key = _split_regular_key(items)
+        self._loadouts[name] = {'regular': reg, 'key_items': key}
+        self._save_loadouts()
+        self._refresh_list()
+        from loading_manager import show_information
+        show_information(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_saved_ok', name=name, default=f'Loadout "{name}" saved.'))
+    def _do_load(self):
+        sel = self.list_widget.currentItem()
+        if not sel:
+            from loading_manager import show_warning
+            show_warning(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_select_first', default='Select a loadout first.'))
+            return
+        name = sel.data(Qt.UserRole)
+        data = self._loadouts.get(name)
+        if not data:
+            return
+        self._apply_fn(data.get('regular', []), data.get('key_items', []))
+        from loading_manager import show_information
+        show_information(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_applied', name=name, default=f'Loadout "{name}" applied.'))
+    def _do_delete(self):
+        sel = self.list_widget.currentItem()
+        if not sel:
+            from loading_manager import show_warning
+            show_warning(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_select_first', default='Select a loadout first.'))
+            return
+        name = sel.data(Qt.UserRole)
+        from loading_manager import show_question
+        if not show_question(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_delete_confirm', name=name, default=f'Delete "{name}"?')):
+            return
+        self._loadouts.pop(name, None)
+        self._save_loadouts()
+        row = self.list_widget.row(sel)
+        self.list_widget.takeItem(row)
+        from loading_manager import show_information
+        show_information(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_deleted', name=name, default=f'Loadout "{name}" deleted.'))

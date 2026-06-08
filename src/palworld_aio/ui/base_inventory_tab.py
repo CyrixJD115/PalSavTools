@@ -2174,8 +2174,8 @@ class BaseInventoryTab(QWidget):
                     break
                 self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
             _consolidate_container_slots(self.manager.inventory_container, 'main', SINGLETON_TYPE_A)
+            self.manager.save_changes()
             self._refresh_container_ui()
-            self._trigger_auto_save()
         base_loadouts_path = os.path.join(constants.get_src_path(), 'data', 'configs', 'base_inventory_loadouts.json')
         dlg = InventoryLoadoutDialog(self, _get_items, _apply_items, loadouts_path=base_loadouts_path)
         dlg.exec()
@@ -2183,8 +2183,8 @@ class BaseInventoryTab(QWidget):
         if not self.manager.inventory_container:
             return
         _consolidate_container_slots(self.manager.inventory_container, 'main', SINGLETON_TYPE_A)
+        self.manager.save_changes()
         self._refresh_container_ui()
-        self._trigger_auto_save()
     def _on_container_selected(self, container_id):
         container_info = next((c for c in self.manager.containers if c['id'] == container_id), None)
         if container_info:

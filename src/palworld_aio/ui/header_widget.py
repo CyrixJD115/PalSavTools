@@ -6,7 +6,7 @@ try:
     import nerdfont as nf
 except:
     class nf:
-        icons = {'nf-cod-github': '\ue708', 'nf-fa-save': '\uf0c7', 'nf-md-menu': '\U000f035c', 'nf-md-theme_light_dark': '\U000f0cde', 'nf-md-cog': '\U000f0493', 'nf-md-information': '\U000f02fd', 'nf-md-circle_medium': '\U000f09df', 'nf-fa-window_maximize': '\uf2d0', 'nf-fa-close': '\uf00d', 'nf-fa-discord': '\uf392', 'nf-cod-triangle_left': '\ueb9b', 'nf-cod-triangle_right': '\ueb9c'}
+        icons = {'nf-cod-github': '\ue708', 'nf-fa-save': '\uf0c7', 'nf-md-menu': '\U000f035c', 'nf-md-theme_light_dark': '\U000f0cde', 'nf-md-cog': '\U000f0493', 'nf-md-information': '\U000f02fd', 'nf-md-circle_medium': '\U000f09df', 'nf-fa-window_maximize': '\uf2d0', 'nf-fa-close': '\uf00d', 'nf-fa-discord': '\uf392', 'nf-cod-triangle_left': '\ueb9b', 'nf-cod-triangle_right': '\ueb9c', 'nf-fa-toolbox': '\uee1b'}
 from i18n import t
 from common import get_versions, get_display_version
 from palworld_aio import constants
@@ -16,6 +16,7 @@ class HeaderWidget(QWidget):
     maximize_clicked = Signal()
     close_clicked = Signal()
     about_clicked = Signal()
+    toolbox_clicked = Signal()
     def __init__(self, parent=None):
         super().__init__(parent)
         self._pulse_timer = None
@@ -86,6 +87,14 @@ class HeaderWidget(QWidget):
         self.warn_btn.setIconSize(QSize(26, 26))
         self.warn_btn.setVisible(False)
         layout.addWidget(self.warn_btn)
+        self.toolbox_btn = NerdBtn(nf.icons['nf-fa-toolbox'])
+        self.toolbox_btn.setObjectName('hdrBtn')
+        self.toolbox_btn.setFlat(True)
+        self.toolbox_btn.setToolTip(t('tab_guide.tooltip') if t else 'Tab Usage Guide — Click to view detailed usage instructions for every tab')
+        self.toolbox_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.toolbox_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.toolbox_btn.clicked.connect(self.toolbox_clicked.emit)
+        layout.addWidget(self.toolbox_btn)
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Expanding, QSizePolicy.Minimum))
         self.discord_btn = NerdBtn(nf.icons['nf-fa-discord'])
         self.discord_btn.setObjectName('discordChip')
@@ -217,6 +226,8 @@ class HeaderWidget(QWidget):
             self.maximize_btn.setToolTip(t('button.maximize') if t else 'Maximize')
         if hasattr(self, 'close_btn'):
             self.close_btn.setToolTip(t('button.close') if t else 'Close')
+        if hasattr(self, 'toolbox_btn'):
+            self.toolbox_btn.setToolTip(t('tab_guide.tooltip') if t else 'Tab Usage Guide — Click to view detailed usage instructions for every tab')
         if hasattr(self, 'app_version_label'):
             self.app_version_label.setText(f"{nf.icons['nf-cod-github']} {display_version}")
             self.app_version_label.setToolTip(t('github.tooltip') if t else 'Click to open GitHub repository')

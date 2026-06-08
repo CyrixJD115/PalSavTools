@@ -269,6 +269,7 @@ class MainWindow(QMainWindow):
         self.header_widget.close_clicked.connect(self.close)
         self.header_widget.about_clicked.connect(self._show_about)
         self.header_widget.warn_btn.clicked.connect(self._show_warnings)
+        self.header_widget.toolbox_clicked.connect(self._show_tab_guide)
         self.header_widget.show_warning(True)
         main_layout.addWidget(self.header_widget)
         body_layout = QHBoxLayout()
@@ -786,6 +787,17 @@ class MainWindow(QMainWindow):
         msg_box.setStandardButtons(QMessageBox.Ok)
         center_on_parent(msg_box)
         msg_box.exec()
+    def _show_tab_guide(self):
+        from .tab_guide_dialog import TabGuideDialog
+        dialog = TabGuideDialog(self)
+        if not hasattr(self, '_active_dialogs'):
+            self._active_dialogs = []
+        self._active_dialogs.append(dialog)
+        try:
+            dialog.exec()
+        finally:
+            if dialog in self._active_dialogs:
+                self._active_dialogs.remove(dialog)
     def _open_bulk_player_item_dialog(self):
         dialog = PlayerItemActionDialog(self)
         dialog.item_action_selected.connect(self._on_player_item_action)
@@ -802,9 +814,11 @@ class MainWindow(QMainWindow):
         if not hasattr(self, '_active_dialogs'):
             self._active_dialogs = []
         self._active_dialogs.append(dialog)
-        dialog.exec()
-        if dialog in self._active_dialogs:
-            self._active_dialogs.remove(dialog)
+        try:
+            dialog.exec()
+        finally:
+            if dialog in self._active_dialogs:
+                self._active_dialogs.remove(dialog)
     def _on_player_item_action(self, item_id, action, player_uids):
         from palworld_aio.base_inventory_manager import remove_item_from_players, add_item_to_players
         from PySide6.QtWidgets import QMessageBox

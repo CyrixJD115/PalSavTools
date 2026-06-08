@@ -1708,8 +1708,8 @@ class BaseInventoryTab(QWidget):
             self.inv_tab_btn.setText(t('base_inventory.tab_inventory') if t else 'Inventory')
         if hasattr(self, 'pals_tab_btn'):
             self.pals_tab_btn.setText(t('base_inventory.tab_base_pals') if t else 'Base Pals')
-        if hasattr(self, 'loadout_btn'):
-            self.loadout_btn.setText(t('inventory.loadouts_btn', default='Loadouts'))
+        if hasattr(self, 'base_inv_loadout_btn'):
+            self.base_inv_loadout_btn.setText(t('inventory.loadouts_btn', default='Loadouts'))
         if hasattr(self, 'base_pals_widget'):
             self.base_pals_widget.refresh_labels()
         current_container_id = None
@@ -1758,12 +1758,6 @@ class BaseInventoryTab(QWidget):
         self.pals_tab_btn.setCursor(Qt.PointingHandCursor)
         self.pals_tab_btn.clicked.connect(lambda: self._switch_tab(1))
         header_layout.addWidget(self.pals_tab_btn)
-        self.loadout_btn = QPushButton(t('inventory.loadouts_btn', default='Loadouts'))
-        self.loadout_btn.setFixedHeight(28)
-        self.loadout_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
-        self.loadout_btn.setCursor(Qt.PointingHandCursor)
-        self.loadout_btn.clicked.connect(self._on_inventory_loadout)
-        header_layout.addWidget(self.loadout_btn)
         header_layout.addStretch()
         self.item_button = QPushButton(t('base_inventory.all_items') if t else 'All Items')
         self.item_button.setMinimumWidth(100)
@@ -1831,6 +1825,12 @@ class BaseInventoryTab(QWidget):
         right_layout.setSpacing(5)
         self.inventory_grid = InventoryGridWidget()
         right_layout.addWidget(self.inventory_grid)
+        self.base_inv_loadout_btn = QPushButton(t('inventory.loadouts_btn', default='Loadouts'))
+        self.base_inv_loadout_btn.setFixedHeight(24)
+        self.base_inv_loadout_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
+        self.base_inv_loadout_btn.setCursor(Qt.PointingHandCursor)
+        self.base_inv_loadout_btn.clicked.connect(self._on_inventory_loadout)
+        self.inventory_grid.header_layout.insertWidget(self.inventory_grid.header_layout.indexOf(self.inventory_grid.sort_btn), self.base_inv_loadout_btn)
         self.splitter.addWidget(right_panel)
         inv_layout.addWidget(self.splitter)
         self.splitter.hide()

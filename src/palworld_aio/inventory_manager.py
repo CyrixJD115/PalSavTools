@@ -328,6 +328,10 @@ class PlayerInventory:
                 if item_id in INVENTORY_EXPANSION_ITEMS:
                     expansion_count += 1
         self.max_slots = 42 + expansion_count * 3
+        main_container = self.containers.get('main')
+        if main_container and hasattr(main_container, '_standardized_container'):
+            main_container._standardized_container.expand_capacity(self.max_slots)
+            main_container._standardized_container.container_data['value']['SlotNum']['value'] = self.max_slots
     def get_container(self, container_type: str) -> InventoryContainer:
         return self.containers.get(container_type)
     def get_all_items(self) -> list:

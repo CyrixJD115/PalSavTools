@@ -8,7 +8,7 @@ from i18n import t
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, STATS_PANEL_STYLE, MENU_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, wrap_tooltip_text, slot_full, slot_rarity, slot_selected, CONTENT_PANEL_STYLE, SLOT_EMPTY_STYLE, SLOT_HOVER_STYLE
 from palsav import json_tools
 from palworld_aio import constants as _constants
-from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
+from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS, INVENTORY_EXPANSION_ITEMS
 from palworld_aio.edit_pals import _clean_desc_for_tooltip
 from palworld_aio.player_manager import add_all_effigies_to_players, EFFIGY_ITEM_IDS
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
@@ -1160,6 +1160,7 @@ class PlayerInventoryTab(QWidget):
     def _refresh_display(self):
         if not self.inventory:
             return
+        self.inventory._calculate_max_slots()
         max_slots = self.inventory.max_slots
         main_container = self.inventory.get_container('main')
         if main_container:
@@ -1258,10 +1259,19 @@ class PlayerInventoryTab(QWidget):
         def _apply_items(regular, key_items, equipment=None):
             if not self.inventory:
                 return
-            for item in regular:
-                _merge_or_add_items(self.inventory, 'main', item['id'], item['qty'])
+            existing_key_ids = {s['item_id'] for s in (self.inventory.get_container('key').slots if self.inventory.get_container('key') else [])}
+            missing_expansion = [e for e in INVENTORY_EXPANSION_ITEMS if e not in existing_key_ids]
             for item in key_items:
+                if item['id'] in existing_key_ids:
+                    continue
                 _merge_or_add_items(self.inventory, 'key', item['id'], item['qty'])
+            for item in regular:
+                added = _merge_or_add_items(self.inventory, 'main', item['id'], item['qty'])
+                if not added and missing_expansion:
+                    next_exp = missing_expansion.pop(0)
+                    _merge_or_add_items(self.inventory, 'key', next_exp, 1)
+                    self.inventory._calculate_max_slots()
+                    added = _merge_or_add_items(self.inventory, 'main', item['id'], item['qty'])
             main_c = self.inventory.get_container('main')
             if main_c:
                 _consolidate_container_slots(main_c, 'main', SINGLETON_TYPE_A)
@@ -1892,21 +1902,21 @@ def _split_regular_key(items):
 def _merge_or_add_items(inventory, container_type, item_id, quantity):
     container = inventory.get_container(container_type)
     if not container:
-        return
+        return False
     MAX_STACK = 9999
     remaining = quantity
-    existing_slots = [s for s in container.slots if s.get('item_id') == item_id and s.get('stack_count', 0) < MAX_STACK]
-    for slot in existing_slots:
-        cur = slot.get('stack_count', 0)
-        can_add = MAX_STACK - cur
-        if can_add <= 0:
-            continue
-        to_add = min(remaining, can_add)
-        slot['stack_count'] = cur + to_add
-        remaining -= to_add
-        if remaining <= 0:
-            return
-    inventory.add_item(container_type, item_id, remaining)
+    for s in container.slots:
+        if s.get('item_id') == item_id and s.get('stack_count', 0) < MAX_STACK:
+            cur = s.get('stack_count', 0)
+            can_add = MAX_STACK - cur
+            if can_add <= 0:
+                continue
+            to_add = min(remaining, can_add)
+            s['stack_count'] = cur + to_add
+            remaining -= to_add
+            if remaining <= 0:
+                return True
+    return inventory.add_item(container_type, item_id, remaining)
 def _consolidate_container_slots(container, container_type, singleton_set):
     slots = container.slots
     merged = {}

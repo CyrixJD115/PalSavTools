@@ -1,25 +1,10 @@
 {
-  "Meta": {
+  "MetaInventory": {
     "regular": [
       {
-        "id": "AncientArmorCold_5",
+        "id": "ElectricArcAssaultRifle_5",
         "qty": 1,
-        "name": "Cold-Resistant Ancient Armor"
-      },
-      {
-        "id": "BeamSword_5",
-        "qty": 1,
-        "name": "Beam Sword"
-      },
-      {
-        "id": "Shield_07",
-        "qty": 1,
-        "name": "Shield 07"
-      },
-      {
-        "id": "PalSphere_Ancient_2",
-        "qty": 9999,
-        "name": "Ancient Sphere"
+        "name": "Plasma Rifle"
       },
       {
         "id": "ElectricArcAssaultRifleBullet",
@@ -27,76 +12,96 @@
         "name": "Plasma Rifle Ammo"
       },
       {
-        "id": "BeamLauncherBullet",
+        "id": "PalSphere_Ancient_2",
         "qty": 9999,
-        "name": "Beam Launcher Ammo"
+        "name": "Ancient Sphere"
       },
       {
-        "id": "AssaultRifleBullet",
-        "qty": 9999,
-        "name": "Assault Rifle Ammo"
-      },
-      {
-        "id": "AffectionFruit_01",
-        "qty": 9999,
-        "name": "Kinship Peach"
-      },
-      {
-        "id": "Octavia001_Armor_5",
+        "id": "DroneLauncher_5",
         "qty": 1,
-        "name": "V1 Armor"
+        "name": "Drone Launcher"
       },
       {
-        "id": "Accessory_WKMC_1",
+        "id": "AncientHelmet_5",
         "qty": 1,
-        "name": "Islander's Tool Belt"
+        "name": "Ancient Helm"
+      },
+      {
+        "id": "Shield_07",
+        "qty": 1,
+        "name": "Shield 07"
+      },
+      {
+        "id": "AncientArmorCold_5",
+        "qty": 1,
+        "name": "Cold-Resistant Ancient Armor"
+      },
+      {
+        "id": "GrapplingGun5",
+        "qty": 1,
+        "name": "Ultra Grappling Gun"
+      },
+      {
+        "id": "BeamLauncher_5",
+        "qty": 1,
+        "name": "Beam Launcher"
+      },
+      {
+        "id": "Bat3_5",
+        "qty": 1,
+        "name": "Metal Bat"
+      },
+      {
+        "id": "Accessory_NonkChecker_1",
+        "qty": 1,
+        "name": "Pal Tamer's Glasses"
+      },
+      {
+        "id": "Accessory_TalentChecker",
+        "qty": 1,
+        "name": "Ability Glasses"
+      },
+      {
+        "id": "WingGlider",
+        "qty": 1,
+        "name": "Wing Pack"
+      },
+      {
+        "id": "WingGlider_Fuel",
+        "qty": 9999,
+        "name": "Wing Cell"
+      },
+      {
+        "id": "Cake05",
+        "qty": 9999,
+        "name": "Special Cake"
+      },
+      {
+        "id": "Curry",
+        "qty": 9999,
+        "name": "Mammorest Curry"
       }
     ],
     "key_items": [
       {
-        "id": "UnlockEquipmentSlot_Weapon_01",
+        "id": "AdditionalInventory_001",
         "qty": 1,
-        "name": "Extra Weapon Holster"
+        "name": "Expanded Inventory 1"
       },
       {
-        "id": "UnlockEquipmentSlot_Weapon_02",
+        "id": "AdditionalInventory_002",
         "qty": 1,
-        "name": "Extra Weapon Holster 2"
+        "name": "Expanded Inventory 2"
       },
       {
-        "id": "UnlockEquipmentSlot_Accessory_01",
+        "id": "AdditionalInventory_003",
         "qty": 1,
-        "name": "Mysterious Accessory Box"
+        "name": "Expanded Inventory 3"
       },
       {
-        "id": "UnlockEquipmentSlot_Accessory_02",
+        "id": "AdditionalInventory_004",
         "qty": 1,
-        "name": "Box of Mystery Accessories"
-      },
-      {
-        "id": "AutoMealPouch_Tier1",
-        "qty": 1,
-        "name": "Small Feed Bag"
-      },
-      {
-        "id": "AutoMealPouch_Tier2",
-        "qty": 1,
-        "name": "Average Feed Bag"
-      },
-      {
-        "id": "AutoMealPouch_Tier3",
-        "qty": 1,
-        "name": "Large Feed Bag"
-      },
-      {
-        "id": "AutoMealPouch_Tier4",
-        "qty": 1,
-        "name": "Huge Feed Bag"
-      },
-      {
-        "id": "AutoMealPouch_Tier5",
-        "qty": 1,
-        "name": "Giant Feed Bag"
+        "name": "Expanded Inventory 4"
       }
     ]
   }

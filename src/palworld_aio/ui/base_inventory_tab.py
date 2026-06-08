@@ -776,6 +776,17 @@ class ContainerListWidget(QTreeWidget):
         layout.addLayout(info_layout)
         layout.addStretch()
         return widget
+    def update_slot_count_label(self, container_id, new_count):
+        for i in range(self.topLevelItemCount()):
+            item = self.topLevelItem(i)
+            if item.data(0, Qt.UserRole) == container_id:
+                widget = self.itemWidget(item, 0)
+                if widget:
+                    for child in widget.findChildren(QLabel):
+                        if 'Slots' in child.text() or 'slots' in child.text() or f"Slots:" in child.text():
+                            child.setText(t('base_inventory.slots_count').format(count=new_count) if t else f'Slots: {new_count}')
+                            break
+                break
     def _on_selection_changed(self):
         selected_items = self.selectedItems()
         if selected_items:
@@ -2157,6 +2168,7 @@ class BaseInventoryTab(QWidget):
                         if c['id'] == self.manager.current_container['id']:
                             c['slot_count'] = sc.max_slots
                             break
+                    self.container_list.update_slot_count_label(self.manager.current_container['id'], sc.max_slots)
                     slot_idx = self.manager.find_empty_slot()
                 if slot_idx == -1:
                     break

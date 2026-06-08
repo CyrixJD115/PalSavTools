@@ -1292,14 +1292,12 @@ class PlayerInventoryTab(QWidget):
                 if slot_name not in binding_map:
                     continue
                 binding = binding_map[slot_name]
+                slot_idx = binding['index']
                 container = self.inventory.get_container(binding['container'])
                 if not container:
                     continue
-                slot_idx = binding['index']
                 container.update_slots([s for s in container.slots if s.get('slot_index') != slot_idx])
-                info = ItemData.get_item_by_asset(equip_item['id'])
-                new_slot = {'slot_index': slot_idx, 'item_id': equip_item['id'], 'item_name': info.get('name', equip_item['id']), 'icon_path': info.get('icon', ''), 'stack_count': equip_item.get('qty', 1), 'category': ItemData.get_item_category(equip_item['id']), 'container_type': binding['container'], 'raw_data': None}
-                container.update_slots(container.slots + [new_slot])
+                self.inventory.add_item(binding['container'], equip_item['id'], equip_item.get('qty', 1), slot_index=slot_idx)
                 self._update_raw_save_data(binding['container'], container)
             self._refresh_display()
         dlg = InventoryLoadoutDialog(self, _get_equipment, _apply_equipment, title=t('inventory.equip_loadouts_title', default='Equipment Loadouts'), loadouts_path=_EQ_LOADOUTS_PATH, key_prefix='inventory.equip')

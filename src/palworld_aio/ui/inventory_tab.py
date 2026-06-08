@@ -1241,13 +1241,38 @@ class PlayerInventoryTab(QWidget):
             if key_c:
                 all_items.extend(_group_inventory_items(key_c.slots))
             return all_items
-        def _apply_items(regular, key_items):
+        def _get_equipment():
+            if not self.inventory:
+                return {}
+            equip = self.inventory.get_equipment()
+            result = {}
+            for slot_name, slot_data in equip.items():
+                if slot_data and slot_data.get('item_id'):
+                    result[slot_name] = {'id': slot_data['item_id'], 'qty': slot_data.get('stack_count', 1), 'name': slot_data.get('item_name', slot_data['item_id'])}
+            return result
+        def _apply_items(regular, key_items, equipment=None):
             if not self.inventory:
                 return
             for item in regular:
                 self.inventory.add_item('main', item['id'], item['qty'])
             for item in key_items:
                 self.inventory.add_item('key', item['id'], item['qty'])
+            if equipment:
+                from palworld_aio.inventory_manager import UI_SLOT_BINDINGS
+                binding_map = {b['slot_name']: b for b in UI_SLOT_BINDINGS}
+                for slot_name, equip_item in equipment.items():
+                    if slot_name not in binding_map:
+                        continue
+                    binding = binding_map[slot_name]
+                    container = self.inventory.get_container(binding['container'])
+                    if not container:
+                        continue
+                    slot_idx = binding['index']
+                    container.update_slots([s for s in container.slots if s.get('slot_index') != slot_idx])
+                    info = ItemData.get_item_by_asset(equip_item['id'])
+                    new_slot = {'slot_index': slot_idx, 'item_id': equip_item['id'], 'item_name': info.get('name', equip_item['id']), 'icon_path': info.get('icon', ''), 'stack_count': equip_item.get('qty', 1), 'category': ItemData.get_item_category(equip_item['id']), 'container_type': binding['container'], 'raw_data': None}
+                    container.update_slots(container.slots + [new_slot])
+                    self._update_raw_save_data(binding['container'], container)
             main_c = self.inventory.get_container('main')
             if main_c:
                 self._update_raw_save_data('main', main_c)
@@ -1255,7 +1280,7 @@ class PlayerInventoryTab(QWidget):
             if key_c:
                 self._update_raw_save_data('key', key_c)
             self._refresh_display()
-        dlg = InventoryLoadoutDialog(self, _get_items, _apply_items)
+        dlg = InventoryLoadoutDialog(self, _get_items, _apply_items, get_extra_fn=_get_equipment)
         dlg.exec()
     def _on_unlock_all_map_clicked(self):
         if not self.current_player_uid:
@@ -1795,10 +1820,11 @@ def _split_regular_key(items):
     key = [{'id': i['id'], 'qty': i['qty'], 'name': i.get('name', i['id'])} for i in items if _is_key_item(i)]
     return reg, key
 class InventoryLoadoutDialog(QDialog):
-    def __init__(self, parent, get_current_items_fn, apply_loadout_fn, title=None):
+    def __init__(self, parent, get_current_items_fn, apply_loadout_fn, title=None, get_extra_fn=None):
         super().__init__(parent)
         self._get_items = get_current_items_fn
         self._apply_fn = apply_loadout_fn
+        self._get_extra_fn = get_extra_fn
         self.setWindowTitle(title or t('inventory.loadouts_title', default='Inventory Loadouts'))
         self.setMinimumSize(420, 400)
         self.setMaximumSize(520, 500)
@@ -1880,7 +1906,12 @@ class InventoryLoadoutDialog(QDialog):
             return
         name = name.strip()
         reg, key = _split_regular_key(items)
-        self._loadouts[name] = {'regular': reg, 'key_items': key}
+        data = {'regular': reg, 'key_items': key}
+        if self._get_extra_fn:
+            extra = self._get_extra_fn()
+            if extra:
+                data['equipment'] = extra
+        self._loadouts[name] = data
         self._save_loadouts()
         self._refresh_list()
         from loading_manager import show_information
@@ -1895,7 +1926,7 @@ class InventoryLoadoutDialog(QDialog):
         data = self._loadouts.get(name)
         if not data:
             return
-        self._apply_fn(data.get('regular', []), data.get('key_items', []))
+        self._apply_fn(data.get('regular', []), data.get('key_items', []), data.get('equipment', {}))
         from loading_manager import show_information
         show_information(self, t('inventory.loadouts_title', default='Inventory Loadouts'), t('inventory.loadouts_applied', name=name, default=f'Loadout "{name}" applied.'))
     def _do_delete(self):

@@ -2144,7 +2144,7 @@ class BaseInventoryTab(QWidget):
             if not self.manager.inventory_container:
                 return []
             return _group_inventory_items(self.manager.inventory_container.get_items())
-        def _apply_items(regular, key_items):
+        def _apply_items(regular, key_items, equipment=None):
             if not self.manager.inventory_container:
                 return
             for item in regular:

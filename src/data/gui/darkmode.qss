@@ -100,15 +100,19 @@ QPushButton#themeChip:hover {
 
 /* Discord chip */
 QPushButton#discordChip {
-    background: transparent;
-    border: none;
-    padding: 8px 12px;
-    font-size: 20px;
-    color: #5865f2;
-    text-align: center;
+    border: 1px solid rgba(88,101,242,0.3);
+    background: rgba(88,101,242,0.1);
+    border-radius: 10px;
+    padding: 0px;
+    color: #818CF8;
 }
 QPushButton#discordChip:hover {
-    color: #7289da;
+    background: rgba(88,101,242,0.2);
+    border-color: rgba(88,101,242,0.5);
+    color: #A5B4FC;
+}
+QPushButton#discordChip:pressed {
+    background: rgba(88,101,242,0.3);
 }
 
 /* Scroll area */
@@ -249,16 +253,69 @@ QLabel#savePathLabel {
     border-radius: 8px;
 }
 
-/* Header buttons */
-QToolButton#hdrBtn {
-    border: none;
-    background: transparent;
-    padding: 6px;
-    margin-left: 6px;
+/* Header toolbox button */
+QPushButton#hdrBtn {
+    border: 1px solid rgba(59,130,246,0.3);
+    background: rgba(59,130,246,0.1);
+    border-radius: 10px;
+    padding: 0px;
+    color: #60A5FA;
 }
-QToolButton#hdrBtn:hover {
-    background: rgba(255,255,255,0.02);
-    border-radius: 6px;
+QPushButton#hdrBtn:hover {
+    background: rgba(59,130,246,0.2);
+    border-color: rgba(59,130,246,0.5);
+    color: #93C5FD;
+}
+QPushButton#hdrBtn:pressed {
+    background: rgba(59,130,246,0.3);
+}
+/* Header info button */
+QPushButton#infoBtn {
+    border: 1px solid rgba(59,130,246,0.3);
+    background: rgba(59,130,246,0.1);
+    border-radius: 10px;
+    padding: 0px;
+    color: #60A5FA;
+}
+QPushButton#infoBtn:hover {
+    background: rgba(59,130,246,0.2);
+    border-color: rgba(59,130,246,0.5);
+    color: #93C5FD;
+}
+QPushButton#infoBtn:pressed {
+    background: rgba(59,130,246,0.3);
+}
+/* Header warning button */
+QPushButton#warnBtn {
+    border: 1px solid rgba(234,179,8,0.3);
+    background: rgba(234,179,8,0.1);
+    border-radius: 10px;
+    padding: 0px;
+    color: #FBBF24;
+}
+QPushButton#warnBtn:hover {
+    background: rgba(234,179,8,0.2);
+    border-color: rgba(234,179,8,0.5);
+    color: #FDE68A;
+}
+QPushButton#warnBtn:pressed {
+    background: rgba(234,179,8,0.3);
+}
+/* Header discord button */
+QPushButton#discordChip {
+    border: 1px solid rgba(88,101,242,0.3);
+    background: rgba(88,101,242,0.1);
+    border-radius: 10px;
+    padding: 0px;
+    color: #818CF8;
+}
+QPushButton#discordChip:hover {
+    background: rgba(88,101,242,0.2);
+    border-color: rgba(88,101,242,0.5);
+    color: #A5B4FC;
+}
+QPushButton#discordChip:pressed {
+    background: rgba(88,101,242,0.3);
 }
 
 /* Footer */

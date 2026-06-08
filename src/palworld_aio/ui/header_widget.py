@@ -1,12 +1,12 @@
 import os
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton, QToolButton, QSpacerItem, QSizePolicy, QStyle
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Qt, Signal, QSize, QPoint, QTimer
 from PySide6.QtGui import QPixmap, QFont, QCursor, QFontDatabase
 try:
     import nerdfont as nf
 except:
     class nf:
-        icons = {'nf-cod-github': '\ue708', 'nf-fa-save': '\uf0c7', 'nf-md-menu': '\U000f035c', 'nf-md-theme_light_dark': '\U000f0cde', 'nf-md-cog': '\U000f0493', 'nf-md-information': '\U000f02fd', 'nf-md-circle_medium': '\U000f09df', 'nf-fa-window_maximize': '\uf2d0', 'nf-fa-close': '\uf00d', 'nf-fa-discord': '\uf392', 'nf-cod-triangle_left': '\ueb9b', 'nf-cod-triangle_right': '\ueb9c', 'nf-fa-toolbox': '\uee1b'}
+        icons = {'nf-cod-github': '\ue708', 'nf-fa-save': '\uf0c7', 'nf-md-menu': '\U000f035c', 'nf-md-theme_light_dark': '\U000f0cde', 'nf-md-cog': '\U000f0493', 'nf-md-information': '\U000f02fd', 'nf-md-circle_medium': '\U000f09df', 'nf-fa-window_maximize': '\uf2d0', 'nf-fa-close': '\uf00d', 'nf-fa-discord': '\uf392', 'nf-cod-triangle_left': '\ueb9b', 'nf-cod-triangle_right': '\ueb9c', 'nf-fa-toolbox': '\uee1b', 'nf-fa-warning': '\uf071'}
 from i18n import t
 from common import get_versions, get_display_version
 from palworld_aio import constants
@@ -66,30 +66,29 @@ class HeaderWidget(QWidget):
         self.game_version_label.setObjectName('gameVersionChip')
         self.game_version_label.setFont(QFont('Hack Nerd Font', 11))
         layout.addWidget(self.game_version_label, alignment=Qt.AlignVCenter)
-        self.info_btn = QToolButton()
-        self.info_btn.setObjectName('hdrBtn')
+        btn_style = 'padding: 0px; margin: 0px; text-align: center;'
+        self.info_btn = NerdBtn(nf.icons['nf-md-information'])
+        self.info_btn.setObjectName('infoBtn')
+        self.info_btn.setFixedSize(40, 36)
+        self.info_btn.setStyleSheet(btn_style)
         self.info_btn.setToolTip(t('about.title') if t else 'About PST')
-        try:
-            self.info_btn.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxInformation))
-        except:
-            pass
-        self.info_btn.setIconSize(QSize(26, 26))
+        self.info_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.info_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.info_btn.clicked.connect(self.about_clicked.emit)
         layout.addWidget(self.info_btn)
-        self.warn_btn = QToolButton()
-        self.warn_btn.setObjectName('hdrBtn')
+        self.warn_btn = NerdBtn(nf.icons['nf-fa-warning'])
+        self.warn_btn.setObjectName('warnBtn')
+        self.warn_btn.setFixedSize(40, 36)
+        self.warn_btn.setStyleSheet(btn_style)
         self.warn_btn.setToolTip(t('warning.title', game_version=game_version) if t else f'Warnings(Palworld v{game_version})')
-        try:
-            self.warn_btn.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxWarning))
-        except:
-            pass
-        self.warn_btn.setStyleSheet('color: #FFD24D;')
-        self.warn_btn.setIconSize(QSize(26, 26))
+        self.warn_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.warn_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.warn_btn.setVisible(False)
         layout.addWidget(self.warn_btn)
         self.toolbox_btn = NerdBtn(nf.icons['nf-fa-toolbox'])
         self.toolbox_btn.setObjectName('hdrBtn')
-        self.toolbox_btn.setFlat(True)
+        self.toolbox_btn.setFixedSize(40, 36)
+        self.toolbox_btn.setStyleSheet(btn_style)
         self.toolbox_btn.setToolTip(t('tab_guide.tooltip') if t else 'Tab Usage Guide — Click to view detailed usage instructions for every tab')
         self.toolbox_btn.setFont(QFont('Hack Nerd Font', 16))
         self.toolbox_btn.setCursor(QCursor(Qt.PointingHandCursor))
@@ -98,9 +97,11 @@ class HeaderWidget(QWidget):
         layout.addItem(QSpacerItem(20, 10, QSizePolicy.Expanding, QSizePolicy.Minimum))
         self.discord_btn = NerdBtn(nf.icons['nf-fa-discord'])
         self.discord_btn.setObjectName('discordChip')
-        self.discord_btn.setFlat(True)
+        self.discord_btn.setFixedSize(40, 36)
+        self.discord_btn.setStyleSheet(btn_style)
         self.discord_btn.setToolTip(t('button.discord') if t else 'Join Discord')
-        self.discord_btn.setFont(QFont('Hack Nerd Font', 14))
+        self.discord_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.discord_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.discord_btn.clicked.connect(self._open_discord)
         layout.addWidget(self.discord_btn)
         self.minimize_btn = NerdBtn(nf.icons['nf-md-circle_medium'])

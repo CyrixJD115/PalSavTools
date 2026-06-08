@@ -2167,6 +2167,10 @@ class BaseInventoryTab(QWidget):
             if expanded:
                 cid = self.manager.current_container['id']
                 self._load_containers_for_base(self._current_base_id)
+                for c in self.manager.containers:
+                    if c['id'] == cid:
+                        c['slot_count'] = sc.max_slots
+                        break
                 self._restore_container_selection(cid)
                 self._on_container_selected(cid)
             else:

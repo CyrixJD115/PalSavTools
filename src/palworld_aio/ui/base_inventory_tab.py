@@ -2148,28 +2148,19 @@ class BaseInventoryTab(QWidget):
         def _apply_items(regular, key_items, equipment=None):
             if not self.manager.inventory_container:
                 return
-            for item in regular:
-                slot_idx = self.manager.find_empty_slot()
-                if slot_idx == -1:
-                    break
-                self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
-            for item in key_items:
-                slot_idx = self.manager.find_empty_slot()
-                if slot_idx == -1:
-                    break
-                self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
             sc = self.manager.inventory_container._standardized_container
-            needed = len(regular) + len(key_items)
-            if needed > sc.max_slots:
-                new_max = min(needed + 50, 999)
-                sc.expand_capacity(new_max)
-                cont_data = None
-                for c in self.manager.containers:
-                    if c['id'] == self.manager.current_container['id']:
-                        cont_data = c
-                        break
-                if cont_data:
-                    cont_data['slot_count'] = new_max
+            for item in regular + key_items:
+                slot_idx = self.manager.find_empty_slot()
+                while slot_idx == -1 and sc.max_slots < 999:
+                    sc.expand_capacity(sc.max_slots + 1)
+                    for c in self.manager.containers:
+                        if c['id'] == self.manager.current_container['id']:
+                            c['slot_count'] = sc.max_slots
+                            break
+                    slot_idx = self.manager.find_empty_slot()
+                if slot_idx == -1:
+                    break
+                self.manager.add_item_to_slot(slot_idx, item['id'], item['qty'])
             _consolidate_container_slots(self.manager.inventory_container, 'main', SINGLETON_TYPE_A)
             self._refresh_container_ui()
             self._trigger_auto_save()

@@ -2164,6 +2164,7 @@ class BaseInventoryTab(QWidget):
                 slot_idx = self.manager.find_empty_slot()
                 while slot_idx == -1 and sc.max_slots < 999:
                     sc.expand_capacity(sc.max_slots + 1)
+                    self.manager.expand_container_capacity(self.manager.current_container['id'], sc.max_slots)
                     for c in self.manager.containers:
                         if c['id'] == self.manager.current_container['id']:
                             c['slot_count'] = sc.max_slots

@@ -463,6 +463,7 @@ class InventoryGridWidget(QWidget):
     item_selected = Signal(dict)
     add_all_effigies_requested = Signal()
     add_all_key_items_requested = Signal()
+    sort_requested = Signal()
     def __init__(self, container_type: str='main', parent=None):
         super().__init__(parent)
         self.container_type = container_type
@@ -508,7 +509,7 @@ class InventoryGridWidget(QWidget):
         self.sort_btn.setFixedSize(60, 24)
         self.sort_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
         self.sort_btn.setCursor(Qt.PointingHandCursor)
-        self.sort_btn.clicked.connect(self._sort_items)
+        self.sort_btn.clicked.connect(self.sort_requested.emit)
         header.addWidget(self.sort_btn)
         main_layout.addLayout(header)
         scroll = QScrollArea()
@@ -841,6 +842,8 @@ class PlayerInventoryTab(QWidget):
         self.unlock_all_map_btn.clicked.connect(self._on_unlock_all_map_clicked)
         sort_idx = self.main_grid.header_layout.indexOf(self.main_grid.sort_btn)
         self.main_grid.header_layout.insertWidget(sort_idx, self.unlock_all_map_btn)
+        self.main_grid.sort_requested.connect(self._on_sort_requested)
+        self.key_grid.sort_requested.connect(self._on_sort_requested)
         self.inv_loadout_btn = QPushButton(t('inventory.loadouts_btn', default='Loadouts'))
         self.inv_loadout_btn.setFixedHeight(24)
         self.inv_loadout_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
@@ -1268,6 +1271,48 @@ class PlayerInventoryTab(QWidget):
             self._refresh_display()
         dlg = InventoryLoadoutDialog(self, _get_items, _apply_items, loadouts_path=_INV_LOADOUTS_PATH)
         dlg.exec()
+    def _on_sort_requested(self):
+        if not self.inventory:
+            return
+        sender = self.sender()
+        if sender == self.main_grid:
+            container = self.inventory.get_container('main')
+            ct = 'main'
+        elif sender == self.key_grid:
+            container = self.inventory.get_container('key')
+            ct = 'key'
+        else:
+            return
+        if not container:
+            return
+        slots = container.slots
+        merged = {}
+        for s in slots:
+            item_id = s.get('item_id', '')
+            if not item_id:
+                continue
+            qty = s.get('stack_count', 1)
+            item_info = ItemData.get_item_by_asset(item_id)
+            if item_info.get('type_a') in SINGLETON_TYPE_A:
+                merged[item_id] = qty
+            else:
+                merged[item_id] = merged.get(item_id, 0) + qty
+        new_slots = []
+        idx = 0
+        for item_id, total_qty in merged.items():
+            item_info = ItemData.get_item_by_asset(item_id)
+            if item_info.get('type_a') in SINGLETON_TYPE_A:
+                new_slots.append({'slot_index': idx, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': 1, 'category': ItemData.get_item_category(item_id), 'container_type': ct, 'raw_data': None})
+                idx += 1
+            else:
+                while total_qty > 0:
+                    stack = min(total_qty, 9999)
+                    new_slots.append({'slot_index': idx, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': stack, 'category': ItemData.get_item_category(item_id), 'container_type': ct, 'raw_data': None})
+                    idx += 1
+                    total_qty -= stack
+        container.update_slots(new_slots)
+        self._update_raw_save_data(ct, container)
+        self._refresh_display()
     def _on_equipment_loadout(self):
         if not self.current_player_uid:
             QMessageBox.warning(self, t('inventory.select_player', default='Select Player...'), t('inventory.select_player_first', default='Please select a player first.'))

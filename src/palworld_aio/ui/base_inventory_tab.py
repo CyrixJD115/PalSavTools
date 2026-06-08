@@ -16,7 +16,7 @@ from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants
 from palworld_aio.base_inventory_manager import BaseInventoryManager, get_container_image_path, find_item_locations_efficient
 from palworld_aio.widgets import StatsPanel
-from palworld_aio.ui.inventory_tab import InventoryGridWidget, ItemPickerDialog, InventoryLoadoutDialog, _group_inventory_items
+from palworld_aio.ui.inventory_tab import InventoryGridWidget, ItemPickerDialog, InventoryLoadoutDialog, _group_inventory_items, SINGLETON_TYPE_A
 from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
@@ -1831,6 +1831,7 @@ class BaseInventoryTab(QWidget):
         self.base_inv_loadout_btn.setCursor(Qt.PointingHandCursor)
         self.base_inv_loadout_btn.clicked.connect(self._on_inventory_loadout)
         self.inventory_grid.header_layout.insertWidget(self.inventory_grid.header_layout.indexOf(self.inventory_grid.sort_btn), self.base_inv_loadout_btn)
+        self.inventory_grid.sort_requested.connect(self._on_base_sort_requested)
         self.splitter.addWidget(right_panel)
         inv_layout.addWidget(self.splitter)
         self.splitter.hide()
@@ -2162,6 +2163,42 @@ class BaseInventoryTab(QWidget):
         base_loadouts_path = os.path.join(constants.get_src_path(), 'data', 'configs', 'base_inventory_loadouts.json')
         dlg = InventoryLoadoutDialog(self, _get_items, _apply_items, loadouts_path=base_loadouts_path)
         dlg.exec()
+    def _on_base_sort_requested(self):
+        if not self.manager.inventory_container:
+            return
+        container = self.manager.inventory_container
+        slots = container.get_items()
+        merged = {}
+        for s in slots:
+            item_id = s.get('item_id', '')
+            if not item_id:
+                continue
+            qty = s.get('stack_count', 1)
+            item_info = ItemData.get_item_by_asset(item_id)
+            if item_info.get('type_a') in SINGLETON_TYPE_A:
+                merged[item_id] = 1
+            else:
+                merged[item_id] = merged.get(item_id, 0) + qty
+        new_slots = []
+        idx = 0
+        for item_id, total_qty in merged.items():
+            item_info = ItemData.get_item_by_asset(item_id)
+            is_singleton = item_info.get('type_a') in SINGLETON_TYPE_A
+            if is_singleton:
+                new_slots.append({'slot_index': idx, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': 1, 'category': ItemData.get_item_category(item_id), 'container_type': 'main', 'raw_data': None})
+                idx += 1
+            else:
+                while total_qty > 0:
+                    stack = min(total_qty, 9999)
+                    new_slots.append({'slot_index': idx, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': stack, 'category': ItemData.get_item_category(item_id), 'container_type': 'main', 'raw_data': None})
+                    idx += 1
+                    total_qty -= stack
+        ci = container._standardized_container
+        ci.slots.clear()
+        for ns in new_slots:
+            ci.add_item(ns['item_id'], ns['stack_count'], ns['slot_index'])
+        self._refresh_container_ui()
+        self._trigger_auto_save()
     def _on_container_selected(self, container_id):
         container_info = next((c for c in self.manager.containers if c['id'] == container_id), None)
         if container_info:

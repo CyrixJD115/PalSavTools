@@ -4,13 +4,63 @@ from PySide6.QtGui import QIcon, QPixmap, QFont
 from PySide6.QtCore import Qt, QTimer
 from palworld_aio.ui.styles import ThemeManager
 import ssl
-def _get_ssl_context():
-    ca_file = os.path.join(get_resources_directory(), 'cert', 'cacert.pem')
-    if os.path.exists(ca_file):
-        context = ssl.create_default_context(cafile=ca_file)
-        return context
+def _get_user_ca_path():
+    if sys.platform == 'win32':
+        base = os.environ.get('APPDATA', os.path.expanduser('~'))
+    elif sys.platform == 'darwin':
+        base = os.path.join(os.path.expanduser('~'), 'Library', 'Application Support')
     else:
-        return ssl.create_default_context()
+        base = os.environ.get('XDG_DATA_HOME', os.path.join(os.path.expanduser('~'), '.local', 'share'))
+    return os.path.join(base, APP_NAME, 'cert', 'cacert.pem')
+def _update_ca_bundle():
+    url = 'https://curl.se/ca/cacert.pem'
+    dest = _get_user_ca_path()
+    try:
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        print(f'[SSL] Downloading CA bundle from {url}')
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        with urllib.request.urlopen(req, context=ctx, timeout=30) as r, open(dest, 'wb') as f:
+            f.write(r.read())
+        print(f'[SSL] CA bundle saved: {dest}')
+        return dest
+    except Exception as e:
+        print(f'[SSL] CA bundle download failed: {e}')
+        return None
+def _unverified_context():
+    ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    return ctx
+def _try_ca(cafile, label):
+    if cafile and os.path.exists(cafile):
+        try:
+            ctx = ssl.create_default_context(cafile=cafile)
+            print(f'[SSL] Using {label} CA: {cafile}')
+            return ctx
+        except Exception as e:
+            print(f'[SSL] {label} CA failed ({e})')
+    else:
+        print(f'[SSL] {label} CA not found: {cafile}')
+    return None
+def _get_ssl_context():
+    bundled = os.path.join(get_resources_directory(), 'cert', 'cacert.pem')
+    user_ca = _get_user_ca_path()
+    ctx = _try_ca(bundled, 'bundled')
+    if ctx:
+        return ctx
+    ctx = _try_ca(user_ca, 'user-cached')
+    if ctx:
+        return ctx
+    print('[SSL] No valid CA found, downloading fresh bundle...')
+    downloaded = _update_ca_bundle()
+    ctx = _try_ca(downloaded, 'freshly-downloaded')
+    if ctx:
+        return ctx
+    print('[SSL] Using unverified context')
+    return _unverified_context()
 def _format_bytes(num: int) -> str:
     for unit in ('B', 'KB', 'MB', 'GB'):
         if num < 1024 or unit == 'GB':

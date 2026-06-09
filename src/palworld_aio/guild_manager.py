@@ -2,7 +2,7 @@ import os
 from palsav.archive import UUID
 from i18n import t
 from palworld_aio import constants
-from palworld_aio.utils import are_equal_uuids, as_uuid, fast_deepcopy, extract_value
+from palworld_aio.utils import are_equal_uuids, as_uuid, fast_deepcopy, extract_value, sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.data_manager import delete_base_camp
 from palworld_aio.container_ownership import ContainerOwnership
 from palworld_aio.edit_pals import _generate_pal_save_param
@@ -17,7 +17,8 @@ def move_player_to_guild(player_uid, target_guild_id):
     player_uid_clean = nu(player_uid)
     target_gid_clean = nu(target_guild_id)
     zero = UUID.from_str('00000000-0000-0000-0000-000000000000')
-    origin_group = target_group = found = None
+    player_to_guild = {}
+    target_group = None
     for g in group_map:
         try:
             if g['value']['GroupType']['value']['value'] != 'EPalGroupType::Guild':
@@ -26,15 +27,18 @@ def move_player_to_guild(player_uid, target_guild_id):
             if nu(g['key']) == target_gid_clean:
                 target_group = g
             for p in raw.get('players', []):
-                if nu(p.get('player_uid', '')) == player_uid_clean:
-                    origin_group = g
-                    found = p
+                pu = p.get('player_uid', '')
+                if pu:
+                    player_to_guild[nu(pu)] = {'group': g, 'entry': p}
         except:
             pass
-    if not found:
+    found_entry = player_to_guild.get(player_uid_clean)
+    if not found_entry:
         return False
     if not target_group:
         return False
+    origin_group = found_entry['group']
+    found = found_entry['entry']
     if origin_group is target_group:
         return True
     origin_raw = origin_group['value']['RawData']['value']
@@ -55,31 +59,62 @@ def move_player_to_guild(player_uid, target_guild_id):
             origin_raw['admin_player_uid'] = newplayers[0]['player_uid']
     target_raw = target_group['value']['RawData']['value']
     tplayers = target_raw.get('players', [])
-    if all((nu(p['player_uid']) != player_uid_clean for p in tplayers)):
+    tplayer_norm_set = {nu(p['player_uid']) for p in tplayers}
+    if player_uid_clean not in tplayer_norm_set:
+        if 'player_info' not in found:
+            found['player_info'] = {}
+        if 'player_name' not in found['player_info']:
+            found['player_info']['player_name'] = 'Player'
+        if 'last_online_real_time' not in found['player_info']:
+            found['player_info']['last_online_real_time'] = 0
         tplayers.append(found)
     target_raw['players'] = tplayers
-    if nu(target_raw.get('admin_player_uid', '')) not in {nu(p['player_uid']) for p in tplayers}:
+    if nu(target_raw.get('admin_player_uid', '')) not in tplayer_norm_set:
         target_raw['admin_player_uid'] = found['player_uid']
     new_gid_obj = target_raw['group_id']
+    # Update player .sav GroupId so the game recognizes guild membership
+    try:
+        player_sav_path = os.path.join(
+            constants.current_save_path, 'Players',
+            f"{str(player_uid).upper().replace('-', '')}.sav"
+        )
+        if os.path.exists(player_sav_path):
+            player_gvas = sav_to_gvasfile(player_sav_path)
+            player_sd = player_gvas.properties.get('SaveData', {}).get('value', {})
+            if player_sd:
+                player_sd['GroupId'] = {
+                    'id': None, 'value': new_gid_obj,
+                    'type': 'StructProperty',
+                    'struct_type': 'Guid',
+                    'struct_id': '00000000-0000-0000-0000-000000000000'
+                }
+            gvasfile_to_sav(player_gvas, player_sav_path)
+    except Exception:
+        pass
     cmap = wsd['CharacterSaveParameterMap']['value']
     ownership = ContainerOwnership.build(cmap, wsd.get('CharacterContainerSaveData', {}).get('value', []))
-    moved_instance_ids = []
+    player_key = str(player_uid).replace('-', '').lower()
+    moved_instance_ids = set()
     for character in cmap:
         try:
             raw = character['value']['RawData']['value']
             sp = raw['object']['SaveParameter']['value']
             inst_val = character['key']['InstanceId']['value']
+            inst_key = str(inst_val) if inst_val else ''
+            if not inst_key:
+                continue
             owner = sp.get('OwnerPlayerUId', {}).get('value')
-            if ownership.belongs_to_player(inst_val, owner, player_uid):
-                inst = character['key']['InstanceId']['value']
-                moved_instance_ids.append(inst)
-                raw['group_id'] = new_gid_obj
-                sp['OwnerPlayerUId']['value'] = found['player_uid']
-                try:
-                    if 'MapObjectConcreteInstanceIdAssignedToExpedition' in sp:
-                        del sp['MapObjectConcreteInstanceIdAssignedToExpedition']
-                except:
-                    pass
+            is_player_char = (sp.get('IsPlayer', {}).get('value', False) and
+                              str(character['key']['PlayerUId']['value']).replace('-', '').lower() == player_key)
+            if not is_player_char:
+                eff = ownership.get_effective_owner(inst_val, owner)
+                if nu(eff) != player_key:
+                    continue
+            raw['group_id'] = new_gid_obj
+            moved_instance_ids.add(inst_key)
+            if 'OwnerPlayerUId' in sp:
+                sp['OwnerPlayerUId']['value'] = player_uid
+            sp.pop('MapObjectConcreteInstanceIdAssignedToExpedition', None)
         except:
             pass
     if origin_group:
@@ -87,49 +122,37 @@ def move_player_to_guild(player_uid, target_guild_id):
             origin_raw = origin_group['value']['RawData']['value']
             origin_handles = origin_raw.get('individual_character_handle_ids', [])
             if isinstance(origin_handles, list):
-                origin_handles[:] = [h for h in origin_handles if str(h.get('instance_id', '')) not in moved_instance_ids]
-                seen = {}
-                unique_handles = []
-                for h in origin_handles:
-                    try:
-                        inst = str(h['instance_id'])
-                        if inst not in seen:
-                            seen[inst] = True
-                            unique_handles.append(h)
-                    except:
-                        unique_handles.append(h)
-                origin_handles[:] = unique_handles
-        except:
-            pass
-    for entry in group_map:
-        try:
-            raw = entry['value']['RawData']['value']
-            if raw.get('group_id') != new_gid_obj:
-                continue
-            handles = raw.get('individual_character_handle_ids')
-            if not isinstance(handles, list):
-                handles = []
-                raw['individual_character_handle_ids'] = handles
-            seen = {}
-            unique_handles = []
-            for h in handles:
-                try:
-                    inst = str(h['instance_id'])
+                keep = [h for h in origin_handles if str(h.get('instance_id', '')) not in moved_instance_ids]
+                seen = set()
+                unique = []
+                for h in keep:
+                    inst = str(h.get('instance_id', ''))
                     if inst not in seen:
-                        seen[inst] = True
-                        unique_handles.append(h)
-                except:
-                    unique_handles.append(h)
-            handles[:] = unique_handles
-            existing = set(seen.keys())
-            for inst in moved_instance_ids:
-                inst_str = str(inst)
-                if inst_str not in existing:
-                    handles.append({'guid': zero, 'instance_id': inst})
-                    existing.add(inst_str)
-            break
+                        seen.add(inst)
+                        unique.append(h)
+                origin_raw['individual_character_handle_ids'] = unique
         except:
             pass
+    try:
+        target_raw = target_group['value']['RawData']['value']
+        handles = target_raw.get('individual_character_handle_ids')
+        if not isinstance(handles, list):
+            handles = []
+            target_raw['individual_character_handle_ids'] = handles
+        seen = set()
+        unique = []
+        for h in handles:
+            inst = str(h.get('instance_id', ''))
+            if inst not in seen:
+                seen.add(inst)
+                unique.append(h)
+        handles[:] = unique
+        for inst_str in moved_instance_ids:
+            if inst_str not in seen:
+                handles.append({'guid': zero, 'instance_id': inst_str})
+                seen.add(inst_str)
+    except:
+        pass
     return True
 def rebuild_all_players_pals():
     if not constants.loaded_level_json or not constants.current_save_path:

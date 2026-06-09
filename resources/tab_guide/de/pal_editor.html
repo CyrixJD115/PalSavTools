@@ -1,5 +1,47 @@
-<p><b>Funktionsübersicht:</b> Umfangreiche Bearbeitungsoberfläche für jeden Kumpel eines beliebigen Spielers. Durchsuchen Sie nach Gruppe (aktive Truppe) und Palbox (Lager) geordnete Freunde mit voller Kontrolle über Statistiken, IVs, aktive Fertigkeiten, passive Eigenschaften, Arbeitseignungen, Rang, Seelen-Upgrades, Erscheinungsflaggen (Boss/Lucky/Erwacht/DNA) und mehr. Ein Infofeld auf der rechten Seite zeigt alle bearbeitbaren Details.</p>
-<p><b>Grundfunktionen (Linksklick und Tasten):</b> Klicken Sie auf <b>Spieler auswählen...</b>, um einen Spieler aus dem durchsuchbaren Popup auszuwählen (zum Filtern eingeben, zum Auswählen die Eingabetaste eingeben). Klicken Sie auf einen Party- oder Palbox-Slot, um einen Pal zur Bearbeitung auszuwählen – das Infofeld wird mit allen bearbeitbaren Feldern gefüllt. Klicken Sie in der Kopfzeile des Infobereichs auf die Umschaltschaltflächen: Geschlecht, Boss Alpha, Lucky/Shiny, Awakened, Imported/DNA, Max All Stats. Klicken Sie auf den Favoriten-Stern, um durch die Sperrstufen (0–3) zu blättern. Klicken Sie auf Beschriftungsfelder, um sie über Eingabedialoge inline zu bearbeiten: Name (Spitzname), Level (1–80), Vertrauensrang (0–10). Klicken Sie auf die IV-Beschriftungen (HP/Angriff/Verteidigung), um 0–100 einzustellen. Klicken Sie auf die Seelenbezeichnungen (HP/Angriff/Verteidigung/Herstellungsgeschwindigkeit), um 0–20 festzulegen. Klicken Sie auf aktive Fertigkeitsplätze, um die Fertigkeitsauswahl zu öffnen. Klicken Sie auf passive Slots, um die passive Auswahl zu öffnen. Klicken Sie auf die Arbeitseignungswerte, um deren Niveau festzulegen (0–10). Navigieren Sie zwischen Palbox-Seiten mit den Tasten <b>← Vorherige</b> / <b>Weiter →</b> oder dem Mausrad im Raster.</p>
-<p><b>Erweiterte Verknüpfungen (Doppelklick-Interaktionen):</b> Doppelklicken Sie auf einen Party- oder Palbox-Slot, der einen Pal hat, um ihn <b>schnell zu löschen</b> (keine Bestätigung – löst die gleiche „delete_direct“-Aktion wie das Kontextmenü aus). Doppelklicken Sie auf einen leeren Party- oder Palbox-Slot, um <b>das Dialogfeld „Neuen Pal hinzufügen“ zu öffnen</b>. Doppelklicken Sie in der Liste „Neuen Pal hinzufügen“ auf einen Pal, um ihn sofort zu erstellen. Doppelklicken Sie auf die Titelleiste von FramelessDialog, um die Maximierung umzuschalten.</p>
-<p><b>Versteckte Menüs (Rechtsklick-Kontext):</b> Klicken Sie mit der rechten Maustaste auf einen Gruppen- oder Palbox-Slot mit einem Kumpel für: Boss Alpha umschalten, Lucky/Shiny umschalten, Erwacht umschalten, Importiert/DNA umschalten, Level sperren (Untermenü: 4 Level), Alle Statistiken maximieren, Alle Bewegungen lernen, Dialogfeld „Erlernte Fertigkeiten“, Massensynchronisierung von Pal, Löschen. Klicken Sie mit der rechten Maustaste auf einen leeren Steckplatz für: Neuen Kumpel hinzufügen. Klicken Sie mit der rechten Maustaste auf das Pal-Porträt im Infofeld, um dasselbe erweiterte Kontextmenü anzuzeigen.</p>
-<p><b style="color: #7DD3FC;">Power-User-Tipp:</b> Tastaturkürzel beschleunigen die Bearbeitung: <b>Q</b> = vorherige Palbox-Seite, <b>E</b> = nächste Palbox-Seite, <b>F</b> = Fokus und Scrollen zum Infobereich, <b>C</b> = Fähigkeitsansicht umschalten. Bewegen Sie den Mauszeiger über einen Slot, um eine Vorschau seines Pal im Infofeld anzuzeigen, ohne ihn auszuwählen. Verwenden Sie <b>Bulk Sync</b> (aus dem Kontextmenü), um Statistiken/Fähigkeiten/Passive von einem Pal auf mehrere andere gleichzeitig zu kopieren.</p>
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Funktionsübersicht</h4>
+<ul>
+  <li>Umfangreiche Bearbeitungsoberfläche für jeden Kumpel eines beliebigen Spielers.</li>
+  <li>Durchsuchen Sie nach Gruppe (aktive Truppe) und Palbox (Lager) geordnete Freunde mit voller Kontrolle über Statistiken, IVs, aktive Fertigkeiten, passive Eigenschaften, Arbeitseignungen, Rang, Seelen-Upgrades, Erscheinungsflaggen (Boss/Lucky/Erwacht/DNA) und mehr.</li>
+  <li>Ein Infofeld auf der rechten Seite zeigt alle bearbeitbaren Details.</li>
+</ul>
+<h4>Grundfunktionen (Linksklick und Tasten)</h4>
+<ul>
+  <li>Klicken Sie auf <b>Spieler auswählen...</b>, um einen Spieler aus dem durchsuchbaren Popup auszuwählen (zum Filtern eingeben, zum Auswählen die Eingabetaste eingeben).</li>
+  <li>Klicken Sie auf einen Party- oder Palbox-Slot, um einen Pal zur Bearbeitung auszuwählen – das Infofeld wird mit allen bearbeitbaren Feldern gefüllt.</li>
+  <li>Klicken Sie in der Kopfzeile des Infobereichs auf die Umschaltschaltflächen: Geschlecht, Boss Alpha, Lucky/Shiny, Awakened, Imported/DNA, Max All Stats.</li>
+  <li>Klicken Sie auf den Favoriten-Stern, um durch die Sperrstufen (0–3) zu blättern.</li>
+  <li>Klicken Sie auf Beschriftungsfelder, um sie über Eingabedialoge inline zu bearbeiten: Name (Spitzname), Level (1–80), Vertrauensrang (0–10).</li>
+  <li>Klicken Sie auf die IV-Beschriftungen (HP/Angriff/Verteidigung), um 0–100 einzustellen.</li>
+  <li>Klicken Sie auf die Seelenbezeichnungen (HP/Angriff/Verteidigung/Herstellungsgeschwindigkeit), um 0–20 festzulegen.</li>
+  <li>Klicken Sie auf aktive Fertigkeitsplätze, um die Fertigkeitsauswahl zu öffnen.</li>
+  <li>Klicken Sie auf passive Slots, um die passive Auswahl zu öffnen.</li>
+  <li>Klicken Sie auf die Arbeitseignungswerte, um deren Niveau festzulegen (0–10).</li>
+  <li>Navigieren Sie zwischen Palbox-Seiten mit den Tasten <b>← Vorherige</b> / <b>Weiter →</b> oder dem Mausrad im Raster.</li>
+</ul>
+<h4>Erweiterte Verknüpfungen (Doppelklick-Interaktionen)</h4>
+<ul>
+  <li>Doppelklicken Sie auf einen Party- oder Palbox-Slot, der einen Pal hat, um ihn <b>schnell zu löschen</b> (keine Bestätigung – löst die gleiche „delete_direct“-Aktion wie das Kontextmenü aus).</li>
+  <li>Doppelklicken Sie auf einen leeren Party- oder Palbox-Slot, um <b>das Dialogfeld „Neuen Pal hinzufügen“ zu öffnen</b>.</li>
+  <li>Doppelklicken Sie in der Liste „Neuen Pal hinzufügen“ auf einen Pal, um ihn sofort zu erstellen.</li>
+  <li>Doppelklicken Sie auf die Titelleiste von FramelessDialog, um die Maximierung umzuschalten.</li>
+</ul>
+<h4>Versteckte Menüs (Rechtsklick-Kontext)</h4>
+<ul>
+  <li>Klicken Sie mit der rechten Maustaste auf einen Gruppen- oder Palbox-Slot mit einem Kumpel für: Boss Alpha umschalten, Lucky/Shiny umschalten, Erwacht umschalten, Importiert/DNA umschalten, Level sperren (Untermenü: 4 Level), Alle Statistiken maximieren, Alle Bewegungen lernen, Dialogfeld „Erlernte Fertigkeiten“, Massensynchronisierung von Pal, Löschen.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf einen leeren Steckplatz für: Neuen Kumpel hinzufügen.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf das Pal-Porträt im Infofeld, um dasselbe erweiterte Kontextmenü anzuzeigen.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User-Tipp</p>
+<p>Tastaturkürzel beschleunigen die Bearbeitung: <b>Q</b> = vorherige Palbox-Seite, <b>E</b> = nächste Palbox-Seite, <b>F</b> = Fokus und Scrollen zum Infobereich, <b>C</b> = Fähigkeitsansicht umschalten. Bewegen Sie den Mauszeiger über einen Slot, um eine Vorschau seines Pal im Infofeld anzuzeigen, ohne ihn auszuwählen. Verwenden Sie <b>Bulk Sync</b> (aus dem Kontextmenü), um Statistiken/Fähigkeiten/Passive von einem Pal auf mehrere andere gleichzeitig zu kopieren.</p>
+</div>
+</div>

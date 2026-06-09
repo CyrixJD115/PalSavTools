@@ -1,5 +1,35 @@
-<p><b>Descripción funcional:</b> Vista de dos paneles: el panel superior enumera todos los gremios con columnas para Nombre de gremio, ID de gremio y Nivel de gremio. El panel inferior muestra los miembros del gremio seleccionado con columnas para Nombre de miembro, Visto por última vez, Nivel, Amigos y UID.</p>
-<p><b>Operaciones básicas (clic izquierdo y botones):</b> Escribe en la barra de búsqueda para filtrar gremios por cualquier columna. Haz clic en una fila de gremio para seleccionarla; el panel inferior se completa automáticamente con los jugadores miembros de ese gremio. Haga clic en una fila de miembros para ver sus detalles.</p>
-<p><b>Atajos avanzados (interacciones de doble clic):</b> Al hacer doble clic en una fila de miembros o gremio se emite la señal <code>item_double_clicked</code>. No hay ningún controlador predeterminado conectado; actualmente, hacer doble clic no tiene ningún efecto visible en ninguno de los paneles.</p>
-<p><b>Menús ocultos (contexto de clic derecho):</b> Haga clic derecho en una <b>fila de gremio</b> para: Agregar o quitar exclusión, eliminar gremio, cambiar nombre de gremio, establecer nivel de gremio, desbloquear todas las investigaciones de laboratorio, exportar bases para gremio, importar bases (varios archivos), mover el jugador seleccionado al gremio seleccionado. Haga clic con el botón derecho en una fila de <b>miembro</b> para: Convertirse en líder del gremio, desbloquear todas las investigaciones de laboratorio para el gremio, agregar/eliminar exclusión de jugadores, eliminar jugador, cambiar el nombre del jugador, restablecer la marca de tiempo, establecer el nivel del jugador.</p>
-<p><b style="color: #7DD3FC;">Consejo de usuario avanzado:</b> Utilice <b>Menú → Funciones → Eliminar gremios vacíos</b> para eliminar gremios con cero miembros con un solo clic. El ID del gremio (índice de columna 1) es la referencia clave utilizada por las listas de exclusión y las operaciones de eliminación.</p>
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Descripción funcional</h4>
+<ul>
+  <li>Vista de dos paneles: el panel superior enumera todos los gremios con columnas para Nombre de gremio, ID de gremio y Nivel de gremio.</li>
+  <li>El panel inferior muestra los miembros del gremio seleccionado con columnas para Nombre de miembro, Visto por última vez, Nivel, Amigos y UID.</li>
+</ul>
+<h4>Operaciones básicas (clic izquierdo y botones)</h4>
+<ul>
+  <li>Escribe en la barra de búsqueda para filtrar gremios por cualquier columna.</li>
+  <li>Haz clic en una fila de gremio para seleccionarla; el panel inferior se completa automáticamente con los jugadores miembros de ese gremio.</li>
+  <li>Haga clic en una fila de miembros para ver sus detalles.</li>
+</ul>
+<h4>Atajos avanzados (interacciones de doble clic)</h4>
+<ul>
+  <li>Al hacer doble clic en una fila de miembros o gremio se emite la señal <code>item_double_clicked</code>.</li>
+  <li>No hay ningún controlador predeterminado conectado; actualmente, hacer doble clic no tiene ningún efecto visible en ninguno de los paneles.</li>
+</ul>
+<h4>Menús ocultos (contexto de clic derecho)</h4>
+<ul>
+  <li>Haga clic derecho en una <b>fila de gremio</b> para: Agregar o quitar exclusión, eliminar gremio, cambiar nombre de gremio, establecer nivel de gremio, desbloquear todas las investigaciones de laboratorio, exportar bases para gremio, importar bases (varios archivos), mover el jugador seleccionado al gremio seleccionado.</li>
+  <li>Haga clic con el botón derecho en una fila de <b>miembro</b> para: Convertirse en líder del gremio, desbloquear todas las investigaciones de laboratorio para el gremio, agregar/eliminar exclusión de jugadores, eliminar jugador, cambiar el nombre del jugador, restablecer la marca de tiempo, establecer el nivel del jugador.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Consejo de usuario avanzado</p>
+<p>Utilice <b>Menú → Funciones → Eliminar gremios vacíos</b> para eliminar gremios con cero miembros con un solo clic. El ID del gremio (índice de columna 1) es la referencia clave utilizada por las listas de exclusión y las operaciones de eliminación.</p>
+</div>
+</div>

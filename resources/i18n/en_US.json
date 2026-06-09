@@ -1798,6 +1798,8 @@
   "tab_guide.intro": "Below is a comprehensive breakdown of every tab in Palworld Save Tools — covering basic clicks, double-click shortcuts, right-click context menus, and power-user tips.",
   "tab_guide.footer": "Tip: Right-click menus are your friend — always check them for deeper options in every tab.",
   "tab_guide.tooltip": "Tab Usage Guide — Click to view detailed usage instructions for every tab",
+  "tab_guide.intro_page.title": "Welcome to PST V2",
+  "tab_guide.intro_page.toc": "🏠 Welcome",
   "tab_guide.toc_title": "📑 Table of Contents — click a tab to jump:",
   "tab_guide.section.map.title": "🗺️ Map Viewer",
   "tab_guide.section.map.toc": "🗺️ Map",

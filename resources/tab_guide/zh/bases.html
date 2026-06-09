@@ -1,5 +1,22 @@
-<p><b>功能概述：</b>保存中所有大本营的可搜索表。列显示基本 ID、公会 ID、公会名称和公会级别。右键菜单提供完整的基地管理：删除、半径调整、导入/导出、克隆和公会操作。</p>
-<p><b>基本操作（左键单击和按钮）：</b> 在搜索栏中键入以按任何列过滤碱基。单击基行将其选中。</p>
-<p><b>高级快捷键（双击交互）：</b> 双击基行会发出 <code>item_double_clicked</code> 信号。没有连接默认处理程序 - 双击当前没有可见效果。</p>
-<p><b>隐藏菜单（右键单击上下文）：</b> 右键单击基行可进行：添加/删除排除、删除基点（需要基点 ID 和公会 ID）、重命名公会、设置公会级别、导出基点、调整半径、导入基点、克隆基点。请注意，某些操作对与基础关联的 <b>guild</b> 进行操作，而不是对基础本身进行操作。</p>
-<p><b style="color: #7DD3FC;">高级用户提示：</b> 删除时需要基本 ID（列索引 0）和公会 ID（列索引 1）——上下文菜单会传递这两者。使用 <b>Menu → Functions</b> 路径进行批量基础清理，例如删除非活动基础和删除非基础映射对象.</p>
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>功能概述：</h4>
+<p>保存中所有大本营的可搜索表。列显示基本 ID、公会 ID、公会名称和公会级别。右键菜单提供完整的基地管理：删除、半径调整、导入/导出、克隆和公会操作。</p>
+<h4>基本操作（左键单击和按钮）：</h4>
+<p>在搜索栏中键入以按任何列过滤碱基。单击基行将其选中。</p>
+<h4>高级快捷键（双击交互）：</h4>
+<p>双击基行会发出 <code>item_double_clicked</code> 信号。没有连接默认处理程序 - 双击当前没有可见效果。</p>
+<h4>隐藏菜单（右键单击上下文）：</h4>
+<p>右键单击基行可进行：添加/删除排除、删除基点（需要基点 ID 和公会 ID）、重命名公会、设置公会级别、导出基点、调整半径、导入基点、克隆基点。请注意，某些操作对与基础关联的 <b>guild</b> 进行操作，而不是对基础本身进行操作。</p>
+<div class="tip">
+<p class="tip-title">高级用户提示：</p>
+<p>删除时需要基本 ID（列索引 0）和公会 ID（列索引 1）——上下文菜单会传递这两者。使用 <b>Menu → Functions</b> 路径进行批量基础清理，例如删除非活动基础和删除非基础映射对象.</p>
+</div>
+</div>

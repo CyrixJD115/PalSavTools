@@ -1,5 +1,45 @@
-<p><b>Funktionsübersicht:</b> Interaktive Weltkarte mit Basismarkierungen (Haussymbol), Spielermarkierungen (Personensymbol) und Sperrzonen. Klicken Sie auf Markierungen, um Basen/Spieler zu inspizieren, klicken Sie mit der rechten Maustaste, um Verwaltungsaktionen auszuführen, und verwenden Sie den Seitenleistenbaum, um nach Gilde zu navigieren.</p>
-<p><b>Grundfunktionen (Linksklick und Tasten):</b> Klicken Sie auf eine Markierung, um sie auszuwählen (Hervorhebungen mit Leuchteffekt). Scrollen Sie mit dem Mausrad, um zu zoomen (1,15x pro Schritt, Bereich 1,0x–30,0x). Klicken und ziehen Sie den leeren Bereich zum Schwenken. Schalten Sie Kartenüberlagerungen über die Symbolleiste um: Schaltflächen „Basen“, „Spieler“, „Radiusringe“ und „Ausschlusszonen“. Wechseln Sie zwischen den Ansichten Weltkarte und Baumkarte. Die Suchleiste filtert Markierungen nach Gilden- oder Spielernamen. Mit den Schaltflächen auf der Registerkarte „Basen/Spieler“ auf der linken Seite wechseln Sie zwischen den Panels „Basisbaum“ und „Spielerbaum“. Klicken Sie auf <b>Calibrate</b>, um den Kalibrierungsmodus für eine präzise Koordinatenausrichtung aufzurufen.</p>
-<p><b>Erweiterte Verknüpfungen (Doppelklick-Interaktionen):</b> Doppelklicken Sie auf eine beliebige Basis oder Spielermarkierung, um hineinzuzoomen und die Kartenansicht mit 26,0-fachem Zoom auf diese Markierung zu animieren, während das Infofenster mit seinen Details aktualisiert wird. Doppelklicken Sie auf ein Zonenelement (auf der Karte gezeichnete Sperrzone), um ein Dialogfeld zum Umbenennen zu öffnen. Im Zonenzeichnungsmodus mit ausgewählter Option „Rect“: Der erste Doppelklick legt Ecke A fest, der zweite Doppelklick legt Ecke B fest und erstellt die Zone. Im Polygonmodus mit mindestens 3 Punkten: Doppelklick schließt und erstellt die Polygonzone.</p>
-<p><b>Versteckte Menüs (Rechtsklick-Kontext):</b> Klicken Sie mit der rechten Maustaste auf eine <b>Basismarkierung</b> für: Basis löschen, Basis exportieren, Radius anpassen. Klicken Sie mit der rechten Maustaste auf eine <b>Spielermarkierung</b> für: Spieler löschen, Spieler umbenennen, Sichtkäfig entsperren, Technologien freischalten. Klicken Sie mit der rechten Maustaste auf <b>leerer Kartenbereich</b> für: Basis importieren, Zonen zeichnen, Alle Zonen löschen, Zonen exportieren, Zonen importieren. Klicken Sie mit der rechten Maustaste auf Elemente im <b>Basis-/Spielerbaum</b>, um weitere Aktionen durchzuführen, einschließlich Vorgänge auf Gildenebene (Gilde umbenennen, Gilde löschen, Basen für Gilde exportieren/importieren, Container-IDs aktualisieren). Klicken Sie mit der rechten Maustaste auf eine <b>zone</b> auf der Karte für: Zone löschen (mit Bestätigung), Zone umbenennen.</p>
-<p><b style="color: #7DD3FC;">Power-User-Tipp:</b> Drücken Sie im Zonenzeichnungsmodus <b>Escape</b>, um den Vorgang abzubrechen und sofort zu beenden. Verwenden Sie den Kalibrierungsmodus (Schaltfläche „Kalibrieren“), um die Karte genau an den Spielkoordinaten auszurichten, indem Sie mit der linken Maustaste auf bekannte Orte klicken und mit der rechten Maustaste rückgängig machen.</p>
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Funktionsübersicht</h4>
+<ul>
+  <li>Interaktive Weltkarte mit Basismarkierungen (Haussymbol), Spielermarkierungen (Personensymbol) und Sperrzonen.</li>
+  <li>Klicken Sie auf Markierungen, um Basen/Spieler zu inspizieren, klicken Sie mit der rechten Maustaste, um Verwaltungsaktionen auszuführen, und verwenden Sie den Seitenleistenbaum, um nach Gilde zu navigieren.</li>
+</ul>
+<h4>Grundfunktionen (Linksklick und Tasten)</h4>
+<ul>
+  <li>Klicken Sie auf eine Markierung, um sie auszuwählen (Hervorhebungen mit Leuchteffekt).</li>
+  <li>Scrollen Sie mit dem Mausrad, um zu zoomen (1,15x pro Schritt, Bereich 1,0x–30,0x).</li>
+  <li>Klicken und ziehen Sie den leeren Bereich zum Schwenken.</li>
+  <li>Schalten Sie Kartenüberlagerungen über die Symbolleiste um: Schaltflächen „Basen“, „Spieler“, „Radiusringe“ und „Ausschlusszonen“.</li>
+  <li>Wechseln Sie zwischen den Ansichten Weltkarte und Baumkarte.</li>
+  <li>Die Suchleiste filtert Markierungen nach Gilden- oder Spielernamen.</li>
+  <li>Mit den Schaltflächen auf der Registerkarte „Basen/Spieler“ auf der linken Seite wechseln Sie zwischen den Panels „Basisbaum“ und „Spielerbaum“.</li>
+  <li>Klicken Sie auf <b>Calibrate</b>, um den Kalibrierungsmodus für eine präzise Koordinatenausrichtung aufzurufen.</li>
+</ul>
+<h4>Erweiterte Verknüpfungen (Doppelklick-Interaktionen)</h4>
+<ul>
+  <li>Doppelklicken Sie auf eine beliebige Basis oder Spielermarkierung, um hineinzuzoomen und die Kartenansicht mit 26,0-fachem Zoom auf diese Markierung zu animieren, während das Infofenster mit seinen Details aktualisiert wird.</li>
+  <li>Doppelklicken Sie auf ein Zonenelement (auf der Karte gezeichnete Sperrzone), um ein Dialogfeld zum Umbenennen zu öffnen.</li>
+  <li>Im Zonenzeichnungsmodus mit ausgewählter Option „Rect“: Der erste Doppelklick legt Ecke A fest, der zweite Doppelklick legt Ecke B fest und erstellt die Zone.</li>
+  <li>Im Polygonmodus mit mindestens 3 Punkten: Doppelklick schließt und erstellt die Polygonzone.</li>
+</ul>
+<h4>Versteckte Menüs (Rechtsklick-Kontext)</h4>
+<ul>
+  <li>Klicken Sie mit der rechten Maustaste auf eine <b>Basismarkierung</b> für: Basis löschen, Basis exportieren, Radius anpassen.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf eine <b>Spielermarkierung</b> für: Spieler löschen, Spieler umbenennen, Sichtkäfig entsperren, Technologien freischalten.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf <b>leerer Kartenbereich</b> für: Basis importieren, Zonen zeichnen, Alle Zonen löschen, Zonen exportieren, Zonen importieren.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf Elemente im <b>Basis-/Spielerbaum</b>, um weitere Aktionen durchzuführen, einschließlich Vorgänge auf Gildenebene (Gilde umbenennen, Gilde löschen, Basen für Gilde exportieren/importieren, Container-IDs aktualisieren).</li>
+  <li>Klicken Sie mit der rechten Maustaste auf eine <b>zone</b> auf der Karte für: Zone löschen (mit Bestätigung), Zone umbenennen.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User-Tipp</p>
+<p>Drücken Sie im Zonenzeichnungsmodus <b>Escape</b>, um den Vorgang abzubrechen und sofort zu beenden. Verwenden Sie den Kalibrierungsmodus (Schaltfläche „Kalibrieren“), um die Karte genau an den Spielkoordinaten auszurichten, indem Sie mit der linken Maustaste auf bekannte Orte klicken und mit der rechten Maustaste rückgängig machen.</p>
+</div>
+</div>

@@ -914,7 +914,7 @@ def transfer_tech_and_data():
         for k in ['PlayerCharacterAppearanceData', 'PlayerCustomName', 'PlayerCustomNameCharacterName', 'PlayerCustomNameCharacterName2', 'PlayerCustomNameCharacterName3', 'PlayerInputAllowDieData', 'PlayerTechnologyData', 'PlayerTechnologyData2', 'TechnologyPoint', 'TechnologyPoint2', 'BossTechnologyPoint', 'AdditionalTechnologyPoint']:
             if k in src_sd:
                 tgt_sd[k] = fast_deepcopy(src_sd[k])
-        record_keys = ['PlayerCaptureRecordData', 'PlayerCaptureRecordData2', 'PlayerDefeatBossRecordData', 'PlayerDiscoverMapData', 'PlayerExploreMapData', 'PlayerExploreMapData2', 'PlayerMapPingData', 'PlayerDungeonData', 'PlayerDungeonData2', 'BuildObjectMapData', 'SkyPresetData', 'PlayerSpawnLocationData']
+        record_keys = ['RecordData', 'PlayerCaptureRecordData', 'PlayerCaptureRecordData2', 'PlayerDefeatBossRecordData', 'PlayerDiscoverMapData', 'PlayerExploreMapData', 'PlayerExploreMapData2', 'PlayerMapPingData', 'PlayerDungeonData', 'PlayerDungeonData2', 'BuildObjectMapData', 'SkyPresetData', 'PlayerSpawnLocationData']
         for k in record_keys:
             if k in src_sd:
                 tgt_sd[k] = fast_deepcopy(src_sd[k])
@@ -944,7 +944,7 @@ def transfer_character_only(host_guid, targ_uid):
     updated = False
     for c in char_list:
         key = c.get('key', {})
-        if key.get('PlayerUId', {}).get('value') == targ_uid:
+        if key.get('PlayerUId', {}).get('value') == targ_uid and key.get('InstanceId', {}).get('value') == targ_instance_id:
             c['value'] = fast_deepcopy(exported_map['value'])
             c['key']['InstanceId']['value'] = targ_instance_id
             if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):

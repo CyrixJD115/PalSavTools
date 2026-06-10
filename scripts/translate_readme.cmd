@@ -6,10 +6,12 @@ where uv >nul 2>&1 || (
     pause
     exit /b 1
 )
-if not exist .venv\Scripts\python.exe (
-    uv venv .venv
+if exist .venv\Scripts\python.exe (
+    rmdir /s /q .venv
 )
-uv pip install -r requirements.txt
+uv venv .venv
+uv pip install --no-cache -r requirements.txt
 ".venv\Scripts\python.exe" scripts\scripts\translate_readme.py %*
+if exist uv.lock del uv.lock
 pause
 exit /b %errorlevel%

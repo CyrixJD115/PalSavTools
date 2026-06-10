@@ -26,7 +26,7 @@ def _ensure_venv():
         print('Failed to create venv')
         return False
     print('Installing dependencies...')
-    result = subprocess.run(['uv', 'pip', 'install', '-r', str(Path(__file__).resolve().parent.parent.parent / 'requirements.txt')])
+    result = subprocess.run(['uv', 'pip', 'install', '--no-cache', '-r', str(Path(__file__).resolve().parent.parent.parent / 'requirements.txt')])
     uv_lock = Path(__file__).resolve().parent.parent.parent / 'uv.lock'
     if uv_lock.exists():
         uv_lock.unlink()

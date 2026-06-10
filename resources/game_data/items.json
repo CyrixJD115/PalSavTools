@@ -1998,7 +1998,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Water Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9098
+            "sort_id": 9099
         },
         {
             "name": "Phantom Ring Schematic",
@@ -2058,7 +2058,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Dark Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9103
+            "sort_id": 9104
         },
         {
             "name": "Ring of Dragon Resistance Schematic",
@@ -2068,7 +2068,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Dragon Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9104
+            "sort_id": 9105
         },
         {
             "name": "Ring of Ground Resistance Schematic",
@@ -2078,7 +2078,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Ground Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9102
+            "sort_id": 9103
         },
         {
             "name": "Ring of Fire Resistance Schematic",
@@ -2088,7 +2088,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Fire Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9097
+            "sort_id": 9098
         },
         {
             "name": "Vanguard Charm Schematic",
@@ -2128,7 +2128,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Multiclimate Undershirt\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9105
+            "sort_id": 9096
         },
         {
             "name": "Reptyro Charm Schematic",
@@ -2158,7 +2158,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Ice Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9101
+            "sort_id": 9102
         },
         {
             "name": "Air Walker Mk I Schematic",
@@ -2188,7 +2188,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Grass Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9100
+            "sort_id": 9101
         },
         {
             "name": "Ring of Freight Schematic",
@@ -2218,7 +2218,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Neutral Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9096
+            "sort_id": 9097
         },
         {
             "name": "Elphidran Ring Schematic",
@@ -2358,7 +2358,7 @@
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
             "description": "When in inventory, unlocks recipe for Ring of Electric Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
-            "sort_id": 9099
+            "sort_id": 9100
         },
         {
             "name": "Islander's Tool Belt Schematic",

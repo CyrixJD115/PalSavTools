@@ -676,6 +676,7 @@
         ],
         "BossDefeatReward_ElecPanda": [
             "worldtree_9_01_A",
+            "worldtree_9_01_A",
             "worldtree_9_55_WorldTreeAura",
             "sanctuary_1_forest_FBOSS"
         ],
@@ -707,6 +708,7 @@
             "skyisland_8_09_D_forest_FBOSS_2"
         ],
         "BossDefeatReward_WhiteDeer_Dark": "worldtree_9_11_N_FBOSS_1",
+        "BossDefeatReward_DomeArmorDragon": "worldtree_9_13_M_FBOSS_1",
         "BossDefeatReward_BlackMetalDragon": [
             "worldtree_9_55_WorldTreeAura",
             "sanctuary_2_volcano_FBOSS"

@@ -71,7 +71,27 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
                 if trailing_bytes:
                     group_data['_trailing_bytes'] = [int(b) for b in trailing_bytes]
             except Exception:
-                group_data['_raw_tail'] = post_v1
+                try:
+                    alt_u8 = not use_u8
+                    sub2 = parent_reader.internal_copy(bytes(post_v1), debug=False)
+                    admin_player_uid = sub2.guid()
+                    player_count = sub2.i32()
+                    players = []
+                    for _ in range(player_count):
+                        player_uid = sub2.guid()
+                        last_online_real_time = sub2.i64()
+                        player_name = sub2.fstring()
+                        player_entry = {'player_uid': str(player_uid), 'player_info': {'last_online_real_time': last_online_real_time, 'player_name': player_name}}
+                        if alt_u8 and (not sub2.eof()):
+                            player_entry['_u8_flag'] = sub2.byte()
+                        players.append(player_entry)
+                    group_data['admin_player_uid'] = admin_player_uid
+                    group_data['players'] = players
+                    trailing_bytes = sub2.read_to_end()
+                    if trailing_bytes:
+                        group_data['_trailing_bytes'] = [int(b) for b in trailing_bytes]
+                except Exception:
+                    group_data['_raw_tail'] = post_v1
         elif not group_data.get('players'):
             group_data['players'] = []
     if not reader.eof():

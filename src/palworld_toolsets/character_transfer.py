@@ -7,7 +7,6 @@ import os
 from palsav.palsav import decompress_sav_to_gvas, compress_gvas_to_sav
 from palsav.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 from palsav.gvas import GvasFile
-from palsav.archive import UUID
 from palworld_aio.ui.styles import ThemeManager
 from palworld_aio.container_ownership import ContainerOwnership
 from palworld_aio.inventory_manager import PlayerInventory
@@ -944,7 +943,13 @@ def transfer_character_only(host_guid, targ_uid):
     updated = False
     for c in char_list:
         key = c.get('key', {})
-        if key.get('PlayerUId', {}).get('value') == targ_uid and key.get('InstanceId', {}).get('value') == targ_instance_id:
+        if key.get('PlayerUId', {}).get('value') == targ_uid:
+            try:
+                spv = c['value']['RawData']['value']['object']['SaveParameter']['value']
+                if not spv.get('IsPlayer', {}).get('value', False):
+                    continue
+            except Exception:
+                continue
             c['value'] = fast_deepcopy(exported_map['value'])
             c['key']['InstanceId']['value'] = targ_instance_id
             if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):

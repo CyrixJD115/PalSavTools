@@ -1423,6 +1423,11 @@ class PlayerInventoryTab(QWidget):
             weapons.update_slots([s for s in weapons.slots if s.get('slot_index', 0) < 4])
             self._update_raw_save_data('weapons', weapons)
         self.inventory._calculate_max_slots()
+        main_container = self.inventory.get_container('main')
+        if main_container:
+            max_slots = self.inventory.max_slots
+            main_container.update_slots([s for s in main_container.slots if s.get('slot_index', 0) < max_slots])
+            self._update_raw_save_data('main', main_container)
         self.inventory.save()
         self._refresh_display()
     def _clear_all_equipment(self):

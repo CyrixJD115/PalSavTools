@@ -558,12 +558,17 @@ def migrate_pal_via_api(pal_data, target_uid, targ_lvl, target_player_json, targ
     found = False
     for cont in char_containers:
         if cont.get('key', {}).get('ID', {}).get('value') == container_id:
-            slots = cont.setdefault('value', {}).setdefault('Slots', {}).setdefault('value', {}).setdefault('values', [])
+            cont_val = cont.setdefault('value', {})
+            slots = cont_val.setdefault('Slots', {}).setdefault('value', {}).setdefault('values', [])
             slots.append({'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_idx}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': new_instance, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}})
+            if 'SlotNum' not in cont_val:
+                cont_val['SlotNum'] = {'id': None, 'value': slot_idx + 1, 'type': 'IntProperty'}
+            elif cont_val['SlotNum']['value'] < slot_idx + 1:
+                cont_val['SlotNum']['value'] = slot_idx + 1
             found = True
             break
     if not found:
-        char_containers.append({'key': {'ID': {'struct_type': 'Guid', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': container_id, 'type': 'StructProperty'}}, 'value': {'Slots': {'id': None, 'value': {'values': [{'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_idx}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': new_instance, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}}], 'type': 'ArrayProperty'}, 'key_type': 'None', 'value_type': 'StructProperty'}, 'type': 'StructProperty'}})
+        char_containers.append({'key': {'ID': {'struct_type': 'Guid', 'struct_id': '00000000-0000-0000-0000-000000000000', 'id': None, 'value': container_id, 'type': 'StructProperty'}}, 'value': {'SlotNum': {'id': None, 'value': slot_idx + 1, 'type': 'IntProperty'}, 'Slots': {'id': None, 'value': {'values': [{'SlotIndex': {'id': None, 'type': 'IntProperty', 'value': slot_idx}, 'RawData': {'array_type': 'ByteProperty', 'id': None, 'value': {'player_uid': '00000000-0000-0000-0000-000000000000', 'instance_id': new_instance, 'permission_tribe_id': 0}, 'custom_type': '.worldSaveData.CharacterContainerSaveData.Value.Slots.Slots.RawData', 'type': 'ArrayProperty'}}], 'type': 'ArrayProperty'}, 'key_type': 'None', 'value_type': 'StructProperty'}, 'type': 'StructProperty'}})
     zero = PalUUID.from_str('00000000-0000-0000-0000-000000000000')
     for g in targ_lvl.get('GroupSaveDataMap', {}).get('value', []):
         if g['value']['RawData']['value']['group_id'] == target_guild_id:

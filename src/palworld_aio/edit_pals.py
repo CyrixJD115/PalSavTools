@@ -1397,7 +1397,7 @@ def _partner_desc_to_html(desc, elem_colors_map, tooltip=False):
     def _elem_icon_html(m):
         full_id = m.group(1)
         elem_name = full_id.replace('ElemIcon_', '')
-        _ELEM_ICON_TO_NAME = {'ground': 'earth', 'electric': 'electricity'}
+        _ELEM_ICON_TO_NAME = {'ground': 'earth', 'electric': 'electricity', 'neutral': 'normal', 'grass': 'leaf'}
         lookup_name = _ELEM_ICON_TO_NAME.get(elem_name.lower(), elem_name.lower())
         data = _ensure_element_data()
         entry = data.get(lookup_name, {})
@@ -5193,7 +5193,7 @@ class PalCreateDialog(QDialog):
             passives = self._pal_passives_cache.get(asset.lower(), [])
             tip = f'<b>{name}</b><br>ID: {asset}'
             if pdesc:
-                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_values_cache.get(asset.lower()), self._pal_overwrite_effects_cache.get(asset.lower()))
+                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_values_cache.get(asset.lower()), self._pal_overwrite_effects_cache.get(asset.lower()), passives)
                 elem_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
                 html_desc = _partner_desc_to_html(resolved, elem_colors, tooltip=True)
                 tip += f'<br><br>{html_desc}'

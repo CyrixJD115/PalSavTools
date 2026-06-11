@@ -53,7 +53,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Pacapaca Wool",
-            "description": "Can be ridden. While in party, increases Kingpaca's Defense and Movement Speed Sometimes drops when assigned to Ranch."
+            "description": "Can be ridden. While in party, increases Kingpaca's Defense and Movement Speed Sometimes drops Wool when assigned to Ranch."
         },
         {
             "name": "Kitsun",
@@ -242,11 +242,11 @@
             "partner_skill": "Guardian of the Desert",
             "description": "When activated, Anubis lends its power to the player to change the player's attack type to [ICON:ElemIcon_Ground][ELEM:Earth] with {ReferencePassive1_EffectValue1}% increased Attack. Sometimes dodges attacks with a high speed sidestep while in battle.",
             "passives": [
-                "AttackUp_Earth_PartnerSkill_1",
-                "AttackUp_Earth_PartnerSkill_2",
-                "AttackUp_Earth_PartnerSkill_3",
-                "AttackUp_Earth_PartnerSkill_4",
-                "AttackUp_Earth_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -603,7 +603,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Flameclaw Hunter",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Hellfire Claw. The Hellfire Claw damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -665,7 +665,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Darkclaw Hunter",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Claw. The Nightmare Claw damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -727,7 +727,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Gold Digger",
-            "description": "Sometimes digs up when assigned to Ranch."
+            "description": "Sometimes digs up Gold Coin when assigned to Ranch."
         },
         {
             "name": "Mau Cryst",
@@ -782,7 +782,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Ice Whispers",
-            "description": "Sometimes drops when assigned to Ranch."
+            "description": "Sometimes drops Ice Organ when assigned to Ranch."
         },
         {
             "name": "Believer Bat",
@@ -925,7 +925,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Berry Picker",
-            "description": "Sometimes drops from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every five minutes. (Does not stack)",
+            "description": "Sometimes drops Red Berries from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every five minutes. (Does not stack)",
             "passives": [
                 "Regene_Stomatch_Hungriest_BerryGoat_1",
                 "Regene_Stomatch_Hungriest_BerryGoat_2",
@@ -987,7 +987,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Venom Picker",
-            "description": "Sometimes drops from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every 5 minutes. (Does not stack)",
+            "description": "Sometimes drops Venom Gland from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every 5 minutes. (Does not stack)",
             "passives": [
                 "Regene_Stomatch_Hungriest_BerryGoat_1",
                 "Regene_Stomatch_Hungriest_BerryGoat_2",
@@ -1185,7 +1185,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Knight of the Abyss",
-            "description": "Can be ridden. Can double jump while mounted. Activate to have Paladius stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden. Can double jump while mounted. Activate Twin Spears to have Paladius stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Shadowbeak",
@@ -1308,7 +1308,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Black Ankylosaur",
-            "description": "Can be ridden as a flying mount. Increases the damage dealt to ores by {Passive1_EffectValue1}%, and you can obtain {Passive2_EffectValue1}% more while mounted.",
+            "description": "Can be ridden as a flying mount. Increases the damage dealt to ores by {Passive1_EffectValue1}%, and you can obtain {Passive2_EffectValue1}% more Ore while mounted.",
             "passives": [
                 "CollectItemDrop_PartnerSkill_Ride_1",
                 "CollectItemDrop_PartnerSkill_Ride_2",
@@ -1370,7 +1370,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dig, Smokie! Dig!",
-            "description": "When activated, uses its sharp sense of smell to detect nearby . While fighting together, acquisition increases by +{Passive1_EffectValue1}%.",
+            "description": "When activated, uses its sharp sense of smell to detect nearby Chromite. While fighting together, Chromite acquisition increases by +{Passive1_EffectValue1}%.",
             "passives": [
                 "CollectItemDrop_PartnerSkill_BlackPuppy_1",
                 "CollectItemDrop_PartnerSkill_BlackPuppy_2",
@@ -1968,11 +1968,11 @@
             "partner_skill": "Guardian of the Desert",
             "description": "When activated, Anubis lends its power to the player to change the player's attack type to [ICON:ElemIcon_Ground][ELEM:Earth] with {ReferencePassive1_EffectValue1}% increased Attack. Sometimes dodges attacks with a high speed sidestep while in battle.",
             "passives": [
-                "AttackUp_Earth_PartnerSkill_1",
-                "AttackUp_Earth_PartnerSkill_2",
-                "AttackUp_Earth_PartnerSkill_3",
-                "AttackUp_Earth_PartnerSkill_4",
-                "AttackUp_Earth_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -2234,7 +2234,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Grave Robber",
-            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up when assigned to Ranch.",
+            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up Bone when assigned to Ranch.",
             "passives": [
                 "CandleGhost_PartnerSkill_1",
                 "CandleGhost_PartnerSkill_2",
@@ -2704,7 +2704,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Life Steal",
-            "description": "While fighting together, grants the player and Felbat the life steal effect which absorbs {Passive1_EffectValue1}% of damage dealt to restore .",
+            "description": "While fighting together, grants the player and Felbat the life steal effect which absorbs {Passive1_EffectValue1}% of damage dealt to restore Hp.",
             "passives": [
                 "LifeSteal_1",
                 "LifeSteal_2",
@@ -2766,7 +2766,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Egg Layer",
-            "description": "Sometimes lays an when assigned to Ranch."
+            "description": "Sometimes lays an Egg when assigned to Ranch."
         },
         {
             "name": "Amione",
@@ -3021,7 +3021,7 @@
             "icon": "/icons/pals/T_CowPal_icon_normal.webp",
             "elements": {},
             "partner_skill": "Milk Maker",
-            "description": "Sometimes drops when assigned to Ranch."
+            "description": "Sometimes drops Milk when assigned to Ranch."
         },
         {
             "name": "Cinnamoth",
@@ -3076,7 +3076,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mysterious Scales",
-            "description": "When activated, attacks targeted enemy with . While at a base, +{Passive1_EffectValue1} Monster Farm Work Suitability Level for all other Base Pals. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Poison Fog. While at a base, +{Passive1_EffectValue1} Monster Farm Work Suitability Level for all other Base Pals. (Does not stack)",
             "passives": [
                 "WorkSuitabilityAddRank_MonsterFarm_ToBaseCampPal",
                 "WorkSuitabilityAddRank_MonsterFarm_ToBaseCampPal",
@@ -3193,7 +3193,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mining Assistance",
-            "description": "While in party, improves mining efficiency by {Passive1_EffectValue1}% and reduces weight by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "While in party, improves mining efficiency by {Passive1_EffectValue1}% and reduces Stone weight by {Passive2_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ItemWeightReduction_PartnerSkill_CuteMole_1",
                 "ItemWeightReduction_PartnerSkill_CuteMole_2",
@@ -3372,7 +3372,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Eerie Nightstreaker",
-            "description": "When activated, grants night vision to see in dark places. Activate again to turn off. Sometimes digs up when assigned to Ranch."
+            "description": "When activated, grants night vision to see in dark places. Activate again to turn off. Sometimes digs up Bone when assigned to Ranch."
         },
         {
             "name": "Majex",
@@ -4011,7 +4011,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Drill Crusher",
-            "description": "Enters state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
+            "description": "Enters Shell Spin state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
             "passives": [
                 "Mining_up_PartnerSkill_DrillGame",
                 "Mining_up_PartnerSkill_DrillGame",
@@ -4128,7 +4128,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Static Electricity",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Electric][ELEM:Electricity] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Electric][ELEM:Electricity] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Electric Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Electricity_PartnerSkill_1",
                 "AttackUp_Electricity_PartnerSkill_2",
@@ -4245,7 +4245,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chillswitch",
-            "description": "While in party, enemies with [EFFECT:Electrical] shoot out static when attacked by the player, dealing damage equal to {Passive1_EffectValue1}%of player attack damage to any enemies in range. (Does not stack)",
+            "description": "While in party, enemies with [EFFECT:Electrical] shoot out static when attacked by the player, dealing damage equal to {Passive1_EffectValue1}% of player attack damage to any enemies in range. (Does not stack)",
             "passives": [
                 "ElecLizard_PlayerInflictEffect_PartnerSkill_1",
                 "ElecLizard_PlayerInflictEffect_PartnerSkill_2",
@@ -5553,7 +5553,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Tiny Spark",
-            "description": "While in party, increases Defense of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Defense of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "DefenseUp_Fire_PartnerSkill_1",
                 "DefenseUp_Fire_PartnerSkill_2",
@@ -6308,11 +6308,11 @@
             "partner_skill": "Lord Fox",
             "description": "When activated, Wixen lends its power to the player to change the player's attack type to [ICON:ElemIcon_Fire][ELEM:Fire] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Fire_PartnerSkill_1",
-                "AttackUp_Fire_PartnerSkill_2",
-                "AttackUp_Fire_PartnerSkill_3",
-                "AttackUp_Fire_PartnerSkill_4",
-                "AttackUp_Fire_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -6376,11 +6376,11 @@
             "partner_skill": "Black Fox Lord",
             "description": "When activated, Wixen Noct lends its power to the player, changing their attack type to [ICON:ElemIcon_Dark][ELEM:Dark] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Fire_PartnerSkill_1",
-                "AttackUp_Fire_PartnerSkill_2",
-                "AttackUp_Fire_PartnerSkill_3",
-                "AttackUp_Fire_PartnerSkill_4",
-                "AttackUp_Fire_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -7193,7 +7193,11 @@
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
             "passives": [
-                "PAL_rude"
+                "Attack_ACC_up1_Gorilla",
+                "Attack_ACC_up2_Gorilla",
+                "Attack_ACC_up3_Gorilla",
+                "Attack_ACC_up4_Gorilla",
+                "Attack_ACC_up5_Gorilla"
             ]
         },
         {
@@ -7579,11 +7583,11 @@
             "partner_skill": "Mother Nature's Menace",
             "description": "When activated, Elgrove lends its power to the player to change the player's attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Leaf_PartnerSkill_1",
-                "AttackUp_Leaf_PartnerSkill_2",
-                "AttackUp_Leaf_PartnerSkill_3",
-                "AttackUp_Leaf_PartnerSkill_4",
-                "AttackUp_Leaf_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -9212,7 +9216,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Aurora Guide",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Ice Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Ice_PartnerSkill_1",
                 "AttackUp_Ice_PartnerSkill_2",
@@ -9672,11 +9676,11 @@
             "partner_skill": "Witch's Icy Veil",
             "description": "When activated, Icelyn lends its power to the player to change the player's attack type to [ICON:ElemIcon_Ice][ELEM:Ice] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Ice_PartnerSkill_1",
-                "AttackUp_Ice_PartnerSkill_2",
-                "AttackUp_Ice_PartnerSkill_3",
-                "AttackUp_Ice_PartnerSkill_4",
-                "AttackUp_Ice_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -9987,7 +9991,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Aqua Spout",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Water][ELEM:Water] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Water][ELEM:Water] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Aquatic Pal Fluids when assigned to Ranch.",
             "passives": [
                 "AttackUp_Water_PartnerSkill_1",
                 "AttackUp_Water_PartnerSkill_2",
@@ -10049,7 +10053,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Lava Spout",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Fire_PartnerSkill_1",
                 "AttackUp_Fire_PartnerSkill_2",
@@ -10111,7 +10115,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Leap Stance",
-            "description": "When activated, Croajiro channels its loyalty and puffs up its abdomen to store energy. Player can jump high into the air off its back, granting an Attack increase of {ReferencePassive1_EffectValue1}%while midair."
+            "description": "When activated, Croajiro channels its loyalty and puffs up its abdomen to store energy. Player can jump high into the air off its back, granting an Attack increase of {ReferencePassive1_EffectValue1}% while midair.",
+            "passives": [
+                "TrainerATK_UP_PartnerSkill_KendoFrog_1",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_2",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_3",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_4",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_5"
+            ]
         },
         {
             "name": "Croajiro Noct",
@@ -10234,7 +10245,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "King of Muscles",
-            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each Melpaca in party.",
             "passives": [
                 "Defense_KingAlpaca_PartnerSkill_1",
                 "Defense_KingAlpaca_PartnerSkill_2",
@@ -10249,7 +10260,7 @@
             "icon": "/icons/pals/T_KingAlpaca_Ice_icon_normal.webp",
             "elements": {},
             "partner_skill": "Coldhearted King",
-            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each Melpaca in party.",
             "passives": [
                 "Defense_KingAlpaca_PartnerSkill_1",
                 "Defense_KingAlpaca_PartnerSkill_2",
@@ -10874,7 +10885,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Magma Tears",
-            "description": "While in party, recovers Health of the player and Party Pals by {Passive1_EffectValue1}% per second when not in battle. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, recovers Health of the player and Party Pals by {Passive1_EffectValue1}% per second when not in battle. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "RegeneHPRate_IfNonBattle_PartnerSkill_LavaGirl_1",
                 "RegeneHPRate_IfNonBattle_PartnerSkill_LavaGirl_2",
@@ -10942,7 +10953,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Soil Improver",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Ground][ELEM:Earth] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Ground][ELEM:Earth] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops High Quality Pal Oil when assigned to Ranch.",
             "passives": [
                 "AttackUp_Earth_PartnerSkill_1",
                 "AttackUp_Earth_PartnerSkill_2",
@@ -11010,7 +11021,7 @@
                 "MonsterFarm": 4
             },
             "partner_skill": "Golden Harvest",
-            "description": "While in team, increases amount of Gold Coin dropped by enemies by +{Passive1_EffectValue1}%. Sometimes drops when assigned to Ranch, with a small chance to drop . (Does not stack)",
+            "description": "While in team, increases amount of Gold Coin dropped by enemies by +{Passive1_EffectValue1}%. Sometimes drops High Quality Pal Oil when assigned to Ranch, with a small chance to drop Gold Coin. (Does not stack)",
             "passives": [
                 "AddItemDrop_PartnerSkill_LazyCatfish_Gold_1",
                 "AddItemDrop_PartnerSkill_LazyCatfish_Gold_2",
@@ -11200,7 +11211,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Herbil Pulse",
-            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}%of the player's when incapacitated. {ReferenceMsgId_CooldownReduction}",
+            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated. {ReferenceMsgId_CooldownReduction}",
             "active_skill_main_value": [
                 30.0,
                 36.0,
@@ -12881,7 +12892,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fluffy",
-            "description": "While in party, increases Attack and Defense of ."
+            "description": "While in party, increases Attack and Defense of Sweepa."
         },
         {
             "name": "Sweepa",
@@ -12936,7 +12947,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "King of Fluff",
-            "description": "Can be ridden. This Pal's Attack and Defense increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Attack and Defense increase by {Passive1_EffectValue1}% for each Swee in party.",
             "passives": [
                 "Defense_ShotAttack_MopKing_PartnerSkill_1",
                 "Defense_ShotAttack_MopKing_PartnerSkill_2",
@@ -13121,7 +13132,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Rampant Spores",
-            "description": "Can be ridden. Sometimes drops or when assigned to Ranch."
+            "description": "Can be ridden. Sometimes drops Mushroom or Cavern Mushroom when assigned to Ranch."
         },
         {
             "name": "Shroomer Noct",
@@ -13508,7 +13519,14 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Caffeine Inoculation",
-            "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops when assigned to Ranch."
+            "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops Venom Gland when assigned to Ranch.",
+            "passives": [
+                "WorkSpeedUp_Negativekoala_PartnerSkill_1",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_2",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_3",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_4",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_5"
+            ]
         },
         {
             "name": "Killamari",
@@ -13872,7 +13890,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Iris",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Ray. The Nightmare Ray damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -13934,7 +13952,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Stare",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Bloom. The Nightmare Bloom damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -14562,7 +14580,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore .",
+            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore Hp.",
             "passives": [
                 "LifeSteal_1",
                 "LifeSteal_2",
@@ -15240,7 +15258,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stone-Chaser Archelon",
-            "description": "Can be ridden. While in party, increases the durability of all weapons and armorby {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, increases the durability of all weapons and armor by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "PyramidTurtle_Neutral_PartnerSkill_1_Armor",
                 "PyramidTurtle_Neutral_PartnerSkill_2_Armor",
@@ -15302,7 +15320,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Queen Bee Command",
-            "description": "This Pal's Attack increases by {Passive1_EffectValue1}% for each in party.",
+            "description": "This Pal's Attack increases by {Passive1_EffectValue1}% for each Beegarde in party.",
             "passives": [
                 "PAL_TribePassive_Test",
                 "PAL_TribePassive_1",
@@ -16154,7 +16172,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Brandish Blade",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Iaigiri. The Iaigiri damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -16222,7 +16240,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Void Blade",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Iaigiri, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
             "passives": [
                 "DamageUpWeapon_Otomo_IfNoBattle_1",
                 "DamageUpWeapon_Otomo_IfNoBattle_2",
@@ -16291,7 +16309,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Holy Knight of the Firmament",
-            "description": "Can be ridden. Can triple jump while mounted. Activate to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Broncherry",
@@ -16702,11 +16720,11 @@
             "partner_skill": "Scorpion Longwave",
             "description": "When activated, Prixter Lux lends its power to the player to change the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Electricity_PartnerSkill_1",
-                "AttackUp_Electricity_PartnerSkill_2",
-                "AttackUp_Electricity_PartnerSkill_3",
-                "AttackUp_Electricity_PartnerSkill_4",
-                "AttackUp_Electricity_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -16762,7 +16780,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Desert Empress",
-            "description": "While at base, boosts 's work speed by {Passive1_EffectValue1}%. Increases efficiency by {Passive2_EffectValue1}% if Sekhmet is also working at a Workbench or Workshop. (Does not stack)",
+            "description": "While at base, boosts Anubis's work speed by {Passive1_EffectValue1}%. Increases efficiency by {Passive2_EffectValue1}% if Sekhmet is also working at a Workbench or Workshop. (Does not stack)",
             "passives": [
                 "CraftSpeed_PartnerSkill_Sekhmet_1",
                 "CraftSpeed_PartnerSkill_Sekhmet_2",
@@ -16824,7 +16842,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Swift Swimmer",
-            "description": "Can be ridden to travel on water. Sometimes drops when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Surfent Terra",
@@ -16941,7 +16959,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Angry Shark",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
+            "description": "When activated, attacks targeted enemy with Aqua Gun. The Aqua Gun damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
             "passives": [
                 "TrainerATK_UP_PartnerSkill_1",
                 "TrainerATK_UP_PartnerSkill_2",
@@ -17010,7 +17028,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Angry Shark",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
+            "description": "When activated, attacks targeted enemy with Spirit Fire. The Spirit Fire damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
             "passives": [
                 "TrainerATK_UP_PartnerSkill_1",
                 "TrainerATK_UP_PartnerSkill_2",
@@ -17079,7 +17097,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Fluffy Shield",
-            "description": "When activated, equips to the player and becomes a shield. Sometimes drops when assigned to Ranch."
+            "description": "When activated, equips to the player and becomes a shield. Sometimes drops Wool when assigned to Ranch."
         },
         {
             "name": "Dogen",
@@ -17630,7 +17648,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Worker Bee",
-            "description": "Sometimes drops when assigned to Ranch. While in party, increases 's Attack."
+            "description": "Sometimes drops Honey when assigned to Ranch. While in party, increases Elizabee's Attack."
         },
         {
             "name": "Finsider",
@@ -17687,11 +17705,11 @@
             "partner_skill": "Water Gun",
             "description": "When activated, Finsider lends its power to the player to change the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Water_PartnerSkill_1",
-                "AttackUp_Water_PartnerSkill_2",
-                "AttackUp_Water_PartnerSkill_3",
-                "AttackUp_Water_PartnerSkill_4",
-                "AttackUp_Water_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -18001,7 +18019,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Candy Pop",
-            "description": "Sometimes drops when assigned to Ranch. While at a base, reduces depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Sometimes drops Cotton Candy when assigned to Ranch. While at a base, reduces Hunger depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "FullStomatch_Decrease_BaseCamp_1",
                 "FullStomatch_Decrease_BaseCamp_2",
@@ -18063,7 +18081,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Bitter Pop",
-            "description": "Sometimes drops when assigned to Ranch. While at a base, reduces depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Sometimes drops Caramel Cotton Candy when assigned to Ranch. While at a base, reduces Hunger depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "FullStomatch_Decrease_BaseCamp_SweetsSheep_Ground_1",
                 "FullStomatch_Decrease_BaseCamp_SweetsSheep_Ground_2",
@@ -18078,7 +18096,7 @@
             "icon": "/icons/pals/T_SwordCutlassfish_icon_normal.webp",
             "elements": {},
             "partner_skill": "Severed Flesh for Bone",
-            "description": "When activated, Skutlass becomes the player's katana (: {ActiveSkillMainValueByRank}). Skutlass will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "description": "When activated, Skutlass becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
             "active_skill_main_value": [
                 2600.0,
                 2700.0,
@@ -18093,7 +18111,7 @@
             "icon": "/icons/pals/T_SwordCutlassfish_Fire_icon_normal.webp",
             "elements": {},
             "partner_skill": "Seered Flesh for Bone",
-            "description": "When activated, Skutlass Ignis becomes the player's katana (: {ActiveSkillMainValueByRank}). Skutlass Ignis will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "description": "When activated, Skutlass Ignis becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass Ignis will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
             "active_skill_main_value": [
                 2900.0,
                 3000.0,
@@ -18155,7 +18173,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Spikey Carrier",
-            "description": "While in party, reduces weight by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, reduces Ore weight by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ItemWeightReduction_PartnerSkill_TentacleTurtle_1",
                 "ItemWeightReduction_PartnerSkill_TentacleTurtle_2",
@@ -18223,7 +18241,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Shiny Hauler",
-            "description": "While in party, reduces weight of and by {Passive1_EffectValue1}%. Also improves player and Pal [ICON:ElemIcon_Ground][ELEM:Earth] damage to weak points by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, reduces weight of Sulfur and Coal by {Passive1_EffectValue1}%. Also improves player and Pal [ICON:ElemIcon_Ground][ELEM:Earth] damage to weak points by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ElementBoostWeakness_Earth_PartnerSkill_1",
                 "ElementBoostWeakness_Earth_PartnerSkill_2",
@@ -19522,7 +19540,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Gleam Strike",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Jumping Claw. The Jumping Claw damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "AttackSpeedUp_PartnerSkill_Werewolf_1",
                 "AttackSpeedUp_PartnerSkill_Werewolf_2",
@@ -19591,7 +19609,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Frozen Gleam Strike",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Snow Claw, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "AttackSpeedUp_PartnerSkill_Werewolf_1",
                 "AttackSpeedUp_PartnerSkill_Werewolf_2",
@@ -19846,7 +19864,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Silk Shroud",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. Sometimes makes when assigned to Ranch.",
+            "description": "When activated, attacks targeted enemy with Blizzard Spike. The Blizzard Spike damage has a x{ActiveSkillMainValueByRank} multiplier. Sometimes makes High Quality Cloth when assigned to Ranch.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -19908,7 +19926,7 @@
                 "MonsterFarm": 4
             },
             "partner_skill": "Gilded Shroud",
-            "description": "While in party, increases Defense of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes makes when assigned to Ranch.",
+            "description": "While in party, increases Defense of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes makes High Quality Cloth when assigned to Ranch.",
             "passives": [
                 "DefenseUp_Normal_PartnerSkill_1",
                 "DefenseUp_Normal_PartnerSkill_2",
@@ -20268,7 +20286,16 @@
             "partner_skill": "Steel Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
             "passives": [
-                "Deffence_up2_2"
+                "Attack_ACC_up1_WingGolem",
+                "defense_ACC_up1_WingGolem",
+                "Attack_ACC_up2_WingGolem",
+                "defense_ACC_up2_WingGolem",
+                "Attack_ACC_up3_WingGolem",
+                "defense_ACC_up3_WingGolem",
+                "Attack_ACC_up4_WingGolem",
+                "defense_ACC_up4_WingGolem",
+                "Attack_ACC_up5_WingGolem",
+                "defense_ACC_up5_WingGolem"
             ]
         },
         {
@@ -20326,7 +20353,16 @@
             "partner_skill": "Iron Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem Ignis's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
             "passives": [
-                "Deffence_up2_2"
+                "Attack_ACC_up_WingGolem_Fire_1",
+                "defense_ACC_up_WingGolem_Fire_1",
+                "Attack_ACC_up_WingGolem_Fire_2",
+                "defense_ACC_up_WingGolem_Fire_2",
+                "Attack_ACC_up_WingGolem_Fire_3",
+                "defense_ACC_up_WingGolem_Fire_3",
+                "Attack_ACC_up_WingGolem_Fire_4",
+                "defense_ACC_up_WingGolem_Fire_4",
+                "Attack_ACC_up_WingGolem_Fire_5",
+                "defense_ACC_up_WingGolem_Fire_5"
             ]
         },
         {
@@ -20444,7 +20480,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Fluffy Wool",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Wool when assigned to Ranch.",
             "passives": [
                 "AttackUp_Normal_PartnerSkill_1",
                 "AttackUp_Normal_PartnerSkill_2",
@@ -21502,7 +21538,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Pacapaca Wool",
-            "description": "Can be ridden. While in party, increases Kingpaca's Defense and Movement Speed Sometimes drops when assigned to Ranch."
+            "description": "Can be ridden. While in party, increases Kingpaca's Defense and Movement Speed Sometimes drops Wool when assigned to Ranch."
         },
         {
             "name": "Kitsun (Boss)",
@@ -21804,7 +21840,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Flameclaw Hunter",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Hellfire Claw. The Hellfire Claw damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -21866,7 +21902,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Darkclaw Hunter",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Claw. The Nightmare Claw damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -21928,7 +21964,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Gold Digger",
-            "description": "Sometimes digs up when assigned to Ranch."
+            "description": "Sometimes digs up Gold Coin when assigned to Ranch."
         },
         {
             "name": "Mau Cryst (Boss)",
@@ -21983,7 +22019,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Ice Whispers",
-            "description": "Sometimes drops when assigned to Ranch."
+            "description": "Sometimes drops Ice Organ when assigned to Ranch."
         },
         {
             "name": "Bearded Dragon (Boss)",
@@ -22093,7 +22129,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Berry Picker",
-            "description": "Sometimes drops from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every five minutes. (Does not stack)",
+            "description": "Sometimes drops Red Berries from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every five minutes. (Does not stack)",
             "passives": [
                 "Regene_Stomatch_Hungriest_BerryGoat_1",
                 "Regene_Stomatch_Hungriest_BerryGoat_2",
@@ -22155,7 +22191,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Venom Picker",
-            "description": "Sometimes drops from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every 5 minutes. (Does not stack)",
+            "description": "Sometimes drops Venom Gland from its back when assigned to Ranch. While in party, restores {Passive1_EffectValue1} Hunger of the hungriest Pal once every 5 minutes. (Does not stack)",
             "passives": [
                 "Regene_Stomatch_Hungriest_BerryGoat_1",
                 "Regene_Stomatch_Hungriest_BerryGoat_2",
@@ -22353,7 +22389,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Knight of the Abyss",
-            "description": "Can be ridden. Can double jump while mounted. Activate to have Paladius stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden. Can double jump while mounted. Activate Twin Spears to have Paladius stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Dragostrophe (Boss)",
@@ -22592,7 +22628,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Black Ankylosaur",
-            "description": "Can be ridden as a flying mount. Increases the damage dealt to ores by {Passive1_EffectValue1}%, and you can obtain {Passive2_EffectValue1}% more while mounted.",
+            "description": "Can be ridden as a flying mount. Increases the damage dealt to ores by {Passive1_EffectValue1}%, and you can obtain {Passive2_EffectValue1}% more Ore while mounted.",
             "passives": [
                 "CollectItemDrop_PartnerSkill_Ride_1",
                 "CollectItemDrop_PartnerSkill_Ride_2",
@@ -22654,7 +22690,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dig, Smokie! Dig!",
-            "description": "When activated, uses its sharp sense of smell to detect nearby . While fighting together, acquisition increases by +{Passive1_EffectValue1}%.",
+            "description": "When activated, uses its sharp sense of smell to detect nearby Chromite. While fighting together, Chromite acquisition increases by +{Passive1_EffectValue1}%.",
             "passives": [
                 "CollectItemDrop_PartnerSkill_BlackPuppy_1",
                 "CollectItemDrop_PartnerSkill_BlackPuppy_2",
@@ -23603,7 +23639,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Grave Robber",
-            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up when assigned to Ranch.",
+            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up Bone when assigned to Ranch.",
             "passives": [
                 "CandleGhost_PartnerSkill_1",
                 "CandleGhost_PartnerSkill_2",
@@ -24102,7 +24138,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Life Steal",
-            "description": "While fighting together, grants the player and Felbat the life steal effect which absorbs {Passive1_EffectValue1}% of damage dealt to restore .",
+            "description": "While fighting together, grants the player and Felbat the life steal effect which absorbs {Passive1_EffectValue1}% of damage dealt to restore Hp.",
             "passives": [
                 "LifeSteal_1",
                 "LifeSteal_2",
@@ -24164,7 +24200,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Egg Layer",
-            "description": "Sometimes lays an when assigned to Ranch."
+            "description": "Sometimes lays an Egg when assigned to Ranch."
         },
         {
             "name": "Amione (Boss)",
@@ -24466,7 +24502,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Milk Maker",
-            "description": "Sometimes drops when assigned to Ranch."
+            "description": "Sometimes drops Milk when assigned to Ranch."
         },
         {
             "name": "Cinnamoth (Boss)",
@@ -24521,7 +24557,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mysterious Scales",
-            "description": "When activated, attacks targeted enemy with . While at a base, +{Passive1_EffectValue1} Monster Farm Work Suitability Level for all other Base Pals. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Poison Fog. While at a base, +{Passive1_EffectValue1} Monster Farm Work Suitability Level for all other Base Pals. (Does not stack)",
             "passives": [
                 "WorkSuitabilityAddRank_MonsterFarm_ToBaseCampPal",
                 "WorkSuitabilityAddRank_MonsterFarm_ToBaseCampPal",
@@ -24638,7 +24674,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mining Assistance",
-            "description": "While in party, improves mining efficiency by {Passive1_EffectValue1}% and reduces weight by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "While in party, improves mining efficiency by {Passive1_EffectValue1}% and reduces Stone weight by {Passive2_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ItemWeightReduction_PartnerSkill_CuteMole_1",
                 "ItemWeightReduction_PartnerSkill_CuteMole_2",
@@ -24872,7 +24908,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Eerie Nightstreaker",
-            "description": "When activated, grants night vision to see in dark places. Activate again to turn off. Sometimes digs up when assigned to Ranch."
+            "description": "When activated, grants night vision to see in dark places. Activate again to turn off. Sometimes digs up Bone when assigned to Ranch."
         },
         {
             "name": "Majex (Boss)",
@@ -25495,7 +25531,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Drill Crusher",
-            "description": "Enters state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
+            "description": "Enters Shell Spin state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
             "passives": [
                 "Mining_up_PartnerSkill_DrillGame",
                 "Mining_up_PartnerSkill_DrillGame",
@@ -25612,7 +25648,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Static Electricity",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Electric][ELEM:Electricity] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Electric][ELEM:Electricity] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Electric Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Electricity_PartnerSkill_1",
                 "AttackUp_Electricity_PartnerSkill_2",
@@ -25729,7 +25765,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chillswitch",
-            "description": "While in party, enemies with [EFFECT:Electrical] shoot out static when attacked by the player, dealing damage equal to {Passive1_EffectValue1}%of player attack damage to any enemies in range. (Does not stack)",
+            "description": "While in party, enemies with [EFFECT:Electrical] shoot out static when attacked by the player, dealing damage equal to {Passive1_EffectValue1}% of player attack damage to any enemies in range. (Does not stack)",
             "passives": [
                 "ElecLizard_PlayerInflictEffect_PartnerSkill_1",
                 "ElecLizard_PlayerInflictEffect_PartnerSkill_2",
@@ -26587,7 +26623,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Tiny Spark",
-            "description": "While in party, increases Defense of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Defense of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "DefenseUp_Fire_PartnerSkill_1",
                 "DefenseUp_Fire_PartnerSkill_2",
@@ -27342,11 +27378,11 @@
             "partner_skill": "Lord Fox",
             "description": "When activated, Wixen lends its power to the player to change the player's attack type to [ICON:ElemIcon_Fire][ELEM:Fire] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Fire_PartnerSkill_1",
-                "AttackUp_Fire_PartnerSkill_2",
-                "AttackUp_Fire_PartnerSkill_3",
-                "AttackUp_Fire_PartnerSkill_4",
-                "AttackUp_Fire_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -27410,11 +27446,11 @@
             "partner_skill": "Black Fox Lord",
             "description": "When activated, Wixen Noct lends its power to the player, changing their attack type to [ICON:ElemIcon_Dark][ELEM:Dark] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Fire_PartnerSkill_1",
-                "AttackUp_Fire_PartnerSkill_2",
-                "AttackUp_Fire_PartnerSkill_3",
-                "AttackUp_Fire_PartnerSkill_4",
-                "AttackUp_Fire_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -28219,7 +28255,11 @@
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
             "passives": [
-                "PAL_rude"
+                "Attack_ACC_up1_Gorilla",
+                "Attack_ACC_up2_Gorilla",
+                "Attack_ACC_up3_Gorilla",
+                "Attack_ACC_up4_Gorilla",
+                "Attack_ACC_up5_Gorilla"
             ]
         },
         {
@@ -28652,11 +28692,11 @@
             "partner_skill": "Mother Nature's Menace",
             "description": "When activated, Elgrove lends its power to the player to change the player's attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Leaf_PartnerSkill_1",
-                "AttackUp_Leaf_PartnerSkill_2",
-                "AttackUp_Leaf_PartnerSkill_3",
-                "AttackUp_Leaf_PartnerSkill_4",
-                "AttackUp_Leaf_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -29852,7 +29892,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Aurora Guide",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Ice Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Ice_PartnerSkill_1",
                 "AttackUp_Ice_PartnerSkill_2",
@@ -30373,11 +30413,11 @@
             "partner_skill": "Witch's Icy Veil",
             "description": "When activated, Icelyn lends its power to the player to change the player's attack type to [ICON:ElemIcon_Ice][ELEM:Ice] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Ice_PartnerSkill_1",
-                "AttackUp_Ice_PartnerSkill_2",
-                "AttackUp_Ice_PartnerSkill_3",
-                "AttackUp_Ice_PartnerSkill_4",
-                "AttackUp_Ice_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -30680,7 +30720,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Aqua Spout",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Water][ELEM:Water] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Water][ELEM:Water] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Aquatic Pal Fluids when assigned to Ranch.",
             "passives": [
                 "AttackUp_Water_PartnerSkill_1",
                 "AttackUp_Water_PartnerSkill_2",
@@ -30742,7 +30782,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Lava Spout",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Fire][ELEM:Fire] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "AttackUp_Fire_PartnerSkill_1",
                 "AttackUp_Fire_PartnerSkill_2",
@@ -30804,7 +30844,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Leap Stance",
-            "description": "When activated, Croajiro channels its loyalty and puffs up its abdomen to store energy. Player can jump high into the air off its back, granting an Attack increase of {ReferencePassive1_EffectValue1}%while midair."
+            "description": "When activated, Croajiro channels its loyalty and puffs up its abdomen to store energy. Player can jump high into the air off its back, granting an Attack increase of {ReferencePassive1_EffectValue1}% while midair.",
+            "passives": [
+                "TrainerATK_UP_PartnerSkill_KendoFrog_1",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_2",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_3",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_4",
+                "TrainerATK_UP_PartnerSkill_KendoFrog_5"
+            ]
         },
         {
             "name": "Croajiro Noct (Boss)",
@@ -30927,7 +30974,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "King of Muscles",
-            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each Melpaca in party.",
             "passives": [
                 "Defense_KingAlpaca_PartnerSkill_1",
                 "Defense_KingAlpaca_PartnerSkill_2",
@@ -30989,7 +31036,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Coldhearted King",
-            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each Melpaca in party.",
             "passives": [
                 "Defense_KingAlpaca_PartnerSkill_1",
                 "Defense_KingAlpaca_PartnerSkill_2",
@@ -31771,7 +31818,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Magma Tears",
-            "description": "While in party, recovers Health of the player and Party Pals by {Passive1_EffectValue1}% per second when not in battle. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, recovers Health of the player and Party Pals by {Passive1_EffectValue1}% per second when not in battle. (Does not stack) Sometimes drops Flame Organ when assigned to Ranch.",
             "passives": [
                 "RegeneHPRate_IfNonBattle_PartnerSkill_LavaGirl_1",
                 "RegeneHPRate_IfNonBattle_PartnerSkill_LavaGirl_2",
@@ -31839,7 +31886,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Soil Improver",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Ground][ELEM:Earth] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Ground][ELEM:Earth] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops High Quality Pal Oil when assigned to Ranch.",
             "passives": [
                 "AttackUp_Earth_PartnerSkill_1",
                 "AttackUp_Earth_PartnerSkill_2",
@@ -31907,7 +31954,7 @@
                 "MonsterFarm": 4
             },
             "partner_skill": "Golden Harvest",
-            "description": "While in team, increases amount of Gold Coin dropped by enemies by +{Passive1_EffectValue1}%. Sometimes drops when assigned to Ranch, with a small chance to drop . (Does not stack)",
+            "description": "While in team, increases amount of Gold Coin dropped by enemies by +{Passive1_EffectValue1}%. Sometimes drops High Quality Pal Oil when assigned to Ranch, with a small chance to drop Gold Coin. (Does not stack)",
             "passives": [
                 "AddItemDrop_PartnerSkill_LazyCatfish_Gold_1",
                 "AddItemDrop_PartnerSkill_LazyCatfish_Gold_2",
@@ -32152,7 +32199,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Herbil Pulse",
-            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}%of the player's when incapacitated. {ReferenceMsgId_CooldownReduction}",
+            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated. {ReferenceMsgId_CooldownReduction}",
             "active_skill_main_value": [
                 30.0,
                 36.0,
@@ -33605,7 +33652,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fluffy",
-            "description": "While in party, increases Attack and Defense of ."
+            "description": "While in party, increases Attack and Defense of Sweepa."
         },
         {
             "name": "Sweepa (Boss)",
@@ -33660,7 +33707,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "King of Fluff",
-            "description": "Can be ridden. This Pal's Attack and Defense increase by {Passive1_EffectValue1}% for each in party.",
+            "description": "Can be ridden. This Pal's Attack and Defense increase by {Passive1_EffectValue1}% for each Swee in party.",
             "passives": [
                 "Defense_ShotAttack_MopKing_PartnerSkill_1",
                 "Defense_ShotAttack_MopKing_PartnerSkill_2",
@@ -33845,7 +33892,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Rampant Spores",
-            "description": "Can be ridden. Sometimes drops or when assigned to Ranch."
+            "description": "Can be ridden. Sometimes drops Mushroom or Cavern Mushroom when assigned to Ranch."
         },
         {
             "name": "Shroomer Noct (Boss)",
@@ -34216,7 +34263,14 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Caffeine Inoculation",
-            "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops when assigned to Ranch."
+            "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops Venom Gland when assigned to Ranch.",
+            "passives": [
+                "WorkSpeedUp_Negativekoala_PartnerSkill_1",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_2",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_3",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_4",
+                "WorkSpeedUp_Negativekoala_PartnerSkill_5"
+            ]
         },
         {
             "name": "Killamari (Boss)",
@@ -34572,7 +34626,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Iris",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Ray. The Nightmare Ray damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -34634,7 +34688,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Stare",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Bloom. The Nightmare Bloom damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -35195,7 +35249,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore .",
+            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore Hp.",
             "passives": [
                 "LifeSteal_1",
                 "LifeSteal_2",
@@ -35750,7 +35804,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stone-Chaser Archelon",
-            "description": "Can be ridden. While in party, increases the durability of all weapons and armorby {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, increases the durability of all weapons and armor by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "PyramidTurtle_Neutral_PartnerSkill_1_Armor",
                 "PyramidTurtle_Neutral_PartnerSkill_2_Armor",
@@ -35812,7 +35866,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Queen Bee Command",
-            "description": "This Pal's Attack increases by {Passive1_EffectValue1}% for each in party.",
+            "description": "This Pal's Attack increases by {Passive1_EffectValue1}% for each Beegarde in party.",
             "passives": [
                 "PAL_TribePassive_Test",
                 "PAL_TribePassive_1",
@@ -36423,7 +36477,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Brandish Blade",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Iaigiri. The Iaigiri damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -36491,7 +36545,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Void Blade",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Iaigiri, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
             "passives": [
                 "DamageUpWeapon_Otomo_IfNoBattle_1",
                 "DamageUpWeapon_Otomo_IfNoBattle_2",
@@ -36560,7 +36614,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Holy Knight of the Firmament",
-            "description": "Can be ridden. Can triple jump while mounted. Activate to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Broncherry (Boss)",
@@ -36883,11 +36937,11 @@
             "partner_skill": "Scorpion Longwave",
             "description": "When activated, Prixter Lux lends its power to the player to change the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Electricity_PartnerSkill_1",
-                "AttackUp_Electricity_PartnerSkill_2",
-                "AttackUp_Electricity_PartnerSkill_3",
-                "AttackUp_Electricity_PartnerSkill_4",
-                "AttackUp_Electricity_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -36943,7 +36997,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Desert Empress",
-            "description": "While at base, boosts 's work speed by {Passive1_EffectValue1}%. Increases efficiency by {Passive2_EffectValue1}% if Sekhmet is also working at a Workbench or Workshop. (Does not stack)",
+            "description": "While at base, boosts Anubis's work speed by {Passive1_EffectValue1}%. Increases efficiency by {Passive2_EffectValue1}% if Sekhmet is also working at a Workbench or Workshop. (Does not stack)",
             "passives": [
                 "CraftSpeed_PartnerSkill_1",
                 "CraftSpeed_PartnerSkill_2",
@@ -37005,7 +37059,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Swift Swimmer",
-            "description": "Can be ridden to travel on water. Sometimes drops when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Surfent Terra (Boss)",
@@ -37122,7 +37176,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Angry Shark",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
+            "description": "When activated, attacks targeted enemy with Aqua Gun. The Aqua Gun damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
             "passives": [
                 "TrainerATK_UP_PartnerSkill_1",
                 "TrainerATK_UP_PartnerSkill_2",
@@ -37191,7 +37245,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Angry Shark",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
+            "description": "When activated, attacks targeted enemy with Spirit Fire. The Spirit Fire damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's Attack by {Passive1_EffectValue1}%.",
             "passives": [
                 "TrainerATK_UP_PartnerSkill_1",
                 "TrainerATK_UP_PartnerSkill_2",
@@ -37260,7 +37314,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Fluffy Shield",
-            "description": "When activated, equips to the player and becomes a shield. Sometimes drops when assigned to Ranch."
+            "description": "When activated, equips to the player and becomes a shield. Sometimes drops Wool when assigned to Ranch."
         },
         {
             "name": "Dogen (Boss)",
@@ -37968,7 +38022,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Worker Bee",
-            "description": "Sometimes drops when assigned to Ranch. While in party, increases 's Attack."
+            "description": "Sometimes drops Honey when assigned to Ranch. While in party, increases Elizabee's Attack."
         },
         {
             "name": "Straw Hat Cat (Boss)",
@@ -38080,11 +38134,11 @@
             "partner_skill": "Water Gun",
             "description": "When activated, Finsider lends its power to the player to change the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] with {ReferencePassive1_EffectValue1}% increased Attack.",
             "passives": [
-                "AttackUp_Water_PartnerSkill_1",
-                "AttackUp_Water_PartnerSkill_2",
-                "AttackUp_Water_PartnerSkill_3",
-                "AttackUp_Water_PartnerSkill_4",
-                "AttackUp_Water_PartnerSkill_5"
+                "ShotAttack_PartnerSkill_Coop_1",
+                "ShotAttack_PartnerSkill_Coop_2",
+                "ShotAttack_PartnerSkill_Coop_3",
+                "ShotAttack_PartnerSkill_Coop_4",
+                "ShotAttack_PartnerSkill_Coop_5"
             ]
         },
         {
@@ -38394,7 +38448,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Candy Pop",
-            "description": "Sometimes drops when assigned to Ranch. While at a base, reduces depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Sometimes drops Cotton Candy when assigned to Ranch. While at a base, reduces Hunger depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "FullStomatch_Decrease_BaseCamp_1",
                 "FullStomatch_Decrease_BaseCamp_2",
@@ -38456,7 +38510,7 @@
                 "MonsterFarm": 1
             },
             "partner_skill": "Bitter Pop",
-            "description": "Sometimes drops when assigned to Ranch. While at a base, reduces depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Sometimes drops Caramel Cotton Candy when assigned to Ranch. While at a base, reduces Hunger depletion rate of Base Pals by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "FullStomatch_Decrease_BaseCamp_SweetsSheep_Ground_1",
                 "FullStomatch_Decrease_BaseCamp_SweetsSheep_Ground_2",
@@ -38518,7 +38572,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Severed Flesh for Bone",
-            "description": "When activated, Skutlass becomes the player's katana (: {ActiveSkillMainValueByRank}). Skutlass will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "description": "When activated, Skutlass becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
             "active_skill_main_value": [
                 2600.0,
                 2700.0,
@@ -38586,7 +38640,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Seered Flesh for Bone",
-            "description": "When activated, Skutlass Ignis becomes the player's katana (: {ActiveSkillMainValueByRank}). Skutlass Ignis will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "description": "When activated, Skutlass Ignis becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass Ignis will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
             "active_skill_main_value": [
                 2900.0,
                 3000.0,
@@ -38648,7 +38702,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Spikey Carrier",
-            "description": "While in party, reduces weight by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, reduces Ore weight by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ItemWeightReduction_PartnerSkill_TentacleTurtle_1",
                 "ItemWeightReduction_PartnerSkill_TentacleTurtle_2",
@@ -38716,7 +38770,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Shiny Hauler",
-            "description": "While in party, reduces weight of and by {Passive1_EffectValue1}%. Also improves player and Pal [ICON:ElemIcon_Ground][ELEM:Earth] damage to weak points by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, reduces weight of Sulfur and Coal by {Passive1_EffectValue1}%. Also improves player and Pal [ICON:ElemIcon_Ground][ELEM:Earth] damage to weak points by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ElementBoostWeakness_Earth_PartnerSkill_1",
                 "ElementBoostWeakness_Earth_PartnerSkill_2",
@@ -40125,7 +40179,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Gleam Strike",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Jumping Claw. The Jumping Claw damage has a x{ActiveSkillMainValueByRank} multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "AttackSpeedUp_PartnerSkill_Werewolf_1",
                 "AttackSpeedUp_PartnerSkill_Werewolf_2",
@@ -40194,7 +40248,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Frozen Gleam Strike",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Snow Claw, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "AttackSpeedUp_PartnerSkill_Werewolf_1",
                 "AttackSpeedUp_PartnerSkill_Werewolf_2",
@@ -40449,7 +40503,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Silk Shroud",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier. Sometimes makes when assigned to Ranch.",
+            "description": "When activated, attacks targeted enemy with Blizzard Spike. The Blizzard Spike damage has a x{ActiveSkillMainValueByRank} multiplier. Sometimes makes High Quality Cloth when assigned to Ranch.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -40511,7 +40565,7 @@
                 "MonsterFarm": 4
             },
             "partner_skill": "Gilded Shroud",
-            "description": "While in party, increases Defense of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes makes when assigned to Ranch.",
+            "description": "While in party, increases Defense of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes makes High Quality Cloth when assigned to Ranch.",
             "passives": [
                 "DefenseUp_Normal_PartnerSkill_1",
                 "DefenseUp_Normal_PartnerSkill_2",
@@ -40871,7 +40925,16 @@
             "partner_skill": "Steel Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
             "passives": [
-                "Deffence_up2_2"
+                "Attack_ACC_up1_WingGolem",
+                "defense_ACC_up1_WingGolem",
+                "Attack_ACC_up2_WingGolem",
+                "defense_ACC_up2_WingGolem",
+                "Attack_ACC_up3_WingGolem",
+                "defense_ACC_up3_WingGolem",
+                "Attack_ACC_up4_WingGolem",
+                "defense_ACC_up4_WingGolem",
+                "Attack_ACC_up5_WingGolem",
+                "defense_ACC_up5_WingGolem"
             ]
         },
         {
@@ -40929,7 +40992,16 @@
             "partner_skill": "Iron Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem Ignis's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
             "passives": [
-                "Deffence_up2_2"
+                "Attack_ACC_up_WingGolem_Fire_1",
+                "defense_ACC_up_WingGolem_Fire_1",
+                "Attack_ACC_up_WingGolem_Fire_2",
+                "defense_ACC_up_WingGolem_Fire_2",
+                "Attack_ACC_up_WingGolem_Fire_3",
+                "defense_ACC_up_WingGolem_Fire_3",
+                "Attack_ACC_up_WingGolem_Fire_4",
+                "defense_ACC_up_WingGolem_Fire_4",
+                "Attack_ACC_up_WingGolem_Fire_5",
+                "defense_ACC_up_WingGolem_Fire_5"
             ]
         },
         {
@@ -41047,7 +41119,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Fluffy Wool",
-            "description": "While in party, increases Attack of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops when assigned to Ranch.",
+            "description": "While in party, increases Attack of [ICON:ElemIcon_Neutral][ELEM:Normal] Pals by {Passive1_EffectValue1}%. (Does not stack) Sometimes drops Wool when assigned to Ranch.",
             "passives": [
                 "AttackUp_Normal_PartnerSkill_1",
                 "AttackUp_Normal_PartnerSkill_2",
@@ -42021,7 +42093,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Azure Sovereign",
-            "description": "Can be ridden as a flying mount. This Pal's Attack increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Dragon][ELEM:Dragon] Pal in party."
+            "description": "Can be ridden as a flying mount. This Pal's Attack increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Dragon][ELEM:Dragon] Pal in party.",
+            "passives": [
+                "ShotAttack_PartnerSkill_SpecificElement_1",
+                "ShotAttack_PartnerSkill_SpecificElement_2",
+                "ShotAttack_PartnerSkill_SpecificElement_3",
+                "ShotAttack_PartnerSkill_SpecificElement_4",
+                "ShotAttack_PartnerSkill_SpecificElement_5"
+            ]
         },
         {
             "name": "Blue Sky Dragon 2 (Gym)",
@@ -43924,7 +44003,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Darkclaw Hunter",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Claw. The Nightmare Claw damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -44060,7 +44139,14 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Grave Robber",
-            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up when assigned to Ranch."
+            "description": "While in party, player and Pal take {Passive1_EffectValue1}% less [ICON:ElemIcon_Neutral][ELEM:Normal] damage. (Does not stack) Sometimes digs up Bone when assigned to Ranch.",
+            "passives": [
+                "CandleGhost_PartnerSkill_1",
+                "CandleGhost_PartnerSkill_2",
+                "CandleGhost_PartnerSkill_3",
+                "CandleGhost_PartnerSkill_4",
+                "CandleGhost_PartnerSkill_5"
+            ]
         },
         {
             "name": "Menasting (Predator)",
@@ -44121,7 +44207,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Steel Scorpion",
-            "description": "While in party, player's Defense increases by {Passive2_EffectValue1}%, and [ICON:ElemIcon_Electric][ELEM:Electricity] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack)"
+            "description": "While in party, player's Defense increases by {Passive2_EffectValue1}%, and [ICON:ElemIcon_Electric][ELEM:Electricity] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack)",
+            "passives": [
+                "TrainerDEF_UP_PartnerSkill_Otomo_1",
+                "TrainerDEF_UP_PartnerSkill_Otomo_2",
+                "TrainerDEF_UP_PartnerSkill_Otomo_3",
+                "TrainerDEF_UP_PartnerSkill_Otomo_4",
+                "TrainerDEF_UP_PartnerSkill_Otomo_5"
+            ]
         },
         {
             "name": "Digtoise (Predator)",
@@ -44176,7 +44269,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Drill Crusher",
-            "description": "Enters state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
+            "description": "Enters Shell Spin state when activated. Follows the player while spinning and mines ore {ReferencePassive1_EffectValue1}% more efficiently.",
             "passives": [
                 "Mining_up_PartnerSkill_DrillGame",
                 "Mining_up_PartnerSkill_DrillGame",
@@ -44721,7 +44814,11 @@
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
             "passives": [
-                "PAL_rude"
+                "Attack_ACC_up1_Gorilla",
+                "Attack_ACC_up2_Gorilla",
+                "Attack_ACC_up3_Gorilla",
+                "Attack_ACC_up4_Gorilla",
+                "Attack_ACC_up5_Gorilla"
             ]
         },
         {
@@ -45278,7 +45375,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Untainted Maiden",
-            "description": "While in party, increases the player's Attack by {Passive1_EffectValue1}% if all Pals in party are different kinds. (Does not stack)"
+            "description": "While in party, increases the player's Attack by {Passive1_EffectValue1}% if all Pals in party are different kinds. (Does not stack)",
+            "passives": [
+                "AttackUp_IfAllOtomoTribeDifferent_PartnerSkill_1",
+                "AttackUp_IfAllOtomoTribeDifferent_PartnerSkill_2",
+                "AttackUp_IfAllOtomoTribeDifferent_PartnerSkill_3",
+                "AttackUp_IfAllOtomoTribeDifferent_PartnerSkill_4",
+                "AttackUp_IfAllOtomoTribeDifferent_PartnerSkill_5"
+            ]
         },
         {
             "name": "Gildra (Predator)",
@@ -45394,7 +45498,7 @@
                 "MonsterFarm": 3
             },
             "partner_skill": "Rampant Spores",
-            "description": "Can be ridden. Sometimes drops or when assigned to Ranch."
+            "description": "Can be ridden. Sometimes drops Mushroom or Cavern Mushroom when assigned to Ranch."
         },
         {
             "name": "Omascul (Predator)",
@@ -45573,7 +45677,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Selfless Discipline",
-            "description": "This Pal's Attack and Defense increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Grass][ELEM:Leaf] Pal in party."
+            "description": "This Pal's Attack and Defense increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Grass][ELEM:Leaf] Pal in party.",
+            "passives": [
+                "ShotAttack_Defence_PartnerSkill_SpecificElement_1",
+                "ShotAttack_Defence_PartnerSkill_SpecificElement_2",
+                "ShotAttack_Defence_PartnerSkill_SpecificElement_3",
+                "ShotAttack_Defence_PartnerSkill_SpecificElement_4",
+                "ShotAttack_Defence_PartnerSkill_SpecificElement_5"
+            ]
         },
         {
             "name": "Lovander (Predator)",
@@ -45628,7 +45739,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore .",
+            "description": "While fighting together, grants the player and Lovander the life steal effect, which absorbs {Passive1_EffectValue1}% of damage dealt to restore Hp.",
             "passives": [
                 "LifeSteal_1",
                 "LifeSteal_2",
@@ -45862,7 +45973,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Flower Dance",
-            "description": "While in party, extends the invincibility period granted from a successful dodge by {Passive1_EffectValue2}%. (Does not stack)"
+            "description": "While in party, extends the invincibility period granted from a successful dodge by {Passive1_EffectValue2}%. (Does not stack)",
+            "passives": [
+                "AvoidDurationUp_PartnerSkill_RedFlowerBird_1",
+                "AvoidDurationUp_PartnerSkill_RedFlowerBird_2",
+                "AvoidDurationUp_PartnerSkill_RedFlowerBird_3",
+                "AvoidDurationUp_PartnerSkill_RedFlowerBird_4",
+                "AvoidDurationUp_PartnerSkill_RedFlowerBird_5"
+            ]
         },
         {
             "name": "Bushi Noct (Predator)",
@@ -45923,7 +46041,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Void Blade",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Iaigiri, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon damage by {Passive1_EffectValue1}% but only when not in combat. (Does not stack)",
             "passives": [
                 "DamageUpWeapon_Otomo_IfNoBattle_1",
                 "DamageUpWeapon_Otomo_IfNoBattle_2",
@@ -45998,7 +46116,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Scorpion Sonar",
-            "description": "While in party, increases damage from [EFFECT:Poison] applied by the player and Pal by {Passive1_EffectValue1}%. (Does not stack)"
+            "description": "While in party, increases damage from [EFFECT:Poison] applied by the player and Pal by {Passive1_EffectValue1}%. (Does not stack)",
+            "passives": [
+                "DamageUpTrainerAndOtomo_ToPoison_PartnerSkill_ScorpionMan_1",
+                "DamageUpTrainerAndOtomo_ToPoison_PartnerSkill_ScorpionMan_2",
+                "DamageUpTrainerAndOtomo_ToPoison_PartnerSkill_ScorpionMan_3",
+                "DamageUpTrainerAndOtomo_ToPoison_PartnerSkill_ScorpionMan_4",
+                "DamageUpTrainerAndOtomo_ToPoison_PartnerSkill_ScorpionMan_5"
+            ]
         },
         {
             "name": "Dogen (Predator)",
@@ -46108,7 +46233,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Snake's Sagacity",
-            "description": "While in party, infuses the player's attacks with [EFFECT:Darkness] {Passive1_EffectValue1}. (Does not stack)"
+            "description": "While in party, infuses the player's attacks with [EFFECT:Darkness] {Passive1_EffectValue1}. (Does not stack)",
+            "passives": [
+                "AdditionalEffect_Darkness_PartnerSkill_SnakeGirl_1",
+                "AdditionalEffect_Darkness_PartnerSkill_SnakeGirl_2",
+                "AdditionalEffect_Darkness_PartnerSkill_SnakeGirl_3",
+                "AdditionalEffect_Darkness_PartnerSkill_SnakeGirl_4",
+                "AdditionalEffect_Darkness_PartnerSkill_SnakeGirl_5"
+            ]
         },
         {
             "name": "Suzaku (Predator)",
@@ -46163,7 +46295,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wings of Flame",
-            "description": "Can be ridden as a flying mount. This Pal's Movement Speed increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Fire][ELEM:Fire] Pal in party."
+            "description": "Can be ridden as a flying mount. This Pal's Movement Speed increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Fire][ELEM:Fire] Pal in party.",
+            "passives": [
+                "MoveSpeed_PartnerSkill_SpecificElement_1",
+                "MoveSpeed_PartnerSkill_SpecificElement_2",
+                "MoveSpeed_PartnerSkill_SpecificElement_3",
+                "MoveSpeed_PartnerSkill_SpecificElement_4",
+                "MoveSpeed_PartnerSkill_SpecificElement_5"
+            ]
         },
         {
             "name": "Rayhound (Predator)",
@@ -46482,7 +46621,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Magma Overload",
-            "description": "Can be ridden as a mount. This Pal's Attack increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Fire][ELEM:Fire] or [ICON:ElemIcon_Ground][ELEM:Earth] Pal in party."
+            "description": "Can be ridden as a mount. This Pal's Attack increases by {Passive1_EffectValue1}% for each other [ICON:ElemIcon_Fire][ELEM:Fire] or [ICON:ElemIcon_Ground][ELEM:Earth] Pal in party.",
+            "passives": [
+                "ShotAttack_PartnerSkill_SpecificElement_1",
+                "ShotAttack_PartnerSkill_SpecificElement_2",
+                "ShotAttack_PartnerSkill_SpecificElement_3",
+                "ShotAttack_PartnerSkill_SpecificElement_4",
+                "ShotAttack_PartnerSkill_SpecificElement_5"
+            ]
         },
         {
             "name": "Loupmoon Cryst (Predator)",
@@ -46537,7 +46683,14 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Frozen Gleam Strike",
-            "description": "When activated, attacks targeted enemy with , which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "When activated, attacks targeted enemy with Snow Claw, which has a x{ActiveSkillMainValueByRank} damage multiplier. While in party, increases the player's melee weapon attack speed by {Passive1_EffectValue1}%. (Does not stack)",
+            "passives": [
+                "AttackSpeedUp_PartnerSkill_Werewolf_1",
+                "AttackSpeedUp_PartnerSkill_Werewolf_2",
+                "AttackSpeedUp_PartnerSkill_Werewolf_3",
+                "AttackSpeedUp_PartnerSkill_Werewolf_4",
+                "AttackSpeedUp_PartnerSkill_Werewolf_5"
+            ],
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -47329,7 +47482,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Iris",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Ray. The Nightmare Ray damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,
@@ -47391,7 +47544,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Nightmare Stare",
-            "description": "When activated, attacks targeted enemy with . The damage has a x{ActiveSkillMainValueByRank} multiplier.",
+            "description": "When activated, attacks targeted enemy with Nightmare Bloom. The Nightmare Bloom damage has a x{ActiveSkillMainValueByRank} multiplier.",
             "active_skill_main_value": [
                 1.1,
                 1.3,

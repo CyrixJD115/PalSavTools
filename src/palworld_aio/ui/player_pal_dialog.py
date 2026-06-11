@@ -249,7 +249,7 @@ class PlayerPalActionDialog(QDialog):
             pdesc = self._pal_desc_map.get(asset.lower(), '')
             passives = self._pal_passives_map.get(asset.lower(), [])
             if pdesc:
-                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(asset.lower()), self._pal_overwrite_effect_map.get(asset.lower()))
+                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(asset.lower()), self._pal_overwrite_effect_map.get(asset.lower()), passives)
                 elem_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
                 html_desc = _partner_desc_to_html(resolved, elem_colors, tooltip=True)
                 tip += f'<br><br>{html_desc}'

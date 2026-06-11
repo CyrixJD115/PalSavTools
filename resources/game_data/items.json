@@ -1277,7 +1277,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Fire Arrows for use with bows. Deals  damage on contact.",
+            "description": "Fire Arrows for use with bows. Deals Fire damage on contact.",
             "sort_id": 17
         },
         {
@@ -1287,7 +1287,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Poison Arrows for use with bows. Afflicts targets with  on contact.",
+            "description": "Poison Arrows for use with bows. Afflicts targets with Poison on contact.",
             "sort_id": 16
         },
         {
@@ -1487,7 +1487,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish where bacon, Lettuce, Tomato are sandwiched in Bread. Consumption increases  by +15% for a while.",
+            "description": "A dish where bacon, Lettuce, Tomato are sandwiched in Bread. Consumption increases Attack by +15% for a while.",
             "sort_id": 4019
         },
         {
@@ -1497,7 +1497,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "The smoky essence of bacon intertwines flawlessly\r\nwith the gentle texture of eggs, creating a sublime harmony of flavors.\r\nEating it will increase  by +10% for a period of time.",
+            "description": "The smoky essence of bacon intertwines flawlessly\r\nwith the gentle texture of eggs, creating a sublime harmony of flavors.\r\nEating it will increase Attack by +10% for a period of time.",
             "sort_id": 4035
         },
         {
@@ -9017,7 +9017,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponCrossbow",
-            "description": "A Crossbow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A Crossbow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 245
         },
         {
@@ -9027,7 +9027,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponCrossbow",
-            "description": "A Crossbow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A Crossbow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 246
         },
         {
@@ -9037,7 +9037,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponCrossbow",
-            "description": "A Crossbow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A Crossbow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 247
         },
         {
@@ -9047,7 +9047,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponCrossbow",
-            "description": "A Crossbow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A Crossbow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 248
         },
         {
@@ -9057,7 +9057,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponCrossbow",
-            "description": "A Crossbow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A Crossbow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 249
         },
         {
@@ -9147,7 +9147,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponBow",
-            "description": "A bow that deals  damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
+            "description": "A bow that deals Fire damage.\r\nBurns Pals with fire arrows, making them easier to capture.\r\nRequires Fire Arrow.",
             "sort_id": 211
         },
         {
@@ -9257,7 +9257,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish mixing pasta with Egg and Milk.\r\nEating it makes it improves  by +20% for a period of time.",
+            "description": "A dish mixing pasta with Egg and Milk.\r\nEating it makes it improves Defence by +20% for a period of time.",
             "sort_id": 4042
         },
         {
@@ -9397,7 +9397,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A meal made with a Hamburger with cheese squeezed between it. Upon consumption, it increases the satiety level for a certain period as well as  +10%.",
+            "description": "A meal made with a Hamburger with cheese squeezed between it. Upon consumption, it increases the satiety level for a certain period as well as Defence +10%.",
             "sort_id": 9999
         },
         {
@@ -9407,7 +9407,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "Now with cheese, this dish has reached the highest level of fine cuisine.\r\nEating it will increase  by +20%\r\nand stay full longer for a period of time.",
+            "description": "Now with cheese, this dish has reached the highest level of fine cuisine.\r\nEating it will increase Attack by +20%\r\nand stay full longer for a period of time.",
             "sort_id": 4021
         },
         {
@@ -9987,7 +9987,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by simmering vegetables and meat with spices. \r\nThe rich flavor is highlighted by large chunks of tender meat. Eating it will increase your  by 25% for a period of time.",
+            "description": "A dish made by simmering vegetables and meat with spices. \r\nThe rich flavor is highlighted by large chunks of tender meat. Eating it will increase your Attack by 25% for a period of time.",
             "sort_id": 4017
         },
         {
@@ -10167,7 +10167,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "Thick hamburger steak accented with a creamy fried egg.\r\nThis sublime combination brings pure joy to the mouths of those who eat it.\r\nEating it will increase  by +20% for a period of time.",
+            "description": "Thick hamburger steak accented with a creamy fried egg.\r\nThis sublime combination brings pure joy to the mouths of those who eat it.\r\nEating it will increase Attack by +20% for a period of time.",
             "sort_id": 4033
         },
         {
@@ -10177,7 +10177,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A tender, melt-in-your-mouth venison stew crafted with love.\r\nThe intertwining flavors of vegetables and meat create a harmonious blend that brings out a comforting richness.\r\nEating it will increase  by +20% for a period of time.",
+            "description": "A tender, melt-in-your-mouth venison stew crafted with love.\r\nThe intertwining flavors of vegetables and meat create a harmonious blend that brings out a comforting richness.\r\nEating it will increase Defence by +20% for a period of time.",
             "sort_id": 4026
         },
         {
@@ -10407,7 +10407,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "Material obtainable from  Pals.\r\nIt stores electricity, but requires caution when used.",
+            "description": "Material obtainable from Electricity Pals.\r\nIt stores electricity, but requires caution when used.",
             "sort_id": 5054
         },
         {
@@ -10767,7 +10767,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "Material obtainable from  Pals.\r\nCan be used to make Fire Arrow and more.",
+            "description": "Material obtainable from Fire Pals.\r\nCan be used to make Fire Arrow and more.",
             "sort_id": 5056
         },
         {
@@ -11107,7 +11107,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponThrowObject",
-            "description": "A Dark Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing  damage to enemies.",
+            "description": "A Dark Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing Dark damage to enemies.",
             "sort_id": 957
         },
         {
@@ -11117,7 +11117,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponThrowObject",
-            "description": "A Dragon Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing  damage to enemies.",
+            "description": "A Dragon Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing Dragon damage to enemies.",
             "sort_id": 958
         },
         {
@@ -11147,7 +11147,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponThrowObject",
-            "description": "A Ground Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing  damage to enemies.",
+            "description": "A Ground Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing Earth damage to enemies.",
             "sort_id": 956
         },
         {
@@ -11167,7 +11167,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponThrowObject",
-            "description": "A Grass Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing  damage to enemies.",
+            "description": "A Grass Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing Leaf damage to enemies.",
             "sort_id": 955
         },
         {
@@ -11207,7 +11207,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponThrowObject",
-            "description": "A Water Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing  damage to enemies.",
+            "description": "A Water Grenade useful for mid-range combat.\r\nIt detonates a few seconds after being thrown, dealing Water damage to enemies.",
             "sort_id": 954
         },
         {
@@ -11237,7 +11237,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishFish",
-            "description": "Crunchy fried batter perfectly accentuates the Kelpsea's plumpness.\r\nEating it will increase  by +10%\r\nand make SAN decrease slower for a period of time.",
+            "description": "Crunchy fried batter perfectly accentuates the Kelpsea's plumpness.\r\nEating it will increase Defence by +10%\r\nand make SAN decrease slower for a period of time.",
             "sort_id": 4047
         },
         {
@@ -11247,7 +11247,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish prepared by stir frying Lettuce and Meat. When eaten, it will temporarily increase  by +10%.",
+            "description": "A dish prepared by stir frying Lettuce and Meat. When eaten, it will temporarily increase Attack by +10%.",
             "sort_id": 4054
         },
         {
@@ -11787,7 +11787,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": "A dish made by coating potatoes with sauce and baking them to perfection. \r\nBest enjoyed hot and fresh. Eating it will provide lasting fullness and increase your  by 10% for a period of time.",
+            "description": "A dish made by coating potatoes with sauce and baking them to perfection. \r\nBest enjoyed hot and fresh. Eating it will provide lasting fullness and increase your Defence by 10% for a period of time.",
             "sort_id": 4045
         },
         {
@@ -11897,7 +11897,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "Indulging in an abundance of fresh berries\r\ncreates a tantalizing aroma that accentuates the unique flavor of mutton.\r\nEating it will increase  by +10% for a period of time.",
+            "description": "Indulging in an abundance of fresh berries\r\ncreates a tantalizing aroma that accentuates the unique flavor of mutton.\r\nEating it will increase Defence by +10% for a period of time.",
             "sort_id": 4050
         },
         {
@@ -11987,7 +11987,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by wrapping a filling of mushrooms and meat in wheat flour and boiling it. The chewy texture is irresistible. \r\nEating it improves your  by 10% for a period of time.",
+            "description": "A dish made by wrapping a filling of mushrooms and meat in wheat flour and boiling it. The chewy texture is irresistible. \r\nEating it improves your Attack by 10% for a period of time.",
             "sort_id": 4043
         },
         {
@@ -11997,7 +11997,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish where a hamburger, Lettuce the Tomato are contained in the Bread. When eaten, it boosts one's stomach fullness and  by +10% for a while.",
+            "description": "A dish where a hamburger, Lettuce the Tomato are contained in the Bread. When eaten, it boosts one's stomach fullness and Attack by +10% for a while.",
             "sort_id": 4020
         },
         {
@@ -13547,7 +13547,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "Thick sausage wedged between warm buns.\r\nThe crisply seared meat and spicy flavors are to die for.\r\nEating it will increase  by +20% for a period of time.",
+            "description": "Thick sausage wedged between warm buns.\r\nThe crisply seared meat and spicy flavors are to die for.\r\nEating it will increase Defence by +20% for a period of time.",
             "sort_id": 4040
         },
         {
@@ -13567,7 +13567,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "Material obtainable from  Pals.\r\nCan be used to make Ice Mine and more.",
+            "description": "Material obtainable from Ice Pals.\r\nCan be used to make Ice Mine and more.",
             "sort_id": 5057
         },
         {
@@ -13817,7 +13817,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishFish",
-            "description": "An unusual treat crafted from Jelliette Bell Flesh and Aquatic Pal Fluids. \r\nEating it will slightly increase EXP gain and increase  by +10% for a period of time.",
+            "description": "An unusual treat crafted from Jelliette Bell Flesh and Aquatic Pal Fluids. \r\nEating it will slightly increase EXP gain and increase Attack by +10% for a period of time.",
             "sort_id": 4068
         },
         {
@@ -13827,7 +13827,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishFish",
-            "description": "An unusual treat crafted from Jellroy Bell Flesh and Red Berries. \r\nEating it will slightly increase EXP gain and increase  by +10% for a period of time.",
+            "description": "An unusual treat crafted from Jellroy Bell Flesh and Red Berries. \r\nEating it will slightly increase EXP gain and increase Defence by +10% for a period of time.",
             "sort_id": 4067
         },
         {
@@ -14417,7 +14417,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::Medicine",
-            "description": "High Grade Medical Supplies that are effective at treating  and .\r\nUnfortunately, they have no healing effect.",
+            "description": "High Grade Medical Supplies that are effective at treating Weakness and Depressionsprain.\r\nUnfortunately, they have no healing effect.",
             "sort_id": 4132
         },
         {
@@ -14707,7 +14707,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": "A dish made by marinating Mushrooms in a marinade.\r\nEating it improves  by +10% for a period of time.",
+            "description": "A dish made by marinating Mushrooms in a marinade.\r\nEating it improves Defence by +10% for a period of time.",
             "sort_id": 4065
         },
         {
@@ -14757,7 +14757,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by simmering meat and potatoes in a sweet and savory sauce. \r\nIt has a mysteriously nostalgic taste. Eating it will increase your  by 25% for a period of time.",
+            "description": "A dish made by simmering meat and potatoes in a sweet and savory sauce. \r\nIt has a mysteriously nostalgic taste. Eating it will increase your Defence by 25% for a period of time.",
             "sort_id": 4037
         },
         {
@@ -14777,7 +14777,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A pasta dish combined with meat sauce. Eating it makes it difficult for sanity to decrease and provides  +10% for a while.",
+            "description": "A pasta dish combined with meat sauce. Eating it makes it difficult for sanity to decrease and provides Attack +10% for a while.",
             "sort_id": 4028
         },
         {
@@ -14957,7 +14957,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::Medicine",
-            "description": "Strange Medical Supplies that are effective at treating  and .\r\nUnfortunately, they have no healing effect.",
+            "description": "Strange Medical Supplies that are effective at treating Gastriculcer and Fracture.\r\nUnfortunately, they have no healing effect.",
             "sort_id": 4131
         },
         {
@@ -15157,7 +15157,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A stew made with Mushroom. Consumption elevates work speed and offers  +10% for a particular duration.",
+            "description": "A stew made with Mushroom. Consumption elevates work speed and offers Attack +10% for a particular duration.",
             "sort_id": 4025
         },
         {
@@ -15457,7 +15457,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by frying an Egg and topping it with ketchup.\r\nEating it improves  by +10% for a period of time.",
+            "description": "A dish made by frying an Egg and topping it with ketchup.\r\nEating it improves Attack by +10% for a period of time.",
             "sort_id": 4063
         },
         {
@@ -16167,7 +16167,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Dark Pals' hidden powers.",
             "sort_id": 4188
         },
         {
@@ -16177,7 +16177,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Dragon Pals' hidden powers.",
             "sort_id": 4187
         },
         {
@@ -16187,7 +16187,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Electricity Pals' hidden powers.",
             "sort_id": 4182
         },
         {
@@ -16197,7 +16197,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Fire Pals' hidden powers.",
             "sort_id": 4185
         },
         {
@@ -16207,7 +16207,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Leaf Pals' hidden powers.",
             "sort_id": 4184
         },
         {
@@ -16217,7 +16217,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Earth Pals' hidden powers.",
             "sort_id": 4183
         },
         {
@@ -16227,7 +16227,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Ice Pals' hidden powers.",
             "sort_id": 4186
         },
         {
@@ -16237,7 +16237,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Dark Pals' hidden powers.",
             "sort_id": 4177
         },
         {
@@ -16247,7 +16247,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Dragon Pals' hidden powers.",
             "sort_id": 4176
         },
         {
@@ -16257,7 +16257,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Electricity Pals' hidden powers.",
             "sort_id": 4171
         },
         {
@@ -16267,7 +16267,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Fire Pals' hidden powers.",
             "sort_id": 4174
         },
         {
@@ -16277,7 +16277,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Leaf Pals' hidden powers.",
             "sort_id": 4173
         },
         {
@@ -16287,7 +16287,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Earth Pals' hidden powers.",
             "sort_id": 4172
         },
         {
@@ -16297,7 +16297,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Ice Pals' hidden powers.",
             "sort_id": 4175
         },
         {
@@ -16307,7 +16307,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Normal Pals' hidden powers.",
             "sort_id": 4178
         },
         {
@@ -16317,7 +16317,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash  Pals' hidden powers.",
+            "description": "A stone formed from World Tree energy amassed inside a Pal's body. Collect enough of these to form an item that can unleash Water Pals' hidden powers.",
             "sort_id": 4170
         },
         {
@@ -16327,7 +16327,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Normal Pals' hidden powers.",
             "sort_id": 4189
         },
         {
@@ -16347,7 +16347,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalAwakening",
-            "description": "A crystal made of condensed World Tree energy. Capable of unlocking  Pals' hidden powers.",
+            "description": "A crystal made of condensed World Tree energy. Capable of unlocking Water Pals' hidden powers.",
             "sort_id": 4181
         },
         {
@@ -16367,7 +16367,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialMonster",
-            "description": "Dropped by some powerful  Pals. \r\nUsed as a material for crafting powerful accessories and other items.",
+            "description": "Dropped by some powerful Dark Pals. \r\nUsed as a material for crafting powerful accessories and other items.",
             "sort_id": 5060
         },
         {
@@ -18027,7 +18027,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeOther",
-            "description": "Slab depicting Xenolord.\r\nOffer to a Summoning Altar\r\nto summon an inconceivably powerful Lv ?? Xenolord.",
+            "description": "Slab depicting Xenolord.\r\nOffer to a Summoning Altar\r\nto summon an inconceivably powerful Lv?? Xenolord.",
             "sort_id": 8152
         },
         {
@@ -18067,7 +18067,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeOther",
-            "description": "Slab overflowing with energy of Blazamut Ryu. \r\nOffer to a Summoning Altar \r\nto summon an inconceivably powerful (Lv ??) Blazamut Ryu.",
+            "description": "Slab overflowing with energy of Blazamut Ryu. \r\nOffer to a Summoning Altar \r\nto summon an inconceivably powerful (Lv??) Blazamut Ryu.",
             "sort_id": 8151
         },
         {
@@ -18107,7 +18107,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeOther",
-            "description": "Slab overflowing with Hartalis energy. \r\nOffer to a Summoning Altar to summon an inconceivably powerful Lv ?? Hartalis.",
+            "description": "Slab overflowing with Hartalis energy. \r\nOffer to a Summoning Altar to summon an inconceivably powerful Lv?? Hartalis.",
             "sort_id": 8154
         },
         {
@@ -18157,7 +18157,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeOther",
-            "description": "Slab overflowing with Bellanoir Libero's energy. \r\nOffer to a Summoning Altar \r\nto summon an inconceivably powerful (Lv ??) Bellanoir Libero.",
+            "description": "Slab overflowing with Bellanoir Libero's energy. \r\nOffer to a Summoning Altar \r\nto summon an inconceivably powerful (Lv??) Bellanoir Libero.",
             "sort_id": 8150
         },
         {
@@ -22847,7 +22847,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by wrapping vegetables and mushrooms in a thin skin and deep-frying them. \r\nThe crispy texture is delightful. Eating it will make it harder for your SAN value to decrease and increase your  by 10% for a period of time.",
+            "description": "A dish made by wrapping vegetables and mushrooms in a thin skin and deep-frying them. \r\nThe crispy texture is delightful. Eating it will make it harder for your SAN value to decrease and increase your Attack by 10% for a period of time.",
             "sort_id": 4044
         },
         {
@@ -23107,7 +23107,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": "A dish made by stir-frying Carrot and Onion. \r\nA simple and delicious way to enjoy vegetables. Eating it will slightly increase your work speed and improve your  by 10% for a period of time.",
+            "description": "A dish made by stir-frying Carrot and Onion. \r\nA simple and delicious way to enjoy vegetables. Eating it will slightly increase your work speed and improve your Defence by 10% for a period of time.",
             "sort_id": 4071
         },
         {
@@ -23867,7 +23867,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Collection. \r\nAllowing a Pal to read it permanently increases their Collection affinity by +1.",
             "sort_id": 4615
         },
         {
@@ -23877,7 +23877,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Cool. \r\nAllowing a Pal to read it permanently increases their Cool affinity by +1.",
             "sort_id": 4620
         },
         {
@@ -23887,7 +23887,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Deforest. \r\nAllowing a Pal to read it permanently increases their Deforest affinity by +1.",
             "sort_id": 4616
         },
         {
@@ -23897,7 +23897,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Emitflame. \r\nAllowing a Pal to read it permanently increases their Emitflame affinity by +1.",
             "sort_id": 4610
         },
         {
@@ -23907,7 +23907,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Generateelectricity. \r\nAllowing a Pal to read it permanently increases their Generateelectricity affinity by +1.",
             "sort_id": 4613
         },
         {
@@ -23917,7 +23917,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Handcraft. \r\nAllowing a Pal to read it permanently increases their Handcraft affinity by +1.",
             "sort_id": 4614
         },
         {
@@ -23927,7 +23927,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Mining. \r\nAllowing a Pal to read it permanently increases their Mining affinity by +1.",
             "sort_id": 4617
         },
         {
@@ -23937,7 +23937,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Monsterfarm. \r\nAllowing a Pal to read it permanently increases their Monsterfarm affinity by +1.",
             "sort_id": 4622
         },
         {
@@ -23947,7 +23947,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Productmedicine. \r\nAllowing a Pal to read it permanently increases their Productmedicine affinity by +1.",
             "sort_id": 4619
         },
         {
@@ -23957,7 +23957,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Seeding. \r\nAllowing a Pal to read it permanently increases their Seeding affinity by +1.",
             "sort_id": 4612
         },
         {
@@ -23967,7 +23967,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Transport. \r\nAllowing a Pal to read it permanently increases their Transport affinity by +1.",
             "sort_id": 4621
         },
         {
@@ -23977,7 +23977,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumePalWorkSuitabilityUp",
-            "description": "A rare book written about the secrets of . \r\nAllowing a Pal to read it permanently increases their  affinity by +1.",
+            "description": "A rare book written about the secrets of Watering. \r\nAllowing a Pal to read it permanently increases their Watering affinity by +1.",
             "sort_id": 4611
         },
         {
@@ -24067,7 +24067,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishMeat",
-            "description": "A dish made by stir-frying noodles with vegetables and meat. \r\nThe rich seasoning pairs perfectly with the thick cuts of meat. Eating it will increase your  by 20% for a period of time.",
+            "description": "A dish made by stir-frying noodles with vegetables and meat. \r\nThe rich seasoning pairs perfectly with the thick cuts of meat. Eating it will increase your Attack by 20% for a period of time.",
             "sort_id": 4018
         },
         {

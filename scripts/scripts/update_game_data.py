@@ -279,9 +279,20 @@ def resolve_rich_text(text: str) -> str:
         return asset_id
     def _replace_rarity(m):
         return _RARITY_MAP.get(m.group(1), m.group(1))
-    text = re.sub('<(itemName|mapObjectName|characterName|activeSkillName)\\s+id=\\|([^|]+)\\|/>', _replace, text, flags=re.I)
+    def _ui_common_readable(m):
+        id_val = m.group(1)
+        parts = id_val.split('_')
+        tail = parts[-1] if parts else id_val
+        tail = tail[0].upper() + tail[1:].lower() if tail else ''
+        return tail
+    text = re.sub('<(itemName|mapObjectName|characterName|activeSkillName)\\s+id=\\|([^|]+)\\|[^>]*/>', _replace, text, flags=re.I)
     text = re.sub('<uiCommon\\s+id=\\|(RARITY_\\w+)\\|[^/>]*/>', _replace_rarity, text, flags=re.I)
+    text = re.sub('<uiCommon\\s+id=\\|([^|]+)\\|[^/>]*/>', _ui_common_readable, text, flags=re.I)
+    text = re.sub('<Status_Up>([^<]*)</>', '\\1 ', text)
+    text = re.sub('<Status_Keyword>([^<]*)</>', '\\1 ', text)
+    text = re.sub('</>', '', text)
     text = re.sub('<[^>]+>', '', text).strip()
+    text = re.sub('\\s+([\\)\\]\\}\\.\\,\\;\\:\\!\\?])', '\\1', text)
     return text
 def find_and_copy_icon(search_name: str, target_subdir: str, export_subdirs: list[Path]=None) -> str | None:
     if not search_name:
@@ -1042,7 +1053,7 @@ def update_passive_data():
         if not desc_text and desc_id:
             desc_text = raw_skill_desc.get(passive_id, '')
         if desc_text:
-            _UI_COMMON_MAP = {'COMMON_STATUS_HP': 'HP', 'COMMON_WORK_SUITABILITY_MonsterFarm': 'Ranching', 'COMMON_WORK_SUITABILITY_PALDEX': 'work suitability'}
+            _UI_COMMON_MAP = {'COMMON_STATUS_HP': 'HP', 'COMMON_STATUS_RANGE_ATTACK': 'Attack', 'COMMON_WORK_SUITABILITY_MonsterFarm': 'Ranching', 'COMMON_WORK_SUITABILITY_PALDEX': 'work suitability'}
             for uid, label in _UI_COMMON_MAP.items():
                 desc_text = desc_text.replace(f'<uiCommon id=|{uid}|/>', label)
             clean = re.sub('<[^>]+>', '', desc_text).strip()
@@ -1391,14 +1402,18 @@ def update_pal_descriptions():
         desc = re.sub('\\{(Passive\\d+_EffectValue\\d+|ReferencePassive\\d+_EffectValue\\d+|ActiveSkillMainValueByRank|ActiveSkillOverWriteEffectTime|ReferenceMsgId_\\w+)\\}', _preserve_effect, desc)
         desc = re.sub('\\{[^}]*\\}', '?', desc)
         desc = re.sub('_PH\\(([^)]+)\\)_', '{\\1}', desc)
-        desc = re.sub('<Status_Up>([^<]*)</>', '\\1', desc)
-        desc = re.sub('<Status_Keyword>([^<]*)</>', '\\1', desc)
+        desc = re.sub('<Status_Up>([^<]*)</>', '\\1 ', desc)
+        desc = re.sub('<Status_Keyword>([^<]*)</>', '\\1 ', desc)
         desc = re.sub('<img\\s+id=\\|ElemIcon_([^|]+)\\|[^/>]*/>', '[ICON:ElemIcon_\\1]', desc)
         desc = re.sub('<img\\s[^/>]*/>', '', desc)
         desc = re.sub('<uiCommon\\s+id=\\|COMMON_ELEMENT_NAME_(\\w+)\\|[^/>]*/>', '[ELEM:\\1]', desc)
         desc = re.sub('<uiCommon\\s+id=\\|ADDITIONAL_EFFECT_(\\w+)\\|[^/>]*/>', '[EFFECT:\\1]', desc)
         desc = re.sub('<uiCommon\\s+id=\\|([^|]+)\\|[^/>]*/>', _ui_common_readable, desc)
-        desc = re.sub('<(activeSkillName|characterName|itemName|mapObjectName)\\s[^/>]*/>', '', desc)
+        def _extract_tag_id(m):
+            t = m.group(0)
+            mid = re.search(r'id=\|([^|]+)\|', t)
+            return mid.group(1) if mid else ''
+        desc = re.sub('<(activeSkillName|characterName|itemName|mapObjectName)\\s[^/>]*/>', _extract_tag_id, desc)
         desc = re.sub('<[^>]*>', '', desc)
         desc = re.sub('\\|([A-Za-z0-9_]+)\\|', _pipe_to_readable, desc)
         desc = re.sub('\\s+', ' ', desc)
@@ -1489,6 +1504,14 @@ def update_pal_descriptions():
                                                 break
                             if chosen:
                                 passive_list.append(chosen)
+                    if not passive_list:
+                        for ref_group in params.get('TextReferencePassiveSkills', []):
+                            if isinstance(ref_group, dict):
+                                for item in ref_group.get('PassiveSkillIds', []):
+                                    if isinstance(item, dict):
+                                        key = item.get('Key', '')
+                                        if key:
+                                            passive_list.append(key)
                     if passive_list:
                         pal_to_partner_passives[bp_class.lower()] = passive_list
     monster_param = load_export_json('Character/DT_PalMonsterParameter.json')
@@ -1522,7 +1545,12 @@ def update_pal_descriptions():
         skill_type = pal_to_skill_type.get(asset, '')
         if skill_type == 'StatusUp_GiveElement':
             el1 = ''
-            monster_row = monster_rows.get(asset, None) or monster_rows.get(pal_entry.get('asset', ''), None)
+            for mk, mv in monster_rows.items():
+                if mk.lower() == asset:
+                    monster_row = mv
+                    break
+            else:
+                monster_row = None
             if monster_row and isinstance(monster_row, dict):
                 raw = monster_row.get('ElementType1', '')
                 if isinstance(raw, str) and raw.startswith('EPalElementType::'):
@@ -1530,7 +1558,15 @@ def update_pal_descriptions():
             if el1:
                 pal_entry['passives'] = [f'AttackUp_{el1}_PartnerSkill_{r}' for r in range(1, 6)]
                 continue
-        monster_row = monster_rows.get(asset, None) or monster_rows.get(pal_entry.get('asset', ''), None)
+        def _find_monster_row(pal_id):
+            r = monster_rows.get(pal_id)
+            if r:
+                return r
+            for mk, mv in monster_rows.items():
+                if mk.lower() == pal_id.lower():
+                    return mv
+            return None
+        monster_row = _find_monster_row(asset) or _find_monster_row(pal_entry.get('asset', ''))
         if monster_row and isinstance(monster_row, dict):
             raw_passives = []
             for i in range(1, 5):
@@ -1540,6 +1576,12 @@ def update_pal_descriptions():
                     raw_passives.append(val)
             if raw_passives:
                 pal_entry['passives'] = raw_passives
+        if not pal_entry.get('passives'):
+            base_asset = _get_base_asset(asset)
+            if base_asset != asset:
+                base_passives = pal_to_partner_passives.get(base_asset, [])
+                if base_passives:
+                    pal_entry['passives'] = base_passives
     for pal_entry in existing['pals']:
         if not isinstance(pal_entry, dict):
             continue

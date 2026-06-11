@@ -189,6 +189,7 @@ class EquipmentSlotWidget(QFrame):
             self.icon_label.setStyleSheet('font-size: 20px;')
             self.name_label.setText(t('inventory.locked', default='Locked'))
             self.name_label.setStyleSheet('font-size: 7px; color: #faa61a;')
+            self.qty_label.clear()
             self.setStyleSheet('EquipmentSlotWidget { background: rgba(255,255,255,0.03); border: 2px dashed #faa61a; border-radius: 8px; } EquipmentSlotWidget:hover { background: rgba(125,211,252,0.06); border: 2px dashed #ffc107; }')
         else:
             self.setEnabled(True)
@@ -197,6 +198,7 @@ class EquipmentSlotWidget(QFrame):
             self.icon_label.setStyleSheet('')
             self.name_label.clear()
             self.name_label.setStyleSheet('font-size: 7px; color: #888;')
+            self.qty_label.clear()
             self._apply_style()
     def is_locked(self) -> bool:
         return self._locked

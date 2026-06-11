@@ -1410,7 +1410,7 @@ class PlayerInventoryTab(QWidget):
             self._update_raw_save_data('key', key_container)
         foodbag = self.inventory.get_container('foodbag')
         if foodbag:
-            foodbag.update_slots([s for s in foodbag.slots if s.get('slot_index', 0) == 0])
+            foodbag.update_slots([])
             self._update_raw_save_data('foodbag', foodbag)
         armor = self.inventory.get_container('armor')
         if armor:

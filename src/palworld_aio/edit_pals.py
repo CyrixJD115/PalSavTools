@@ -2501,8 +2501,7 @@ class PalInfoWidget(QFrame):
         self.stat_plus_lbl = QLabel('+60')
         self.stat_plus_lbl.setAlignment(Qt.AlignCenter)
         self.stat_plus_lbl.setStyleSheet('font-size: 11px; font-weight: 700; color: #7DD3FC; background: transparent; border: none;')
-        self.stat_plus_lbl.setCursor(Qt.PointingHandCursor)
-        self.stat_plus_lbl.installEventFilter(self)
+        self.stat_plus_lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
         soul_row.addWidget(self.stat_plus_lbl)
         left_layout.addLayout(soul_row, 1)
         ivs_row = QHBoxLayout()
@@ -3402,7 +3401,7 @@ class PalInfoWidget(QFrame):
             if obj is self.star_container:
                 self._on_star_click()
                 return True
-            if obj is self.level_num_lbl or obj is self.stat_plus_lbl:
+            if obj is self.level_num_lbl:
                 self._on_level_click()
                 return True
             if obj is self.trust_bar or obj is self.trust_icon:

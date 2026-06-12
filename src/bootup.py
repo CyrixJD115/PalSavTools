@@ -133,7 +133,7 @@ VENV_DIR = PROJECT_DIR / '.venv'
 REQ_FILE = PROJECT_DIR / 'requirements.txt'
 PYPROJECT = PROJECT_DIR / 'pyproject.toml'
 TEMP_REQ_FILE_NAME = 'resources/temp_req.txt'
-DARK_STYLE_SPLASH = '\nQWidget { color: #dfeefc; font-family: "Segoe UI",Roboto,Arial; }\nQFrame#glass {\n    background: rgba(18,20,24,0.92);\n    border-radius: 12px;\n    border: 1px solid rgba(255,255,255,0.04);\n    padding: 12px;\n}\nQFrame#logoBox {\n    background: rgba(10,12,16,0.6);\n    border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.03);\n    min-height: 84px;\n    max-height: 140px;\n}\nQLabel#short {\n    font-size: 13px;\n    color: #dfeefc;\n    font-weight: 600;\n}\nQLabel#tiny {\n    font-size: 11px;\n    color: rgba(223,238,252,0.7);\n}\nQProgressBar {\n    border: 1px solid rgba(255,255,255,0.04);\n    border-radius: 8px;\n    height: 14px;\n    text-align: center;\n    background: rgba(18,20,24,0.60);\n    color: #dfeefc;\n}\nQProgressBar::chunk {\n    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,stop:0 #7DD3FC,stop:1 #A78BFA);\n    border-radius: 8px;\n}\n'
+
 app = None
 splash_window = None
 short_label: Optional['QLabel'] = None
@@ -208,6 +208,26 @@ if GUI_AVAILABLE:
         finished = Signal(int)
         started = Signal()
     _signals: Optional[WorkerSignals] = None
+def _get_dark_splash():
+    from palworld_aio import constants
+    return ('\nQWidget { color: #dfeefc; font-family: '
+        + constants.FONT_FAMILY
+        + ',Roboto,Arial; }\nQFrame#glass {\n    background: rgba(18,20,24,0.92);\n'
+        '    border-radius: 12px;\n    border: 1px solid rgba(255,255,255,0.04);\n'
+        '    padding: 12px;\n}\nQFrame#logoBox {\n    background: rgba(10,12,16,0.6);\n'
+        '    border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.03);\n'
+        '    min-height: 84px;\n    max-height: 140px;\n}\nQLabel#short {\n'
+        '    font-size: 13px;\n    color: #dfeefc;\n    font-weight: 600;\n}\n'
+        'QLabel#tiny {\n    font-size: 11px;\n'
+        '    color: rgba(223,238,252,0.7);\n}\nQProgressBar {\n'
+        '    border: 1px solid rgba(255,255,255,0.04);\n    border-radius: 8px;\n'
+        '    height: 14px;\n    text-align: center;\n'
+        '    background: rgba(18,20,24,0.60);\n    color: #dfeefc;\n}\n'
+        'QProgressBar::chunk {\n'
+        '    background: qlineargradient(spread:pad,x1:0,y1:0,x2:1,y2:0,'
+        'stop:0 #7DD3FC,stop:1 #A78BFA);\n    border-radius: 8px;\n}\n')
+
+
 def load_splash_styles():
     user_cfg_path = os.path.join(PROJECT_DIR, 'src', 'data', 'configs', 'user.cfg')
     theme = 'dark'
@@ -221,28 +241,23 @@ def load_splash_styles():
     if os.path.exists(qss_path):
         with open(qss_path, 'r') as f:
             return f.read()
-    return DARK_STYLE_SPLASH
+    return _get_dark_splash()
 if GUI_AVAILABLE:
     def _find_resource(*paths: str) -> Optional[Path]:
         for p in paths:
             candidate = PROJECT_DIR / p
             if candidate.exists():
                 return candidate
-        base = PROJECT_DIR / 'resources'
-        for p in paths:
-            candidate = base / os.path.basename(p)
-            if candidate.exists():
-                return candidate
         return None
     def _load_bg_pixmap() -> Optional[QPixmap]:
-        bg_path = _find_resource('resources/background.png', 'resources/background.png')
+        bg_path = _find_resource('resources/assets/branding/background.png')
         if bg_path:
             pix = QPixmap(str(bg_path))
             if not pix.isNull():
                 return pix
         return None
     def _load_logo_pixmap() -> Optional[QPixmap]:
-        logo_path = _find_resource('resources/logo.png', 'resources/PalworldSaveTools_Blue.png')
+        logo_path = _find_resource('resources/assets/branding/logo.png', 'resources/assets/branding/PalworldSaveTools_Blue.png')
         if logo_path:
             pix = QPixmap(str(logo_path))
             if not pix.isNull():

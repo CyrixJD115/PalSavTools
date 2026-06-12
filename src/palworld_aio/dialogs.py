@@ -234,7 +234,7 @@ class KillNearestBaseDialog(ThemedDialog):
         layout.addWidget(form_group)
         self.output_text = QTextEdit()
         self.output_text.setReadOnly(True)
-        self.output_text.setFont(QFont('Consolas', 9))
+        self.output_text.setFont(QFont(constants.FONT_FAMILY_MONO, 9))
         layout.addWidget(self.output_text)
         button_layout = QHBoxLayout()
         generate_btn = QPushButton(t('kill_nearest_base.generate') if t else 'Generate')
@@ -717,7 +717,7 @@ class PalDefenderDialog(ThemedDialog):
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
         self.log_text.setMaximumHeight(100)
-        self.log_text.setFont(QFont('Consolas', 9))
+        self.log_text.setFont(QFont(constants.FONT_FAMILY_MONO, 9))
         self.log_text.setStyleSheet(f'background-color: {constants.GLASS}; color: {constants.TEXT}; border: 1px solid {constants.BORDER}; border-radius: 4px;')
         layout.addWidget(self.log_text)
     def _log(self, text):

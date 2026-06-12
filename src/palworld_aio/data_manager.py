@@ -6,6 +6,7 @@ from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import are_equal_uuids, as_uuid, fast_deepcopy
 from palworld_aio.container_ownership import ContainerOwnership
+from resource_resolver import resource_path
 def normalize_uid(uid):
     if isinstance(uid, dict):
         uid = uid.get('value', uid)
@@ -861,7 +862,7 @@ def format_passive_description(p_info):
     return p_desc
 def load_game_data_map(fname, key):
     base_dir = constants.get_base_path()
-    fp = os.path.join(base_dir, 'resources', 'game_data', fname)
+    fp = resource_path(base_dir, 'game_data', fname)
     try:
         js = json_tools.load(fp)
         if not isinstance(js, dict):

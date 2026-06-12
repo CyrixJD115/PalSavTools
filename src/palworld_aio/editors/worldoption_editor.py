@@ -7,6 +7,7 @@ from PySide6.QtGui import QFont, QCursor
 from i18n import t
 from loading_manager import show_warning, show_critical
 from palworld_aio.ui.styles import ThemeManager
+from palworld_aio import constants
 def get_src_path():
     env = os.environ.get('src_PATH')
     if env:
@@ -63,7 +64,7 @@ class WorldOptionEditorDialog(QDialog):
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(5, 5, 5, 5)
         search_label = QLabel(t('worldoption.editor.search') if t else 'Search:')
-        search_label.setFont(QFont('Segoe UI', 10, QFont.Bold))
+        search_label.setFont(QFont(constants.FONT_FAMILY, 10, QFont.Bold))
         left_layout.addWidget(search_label)
         from PySide6.QtWidgets import QLineEdit
         self.search_box = QLineEdit()
@@ -77,7 +78,7 @@ class WorldOptionEditorDialog(QDialog):
         right_layout = QVBoxLayout(right_widget)
         right_layout.setContentsMargins(10, 10, 10, 10)
         self.editor_title = QLabel(t('worldoption.editor.select_setting') if t else 'Select a setting to edit')
-        self.editor_title.setFont(QFont('Segoe UI', 14, QFont.Bold))
+        self.editor_title.setFont(QFont(constants.FONT_FAMILY, 14, QFont.Bold))
         self.editor_title.setAlignment(Qt.AlignCenter)
         right_layout.addWidget(self.editor_title)
         self.editor_container = QWidget()
@@ -141,7 +142,7 @@ class WorldOptionEditorDialog(QDialog):
         if editor:
             form_layout = QFormLayout()
             value_label = QLabel(t('worldoption.editor.current_value') if t else 'Current Value:')
-            value_label.setFont(QFont('Segoe UI', 10, QFont.Bold))
+            value_label.setFont(QFont(constants.FONT_FAMILY, 10, QFont.Bold))
             form_layout.addRow(value_label)
             form_layout.addRow(editor)
             self.editor_layout.addLayout(form_layout)

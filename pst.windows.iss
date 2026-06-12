@@ -16,7 +16,7 @@ Compression=lzma2/max
 SolidCompression=yes
 OutputDir=.
 OutputBaseFilename=PalworldSaveTools-{#MyAppVersion}-windows-setup
-SetupIconFile=resources\icon.ico
+SetupIconFile=resources\assets\icons\app\icon.ico
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
 PrivilegesRequired=admin
 DisableProgramGroupPage=yes
@@ -29,7 +29,7 @@ Name: "desktopicon"; Description: "Create a &desktop shortcut"; GroupDescription
 
 [Files]
 Source: "PST_standalone\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "resources\icon.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "resources\assets\icons\app\icon.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"

@@ -10,6 +10,7 @@ except:
 from i18n import t
 from common import get_versions, get_display_version
 from palworld_aio import constants
+from resource_resolver import resource_path
 from .sidebar_widget import NerdBtn, NerdLabel
 class HeaderWidget(QWidget):
     minimize_clicked = Signal()
@@ -28,10 +29,10 @@ class HeaderWidget(QWidget):
     def __del__(self):
         self.stop_pulse_animation()
     def _load_nerd_font(self):
-        font_path = os.path.join(constants.get_base_path(), 'resources', 'HackNerdFont-Regular.ttf')
+        font_path = resource_path(constants.get_base_path(), 'HackNerdFont-Regular.ttf')
         if os.path.exists(font_path):
             families = QFontDatabase.families()
-            if 'Hack Nerd Font' not in families:
+            if constants.FONT_FAMILY_NERD not in families:
                 font_id = QFontDatabase.addApplicationFont(font_path)
                 if font_id == -1:
                     print('Warning: Failed to load HackNerdFont-Regular.ttf')
@@ -47,7 +48,7 @@ class HeaderWidget(QWidget):
         self.menu_chip_btn.setObjectName('menuChip')
         self.menu_chip_btn.setFlat(True)
         self.menu_chip_btn.setToolTip(t('Open Menu') if t else 'Open Menu')
-        self.menu_chip_btn.setFont(QFont('Hack Nerd Font', 11))
+        self.menu_chip_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 11))
         self.menu_chip_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.menu_chip_btn.clicked.connect(self._show_menu_popup)
         layout.addWidget(self.menu_chip_btn, alignment=Qt.AlignVCenter)
@@ -58,13 +59,13 @@ class HeaderWidget(QWidget):
         self.app_version_label = NerdLabel(f"{nf.icons['nf-cod-github']} {display_version}")
         self.app_version_label.setObjectName('versionChip')
         self.app_version_label.setCursor(QCursor(Qt.PointingHandCursor))
-        self.app_version_label.setFont(QFont('Hack Nerd Font', 11))
+        self.app_version_label.setFont(QFont(constants.FONT_FAMILY_NERD, 11))
         self.app_version_label.setToolTip(t('github.tooltip') if t else 'Click to open GitHub repository')
         self.app_version_label.mousePressEvent = self._on_version_click
         layout.addWidget(self.app_version_label, alignment=Qt.AlignVCenter)
         self.game_version_label = NerdLabel(f"{nf.icons['nf-fa-save']} {game_version}")
         self.game_version_label.setObjectName('gameVersionChip')
-        self.game_version_label.setFont(QFont('Hack Nerd Font', 11))
+        self.game_version_label.setFont(QFont(constants.FONT_FAMILY_NERD, 11))
         layout.addWidget(self.game_version_label, alignment=Qt.AlignVCenter)
         btn_style = 'padding: 0px; margin: 0px; text-align: center;'
         self.info_btn = NerdBtn(nf.icons['nf-md-information'])
@@ -72,7 +73,7 @@ class HeaderWidget(QWidget):
         self.info_btn.setFixedSize(40, 36)
         self.info_btn.setStyleSheet(btn_style)
         self.info_btn.setToolTip(t('about.title') if t else 'About PST')
-        self.info_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.info_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.info_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.info_btn.clicked.connect(self.about_clicked.emit)
         layout.addWidget(self.info_btn)
@@ -81,7 +82,7 @@ class HeaderWidget(QWidget):
         self.warn_btn.setFixedSize(40, 36)
         self.warn_btn.setStyleSheet(btn_style)
         self.warn_btn.setToolTip(t('warning.title', game_version=game_version) if t else f'Warnings(Palworld v{game_version})')
-        self.warn_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.warn_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.warn_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.warn_btn.setVisible(False)
         layout.addWidget(self.warn_btn)
@@ -90,7 +91,7 @@ class HeaderWidget(QWidget):
         self.toolbox_btn.setFixedSize(40, 36)
         self.toolbox_btn.setStyleSheet(btn_style)
         self.toolbox_btn.setToolTip(t('tab_guide.tooltip') if t else 'Tab Usage Guide — Click to view detailed usage instructions for every tab')
-        self.toolbox_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.toolbox_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.toolbox_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.toolbox_btn.clicked.connect(self.toolbox_clicked.emit)
         layout.addWidget(self.toolbox_btn)
@@ -100,7 +101,7 @@ class HeaderWidget(QWidget):
         self.discord_btn.setFixedSize(40, 36)
         self.discord_btn.setStyleSheet(btn_style)
         self.discord_btn.setToolTip(t('button.discord') if t else 'Join Discord')
-        self.discord_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.discord_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.discord_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.discord_btn.clicked.connect(self._open_discord)
         layout.addWidget(self.discord_btn)
@@ -110,7 +111,7 @@ class HeaderWidget(QWidget):
         self.minimize_btn.setFixedSize(40, 36)
         self.minimize_btn.setStyleSheet(btn_style)
         self.minimize_btn.setToolTip(t('button.minimize') if t else 'Minimize')
-        self.minimize_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.minimize_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.minimize_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.minimize_btn.clicked.connect(self.minimize_clicked.emit)
         layout.addWidget(self.minimize_btn)
@@ -120,7 +121,7 @@ class HeaderWidget(QWidget):
         self.maximize_btn.setFixedSize(40, 36)
         self.maximize_btn.setStyleSheet(btn_style)
         self.maximize_btn.setToolTip(t('button.maximize') if t else 'Maximize')
-        self.maximize_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.maximize_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.maximize_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.maximize_btn.clicked.connect(self.maximize_clicked.emit)
         layout.addWidget(self.maximize_btn)
@@ -130,7 +131,7 @@ class HeaderWidget(QWidget):
         self.close_btn.setFixedSize(40, 36)
         self.close_btn.setStyleSheet(btn_style)
         self.close_btn.setToolTip(t('button.close') if t else 'Close')
-        self.close_btn.setFont(QFont('Hack Nerd Font', 16))
+        self.close_btn.setFont(QFont(constants.FONT_FAMILY_NERD, 16))
         self.close_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.close_btn.clicked.connect(self.close_clicked.emit)
         layout.addWidget(self.close_btn)
@@ -167,7 +168,7 @@ class HeaderWidget(QWidget):
         logo_candidates = ['logo.png', 'PalworldSaveTools_Blue.png', 'PST.png']
         pixmap = None
         for name in logo_candidates:
-            path = os.path.join(base_path, 'resources', name)
+            path = resource_path(base_path, name)
             if os.path.exists(path):
                 pm = QPixmap(path)
                 if not pm.isNull():

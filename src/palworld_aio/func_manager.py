@@ -13,6 +13,7 @@ from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvasfile, gvasfi
 from palworld_aio.data_manager import delete_base_camp, load_game_data_map
 from palworld_aio.dialogs import GameDaysInputDialog
 from palworld_aio.container_ownership import ContainerOwnership
+from resource_resolver import resource_path
 def scan_and_protect_death_bags(parent=None):
     if not constants.loaded_level_json:
         return {'dropped_pals': 0, 'death_penalty_chests': 0}
@@ -650,7 +651,7 @@ def delete_invalid_structure_map_objects(parent=None):
     valid_assets = set()
     try:
         base_dir = constants.get_base_path()
-        fp = os.path.join(base_dir, 'resources', 'game_data', 'world.json')
+        fp = resource_path(base_dir, 'game_data', 'world.json')
         js = json_tools.load(fp)
         for x in js.get('structures', []):
             asset = x.get('asset')
@@ -777,7 +778,7 @@ def remove_invalid_items_from_level(parent=None):
     base_dir = constants.get_base_path()
     valid_items = set()
     try:
-        fp = os.path.join(base_dir, 'resources', 'game_data', 'items.json')
+        fp = resource_path(base_dir, 'game_data', 'items.json')
         js = json_tools.load(fp)
         for x in js.get('items', []):
             aid = x.get('asset')
@@ -821,7 +822,7 @@ def remove_invalid_items_from_save(parent=None):
     base_dir = constants.get_base_path()
     valid_items = set()
     try:
-        fp = os.path.join(base_dir, 'resources', 'game_data', 'items.json')
+        fp = resource_path(base_dir, 'game_data', 'items.json')
         js = json_tools.load(fp)
         for x in js.get('items', []):
             aid = x.get('asset')
@@ -881,7 +882,7 @@ def remove_invalid_pals_from_save(parent=None):
     base_dir = constants.get_base_path()
     def load_assets(fname, key):
         try:
-            fp = os.path.join(base_dir, 'resources', 'game_data', fname)
+            fp = resource_path(base_dir, 'game_data', fname)
             data = json_tools.load(fp)
             return set((x['asset'].lower() for x in data.get(key, [])))
         except:
@@ -1248,7 +1249,7 @@ def remove_invalid_passives_from_save(parent=None):
     base_dir = constants.get_base_path()
     valid_passives = set()
     try:
-        fp = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
+        fp = resource_path(base_dir, 'game_data', 'skills.json')
         js = json_tools.load(fp)
         for x in js.get('passives', []):
             asset = x.get('asset')
@@ -1326,7 +1327,7 @@ def unlock_all_technologies_for_player(player_uid, parent=None):
         return False
     try:
         base_dir = constants.get_base_path()
-        tech_file = os.path.join(base_dir, 'resources', 'game_data', 'world.json')
+        tech_file = resource_path(base_dir, 'game_data', 'world.json')
         tech_data = json_tools.load(tech_file)
         all_techs = [item['asset'] for item in tech_data.get('technology', [])]
         gvas = sav_to_gvasfile(file_path)
@@ -1353,7 +1354,7 @@ def unlock_all_lab_research_for_guild(guild_id, parent=None):
         return False
     try:
         base_dir = constants.get_base_path()
-        research_file = os.path.join(base_dir, 'resources', 'game_data', 'world.json')
+        research_file = resource_path(base_dir, 'game_data', 'world.json')
         research_data = json_tools.load(research_file)
         wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
         group_data = wsd.get('GroupSaveDataMap', {}).get('value', [])
@@ -1867,7 +1868,7 @@ def fix_illegal_pals_in_save(parent=None):
     total_fixed = 0
     try:
         base_dir = constants.get_base_path()
-        exp_table_path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+        exp_table_path = resource_path(base_dir, 'game_data', 'pal_exp_table.json')
         PAL_EXP_TABLE = {}
         try:
             PAL_EXP_TABLE = json_tools.load(exp_table_path)

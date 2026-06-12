@@ -26,7 +26,7 @@ def _ensure_venv():
         print('Failed to create venv')
         return False
     print('Installing dependencies...')
-    result = subprocess.run(['uv', 'pip', 'install', '--no-cache', '-r', str(Path(__file__).resolve().parent.parent.parent / 'requirements.txt')])
+    result = subprocess.run(['uv', 'sync'], cwd=str(Path(__file__).resolve().parent.parent.parent))
     uv_lock = Path(__file__).resolve().parent.parent.parent / 'uv.lock'
     if uv_lock.exists():
         uv_lock.unlink()
@@ -1943,16 +1943,16 @@ def update_map_data():
         src = MAP_EXPORT_DIR / fname
         if not src.exists():
             continue
-        target = BASE_DIR / 'resources' / fname
+        target = BASE_DIR / 'resources' / 'assets' / 'maps' / fname
         if not target.exists() or src.stat().st_mtime > target.stat().st_mtime:
             shutil.copy2(str(src), str(target))
 def _convert_map_pngs(Image):
     for fname in ['T_TreeMap.png', 'T_WorldMap.png']:
-        png = BASE_DIR / 'resources' / fname
+        png = BASE_DIR / 'resources' / 'assets' / 'maps' / fname
         if not png.exists():
             continue
         stem = png.stem
-        webp = BASE_DIR / 'resources' / f'{stem}.webp'
+        webp = BASE_DIR / 'resources' / 'assets' / 'maps' / f'{stem}.webp'
         try:
             img = Image.open(str(png))
             img.save(str(webp), 'WEBP', quality=60)

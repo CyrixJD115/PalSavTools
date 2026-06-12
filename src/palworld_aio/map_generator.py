@@ -6,6 +6,7 @@ from i18n import t
 from palworld_aio import constants
 from PySide6.QtGui import QFontDatabase, QFont, QPainter, QColor, QImage, QPen, QFontMetrics
 from PySide6.QtCore import Qt, QSize
+from resource_resolver import resource_path
 def extract_guild_bases_from_save():
     if not constants.loaded_level_json:
         return []
@@ -81,8 +82,8 @@ def generate_world_map(output_path=None, map_type='world'):
     stats = extract_stats_from_save()
     font_family = get_cjk_font()
     map_filename = 'T_WorldMap.webp' if map_type == 'world' else 'T_TreeMap.webp'
-    worldmap_path = os.path.join(base_dir, 'resources', map_filename)
-    marker_path = os.path.join(base_dir, 'resources', 'baseicon.webp')
+    worldmap_path = resource_path(base_dir, map_filename)
+    marker_path = resource_path(base_dir, 'baseicon.webp')
     if not os.path.exists(worldmap_path):
         print(f'Map not found: {worldmap_path}')
         return None
@@ -177,7 +178,7 @@ def generate_world_map(output_path=None, map_type='world'):
     logo_candidates = ['logo.png', 'PalworldSaveTools_Blue.png', 'PalworldSaveTools_Black.png']
     logo_path = None
     for name in logo_candidates:
-        p = os.path.join(base_dir, 'resources', name)
+        p = resource_path(base_dir, name)
         if os.path.exists(p):
             logo_path = p
             break

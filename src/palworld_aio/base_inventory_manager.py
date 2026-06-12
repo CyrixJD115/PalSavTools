@@ -14,6 +14,7 @@ from palworld_aio.standardized_container import StandardizedContainer
 import threading
 import time
 from PySide6.QtCore import QTimer
+from resource_resolver import resource_path
 def get_base_containers(base_id):
     if not constants.loaded_level_json:
         return []
@@ -164,7 +165,7 @@ def load_structure_data():
         return _structure_data_cache
     try:
         base_path = constants.get_base_path()
-        structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'world.json')
+        structure_data_path = resource_path(base_path, 'game_data', 'world.json')
         if os.path.exists(structure_data_path):
             _structure_data_cache = json_tools.load(structure_data_path)
             return _structure_data_cache
@@ -182,7 +183,7 @@ def get_container_icon_path_from_structure(container_type):
                 base_path = constants.get_base_path()
                 if icon_path.startswith('/'):
                     icon_path = icon_path[1:]
-                absolute_path = os.path.join(base_path, 'resources', 'game_data', icon_path)
+                absolute_path = resource_path(base_path, 'game_data', icon_path)
                 if os.path.exists(absolute_path):
                     return absolute_path
     return None
@@ -191,7 +192,7 @@ def get_container_image_path(container_type):
     if structure_icon_path:
         return structure_icon_path
     base_path = constants.get_base_path()
-    icons_path = os.path.join(base_path, 'resources', 'game_data', 'icons')
+    icons_path = resource_path(base_path, 'game_data', 'icons')
     icon_mapping = {'ItemChest': 'chest.png', 'GuildChest': 'guild_chest.png'}
     icon_file = icon_mapping.get(container_type, 'unknown.png')
     icon_path = os.path.join(icons_path, icon_file)
@@ -804,7 +805,7 @@ class BaseInventoryManager:
     def _translate_container_name(self, map_object_id):
         try:
             base_path = constants.get_base_path()
-            structure_data_path = os.path.join(base_path, 'resources', 'game_data', 'world.json')
+            structure_data_path = resource_path(base_path, 'game_data', 'world.json')
             if os.path.exists(structure_data_path):
                 structure_data = json_tools.load(structure_data_path)
             structures = structure_data.get('structures', [])

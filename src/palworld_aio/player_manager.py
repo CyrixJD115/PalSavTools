@@ -3,13 +3,14 @@ from palsav import json_tools
 from PySide6.QtWidgets import QApplication, QMessageBox
 from i18n import t
 from palworld_aio import constants
+from resource_resolver import resource_path
 from palworld_aio.utils import are_equal_uuids, as_uuid, sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.data_manager import delete_player
 from palsav.palsav import compress_gvas_to_sav
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 def _load_exp_data():
     base_dir = constants.get_base_path()
-    exp_file = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+    exp_file = resource_path(base_dir, 'game_data', 'pal_exp_table.json')
     try:
         return json_tools.load(exp_file)
     except Exception as e:
@@ -216,7 +217,7 @@ def set_player_stats(player_uid, stat_changes, unused_stat_points=None):
     return False
 EFFIGY_ITEM_IDS = ['Relic_01', 'Relic_02', 'Relic_03', 'Relic_04', 'Relic_05', 'Relic_06', 'Relic_07', 'Relic_08', 'Relic_09', 'Relic_10', 'Relic_11', 'Relic_12', 'Relic']
 def _load_relic_data():
-    relic_path = os.path.join(constants.get_base_path(), 'resources', 'game_data', 'relic_data.json')
+    relic_path = resource_path(constants.get_base_path(), 'game_data', 'relic_data.json')
     try:
         data = json_tools.load(relic_path)
         cumax = {k: v['cumulative_max'] for k, v in data.items()}

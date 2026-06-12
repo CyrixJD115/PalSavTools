@@ -8,6 +8,7 @@ from PySide6.QtGui import QPixmap, QIcon, QFont, QCursor, QDragEnterEvent, QDrop
 from i18n import t
 from loading_manager import show_critical
 from palworld_aio import constants
+from resource_resolver import resource_path
 from palworld_aio.ui.styles import ThemeManager
 from .sidebar_widget import ICONS
 def load_tool_icons():
@@ -81,7 +82,7 @@ class ConversionOptionsDialog(QDialog):
         glass_layout.setContentsMargins(12, 12, 12, 12)
         glass_layout.setSpacing(12)
         title_label = QLabel(t('tool.convert.saves') if t else 'Convert Save Files')
-        title_label.setFont(QFont('Segoe UI', 13, QFont.Bold))
+        title_label.setFont(QFont(constants.FONT_FAMILY, 13, QFont.Bold))
         title_label.setAlignment(Qt.AlignCenter)
         glass_layout.addWidget(title_label)
         separator = QFrame()
@@ -137,7 +138,7 @@ class ToolCard(QFrame):
                 pix.setDevicePixelRatio(dpr)
                 self.icon_label.setPixmap(pix)
         else:
-            default_icon = os.path.join(constants.get_base_path(), 'resources', 'icon.ico')
+            default_icon = resource_path(constants.get_base_path(), 'icon.ico')
             if os.path.exists(default_icon):
                 pix = QIcon(default_icon).pixmap(QSize(256, 256))
                 if not pix.isNull():
@@ -191,17 +192,17 @@ class DropOverlay(QWidget):
         painter.drawPath(path)
         box_h = inner.height()
         center_y = inner.y() + box_h / 2
-        icon_font = QFont('Segoe UI', 52, QFont.Bold)
+        icon_font = QFont(constants.FONT_FAMILY, 52, QFont.Bold)
         painter.setFont(icon_font)
         painter.setPen(QColor(34, 197, 94, 255))
         icon_rect = QRectF(inner.x(), center_y - 80, inner.width(), 60)
         painter.drawText(icon_rect, Qt.AlignHCenter | Qt.AlignBottom, '📁')
-        font = QFont('Segoe UI', 22, QFont.Bold)
+        font = QFont(constants.FONT_FAMILY, 22, QFont.Bold)
         painter.setFont(font)
         painter.setPen(QColor(255, 255, 255, 255))
         text_rect = QRectF(inner.x(), center_y - 10, inner.width(), 40)
         painter.drawText(text_rect, Qt.AlignHCenter | Qt.AlignCenter, self._drop_text)
-        font_small = QFont('Segoe UI', 13)
+        font_small = QFont(constants.FONT_FAMILY, 13)
         painter.setFont(font_small)
         painter.setPen(QColor(166, 184, 200, 255))
         hint_rect = QRectF(inner.x(), center_y + 40, inner.width(), 30)
@@ -214,11 +215,11 @@ class StatIconBtn(QPushButton):
     @staticmethod
     def _resolve_nerdfont():
         db = QFontDatabase()
-        candidates = ['Hack Nerd Font', 'NerdFontsSymbolsOnly', 'Segoe Fluent Icons', 'Segoe UI Symbol', 'Segoe UI']
+        candidates = [constants.FONT_FAMILY_NERD, 'NerdFontsSymbolsOnly', 'Segoe Fluent Icons', 'Segoe UI Symbol', constants.FONT_FAMILY]
         for name in candidates:
             if name in db.families():
                 return name
-        return 'Segoe UI'
+        return constants.FONT_FAMILY
         self.setFixedSize(44, 28)
         self.setCursor(QCursor(Qt.PointingHandCursor))
         self.setFocusPolicy(Qt.NoFocus)

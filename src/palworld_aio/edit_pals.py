@@ -14,6 +14,7 @@ from i18n import t
 from loading_manager import show_information, show_warning, show_question
 import nerdfont as nf
 from palworld_aio import constants
+from resource_resolver import resource_path, get_base_dir
 from palworld_aio.utils import sav_to_json, sav_to_gvasfile, gvasfile_to_sav, extract_value, format_character_key, json_to_sav, calculate_max_hp, calculate_shot_attack, get_pal_data, safe_dict_get, safe_nested_get, resolve_name
 from palworld_aio import data_manager as dm
 from palworld_aio.ui.styles import DIALOG_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE, INPUT_DIALOG_STYLE, TOOLTIP_STYLE, wrap_tooltip_text, CONTENT_PANEL_STYLE, slot_full, slot_selected
@@ -23,7 +24,7 @@ _PAL_STYLESHEET = f'\nQWidget#palRoot {{\n    background: qlineargradient(spread
 def _load_pal_exp_table():
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+        path = resource_path(base_dir, 'game_data', 'pal_exp_table.json')
         return json_tools.load(path)
     except Exception as e:
         print(f'Error loading PAL_EXP_TABLE: {e}')
@@ -37,7 +38,7 @@ def _ensure_friendship_thresholds():
     _FRIENDSHIP_THRESHOLDS = []
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'friendship.json')
+        path = resource_path(base_dir, 'game_data', 'friendship.json')
         data = json_tools.load(path)
         entries = []
         for v in data.values():
@@ -56,7 +57,7 @@ def _load_pal_base_data():
         return _PAL_BASE_DATA_CACHE
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+        path = resource_path(base_dir, 'game_data', 'characters.json')
         data = json_tools.load(path)
         for p in data.get('pals', []):
             a = p.get('asset', '').lower()
@@ -247,23 +248,23 @@ def _ensure_pal_icon_lookup():
     _PAL_ICON_LOOKUP_NPC = {}
     base_dir = constants.get_base_path()
     try:
-        paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+        paldata_path = resource_path(base_dir, 'game_data', 'characters.json')
         paldata = json_tools.load(paldata_path)
         for pal in paldata.get('pals', []):
             asset = pal.get('asset', '').lower()
             icon = pal.get('icon', '')
             if asset and icon:
-                _PAL_ICON_LOOKUP[asset] = os.path.join(base_dir, 'resources', 'game_data', icon.lstrip('/'))
+                _PAL_ICON_LOOKUP[asset] = resource_path(base_dir, 'game_data', icon.lstrip('/'))
     except Exception:
         pass
     try:
-        npcdata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+        npcdata_path = resource_path(base_dir, 'game_data', 'characters.json')
         npcdata = json_tools.load(npcdata_path)
         for npc in npcdata.get('npcs', []):
             asset = npc.get('asset', '').lower()
             icon = npc.get('icon', '')
             if asset and icon:
-                _PAL_ICON_LOOKUP_NPC[asset] = os.path.join(base_dir, 'resources', 'game_data', icon.lstrip('/'))
+                _PAL_ICON_LOOKUP_NPC[asset] = resource_path(base_dir, 'game_data', icon.lstrip('/'))
     except Exception:
         pass
 def _lookup_icon_in_data(asset_name: str, base_dir: str) -> str | None:
@@ -288,9 +289,9 @@ def _get_pal_icon_path(character_id):
             icon_path = _lookup_icon_in_data(cid_stripped, base_dir)
     if not icon_path or not os.path.exists(icon_path):
         cid_for_guess = cid_lower.replace('boss_', '').replace('b_o_s_s_', '')
-        icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'pals', f'{cid_for_guess}.webp')
+        icon_path = resource_path(base_dir, 'game_data', 'icons', 'pals', f'{cid_for_guess}.webp')
         if not os.path.exists(icon_path):
-            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
+            icon_path = resource_path(base_dir, 'game_data', 'icons', 'T_icon_unknown.webp')
     with _CACHE_LOCK:
         _ICON_CACHE[cid_lower] = icon_path
     return icon_path
@@ -1288,7 +1289,7 @@ def _ensure_element_data():
     _ELEMENT_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
+        path = resource_path(base_dir, 'game_data', 'skills.json')
         js = json_tools.load(path)
         for e in js.get('elements', []):
             if isinstance(e, dict) and 'name' in e:
@@ -1306,7 +1307,7 @@ def _get_element_pixmap(element_name, variant='small', size=16):
     if not icon_rel:
         return None
     base_dir = constants.get_base_path()
-    full_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+    full_path = resource_path(base_dir, 'game_data', icon_rel.lstrip('/'))
     if not os.path.exists(full_path):
         webp_path = os.path.splitext(full_path)[0] + '.webp'
         if os.path.exists(webp_path):
@@ -1320,7 +1321,7 @@ def _ensure_append_text_data():
     _APPEND_TEXT_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'reference_unlock_data.json')
+        path = resource_path(base_dir, 'game_data', 'reference_unlock_data.json')
         data = json_tools.load(path)
         for k, v in data.get('append_text', {}).items():
             _APPEND_TEXT_DATA[k.lower()] = v
@@ -1405,7 +1406,7 @@ def _partner_desc_to_html(desc, elem_colors_map, tooltip=False):
         icon_rel = icons.get('small', '')
         if icon_rel:
             base_dir = constants.get_base_path()
-            full_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+            full_path = resource_path(base_dir, 'game_data', icon_rel.lstrip('/'))
             if not os.path.exists(full_path):
                 webp_path = os.path.splitext(full_path)[0] + '.webp'
                 if os.path.exists(webp_path):
@@ -1479,10 +1480,10 @@ def _ensure_ui_icons_data():
     _UI_ICONS_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'uidata.json')
+        path = resource_path(base_dir, 'game_data', 'uidata.json')
         js = json_tools.load(path)
         for key, icon_rel in js.get('ui_icons', {}).items():
-            full_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+            full_path = resource_path(base_dir, 'game_data', icon_rel.lstrip('/'))
             if not os.path.exists(full_path):
                 webp_path = os.path.splitext(full_path)[0] + '.webp'
                 if os.path.exists(webp_path):
@@ -1493,15 +1494,15 @@ def _ensure_ui_icons_data():
     return _UI_ICONS_DATA
 def _get_boss_alpha_pixmap(size=14):
     base_dir = constants.get_base_path()
-    path = os.path.join(base_dir, 'resources', 'boss_alpha.webp')
+    path = resource_path(base_dir, 'boss_alpha.webp')
     return _get_cached_pixmap(path, size)
 def _get_boss_shiny_pixmap(size=14):
     base_dir = constants.get_base_path()
-    path = os.path.join(base_dir, 'resources', 'boss_shiny.webp')
+    path = resource_path(base_dir, 'boss_shiny.webp')
     return _get_cached_pixmap(path, size)
 def _get_awake_pixmap(size=14):
     base_dir = constants.get_base_path()
-    path = os.path.join(base_dir, 'resources', 'UI', 'pst_flame_icon.webp')
+    path = resource_path(base_dir, 'UI', 'pst_flame_icon.webp')
     return _get_cached_pixmap(path, size)
 _BOSS_PREFIXES = ('BOSS_', 'PREDATOR_', 'GYM_', 'RAID_')
 _PREFIX_LABELS = (' (Boss)', ' (Predator)', ' (Gym)', ' (Raid)', ' (Police)', ' (Summon)')
@@ -1531,7 +1532,7 @@ def _ensure_skill_data():
     _SKILL_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
+        path = resource_path(base_dir, 'game_data', 'skills.json')
         js = json_tools.load(path)
         for s in js.get('skills', []):
             if isinstance(s, dict) and 'asset' in s:
@@ -1546,7 +1547,7 @@ def _ensure_passive_data():
     _PASSIVE_DATA = {}
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'skills.json')
+        path = resource_path(base_dir, 'game_data', 'skills.json')
         js = json_tools.load(path)
         for p in js.get('passives', []):
             if isinstance(p, dict) and 'asset' in p:
@@ -1948,7 +1949,7 @@ class RotatingCircleWidget(QWidget):
         self._angle = 0.0
         self._pixmap = None
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'outer_frame_circle.webp')
+        path = resource_path(base_dir, 'outer_frame_circle.webp')
         self._pixmap = QPixmap(path)
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._tick)
@@ -2269,7 +2270,7 @@ class PalInfoWidget(QFrame):
         next_row.addWidget(self.gender_icon)
         base_dir = constants.get_base_path()
         self.info_boss_btn = QPushButton()
-        self.info_boss_btn.setIcon(QIcon(os.path.join(base_dir, 'resources', 'boss_alpha.webp')))
+        self.info_boss_btn.setIcon(QIcon(resource_path(base_dir, 'boss_alpha.webp')))
         self.info_boss_btn.setIconSize(QSize(14, 14))
         self.info_boss_btn.setCheckable(True)
         self.info_boss_btn.setFixedSize(18, 18)
@@ -2278,7 +2279,7 @@ class PalInfoWidget(QFrame):
         self.info_boss_btn.clicked.connect(self._on_boss_toggle)
         next_row.addWidget(self.info_boss_btn)
         self.info_lucky_btn = QPushButton()
-        self.info_lucky_btn.setIcon(QIcon(os.path.join(base_dir, 'resources', 'boss_shiny.webp')))
+        self.info_lucky_btn.setIcon(QIcon(resource_path(base_dir, 'boss_shiny.webp')))
         self.info_lucky_btn.setIconSize(QSize(14, 14))
         self.info_lucky_btn.setCheckable(True)
         self.info_lucky_btn.setFixedSize(18, 18)
@@ -3319,7 +3320,7 @@ class PalInfoWidget(QFrame):
                     icon_path = p_info.get('icon', '') if isinstance(p_info, dict) else ''
                     if icon_path and i < len(self.passive_rank_icons):
                         base_dir = constants.get_base_path()
-                        full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path.lstrip('/'))
+                        full_path = resource_path(base_dir, 'game_data', icon_path.lstrip('/'))
                         pix = _get_cached_pixmap(full_path, 14)
                         if pix:
                             self.passive_rank_icons[i].setPixmap(pix)
@@ -3538,7 +3539,7 @@ class PalInfoWidget(QFrame):
         raw['Level'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': value}}
         try:
             base_dir = constants.get_base_path()
-            exp_table_path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+            exp_table_path = resource_path(base_dir, 'game_data', 'pal_exp_table.json')
             exp_table = json_tools.load(exp_table_path)
             exp_val = exp_table[str(value)]['PalTotalEXP']
         except Exception:
@@ -3854,7 +3855,7 @@ class PalInfoWidget(QFrame):
                 plbl.setStyleSheet(f'font-size: 9px; font-weight: 700; color: {tc}; background: transparent; border: none;')
                 cl.addWidget(plbl, 1)
                 if icon_path:
-                    full_path = os.path.join(constants.get_base_path(), 'resources', 'game_data', icon_path.lstrip('/'))
+                    full_path = resource_path(constants.get_base_path(), 'game_data', icon_path.lstrip('/'))
                     pix = _get_cached_pixmap(full_path, 14)
                     if pix:
                         ilbl = QLabel()
@@ -5087,7 +5088,7 @@ class PalCreateDialog(QDialog):
         self._named_npc_assets = set()
         try:
             base_dir = constants.get_base_path()
-            cp = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+            cp = resource_path(base_dir, 'game_data', 'characters.json')
             cd = json_tools.load(cp)
             for p in cd.get('pals', []):
                 if isinstance(p, dict) and p.get('description'):
@@ -5283,7 +5284,7 @@ class PalFrame(QFrame):
         cls._PAL_ZUKAN = {}
         try:
             base_dir = constants.get_base_path()
-            fp = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+            fp = resource_path(base_dir, 'game_data', 'characters.json')
             js = json_tools.load(fp)
             if isinstance(js, dict):
                 pals = js.get('pals', [])
@@ -5296,7 +5297,7 @@ class PalFrame(QFrame):
             pass
         cls._PASSFLAGS = {}
         try:
-            fp = os.path.join(constants.get_base_path(), 'resources', 'game_data', 'skills.json')
+            fp = resource_path(constants.get_base_path(), 'game_data', 'skills.json')
             js = json_tools.load(fp)
             if isinstance(js, dict):
                 data = js.get('passives', [])

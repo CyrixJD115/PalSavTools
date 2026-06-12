@@ -9,6 +9,7 @@ from palworld_aio import constants
 from palworld_aio.edit_pals import PalFrame, _get_boss_alpha_pixmap, _composite_badge, _BOSS_PREFIXES, _get_element_pixmap, _ensure_element_data, _resolve_partner_desc, _partner_desc_to_html, PalInfoWidget
 from palworld_aio.ui.skill_picker import SkillPicker
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
+from resource_resolver import resource_path
 class PalSlotDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         super().paint(painter, option, index)
@@ -169,13 +170,13 @@ class PlayerPalActionDialog(QDialog):
         self._pal_overwrite_effect_map = {}
         base_dir = constants.get_base_path()
         try:
-            paldata_path = os.path.join(base_dir, 'resources', 'game_data', 'characters.json')
+            paldata_path = resource_path(base_dir, 'game_data', 'characters.json')
             paldata = json_tools.load(paldata_path)
             for pal in paldata.get('pals', []):
                 asset = pal.get('asset', '').lower()
                 icon_rel = pal.get('icon', '')
                 if icon_rel:
-                    icon_path = os.path.join(base_dir, 'resources', 'game_data', icon_rel.lstrip('/'))
+                    icon_path = resource_path(base_dir, 'game_data', icon_rel.lstrip('/'))
                     if os.path.exists(icon_path):
                         self._pal_icon_map[asset] = icon_path
                 desc = pal.get('description', '')
@@ -197,7 +198,7 @@ class PlayerPalActionDialog(QDialog):
         icon_path = self._pal_icon_map.get(asset)
         if not icon_path:
             base_dir = constants.get_base_path()
-            icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
+            icon_path = resource_path(base_dir, 'game_data', 'icons', 'T_icon_unknown.webp')
         if icon_path in self._icon_pixmap_cache:
             return self._icon_pixmap_cache[icon_path]
         if os.path.exists(icon_path):

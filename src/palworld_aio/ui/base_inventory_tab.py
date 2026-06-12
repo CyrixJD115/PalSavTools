@@ -17,6 +17,7 @@ from palworld_aio import constants
 from palworld_aio.base_inventory_manager import BaseInventoryManager, get_container_image_path, find_item_locations_efficient
 from palworld_aio.widgets import StatsPanel
 from palworld_aio.ui.inventory_tab import InventoryGridWidget, ItemPickerDialog, InventoryLoadoutDialog, _group_inventory_items, _consolidate_container_slots, SINGLETON_TYPE_A
+from resource_resolver import resource_path
 from palworld_aio.ui.styled_combo import StyledCombo
 from palworld_aio.utils import format_duration_short
 from i18n import t
@@ -478,7 +479,7 @@ class GuildStructurePickerDialog(QDialog):
             icon_rel = s.get('icon', '')
             if icon_rel:
                 icon_clean = icon_rel.lstrip('/')
-                icon_abs = os.path.join(base_path, 'resources', 'game_data', icon_clean)
+                icon_abs = resource_path(base_path, 'game_data', icon_clean)
                 if os.path.exists(icon_abs):
                     pixmap = QPixmap(icon_abs)
                     if not pixmap.isNull():

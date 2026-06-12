@@ -11,6 +11,7 @@ from palworld_aio import constants as _constants
 from palworld_aio.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS, INVENTORY_EXPANSION_ITEMS
 from palworld_aio.edit_pals import _clean_desc_for_tooltip
 from palworld_aio.player_manager import add_all_effigies_to_players, EFFIGY_ITEM_IDS
+from resource_resolver import resource_path
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 from palworld_aio import constants
 EQUIP_SLOT_FILTERS = {'weapon': {'type_a': ['EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon']}, 'head': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorHead'}, 'body': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::ArmorBody'}, 'shield': {'type_a': 'EPalItemTypeA::Armor', 'type_b': 'EPalItemTypeB::Shield'}, 'accessory': {'type_a': 'EPalItemTypeA::Accessory'}, 'glider': {'type_a': 'EPalItemTypeA::Glider'}, 'sphere_mod': {'type_a': 'EPalItemTypeA::CaptureItemModifier'}, 'food': {'type_a': 'EPalItemTypeA::Food'}}
@@ -246,7 +247,7 @@ class EquipmentSlotWidget(QFrame):
 def _load_exp_table():
     try:
         base_dir = constants.get_base_path()
-        path = os.path.join(base_dir, 'resources', 'game_data', 'pal_exp_table.json')
+        path = resource_path(base_dir, 'game_data', 'pal_exp_table.json')
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         levels = sorted(data.keys(), key=int)

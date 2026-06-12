@@ -3,6 +3,7 @@ import json
 import re
 from palsav import json_tools
 import sys
+from resource_resolver import resource_path
 import uuid
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtCore import QSize, Qt
@@ -29,7 +30,7 @@ class ItemData:
         if cls._item_data is not None:
             return cls._item_data
         base_path = constants.get_base_path()
-        item_file = os.path.join(base_path, 'resources', 'game_data', 'items.json')
+        item_file = resource_path(base_path, 'game_data', 'items.json')
         try:
             cls._item_data = json_tools.load(item_file).get('items', [])
             cls._asset_to_item = {item['asset']: item for item in cls._item_data}
@@ -64,9 +65,9 @@ class ItemData:
     def _resolve_icon_path(cls, icon_path: str) -> str:
         base_path = constants.get_base_path()
         if icon_path.startswith('/'):
-            full_path = os.path.join(base_path, 'resources', 'game_data', icon_path[1:])
+            full_path = resource_path(base_path, 'game_data', icon_path[1:])
         else:
-            full_path = os.path.join(base_path, 'resources', 'game_data', icon_path)
+            full_path = resource_path(base_path, 'game_data', icon_path)
         if os.path.exists(full_path):
             return full_path
         filedir = os.path.dirname(full_path)
@@ -140,7 +141,7 @@ class ItemData:
                 pixmap = pixmap.scaled(size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 cls._icon_cache[cache_key] = pixmap
                 return pixmap
-        unknown_path = os.path.join(base_path, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
+        unknown_path = resource_path(base_path, 'game_data', 'icons', 'T_icon_unknown.webp')
         if os.path.exists(unknown_path):
             pixmap = QPixmap(unknown_path)
             if not pixmap.isNull():
@@ -375,7 +376,7 @@ class PlayerInventory:
         if PlayerInventory._BOSS_MAP_CACHE is not None:
             return PlayerInventory._BOSS_MAP_CACHE
         base_path = constants.get_base_path()
-        path = os.path.join(base_path, 'resources', 'game_data', 'boss_mapping.json')
+        path = resource_path(base_path, 'game_data', 'boss_mapping.json')
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)

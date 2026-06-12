@@ -1,5 +1,6 @@
 import os, sys, subprocess, configparser
 from palsav import json_tools
+from resource_resolver import get_base_dir, get_src_dir, get_resources_dir, resource_path
 APP_NAME = 'PalworldSaveTools'
 APP_VERSION = '2.0.0'
 APP_BETA_VERSION = '2.0.1'
@@ -7,16 +8,13 @@ BETA_SUBVERSION = '1'
 GAME_VERSION = '1.0'
 BRANCH_VERSION = 'main'
 def get_base_directory():
-    if getattr(sys, 'frozen', False):
-        return os.path.dirname(sys.executable)
-    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return get_base_dir()
 def get_src_directory():
-    base_dir = get_base_directory()
-    return os.path.join(base_dir, 'src')
+    return get_src_dir()
 def get_resources_directory():
-    return os.path.join(get_base_directory(), 'resources')
-ICON_PATH = os.path.join(get_resources_directory(), 'icon.ico')
-BACKUP_BASE_DIR = os.path.join(get_base_directory(), 'Backups')
+    return get_resources_dir()
+ICON_PATH = resource_path(get_base_dir(), 'icon.ico')
+BACKUP_BASE_DIR = os.path.join(get_base_dir(), 'Backups')
 def get_backup_directory(tool_name):
     return os.path.join(BACKUP_BASE_DIR, tool_name)
 BACKUP_DIRS = {'all_in_one_tools': 'AllinOneTools', 'slot_injector': 'Slot Injector', 'character_transfer': 'Character Transfer', 'fix_host_save': 'Fix Host Save', 'restore_map': 'Restore Map'}

@@ -30,6 +30,7 @@ from palworld_aio.player_manager import rename_player
 from palworld_aio.map_generator import generate_world_map
 from palworld_aio.dialogs import InputDialog, DaysInputDialog, LevelInputDialog, RadiusInputDialog, PalDefenderDialog, GameDaysInputDialog
 from palworld_aio.widgets import SearchPanel, StatsPanel, ScrollableContextMenu
+from resource_resolver import resource_path
 from palworld_aio.ui.container_selector_dialog import ContainerSelectorDialog
 from palworld_aio.ui.player_item_dialog import PlayerItemActionDialog
 from palworld_aio.ui.player_pal_dialog import PlayerPalActionDialog
@@ -938,8 +939,8 @@ class MainWindow(QMainWindow):
         from palworld_aio.inventory_manager import PlayerInventory
         from palworld_aio.utils import gvasfile_to_sav, sav_to_gvasfile
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        ref_path = os.path.join(base_dir, 'resources', 'game_data', 'reference_unlock_data.json')
-        areas_path = os.path.join(base_dir, 'resources', 'game_data', 'world_map_areas.json')
+        ref_path = resource_path(base_dir, 'game_data', 'reference_unlock_data.json')
+        areas_path = resource_path(base_dir, 'game_data', 'world_map_areas.json')
         ref_data = json.load(open(ref_path, 'r'))
         area_ids = json.load(open(areas_path, 'r'))
         ft_guids = sorted(set(ref_data.get('FastTravelPointUnlockFlag_guids', [])))

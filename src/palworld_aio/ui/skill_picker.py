@@ -9,6 +9,7 @@ import palworld_aio.edit_pals as _ep
 from palworld_aio.edit_pals import _get_cached_pixmap, _get_element_pixmap, _ensure_skill_data, _ensure_passive_data, _clean_desc_for_tooltip
 import palworld_aio.data_manager as dm
 from palworld_aio.ui.styles import PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
+from resource_resolver import resource_path
 class _PassiveSkillDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         painter.save()
@@ -57,7 +58,7 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
         icon_right = 4
         if icon_path:
             base_dir = palworld_constants.get_base_path()
-            full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path.lstrip('/'))
+            full_path = resource_path(base_dir, 'game_data', icon_path.lstrip('/'))
             pix = _get_cached_pixmap(full_path, 14)
             if pix:
                 icon_x = rect.right() - 22

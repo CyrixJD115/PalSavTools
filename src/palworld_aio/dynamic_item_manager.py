@@ -2,6 +2,7 @@ import uuid
 import os
 from palsav import json_tools
 from typing import Any, Dict, Optional, List
+from resource_resolver import resource_path
 class UnifiedUUID:
     def __init__(self, value):
         self._str: str = ''
@@ -36,7 +37,7 @@ def load_items_dynamic_metadata():
     try:
         from palworld_aio import constants
         base_path = constants.get_base_path()
-        items_file = os.path.join(base_path, 'resources', 'game_data', 'items.json')
+        items_file = resource_path(base_path, 'game_data', 'items.json')
         if os.path.exists(items_file):
             data = json_tools.load(items_file)
             return data.get('items_dynamic', {})

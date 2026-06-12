@@ -10,6 +10,7 @@ from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.data_manager import get_guilds, get_guild_members
 from palworld_aio.edit_pals import _clean_desc_for_tooltip
 from palworld_aio.ui.styles import DIALOG_STYLE as DARK_THEME_STYLE, wrap_tooltip_text
+from resource_resolver import resource_path
 class PlayerTechnologyActionDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -95,7 +96,7 @@ class PlayerTechnologyActionDialog(QDialog):
     def _load_technologies(self):
         try:
             base_dir = constants.get_base_path()
-            tech_file = os.path.join(base_dir, 'resources', 'game_data', 'world.json')
+            tech_file = resource_path(base_dir, 'game_data', 'world.json')
             data = json_tools.load(tech_file)
             self.tech_data = data.get('technology', [])
             self._display_technologies(self.tech_data)
@@ -125,21 +126,21 @@ class PlayerTechnologyActionDialog(QDialog):
             icon_path = tech.get('icon', '')
             if icon_path:
                 if icon_path.startswith('/'):
-                    full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path[1:])
+                    full_path = resource_path(base_dir, 'game_data', icon_path[1:])
                 else:
-                    full_path = os.path.join(base_dir, 'resources', 'game_data', icon_path)
+                    full_path = resource_path(base_dir, 'game_data', icon_path)
                 if os.path.exists(full_path):
                     pixmap = QPixmap(full_path)
                     if not pixmap.isNull():
                         return QIcon(pixmap.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation))
             asset = tech.get('asset', '')
             if asset:
-                item_icon_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'items', f'T_itemicon_{asset.lower()}.webp')
+                item_icon_path = resource_path(base_dir, 'game_data', 'icons', 'items', f'T_itemicon_{asset.lower()}.webp')
                 if os.path.exists(item_icon_path):
                     pixmap = QPixmap(item_icon_path)
                     if not pixmap.isNull():
                         return QIcon(pixmap.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-            unknown_path = os.path.join(base_dir, 'resources', 'game_data', 'icons', 'T_icon_unknown.webp')
+            unknown_path = resource_path(base_dir, 'game_data', 'icons', 'T_icon_unknown.webp')
             if os.path.exists(unknown_path):
                 pixmap = QPixmap(unknown_path)
                 if not pixmap.isNull():

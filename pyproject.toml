@@ -20,6 +20,8 @@ dependencies = [
     "cbor2",
     "msgpack",
     "zstandard",
+    "orjson",
+    "py7zr",
 ]
 
 [tool.uv.sources]

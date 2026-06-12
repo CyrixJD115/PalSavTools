@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGraphicsScene,
 from PySide6.QtCore import Qt, QRectF, QPointF, QPoint, QSize, QTimer, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QPixmap, QPen, QBrush, QColor, QPainter, QFont, QIcon
 from i18n import t
+from resource_resolver import resource_path
 from loading_manager import show_information, show_warning, show_critical, show_question
 import palworld_coord
 from palworld_aio import constants
@@ -102,7 +103,7 @@ class MapTab(QWidget):
             if hasattr(self.view, 'zoom_label'):
                 self.view.zoom_label.setText((t('zoom') if t else 'Zoom') + ': 100%')
     def _load_config(self):
-        self.config = {'marker': {'type': 'icon', 'dot': {'size': 24, 'color': [255, 0, 0], 'border_width': 3, 'border_color': [180, 0, 0], 'size_min': 24, 'size_max': 24, 'dynamic_sizing': False, 'dynamic_sizing_formula': 'sqrt'}, 'icon': {'path': 'resources/baseicon.webp', 'size_min': 32, 'size_max': 64, 'base_size': 48, 'dynamic_sizing': True, 'dynamic_sizing_formula': 'sqrt'}}, 'glow': {'enabled': True, 'color': [59, 142, 208], 'selected_alpha_min': 80, 'selected_alpha_max': 180, 'animation_speed': 8, 'hover_alpha': 80, 'radius_multiplier': 1.5}, 'zoom': {'factor': 1.15, 'min': 1.0, 'max': 30.0, 'double_click_target': 26.0, 'animation_speed': 0.2, 'animation_fps': 60}, 'effects': {'delete': {'enabled': True, 'duration': 1000, 'max_radius': 150, 'colors': {'outer': [255, 80, 80], 'inner': [255, 150, 0], 'flash': [255, 200, 0]}}, 'import': {'enabled': True, 'duration': 1000, 'pulse_count': 3, 'color': [0, 255, 150], 'sparkle_color': [100, 255, 200]}, 'export': {'enabled': True, 'duration': 1000, 'color': [100, 200, 255]}}}
+        self.config = {'marker': {'type': 'icon', 'dot': {'size': 24, 'color': [255, 0, 0], 'border_width': 3, 'border_color': [180, 0, 0], 'size_min': 24, 'size_max': 24, 'dynamic_sizing': False, 'dynamic_sizing_formula': 'sqrt'}, 'icon': {'path': 'baseicon.webp', 'size_min': 32, 'size_max': 64, 'base_size': 48, 'dynamic_sizing': True, 'dynamic_sizing_formula': 'sqrt'}}, 'glow': {'enabled': True, 'color': [59, 142, 208], 'selected_alpha_min': 80, 'selected_alpha_max': 180, 'animation_speed': 8, 'hover_alpha': 80, 'radius_multiplier': 1.5}, 'zoom': {'factor': 1.15, 'min': 1.0, 'max': 30.0, 'double_click_target': 26.0, 'animation_speed': 0.2, 'animation_fps': 60}, 'effects': {'delete': {'enabled': True, 'duration': 1000, 'max_radius': 150, 'colors': {'outer': [255, 80, 80], 'inner': [255, 150, 0], 'flash': [255, 200, 0]}}, 'import': {'enabled': True, 'duration': 1000, 'pulse_count': 3, 'color': [0, 255, 150], 'sparkle_color': [100, 255, 200]}, 'export': {'enabled': True, 'duration': 1000, 'color': [100, 200, 255]}}}
         return self.config
     def _create_dot_pixmap(self, size):
         from PySide6.QtGui import QPainter, QPen, QBrush
@@ -124,18 +125,18 @@ class MapTab(QWidget):
     def _load_base_icon(self):
         base_dir = constants.get_base_path()
         icon_path_config = self.config['marker']['icon']['path']
-        icon_path = os.path.join(base_dir, icon_path_config)
+        icon_path = resource_path(base_dir, icon_path_config)
         if os.path.exists(icon_path):
             self.base_icon_pixmap = QPixmap(icon_path)
         else:
-            alt_icon_path = os.path.join(base_dir, 'resources', 'baseicon.webp')
+            alt_icon_path = resource_path(base_dir, 'baseicon.webp')
             if os.path.exists(alt_icon_path):
                 self.base_icon_pixmap = QPixmap(alt_icon_path)
             else:
                 self.base_icon_pixmap = self._create_dot_pixmap(32)
     def _load_player_icon(self):
         base_dir = constants.get_base_path()
-        icon_path = os.path.join(base_dir, 'resources', 'playericon.webp')
+        icon_path = resource_path(base_dir, 'playericon.webp')
         if os.path.exists(icon_path):
             pixmap = QPixmap(icon_path)
             if not pixmap.isNull():
@@ -187,7 +188,7 @@ class MapTab(QWidget):
         btn_css = 'QPushButton { color: white; background: rgba(125,211,252,0.08); padding: 6px 10px; border-radius: 4px; border: none; min-width: 36px; min-height: 28px; } QPushButton:checked { background: rgba(125,211,252,0.25); border: 1px solid #7dd3fc; }'
         btn_wide_css = 'QPushButton { color: white; background: rgba(125,211,252,0.08); padding: 6px 10px; border-radius: 4px; border: none; min-width: 40px; min-height: 28px; } QPushButton:checked { background: rgba(125,211,252,0.25); border: 1px solid #7dd3fc; }'
         self.btn_calibrate = QPushButton()
-        self.btn_calibrate.setIcon(QIcon(os.path.join(base_dir, 'resources', 'calibrate.webp')))
+        self.btn_calibrate.setIcon(QIcon(resource_path(base_dir, 'calibrate.webp')))
         self.btn_calibrate.setIconSize(QSize(22, 22))
         self.btn_calibrate.setToolTip(t('calibrate.button'))
         self.btn_calibrate.setCheckable(True)
@@ -196,7 +197,7 @@ class MapTab(QWidget):
         self.btn_calibrate.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.btn_calibrate)
         self.btn_calibrate_tree = QPushButton()
-        self.btn_calibrate_tree.setIcon(QIcon(os.path.join(base_dir, 'resources', 'calibrate.webp')))
+        self.btn_calibrate_tree.setIcon(QIcon(resource_path(base_dir, 'calibrate.webp')))
         self.btn_calibrate_tree.setIconSize(QSize(22, 22))
         self.btn_calibrate_tree.setToolTip(t('calibrate.tree_button'))
         self.btn_calibrate_tree.setCheckable(True)
@@ -205,7 +206,7 @@ class MapTab(QWidget):
         self.btn_calibrate_tree.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.btn_calibrate_tree)
         self.toggle_map_bases = QPushButton()
-        self.toggle_map_bases.setIcon(QIcon(os.path.join(base_dir, 'resources', 'baseicon.webp')))
+        self.toggle_map_bases.setIcon(QIcon(resource_path(base_dir, 'baseicon.webp')))
         self.toggle_map_bases.setIconSize(QSize(22, 22))
         self.toggle_map_bases.setToolTip(t('map.toggle.bases') if t else 'Bases')
         self.toggle_map_bases.setCheckable(True)
@@ -214,7 +215,7 @@ class MapTab(QWidget):
         self.toggle_map_bases.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.toggle_map_bases)
         self.toggle_map_players = QPushButton()
-        self.toggle_map_players.setIcon(QIcon(os.path.join(base_dir, 'resources', 'playericon.webp')))
+        self.toggle_map_players.setIcon(QIcon(resource_path(base_dir, 'playericon.webp')))
         self.toggle_map_players.setIconSize(QSize(22, 22))
         self.toggle_map_players.setToolTip(t('map.toggle.players') if t else 'Players')
         self.toggle_map_players.setCheckable(True)
@@ -223,7 +224,7 @@ class MapTab(QWidget):
         self.toggle_map_players.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.toggle_map_players)
         self.toggle_base_radius_rings = QPushButton()
-        self.toggle_base_radius_rings.setIcon(QIcon(os.path.join(base_dir, 'resources', 'ring.webp')))
+        self.toggle_base_radius_rings.setIcon(QIcon(resource_path(base_dir, 'ring.webp')))
         self.toggle_base_radius_rings.setIconSize(QSize(22, 22))
         self.toggle_base_radius_rings.setToolTip(t('map.toggle.base_radius_rings') if t else 'Base Radius Rings')
         self.toggle_base_radius_rings.setCheckable(True)
@@ -232,7 +233,7 @@ class MapTab(QWidget):
         self.toggle_base_radius_rings.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.toggle_base_radius_rings)
         self.toggle_map_zones = QPushButton()
-        self.toggle_map_zones.setIcon(QIcon(os.path.join(base_dir, 'resources', 'zones.webp')))
+        self.toggle_map_zones.setIcon(QIcon(resource_path(base_dir, 'zones.webp')))
         self.toggle_map_zones.setIconSize(QSize(22, 22))
         self.toggle_map_zones.setToolTip(t('map.toggle.zones') if t else 'Zones')
         self.toggle_map_zones.setCheckable(True)
@@ -241,7 +242,7 @@ class MapTab(QWidget):
         self.toggle_map_zones.setStyleSheet(btn_css + tip_css)
         overlay_layout.addWidget(self.toggle_map_zones)
         self.toggle_map_type = QPushButton()
-        self.toggle_map_type.setIcon(QIcon(os.path.join(base_dir, 'resources', 'T_TreeMap.webp')))
+        self.toggle_map_type.setIcon(QIcon(resource_path(base_dir, 'T_TreeMap.webp')))
         self.toggle_map_type.setIconSize(QSize(26, 26))
         self.toggle_map_type.setToolTip(t('map.toggle.tree_map') if t else 'Tree Map')
         self.toggle_map_type.setCheckable(True)
@@ -371,7 +372,7 @@ class MapTab(QWidget):
     def _load_map(self, map_type='world'):
         base_dir = constants.get_base_path()
         map_filename = 'T_WorldMap.webp' if map_type == 'world' else 'T_TreeMap.webp'
-        map_path = os.path.join(base_dir, 'resources', map_filename)
+        map_path = resource_path(base_dir, map_filename)
         if os.path.exists(map_path):
             pixmap = QPixmap(map_path)
         else:
@@ -423,7 +424,7 @@ class MapTab(QWidget):
         self.current_map = 'tree' if checked else 'world'
         base_dir = constants.get_base_path()
         icon = 'T_WorldMap.webp' if checked else 'T_TreeMap.webp'
-        self.toggle_map_type.setIcon(QIcon(os.path.join(base_dir, 'resources', icon)))
+        self.toggle_map_type.setIcon(QIcon(resource_path(base_dir, icon)))
         self.toggle_map_type.setToolTip(t('map.toggle.world_map') if checked else t('map.toggle.tree_map'))
         self.view.set_map_type(self.current_map, palworld_coord.get_treemap_coord_range() if checked else 1000)
         self._recalc_img_coords()
@@ -516,7 +517,7 @@ class MapTab(QWidget):
         self._calibration_points.append((base['raw_x'], base['raw_y'], px, py))
         marker = self.scene.addEllipse(px - 4, py - 4, 8, 8, QPen(QColor('#ff8800'), 2), QBrush(QColor(255, 136, 0, 80)))
         self._calibration_markers.append(marker)
-        label = self.scene.addSimpleText(f'{idx + 1}', QFont('Arial', 10))
+        label = self.scene.addSimpleText(f'{idx + 1}', QFont(constants.FONT_FAMILY, 10))
         label.setPos(px + 6, py - 8)
         label.setBrush(QBrush(QColor('#ff8800')))
         self._calibration_markers.append(label)
@@ -685,7 +686,7 @@ class MapTab(QWidget):
         self._tree_cal_points.append((player['save_coords'][0], player['save_coords'][1], px, py))
         marker = self.scene.addEllipse(px - 4, py - 4, 8, 8, QPen(QColor('#ffcc00'), 2), QBrush(QColor(255, 204, 0, 80)))
         self._tree_cal_markers.append(marker)
-        label = self.scene.addSimpleText(f'{idx + 1}', QFont('Arial', 10))
+        label = self.scene.addSimpleText(f'{idx + 1}', QFont(constants.FONT_FAMILY, 10))
         label.setPos(px + 6, py - 8)
         label.setBrush(QBrush(QColor('#ffcc00')))
         self._tree_cal_markers.append(label)

@@ -17,7 +17,7 @@ def _ensure_venv():
         print('Failed to create venv')
         return False
     print('Installing dependencies...')
-    if subprocess.run(['uv', 'pip', 'install', '--no-cache', '-r', str(_PROJECT_DIR / 'requirements.txt')]).returncode != 0:
+    if subprocess.run(['uv', 'sync'], cwd=str(_PROJECT_DIR)).returncode != 0:
         print('Failed to install dependencies')
         if _VENV_DIR.exists():
             shutil.rmtree(_VENV_DIR, ignore_errors=True)

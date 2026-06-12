@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from i18n import t, get_language
 from palworld_aio import constants
+from resource_resolver import resource_path
 
 HEADER_COLOR = '#4a90e2'
 TEXT_COLOR = '#e0e0e0'
@@ -88,9 +89,9 @@ class TabGuideDialog(QDialog):
         lang = get_language()
         lang_dir = lang.split('_')[0]
         base = constants.get_base_path()
-        path = os.path.join(base, 'resources', 'tab_guide', lang_dir, f'{anchor}.html')
+        path = resource_path(base, 'tab_guide', lang_dir, f'{anchor}.html')
         if not os.path.exists(path):
-            path = os.path.join(base, 'resources', 'tab_guide', 'en', f'{anchor}.html')
+            path = resource_path(base, 'tab_guide', 'en', f'{anchor}.html')
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 return f.read()

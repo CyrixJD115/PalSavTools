@@ -136,7 +136,7 @@ jobs:
 
           mkdir -p AppDir/usr/bin
           cp -r PST_standalone/* AppDir/usr/bin/
-          cp resources/PST.png AppDir/palworld-save-tools.png
+          cp resources/assets/branding/PST.png AppDir/palworld-save-tools.png
 
           # AppStream metadata
           cat > AppDir/palworld-save-tools.desktop << 'EOF'

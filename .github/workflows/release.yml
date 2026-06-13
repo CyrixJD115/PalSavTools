@@ -112,7 +112,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv pip install --no-cache -r requirements.txt nuitka
+          uv pip install --no-cache -r requirements.txt nuitka imageio
       - name: Build with Nuitka
         run: uv run python build/nuitka/build_nuitka.py --onedir
       - name: Create DMG
@@ -123,7 +123,7 @@ jobs:
             hdiutil create -volname "Palworld Save Tools" -srcfolder "$app" -ov -format UDZO "dist/PalworldSaveTools-${VERSION}-macos.dmg"
           else
             echo "No .app bundle found in dist/"
-            ls dist/
+            ls -la dist/ 2>/dev/null || echo "dist/ does not exist"
             exit 1
           fi
       - uses: actions/upload-artifact@v4

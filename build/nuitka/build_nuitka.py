@@ -28,7 +28,12 @@ _INCLUDE_MODULES = [
     'palsav.commands.resave_test', 'palsav.commands.auto_update',
     'palsav.commands.roundtrip_validation',
     'palsav.rawdata',
-    'palooz', 'palworld_coord', 'palworld_toolsets',
+    'palooz', 'palworld_coord',
+    'palworld_toolsets', 'palworld_toolsets.game_pass_save_fix',
+    'palworld_toolsets.convertids', 'palworld_toolsets.restore_map',
+    'palworld_toolsets.slot_injector', 'palworld_toolsets.character_transfer',
+    'palworld_toolsets.modify_save', 'palworld_toolsets.fix_host_save',
+    'palworld_toolsets.convert_generic', 'palworld_toolsets.xgp_save_extract',
     'palworld_xgp_import', 'nerdfont', 'orjson', 'brotli',
     'cbor2', 'zstandard', 'py7zr', 'packaging',
 ]

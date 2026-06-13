@@ -67,7 +67,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path src/data/configs
           Set-Content -Path src/data/configs/runtime.cfg -Value "[build]`nstandalone = true"
       - name: Build with cx_Freeze
-        run: uv run python setup_freeze.py build
+        run: uv run python build/cx_freeze/setup_freeze.py build
       - name: Create dist directory
         run: mkdir dist
       - name: Create standalone zip
@@ -84,7 +84,7 @@ jobs:
         shell: pwsh
         run: |
           $version = "${{ github.event.inputs.version }}"
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyAppVersion="$version" "pst.windows.iss" | Out-Null
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyAppVersion="$version" "build\installer\pst.windows.iss" | Out-Null
           $setupFile = Get-ChildItem -Recurse -Filter "PalworldSaveTools-*-windows-setup.exe" | Select-Object -First 1
           if ($setupFile -and $setupFile.DirectoryName -ne (Resolve-Path "dist")) {
             Move-Item -Path $setupFile.FullName -Destination "dist\" -Force
@@ -123,7 +123,7 @@ jobs:
           mkdir -p src/data/configs
           printf '[build]\nstandalone = true\n' > src/data/configs/runtime.cfg
       - name: Build with cx_Freeze
-        run: uv run python setup_freeze.py build
+        run: uv run python build/cx_freeze/setup_freeze.py build
       - name: Create dist directory
         run: mkdir -p dist
       - name: Create standalone zip
@@ -196,7 +196,7 @@ jobs:
           mkdir -p src/data/configs
           printf '[build]\nstandalone = true\n' > src/data/configs/runtime.cfg
       - name: Build with cx_Freeze
-        run: uv run python setup_freeze.py build
+        run: uv run python build/cx_freeze/setup_freeze.py build
       - name: Create dist directory
         run: mkdir -p dist
       - name: Create .app bundle and DMG

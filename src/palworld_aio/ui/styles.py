@@ -1,30 +1,12 @@
 import os as _os
 import re as _re
+from boot_paths import GUI_DIR
 class ThemeManager:
     _darkmode_content = None
-    _base_dir = None
     @classmethod
-    def init(cls, base_dir):
-        cls._base_dir = base_dir
-    @classmethod
-    def _resolve_path(cls, base_dir=None):
-        path = base_dir or cls._base_dir
-        if not path:
-            try:
-                from palworld_aio import constants
-                path = constants.get_src_path()
-            except Exception:
-                try:
-                    from common import get_src_directory
-                    path = get_src_directory()
-                except Exception:
-                    path = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-        return path
-    @classmethod
-    def load_qss_content(cls, base_dir=None):
+    def load_qss_content(cls):
         if cls._darkmode_content is None:
-            path = cls._resolve_path(base_dir)
-            qss_path = _os.path.join(path, 'data', 'gui', 'darkmode.qss')
+            qss_path = _os.path.join(str(GUI_DIR), 'darkmode.qss')
             try:
                 with open(qss_path, 'r', encoding='utf-8') as f:
                     cls._darkmode_content = f.read()
@@ -32,8 +14,8 @@ class ThemeManager:
                 cls._darkmode_content = ''
         return cls._darkmode_content
     @classmethod
-    def apply_global(cls, base_dir=None):
-        qss = cls.load_qss_content(base_dir)
+    def apply_global(cls):
+        qss = cls.load_qss_content()
         if not qss:
             return cls._apply_fallback_global()
         try:
@@ -45,8 +27,8 @@ class ThemeManager:
             pass
         return True
     @classmethod
-    def apply_to_widget(cls, widget, base_dir=None):
-        qss = cls.load_qss_content(base_dir)
+    def apply_to_widget(cls, widget):
+        qss = cls.load_qss_content()
         if not qss:
             return cls._apply_fallback_widget(widget)
         try:

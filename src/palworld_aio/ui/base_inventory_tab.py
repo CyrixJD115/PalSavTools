@@ -8,9 +8,10 @@ from PySide6.QtCore import Qt, Signal, QTimer, QPropertyAnimation, QEasingCurve,
 from PySide6.QtGui import QPixmap, QIcon, QFont, QAction, QCursor, QPainter, QColor, QBrush, QPen, QLinearGradient, QPalette, QMouseEvent, QWheelEvent, QResizeEvent, QPaintEvent, QContextMenuEvent, QDragEnterEvent, QDragMoveEvent, QDropEvent, QDrag
 from PySide6.QtWidgets import QStyledItemDelegate
 from PySide6.QtCore import QMimeData
-resources_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'resources')
-if resources_path not in sys.path:
-    sys.path.insert(0, resources_path)
+from boot_paths import RESOURCES_DIR
+_resources_path = str(RESOURCES_DIR)
+if _resources_path not in sys.path:
+    sys.path.insert(0, _resources_path)
 from i18n import t
 from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants

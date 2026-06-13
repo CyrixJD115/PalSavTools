@@ -6,7 +6,7 @@ from palworld_aio import constants
 from resource_resolver import resource_path
 from palworld_aio.utils import are_equal_uuids, as_uuid, sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.data_manager import delete_player
-from palsav.palsav import compress_gvas_to_sav
+from palsav.core import compress_gvas_to_sav
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 def _load_exp_data():
     base_dir = constants.get_base_path()

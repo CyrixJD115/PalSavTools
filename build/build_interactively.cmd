@@ -1,5 +1,5 @@
 @echo off
-title Clean Code
+title PalworldSaveTools Interactive Build Engine
 cd /d "%~dp0\.."
 where uv >nul 2>&1 || (
     echo uv not found. Install from https://docs.astral.sh/uv/
@@ -10,8 +10,8 @@ if exist .venv\Scripts\python.exe (
     rmdir /s /q .venv
 )
 uv venv .venv
-uv pip install --no-cache -r requirements.txt
-".venv\Scripts\python.exe" build\clean_code.py %*
+uv sync
+".venv\Scripts\python.exe" build\build_interactively.py %*
 if exist uv.lock del uv.lock
 pause
 exit /b %errorlevel%

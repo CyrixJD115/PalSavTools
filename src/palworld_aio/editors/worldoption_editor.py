@@ -9,21 +9,7 @@ from loading_manager import show_warning, show_critical
 from palworld_aio.ui.styles import ThemeManager
 from palworld_aio import constants
 def get_src_path():
-    env = os.environ.get('src_PATH')
-    if env:
-        return os.path.abspath(env)
-    if getattr(sys, 'frozen', False):
-        exe_dir = os.path.dirname(sys.executable)
-        src = os.path.join(exe_dir, 'src')
-        if os.path.isdir(src):
-            return src
-    try:
-        base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    except NameError:
-        base = os.path.dirname(os.path.abspath(sys.argv[0]))
-    if os.path.isdir(base):
-        return base
-    return os.path.abspath(base)
+    return constants.get_src_path()
 def extract_actual_value(prop):
     if not isinstance(prop, dict):
         return prop

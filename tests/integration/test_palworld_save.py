@@ -7,8 +7,8 @@ from tests.test_registry import SAVE_TEST_DIR
 
 pytestmark = pytest.mark.slow
 
-decompress_sav_to_gvas = import_from('palsav.palsav', 'decompress_sav_to_gvas')
-compress_gvas_to_sav = import_from('palsav.palsav', 'compress_gvas_to_sav')
+decompress_sav_to_gvas = import_from('palsav.core', 'decompress_sav_to_gvas')
+compress_gvas_to_sav = import_from('palsav.core', 'compress_gvas_to_sav')
 GvasFile = import_from('palsav.gvas', 'GvasFile')
 PALWORLD_TYPE_HINTS = import_from('palsav.paltypes', 'PALWORLD_TYPE_HINTS')
 PALWORLD_CUSTOM_PROPERTIES = import_from('palsav.paltypes', 'PALWORLD_CUSTOM_PROPERTIES')

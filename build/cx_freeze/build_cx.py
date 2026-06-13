@@ -22,7 +22,7 @@ def install_deps():
 def sync_version():
     common_file = os.path.join('src', 'common.py')
     pyproject_file = 'pyproject.toml'
-    setup_file = 'setup_freeze.py'
+    setup_file = os.path.join('build', 'cx_freeze', 'setup_freeze.py')
     version = '1.1.37'
     if os.path.exists(common_file):
         with open(common_file, 'r', encoding='utf-8') as f:
@@ -44,9 +44,9 @@ def build_with_cx_freeze():
     print('Running cx_Freeze build...')
     python_exe = os.path.join(VENV_DIR, 'Scripts', 'python.exe') if sys.platform == 'win32' else os.path.join(VENV_DIR, 'bin', 'python')
     if os.path.exists(python_exe):
-        subprocess.check_call([python_exe, 'setup_freeze.py', 'build'])
+        subprocess.check_call([python_exe, os.path.join('build', 'cx_freeze', 'setup_freeze.py'), 'build'])
     else:
-        subprocess.check_call(['uv', 'run', 'setup_freeze.py', 'build'])
+        subprocess.check_call(['uv', 'run', os.path.join('build', 'cx_freeze', 'setup_freeze.py'), 'build'])
     if os.path.exists('uv.lock'):
         os.remove('uv.lock')
 def clean_build_artifacts():

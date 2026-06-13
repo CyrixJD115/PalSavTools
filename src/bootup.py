@@ -12,7 +12,8 @@ from pathlib import Path
 from packaging.requirements import Requirement
 from importlib.metadata import version, PackageNotFoundError
 from typing import Optional, Tuple
-PROJECT_DIR = Path(__file__).resolve().parent.parent
+from boot_paths import ROOT_DIR, CONFIG_DIR, RESOURCES_DIR, GUI_DIR
+PROJECT_DIR = ROOT_DIR
 _src = str(PROJECT_DIR / 'src')
 if _src not in sys.path:
     sys.path.insert(0, _src)
@@ -181,7 +182,7 @@ def unlock_self_folder():
     except Exception:
         pass
 def get_config_value(key: str, default=None):
-    config_path = PROJECT_DIR / 'src' / 'data' / 'configs' / 'config.json'
+    config_path = CONFIG_DIR / 'config.json'
     try:
         config = json_tools.load(str(config_path))
         return config.get(key, default)
@@ -229,7 +230,7 @@ def _get_dark_splash():
 
 
 def load_splash_styles():
-    user_cfg_path = os.path.join(PROJECT_DIR, 'src', 'data', 'configs', 'user.cfg')
+    user_cfg_path = os.path.join(str(CONFIG_DIR), 'user.cfg')
     theme = 'dark'
     if os.path.exists(user_cfg_path):
         try:
@@ -237,7 +238,7 @@ def load_splash_styles():
             theme = data.get('theme', 'dark')
         except:
             pass
-    qss_path = os.path.join(PROJECT_DIR, 'src', 'data', 'gui', f'{theme}mode.qss')
+    qss_path = os.path.join(str(GUI_DIR), f'{theme}mode.qss')
     if os.path.exists(qss_path):
         with open(qss_path, 'r') as f:
             return f.read()
@@ -245,7 +246,8 @@ def load_splash_styles():
 if GUI_AVAILABLE:
     def _find_resource(*paths: str) -> Optional[Path]:
         for p in paths:
-            candidate = PROJECT_DIR / p
+            rel = p[len('resources/'):] if p.startswith('resources/') else p
+            candidate = RESOURCES_DIR / rel
             if candidate.exists():
                 return candidate
         return None

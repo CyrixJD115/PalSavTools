@@ -30,7 +30,7 @@ def _ensure_venv():
 def _load_save_tools():
     sys.path.insert(0, str(_SRC_DIR))
     global decompress_sav_to_gvas, GvasFile, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES
-    from palsav.palsav import decompress_sav_to_gvas
+    from palsav.core import decompress_sav_to_gvas
     from palsav.gvas import GvasFile
     from palsav.paltypes import PALWORLD_TYPE_HINTS
     import palobject

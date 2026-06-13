@@ -3,22 +3,10 @@ import os
 import sys
 from typing import Dict, Any
 from palsav import json_tools
-_current_dir = os.path.dirname(os.path.abspath(__file__))
-if getattr(sys, 'frozen', False):
-    base_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
-    if not os.path.isdir(os.path.join(base_dir, 'resources')):
-        src_dir = os.path.join(base_dir, 'src')
-        if os.path.isdir(os.path.join(src_dir, 'resources')):
-            base_dir = src_dir
-    if not os.path.isdir(base_dir):
-        main_py_dir = os.path.dirname(os.path.abspath(__file__))
-        if os.path.isdir(main_py_dir):
-            base_dir = main_py_dir
-else:
-    _base_dir = os.path.dirname(_current_dir)
-    base_dir = os.path.dirname(_base_dir)
+from resource_resolver import get_base_dir, get_resources_dir
+base_dir = get_base_dir()
 _CFG: str = os.path.join(base_dir, 'src', 'data', 'configs', 'config.json')
-_RESOURCES_BASE: str = os.path.join(base_dir, 'resources')
+_RESOURCES_BASE: str = get_resources_dir()
 if _RESOURCES_BASE not in sys.path:
     sys.path.insert(0, _RESOURCES_BASE)
 _SUPPORTED_LANGS = ['en_US', 'zh_CN', 'ru_RU', 'fr_FR', 'es_ES', 'de_DE', 'ja_JP', 'ko_KR']

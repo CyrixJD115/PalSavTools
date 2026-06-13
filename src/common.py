@@ -40,7 +40,8 @@ def get_display_version():
 def is_standalone():
     if is_frozen():
         return True
-    cfg_path = os.path.join(get_src_directory(), 'data', 'configs', 'runtime.cfg')
+    from boot_paths import CONFIG_DIR
+    cfg_path = os.path.join(str(CONFIG_DIR), 'runtime.cfg')
     try:
         cfg = configparser.ConfigParser()
         cfg.read(cfg_path)
@@ -52,7 +53,8 @@ def get_current_version():
         return APP_BETA_VERSION
     return APP_VERSION
 def get_update_settings():
-    cfg_path = os.path.join(get_src_directory(), 'data', 'configs', 'config.json')
+    from boot_paths import CONFIG_DIR
+    cfg_path = os.path.join(str(CONFIG_DIR), 'config.json')
     if is_standalone():
         defaults = {'auto_update': True, 'check_updates': True}
     else:
@@ -64,7 +66,8 @@ def get_update_settings():
         pass
     return defaults
 def save_update_settings(settings):
-    cfg_path = os.path.join(get_src_directory(), 'data', 'configs', 'config.json')
+    from boot_paths import CONFIG_DIR
+    cfg_path = os.path.join(str(CONFIG_DIR), 'config.json')
     config = {}
     try:
         config = json_tools.load(cfg_path)

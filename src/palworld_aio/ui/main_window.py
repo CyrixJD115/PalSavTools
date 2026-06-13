@@ -584,8 +584,8 @@ class MainWindow(QMainWindow):
         page_index = {'tools': 0, 'base_inventory': 1, 'player_inventory': 2, 'pal_editor': 3, 'players': 4, 'guilds': 5, 'bases': 6, 'map': 7, 'exclusions': 8}[button_id]
         self.stacked_widget.setCurrentIndex(page_index)
     def _load_user_settings(self):
-        base_path = constants.get_src_path()
-        user_cfg_path = os.path.join(base_path, 'data', 'configs', 'user.cfg')
+        from boot_paths import CONFIG_DIR
+        user_cfg_path = os.path.join(str(CONFIG_DIR), 'user.cfg')
         default_settings = {'language': 'en_US', 'show_icons': True, 'boot_preference': 'menu', 'console_detached': False, 'console_window_geometry': None, 'right_panel_visible': True}
         if os.path.exists(user_cfg_path):
             try:
@@ -601,8 +601,8 @@ class MainWindow(QMainWindow):
             os.makedirs(os.path.dirname(user_cfg_path), exist_ok=True)
             self._save_user_settings()
     def _save_user_settings(self):
-        base_path = constants.get_src_path()
-        user_cfg_path = os.path.join(base_path, 'data', 'configs', 'user.cfg')
+        from boot_paths import CONFIG_DIR
+        user_cfg_path = os.path.join(str(CONFIG_DIR), 'user.cfg')
         try:
             os.makedirs(os.path.dirname(user_cfg_path), exist_ok=True)
             json_tools.dump(self.user_settings, user_cfg_path, indent=2)
@@ -938,9 +938,9 @@ class MainWindow(QMainWindow):
         import json, os
         from palworld_aio.inventory_manager import PlayerInventory
         from palworld_aio.utils import gvasfile_to_sav, sav_to_gvasfile
-        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        ref_path = resource_path(base_dir, 'game_data', 'reference_unlock_data.json')
-        areas_path = resource_path(base_dir, 'game_data', 'world_map_areas.json')
+        from boot_paths import ROOT_DIR
+        ref_path = resource_path(str(ROOT_DIR), 'game_data', 'reference_unlock_data.json')
+        areas_path = resource_path(str(ROOT_DIR), 'game_data', 'world_map_areas.json')
         ref_data = json.load(open(ref_path, 'r'))
         area_ids = json.load(open(areas_path, 'r'))
         ft_guids = sorted(set(ref_data.get('FastTravelPointUnlockFlag_guids', [])))

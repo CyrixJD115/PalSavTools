@@ -12,7 +12,7 @@ from PySide6.QtWidgets import QFileDialog
 from PySide6.QtCore import QObject, Signal
 from loading_manager import show_critical
 from palsav.gvas import GvasFile
-from palsav.palsav import decompress_sav_to_gvas
+from palsav.core import decompress_sav_to_gvas
 from palworld_aio.data_manager import load_game_data_map
 from palsav.paltypes import PALWORLD_TYPE_HINTS
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES

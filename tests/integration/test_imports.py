@@ -64,7 +64,7 @@ _palsav_json_tools = import_from('palsav.json_tools')
 json_load = _palsav_json_tools.load
 json_dump = _palsav_json_tools.dump
 
-_palsav_palsav = import_from('palsav.palsav')
+_palsav_palsav = import_from('palsav.core')
 decompress_sav_to_gvas = _palsav_palsav.decompress_sav_to_gvas
 compress_gvas_to_sav = _palsav_palsav.compress_gvas_to_sav
 

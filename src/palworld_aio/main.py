@@ -1,8 +1,30 @@
 import sys
 import os
+
+_found_root = None
+if os.path.isfile(sys.executable):
+    _exe_dir = os.path.dirname(os.path.realpath(sys.executable))
+    if os.path.isdir(os.path.join(_exe_dir, 'resources')):
+        _found_root = _exe_dir
+    else:
+        _parent = os.path.dirname(_exe_dir)
+        if os.path.isdir(os.path.join(_parent, 'resources')):
+            _found_root = _parent
+if not _found_root:
+    _probe = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(5):
+        if os.path.isdir(os.path.join(_probe, 'resources')):
+            _found_root = _probe
+            break
+        _probe = os.path.dirname(_probe)
+    if not _found_root:
+        _found_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys._PST_BINARY_ROOT = _found_root
+
 import traceback
 import multiprocessing
-if getattr(sys, 'frozen', False):
+_is_frozen = getattr(sys, 'frozen', False)
+if _is_frozen:
     import subprocess
     multiprocessing.set_executable(sys.executable)
     _original_popen = subprocess.Popen
@@ -16,7 +38,7 @@ if __name__ == '__main__':
     multiprocessing.freeze_support()
 os.environ['QT_LOGGING_RULES'] = '*=false'
 os.environ['QT_DEBUG_PLUGINS'] = '0'
-if getattr(sys, 'frozen', False):
+if _is_frozen:
     import io
     class MockStdin:
         def read(self, size=-1):
@@ -33,11 +55,11 @@ if getattr(sys, 'frozen', False):
         sys.stdin = MockStdin()
     sys.stdout = io.StringIO()
     sys.stderr = io.StringIO()
-if getattr(sys, 'frozen', False):
-    base_dir = os.path.dirname(sys.executable)
+if _is_frozen:
+    base_dir = sys._PST_BINARY_ROOT
 else:
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-if getattr(sys, 'frozen', False):
+if _is_frozen:
     src_dir = os.path.join(base_dir, 'src')
 else:
     src_dir = base_dir if os.path.basename(base_dir) == 'src' else os.path.join(base_dir, 'src')

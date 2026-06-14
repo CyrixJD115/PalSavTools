@@ -1483,28 +1483,32 @@ def update_pal_descriptions():
                         if o_values:
                             pal_to_overwrite_effect[bp_class.lower()] = o_values
                     passive_list = []
+                    seen_bases = set()
                     for slot in params.get('PassiveSkills', []):
                         if isinstance(slot, dict):
                             arr = slot.get('SkillAndParametersArray', [])
-                            chosen = ''
                             for item in arr:
                                 if isinstance(item, dict):
                                     sn = item.get('SkillName', {})
                                     if isinstance(sn, dict):
                                         key = sn.get('Key', '')
                                         if key and ('PartnerSkill' in key or 'GiveElement' in key):
-                                            chosen = key
-                            if not chosen:
+                                            base = re.sub(r'_\d+$', '', key)
+                                            if base not in seen_bases:
+                                                seen_bases.add(base)
+                                                passive_list.append(key)
+                            if not seen_bases:
                                 for item in arr:
                                     if isinstance(item, dict):
                                         sn = item.get('SkillName', {})
                                         if isinstance(sn, dict):
                                             key = sn.get('Key', '')
                                             if key:
-                                                chosen = key
-                                                break
-                            if chosen:
-                                passive_list.append(chosen)
+                                                base = re.sub(r'_\d+$', '', key)
+                                                if base not in seen_bases:
+                                                    seen_bases.add(base)
+                                                    passive_list.append(key)
+                                                    break
                     text_ref_passives = []
                     for ref_group in params.get('TextReferencePassiveSkills', []):
                         if isinstance(ref_group, dict):
@@ -1537,8 +1541,6 @@ def update_pal_descriptions():
             continue
         desc = pal_entry.get('description', '')
         if not desc or ('{ReferencePassive' not in desc and '{Passive' not in desc):
-            continue
-        if pal_entry.get('passives'):
             continue
         asset = pal_entry.get('asset', '').lower()
         if '{ReferencePassive' in desc:

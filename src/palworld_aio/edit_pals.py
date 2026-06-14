@@ -1354,8 +1354,7 @@ def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values
                 p_info = _PASSIVE_DATA.get(p_clean, {})
                 rank_variant = min(star_count + 1, 5)
                 if rank_variant > 1:
-                    base_clean = re.sub('_\\d+$', '', p_clean)
-                    variant_key = f'{base_clean}_{rank_variant}'
+                    variant_key = re.sub(r'\d+', str(rank_variant), p_clean, count=1)
                     variant_info = _PASSIVE_DATA.get(variant_key.lower(), {})
                     if isinstance(variant_info, dict) and variant_info.get(f'effect{eff_num}', None) is not None:
                         p_info = variant_info

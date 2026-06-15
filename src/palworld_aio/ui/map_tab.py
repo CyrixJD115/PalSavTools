@@ -911,7 +911,7 @@ class MapTab(QWidget):
                         img_x, img_y = palworld_coord.treemap_to_pixel(bx, by, self.map_width, self.map_height)
                     else:
                         img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
-                    pal_count = constants.PLAYER_PAL_COUNTS.get(player_uid, 0)
+                    pal_count = constants.PLAYER_PAL_COUNTS.get(player_uid.lower(), 0)
                     guild_name = save_manager.get_guild_name_by_id(gid)
                     players.append({'player_uid': player_uid, 'player_name': name, 'level': level, 'coords': (bx, by), 'img_coords': (img_x, img_y), 'map_type': map_type, 'save_coords': (x, y, z), 'guild_name': guild_name, 'guild_id': gid, 'last_seen': lastseen, 'pal_count': pal_count})
             except Exception as e:

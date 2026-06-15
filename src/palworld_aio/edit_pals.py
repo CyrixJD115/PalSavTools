@@ -4653,6 +4653,7 @@ class PalEditorWidget(QWidget):
                 self.pal_info._hovered_data = None
                 self.pal_info._clear_display()
                 self._update_dashboard_stats()
+                self._decrement_pal_count()
         else:
             abs_idx = (self.current_box_index - 1) * 30 + slot_index
             if abs_idx in self.palbox_pal_dict:
@@ -4672,6 +4673,7 @@ class PalEditorWidget(QWidget):
                 self.pal_info._hovered_data = None
                 self.pal_info._clear_display()
                 self._update_dashboard_stats()
+                self._decrement_pal_count()
     def _delete_pal_at_slot_direct(self, slot_index, is_party=None):
         if is_party is None:
             is_party = self.selected_pal_slot and self.selected_pal_slot[0] == 'party'
@@ -4690,6 +4692,7 @@ class PalEditorWidget(QWidget):
                 self.pal_info._hovered_data = None
                 self.pal_info._clear_display()
                 self._update_dashboard_stats()
+                self._decrement_pal_count()
         else:
             abs_idx = (self.current_box_index - 1) * 30 + slot_index
             if abs_idx in self.palbox_pal_dict:
@@ -4706,6 +4709,7 @@ class PalEditorWidget(QWidget):
                 self.pal_info._hovered_data = None
                 self.pal_info._clear_display()
                 self._update_dashboard_stats()
+                self._decrement_pal_count()
     def _add_new_pal_at_slot(self, slot_index):
         sender = self.sender()
         is_party = sender in self.party_slots
@@ -4714,6 +4718,27 @@ class PalEditorWidget(QWidget):
             self._update_party_slots()
             self._update_palbox_page()
             self._update_dashboard_stats()
+            self._increment_pal_count()
+    def _increment_pal_count(self):
+        if self.player_uid:
+            key = self.player_uid.replace('-', '').lower()
+            constants.PLAYER_PAL_COUNTS[key] = constants.PLAYER_PAL_COUNTS.get(key, 0) + 1
+            self._refresh_map_viewer()
+    def _decrement_pal_count(self):
+        if self.player_uid:
+            key = self.player_uid.replace('-', '').lower()
+            current = constants.PLAYER_PAL_COUNTS.get(key, 0)
+            if current > 0:
+                constants.PLAYER_PAL_COUNTS[key] = current - 1
+                self._refresh_map_viewer()
+    def _refresh_map_viewer(self):
+        p = self.parent()
+        while p:
+            if hasattr(p, '_refresh_players'):
+                p._refresh_players()
+                p._refresh_map()
+                break
+            p = p.parent()
     def _focus_pal_info(self):
         self.pal_info.setFocus()
     def _highlight_party_slot(self, idx):

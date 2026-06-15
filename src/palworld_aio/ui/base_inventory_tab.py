@@ -1154,11 +1154,11 @@ class _BasePalIcon(QFrame):
         level_lbl._slot_child_kind = 'level'
         level_lbl.show()
         self._children.append(level_lbl)
-        if is_boss:
-            boss_pix = _get_boss_alpha_pixmap(14)
-            if boss_pix:
+        if is_lucky:
+            shiny_pix = _get_boss_shiny_pixmap(14)
+            if shiny_pix:
                 badge = QLabel(self)
-                badge.setPixmap(boss_pix)
+                badge.setPixmap(shiny_pix)
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')
@@ -1166,11 +1166,11 @@ class _BasePalIcon(QFrame):
                 badge._slot_child_kind = 'boss'
                 badge.show()
                 self._children.append(badge)
-        elif is_lucky:
-            shiny_pix = _get_boss_shiny_pixmap(14)
-            if shiny_pix:
+        elif is_boss:
+            boss_pix = _get_boss_alpha_pixmap(14)
+            if boss_pix:
                 badge = QLabel(self)
-                badge.setPixmap(shiny_pix)
+                badge.setPixmap(boss_pix)
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')

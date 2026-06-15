@@ -400,17 +400,17 @@ class PalIcon(QFrame):
         level_label.move(2, 48)
         level_label.setAttribute(Qt.WA_TransparentForMouseEvents)
         level_label.show()
-        if is_boss:
-            badge = QLabel('α', self)
-            badge.setStyleSheet('color: #F59E0B; font-size: 12px; font-weight: bold; background: rgba(0,0,0,0.6); border-radius: 8px; border: 1px solid rgba(245,158,11,0.4);')
+        if is_lucky:
+            badge = QLabel('☆', self)
+            badge.setStyleSheet('color: #A78BFA; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); border-radius: 8px; border: 1px solid rgba(167,139,250,0.4);')
             badge.setFixedSize(18, 18)
             badge.setAlignment(Qt.AlignCenter)
             badge.move(2, 2)
             badge.setAttribute(Qt.WA_TransparentForMouseEvents)
             badge.show()
-        elif is_lucky:
-            badge = QLabel('☆', self)
-            badge.setStyleSheet('color: #A78BFA; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); border-radius: 8px; border: 1px solid rgba(167,139,250,0.4);')
+        elif is_boss:
+            badge = QLabel('α', self)
+            badge.setStyleSheet('color: #F59E0B; font-size: 12px; font-weight: bold; background: rgba(0,0,0,0.6); border-radius: 8px; border: 1px solid rgba(245,158,11,0.4);')
             badge.setFixedSize(18, 18)
             badge.setAlignment(Qt.AlignCenter)
             badge.move(2, 2)
@@ -894,20 +894,7 @@ class PartySlotWidget(QFrame):
             awake_badge.show()
             self._badges.append(awake_badge)
             badge_x -= 14
-        if is_boss:
-            boss_pix = _get_boss_alpha_pixmap(14)
-            if boss_pix:
-                boss_badge = QLabel(self)
-                boss_badge.setPixmap(boss_pix)
-                boss_badge.setFixedSize(14, 14)
-                boss_badge.setAlignment(Qt.AlignCenter)
-                boss_badge.setStyleSheet('background: transparent; border: none;')
-                boss_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
-                boss_badge.move(badge_x - 14, badge_y)
-                boss_badge.show()
-                self._badges.append(boss_badge)
-                badge_x -= 16
-        elif is_lucky:
+        if is_lucky:
             shiny_pix = _get_boss_shiny_pixmap(14)
             if shiny_pix:
                 lucky_badge = QLabel(self)
@@ -919,6 +906,19 @@ class PartySlotWidget(QFrame):
                 lucky_badge.move(badge_x - 14, badge_y)
                 lucky_badge.show()
                 self._badges.append(lucky_badge)
+                badge_x -= 16
+        elif is_boss:
+            boss_pix = _get_boss_alpha_pixmap(14)
+            if boss_pix:
+                boss_badge = QLabel(self)
+                boss_badge.setPixmap(boss_pix)
+                boss_badge.setFixedSize(14, 14)
+                boss_badge.setAlignment(Qt.AlignCenter)
+                boss_badge.setStyleSheet('background: transparent; border: none;')
+                boss_badge.setAttribute(Qt.WA_TransparentForMouseEvents)
+                boss_badge.move(badge_x - 14, badge_y)
+                boss_badge.show()
+                self._badges.append(boss_badge)
                 badge_x -= 16
         base_el_data = get_pal_base_data(cid)
         if base_el_data:
@@ -1100,11 +1100,11 @@ class PalboxSlotWidget(QFrame):
         level_lbl._slot_child_kind = 'level'
         level_lbl.show()
         self._children.append(level_lbl)
-        if is_boss:
-            boss_pix = _get_boss_alpha_pixmap(14)
-            if boss_pix:
+        if is_lucky:
+            shiny_pix = _get_boss_shiny_pixmap(14)
+            if shiny_pix:
                 badge = QLabel(self)
-                badge.setPixmap(boss_pix)
+                badge.setPixmap(shiny_pix)
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')
@@ -1112,11 +1112,11 @@ class PalboxSlotWidget(QFrame):
                 badge._slot_child_kind = 'boss'
                 badge.show()
                 self._children.append(badge)
-        elif is_lucky:
-            shiny_pix = _get_boss_shiny_pixmap(14)
-            if shiny_pix:
+        elif is_boss:
+            boss_pix = _get_boss_alpha_pixmap(14)
+            if boss_pix:
                 badge = QLabel(self)
-                badge.setPixmap(shiny_pix)
+                badge.setPixmap(boss_pix)
                 badge.setFixedSize(14, 14)
                 badge.setAlignment(Qt.AlignCenter)
                 badge.setStyleSheet('background: transparent; border: none;')
@@ -1615,15 +1615,19 @@ def _toggle_boss_raw(raw, enable):
     if enable:
         if not cid.upper().startswith('BOSS_'):
             raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': 'BOSS_' + cid}
-        raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': False}
-    elif cid.upper().startswith('BOSS_'):
-        raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
-def _toggle_lucky_raw(raw, enable):
-    raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': enable}
-    if enable:
-        cid = extract_value(raw, 'CharacterID', '')
+    else:
+        if extract_value(raw, 'IsRarePal', False):
+            raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': False}
         if cid.upper().startswith('BOSS_'):
             raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
+def _toggle_lucky_raw(raw, enable):
+    raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': enable}
+    cid = extract_value(raw, 'CharacterID', '')
+    if enable:
+        if not cid.upper().startswith('BOSS_'):
+            raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': 'BOSS_' + cid}
+    elif cid.upper().startswith('BOSS_'):
+        raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
 def _toggle_awake_raw(raw, enable):
     raw['bIsAwakening'] = {'id': None, 'type': 'BoolProperty', 'value': enable}
 def _toggle_dna_raw(raw, enable):
@@ -3125,18 +3129,18 @@ class PalInfoWidget(QFrame):
                 self.dna_overlay.show()
             else:
                 self.dna_overlay.hide()
-            if is_boss:
-                bp = _get_boss_alpha_pixmap(16)
-                if bp:
-                    self.boss_overlay.setPixmap(bp)
-                self.boss_overlay.show()
-                self.lucky_overlay.hide()
-            elif is_lucky:
+            if is_lucky:
                 sp = _get_boss_shiny_pixmap(16)
                 if sp:
                     self.lucky_overlay.setPixmap(sp)
                 self.lucky_overlay.show()
                 self.boss_overlay.hide()
+            elif is_boss:
+                bp = _get_boss_alpha_pixmap(16)
+                if bp:
+                    self.boss_overlay.setPixmap(bp)
+                self.boss_overlay.show()
+                self.lucky_overlay.hide()
             else:
                 self.boss_overlay.hide()
                 self.lucky_overlay.hide()
@@ -3946,26 +3950,21 @@ class PalInfoWidget(QFrame):
     def _on_boss_toggle(self):
         if not self._raw:
             return
-        cid = extract_value(self._raw, 'CharacterID', '')
-        if self.info_boss_btn.isChecked():
-            if not cid.upper().startswith('BOSS_'):
-                self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': 'BOSS_' + cid}
-                if self.info_lucky_btn.isChecked():
-                    self.info_lucky_btn.setChecked(False)
-                    self._raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': False}
-        elif cid.upper().startswith('BOSS_'):
-            self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
+        _toggle_boss_raw(self._raw, self.info_boss_btn.isChecked())
+        is_lucky = extract_value(self._raw, 'IsRarePal', False)
+        self.info_lucky_btn.blockSignals(True)
+        self.info_lucky_btn.setChecked(is_lucky)
+        self.info_lucky_btn.blockSignals(False)
         self._recalc_hp()
     def _on_lucky_toggle(self):
         if not self._raw:
             return
-        is_lucky = self.info_lucky_btn.isChecked()
-        self._raw['IsRarePal'] = {'id': None, 'type': 'BoolProperty', 'value': is_lucky}
-        if is_lucky:
-            self.info_boss_btn.setChecked(False)
-            cid = extract_value(self._raw, 'CharacterID', '')
-            if cid.upper().startswith('BOSS_'):
-                self._raw['CharacterID'] = {'id': None, 'type': 'NameProperty', 'value': cid[5:]}
+        _toggle_lucky_raw(self._raw, self.info_lucky_btn.isChecked())
+        cid = extract_value(self._raw, 'CharacterID', '')
+        is_boss = cid.upper().startswith('BOSS_')
+        self.info_boss_btn.blockSignals(True)
+        self.info_boss_btn.setChecked(is_boss)
+        self.info_boss_btn.blockSignals(False)
         self._recalc_hp()
     def _on_awake_toggle(self):
         if not self._raw:

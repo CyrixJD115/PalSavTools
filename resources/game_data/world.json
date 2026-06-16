@@ -7872,14 +7872,14 @@
         {
             "name": "Metal Pickaxe",
             "asset": "Product_Pickaxe_Grade_02",
-            "icon": "/icons/technologies/Product_Pickaxe_Grade_02.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
             "type": "standard",
             "description": "A pickaxe used for mining.\r\nMade from metal, its durability and efficiency have improved.\r\nRequires High-Quality Workbench to craft."
         },
         {
             "name": "Refined Metal Pickaxe",
             "asset": "Product_Pickaxe_Grade_03",
-            "icon": "/icons/technologies/Product_Pickaxe_Grade_03.webp",
+            "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
             "type": "standard",
             "description": "A pickaxe used for mining.\r\nIts durability and efficiency have further improved.\r\nRequires Production Assembly Line to craft."
         },

@@ -351,8 +351,18 @@ def find_and_copy_icon(search_name: str, target_subdir: str, export_subdirs: lis
             return f'/icons/{target_subdir}/{os.path.basename(full_path)}'
     if not name_lower.startswith('t_itemicon_'):
         tier_stripped = re.sub('_\\d+$', '', name_lower)
-        if tier_stripped != name_lower:
-            for try_term in [tier_stripped, f't_itemicon_{tier_stripped}', f't_{tier_stripped}']:
+        qualifier_stripped = re.sub('_(?:tier|rank|level)_\\d+$', '', name_lower)
+        if qualifier_stripped == name_lower:
+            qualifier_stripped = None
+        if tier_stripped != name_lower or qualifier_stripped:
+            try_terms = [tier_stripped, f't_itemicon_{tier_stripped}', f't_{tier_stripped}']
+            if qualifier_stripped:
+                try_terms += [qualifier_stripped, f't_itemicon_{qualifier_stripped}', f't_{qualifier_stripped}']
+            seen_try = set()
+            for try_term in try_terms:
+                if try_term is None or try_term in seen_try:
+                    continue
+                seen_try.add(try_term)
                 full_path = icon_name_to_path.get(try_term)
                 if full_path:
                     target_file = target_dir / os.path.basename(full_path)
@@ -687,6 +697,7 @@ def update_item_data():
                 rows = data.get('Rows', {})
                 if rows:
                     all_icon_rows.update(rows)
+    _all_icon_rows_ci = {k.lower(): v for k, v in all_icon_rows.items()}
     if not all_item_rows:
         print('  No item rows found. Skipping.')
         return
@@ -751,8 +762,8 @@ def update_item_data():
         if icon_path:
             icon_filename = icon_path.split('/')[-1].split('.')[0] if '.' in icon_path else icon_path.split('/')[-1]
             copied_icon = find_and_copy_icon(icon_filename, 'items', item_icon_subdirs)
-        if not copied_icon and icon_name_field and (icon_name_field != item_id):
-            icon_name_row = all_icon_rows.get(icon_name_field, {})
+        if not copied_icon and icon_name_field:
+            icon_name_row = all_icon_rows.get(icon_name_field) or _all_icon_rows_ci.get(icon_name_field.lower(), {})
             if isinstance(icon_name_row, dict):
                 icon_data = icon_name_row.get('Icon', {})
                 if isinstance(icon_data, dict):

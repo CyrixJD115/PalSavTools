@@ -5070,12 +5070,27 @@ def remove_skill_from_all_pals(active_skill_id=None, passive_skill_id=None):
     return {'skills_removed': skills_removed, 'pals_affected': pals_affected}
 class _PalSlotDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
+        painter.save()
+        if option.state & QStyle.State_Selected:
+            painter.fillRect(option.rect, QColor(125, 211, 252, 30))
+        elif option.state & QStyle.State_MouseOver:
+            painter.fillRect(option.rect, QColor(125, 211, 252, 10))
         super().paint(painter, option, index)
         has_badge = index.data(Qt.UserRole + 1)
         if has_badge:
             badge = _get_boss_alpha_pixmap(14)
             if badge and (not badge.isNull()):
                 painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
+        elem_keys = index.data(Qt.UserRole + 2)
+        if elem_keys:
+            ix = option.rect.right() - 16
+            iy = option.rect.top() + 4
+            for en in elem_keys:
+                ep = _get_element_pixmap(en, 'small', 12)
+                if ep and (not ep.isNull()):
+                    painter.drawPixmap(ix, iy, ep)
+                    iy += 14
+        painter.restore()
 class PalCreateDialog(QDialog):
     def __init__(self, pal_editor, is_party, slot_index, parent=None):
         super().__init__(parent)
@@ -5115,6 +5130,7 @@ class PalCreateDialog(QDialog):
         pal_passives = {}
         pal_main_values = {}
         pal_overwrite_effects = {}
+        pal_elements = {}
         self._npc_assets = set()
         self._named_npc_assets = set()
         try:
@@ -5122,15 +5138,19 @@ class PalCreateDialog(QDialog):
             cp = resource_path(base_dir, 'game_data', 'characters.json')
             cd = json_tools.load(cp)
             for p in cd.get('pals', []):
-                if isinstance(p, dict) and p.get('description'):
-                    pal_descs[p['asset'].lower()] = p['description']
-                    pal_passives[p['asset'].lower()] = p.get('passives', [])
-                    mv = p.get('active_skill_main_value', [])
-                    if mv:
-                        pal_main_values[p['asset'].lower()] = mv
-                    ov = p.get('active_skill_overwrite_effect', [])
-                    if ov:
-                        pal_overwrite_effects[p['asset'].lower()] = ov
+                if isinstance(p, dict):
+                    if p.get('description'):
+                        pal_descs[p['asset'].lower()] = p['description']
+                        pal_passives[p['asset'].lower()] = p.get('passives', [])
+                        mv = p.get('active_skill_main_value', [])
+                        if mv:
+                            pal_main_values[p['asset'].lower()] = mv
+                        ov = p.get('active_skill_overwrite_effect', [])
+                        if ov:
+                            pal_overwrite_effects[p['asset'].lower()] = ov
+                    elems = p.get('elements', {})
+                    if elems:
+                        pal_elements[p['asset'].lower()] = elems
             for p in cd.get('npcs', []):
                 if isinstance(p, dict) and p.get('asset'):
                     self._npc_assets.add(p['asset'].lower())
@@ -5162,6 +5182,7 @@ class PalCreateDialog(QDialog):
         self._pal_passives_cache = pal_passives
         self._pal_main_values_cache = pal_main_values
         self._pal_overwrite_effects_cache = pal_overwrite_effects
+        self._pal_elements_cache = pal_elements
         self._filter_pal_list()
         self._search_edit.textChanged.connect(self._filter_pal_list)
         layout.addWidget(self.pal_list)
@@ -5235,6 +5256,9 @@ class PalCreateDialog(QDialog):
                 badge = _get_boss_alpha_pixmap(14)
                 if badge and (not badge.isNull()):
                     li.setData(Qt.UserRole + 1, True)
+            elems = self._pal_elements_cache.get(asset.lower(), {})
+            if elems:
+                li.setData(Qt.UserRole + 2, list(elems.keys())[:2])
             self.pal_list.addItem(li)
     def _on_create(self):
         if not self.selected_pal['asset']:

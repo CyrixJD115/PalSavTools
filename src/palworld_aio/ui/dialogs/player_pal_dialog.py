@@ -18,6 +18,15 @@ class PalSlotDelegate(QStyledItemDelegate):
             badge = _get_boss_alpha_pixmap(14)
             if badge and (not badge.isNull()):
                 painter.drawPixmap(option.rect.x() + 6, option.rect.y() + 6, badge)
+        elem_keys = index.data(Qt.UserRole + 2)
+        if elem_keys:
+            ix = option.rect.right() - 16
+            iy = option.rect.top() + 4
+            for en in elem_keys:
+                ep = _get_element_pixmap(en, 'small', 12)
+                if ep and (not ep.isNull()):
+                    painter.drawPixmap(ix, iy, ep)
+                    iy += 14
 class PlayerPalActionDialog(QDialog):
     pal_action_selected = Signal(str, str, list)
     def __init__(self, parent=None):
@@ -168,6 +177,7 @@ class PlayerPalActionDialog(QDialog):
         self._pal_passives_map = {}
         self._pal_main_value_map = {}
         self._pal_overwrite_effect_map = {}
+        self._pal_elements_map = {}
         base_dir = constants.get_base_path()
         try:
             paldata_path = resource_path(base_dir, 'game_data', 'characters.json')
@@ -191,6 +201,9 @@ class PlayerPalActionDialog(QDialog):
                 ov = pal.get('active_skill_overwrite_effect', [])
                 if ov:
                     self._pal_overwrite_effect_map[asset] = ov
+                elems = pal.get('elements', {})
+                if elems:
+                    self._pal_elements_map[asset] = elems
         except:
             pass
     def _get_pal_icon(self, pal_id):
@@ -260,6 +273,9 @@ class PlayerPalActionDialog(QDialog):
                 list_item.setIcon(QIcon(pixmap))
             if any((asset.upper().startswith(p) for p in _BOSS_PREFIXES)):
                 list_item.setData(Qt.UserRole + 1, True)
+            elems = self._pal_elements_map.get(asset_lower, {})
+            if elems:
+                list_item.setData(Qt.UserRole + 2, list(elems.keys())[:2])
             list_item.setSizeHint(QSize(84, 84))
             self.pal_list.addItem(list_item)
     def _on_pal_clicked(self, item):

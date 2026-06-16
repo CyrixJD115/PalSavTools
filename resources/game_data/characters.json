@@ -527,9 +527,59 @@
             "name": "Nyafia",
             "asset": "BadCatGirl",
             "icon": "/icons/pals/T_BadCatgirl_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Dark": {
+                    "name": "Dark",
+                    "icon": "/icons/elements/T_Icon_element_s_05.png",
+                    "icon_large": "/icons/elements/T_Icon_element_05.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_05.png"
+                }
+            },
+            "stats": {
+                "hp": 110,
+                "melee_attack": 100,
+                "shot_attack": 100,
+                "defense": 100,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 560,
+                "food_amount": 6,
+                "element_type1": "Dark",
+                "element_type2": "None",
+                "zukan_index": 143,
+                "rarity": 4,
+                "size": "EPalSizeType::M",
+                "run_speed": 600,
+                "ride_sprint_speed": 900
+            },
+            "scaling": {
+                "hp": 110,
+                "attack": 100,
+                "defense": 100
+            },
+            "friendship_hp": 3.5,
+            "friendship_shotattack": 2.5,
+            "friendship_defense": 2.5,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 4,
+                "Collection": 4,
+                "Deforest": 2,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 3,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Shot-Nyan Mode",
+            "description": "When activated, Nyafia will fire a shotgun at nearby enemies for a limited time. While in party, increases the player's shotgun damage by {Passive1_EffectValue1}%. (Does not stack)",
+            "passives": [
+                "DamageUpWeapon_Otomo_1"
+            ]
         },
         {
             "name": "Incineram",
@@ -1795,9 +1845,56 @@
             "name": "Fuack",
             "asset": "Blueplatypus",
             "icon": "/icons/pals/T_BluePlatypus_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Water": {
+                    "name": "Water",
+                    "icon": "/icons/elements/T_Icon_element_s_02.png",
+                    "icon_large": "/icons/elements/T_Icon_element_02.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_02.png"
+                }
+            },
+            "stats": {
+                "hp": 60,
+                "melee_attack": 80,
+                "shot_attack": 80,
+                "defense": 60,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 100,
+                "food_amount": 1,
+                "element_type1": "Water",
+                "element_type2": "None",
+                "zukan_index": 5,
+                "rarity": 1,
+                "size": "EPalSizeType::XS",
+                "run_speed": 300,
+                "ride_sprint_speed": 400
+            },
+            "scaling": {
+                "hp": 60,
+                "attack": 80,
+                "defense": 60
+            },
+            "friendship_hp": 6.0,
+            "friendship_shotattack": 3.3,
+            "friendship_defense": 4.1,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 1,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 1,
+                "Collection": 0,
+                "Deforest": 0,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 1,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Surfing Slam",
+            "description": "When activated, Fuack body surfs towards an enemy and slams into them. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Rushoar",
@@ -2929,9 +3026,56 @@
             "name": "Mozzarina",
             "asset": "Cowpal",
             "icon": "/icons/pals/T_CowPal_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Normal": {
+                    "name": "Neutral",
+                    "icon": "/icons/elements/T_Icon_element_s_00.png",
+                    "icon_large": "/icons/elements/T_Icon_element_00.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_00.png"
+                }
+            },
+            "stats": {
+                "hp": 90,
+                "melee_attack": 100,
+                "shot_attack": 50,
+                "defense": 80,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 150,
+                "food_amount": 2,
+                "element_type1": "Normal",
+                "element_type2": "None",
+                "zukan_index": 40,
+                "rarity": 2,
+                "size": "EPalSizeType::S",
+                "run_speed": 580,
+                "ride_sprint_speed": 700
+            },
+            "scaling": {
+                "hp": 90,
+                "attack": 100,
+                "defense": 80
+            },
+            "friendship_hp": 4.5,
+            "friendship_shotattack": 4.5,
+            "friendship_defense": 3.3,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 0,
+                "Deforest": 0,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 0,
+                "MonsterFarm": 2
+            },
+            "partner_skill": "Milk Maker",
+            "description": "Sometimes drops Milk when assigned to Ranch."
         },
         {
             "name": "Pharapace",
@@ -10108,9 +10252,60 @@
             "name": "Kingpaca Cryst",
             "asset": "KingAlpaca_ice",
             "icon": "/icons/pals/T_KingAlpaca_Ice_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Ice": {
+                    "name": "Ice",
+                    "icon": "/icons/elements/T_Icon_element_s_08.png",
+                    "icon_large": "/icons/elements/T_Icon_element_08.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_08.png"
+                }
+            },
+            "stats": {
+                "hp": 120,
+                "melee_attack": 100,
+                "shot_attack": 85,
+                "defense": 90,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 280,
+                "food_amount": 4,
+                "element_type1": "Ice",
+                "element_type2": "None",
+                "zukan_index": 21,
+                "rarity": 9,
+                "size": "EPalSizeType::XL",
+                "run_speed": 700,
+                "ride_sprint_speed": 1040
+            },
+            "scaling": {
+                "hp": 120,
+                "attack": 100,
+                "defense": 90
+            },
+            "friendship_hp": 3.0,
+            "friendship_shotattack": 3.1,
+            "friendship_defense": 2.9,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 2,
+                "Deforest": 0,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 4,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Coldhearted King",
+            "description": "Can be ridden. This Pal's Defense and Movement Speed increase by {Passive1_EffectValue1}% for each Melpaca in party.",
+            "passives": [
+                "MoveSpeed_KingAlpaca_PartnerSkill_1",
+                "Defense_KingAlpaca_PartnerSkill_1"
+            ]
         },
         {
             "name": "Blazamut",
@@ -10473,9 +10668,60 @@
             "name": "Univolt Cryst",
             "asset": "Kirin_ice",
             "icon": "/icons/pals/T_Kirin_Ice_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Ice": {
+                    "name": "Ice",
+                    "icon": "/icons/elements/T_Icon_element_s_08.png",
+                    "icon_large": "/icons/elements/T_Icon_element_08.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_08.png"
+                }
+            },
+            "stats": {
+                "hp": 80,
+                "melee_attack": 110,
+                "shot_attack": 105,
+                "defense": 110,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 210,
+                "food_amount": 3,
+                "element_type1": "Ice",
+                "element_type2": "None",
+                "zukan_index": 54,
+                "rarity": 6,
+                "size": "EPalSizeType::M",
+                "run_speed": 720,
+                "ride_sprint_speed": 1100
+            },
+            "scaling": {
+                "hp": 80,
+                "attack": 110,
+                "defense": 110
+            },
+            "friendship_hp": 5.0,
+            "friendship_shotattack": 2.3,
+            "friendship_defense": 2.1,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 0,
+                "Deforest": 3,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 6,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Frigid Deity",
+            "description": "Can be ridden. Changes the player's attack type to [ICON:ElemIcon_Ice][ELEM:Ice] with {Passive2_EffectValue1}% increased Attack while mounted.",
+            "passives": [
+                "GiveAIce_Ride",
+                "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1"
+            ]
         },
         {
             "name": "Foxparks",
@@ -13797,9 +14043,65 @@
             "name": "Gloopie",
             "asset": "OctopusGIrl",
             "icon": "/icons/pals/T_OctopusGirl_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Water": {
+                    "name": "Water",
+                    "icon": "/icons/elements/T_Icon_element_s_02.png",
+                    "icon_large": "/icons/elements/T_Icon_element_02.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_02.png"
+                },
+                "Dark": {
+                    "name": "Dark",
+                    "icon": "/icons/elements/T_Icon_element_s_05.png",
+                    "icon_large": "/icons/elements/T_Icon_element_05.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_05.png"
+                }
+            },
+            "stats": {
+                "hp": 70,
+                "melee_attack": 100,
+                "shot_attack": 85,
+                "defense": 70,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 280,
+                "food_amount": 3,
+                "element_type1": "Water",
+                "element_type2": "Dark",
+                "zukan_index": 48,
+                "rarity": 5,
+                "size": "EPalSizeType::S",
+                "run_speed": 300,
+                "ride_sprint_speed": 500
+            },
+            "scaling": {
+                "hp": 70,
+                "attack": 100,
+                "defense": 70
+            },
+            "friendship_hp": 5.5,
+            "friendship_shotattack": 3.1,
+            "friendship_defense": 3.7,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 2,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 2,
+                "Collection": 0,
+                "Deforest": 0,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 2,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Sticky Princess",
+            "description": "While in party, the fishing minigame's capture gauge decreases {Passive1_EffectValue1}% more slowly when the capture bar is not aligned. (Does not stack)",
+            "passives": [
+                "Fishing_FailedAmountDown_OctopusGirl_PartnerSkill_1"
+            ]
         },
         {
             "name": "Gloopie Primo",
@@ -17096,9 +17398,56 @@
             "name": "Bastigor",
             "asset": "SnowTigerBeastMan",
             "icon": "/icons/pals/T_SnowTigerBeastman_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Ice": {
+                    "name": "Ice",
+                    "icon": "/icons/elements/T_Icon_element_s_08.png",
+                    "icon_large": "/icons/elements/T_Icon_element_08.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_08.png"
+                }
+            },
+            "stats": {
+                "hp": 140,
+                "melee_attack": 100,
+                "shot_attack": 130,
+                "defense": 120,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 730,
+                "food_amount": 9,
+                "element_type1": "Ice",
+                "element_type2": "None",
+                "zukan_index": 191,
+                "rarity": 8,
+                "size": "EPalSizeType::M",
+                "run_speed": 750,
+                "ride_sprint_speed": 1100
+            },
+            "scaling": {
+                "hp": 140,
+                "attack": 100,
+                "defense": 120
+            },
+            "friendship_hp": 2.0,
+            "friendship_shotattack": 1.3,
+            "friendship_defense": 1.7,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 0,
+                "Deforest": 6,
+                "Mining": 5,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 8,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Blizzard Crash",
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Beegarde",
@@ -17576,17 +17925,131 @@
             "name": "Skutlass",
             "asset": "SwordCutlassFish",
             "icon": "/icons/pals/T_SwordCutlassfish_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Water": {
+                    "name": "Water",
+                    "icon": "/icons/elements/T_Icon_element_s_02.png",
+                    "icon_large": "/icons/elements/T_Icon_element_02.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_02.png"
+                }
+            },
+            "stats": {
+                "hp": 70,
+                "melee_attack": 100,
+                "shot_attack": 100,
+                "defense": 80,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 340,
+                "food_amount": 5,
+                "element_type1": "Water",
+                "element_type2": "None",
+                "zukan_index": 128,
+                "rarity": 5,
+                "size": "EPalSizeType::M",
+                "run_speed": 500,
+                "ride_sprint_speed": 800
+            },
+            "scaling": {
+                "hp": 70,
+                "attack": 100,
+                "defense": 80
+            },
+            "friendship_hp": 5.5,
+            "friendship_shotattack": 2.5,
+            "friendship_defense": 3.3,
+            "work_suitabilities": {
+                "EmitFlame": 0,
+                "Watering": 4,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 1,
+                "Deforest": 4,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Severed Flesh for Bone",
+            "description": "When activated, Skutlass becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "active_skill_main_value": [
+                2600.0,
+                2700.0,
+                3000.0,
+                3400.0,
+                3900.0
+            ]
         },
         {
             "name": "Skutlass Ignis",
             "asset": "SwordCutlassFish_Fire",
             "icon": "/icons/pals/T_SwordCutlassfish_Fire_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Water": {
+                    "name": "Water",
+                    "icon": "/icons/elements/T_Icon_element_s_02.png",
+                    "icon_large": "/icons/elements/T_Icon_element_02.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_02.png"
+                },
+                "Fire": {
+                    "name": "Fire",
+                    "icon": "/icons/elements/T_Icon_element_s_01.png",
+                    "icon_large": "/icons/elements/T_Icon_element_01.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_01.png"
+                }
+            },
+            "stats": {
+                "hp": 70,
+                "melee_attack": 100,
+                "shot_attack": 105,
+                "defense": 80,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 340,
+                "food_amount": 5,
+                "element_type1": "Water",
+                "element_type2": "Fire",
+                "zukan_index": 128,
+                "rarity": 5,
+                "size": "EPalSizeType::M",
+                "run_speed": 500,
+                "ride_sprint_speed": 800
+            },
+            "scaling": {
+                "hp": 70,
+                "attack": 100,
+                "defense": 80
+            },
+            "friendship_hp": 5.5,
+            "friendship_shotattack": 2.3,
+            "friendship_defense": 3.3,
+            "work_suitabilities": {
+                "EmitFlame": 3,
+                "Watering": 2,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 2,
+                "Deforest": 3,
+                "Mining": 0,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Seered Flesh for Bone",
+            "description": "When activated, Skutlass Ignis becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). Skutlass Ignis will be incapacitated if it doesn't return to normal form soon enough. Will also be incapacitated if Iaigiri is activated.",
+            "active_skill_main_value": [
+                2900.0,
+                3000.0,
+                3300.0,
+                3700.0,
+                4200.0
+            ]
         },
         {
             "name": "Turtacle",
@@ -18617,9 +19080,65 @@
             "name": "Reptyro",
             "asset": "Volcanicmonster",
             "icon": "/icons/pals/T_VolcanicMonster_icon_normal.webp",
-            "elements": {},
-            "partner_skill": "",
-            "description": "Humans are not Pals. Therefore, they do not possess Partner Skills."
+            "elements": {
+                "Fire": {
+                    "name": "Fire",
+                    "icon": "/icons/elements/T_Icon_element_s_01.png",
+                    "icon_large": "/icons/elements/T_Icon_element_01.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_01.png"
+                },
+                "Earth": {
+                    "name": "Earth",
+                    "icon": "/icons/elements/T_Icon_element_s_07.png",
+                    "icon_large": "/icons/elements/T_Icon_element_07.png",
+                    "icon_passive_base": "/icons/elements/T_prt_pal_skill_base_element_07.png"
+                }
+            },
+            "stats": {
+                "hp": 110,
+                "melee_attack": 100,
+                "shot_attack": 105,
+                "defense": 120,
+                "support": 100,
+                "craft_speed": 100,
+                "max_full_stomach": 490,
+                "food_amount": 7,
+                "element_type1": "Fire",
+                "element_type2": "Earth",
+                "zukan_index": 129,
+                "rarity": 6,
+                "size": "EPalSizeType::L",
+                "run_speed": 550,
+                "ride_sprint_speed": 1000
+            },
+            "scaling": {
+                "hp": 110,
+                "attack": 100,
+                "defense": 120
+            },
+            "friendship_hp": 3.5,
+            "friendship_shotattack": 2.3,
+            "friendship_defense": 1.7,
+            "work_suitabilities": {
+                "EmitFlame": 5,
+                "Watering": 0,
+                "Seeding": 0,
+                "GenerateElectricity": 0,
+                "Handcraft": 0,
+                "Collection": 0,
+                "Deforest": 0,
+                "Mining": 5,
+                "OilExtraction": 0,
+                "ProductMedicine": 0,
+                "Cool": 0,
+                "Transport": 0,
+                "MonsterFarm": 0
+            },
+            "partner_skill": "Ore-Loving Beast",
+            "description": "Can be ridden. While in party, reduces weight of all types of ore by {Passive1_EffectValue1}%. (Does not stack)",
+            "passives": [
+                "ItemWeightReduction_PartnerSkill_VolcanicMonster_1"
+            ]
         },
         {
             "name": "Moldron",

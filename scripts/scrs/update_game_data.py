@@ -409,6 +409,7 @@ def update_pal_data():
     if not icon_rows and (not monster_rows):
         print('  No pal rows found in exports. Skipping.')
         return
+    _monster_rows_ci = {k.lower(): v for k, v in monster_rows.items()}
     _pal_name_l10n_lower = {}
     for k, v in pal_name_l10n.items():
         _pal_name_l10n_lower[k.lower()] = v
@@ -476,7 +477,7 @@ def update_pal_data():
             copied_icon = find_and_copy_icon(icon_filename, 'pals', pal_icon_subdirs)
         else:
             copied_icon = None
-        monster_row = monster_rows.get(pal_id, None)
+        monster_row = monster_rows.get(pal_id) or _monster_rows_ci.get(pal_id.lower())
         display_name = resolve_pal_name(pal_id, monster_row)
         final_icon = copied_icon or f'/icons/pals/{pal_id}_icon_normal.webp'
         if not copied_icon:

@@ -7,7 +7,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "An intelligent processing core that can teach itself. Capable of making complex judgments and autonomous management, this pivotal part is integral to any state-of-the-art devices.",
+            "description": "Capable of making complex judgments and autonomous management, this pivotal part is integral to any state-of-the-art devices.\r\nCan be crafted at Advanced Workshop.",
             "sort_id": 5417
         },
         {
@@ -267,7 +267,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
-            "description": "A lightweight yet durable undergarment crafted from unique fibers. Reduces damage taken from explosions.",
+            "description": "A lightweight yet durable undergarment crafted from unique fibers. \r\nNullifies damage taken from explosions.",
             "sort_id": 2049
         },
         {
@@ -867,7 +867,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_AdditionalInventory",
-            "description": "A small pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.",
+            "description": "A small pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.\r\nCarrying one is enough.",
             "sort_id": 11000
         },
         {
@@ -877,7 +877,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_AdditionalInventory",
-            "description": "A modest pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.",
+            "description": "A modest pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.\r\nCarrying one is enough.",
             "sort_id": 11001
         },
         {
@@ -887,7 +887,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_AdditionalInventory",
-            "description": "A large pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.",
+            "description": "A large pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.\r\nCarrying one is enough.",
             "sort_id": 11002
         },
         {
@@ -897,7 +897,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_AdditionalInventory",
-            "description": "A massive pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.",
+            "description": "A massive pouch that allows you to carry additional items. \r\nHolding it increases your inventory slots.\r\nCarrying one is enough.",
             "sort_id": 11003
         },
         {
@@ -1267,7 +1267,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "An Arrow for use with a bow.",
+            "description": "Arrows for use with bows.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 15
         },
         {
@@ -1277,7 +1277,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Fire Arrows for use with bows. Deals Fire damage on contact.",
+            "description": "Fire Arrows for use with bows. Deals Fire damage on contact.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 17
         },
         {
@@ -1287,7 +1287,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Poison Arrows for use with bows. Afflicts targets with Poison on contact.",
+            "description": "Poison Arrows for use with bows. Afflicts target with Poison on contact.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 16
         },
         {
@@ -1297,7 +1297,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for Assault Rifle and other similar weapons.",
+            "description": "Ammo for the Assault Rifle and similar weapons.\r\nCan be crafted at Weapon Assembly Line.",
             "sort_id": 26
         },
         {
@@ -1387,7 +1387,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "Unlocks a food slot in your inventory.\r\nPlayers and Pals automatically consume food when hungry.",
+            "description": "A small pouch for holding food. Unlocks a food slot in your inventory. \r\nPlayers and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10020
         },
         {
@@ -1397,7 +1397,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "A decently sized pouch for holding food.\r\nUnlocks 2 food slots in your inventory.\r\nPlayers and Pals automatically consume food when hungry.",
+            "description": "A decently sized pouch for holding food. Unlocks 2 food slots in your inventory. \r\nPlayers and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10021
         },
         {
@@ -1407,7 +1407,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "A large pouch for holding food.\r\nUnlocks 3 food slots in your inventory.\r\nPlayers and Pals automatically consume food when hungry.",
+            "description": "A large pouch for holding food. Unlocks 3 food slots in your inventory. \r\nPlayers and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10022
         },
         {
@@ -1417,7 +1417,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "An extremely large pouch for holding food.\r\nUnlocks 4 food slots in your inventory.\r\nPlayers and Pals automatically consume food when hungry.",
+            "description": "A large pouch for holding food. Unlocks 4 food slots in your inventory. \r\nPlayers and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10023
         },
         {
@@ -1427,7 +1427,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "An extraordinarily large sack for storing food.\r\nUnlocks 5 food slots in your inventory.\r\nPlayers and Pals automatically consume food when hungry.",
+            "description": "An extraordinarily large sack for storing food. Unlocks 5 food slots in your inventory. Players and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10024
         },
         {
@@ -1437,7 +1437,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "An axe for chopping wood. It has achieved extraordinary sharpness thanks to Pal Metal.",
+            "description": "An axe for chopping wood. \r\nIt has achieved extraordinary sharpness thanks to Pal Metal. \r\nIt can slice through high-grade trees from the harshest regions without trouble.",
             "sort_id": 114
         },
         {
@@ -1457,7 +1457,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "An axe for cutting wood.\r\nMade from metal, its sharpness has improved.",
+            "description": "An axe for cutting wood. \r\nIt chops through Hardwood with ease, making it useful for harvesting sturdy trees far inland.",
             "sort_id": 111
         },
         {
@@ -1467,7 +1467,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "An axe for cutting wood.\r\nMade from high quality metal, its sharpness has improved even further.",
+            "description": "An axe for cutting wood. \r\nMade from high quality metal, its sharpness has improved even further. \r\nIt can harvest Hardwood from sturdy trees that grow in unforgiving lands.",
             "sort_id": 112
         },
         {
@@ -1777,7 +1777,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Beam Launcher.",
+            "description": "Ammo for the Beam Launcher.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 43
         },
         {
@@ -1957,7 +1957,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "This unique battery stores bioenergy, for use as electrical power. Its high density ensures a long run life.",
+            "description": "A device that stores bioenergy for use as electrical power. \r\nIts high density ensures a long run life.\r\nCan be crafted at Production Assembly Line II.",
             "sort_id": 5414
         },
         {
@@ -1967,7 +1967,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "A highly efficient cooling medium made from certain Pal-based extractions. Able to keep even extremely hot environments reliably chilly, cooling high-output devices is a snap.",
+            "description": "A highly efficient cooling medium made from certain Pal-based extractions. \r\nAble to keep even extremely hot environments reliably chilly.\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 5412
         },
         {
@@ -2397,7 +2397,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n(Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7400
         },
         {
@@ -2407,7 +2407,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n(Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7401
         },
         {
@@ -2417,7 +2417,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n(Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7402
         },
         {
@@ -2427,7 +2427,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Cold-Resistant Ancient Armor\r\n(Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7403
         },
         {
@@ -2437,7 +2437,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n(Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7396
         },
         {
@@ -2447,7 +2447,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n(Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7397
         },
         {
@@ -2457,7 +2457,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n(Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7398
         },
         {
@@ -2467,7 +2467,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Heat-Resistant Ancient Armor\r\n(Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7399
         },
         {
@@ -2477,7 +2477,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n(Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7404
         },
         {
@@ -2487,7 +2487,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n(Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7405
         },
         {
@@ -2497,7 +2497,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n(Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7406
         },
         {
@@ -2507,7 +2507,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Lightweight Ancient Armor\r\n(Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7407
         },
         {
@@ -2517,7 +2517,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n(Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7392
         },
         {
@@ -2527,7 +2527,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n(Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7393
         },
         {
@@ -2537,7 +2537,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n(Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7394
         },
         {
@@ -2547,7 +2547,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Armor\r\n(Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7395
         },
         {
@@ -2557,7 +2557,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n(Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7524
         },
         {
@@ -2567,7 +2567,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n(Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7525
         },
         {
@@ -2577,7 +2577,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n(Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7526
         },
         {
@@ -2587,7 +2587,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Ancient Helm\r\n(Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7527
         },
         {
@@ -5837,7 +5837,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Jetragon's Talisman (Epic).Can be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Jetragon's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9229
         },
         {
@@ -8031,13 +8031,13 @@
             "sort_id": 20073
         },
         {
-            "name": "BossDefeatReward_CactusDoll",
+            "name": "Needoll Bounty Token",
             "asset": "BossDefeatReward_CactusDoll",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_CactusDoll.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Needoll, Prickly Welcome].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20101
         },
         {
@@ -8071,23 +8071,23 @@
             "sort_id": 20010
         },
         {
-            "name": "BossDefeatReward_CubeTurtle",
+            "name": "Pharapace Bounty Token",
             "asset": "BossDefeatReward_CubeTurtle",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle.webp",
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Pharapace, Apex of the Sands].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20075
         },
         {
-            "name": "BossDefeatReward_CubeTurtle_Neutral",
+            "name": "Pharapace Primo Bounty Token",
             "asset": "BossDefeatReward_CubeTurtle_Neutral",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle_Neutral.webp",
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Pharapace Primo, Ivory Spire of the Sands].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20096
         },
         {
@@ -8121,33 +8121,33 @@
             "sort_id": 20102
         },
         {
-            "name": "BossDefeatReward_ElecLizard",
+            "name": "Slowatt Bounty Token",
             "asset": "BossDefeatReward_ElecLizard",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_ElecLizard.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Slowatt, Shockingly Laid-Back].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20086
         },
         {
-            "name": "BossDefeatReward_ElecPanda",
+            "name": "Grizzbolt Bounty Token",
             "asset": "BossDefeatReward_ElecPanda",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_ElecPanda.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Grizzbolt, Claws of Lightning].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20090
         },
         {
-            "name": "BossDefeatReward_ElecSnail",
+            "name": "Snock Bounty Token",
             "asset": "BossDefeatReward_ElecSnail",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_ElecSnail.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Snock, Sluggish Blue Bolt].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20087
         },
         {
@@ -8181,23 +8181,23 @@
             "sort_id": 20045
         },
         {
-            "name": "BossDefeatReward_FireKirin",
+            "name": "Pyrin Bounty Token",
             "asset": "BossDefeatReward_FireKirin",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_FireKirin.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Pyrin, Steed of Flames].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20074
         },
         {
-            "name": "BossDefeatReward_FlameBuffalo",
+            "name": "Arsox Bounty Token",
             "asset": "BossDefeatReward_FlameBuffalo",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_FlameBuffalo.webp",
             "rarity": 0,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Arsox, Blazing Brute].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20093
         },
         {
@@ -8231,33 +8231,33 @@
             "sort_id": 20071
         },
         {
-            "name": "BossDefeatReward_FoxExorcist",
+            "name": "Flaracle Bounty Token",
             "asset": "BossDefeatReward_FoxExorcist",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_FoxExorcist.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Flaracle, Self-Serving Seer].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20084
         },
         {
-            "name": "BossDefeatReward_FoxMage",
+            "name": "Wixen Bounty Token",
             "asset": "BossDefeatReward_FoxMage",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_FoxMage.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Wixen, Fire Licked Furball].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20095
         },
         {
-            "name": "BossDefeatReward_GhostDragon",
+            "name": "Eidrolon Bounty Token",
             "asset": "BossDefeatReward_GhostDragon",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_GhostDragon.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Eidrolon, Wings of Freedom].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20088
         },
         {
@@ -8281,23 +8281,23 @@
             "sort_id": 20057
         },
         {
-            "name": "BossDefeatReward_GrassGolem",
+            "name": "Dualith Bounty Token",
             "asset": "BossDefeatReward_GrassGolem",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_GrassGolem.webp",
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Dualith, Twinhearted Azure Construct].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20079
         },
         {
-            "name": "BossDefeatReward_GrassGolem_Dark",
+            "name": "Dualith Noct Bounty Token",
             "asset": "BossDefeatReward_GrassGolem_Dark",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_GrassGolem_Dark.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Dualith Noct, Twinhearted Violet Construct].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20091
         },
         {
@@ -8381,13 +8381,13 @@
             "sort_id": 20048
         },
         {
-            "name": "BossDefeatReward_IceFox",
+            "name": "Foxicle Bounty Token",
             "asset": "BossDefeatReward_IceFox",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_IceFox.webp",
             "rarity": 0,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Foxicle, Frostbound Vulpes].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20094
         },
         {
@@ -8441,13 +8441,13 @@
             "sort_id": 20049
         },
         {
-            "name": "BossDefeatReward_KabukiMan",
+            "name": "Renjishi Bounty Token",
             "asset": "BossDefeatReward_KabukiMan",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_KabukiMan.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Renjishi, Scorching Ovation].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20077
         },
         {
@@ -8521,13 +8521,13 @@
             "sort_id": 20021
         },
         {
-            "name": "BossDefeatReward_LilyQueen",
+            "name": "Lyleen Bounty Token",
             "asset": "BossDefeatReward_LilyQueen",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_LilyQueen.webp",
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Lyleen, Empress of Lilies].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20089
         },
         {
@@ -8541,33 +8541,33 @@
             "sort_id": 20039
         },
         {
-            "name": "BossDefeatReward_LotusDragon",
+            "name": "Ophydia Bounty Token",
             "asset": "BossDefeatReward_LotusDragon",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_LotusDragon.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Ophydia, Pure Bloom Dragon].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20083
         },
         {
-            "name": "BossDefeatReward_Manticore",
+            "name": "Blazehowl Bounty Token",
             "asset": "BossDefeatReward_Manticore",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_Manticore.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Blazehowl, Crimson Goliath].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20092
         },
         {
-            "name": "BossDefeatReward_MoonChild",
+            "name": "Wistella Bounty Token",
             "asset": "BossDefeatReward_MoonChild",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_MoonChild.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Wistella, Mantle of the Night Sky].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20097
         },
         {
@@ -8591,13 +8591,13 @@
             "sort_id": 20072
         },
         {
-            "name": "BossDefeatReward_MushroomLady",
+            "name": "Shroomly Bounty Token",
             "asset": "BossDefeatReward_MushroomLady",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_MushroomLady.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Shroomly, Cute as a Button].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20080
         },
         {
@@ -8721,23 +8721,23 @@
             "sort_id": 20062
         },
         {
-            "name": "BossDefeatReward_RockBeast",
+            "name": "Kuprok Bounty Token",
             "asset": "BossDefeatReward_RockBeast",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_RockBeast.webp",
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Kuprok, Shambling Vein].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20099
         },
         {
-            "name": "BossDefeatReward_RockBeast_Ice",
+            "name": "Kuprok Cryst Bounty Token",
             "asset": "BossDefeatReward_RockBeast_Ice",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_RockBeast_Ice.webp",
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Kuprok Cryst, Shuffling Glacier].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20082
         },
         {
@@ -8781,13 +8781,13 @@
             "sort_id": 20019
         },
         {
-            "name": "BossDefeatReward_ScorpionMan_Electric",
+            "name": "Prixter Lux Bounty Token",
             "asset": "BossDefeatReward_ScorpionMan_Electric",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_ScorpionMan_Electric.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Prixter Lux, Thunderlad].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20098
         },
         {
@@ -8821,13 +8821,13 @@
             "sort_id": 20017
         },
         {
-            "name": "BossDefeatReward_ThunderFluffyBird",
+            "name": "Dynamoff Bounty Token",
             "asset": "BossDefeatReward_ThunderFluffyBird",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_ThunderFluffyBird.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Dynamoff, Buzzy Bundle].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20085
         },
         {
@@ -8851,33 +8851,33 @@
             "sort_id": 20029
         },
         {
-            "name": "BossDefeatReward_VolcanicMonster",
+            "name": "Reptyro Bounty Token",
             "asset": "BossDefeatReward_VolcanicMonster",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_VolcanicMonster.webp",
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Reptyro, Lava-Devouring Juggernaut].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20076
         },
         {
-            "name": "BossDefeatReward_VolcanoDragon",
+            "name": "Moldron Bounty Token",
             "asset": "BossDefeatReward_VolcanoDragon",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_VolcanoDragon.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Moldron, Scorched Wanderer].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20100
         },
         {
-            "name": "BossDefeatReward_VolcanoDragon_Ice",
+            "name": "Moldron Cryst Bounty Token",
             "asset": "BossDefeatReward_VolcanoDragon_Ice",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_VolcanoDragon_Ice.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Moldron Cryst, Frigid Voyager].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20078
         },
         {
@@ -8911,13 +8911,13 @@
             "sort_id": 20046
         },
         {
-            "name": "BossDefeatReward_WhiteDeer_Dark",
+            "name": "Celesdir Noct Bounty Token",
             "asset": "BossDefeatReward_WhiteDeer_Dark",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_WhiteDeer_Dark.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "-",
+            "description": "Proof of defeating [Celesdir Noct, Beast of Chaos].\r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20081
         },
         {
@@ -9207,7 +9207,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": "A dish that is eaten during celebrations.\r\nPut it in the chest at a Breeding Farm to have a Pal lay a particularly healthy egg.",
+            "description": "A dish that is eaten during celebrations. \r\nPut it in the chest at a Breeding Farm to have a Pal lay a particularly healthy egg.",
             "sort_id": 4012
         },
         {
@@ -9247,7 +9247,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Food",
             "type_b": "EPalItemTypeB::FoodDishVegetable",
-            "description": "When this dish is placed in a Breeding Farm chest, the Pal that consumes it will lay a particularly healthy egg. The Pal born from that egg will be an improvement on its parents, inheriting their best traits.",
+            "description": "When this dish is placed in a Breeding Farm chest, the Pal that consumes it will lay a particularly healthy egg. \r\nThe Pal born from that egg may inherit more of their best traits.",
             "sort_id": 4016
         },
         {
@@ -9267,7 +9267,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "A lightweight yet sturdy material.\r\nUsed to create armor among other equipment.",
+            "description": "A lightweight yet sturdy material. \r\nUsed to create armor and other equipment.\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 5411
         },
         {
@@ -9367,7 +9367,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Charge Rifle and similar weapons.",
+            "description": "Ammo for the Charge Rifle and similar weapons.\r\nCan be crafted at Advanced Weapon Assembly Line.",
             "sort_id": 37
         },
         {
@@ -9497,7 +9497,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "Cloth woven from Wool. \r\nRequired to create armor.",
+            "description": "Cloth woven from Wool. \r\nRequired to create armor.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 5400
         },
         {
@@ -9507,7 +9507,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "High Quality Cloth woven from a large amount of Wool. \r\nRequired to create high quality armor.",
+            "description": "High Quality Cloth woven from a large amount of Wool. \r\nRequired to create high quality armor.\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 5401
         },
         {
@@ -9737,7 +9737,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "An electronic device capable of advanced computational processing.\r\nUsed to control automated systems and precision machinery,\r\nit is a fundamental component of modern technology.",
+            "description": "Used to control automated equipment and precision machinery, \r\nit's a key component of modern technology.\r\nCan be crafted at Production Assembly Line II.",
             "sort_id": 5416
         },
         {
@@ -9957,7 +9957,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialOre",
-            "description": "Becomes an ingot when refined using a furnace.\r\nCan be found in caves and other places.\r\nThere are rumors of Pals capable of detecting ore.",
+            "description": "Becomes an ingot when refined using a furnace.\r\nCan be found in caves and other places.",
             "sort_id": 5021
         },
         {
@@ -9987,7 +9987,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "This dangerously potent solvent can dissolve everything from organic matter to tempered metal, making it an important component in precision manufacturing and special processing methods.",
+            "description": "This dangerously potent solvent is an important component in precision manufacturing and special processing methods.\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 5413
         },
         {
@@ -10277,7 +10277,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This launcher sends out fully automated offensive drones. Capable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
             "sort_id": 859
         },
         {
@@ -10287,7 +10287,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This launcher sends out fully automated offensive drones. Capable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
             "sort_id": 860
         },
         {
@@ -10297,7 +10297,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This launcher sends out fully automated offensive drones. Capable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
             "sort_id": 861
         },
         {
@@ -10307,7 +10307,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This launcher sends out fully automated offensive drones. Capable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
             "sort_id": 862
         },
         {
@@ -10317,7 +10317,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This launcher sends out fully automated offensive drones. Capable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes.",
             "sort_id": 863
         },
         {
@@ -10377,7 +10377,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Plasma Rifle.",
+            "description": "Ammo for the Plasma Rifle.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 42
         },
         {
@@ -10567,7 +10567,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Plasma Cannon and any similar weapon.",
+            "description": "Ammo for the Plasma Cannon and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 35
         },
         {
@@ -10637,7 +10637,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Energy Shotgun and similar weapons.",
+            "description": "Ammo for the Energy Shotgun and similar weapons.\r\nCan be crafted at Advanced Weapon Assembly Line.",
             "sort_id": 39
         },
         {
@@ -10727,7 +10727,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Rocket Launcher and other similar weapons.",
+            "description": "Ammo for the Rocket Launcher and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 27
         },
         {
@@ -11087,7 +11087,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Flamethrower fuel.\r\nAmmo for the FlameThrower and similar weapons.",
+            "description": "Ammo for the FlameThrower and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 29
         },
         {
@@ -11577,7 +11577,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Accessory",
             "type_b": "EPalItemTypeB::Accessory",
-            "description": "A mask with a special filtration system. Negates damage taken from corrosive mist.",
+            "description": "A mask with a special filtration system. \r\nNegates damage taken from corrosive mist.",
             "sort_id": 2050
         },
         {
@@ -11597,7 +11597,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Gatling Gun and similar weapons.",
+            "description": "Ammo for the Gatling Gun and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 32
         },
         {
@@ -11817,7 +11817,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Grenade Launcher and similar weapons.",
+            "description": "Ammo for the Grenade Launcher and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 31
         },
         {
@@ -12087,7 +12087,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for Handgun and other similar weapons.",
+            "description": "Ammo for the Handgun and similar weapons.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 21
         },
         {
@@ -13431,7 +13431,7 @@
             "sort_id": 1524
         },
         {
-            "name": "Shroomer Noct Hat",
+            "name": "Shroomer Hat",
             "asset": "HeadEquip058",
             "icon": "/icons/items/T_itemicon_Armor_HeadEquip058.webp",
             "rarity": 0,
@@ -13497,7 +13497,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "Wood that has been cut into high-quality planks. The elegant wood grain has been preserved, giving anything crafted from it an air of luxury.",
+            "description": "Wood that has been cut into high-quality planks. \r\nThe elegant wood grain has been preserved, giving anything made from it an air of luxury.\r\nCan be crafted at Production Assembly Line II.",
             "sort_id": 5403
         },
         {
@@ -13597,7 +13597,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for Decal Guns.\r\nUses ink to paint a picture of a Pal.",
+            "description": "Ammo for Decal Guns. \r\nUses ink to paint a picture of a Pal.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 28
         },
         {
@@ -14047,7 +14047,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo used by the Laser Rifle and similar weapons.",
+            "description": "Ammo for the Laser Rifle and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 34
         },
         {
@@ -14057,7 +14057,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Laser Gatling Gun and any similar weapon.",
+            "description": "Ammo for the Laser Gatling Gun and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 36
         },
         {
@@ -14117,7 +14117,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This portable cutter uses concentrated plasma energy to slice through anything in its path, from the hardest ores to the toughest lumber.",
+            "description": "This portable cutter uses concentrated plasma energy to slice through anything in its path, from the hardest ores to the toughest lumber.\r\nIts high-output energy can even extract special minerals.",
             "sort_id": 125
         },
         {
@@ -14707,7 +14707,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": "An alloy of Coralum Ore and Coal.\r\nHighly resistant to energy, making it ideal for crafting weapons.",
+            "description": "An alloy made from Coralum Ore found on the ocean floor. \r\nHighly resistant to energy, making it ideal for crafting weapons.\r\nCan be refined at Gigantic Furnace.",
             "sort_id": 5507
         },
         {
@@ -14987,7 +14987,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMetalDetector",
-            "description": "Using this reveals hidden Chromite deposits in dungeons, marking them for easier mining. However, the mark disappears if you move too far away.",
+            "description": "Using this reveals hidden Chromite deposits in dungeons, marking them for easier mining. \r\nHowever, the mark disappears if you move too far away.",
             "sort_id": 199
         },
         {
@@ -14997,7 +14997,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Meteor Launcher and any similar weapon.",
+            "description": "Ammo for the Meteor Launcher and similar weapons.\r\nCan be crafted at Weapon Assembly Line.",
             "sort_id": 33
         },
         {
@@ -15047,7 +15047,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Guided Missile Launcher and similar weapons.",
+            "description": "Ammo for the Guided Missile Launcher and similar weapons.\r\nCan be crafted at Weapon Assembly Line II.",
             "sort_id": 30
         },
         {
@@ -16087,7 +16087,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Overheat Rifle and similar weapons.",
+            "description": "Ammo for the Overheat Rifle and similar weapons.\r\nCan be crafted at Advanced Weapon Assembly Line.",
             "sort_id": 38
         },
         {
@@ -16251,7 +16251,7 @@
             "sort_id": 4186
         },
         {
-            "name": "Black Shiny Stone",
+            "name": "Dark Shiny Stone",
             "asset": "PalAwakening_Material_Dark",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Dark.webp",
             "rarity": 2,
@@ -16261,7 +16261,7 @@
             "sort_id": 4177
         },
         {
-            "name": "Purple Shiny Stone",
+            "name": "Dragon Shiny Stone",
             "asset": "PalAwakening_Material_Dragon",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Dragon.webp",
             "rarity": 2,
@@ -16271,7 +16271,7 @@
             "sort_id": 4176
         },
         {
-            "name": "Yellow Shiny Stone",
+            "name": "Electric Shiny Stone",
             "asset": "PalAwakening_Material_Electric",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Electric.webp",
             "rarity": 2,
@@ -16281,7 +16281,7 @@
             "sort_id": 4171
         },
         {
-            "name": "Red Shiny Stone",
+            "name": "Fire Shiny Stone",
             "asset": "PalAwakening_Material_Fire",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Fire.webp",
             "rarity": 2,
@@ -16291,7 +16291,7 @@
             "sort_id": 4174
         },
         {
-            "name": "Green Shiny Stone",
+            "name": "Grass Shiny Stone",
             "asset": "PalAwakening_Material_Grass",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Grass.webp",
             "rarity": 2,
@@ -16301,7 +16301,7 @@
             "sort_id": 4173
         },
         {
-            "name": "Brown Shiny Stone",
+            "name": "Ground Shiny Stone",
             "asset": "PalAwakening_Material_Ground",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Ground.webp",
             "rarity": 2,
@@ -16311,7 +16311,7 @@
             "sort_id": 4172
         },
         {
-            "name": "White Shiny Stone",
+            "name": "Ice Shiny Stone",
             "asset": "PalAwakening_Material_Ice",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Ice.webp",
             "rarity": 2,
@@ -16321,7 +16321,7 @@
             "sort_id": 4175
         },
         {
-            "name": "Gray Shiny Stone",
+            "name": "Neutral Shiny Stone",
             "asset": "PalAwakening_Material_Neutral",
             "icon": "/icons/items/T_itemicon_Material_PalAwakening_Material_Neutral.webp",
             "rarity": 2,
@@ -16331,7 +16331,7 @@
             "sort_id": 4178
         },
         {
-            "name": "Blue Shiny Stone",
+            "name": "Water Shiny Stone",
             "asset": "PalAwakening_Material_Water",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Water.webp",
             "rarity": 2,
@@ -16407,7 +16407,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Boost Gun and similar weapons.",
+            "description": "Ammo for the Boost Gun and similar weapons.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 40
         },
         {
@@ -17201,7 +17201,7 @@
             "sort_id": 9999
         },
         {
-            "name": "PalPassiveSkillChange_AutoHPRegeneRate_Passive",
+            "name": "Implant: Healing Coach",
             "asset": "PalPassiveSkillChange_AutoHPRegeneRate_Passive",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange.webp",
             "rarity": 3,
@@ -17741,7 +17741,7 @@
             "sort_id": 6217
         },
         {
-            "name": "PalPassiveSkillChange_PlayerSP_DecreaseRate_Passive",
+            "name": "Implant: Wellness Watcher",
             "asset": "PalPassiveSkillChange_PlayerSP_DecreaseRate_Passive",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange.webp",
             "rarity": 3,
@@ -17751,7 +17751,7 @@
             "sort_id": 6238
         },
         {
-            "name": "PalPassiveSkillChange_ReloadSpeedUp_Passive",
+            "name": "Implant: Reload Master",
             "asset": "PalPassiveSkillChange_ReloadSpeedUp_Passive",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange.webp",
             "rarity": 3,
@@ -18677,7 +18677,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "Made from refined oil.\r\nRequired for producing various advanced items such as rifles.",
+            "description": "Polymer made from refined oil. \r\nRequired for producing various advanced items such as rifles.\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 5408
         },
         {
@@ -18817,7 +18817,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "Wood that has been cut into easy-to-use planks. More versatile than unprocessed logs, the construction possibilities are almost limitless.",
+            "description": "Wood that has been cut into easy-to-use planks. \r\nMore versatile than unprocessed logs, the construction possibilities are almost limitless.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 5402
         },
         {
@@ -19027,7 +19027,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Enhanced arrows designed for use with the Compound Bow.",
+            "description": "Enhanced arrows for shooting with Compound Bow.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 18
         },
         {
@@ -19037,7 +19037,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential",
-            "description": "A mysterious Pal statue that can be found all around Palpagos Island.\r\nPlayers can enhance their abilities by making offerings to certain statues.",
+            "description": "A mysterious Pal effigy that can be found all around the Palpagos Islands. \r\nPlayers can enhance their abilities by making offerings to certain statues.",
             "sort_id": 10000
         },
         {
@@ -19157,7 +19157,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential",
-            "description": "A mysterious item that suddenly appeared upon capturing a considerable number of Pals. Players can enhance their abilities by offering them to Statues of Power.",
+            "description": "A mysterious item that suddenly appeared upon capturing a considerable number of Pals. \r\nPlayers can enhance their abilities by offering them to Statues of Power.",
             "sort_id": 10012
         },
         {
@@ -19177,7 +19177,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for Single-Shot Rifle and other similar weapons.",
+            "description": "Ammo for the Single-Shot Rifle and similar weapons.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 23
         },
         {
@@ -19207,7 +19207,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for Musket, Makeshift Handgun, and other similar weapons.",
+            "description": "Ammo for the Musket, Makeshift Handgun, and similar weapons.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 20
         },
         {
@@ -19427,7 +19427,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Enhanced arrows designed for use with the Advanced Bow.",
+            "description": "Enhanced arrows for shooting with Advanced Bow.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 19
         },
         {
@@ -19801,13 +19801,13 @@
             "sort_id": 1004
         },
         {
-            "name": "Shield_07",
+            "name": "Ancient Shield",
             "asset": "Shield_07",
             "icon": "/icons/items/T_itemicon_Armor_Shield_07.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::Shield",
-            "description": "-",
+            "description": "Shield made with lost ancient technology. \r\nIt automatically repairs itself after not taking damage for a while. \r\nIts power is considered beyond modern replication.",
             "sort_id": 1008
         },
         {
@@ -19837,7 +19837,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for shotguns and other similar weapons.",
+            "description": "Ammo for the Pump-Action Shotgun and similar weapons.\r\nCan be crafted at Weapon Workbench.",
             "sort_id": 24
         },
         {
@@ -22317,7 +22317,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Heavy Assault Rifle.",
+            "description": "Ammo for the Heavy Assault Rifle.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 47
         },
         {
@@ -22427,7 +22427,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Enhanced arrows designed for use with the Mechanical Bow.",
+            "description": "Enhanced arrows for shooting with Mechanical Bow.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 44
         },
         {
@@ -22487,7 +22487,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Tactical Grenade Launcher.",
+            "description": "Ammo for the Tactical Grenade Launcher.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 48
         },
         {
@@ -22577,7 +22577,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Prototype Shotgun.",
+            "description": "Ammo for the Prototype Shotgun.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 46
         },
         {
@@ -22637,7 +22637,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Compact SMG.",
+            "description": "Ammo for the Compact SMG.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 45
         },
         {
@@ -22687,7 +22687,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": "An ingot refined from ore unique to Sunreach. This metal is a key component of ancient technology and, subsequently, top-tier equipment and structures. As mysterious as it is storied, this rare material can only be created using ancient techniques.",
+            "description": "An ingot refined from ore unique to Sunreach. \r\nThis metal is a key component of ancient technology and, subsequently, top-tier equipment and structures.\r\nCan be refined at Ancient Furnace.",
             "sort_id": 5508
         },
         {
@@ -22897,7 +22897,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": "An alloy of Chromite and Hexolite Quartz.\r\nUsed for building advanced equipment and structures.",
+            "description": "An alloy of Chromite and Hexolite Quartz. \r\nUsed for building advanced equipment and structures.\r\nCan be refined at Gigantic Furnace.",
             "sort_id": 5505
         },
         {
@@ -23357,7 +23357,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "This core houses an intense thermal reaction that radiates a massive amount of energy. Its high output makes it ideal for powering equally advanced pieces of equipment.",
+            "description": "This core houses an intense thermal reaction that radiates a massive amount of energy. \r\nIdeal for powering advanced pieces of equipment.\r\nCan be crafted at Production Assembly Line II.",
             "sort_id": 5415
         },
         {
@@ -23527,7 +23527,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "A mysterious box whose insides synchronize with the owner's body.\r\nAccessory equipment slots increase by 1.",
+            "description": "A mysterious box whose insides synchronize with the owner's body. \r\nAccessory equipment slots increase by 1.\r\nCarrying one is enough.",
             "sort_id": 10030
         },
         {
@@ -23537,7 +23537,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "A mysterious box whose insides synchronize with the owner's body.\r\nAccessory equipment slots increase further by 1.",
+            "description": "A mysterious box whose insides synchronize with the owner's body. \r\nAccessory equipment slots further increase by 1.\r\nCarrying one is enough.",
             "sort_id": 10031
         },
         {
@@ -23547,7 +23547,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "This holster allows the wearer to equip an additional weapon. (Unlocks an extra weapon slot when equipped.)",
+            "description": "This holster allows the wearer to equip an additional weapon. \r\nUnlocks an extra weapon slot when equipped.\r\nCarrying one is enough.",
             "sort_id": 10300
         },
         {
@@ -23557,7 +23557,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "This holster allows the wearer to equip an additional weapon. (Unlocks an extra weapon slot when equipped.)",
+            "description": "This holster allows the wearer to equip yet another additional weapon. \r\nUnlocks an extra weapon slot when equipped.\r\nCarrying one is enough.",
             "sort_id": 10301
         },
         {
@@ -23767,7 +23767,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Beam Scatter.",
+            "description": "Ammo for the Beam Scatter.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 41
         },
         {
@@ -23871,13 +23871,13 @@
             "sort_id": 5061
         },
         {
-            "name": "High Quality Wood",
+            "name": "Hardwood",
             "asset": "Wood_Fine",
             "icon": "/icons/items/T_itemicon_Material_Wood_Fine.webp",
             "rarity": 1,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialWood",
-            "description": "Wood of exceptional quality. This sturdy material is well suited to furniture or equipment projects.",
+            "description": "High-grade wood taken from hardy trees that have taken root in unforgiving places like deserts, volcanic lands, and snowy mountains.",
             "sort_id": 5001
         },
         {
@@ -24027,11 +24027,11 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Consume",
             "type_b": "EPalItemTypeB::ConsumeWorldTreeHolyWater",
-            "description": "Sacred water brimming with energy from the World Tree. Able to purify anything it touches, it can unlock latent powers. When consumed, grants immunity to the annihilating effects of the World Tree's environs for a period of time.",
+            "description": "Sacred water brimming with energy from the World Tree. Able to purify anything it touches, it can unlock latent powers.\r\nWhen consumed, World Tree harvestables won't vanish when approached for a period of time.",
             "sort_id": 5069
         },
         {
-            "name": "[WIP] Ancient Ingot 2",
+            "name": "Palicite Ingot",
             "asset": "WorldTreeIngot",
             "icon": "/icons/items/T_itemicon_Material_WorldTreeIngot.webp",
             "rarity": 0,

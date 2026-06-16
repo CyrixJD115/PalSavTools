@@ -7061,7 +7061,7 @@
             "name": "Global Palbox",
             "asset": "GlobalPalStorage",
             "icon": "/icons/technologies/T_icon_buildObject_GlobalPalStorage.webp",
-            "type": "boss",
+            "type": "standard",
             "description": ""
         },
         {

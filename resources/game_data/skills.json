@@ -44949,8 +44949,8 @@
             "name": "Hydra Charge",
             "asset": "Unique_BlueSkyDragon_Tossin",
             "element": "Water",
-            "power": 600,
-            "cooldown": 30.0,
+            "power": 500,
+            "cooldown": 24.0,
             "description": "Shaolong's exclusive skill.\r\nCloaks itself completely in water and charges directly ahead."
         },
         {

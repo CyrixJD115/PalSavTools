@@ -20677,7 +20677,7 @@
         {
             "name": "Kitsun Noct",
             "asset": "AmaterasuWolf_Dark_Quest_Enemy",
-            "icon": "/icons/pals/AmaterasuWolf_Dark_Quest_Enemy_icon_normal.webp",
+            "icon": "/icons/pals/T_AmaterasuWolf_Dark_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -20732,7 +20732,7 @@
         {
             "name": "Kitsun Noct",
             "asset": "AmaterasuWolf_Dark_Quest_Friend",
-            "icon": "/icons/pals/AmaterasuWolf_Dark_Quest_Friend_icon_normal.webp",
+            "icon": "/icons/pals/T_AmaterasuWolf_Dark_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -25359,7 +25359,7 @@
         {
             "name": "Elec Snail Fire (Boss)",
             "asset": "BOSS_ElecSnail_Fire",
-            "icon": "/icons/pals/BOSS_ElecSnail_Fire_icon_normal.webp",
+            "icon": "/icons/pals/T_ElecSnail_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -32387,7 +32387,7 @@
         {
             "name": "Monkey Ice (Boss)",
             "asset": "BOSS_Monkey_Ice",
-            "icon": "/icons/pals/BOSS_Monkey_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_Monkey_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -34537,7 +34537,7 @@
         {
             "name": "Gumoss (Boss)",
             "asset": "BOSS_PlantSlime_Flower",
-            "icon": "/icons/pals/BOSS_PlantSlime_Flower_icon_normal.webp",
+            "icon": "/icons/pals/T_PlantSlime_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",
@@ -40105,7 +40105,7 @@
         {
             "name": "Incineram Noct",
             "asset": "Baphomet_Dark_Oilrig",
-            "icon": "/icons/pals/Baphomet_Dark_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_Baphomet_Dark_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -40454,7 +40454,7 @@
         {
             "name": "Xenovader",
             "asset": "DarkAlien_Oilrig",
-            "icon": "/icons/pals/DarkAlien_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_DarkAlien_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -40512,7 +40512,7 @@
         {
             "name": "Elec Snail Fire",
             "asset": "ElecSnail_Fire",
-            "icon": "/icons/pals/ElecSnail_Fire_icon_normal.webp",
+            "icon": "/icons/pals/T_ElecSnail_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -40680,7 +40680,7 @@
         {
             "name": "Victor & Shadowbeak (Gym)",
             "asset": "GYM_BlackGriffon_2",
-            "icon": "/icons/pals/GYM_BlackGriffon_2_icon_normal.webp",
+            "icon": "/icons/pals/T_BlackGriffon_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -40738,7 +40738,7 @@
         {
             "name": "Victor & Shadowbeak (Gym)",
             "asset": "GYM_BlackGriffon_2_Avatar",
-            "icon": "/icons/pals/GYM_BlackGriffon_2_Avatar_icon_normal.webp",
+            "icon": "/icons/pals/T_BlackGriffon_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -40860,7 +40860,7 @@
         {
             "name": "Blue Sky Dragon 2 (Gym)",
             "asset": "GYM_BlueSkyDragon_2",
-            "icon": "/icons/pals/GYM_BlueSkyDragon_2_icon_normal.webp",
+            "icon": "/icons/pals/T_BlueSkyDragon_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -40976,7 +40976,7 @@
         {
             "name": "Zoe & Grizzbolt (Gym)",
             "asset": "GYM_ElecPanda_2",
-            "icon": "/icons/pals/GYM_ElecPanda_2_icon_normal.webp",
+            "icon": "/icons/pals/T_ElecPanda_icon_normal.webp",
             "elements": {
                 "Electricity": {
                     "name": "Electric",
@@ -41089,7 +41089,7 @@
         {
             "name": "Marcus & Faleris (Gym)",
             "asset": "GYM_Horus_2",
-            "icon": "/icons/pals/GYM_Horus_2_icon_normal.webp",
+            "icon": "/icons/pals/T_Horus_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -41209,7 +41209,7 @@
         {
             "name": "Lily & Lyleen (Gym)",
             "asset": "GYM_LilyQueen_2",
-            "icon": "/icons/pals/GYM_LilyQueen_2_icon_normal.webp",
+            "icon": "/icons/pals/T_LilyQueen_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",
@@ -41336,7 +41336,7 @@
         {
             "name": "Saya & Selyne (Gym)",
             "asset": "GYM_MoonQueen_2",
-            "icon": "/icons/pals/GYM_MoonQueen_2_icon_normal.webp",
+            "icon": "/icons/pals/T_MoonQueen_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -41401,7 +41401,7 @@
         {
             "name": "Selyne (Gym)",
             "asset": "GYM_MoonQueen_2_Servant",
-            "icon": "/icons/pals/GYM_MoonQueen_2_Servant_icon_normal.webp",
+            "icon": "/icons/pals/T_MoonQueen_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -41640,7 +41640,7 @@
         {
             "name": "Axel & Orserk (Gym)",
             "asset": "GYM_ThunderDragonMan_2",
-            "icon": "/icons/pals/GYM_ThunderDragonMan_2_icon_normal.webp",
+            "icon": "/icons/pals/T_ThunderDragonMan_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -41752,7 +41752,7 @@
         {
             "name": "World Tree Dragon 2 (Gym)",
             "asset": "GYM_WorldTreeDragon_2",
-            "icon": "/icons/pals/GYM_WorldTreeDragon_2_icon_normal.webp",
+            "icon": "/icons/pals/T_WorldTreeDragon_icon_normal.webp",
             "elements": {},
             "stats": {
                 "hp": 288,
@@ -41855,7 +41855,7 @@
         {
             "name": "Mossanda Lux",
             "asset": "GrassPanda_Electric_Tower",
-            "icon": "/icons/pals/GrassPanda_Electric_Tower_icon_normal.webp",
+            "icon": "/icons/pals/T_GrassPanda_Electric_icon_normal.webp",
             "elements": {
                 "Electricity": {
                     "name": "Electric",
@@ -41910,7 +41910,7 @@
         {
             "name": "Helzephyr",
             "asset": "HadesBird_Oilrig",
-            "icon": "/icons/pals/HadesBird_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_HadesBird_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -41969,7 +41969,7 @@
         {
             "name": "Faleris",
             "asset": "Horus_Oilrig",
-            "icon": "/icons/pals/Horus_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_Horus_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -42147,7 +42147,7 @@
         {
             "name": "Relaxaurus Lux",
             "asset": "LazyDragon_Electric_Tower",
-            "icon": "/icons/pals/LazyDragon_Electric_Tower_icon_normal.webp",
+            "icon": "/icons/pals/T_LazyDragon_Electric_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -42263,7 +42263,7 @@
         {
             "name": "Leezpunk",
             "asset": "LizardMan_Oilrig",
-            "icon": "/icons/pals/LizardMan_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_LizardMan_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -42441,7 +42441,7 @@
         {
             "name": "Monkey Ice",
             "asset": "Monkey_Ice",
-            "icon": "/icons/pals/Monkey_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_Monkey_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -42730,7 +42730,7 @@
         {
             "name": "Incineram Noct (Predator)",
             "asset": "PREDATOR_Baphomet_Dark",
-            "icon": "/icons/pals/PREDATOR_Baphomet_Dark_icon_normal.webp",
+            "icon": "/icons/pals/T_Baphomet_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -43235,7 +43235,7 @@
         {
             "name": "Flopie (Predator)",
             "asset": "PREDATOR_FlowerRabbit_Quest",
-            "icon": "/icons/pals/PREDATOR_FlowerRabbit_Quest_icon_normal.webp",
+            "icon": "/icons/pals/T_FlowerRabbit_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",
@@ -43345,7 +43345,7 @@
         {
             "name": "Direhowl (Predator)",
             "asset": "PREDATOR_Garm_Quest",
-            "icon": "/icons/pals/PREDATOR_Garm_Quest_icon_normal.webp",
+            "icon": "/icons/pals/T_Garm_icon_normal.webp",
             "elements": {
                 "Normal": {
                     "name": "Neutral",
@@ -43580,7 +43580,7 @@
         {
             "name": "Mammorest Cryst (Predator)",
             "asset": "PREDATOR_GrassMammoth_Ice",
-            "icon": "/icons/pals/PREDATOR_GrassMammoth_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_GrassMammoth_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -43644,7 +43644,7 @@
         {
             "name": "Elgrove Cryst (Predator)",
             "asset": "PREDATOR_GrassMinotaur_Ice",
-            "icon": "/icons/pals/PREDATOR_GrassMinotaur_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_GrassMinotaur_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -43812,7 +43812,7 @@
         {
             "name": "Helzephyr Lux (Predator)",
             "asset": "PREDATOR_HadesBird_Electric",
-            "icon": "/icons/pals/PREDATOR_HadesBird_Electric_icon_normal.webp",
+            "icon": "/icons/pals/T_HadesBird_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -43876,7 +43876,7 @@
         {
             "name": "Faleris Aqua (Predator)",
             "asset": "PREDATOR_Horus_Water",
-            "icon": "/icons/pals/PREDATOR_Horus_Water_icon_normal.webp",
+            "icon": "/icons/pals/T_Horus_icon_normal.webp",
             "elements": {
                 "Water": {
                     "name": "Water",
@@ -43995,7 +43995,7 @@
         {
             "name": "Blazehowl Noct (Predator)",
             "asset": "PREDATOR_Manticore_Dark",
-            "icon": "/icons/pals/PREDATOR_Manticore_Dark_icon_normal.webp",
+            "icon": "/icons/pals/T_Manticore_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -44472,7 +44472,7 @@
         {
             "name": "Lovander (Predator)",
             "asset": "PREDATOR_PinkLizard_Quest",
-            "icon": "/icons/pals/PREDATOR_PinkLizard_Quest_icon_normal.webp",
+            "icon": "/icons/pals/T_PinkLizard_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -44702,7 +44702,7 @@
         {
             "name": "Bushi Noct (Predator)",
             "asset": "PREDATOR_Ronin_Dark",
-            "icon": "/icons/pals/PREDATOR_Ronin_Dark_icon_normal.webp",
+            "icon": "/icons/pals/T_Ronin_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -45066,7 +45066,7 @@
         {
             "name": "Jormuntide Ignis (Predator)",
             "asset": "PREDATOR_Umihebi_Fire",
-            "icon": "/icons/pals/PREDATOR_Umihebi_Fire_icon_normal.webp",
+            "icon": "/icons/pals/T_Umihebi_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -45130,7 +45130,7 @@
         {
             "name": "Jormuntide Ignis (Predator)",
             "asset": "PREDATOR_Umihebi_Fire_Quest",
-            "icon": "/icons/pals/PREDATOR_Umihebi_Fire_Quest_icon_normal.webp",
+            "icon": "/icons/pals/T_Umihebi_Fire_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -45319,7 +45319,7 @@
         {
             "name": "Loupmoon Cryst (Predator)",
             "asset": "PREDATOR_Werewolf_Ice",
-            "icon": "/icons/pals/PREDATOR_Werewolf_Ice_icon_normal.webp",
+            "icon": "/icons/pals/T_Werewolf_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -45384,7 +45384,7 @@
         {
             "name": "Silvegis (Predator)",
             "asset": "PREDATOR_WhiteShieldDragon_Quest",
-            "icon": "/icons/pals/PREDATOR_WhiteShieldDragon_Quest_icon_normal.webp",
+            "icon": "/icons/pals/T_WhiteShieldDragon_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -45442,7 +45442,7 @@
         {
             "name": "Cryolinx Terra (Predator)",
             "asset": "PREDATOR_WhiteTiger_Ground",
-            "icon": "/icons/pals/PREDATOR_WhiteTiger_Ground_icon_normal.webp",
+            "icon": "/icons/pals/T_WhiteTiger_icon_normal.webp",
             "elements": {
                 "Earth": {
                     "name": "Earth",
@@ -45562,7 +45562,7 @@
         {
             "name": "Gumoss",
             "asset": "PlantSlime_Flower",
-            "icon": "/icons/pals/PlantSlime_Flower_icon_normal.webp",
+            "icon": "/icons/pals/T_PlantSlime_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",
@@ -45804,7 +45804,7 @@
         {
             "name": "Xenolord (Raid)",
             "asset": "RAID_DarkMechaDragon_2",
-            "icon": "/icons/pals/RAID_DarkMechaDragon_2_icon_normal.webp",
+            "icon": "/icons/pals/T_DarkMechaDragon_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -45868,7 +45868,7 @@
         {
             "name": "Blazamut Ryu (Raid)",
             "asset": "RAID_KingBahamut_Dragon",
-            "icon": "/icons/pals/RAID_KingBahamut_Dragon_icon_normal.webp",
+            "icon": "/icons/pals/T_KingBahamut_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -45932,7 +45932,7 @@
         {
             "name": "Blazamut Ryu (Raid)",
             "asset": "RAID_KingBahamut_Dragon_2",
-            "icon": "/icons/pals/RAID_KingBahamut_Dragon_2_icon_normal.webp",
+            "icon": "/icons/pals/T_KingBahamut_Dragon_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -46057,7 +46057,7 @@
         {
             "name": "Hartalis (Raid)",
             "asset": "RAID_LegendDeer_2",
-            "icon": "/icons/pals/RAID_LegendDeer_2_icon_normal.webp",
+            "icon": "/icons/pals/T_LegendDeer_icon_normal.webp",
             "elements": {
                 "Water": {
                     "name": "Water",
@@ -46180,7 +46180,7 @@
         {
             "name": "Bellanoir Libero (Raid)",
             "asset": "RAID_NightLady_Dark",
-            "icon": "/icons/pals/RAID_NightLady_Dark_icon_normal.webp",
+            "icon": "/icons/pals/T_NightLady_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -46242,7 +46242,7 @@
         {
             "name": "Bellanoir Libero (Raid)",
             "asset": "RAID_NightLady_Dark_2",
-            "icon": "/icons/pals/RAID_NightLady_Dark_2_icon_normal.webp",
+            "icon": "/icons/pals/T_NightLady_Dark_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -46304,7 +46304,7 @@
         {
             "name": "True Eye of Cthulhu (Raid)",
             "asset": "RAID_YakushimaBoss001_Green",
-            "icon": "/icons/pals/RAID_YakushimaBoss001_Green_icon_normal.webp",
+            "icon": "/icons/pals/T_YakushimaBoss001_icon_normal.webp",
             "elements": {},
             "stats": {
                 "hp": 135,
@@ -46352,7 +46352,7 @@
         {
             "name": "True Eye of Cthulhu (Raid)",
             "asset": "RAID_YakushimaBoss001_Green_2",
-            "icon": "/icons/pals/RAID_YakushimaBoss001_Green_2_icon_normal.webp",
+            "icon": "/icons/pals/T_YakushimaBoss001_icon_normal.webp",
             "elements": {},
             "stats": {
                 "hp": 135,
@@ -46897,7 +46897,7 @@
         {
             "name": "Xenovader (Summon)",
             "asset": "SUMMON_DarkAlien_MAX",
-            "icon": "/icons/pals/SUMMON_DarkAlien_MAX_icon_normal.webp",
+            "icon": "/icons/pals/T_DarkAlien_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -47013,7 +47013,7 @@
         {
             "name": "Xenogard (Summon)",
             "asset": "SUMMON_WhiteAlienDragon_MAX",
-            "icon": "/icons/pals/SUMMON_WhiteAlienDragon_MAX_icon_normal.webp",
+            "icon": "/icons/pals/T_WhiteAlienDragon_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -47297,7 +47297,7 @@
         {
             "name": "Knocklem",
             "asset": "WingGolem_Oilrig",
-            "icon": "/icons/pals/WingGolem_Oilrig_icon_normal.webp",
+            "icon": "/icons/pals/T_WingGolem_icon_normal.webp",
             "elements": {
                 "Earth": {
                     "name": "Earth",

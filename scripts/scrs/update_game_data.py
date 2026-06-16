@@ -549,6 +549,28 @@ def update_pal_data():
                                     break
                     if icon_path:
                         break
+        if not icon_path and not base_icon:
+            parts = pal_id.split('_')
+            while len(parts) > 1:
+                parts.pop()
+                candidates = ['_'.join(parts)]
+                stripped = candidates[0]
+                for pfx in ('BOSS_', 'POLICE_', 'PREDATOR_', 'GYM_', 'RAID_', 'SUMMON_'):
+                    if stripped.startswith(pfx):
+                        candidates.append(stripped[len(pfx):])
+                        break
+                for try_base in candidates:
+                    if try_base in icon_rows:
+                        bid = icon_rows[try_base].get('Icon', {})
+                        if isinstance(bid, dict):
+                            bp = bid.get('AssetPathName', '')
+                            if bp:
+                                fn = bp.split('/')[-1].split('.')[0] if '.' in bp else bp.split('/')[-1]
+                                base_icon = find_and_copy_icon(fn, 'pals', pal_icon_subdirs)
+                                if base_icon:
+                                    break
+                if base_icon:
+                    break
         display_name = resolve_pal_name(pal_id, monster_row)
         final_icon = icon_path or base_icon or f'/icons/pals/{pal_id}_icon_normal.webp'
         if not icon_path and not base_icon:

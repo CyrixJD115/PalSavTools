@@ -8094,7 +8094,7 @@
             "description": "Strange shield made with Paldium technology.\r\nAs a result of further experiments, ultimate quality has been achieved.\r\nCan be made at Production Assembly Line II."
         },
         {
-            "name": "Shield_07",
+            "name": "Ancient Shield",
             "asset": "Shield_07",
             "icon": "/icons/technologies/T_itemicon_Armor_Shield_07.webp",
             "type": "standard",
@@ -9550,7 +9550,7 @@
             "description": "Primitive Workbench for producing simple items.\r\nPals with Handcraft suitability help\r\nspeed up production."
         },
         {
-            "name": "[WIP] Ancient Ingot 2",
+            "name": "Palicite Ingot",
             "asset": "WorldTreeIngot",
             "icon": "/icons/technologies/T_itemicon_Material_WorldTreeIngot.webp",
             "type": "standard",

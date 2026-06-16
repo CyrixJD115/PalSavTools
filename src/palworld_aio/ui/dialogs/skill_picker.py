@@ -139,7 +139,8 @@ class _ActiveSkillDelegate(QStyledItemDelegate):
         tf.setPointSize(10)
         painter.setFont(tf)
         fm = QFontMetrics(tf)
-        pw_x = rect.right() - 34
+        pw = fm.horizontalAdvance(str(pwr))
+        pw_x = rect.right() - pw - 12
         icon_x = pw_x - 24
         name_w = icon_x - rect.x() - 16
         painter.setPen(QColor('#E2E8F0'))

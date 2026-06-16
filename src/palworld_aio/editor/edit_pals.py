@@ -2895,7 +2895,7 @@ class PalInfoWidget(QFrame):
             btn.setStyleSheet('QPushButton { background: transparent; border: none; }')
             btn.setCursor(Qt.PointingHandCursor)
             btn.setGeometry(0, 0, 100, 100)
-            btn.clicked.connect(lambda checked=None, idx=i: self._on_passive_click(idx))
+            btn.clicked.connect(lambda checked=None, idx=i, c=card: self._on_passive_click(idx, c.mapToGlobal(QPoint(0, c.height()))))
             row, col = (i // 2, i % 2)
             pg_layout.addWidget(card, row, col)
             self.passive_slots.append(plbl)
@@ -3419,7 +3419,7 @@ class PalInfoWidget(QFrame):
                 self._on_soul_click(obj)
                 return True
             if hasattr(obj, '_skill_slot_idx'):
-                self._on_active_skill_click(obj._skill_slot_idx)
+                self._on_active_skill_click(obj._skill_slot_idx, obj.mapToGlobal(QPoint(0, obj.height())))
                 return True
             if hasattr(obj, '_ws_key') and obj._ws_key:
                 self._on_work_skill_click(obj._ws_key, obj)
@@ -3601,19 +3601,19 @@ class PalInfoWidget(QFrame):
         if dlg.exec() == QDialog.Accepted:
             self._raw[key] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': dlg.intValue()}}
             self._recalc_hp()
-    def _on_active_skill_click(self, slot_idx):
+    def _on_active_skill_click(self, slot_idx, pos=None):
         if not self._raw:
             return
         if slot_idx < 0 or slot_idx >= 3:
             return
-        self._show_skill_picker(t('edit_pals.active_skills'), PalFrame._SKILLMAP, slot_idx, is_active=True)
-    def _on_passive_click(self, slot_idx):
+        self._show_skill_picker(t('edit_pals.active_skills'), PalFrame._SKILLMAP, slot_idx, is_active=True, pos=pos)
+    def _on_passive_click(self, slot_idx, pos=None):
         if not self._raw:
             return
         if slot_idx < 0 or slot_idx >= 4:
             return
-        self._show_skill_picker(t('edit_pals.passives'), PalFrame._PASSMAP, slot_idx, is_active=False)
-    def _show_skill_picker(self, title, skill_map, slot_idx, is_active):
+        self._show_skill_picker(t('edit_pals.passives'), PalFrame._PASSMAP, slot_idx, is_active=False, pos=pos)
+    def _show_skill_picker(self, title, skill_map, slot_idx, is_active, pos=None):
         from palworld_aio.ui.dialogs.skill_picker import SkillPicker
         picker = SkillPicker(self)
         try:
@@ -3642,7 +3642,7 @@ class PalInfoWidget(QFrame):
                         skip_items.add(clean.lower())
         except Exception:
             pass
-        result = picker.pick(skill_map, is_active, current_value=cur_val if isinstance(cur_val, str) else '', skip_items=skip_items)
+        result = picker.pick(skill_map, is_active, pos=pos, current_value=cur_val if isinstance(cur_val, str) else '', skip_items=skip_items)
         if result is None:
             return
         if result == '':

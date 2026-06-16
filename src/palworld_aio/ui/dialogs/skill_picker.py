@@ -139,8 +139,7 @@ class _ActiveSkillDelegate(QStyledItemDelegate):
         tf.setPointSize(10)
         painter.setFont(tf)
         fm = QFontMetrics(tf)
-        pw = fm.horizontalAdvance(str(pwr))
-        pw_x = rect.right() - pw - 12
+        pw_x = rect.right() - 48
         icon_x = pw_x - 24
         name_w = icon_x - rect.x() - 16
         painter.setPen(QColor('#E2E8F0'))
@@ -152,7 +151,7 @@ class _ActiveSkillDelegate(QStyledItemDelegate):
                 painter.drawPixmap(int(icon_x), int(icon_y), 16, 16, epix)
         if pwr:
             painter.setPen(QColor('#F59E0B'))
-            painter.drawText(QRectF(pw_x, rect.y(), 24, rect.height()), Qt.AlignVCenter, str(pwr))
+            painter.drawText(QRectF(pw_x, rect.y(), 44, rect.height()), Qt.AlignRight | Qt.AlignVCenter, str(pwr))
         painter.restore()
     def sizeHint(self, option, index):
         return QSize(200, 28)

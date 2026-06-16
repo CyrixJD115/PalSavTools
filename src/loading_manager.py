@@ -123,7 +123,7 @@ if '--spawn-loader' in sys.argv:
             return True
         def _load_theme(self):
             try:
-                from palworld_aio.ui.styles import ThemeManager
+                from palworld_aio.ui.chrome.styles import ThemeManager
                 ThemeManager.apply_to_widget(self)
             except Exception:
                 self.setStyleSheet('\nQDialog { background: rgba(12,14,18,0.97); color: #e2e8f0; }\n#mainContainer { background: rgba(18,20,24,0.95); border-radius: 16px; border: 1px solid rgba(125,211,252,0.12); }\n')
@@ -460,7 +460,7 @@ class ErrorDialog(QDialog):
         return True
     def _load_theme(self):
         try:
-            from palworld_aio.ui.styles import ThemeManager
+            from palworld_aio.ui.chrome.styles import ThemeManager
             ThemeManager.apply_to_widget(self)
         except Exception:
             self.setStyleSheet('QWidget{background:rgba(12,14,18,0.98);color:#e2e8f0}QLabel{color:#7DD3FC}')

@@ -2,7 +2,7 @@ from import_libs import *
 from palworld_aio.utils import sav_to_json, json_to_sav, extract_value
 from palworld_toolsets.fix_host_save import ask_string_with_icon
 from common import get_base_directory
-from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.ui.chrome.styles import ThemeManager
 from loading_manager import run_with_loading, show_information, show_critical
 import nerdfont as nf
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFrame, QMessageBox, QFileDialog, QStyleFactory, QApplication, QLabel

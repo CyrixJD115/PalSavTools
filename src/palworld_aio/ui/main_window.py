@@ -14,27 +14,27 @@ from i18n import t, set_language, load_resources
 from common import get_versions, get_current_version, is_standalone, get_update_settings, save_update_settings, BRANCH_VERSION
 from import_libs import run_with_loading
 from loading_manager import show_question
-from .tools_tab import center_on_parent
+from .tabs.tools_tab import center_on_parent
 GITHUB_RAW_URL = 'https://raw.githubusercontent.com/deafdudecomputers/PalworldSaveTools/main/src/common.py'
 GITHUB_LATEST_ZIP = 'https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest'
 from palworld_aio import constants
-from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.ui.chrome.styles import ThemeManager
 from palworld_aio.utils import check_for_update, as_uuid
-from palworld_aio.save_manager import save_manager
-from palworld_aio.data_manager import get_guilds, get_guild_members, get_bases, delete_guild, delete_player, load_exclusions, save_exclusions, delete_base_camp
-from palworld_aio.func_manager import delete_empty_guilds, delete_inactive_players, delete_inactive_bases, delete_duplicated_players, delete_unreferenced_data, delete_non_base_map_objects, delete_invalid_structure_map_objects, delete_all_skins, unlock_all_private_chests, remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, fix_missions, reset_anti_air_turrets, reset_dungeons, reset_oilrig, reset_invader, reset_supply, unlock_viewing_cage_for_player, fix_all_negative_timestamps, reset_selected_player_timestamp, detect_and_trim_overfilled_inventories, unlock_all_technologies_for_player, unlock_all_lab_research_for_guild, modify_container_slots, fix_unassigned_pals, fix_illegal_pals_in_save, repair_structures, edit_game_days
-from palworld_aio.guild_manager import move_player_to_guild, rebuild_all_guilds, make_member_leader, rename_guild, set_guild_level
-from palworld_aio.base_manager import export_base_json, import_base_json, clone_base_complete, update_base_area_range
-from palworld_aio.backup_manager import export_base_backup, load_base_file
-from palworld_aio.player_manager import rename_player
-from palworld_aio.map_generator import generate_world_map
-from palworld_aio.dialogs import InputDialog, DaysInputDialog, LevelInputDialog, RadiusInputDialog, PalDefenderDialog, GameDaysInputDialog
+from palworld_aio.managers.save_manager import save_manager
+from palworld_aio.managers.data_manager import get_guilds, get_guild_members, get_bases, delete_guild, delete_player, load_exclusions, save_exclusions, delete_base_camp
+from palworld_aio.managers.func_manager import delete_empty_guilds, delete_inactive_players, delete_inactive_bases, delete_duplicated_players, delete_unreferenced_data, delete_non_base_map_objects, delete_invalid_structure_map_objects, delete_all_skins, unlock_all_private_chests, remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, fix_missions, reset_anti_air_turrets, reset_dungeons, reset_oilrig, reset_invader, reset_supply, unlock_viewing_cage_for_player, fix_all_negative_timestamps, reset_selected_player_timestamp, detect_and_trim_overfilled_inventories, unlock_all_technologies_for_player, unlock_all_lab_research_for_guild, modify_container_slots, fix_unassigned_pals, fix_illegal_pals_in_save, repair_structures, edit_game_days
+from palworld_aio.managers.guild_manager import move_player_to_guild, rebuild_all_guilds, make_member_leader, rename_guild, set_guild_level
+from palworld_aio.managers.base_manager import export_base_json, import_base_json, clone_base_complete, update_base_area_range
+from palworld_aio.managers.backup_manager import export_base_backup, load_base_file
+from palworld_aio.managers.player_manager import rename_player
+from palworld_aio.map.map_generator import generate_world_map
+from palworld_aio.editor.dialogs import InputDialog, DaysInputDialog, LevelInputDialog, RadiusInputDialog, PalDefenderDialog, GameDaysInputDialog
 from palworld_aio.widgets import SearchPanel, StatsPanel, ScrollableContextMenu
 from resource_resolver import resource_path
-from palworld_aio.ui.container_selector_dialog import ContainerSelectorDialog
-from palworld_aio.ui.player_item_dialog import PlayerItemActionDialog
-from palworld_aio.ui.player_pal_dialog import PlayerPalActionDialog
-from palworld_aio.ui.player_technology_dialog import PlayerTechnologyActionDialog
+from palworld_aio.ui.dialogs.container_selector_dialog import ContainerSelectorDialog
+from palworld_aio.ui.dialogs.player_item_dialog import PlayerItemActionDialog
+from palworld_aio.ui.dialogs.player_pal_dialog import PlayerPalActionDialog
+from palworld_aio.ui.dialogs.player_technology_dialog import PlayerTechnologyActionDialog
 class DetachedStatusWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__()
@@ -263,7 +263,7 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
-        from .header_widget import HeaderWidget
+        from .chrome.header_widget import HeaderWidget
         self.header_widget = HeaderWidget()
         self.header_widget.minimize_clicked.connect(self.showMinimized)
         self.header_widget.maximize_clicked.connect(self._toggle_maximize)
@@ -276,7 +276,7 @@ class MainWindow(QMainWindow):
         body_layout = QHBoxLayout()
         body_layout.setContentsMargins(0, 0, 0, 0)
         body_layout.setSpacing(0)
-        from .sidebar_widget import SidebarWidget
+        from .chrome.sidebar_widget import SidebarWidget
         self.sidebar = SidebarWidget()
         self.sidebar.nav_changed.connect(self._on_nav_changed)
         self.sidebar.console_toggled.connect(self._detach_status)
@@ -298,7 +298,7 @@ class MainWindow(QMainWindow):
         self._setup_map_tab()
         self._setup_exclusions_tab()
         self.splitter.addWidget(self.stacked_widget)
-        from .results_widget import ResultsWidget
+        from .chrome.results_widget import ResultsWidget
         self.results_widget = ResultsWidget()
         self.splitter.addWidget(self.results_widget)
         body_layout.addWidget(self.splitter, stretch=1)
@@ -367,24 +367,24 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.bases_panel)
         self.stacked_widget.addWidget(bases_tab)
     def _setup_map_tab(self):
-        from .map_tab import MapTab
+        from .tabs.map_tab import MapTab
         self.map_tab = MapTab(self)
         self.stacked_widget.addWidget(self.map_tab)
     def _setup_tools_tab(self):
-        from .tools_tab import ToolsTab
+        from .tabs.tools_tab import ToolsTab
         self.tools_tab = ToolsTab(self)
         self.stacked_widget.addWidget(self.tools_tab)
     def _setup_base_inventory_tab(self):
-        from .base_inventory_tab import BaseInventoryTab
+        from .tabs.base_inventory_tab import BaseInventoryTab
         self.base_inventory_tab = BaseInventoryTab(self)
         self.stacked_widget.addWidget(self.base_inventory_tab)
     def _setup_inventory_tab(self):
-        from .inventory_tab import PlayerInventoryTab
+        from .tabs.inventory_tab import PlayerInventoryTab
         self.inventory_tab = PlayerInventoryTab(self)
         self.stacked_widget.addWidget(self.inventory_tab)
         self.inventory_tab.unlock_all_map_requested.connect(self._on_bulk_unlock_all_map)
     def _setup_pal_editor_tab(self):
-        from .pal_editor_tab import PalEditorTab
+        from .tabs.pal_editor_tab import PalEditorTab
         self.pal_editor_tab = PalEditorTab(self)
         self.stacked_widget.addWidget(self.pal_editor_tab)
     def _setup_exclusions_tab(self):
@@ -789,7 +789,7 @@ class MainWindow(QMainWindow):
         center_on_parent(msg_box)
         msg_box.exec()
     def _show_tab_guide(self):
-        from .tab_guide_dialog import TabGuideDialog
+        from .dialogs.tab_guide_dialog import TabGuideDialog
         dialog = TabGuideDialog(self)
         if not hasattr(self, '_active_dialogs'):
             self._active_dialogs = []
@@ -821,7 +821,7 @@ class MainWindow(QMainWindow):
             if dialog in self._active_dialogs:
                 self._active_dialogs.remove(dialog)
     def _on_player_item_action(self, item_id, action, player_uids):
-        from palworld_aio.base_inventory_manager import remove_item_from_players, add_item_to_players
+        from palworld_aio.inventory.base_inventory_manager import remove_item_from_players, add_item_to_players
         from PySide6.QtWidgets import QMessageBox
         try:
             result = None
@@ -852,7 +852,7 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
     def _on_bulk_add_all_effigies(self, player_uids, quantity):
-        from palworld_aio.player_manager import add_all_effigies_to_players
+        from palworld_aio.managers.player_manager import add_all_effigies_to_players
         from palworld_aio import constants
         total = add_all_effigies_to_players(player_uids, quantity)
         constants.invalidate_container_lookup()
@@ -860,9 +860,9 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
     def _on_bulk_add_all_key_items(self, player_uids):
-        from palworld_aio.inventory_manager import ItemData, PlayerInventory, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
+        from palworld_aio.inventory.inventory_manager import ItemData, PlayerInventory, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS
         from palworld_aio.utils import gvasfile_to_sav
-        from palworld_aio.dynamic_item import sync_dynamic_items_with_registry
+        from palworld_aio.inventory.dynamic_item import sync_dynamic_items_with_registry
         import os
         all_items = ItemData.get_all_items()
         unlock_assets = set(FOOD_POUCH_ITEMS + ACCESSORY_UNLOCK_ITEMS + WEAPON_UNLOCK_ITEMS)
@@ -936,7 +936,7 @@ class MainWindow(QMainWindow):
             self.refresh_all()
     def _on_bulk_unlock_all_map(self, player_uids):
         import json, os
-        from palworld_aio.inventory_manager import PlayerInventory
+        from palworld_aio.inventory.inventory_manager import PlayerInventory
         from palworld_aio.utils import gvasfile_to_sav, sav_to_gvasfile
         from boot_paths import ROOT_DIR
         ref_path = resource_path(str(ROOT_DIR), 'game_data', 'reference_unlock_data.json')
@@ -984,7 +984,7 @@ class MainWindow(QMainWindow):
                 continue
         self._show_info(t('player_item.add_complete') if t else 'Unlock Complete', t('inventory.unlock_all_map_bulk_success.msg', count=players_affected, default=f'Unlocked map + fast travel for {players_affected} player(s).'))
     def _on_player_pal_action(self, item_id, action, player_uids):
-        from palworld_aio.edit_pals import delete_pal_from_all, remove_skill_from_all_pals
+        from palworld_aio.editor.edit_pals import delete_pal_from_all, remove_skill_from_all_pals
         from PySide6.QtWidgets import QMessageBox
         try:
             if action.startswith('delete_pal:'):
@@ -1174,7 +1174,7 @@ class MainWindow(QMainWindow):
             if 'properties' not in json_data or 'OptionWorldData' not in json_data.get('properties', {}):
                 self._show_warning(t('error.title') if t else 'Error', 'Invalid WorldOption.sav structure')
                 return
-            from palworld_aio.editors.worldoption_editor import edit_worldoption_settings
+            from palworld_aio.editor.worldoption_editor import edit_worldoption_settings
             result = edit_worldoption_settings(json_data, sav_path, self)
             if result:
                 self._show_info(t('success.title') if t else 'Success', f'WorldOption settings saved successfully!\n\nLocation: {sav_path}')
@@ -1580,7 +1580,7 @@ class MainWindow(QMainWindow):
         if bid in constants.exclusions.get('bases', []):
             self._show_warning(t('warning.title') if t else 'Warning', t('deletion.warning.protected_base') if t else f'Base {bid} is in exclusion list and cannot be deleted.')
             return
-        from ..data_manager import delete_base_camp
+        from ..managers.data_manager import delete_base_camp
         wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
         base_list = wsd.get('BaseCampSaveData', {}).get('value', [])
         deleted = False
@@ -1874,7 +1874,7 @@ class MainWindow(QMainWindow):
         else:
             self._show_warning(t('error.title'), 'Failed to clone base')
     def _edit_player_pals(self, uid, name):
-        from ..edit_pals import EditPalsDialog
+        from ..editor.edit_pals import EditPalsDialog
         dialog = EditPalsDialog(uid, name, self)
         if dialog.exec() == QDialog.Accepted:
             self.refresh_all()
@@ -1894,7 +1894,7 @@ class MainWindow(QMainWindow):
         else:
             self._show_warning(t('Error') if t else 'Error', t('guild.unlock_lab_research.failed') if t else 'Unlock All Lab Research failed')
     def _level_up_player(self, uid):
-        from ..player_manager import adjust_player_level, get_level_from_exp
+        from ..managers.player_manager import adjust_player_level, get_level_from_exp
         current_level = constants.player_levels.get(str(uid).replace('-', ''), 1)
         if current_level == 1 or current_level == '?':
             self._show_warning(t('Error') if t else 'Error', t('player.level.set_no_level_data') if t else 'Cannot level up player - player is at level 1 or unknown')
@@ -1905,7 +1905,7 @@ class MainWindow(QMainWindow):
         else:
             self._show_warning(t('Error') if t else 'Error', 'Failed to level up player (already max level?)')
     def _level_down_player(self, uid):
-        from ..player_manager import adjust_player_level, get_level_from_exp
+        from ..managers.player_manager import adjust_player_level, get_level_from_exp
         current_level = constants.player_levels.get(str(uid).replace('-', ''), 1)
         if current_level == 1 or current_level == '?':
             self._show_warning(t('Error') if t else 'Error', t('player.level.set_no_level_data') if t else 'Cannot level down player - player is at level 1 or unknown')
@@ -1919,7 +1919,7 @@ class MainWindow(QMainWindow):
         else:
             self._show_warning(t('Error') if t else 'Error', 'Failed to level down player (already min level?)')
     def _set_player_level(self, uid):
-        from ..player_manager import adjust_player_level, get_level_from_exp
+        from ..managers.player_manager import adjust_player_level, get_level_from_exp
         current_level_raw = constants.player_levels.get(str(uid).replace('-', ''), 1)
         current_level = 1 if current_level_raw == '?' else current_level_raw
         if current_level == 1 or current_level_raw == '?':
@@ -1957,7 +1957,7 @@ class MainWindow(QMainWindow):
             return
         uid = player_data[4]
         name = player_data[0].replace('[L]', '')
-        from ..player_manager import get_player_info
+        from ..managers.player_manager import get_player_info
         player_info = get_player_info(uid)
         if not player_info:
             self._show_warning(t('Error'), t('player.not_found'))
@@ -2000,7 +2000,7 @@ class MainWindow(QMainWindow):
         if dialog.exec() == QDialog.Accepted:
             new_tech = tech_spinbox.value()
             new_boss_tech = boss_tech_spinbox.value()
-            from ..player_manager import set_player_tech_points, set_player_boss_tech_points
+            from ..managers.player_manager import set_player_tech_points, set_player_boss_tech_points
             success = True
             if set_player_tech_points(uid, new_tech):
                 print(f'Technology points updated to {new_tech}')
@@ -2098,7 +2098,7 @@ class MainWindow(QMainWindow):
                     new_unused_stat_points = spinbox.value()
                 else:
                     new_stats[stat_jp] = spinbox.value()
-            from ..player_manager import set_player_stats
+            from ..managers.player_manager import set_player_stats
             if set_player_stats(uid, new_stats, new_unused_stat_points):
                 self._show_info(t('Done'), t('player.stats_updated') if t else 'Player stats updated successfully')
             else:
@@ -2117,7 +2117,7 @@ class MainWindow(QMainWindow):
         result = dialog.exec()
         if result == QDialog.Accepted:
             container_ids = dialog.get_selected_container_ids()
-            from ..func_manager import update_player_container_ids
+            from ..managers.func_manager import update_player_container_ids
             success = update_player_container_ids(uid, container_ids)
             if success:
                 self.refresh_all()

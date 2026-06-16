@@ -8,8 +8,8 @@ from loading_manager import show_information, show_warning
 from PySide6.QtWidgets import QHeaderView, QMainWindow, QWidget, QLineEdit, QTreeWidget, QTreeWidgetItem, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QMessageBox, QFrame, QApplication
 from PySide6.QtGui import QIcon, QFont
 from PySide6.QtCore import Qt, QTimer
-from palworld_aio.ui.styles import ThemeManager
-from palworld_aio.container_ownership import ContainerOwnership
+from palworld_aio.ui.chrome.styles import ThemeManager
+from palworld_aio.inventory.container_ownership import ContainerOwnership
 from palworld_aio import constants
 import struct
 import io

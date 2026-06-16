@@ -21,12 +21,14 @@ _TEST_STEM_ALIASES: dict[str, str] = {
     'archive': 'palsav.archive',
     'gvas': 'palsav.gvas',
     'json_tools': 'palsav.json_tools',
+    'graph_validator_relative_imports': 'graph_validator',
 }
 
 _INSTALLED_MODULES: dict[str, str] = {
     'archive': 'palsav.archive',
     'gvas': 'palsav.gvas',
     'json_tools': 'palsav.json_tools',
+    'graph_validator': 'tests.harness.graph_validator',
 }
 
 

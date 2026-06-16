@@ -55,6 +55,38 @@ def _resolve_relative_import(module: str, filepath: Path) -> list[str]:
     return [f'<relative:{filepath.name}:{module}>']
 
 
+def _resolve_relative_to_path(filepath: Path, level: int, module: str) -> Path | None:
+    """Resolve a relative import to its target filesystem path.
+
+    Computes the real directory/module path that ``from {dots}{module}``
+    points to, given the importing file's location and the leading-dot
+    level (1 = ``.``, 2 = ``..``, etc.).
+
+    Returns ``None`` if the file is outside ``SRC_DIR`` — can't anchor
+    the resolution without knowing the package root.
+    """
+    try:
+        filepath.relative_to(SRC_DIR)
+    except ValueError:
+        return None
+    pkg_dir = filepath.parent
+    for _ in range(level - 1):
+        pkg_dir = pkg_dir.parent
+    if module:
+        for part in module.split('.'):
+            pkg_dir = pkg_dir / part
+    return pkg_dir
+
+
+def _relative_target_exists(target: Path) -> bool:
+    """Check whether a relative import target is a real package or module."""
+    if target.is_dir() and (target / '__init__.py').exists():
+        return True
+    if target.with_suffix('.py').is_file():
+        return True
+    return False
+
+
 def parse_imports(path: Path) -> list[tuple[str, int, str]]:
     try:
         tree = ast.parse(path.read_text(encoding='utf-8', errors='replace'))
@@ -198,6 +230,55 @@ def _check_startup_files(files: list[Path]) -> list[str]:
     return warnings
 
 
+def _check_relative_imports_resolve(files: list[Path]) -> list[str]:
+    """Verify every relative import resolves to a real target on disk.
+
+    Catches the class of bug where a file moves to a different directory
+    depth and its relative imports (``from .X``, ``from ..X``) now point
+    at non-existent paths.  Scans **all** ImportFrom nodes — including
+    lazy (in-function) imports — because ``ast.walk`` is scope-agnostic.
+    This is the gap that allowed the palworld_aio restructure to ship
+    15 broken lazy imports that only surfaced at GUI runtime.
+    """
+    violations: list[str] = []
+    for f in files:
+        try:
+            tree = ast.parse(f.read_text(encoding='utf-8', errors='replace'))
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.ImportFrom):
+                continue
+            if not node.level:
+                continue
+            module = node.module or ''
+            # 'from . import X' (module='') — X may be a runtime attribute
+            # (class/function/variable) defined in __init__.py, not a
+            # statically resolvable submodule.  Skip.
+            if not module:
+                continue
+            target = _resolve_relative_to_path(f, node.level, module)
+            if target is None:
+                continue
+            if not _relative_target_exists(target):
+                dotted = '.' * node.level + module
+                names = ', '.join(a.name for a in node.names)
+                try:
+                    rel_file = f.relative_to(PROJECT_ROOT)
+                except ValueError:
+                    rel_file = f
+                try:
+                    rel_target = target.relative_to(PROJECT_ROOT)
+                except ValueError:
+                    rel_target = target
+                violations.append(
+                    f'{rel_file}:{node.lineno}: relative import '
+                    f'"from {dotted} import {names}" resolves to '
+                    f'{rel_target} — not found'
+                )
+    return violations
+
+
 def run_graph_validator() -> ReportSection:
     section = ReportSection('Import Graph')
     files = _collect_py_files()
@@ -234,11 +315,23 @@ def run_graph_validator() -> ReportSection:
         for w in startup_warnings:
             section.warnings.append(f'  {w}')
 
+    relative_failures = _check_relative_imports_resolve(files)
+    if relative_failures:
+        section.failures.append(
+            f'{len(relative_failures)} unresolvable relative import(s):'
+        )
+        for v in relative_failures:
+            section.failures.append(f'  {v}')
+
     module_count = len(adj)
-    d = f'{module_count} modules scanned, {len(cycles)} cycle(s), {len(purity_violations)} purity violation(s)'
+    d = (
+        f'{module_count} modules scanned, {len(cycles)} cycle(s), '
+        f'{len(purity_violations)} purity violation(s), '
+        f'{len(relative_failures)} unresolvable relative import(s)'
+    )
     if startup_warnings:
         d += f', {len(startup_warnings)} startup warning(s)'
-    if cycles or purity_violations:
+    if cycles or purity_violations or relative_failures:
         section.failures.insert(0, d)
     else:
         section.warnings.insert(0, d)

@@ -85,8 +85,8 @@ try:
         from import_libs import center_window
         from palworld_aio import constants
         from palworld_aio.ui import MainWindow
-        from palworld_aio.save_manager import save_manager
-        from palworld_aio.func_manager import remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, delete_invalid_structure_map_objects, delete_unreferenced_data, delete_non_base_map_objects, fix_illegal_pals_in_save
+        from palworld_aio.managers.save_manager import save_manager
+        from palworld_aio.managers.func_manager import remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, delete_invalid_structure_map_objects, delete_unreferenced_data, delete_non_base_map_objects, fix_illegal_pals_in_save
         from loading_manager import show_error_screen
 except Exception:
     from PySide6.QtWidgets import QApplication
@@ -96,8 +96,8 @@ except Exception:
     from import_libs import center_window
     from palworld_aio import constants
     from palworld_aio.ui import MainWindow
-    from palworld_aio.save_manager import save_manager
-    from palworld_aio.func_manager import remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, delete_invalid_structure_map_objects, delete_unreferenced_data, delete_non_base_map_objects, fix_illegal_pals_in_save
+    from palworld_aio.managers.save_manager import save_manager
+    from palworld_aio.managers.func_manager import remove_invalid_items_from_save, remove_invalid_pals_from_save, remove_invalid_passives_from_save, delete_invalid_structure_map_objects, delete_unreferenced_data, delete_non_base_map_objects, fix_illegal_pals_in_save
     from loading_manager import show_error_screen
 def qt_message_handler(mode, context, message):
     if 'QThreadStorage' in str(message) and 'destroyed before end of thread' in str(message):
@@ -173,7 +173,7 @@ def run_aio():
         constants.loaded_level_json = sav_to_gvas_wrapper(p)
         t1 = time.perf_counter()
         print(f'Save loaded in {t1 - t0:.2f} seconds')
-        from palworld_aio.func_manager import scan_and_protect_death_bags
+        from palworld_aio.managers.func_manager import scan_and_protect_death_bags
         scan_and_protect_death_bags()
         save_manager._build_player_levels()
         if not constants.loaded_level_json:

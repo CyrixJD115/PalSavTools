@@ -9,7 +9,7 @@ from PySide6.QtGui import QIcon, QFont, QPixmap, QColor, QPalette
 from PySide6.QtCore import Qt, QTimer, QThread, Signal
 from concurrent.futures import ThreadPoolExecutor
 import os
-from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.ui.chrome.styles import ThemeManager
 from palworld_aio import constants
 def sav_to_gvasfile(filepath):
     with open(filepath, 'rb') as f:

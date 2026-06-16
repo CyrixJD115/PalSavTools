@@ -2,7 +2,7 @@ from import_libs import *
 from PySide6.QtWidgets import QSizePolicy, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea, QMainWindow, QWidget, QComboBox, QLineEdit, QFileDialog, QApplication, QFrame, QProgressBar, QMessageBox
 from PySide6.QtGui import QIcon, QPixmap, QFont
 from PySide6.QtCore import Qt, QTimer
-from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.ui.chrome.styles import ThemeManager
 from palworld_aio import constants
 from resource_resolver import resource_path, get_base_dir, get_resources_dir
 import ssl

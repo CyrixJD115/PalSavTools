@@ -1,6 +1,6 @@
 from import_libs import *
 from loading_manager import show_warning, show_critical
-from palworld_aio.ui.styles import ThemeManager
+from palworld_aio.ui.chrome.styles import ThemeManager
 import nerdfont as nf
 from palworld_aio import constants
 def get_steam_id_from_local():

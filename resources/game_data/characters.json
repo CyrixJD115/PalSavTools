@@ -21841,7 +21841,7 @@
         {
             "name": "Shadowbeak (Boss)",
             "asset": "BOSS_BlackGriffon_BossRush",
-            "icon": "/icons/pals/BOSS_BlackGriffon_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_BlackGriffon_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -22399,7 +22399,7 @@
         {
             "name": "Shaolong (Boss)",
             "asset": "BOSS_BlueSkyDragon_BossRush",
-            "icon": "/icons/pals/BOSS_BlueSkyDragon_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_BlueSkyDragon_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",
@@ -25188,7 +25188,7 @@
         {
             "name": "Grizzbolt (Boss)",
             "asset": "BOSS_ElecPanda_BossRush",
-            "icon": "/icons/pals/BOSS_ElecPanda_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_ElecPanda_icon_normal.webp",
             "elements": {
                 "Electricity": {
                     "name": "Electric",
@@ -28854,7 +28854,7 @@
         {
             "name": "Faleris (Boss)",
             "asset": "BOSS_Horus_BossRush",
-            "icon": "/icons/pals/BOSS_Horus_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_Horus_icon_normal.webp",
             "elements": {
                 "Fire": {
                     "name": "Fire",
@@ -30606,7 +30606,7 @@
         {
             "name": "Panthalus (Boss)",
             "asset": "BOSS_KingWhale_otomo",
-            "icon": "/icons/pals/BOSS_KingWhale_otomo_icon_normal.webp",
+            "icon": "/icons/pals/T_KingWhale_icon_normal.webp",
             "elements": {
                 "Water": {
                     "name": "Water",
@@ -31558,7 +31558,7 @@
         {
             "name": "Lyleen (Boss)",
             "asset": "BOSS_LilyQueen_BossRush",
-            "icon": "/icons/pals/BOSS_LilyQueen_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_LilyQueen_icon_normal.webp",
             "elements": {
                 "Leaf": {
                     "name": "Grass",
@@ -32690,7 +32690,7 @@
         {
             "name": "Selyne (Boss)",
             "asset": "BOSS_MoonQueen_BossRush",
-            "icon": "/icons/pals/BOSS_MoonQueen_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_MoonQueen_icon_normal.webp",
             "elements": {
                 "Dark": {
                     "name": "Dark",
@@ -36794,7 +36794,7 @@
         {
             "name": "Bastigor (Boss)",
             "asset": "BOSS_SnowTigerBeastman_BossRush",
-            "icon": "/icons/pals/BOSS_SnowTigerBeastman_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_SnowTigerBeastman_icon_normal.webp",
             "elements": {
                 "Ice": {
                     "name": "Ice",
@@ -37988,7 +37988,7 @@
         {
             "name": "Orserk (Boss)",
             "asset": "BOSS_ThunderDragonMan_BossRush",
-            "icon": "/icons/pals/BOSS_ThunderDragonMan_BossRush_icon_normal.webp",
+            "icon": "/icons/pals/T_ThunderDragonMan_icon_normal.webp",
             "elements": {
                 "Dragon": {
                     "name": "Dragon",

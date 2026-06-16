@@ -530,9 +530,14 @@ def update_pal_data():
                 if base_icon_path:
                     fn = base_icon_path.split('/')[-1].split('.')[0] if '.' in base_icon_path else base_icon_path.split('/')[-1]
                     base_icon = find_and_copy_icon(fn, 'pals', pal_icon_subdirs)
+        true_base = base_pal_id
+        for _s in ['_otomo','_BossRush']:
+            if true_base.endswith(_s): true_base = true_base[:-len(_s)]; break
         icon_path = None
         if not base_icon:
-            for fname in (f'T_{pal_id}_icon_normal', f'T_{pal_id}_icon', f'T_{pal_id}', f'T_{base_pal_id}_icon_normal', f'T_{base_pal_id}'):
+            search_names = [f'T_{pal_id}_icon_normal',f'T_{pal_id}_icon',f'T_{pal_id}',f'T_{base_pal_id}_icon_normal',f'T_{base_pal_id}']
+            if true_base != base_pal_id: search_names += [f'T_{true_base}_icon_normal',f'T_{true_base}']
+            for fname in search_names:
                 for ext in ['.webp', '.png', '.PNG']:
                     for subdir in pal_icon_subdirs:
                         if subdir.exists():
@@ -547,10 +552,9 @@ def update_pal_data():
         display_name = resolve_pal_name(pal_id, monster_row)
         final_icon = icon_path or base_icon or f'/icons/pals/{pal_id}_icon_normal.webp'
         if not icon_path and not base_icon:
-            t_prefixed = f'/icons/pals/T_{pal_id}_icon_normal.webp'
-            t_file = RESOURCES_DIR / t_prefixed.lstrip('/')
-            if t_file.exists():
-                final_icon = t_prefixed
+            for try_id in (pal_id, base_pal_id, true_base):
+                tc = f'/icons/pals/T_{try_id}_icon_normal.webp'
+                if (RESOURCES_DIR / tc.lstrip('/')).exists(): final_icon = tc; break
         pal_entry = {'name': display_name, 'asset': pal_id, 'icon': final_icon, 'elements': _build_element_icons(monster_row)}
         if monster_row and isinstance(monster_row, dict):
             el1 = monster_row.get('ElementType1', '')

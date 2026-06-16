@@ -117,6 +117,44 @@ class _PassiveSkillDelegate(QStyledItemDelegate):
                     painter.fillRect(QRectF(cx, yy, col_w - 2, 1.5), QColor(192, 132, 252, alpha))
     def sizeHint(self, option, index):
         return QSize(200, 28)
+class _ActiveSkillDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        painter.save()
+        painter.setRenderHint(QPainter.Antialiasing)
+        rect = option.rect
+        selected = option.state & QStyle.State_Selected
+        if selected:
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(QColor(59, 142, 208, 89)))
+            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
+        else:
+            bg = QColor(255, 255, 255, 8)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(bg)
+            painter.drawRoundedRect(QRectF(rect).adjusted(0, 1, 0, -1), 4, 4)
+        elem = index.data(Qt.UserRole + 1) or ''
+        pwr = index.data(Qt.UserRole + 2) or ''
+        name = index.data(Qt.DisplayRole) or ''
+        tf = painter.font()
+        tf.setPointSize(10)
+        painter.setFont(tf)
+        fm = QFontMetrics(tf)
+        pw_x = rect.right() - 34
+        icon_x = pw_x - 24
+        name_w = icon_x - rect.x() - 16
+        painter.setPen(QColor('#E2E8F0'))
+        painter.drawText(QRectF(rect.x() + 8, rect.y(), max(name_w, 0), rect.height()), Qt.AlignVCenter, name)
+        if elem:
+            epix = _get_element_pixmap(elem, 'small', 16)
+            if epix:
+                icon_y = rect.center().y() - 8
+                painter.drawPixmap(int(icon_x), int(icon_y), 16, 16, epix)
+        if pwr:
+            painter.setPen(QColor('#F59E0B'))
+            painter.drawText(QRectF(pw_x, rect.y(), 24, rect.height()), Qt.AlignVCenter, str(pwr))
+        painter.restore()
+    def sizeHint(self, option, index):
+        return QSize(200, 28)
 class SkillPicker(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -163,6 +201,7 @@ class SkillPicker(QWidget):
         self._list.addItem(clear_item)
         names = sorted(skill_map.values())
         if is_active:
+            self._list.setItemDelegate(_ActiveSkillDelegate(self._list))
             _ensure_skill_data()
             for name in names:
                 if not name:
@@ -182,10 +221,9 @@ class SkillPicker(QWidget):
                 info = _ep._SKILL_DATA.get(key, {}) if isinstance(_ep._SKILL_DATA, dict) else {}
                 elem = info.get('element', 'Normal')
                 pwr = info.get('power', 0)
-                epix = _get_element_pixmap(elem, 'small', 16)
-                if epix:
-                    item.setIcon(QIcon(epix))
-                item.setText(f'{pwr} - {name}')
+                item.setData(Qt.UserRole + 1, elem)
+                item.setData(Qt.UserRole + 2, pwr)
+                item.setText(name)
                 item.setData(Qt.UserRole, name)
                 tip_parts = [f'<b>{name}</b>', f'Element: {elem}', f'Power: {pwr}']
                 cd = info.get('cooldown', 0)

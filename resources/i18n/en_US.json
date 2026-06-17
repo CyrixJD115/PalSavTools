@@ -1885,5 +1885,8 @@
   "inventory.clear_key_btn": "Clear",
   "inventory.clear_key_confirm_msg": "Remove all key items?",
   "inventory.clear_key_confirm_title": "Clear",
-  "character_transfer.no_players_folder": "No Players folder found next to Level.sav. Cannot load save."
+  "character_transfer.no_players_folder": "No Players folder found next to Level.sav. Cannot load save.",
+  "edit_pals.show_standard": "Standard",
+  "edit_pals.show_boss": "Boss",
+  "edit_pals.create": "Create"
 }

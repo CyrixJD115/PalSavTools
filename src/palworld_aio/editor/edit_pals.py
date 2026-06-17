@@ -5116,11 +5116,11 @@ class PalCreateDialog(QDialog):
         self._search_edit = QLineEdit()
         self._search_edit.setPlaceholderText('Type to filter pals...')
         filter_layout.addWidget(self._search_edit)
-        self._show_standard_chk = QCheckBox('Standard')
+        self._show_standard_chk = QCheckBox(t('edit_pals.show_standard') if t else 'Standard')
         self._show_standard_chk.setChecked(True)
         self._show_standard_chk.toggled.connect(self._filter_pal_list)
         filter_layout.addWidget(self._show_standard_chk)
-        self._show_boss_chk = QCheckBox('Boss')
+        self._show_boss_chk = QCheckBox(t('edit_pals.show_boss') if t else 'Boss')
         self._show_boss_chk.toggled.connect(self._filter_pal_list)
         filter_layout.addWidget(self._show_boss_chk)
         filter_layout.addStretch()
@@ -5207,7 +5207,7 @@ class PalCreateDialog(QDialog):
         self.nick_edit.setPlaceholderText('Optional')
         nick_layout.addWidget(self.nick_edit)
         nick_layout.addStretch()
-        ok_btn = QPushButton('Create')
+        ok_btn = QPushButton(t('edit_pals.create'))
         ok_btn.clicked.connect(self._on_create)
         nick_layout.addWidget(ok_btn)
         cancel_btn = QPushButton(t('edit_pals.cancel'))
@@ -5222,6 +5222,8 @@ class PalCreateDialog(QDialog):
         for asset, name in sorted(PalFrame._NAMEMAP.items(), key=lambda kv: (kv[1], kv[0])):
             asset_lower = asset.lower()
             if any((asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'police_'))):
+                continue
+            if 'worldtreedragon' in asset_lower:
                 continue
             if 'oilrig' in asset_lower:
                 continue

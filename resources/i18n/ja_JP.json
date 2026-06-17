@@ -1597,5 +1597,8 @@
   "inventory.clear_key_btn": "クリア",
   "inventory.clear_key_confirm_msg": "重要なアイテムをすべて削除しますか?",
   "inventory.clear_key_confirm_title": "クリア",
-  "character_transfer.no_players_folder": "Level.sav の隣に Players フォルダーが見つかりません。セーブをロードできません。"
+  "character_transfer.no_players_folder": "Level.sav の隣に Players フォルダーが見つかりません。セーブをロードできません。",
+  "edit_pals.show_standard": "標準",
+  "edit_pals.show_boss": "ボス",
+  "edit_pals.create": "作成する"
 }

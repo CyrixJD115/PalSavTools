@@ -1595,5 +1595,8 @@
   "inventory.clear_key_btn": "Прозрачный",
   "inventory.clear_key_confirm_msg": "Удалить все ключевые элементы?",
   "inventory.clear_key_confirm_title": "Прозрачный",
-  "character_transfer.no_players_folder": "Папка Players рядом с Level.sav не найдена. Не могу загрузить сохранение."
+  "character_transfer.no_players_folder": "Папка Players рядом с Level.sav не найдена. Не могу загрузить сохранение.",
+  "edit_pals.show_standard": "Стандартный",
+  "edit_pals.show_boss": "Босс",
+  "edit_pals.create": "Создавать"
 }

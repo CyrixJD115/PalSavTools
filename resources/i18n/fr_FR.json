@@ -1579,5 +1579,8 @@
   "inventory.clear_key_btn": "Clair",
   "inventory.clear_key_confirm_msg": "Supprimer tous les éléments clés ?",
   "inventory.clear_key_confirm_title": "Clair",
-  "character_transfer.no_players_folder": "Aucun dossier Players trouvé à côté de Level.sav. Impossible de charger la sauvegarde."
+  "character_transfer.no_players_folder": "Aucun dossier Players trouvé à côté de Level.sav. Impossible de charger la sauvegarde.",
+  "edit_pals.show_standard": "Standard",
+  "edit_pals.show_boss": "Chef",
+  "edit_pals.create": "Créer"
 }

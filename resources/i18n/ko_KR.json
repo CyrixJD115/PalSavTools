@@ -1596,5 +1596,8 @@
   "inventory.clear_key_btn": "분명한",
   "inventory.clear_key_confirm_msg": "모든 주요 항목을 삭제하시겠습니까?",
   "inventory.clear_key_confirm_title": "분명한",
-  "character_transfer.no_players_folder": "Level.sav 옆에 플레이어 폴더가 없습니다. 저장을 로드할 수 없습니다."
+  "character_transfer.no_players_folder": "Level.sav 옆에 플레이어 폴더가 없습니다. 저장을 로드할 수 없습니다.",
+  "edit_pals.show_standard": "기준",
+  "edit_pals.show_boss": "사장",
+  "edit_pals.create": "만들다"
 }

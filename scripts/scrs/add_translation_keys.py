@@ -12,8 +12,15 @@ except ImportError:
     from deep_translator import GoogleTranslator
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 LANGUAGES = {'zh_CN': {'name': 'Simplified Chinese', 'code': 'zh-CN'}, 'de_DE': {'name': 'German', 'code': 'de'}, 'es_ES': {'name': 'Spanish', 'code': 'es'}, 'fr_FR': {'name': 'French', 'code': 'fr'}, 'ru_RU': {'name': 'Russian', 'code': 'ru'}, 'ja_JP': {'name': 'Japanese', 'code': 'ja'}, 'ko_KR': {'name': 'Korean', 'code': 'ko'}}
-NEW_TRANSLATIONS = {'inventory.clear_btn': 'Clear', 'inventory.equip_clear_btn': 'Clear', 'inventory.clear_confirm_title': 'Clear Inventory', 'inventory.clear_confirm_msg': 'Remove all items from inventory? (Key items, equipment, and unlocks will be preserved)', 'inventory.equip_clear_title': 'Clear Equipment', 'inventory.equip_clear_msg': 'Remove all equipment from weapon, armor, and food slots?',     'inventory.clear_key_btn': 'Clear', 'inventory.clear_key_confirm_msg': 'Remove all key items?', 'inventory.clear_key_confirm_title': 'Clear', 'character_transfer.no_players_folder': 'No Players folder found next to Level.sav. Cannot load save.'}
+NEW_TRANSLATIONS = {
+    'edit_pals.create': 'Create',
+}
 OLD_KEYS = []
+def _clean_uv_locks():
+    for p in [Path.cwd() / 'uv.lock', PROJECT_ROOT / 'uv.lock']:
+        if p.exists():
+            p.unlink()
+
 def remove_old_keys_from_all():
     for lang_code in list(LANGUAGES.keys()) + ['en_US']:
         lang_file = PROJECT_ROOT / 'resources' / 'i18n' / f'{lang_code}.json'
@@ -52,6 +59,7 @@ def add_keys_to_language(lang_code: str, lang_info: dict) -> bool:
         print(f'  [ERROR] Failed: {e}')
         return False
 def main():
+    _clean_uv_locks()
     print('\n' + '=' * 60)
     print('  UPDATING TRANSLATION KEYS')
     print('=' * 60)
@@ -71,11 +79,9 @@ def main():
                 print(f"  {lang_info['name']} ({lang_code}): {('[OK] Success' if success else '[ERROR] Failed')}")
             except Exception as e:
                 print(f"  {lang_info['name']} ({lang_code}): [ERROR] {e}")
+    _clean_uv_locks()
     print('\n' + '=' * 60)
     print('  DONE')
     print('=' * 60)
 if __name__ == '__main__':
     main()
-    for p in [Path.cwd() / 'uv.lock', PROJECT_ROOT / 'uv.lock']:
-        if p.exists():
-            p.unlink()

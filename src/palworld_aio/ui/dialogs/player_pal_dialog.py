@@ -74,6 +74,13 @@ class PlayerPalActionDialog(QDialog):
         self.pal_search_input.textChanged.connect(self._search_pals)
         search_bar_layout.addWidget(search_label)
         search_bar_layout.addWidget(self.pal_search_input)
+        self._show_standard_chk = QCheckBox(t('edit_pals.show_standard') if t else 'Standard')
+        self._show_standard_chk.setChecked(True)
+        self._show_standard_chk.toggled.connect(self._search_pals)
+        search_bar_layout.addWidget(self._show_standard_chk)
+        self._show_boss_chk = QCheckBox(t('edit_pals.show_boss') if t else 'Boss')
+        self._show_boss_chk.toggled.connect(self._search_pals)
+        search_bar_layout.addWidget(self._show_boss_chk)
         search_bar_layout.addStretch()
         search_layout.addLayout(search_bar_layout)
         self.pal_list = QListWidget()
@@ -222,13 +229,15 @@ class PlayerPalActionDialog(QDialog):
     def _display_pals(self):
         self._search_pals('')
     def _search_pals(self, query=None):
-        if query is None:
+        if query is None or isinstance(query, bool):
             query = self.pal_search_input.text()
         query_lower = query.lower()
         self.pal_list.clear()
         for asset, name in sorted(PalFrame._NAMEMAP.items(), key=lambda x: x[1]):
             asset_lower = asset.lower()
             if any((asset_lower.startswith(p) for p in ('summon_', 'quest_', 'raid_', 'predator_', 'police_'))):
+                continue
+            if 'worldtreedragon' in asset_lower:
                 continue
             if 'oilrig' in asset_lower:
                 continue
@@ -254,6 +263,11 @@ class PlayerPalActionDialog(QDialog):
             if zukan == -99:
                 pass
             elif zukan < 0 and 'Yakushima' not in asset and not base_id.startswith('yakushima'):
+                continue
+            is_variant = any((asset.upper().startswith(p) for p in _BOSS_PREFIXES))
+            if is_variant and not self._show_boss_chk.isChecked():
+                continue
+            if (not is_variant) and not self._show_standard_chk.isChecked():
                 continue
             if query_lower and query_lower not in name.lower() and (query_lower not in asset.lower()):
                 continue

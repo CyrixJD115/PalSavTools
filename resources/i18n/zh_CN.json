@@ -1599,5 +1599,8 @@
   "inventory.clear_key_btn": "清除",
   "inventory.clear_key_confirm_msg": "删除所有关键项目？",
   "inventory.clear_key_confirm_title": "清除",
-  "character_transfer.no_players_folder": "在 Level.sav 旁边找不到 Players 文件夹。无法加载保存。"
+  "character_transfer.no_players_folder": "在 Level.sav 旁边找不到 Players 文件夹。无法加载保存。",
+  "edit_pals.show_standard": "标准",
+  "edit_pals.show_boss": "老板",
+  "edit_pals.create": "创造"
 }

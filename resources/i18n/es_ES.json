@@ -1591,5 +1591,8 @@
   "inventory.clear_key_btn": "Claro",
   "inventory.clear_key_confirm_msg": "¿Eliminar todos los elementos clave?",
   "inventory.clear_key_confirm_title": "Claro",
-  "character_transfer.no_players_folder": "No se encontró ninguna carpeta de jugadores junto a Level.sav. No se puede cargar guardar."
+  "character_transfer.no_players_folder": "No se encontró ninguna carpeta de jugadores junto a Level.sav. No se puede cargar guardar.",
+  "edit_pals.show_standard": "Estándar",
+  "edit_pals.show_boss": "Jefe",
+  "edit_pals.create": "Crear"
 }

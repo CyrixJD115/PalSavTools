@@ -215,21 +215,11 @@ def _copy_icon_as_webp(source: str | Path, target_dir: Path) -> str | None:
     if not sp.exists():
         return None
     stem = sp.stem
-    target = target_dir / f'{stem}.webp'
-    if sp.suffix.lower() == '.webp':
+    ext = '.webp' if sp.suffix.lower() == '.webp' else '.png'
+    target = target_dir / f'{stem}{ext}'
+    if not target.exists():
         shutil.copy2(str(sp), str(target))
-    else:
-        try:
-            from PIL import Image
-            Image.open(str(sp)).save(str(target), 'WEBP', quality=90)
-            print(f'    Converted: {sp.name} -> {target.name}')
-        except ImportError:
-            print(f'    ERROR: Pillow is required to convert {sp.name} to WEBP')
-            return None
-        except Exception as e:
-            print(f'    ERROR converting {sp.name}: {e}')
-            return None
-    return f'{stem}.webp'
+    return f'{stem}{ext}'
 def copy_icon_to_resources(export_path: Path, target_subdir: str) -> str | None:
     if not export_path.exists():
         return None

@@ -217,17 +217,18 @@ def _copy_icon_as_webp(source: str | Path, target_dir: Path) -> str | None:
     stem = sp.stem
     target = target_dir / f'{stem}.webp'
     if not target.exists() or sp.stat().st_mtime > target.stat().st_mtime:
-        try:
-            if sp.suffix.lower() == '.webp':
-                shutil.copy2(str(sp), str(target))
-            else:
+        if sp.suffix.lower() == '.webp':
+            shutil.copy2(str(sp), str(target))
+        else:
+            try:
                 from PIL import Image
                 Image.open(str(sp)).save(str(target), 'WEBP', quality=90)
-        except ImportError:
-            shutil.copy2(str(sp), str(target))
-        except Exception as e:
-            print(f'    ERROR copying {sp.name}: {e}')
-            return None
+            except ImportError:
+                print(f'    ERROR: Pillow is required to convert {sp.name} to WEBP')
+                return None
+            except Exception as e:
+                print(f'    ERROR converting {sp.name}: {e}')
+                return None
     return f'{stem}.webp'
 def copy_icon_to_resources(export_path: Path, target_subdir: str) -> str | None:
     if not export_path.exists():
@@ -2318,19 +2319,9 @@ def main():
     _run_step('Deleting individual source files...', _delete_individual_files)
     _run_step('Cleaning up unused icons...', _cleanup_stale_icons)
     print('\n=== Optimizing assets (PNG -> WEBP) ===')
-    try:
-        from PIL import Image
-        has_pil = True
-    except ImportError:
-        has_pil = False
-        Image = None
-        print('  Pillow not available, will copy files as-is')
-    if has_pil:
-        _run_step('Converting map textures...', lambda: _convert_map_pngs(Image))
-    if has_pil:
-        _run_step('Converting icons...', lambda: _convert_icons(Image))
-    else:
-        print('  No icons to optimize')
+    from PIL import Image
+    _run_step('Converting map textures...', lambda: _convert_map_pngs(Image))
+    _run_step('Converting icons...', lambda: _convert_icons(Image))
     print('\n' + '=' * 60)
     print(logo)
     print('=' * 60)

@@ -2102,38 +2102,18 @@ def _convert_icons(Image):
     def _scan_icon_refs(data):
         nonlocal updated_refs, modified
         if isinstance(data, dict):
-            for key, entries in data.items():
-                if isinstance(entries, list):
-                    for entry in entries:
-                        if isinstance(entry, dict):
-                            if 'icon' in entry:
-                                icon = entry['icon']
-                                if icon.endswith('.png'):
-                                    webp_icon = icon[:-4] + '.webp'
-                                    webp_path = RESOURCES_DIR / webp_icon.lstrip('/')
-                                    if webp_path.exists():
-                                        entry['icon'] = webp_icon
-                                        modified = True
-                                        updated_refs += 1
-                            icns = entry.get('icons', {})
-                            if isinstance(icns, dict):
-                                for ikey, ival in list(icns.items()):
-                                    if isinstance(ival, str) and ival.endswith('.png'):
-                                        webp_val = ival[:-4] + '.webp'
-                                        webp_path = RESOURCES_DIR / webp_val.lstrip('/')
-                                        if webp_path.exists():
-                                            icns[ikey] = webp_val
-                                            modified = True
-                                            updated_refs += 1
-                elif isinstance(entries, dict):
-                    for ikey, ival in entries.items():
-                        if isinstance(ival, str) and ival.endswith('.png'):
-                            webp_val = ival[:-4] + '.webp'
-                            webp_path = RESOURCES_DIR / webp_val.lstrip('/')
-                            if webp_path.exists():
-                                data[key][ikey] = webp_val
-                                modified = True
-                                updated_refs += 1
+            for key, val in list(data.items()):
+                if isinstance(val, str) and val.endswith('.png') and val.startswith('/icons/'):
+                    webp = val[:-4] + '.webp'
+                    if (RESOURCES_DIR / webp.lstrip('/')).exists():
+                        data[key] = webp
+                        modified = True
+                        updated_refs += 1
+                else:
+                    _scan_icon_refs(val)
+        elif isinstance(data, list):
+            for item in data:
+                _scan_icon_refs(item)
     scan_fnames = []
     for fname in _MERGED_FILES:
         scan_fnames.append(fname)

@@ -15,6 +15,8 @@ import threading
 import time
 from PySide6.QtCore import QTimer
 from resource_resolver import resource_path
+BOOTH_TYPES = {'PalMapObjectItemBoothModel', 'PalMapObjectPalBoothModel'}
+
 def get_base_containers(base_id):
     if not constants.loaded_level_json:
         return []
@@ -51,7 +53,18 @@ def get_base_containers(base_id):
         slot_count = get_container_slot_count(str(container_id))
         base_name = get_base_name(base_id)
         location = get_container_location(obj, base_name)
-        containers.append({'id': str(container_id), 'name': container_name, 'type': container_type, 'slot_count': slot_count, 'location': location, 'map_object_id': map_object_id, 'is_guild_chest': False, 'base_id': base_id})
+        entry = {'id': str(container_id), 'name': container_name, 'type': container_type, 'slot_count': slot_count, 'location': location, 'map_object_id': map_object_id, 'is_guild_chest': False, 'base_id': base_id}
+        cm_raw = obj.get('ConcreteModel', {}).get('value', {}).get('RawData', {}).get('value', {})
+        ctype = cm_raw.get('concrete_model_type', '')
+        if ctype in BOOTH_TYPES:
+            entry['booth_type'] = ctype
+            entry['booth_trade_infos'] = cm_raw.get('trade_infos', [])
+            for module in module_map:
+                if module.get('key') == 'EPalMapObjectConcreteModelModuleType::CharacterContainer':
+                    module_raw = module.get('value', {}).get('RawData', {}).get('value', {})
+                    entry['booth_char_container_id'] = str(module_raw.get('target_container_id', ''))
+                    break
+        containers.append(entry)
     guild_id = get_base_guild_id(base_id)
     if guild_id:
         guild_chest = get_guild_chest(guild_id, base_id)
@@ -201,6 +214,123 @@ def get_container_image_path(container_type):
             if 'chest' in filename.lower() or 'box' in filename.lower():
                 return os.path.join(icons_path, filename)
     return icon_path if os.path.exists(icon_path) else None
+_item_info_cache = {}
+def _resolve_item_info(item_id):
+    global _item_info_cache
+    if not _item_info_cache:
+        try:
+            base_path = constants.get_base_path()
+            fp = resource_path(base_path, 'game_data', 'items.json')
+            if os.path.exists(fp):
+                items_data = json_tools.load(fp)
+                for item in items_data.get('items', []):
+                    aid = item.get('asset', '')
+                    if aid:
+                        _item_info_cache[aid.lower()] = item
+        except:
+            pass
+    info = _item_info_cache.get(item_id.lower())
+    if info:
+        return info.get('name', item_id), info.get('icon', '')
+    return item_id, ''
+
+def get_booth_item_contents(container_info):
+    if not container_info or not container_info.get('booth_type'):
+        return []
+    if container_info['booth_type'] != 'PalMapObjectItemBoothModel':
+        return []
+    trade_infos = container_info.get('booth_trade_infos', [])
+    items = []
+    for ti in trade_infos:
+        product = ti.get('product', {})
+        cost = ti.get('cost', {})
+        prod_id = product.get('static_id', '')
+        cost_id = cost.get('static_id', '')
+        prod_num = product.get('num', 0)
+        cost_num = cost.get('num', 0)
+        if prod_id:
+            prod_name, prod_icon = _resolve_item_info(prod_id)
+            cost_name, cost_icon = _resolve_item_info(cost_id)
+            items.append({'item_id': prod_id, 'item_name': prod_name, 'icon_path': prod_icon, 'stack_count': prod_num, 'slot_index': len(items), 'is_booth_product': True, 'cost_item_id': cost_id, 'cost_name': cost_name, 'cost_icon': cost_icon, 'cost_count': cost_num, 'seller_player_uid': str(ti.get('seller_player_uid', ''))})
+    return items
+
+def get_booth_pal_contents(container_info):
+    if not container_info or not container_info.get('booth_type'):
+        return [], []
+    if container_info['booth_type'] != 'PalMapObjectPalBoothModel':
+        return [], []
+    if not constants.loaded_level_json:
+        return [], []
+    wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+    char_container_id = container_info.get('booth_char_container_id', '')
+    if not char_container_id:
+        return [], []
+    cc_id_norm = char_container_id.replace('-', '').lower()
+    char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
+    char_map = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+    pal_lookup = {}
+    for entry in char_map:
+        try:
+            inst = str(entry.get('key', {}).get('InstanceId', {}).get('value', '')).replace('-', '').lower()
+            pal_lookup[inst] = entry
+        except:
+            pass
+    booth_pals = []
+    for cc in char_containers:
+        try:
+            cid = str(cc.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower()
+            if cid == cc_id_norm:
+                slots = cc.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
+                for slot in slots:
+                    raw_val = slot.get('RawData', {}).get('value', {})
+                    if isinstance(raw_val, dict):
+                        inst_id = str(raw_val.get('instance_id', '')).replace('-', '').lower()
+                        player_uid = raw_val.get('player_uid', '')
+                        if inst_id and inst_id != '00000000000000000000000000000000':
+                            pal_entry = pal_lookup.get(inst_id)
+                            if pal_entry:
+                                sp = pal_entry.get('value', {}).get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {})
+                                booth_pals.append({'character_entry': pal_entry, 'pal_data': sp, 'container_slot': slot, 'player_uid': player_uid, 'booth_char_container': cc})
+        except:
+            pass
+    if not booth_pals:
+        trade_infos = []
+        map_objs = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+        for obj in map_objs:
+            try:
+                cm = obj.get('ConcreteModel', {}).get('value', {})
+                rd = cm.get('RawData', {}).get('value', {})
+                if rd.get('concrete_model_type') == 'PalMapObjectPalBoothModel':
+                    mm = cm.get('ModuleMap', {}).get('value', [])
+                    for m in mm:
+                        if m.get('key') == 'EPalMapObjectConcreteModelModuleType::CharacterContainer':
+                            mr = m.get('value', {}).get('RawData', {}).get('value', {})
+                            tcid = str(mr.get('target_container_id', '')).replace('-', '').lower()
+                            if tcid == cc_id_norm:
+                                pass
+            except:
+                pass
+    item_containers = wsd.get('ItemContainerSaveData', {}).get('value', [])
+    payment_items = []
+    item_container_id = container_info.get('id', '')
+    ic_id_norm = item_container_id.replace('-', '').lower()
+    for ic in item_containers:
+        try:
+            cid = str(ic.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower()
+            if cid == ic_id_norm:
+                slots = ic.get('value', {}).get('Slots', {}).get('value', {}).get('values', [])
+                for slot in slots:
+                    raw_val = slot.get('RawData', {}).get('value', {})
+                    item_data = raw_val.get('item', {})
+                    sid = item_data.get('static_id', '')
+                    qty = item_data.get('num', 0)
+                    if sid:
+                        payment_items.append({'item_id': sid, 'stack_count': qty, 'slot_index': len(payment_items), 'from_booth_payment': True})
+                break
+        except:
+            pass
+    return booth_pals, payment_items
+
 class BaseInventoryManager:
     _instance = None
     _lock = threading.Lock()

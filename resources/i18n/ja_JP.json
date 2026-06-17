@@ -1600,5 +1600,9 @@
   "character_transfer.no_players_folder": "Level.sav の隣に Players フォルダーが見つかりません。セーブをロードできません。",
   "edit_pals.show_standard": "標準",
   "edit_pals.show_boss": "ボス",
-  "edit_pals.create": "作成する"
+  "edit_pals.create": "作成する",
+  "base_inventory.booth_item_title": "ブースアイテム: {count}",
+  "base_inventory.booth_item_no_data": "ブース: コンテナデータなし",
+  "base_inventory.booth_pal_title": "ブース仲間: {count}",
+  "base_inventory.booth_pal_no_data": "ブース: 友達のリストはありません"
 }

@@ -1888,5 +1888,9 @@
   "character_transfer.no_players_folder": "No Players folder found next to Level.sav. Cannot load save.",
   "edit_pals.show_standard": "Standard",
   "edit_pals.show_boss": "Boss",
-  "edit_pals.create": "Create"
+  "edit_pals.create": "Create",
+  "base_inventory.booth_item_title": "Booth Items: {count}",
+  "base_inventory.booth_item_no_data": "Booth: No container data",
+  "base_inventory.booth_pal_title": "Booth Pals: {count}",
+  "base_inventory.booth_pal_no_data": "Booth: No pals listed"
 }

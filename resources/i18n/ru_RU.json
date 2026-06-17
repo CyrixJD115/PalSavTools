@@ -1598,5 +1598,9 @@
   "character_transfer.no_players_folder": "Папка Players рядом с Level.sav не найдена. Не могу загрузить сохранение.",
   "edit_pals.show_standard": "Стандартный",
   "edit_pals.show_boss": "Босс",
-  "edit_pals.create": "Создавать"
+  "edit_pals.create": "Создавать",
+  "base_inventory.booth_item_title": "Предметы стенда: {count}",
+  "base_inventory.booth_item_no_data": "Бут: Нет данных о контейнере",
+  "base_inventory.booth_pal_title": "Друзья по стенду: {count}",
+  "base_inventory.booth_pal_no_data": "Бут: Друзья не указаны"
 }

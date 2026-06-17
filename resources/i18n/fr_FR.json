@@ -1582,5 +1582,9 @@
   "character_transfer.no_players_folder": "Aucun dossier Players trouvé à côté de Level.sav. Impossible de charger la sauvegarde.",
   "edit_pals.show_standard": "Standard",
   "edit_pals.show_boss": "Chef",
-  "edit_pals.create": "Créer"
+  "edit_pals.create": "Créer",
+  "base_inventory.booth_item_title": "Articles du stand : {count}",
+  "base_inventory.booth_item_no_data": "Booth : aucune donnée de conteneur",
+  "base_inventory.booth_pal_title": "Amis du stand : {count}",
+  "base_inventory.booth_pal_no_data": "Booth : Aucun ami répertorié"
 }

@@ -1579,6 +1579,17 @@ class BasePalsContentWidget(QFrame):
                 cmap.remove(pal['character_entry'])
         except Exception:
             pass
+        if pal.get('booth_char_container') and pal.get('container_slot') and constants.loaded_level_json:
+            try:
+                target_slot = pal['container_slot']
+                values = pal['booth_char_container']['value']['Slots']['value']['values']
+                for i, slot in enumerate(values):
+                    if slot is target_slot:
+                        del values[i]
+                        pal['booth_char_container']['value']['SlotNum']['value'] = len(values)
+                        break
+            except Exception:
+                pass
         self._pals[pal_idx] = None
         self._rebuild()
         self.pal_info.last_clicked_data = None
@@ -2216,14 +2227,54 @@ class BaseInventoryTab(QWidget):
         container_info = next((c for c in self.manager.containers if c['id'] == container_id), None)
         if container_info:
             self.container_info.set_container_info(container_info)
-            inventory_container = self.manager.select_container(container_id)
-            if inventory_container:
-                items = inventory_container.get_items()
-                max_slots = container_info['slot_count']
-                self.inventory_grid.load_items(items, max_slots=max_slots)
+            booth_type = container_info.get('booth_type')
+            if booth_type == 'PalMapObjectItemBoothModel':
+                self._switch_tab(0)
+                from palworld_aio.inventory.base_inventory_manager import get_booth_item_contents
+                booth_items = get_booth_item_contents(container_info)
+                inventory_container = self.manager.select_container(container_id)
+                if inventory_container:
+                    items = inventory_container.get_items()
+                    for bi in booth_items:
+                        bi['item_id'] = bi.get('cost_item_id', bi['item_id'])
+                        bi['stack_count'] = bi.get('cost_count', bi['stack_count'])
+                    max_slots = container_info['slot_count']
+                    combined = booth_items + items
+                    self.inventory_grid.load_items(combined, max_slots=max_slots)
+                    self.inventory_grid.tab_label.setText(t('base_inventory.booth_item_title', default='Booth Items: {count}').format(count=len(booth_items)))
+                else:
+                    self.inventory_grid.clear()
+                    self.inventory_grid.tab_label.setText(t('base_inventory.booth_item_no_data', default='Booth: No container data'))
+            elif booth_type == 'PalMapObjectPalBoothModel':
+                from palworld_aio.inventory.base_inventory_manager import get_booth_pal_contents
+                booth_pals, payment_items = get_booth_pal_contents(container_info)
+                if booth_pals:
+                    self._switch_tab(1)
+                    pal_entries = []
+                    for bp in booth_pals:
+                        entry = bp.get('character_entry')
+                        pal_entries.append({'character_entry': entry})
+                    self.base_pals_widget.set_pals(pal_entries, container_info.get('base_id'))
+                    self.base_pals_widget.stats_label.setText(t('base_inventory.booth_pal_title', default='Booth Pals: {count}').format(count=len(pal_entries)))
+                else:
+                    self._switch_tab(0)
+                    self.inventory_grid.clear()
+                    self.inventory_grid.tab_label.setText(t('base_inventory.booth_pal_no_data', default='Booth: No pals listed'))
+                inventory_container = self.manager.select_container(container_id)
+                if inventory_container:
+                    items = inventory_container.get_items()
+                    if not payment_items:
+                        payment_items = items
                 self._update_container_stats()
             else:
-                self.inventory_grid.clear()
+                inventory_container = self.manager.select_container(container_id)
+                if inventory_container:
+                    items = inventory_container.get_items()
+                    max_slots = container_info['slot_count']
+                    self.inventory_grid.load_items(items, max_slots=max_slots)
+                    self._update_container_stats()
+                else:
+                    self.inventory_grid.clear()
         else:
             self.container_info.set_container_info(None)
             self.inventory_grid.clear()
@@ -2433,8 +2484,18 @@ class BaseInventoryTab(QWidget):
         if not self.manager.inventory_container:
             self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
             return
+        container_info = self.manager.current_container
         slot_index = slot_data.get('slot_index', 0)
         item_name = slot_data.get('item_name', 'Unknown')
+        if container_info and container_info.get('booth_type') == 'PalMapObjectItemBoothModel':
+            booth_trade_infos = container_info.get('booth_trade_infos', [])
+            if slot_index < len(booth_trade_infos):
+                del booth_trade_infos[slot_index]
+                self.manager.invalidate_cache()
+                self.manager.mark_dirty()
+                self._on_container_selected(container_info['id'])
+                self._update_container_stats()
+                return
         if self.manager.remove_item(slot_index, 999999):
             inventory_container = self.manager.select_container(self.manager.current_container['id'])
             if inventory_container:

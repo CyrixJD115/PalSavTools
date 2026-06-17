@@ -1599,5 +1599,9 @@
   "character_transfer.no_players_folder": "Level.sav 옆에 플레이어 폴더가 없습니다. 저장을 로드할 수 없습니다.",
   "edit_pals.show_standard": "기준",
   "edit_pals.show_boss": "사장",
-  "edit_pals.create": "만들다"
+  "edit_pals.create": "만들다",
+  "base_inventory.booth_item_title": "부스 품목: {count}",
+  "base_inventory.booth_item_no_data": "부스: 컨테이너 데이터 없음",
+  "base_inventory.booth_pal_title": "부스 친구: {count}",
+  "base_inventory.booth_pal_no_data": "부스: 등록된 친구가 없습니다."
 }

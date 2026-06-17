@@ -1624,5 +1624,9 @@
   "character_transfer.no_players_folder": "Neben Level.sav wurde kein Players-Ordner gefunden. Speichern kann nicht geladen werden.",
   "edit_pals.show_standard": "Standard",
   "edit_pals.show_boss": "Chef",
-  "edit_pals.create": "Erstellen"
+  "edit_pals.create": "Erstellen",
+  "base_inventory.booth_item_title": "Standartikel: {count}",
+  "base_inventory.booth_item_no_data": "Stand: Keine Containerdaten",
+  "base_inventory.booth_pal_title": "Standfreunde: {count}",
+  "base_inventory.booth_pal_no_data": "Booth: Keine Freunde aufgeführt"
 }

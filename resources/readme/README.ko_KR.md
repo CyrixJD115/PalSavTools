@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,11 +24,11 @@
 
 ## 개요
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%EC%A0%95%ED%99%95%ED%9E%88++%EC%9D%B4%EA%B2%8C++%EC%9D%B4%EA%B2%8C++%EB%AD%94%EA%B0%80%3F;%EB%8B%B9%EC%8B%A0%EC%9D%98+%EC%A0%80%EC%9E%A5%2C+%EB%8B%B9%EC%8B%A0%EC%9D%98+%EB%B0%A9%EB%B2%95;%ED%95%98%EB%82%98+%EB%8F%84%EA%B5%AC+to+%EA%B7%9C%EC%B9%99+%EA%B7%B8%EB%93%A4+%EB%AA%A8%EB%91%90&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%9D%B4%EA%B2%8C+%EC%A0%95%ED%99%95%ED%9E%88+%EB%AD%90%EC%A3%A0%3F;%EB%8B%B9%EC%8B%A0%EC%9D%98+%EC%A0%80%EC%9E%A5%2C+%EB%8B%B9%EC%8B%A0%EC%9D%98+%EB%B0%A9%EC%8B%9D;%EB%AA%A8%EB%93%A0+%EA%B2%83%EC%9D%84+%EC%A7%80%EB%B0%B0%ED%95%98%EB%8A%94+%ED%95%98%EB%82%98%EC%9D%98+%EB%8F%84%EA%B5%AC&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
-Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecting and editing Palworld save files. Python 및 PySide6으로 구축되어 게임의 압축된 저장 형식을 직접 읽고 씁니다. 게임 모드가 필요하지 않습니다.
+Palworld Save Tools(PST)는 Palworld 저장 파일을 검사하고 편집하기 위한 빠른 올인원 데스크탑 애플리케이션입니다. Python 및 PySide6으로 구축되어 게임의 압축된 저장 형식을 직접 읽고 씁니다. 게임 모드가 필요하지 않습니다.
 
 전용 서버 관리, 협동 서버와 전용 서버 간 마이그레이션, 버려진 데이터 정리 또는 개별 Pals 미세 조정이 필요한 경우 PST는 모든 작업에 대해 단일 통합 인터페이스를 제공합니다.
 
@@ -82,7 +82,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 
 ## 기능
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EC%A2%8B%EC%9D%80+%EC%A2%8B%EC%9D%80+%EA%B2%83%EB%93%A4;%EC%B2%B4%ED%81%AC+%EC%9E%87+%EC%95%84%EC%9B%83;%ED%8F%AC%EC%9E%A5+%ED%8F%AC%ED%95%A8+%EB%8F%84%EA%B5%AC&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%A2%8B%EC%9D%80+%EA%B2%83%EB%93%A4;%ED%99%95%EC%9D%B8%ED%95%B4+%EB%B3%B4%EC%84%B8%EC%9A%94;%EB%8F%84%EA%B5%AC%EA%B0%80+%EA%B0%80%EB%93%9D&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -97,7 +97,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 
 모든 플레이어가 소유한 Pal에 대한 심층 편집 인터페이스입니다. Pals은 **파티**(활성 분대)와 **Palbox**(저장소)로 구성됩니다.
 
-- **통계 및 IVs** — HP, 공격, 방어(IV 0–100), 레벨(1–80), 신뢰 순위(0–10).
+- **통계 & IVs** — HP, 공격, 방어(IV 0–100), 레벨(1–80), 신뢰 순위(0–10).
 - **소울** — HP, 공격, 방어, 제작 속도(0–20).
 - **스킬** — 활성 스킬 선택기; 모든 동작을 배우십시오. Pals 전반에 걸친 대량 동기화 기술.
 - **패시브 특성** — 전체 게임 데이터를 포함하는 패시브 선택기입니다.
@@ -117,7 +117,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 ### 베이스캠프 도구
 
 - 길드 연합이 있는 모든 베이스캠프를 볼 수 있습니다.
-- 기본 청사진을 `.json`로 **내보내기**; **import** (single or multi-file) into any guild.
+- 기본 청사진을 `.json`로 **내보내기**; **가져오기**(단일 또는 다중 파일)를 모든 길드로 가져옵니다.
 - 오프셋 위치 지정을 통해 다른 길드에 기지를 **복제**합니다.
 - **기본 반경을 조정합니다**(50%~1000%).
 - 비활성 기지와 기지가 아닌 지도 개체를 삭제합니다.
@@ -127,27 +127,27 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 전체 세계를 대화형으로 시각화합니다.
 
 - 세부 패널이 포함된 기본 마커(집 아이콘) 및 플레이어 마커(사람 아이콘).
-- Toggle overlays: Bases, Players, Radius Rings, Exclusion Zones.
+- 오버레이 전환: 기지, 플레이어, 반경 링, 제외 구역.
 - **구역 그리기** — 지도에 직접 직사각형 또는 다각형 제외 구역을 그립니다.
-- **Calibration mode** — Precisely align the map with game coordinates.
+- **보정 모드** — 지도를 게임 좌표에 정확하게 맞춥니다.
 - 세계 지도 및 트리 지도 보기 길드나 플레이어 이름으로 필터링하세요.
-- Zoom (1.0x–30.0x), pan, double-click to fly to a marker.
+- 확대/축소(1.0x~30.0x), 이동, 두 번 클릭하여 마커로 이동합니다.
 - 관리 작업을 위한 마커 및 빈 공간을 마우스 오른쪽 버튼으로 클릭합니다.
 
 ### 재고 관리
 
 **플레이어 인벤토리** — 세 개의 하위 탭:
-- *Inventory* — All items and equipment in the main bag; 수량 편집, 추가, 제거.
-- *Key Items* — Quest items, effigies, and technology; 모든 조각상/핵심 항목을 대량 추가합니다.
-- *Stats* — Level, HP, Stamina, Attack, Defense, Work Speed, Weight.
-- Equipment panel for weapon, accessory, food, armor, shield, glider, and module slots.
-- Unlock all map + fast-travel points in one click.
+- *인벤토리* — 메인 가방에 있는 모든 아이템과 장비; 수량 편집, 추가, 제거.
+- *주요 아이템* — 퀘스트 아이템, 조각상, 기술 모든 조각상/핵심 항목을 대량 추가합니다.
+- *통계* — 레벨, HP, 체력, 공격, 방어, 작업 속도, 무게.
+- 무기, 액세서리, 음식, 방어구, 방패, 글라이더, 모듈 슬롯을 위한 장비 패널입니다.
+- 한 번의 클릭으로 모든 지도와 빠른 이동 지점을 잠금 해제할 수 있습니다.
 
-**Base Inventory** — Browse and manage items and working Pals across all bases:
+**기본 인벤토리** — 항목을 탐색 및 관리하고 모든 기지에서 Pals 작업:
 - 컨테이너의 항목 보기/편집 투명한 용기; 컨테이너 슬롯을 수정합니다.
 - 길드 간 아이템 작업(모든 길드에서 아이템 찾기/제거)
 - 길드 간 구조 삭제.
-- **기본 Pals** 하위 탭 — 전체 pal 편집기 상황에 맞는 메뉴를 사용하여 각 기지에 할당된 작업 Pals을 관리합니다.
+- **베이스 Pals** 하위 탭 — 전체 pal 편집기 상황에 맞는 메뉴를 사용하여 각 베이스에 할당된 작업 Pals을 관리합니다.
 
 ### 제외
 
@@ -165,7 +165,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 | 도구 | 설명 |
 |------|-------------|
 | **저장 내용 변환** | SAV와 JSON 형식 간 변환 |
-| **GamePass → Steam** 변환 | Xbox/GamePass 변환은 Steam 형식으로 저장 |
+| **GamePass → Steam** 변환 | Xbox/GamePass을 변환하면 Steam 형식으로 저장 |
 | **SteamID 변환** | Steam ID를 Palworld UID로 변환 |
 | **지도 복원** | 모든 월드/서버에 완전히 잠금 해제된 지도 진행 상황 적용 |
 | **슬롯 인젝터** | 플레이어당 팔박스 슬롯 늘리기 |
@@ -178,7 +178,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 **메뉴 → 기능**을 통해 액세스할 수 있는 이러한 서버급 작업에는 다음이 포함됩니다.
 
 - **삭제** — 빈 길드, 비활성 기지/플레이어, 중복 플레이어, 참조되지 않은 데이터를 삭제합니다.
-- **정리** — 유효하지 않은/수정된 항목, 유효하지 않은 pals 및 passives, 유효하지 않은 구조를 제거합니다. 불법적인 pals을 수정합니다(법적 최대값으로 제한). 대공 포탑을 재설정합니다. private chests 잠금 해제; 모든 구조물을 수리하십시오.
+- **정리** — 유효하지 않은/수정된 항목, 유효하지 않은 pals 및 passives, 유효하지 않은 구조를 제거합니다. 불법적인 pals 수정(법적 최대값으로 제한); 대공 포탑을 재설정합니다. private chests 잠금 해제; 모든 구조물을 수리하십시오.
 - **재설정** — 미션, 던전, 석유 굴착 장치, 침입자, 보급품 투하를 재설정합니다.
 - **타임스탬프** — 부정적인 타임스탬프를 수정합니다. 플레이어 시간을 재설정합니다.
 - **PalDefender** — `killnearestbase` 명령을 생성합니다.
@@ -196,7 +196,7 @@ Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecti
 
 ## 설치
 
-<img src="https://readme-typing-svg.demolab.com?lines=+it+%EC%8B%A4%ED%96%89+%EB%B6%84+%EB%8B%A8%EC%9C%84%EB%A1%9C+%EC%8B%A4%ED%96%89;%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C+%ED%95%98%EA%B3%A0+%EC%9D%B4%EB%8F%99;%EC%95%84%EB%8B%88%EC%9A%94+%EC%84%A4%EC%A0%95+%ED%95%84%EC%88%98&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%AA%87+%EB%B6%84+%EB%A7%8C%EC%97%90+%EC%8B%A4%ED%96%89%ED%95%B4+%EB%B3%B4%EC%84%B8%EC%9A%94;%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%ED%95%98%EA%B3%A0+%EC%9D%B4%EB%8F%99;%EC%84%A4%EC%A0%95%EC%9D%B4+%ED%95%84%EC%9A%94%ED%95%98%EC%A7%80+%EC%95%8A%EC%8A%B5%EB%8B%88%EB%8B%A4&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -254,7 +254,7 @@ start.cmd
 
 ## 빠른 시작
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EB%A1%9C%EB%93%9C.+%ED%8E%B8%EC%A7%91.+%EC%A0%80%EC%9E%A5.+%EA%B7%B8%EA%B1%B4+%EA%B0%84%EB%8B%A8%ED%95%A9%EB%8B%88%EB%8B%A4.;%EC%84%B8+%EA%B3%84%EB%8B%A8+to+%EC%98%81%EA%B4%91;+%EA%B7%B8%EB%A0%87%EA%B2%8C++%EC%89%BD%EB%8B%A4&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%A1%9C%EB%93%9C.+%ED%8E%B8%EC%A7%91%ED%95%98%EB%8B%A4.+%EA%B5%AC%ED%95%98%EB%8B%A4.+%EA%B0%84%EB%8B%A8%ED%95%B4%EC%9A%94.;%EC%98%81%EA%B4%91%EC%9D%84+%ED%96%A5%ED%95%9C+%EC%84%B8+%EB%8B%A8%EA%B3%84;%EA%B7%B8%EB%A7%8C%ED%81%BC+%EC%89%BD%EC%A3%A0&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -273,7 +273,7 @@ start.cmd
 4. **변경 사항 저장**
    - **메뉴 → 변경사항 저장**을 클릭합니다. 백업은 자동으로 생성됩니다.
 
-> **팁:** 각 탭에는 기본 제공 가이드가 있습니다. 탭에서 수행할 수 있는 작업을 정확히 보려면 ​​탭에서 도움말 아이콘을 클릭하세요. 더 자세한 내용을 보려면 **버튼, 필드 또는 컨트롤 위로 마우스를 가져가면** 헤더에 자세한 툴팁이 표시됩니다. 앱 내 도구 설명 도움말 시스템은 모든 기능의 기능과 사용 방법을 정확히 이해하는 데 가장 적합한 참고 자료입니다.
+> **팁:** 각 탭에는 기본 제공 가이드가 있습니다. 탭에서 수행할 수 있는 작업을 정확히 보려면 ​​탭에서 도움말 아이콘을 클릭하세요. 더 자세한 내용을 보려면 **버튼, 필드 또는 컨트롤 위로 마우스를 가져가면** 헤더에 자세한 툴팁이 표시됩니다. 앱 내 도구 설명 도움말 시스템은 모든 기능의 기능과 사용 방법을 정확히 이해하기 위한 최고의 참고 자료입니다.
 
 
 
@@ -288,7 +288,7 @@ start.cmd
 
 ## 가이드
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EB%8B%A8%EA%B3%84%EB%B3%84+%EC%97%B0%EC%8A%B5;+the+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC+%EB%94%B0%EB%A5%B4%EC%84%B8%EC%9A%94;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EB%B3%B4%EC%97%AC%EC%A4%84+%EB%8B%B9%EC%8B%A0%EC%97%90%EA%B2%8C+%EB%B0%A9%EB%B2%95%EC%9D%84+%EB%B3%B4%EC%97%AC%EC%A4%84+%EA%B2%83%EC%9E%85%EB%8B%88%EB%8B%A4&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%8B%A8%EA%B3%84%EB%B3%84+%EC%97%B0%EC%8A%B5;%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC+%EB%94%B0%EB%A5%B4%EC%84%B8%EC%9A%94;%EB%B0%A9%EB%B2%95%EC%9D%84+%EC%95%8C%EB%A0%A4%EB%93%9C%EB%A6%AC%EA%B2%A0%EC%8A%B5%EB%8B%88%EB%8B%A4.&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ PST는 저장을 위해 전체 지도(모든 빠른 이동 지점)를 잠금 해
 
 ## 문제 해결
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EC%96%B8%EC%A0%9C+%EC%82%AC%EB%AC%BC%EC%9D%B4+%EA%B0%80%EB%8B%A4+%EC%98%86%EC%9C%BC%EB%A1%9C;%EB%8B%B9%ED%99%A9%ED%95%98%EC%A7%80+%EB%A7%88%EC%84%B8%EC%9A%94;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EB%B3%B8+%EA%B7%B8%EA%B2%83+%EB%AA%A8%EB%91%90%EB%A5%BC+%EB%B3%B4%EC%95%98%EC%8A%B5%EB%8B%88%EB%8B%A4&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%9D%BC%EC%9D%B4+%EC%98%86%EC%9C%BC%EB%A1%9C+%ED%9D%98%EB%9F%AC%EA%B0%88+%EB%95%8C;%EB%8B%B9%ED%99%A9%ED%95%98%EC%A7%80+%EB%A7%88%EC%84%B8%EC%9A%94;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EA%B7%B8%EA%B2%83%EC%9D%84+%EB%AA%A8%EB%91%90+%EB%B3%B4%EC%95%98%EB%8B%A4&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ PST는 저장을 위해 전체 지도(모든 빠른 이동 지점)를 잠금 해
 
 ## 소스에서 빌드
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EC%BB%B4%ED%8C%8C%EC%9D%BC+%EA%B7%B8%EA%B2%83+%EC%A7%81%EC%A0%91;+%EB%82%98%EB%A7%8C%EC%9D%98+++%EB%82%98%EB%A7%8C%EC%9D%98+%EB%B9%8C%EB%93%9C;From+%EC%86%8C%EC%8A%A4+to+%EB%B0%94%EC%9D%B4%EB%84%88%EB%A6%AC&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%A7%81%EC%A0%91+%EC%BB%B4%ED%8C%8C%EC%9D%BC%ED%95%B4%EB%B3%B4%EC%84%B8%EC%9A%94;%EB%82%98%EB%A7%8C%EC%9D%98+%EA%B2%83%EC%9D%84+%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EC%84%B8%EC%9A%94;%EC%86%8C%EC%8A%A4%EC%97%90%EC%84%9C+%EB%B0%94%EC%9D%B4%EB%84%88%EB%A6%AC%EB%A1%9C&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## 기여
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%EB%8F%84%EC%9B%80%EC%9D%84++%EC%9B%90%ED%95%98%EC%8B%AD%EB%8B%88%EA%B9%8C%3F+%EC%97%AC%EA%B8%B0%EC%97%90+%EB%B0%A9%EB%B2%95%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4.;+%ED%8C%80%EC%97%90+%ED%95%A9%EB%A5%98%ED%95%98%EC%84%B8%EC%9A%94;%EB%AA%A8%EB%93%A0+%EA%B8%B0%EC%97%AC+%EC%B9%B4%EC%9A%B4%ED%8A%B8&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%8F%84%EC%9B%80%EC%9D%84+%EC%A3%BC%EA%B3%A0+%EC%8B%B6%EC%9C%BC%EC%8B%A0%EA%B0%80%EC%9A%94%3F+%EB%B0%A9%EB%B2%95%EC%9D%80+%EB%8B%A4%EC%9D%8C%EA%B3%BC+%EA%B0%99%EC%8A%B5%EB%8B%88%EB%8B%A4;%ED%8C%80%EC%97%90+%ED%95%A9%EB%A5%98%ED%95%98%EC%84%B8%EC%9A%94;%EB%AA%A8%EB%93%A0+%EA%B8%B0%EC%97%AC%EA%B0%80+%EC%A4%91%EC%9A%94%ED%95%A9%EB%8B%88%EB%8B%A4&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ uv run python build/build_interactively.py
 
 ## 면책조항
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%EC%9D%B4++%EB%8B%B9%EC%8B%A0%EC%9D%B4+%ED%9C%B4%EC%8B%9D+%EB%AC%B4%EC%97%87%EC%9D%84+%ED%95%98%EA%B8%B0+%EC%A0%84%EC%97%90+%EC%9D%B4%EA%B2%83%EC%9D%84+%EC%9D%BD%EC%9C%BC%EC%84%B8%EC%9A%94;%EB%8B%B9%EC%8B%A0%EC%9D%80+%EA%B2%BD%EA%B3%A0%EB%A5%BC+%EB%B0%9B%EC%95%98%EC%8A%B5%EB%8B%88%EB%8B%A4;%EB%B0%B1%EC%97%85+%EC%B2%AB%EB%B2%88%EC%A7%B8%21;+%EC%9C%84%EB%8C%80%ED%95%9C++%ED%9E%98%EC%9C%BC%EB%A1%9C...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%AC%B4%EC%96%B8%EA%B0%80%EB%A5%BC+%EA%B9%A8%EA%B8%B0+%EC%A0%84%EC%97%90+%EC%9D%B4%EA%B2%83%EC%9D%84+%EC%9D%BD%EC%9C%BC%EC%8B%AD%EC%8B%9C%EC%98%A4;%EB%8B%B9%EC%8B%A0%EC%9D%80+%EA%B2%BD%EA%B3%A0%EB%A5%BC+%EB%B0%9B%EC%95%98%EC%8A%B5%EB%8B%88%EB%8B%A4;%EB%A8%BC%EC%A0%80+%EB%B0%B1%EC%97%85%ED%95%98%EC%84%B8%EC%9A%94%21;%EC%97%84%EC%B2%AD%EB%82%9C+%ED%9E%98%EC%9C%BC%EB%A1%9C...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **이 도구를 사용할 때 발생하는 위험은 사용자 본인의 책임입니다. 수정하기 전에 항상 저장 파일을 백업하십시오.**
@@ -535,7 +535,7 @@ uv run python build/build_interactively.py
 
 ## 지원
 
-<img src="https://readme-typing-svg.demolab.com?lines=%EC%9A%B0%EB%A6%AC%EB%8A%94++%EB%8B%B9%EC%8B%A0%EC%9D%98++%EB%A5%BC+%EB%90%98%EC%B0%BE%EC%95%98%EC%8A%B5%EB%8B%88%EB%8B%A4;%EB%8F%84%EC%9B%80%EC%9D%B4+%ED%95%84%EC%9A%94%ED%95%98%EC%8B%A0%EA%B0%80%EC%9A%94%3F;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EB%8B%B9%EC%8B%A0%EC%9D%84+%EC%9C%84%ED%95%B4+%EC%97%AC%EA%B8%B0%EC%97%90+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%9A%B0%EB%A6%AC%EB%8A%94+%EB%8B%B9%EC%8B%A0%EC%9D%98+%EB%92%A4%EB%A5%BC+%EC%A7%80%EC%9B%90%ED%95%A9%EB%8B%88%EB%8B%A4;%EB%8F%84%EC%9B%80%EC%9D%B4+%ED%95%84%EC%9A%94%ED%95%98%EC%8B%A0%EA%B0%80%EC%9A%94%3F;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EB%8B%B9%EC%8B%A0%EC%9D%84+%EC%9C%84%ED%95%B4+%EC%97%AC%EA%B8%B0+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ uv run python build/build_interactively.py
 
 ## 라이센스
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+%EB%AC%B4%EC%97%87%EC%9D%B4%EB%93%A0+%EB%8B%B9%EC%8B%A0%EC%9D%B4+%EC%9B%90%ED%95%98%EB%8A%94+%EC%9D%BC%EC%9D%84+%ED%95%98%EC%84%B8%EC%9A%94;%EB%AC%B4%EB%A3%8C+%EC%9D%8C%EB%A3%8C+%EB%A7%A5%EC%A3%BC;%EC%98%A4%ED%94%88+%EC%86%8C%EC%8A%A4%2C+%EC%98%A4%ED%94%88+%EB%A7%88%EC%9D%B8%EB%93%9C&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT+-+%EC%9B%90%ED%95%98%EB%8A%94+%EB%8C%80%EB%A1%9C+%ED%95%98%EC%84%B8%EC%9A%94;%EB%A7%A5%EC%A3%BC%EC%B2%98%EB%9F%BC+%EB%AC%B4%EB%A3%8C;%EC%98%A4%ED%94%88+%EC%86%8C%EC%8A%A4%2C+%EC%97%B4%EB%A6%B0+%EB%A7%88%EC%9D%8C&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,30 +575,25 @@ uv run python build/build_interactively.py
 
 ## 팔월드 팀
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%EB%A7%88%EB%B2%95+%EB%92%A4%EC%97%90++%EC%82%AC%EB%9E%8C%EB%93%A4++%EB%92%A4%EC%97%90+%EC%9E%88%EB%8A%94+%EC%82%AC%EB%9E%8C%EB%93%A4;%EB%A7%8C%EB%82%98%EB%8B%A4+the+%ED%8C%80;%EA%B5%AC%EC%B6%95+++%EC%97%B4%EC%A0%95+++%EC%97%B4%EC%A0%95&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EB%A7%88%EB%B2%95+%EB%92%A4%EC%97%90+%EC%88%A8%EC%9D%80+%EC%82%AC%EB%9E%8C%EB%93%A4;%ED%8C%80%EC%9D%84+%EB%A7%8C%EB%82%98%EB%B3%B4%EC%84%B8%EC%9A%94;%EC%97%B4%EC%A0%95%EC%9C%BC%EB%A1%9C+%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A1%8C%EC%8A%B5%EB%8B%88%EB%8B%A4.&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 이 프로젝트는 뒤에 있는 사람들이 없었다면 존재하지 않았을 것입니다.
 
+### 활동적인 유지관리자
 
-### Active Maintainers
+**[Pylar](https://github.com/deafdudecomputers)** — 모든 것을 시작한 사람. 이 도구의 모든 라인은 저장 엔진, GUI 및 매일 사용하는 기능에 대한 그의 비전과 끊임없는 작업으로 거슬러 올라갑니다.
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
+**[cyrix](https://github.com/CyrixJD115)** — 리팩터러 및 하위 유지관리자. 코드 품질, 단순화 및 구조적 개선에 중점을 두고 프로젝트가 성장함에 따라 코드베이스를 깔끔하고 작게 유지하고 유지 관리하기 쉽게 만듭니다.
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+### 기여자
 
-### Contributors
+**[dkoz](https://github.com/dkoz)** — ID 뒤에 있는 남자. 게임 데이터 ID, ID 코드에 대한 구조적 통찰력, 모든 게임 업데이트에서 도구의 정확성을 유지하는 Palworld의 데이터 연결 방식에 대한 깊은 지식을 제공합니다.
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+**[oMaN-Rod](https://github.com/oMaN-Rod)** — 이 프로젝트가 분기된 원본 저장 파서를 제공했습니다. Palworld 저장 형식을 해독하는 그의 기초적인 작업이 없었다면 이 중 어떤 것도 존재하지 않았을 것입니다. 포크는 파서를 오늘날의 PST로 간소화하고 단순화했습니다.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+**[Okaetsu](https://github.com/Okaetsu)** — 기본 가져오기/내보내기를 가능하게 하는 모딩 통찰력. Palworld가 모딩 측면에서 기본 데이터를 구성하는 방법에 대한 그의 이해는 모딩과 저장 편집 사이의 격차를 해소하여 이 기능을 현실화했습니다.
 
 
 
@@ -613,7 +608,7 @@ uv run python build/build_interactively.py
 
 ## 감사의 말씀
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%EC%8B%A0%EC%9A%A9+%EA%B8%B0%ED%95%9C%EC%9D%B4+%EC%9E%88%EB%8A%94+%EA%B3%B3;%EA%B0%90%EC%82%AC%ED%95%A9%EB%8B%88%EB%8B%A4+%EA%B0%90%EC%82%AC%ED%95%A9%EB%8B%88%EB%8B%A4+%EB%AA%A8%EB%91%90;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EC%84%9C%EC%84%9C+%EC%96%B4%EA%B9%A8%EB%A5%BC+%EB%94%9B%EA%B3%A0&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%EC%8B%A0%EC%9A%A9%EC%9D%B4+%ED%95%84%EC%9A%94%ED%95%9C+%EA%B3%B3;%EB%AA%A8%EB%91%90+%EA%B0%90%EC%82%AC%ED%95%A9%EB%8B%88%EB%8B%A4;%EC%9A%B0%EB%A6%AC%EB%8A%94+%EC%96%B4%EA%B9%A8+%EC%9C%84%EC%97%90+%EC%84%9C+%EC%9E%88%EB%8B%A4&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

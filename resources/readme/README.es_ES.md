@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## Descripción general
 
-<img src="https://readme-typing-svg.demolab.com?lines=%C2%BFQu%C3%A9+es+exactamente+esta+cosa%3F;Tu+ahorro%2C+tu+manera;Una+herramienta+para+gobernarlos+a+todos&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%C2%BFQu%C3%A9+es+exactamente+esto%3F;Tu+salvaci%C3%B3n%2C+a+tu+manera;Una+herramienta+para+gobernarlos+a+todos&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -85,7 +85,7 @@ Ya sea que necesite administrar un servidor dedicado, migrar entre servidores co
 
 ## Características
 
-<img src="https://readme-typing-svg.demolab.com?lines=Las+cosas+buenas;Compru%C3%A9balo+;Lleno+de+herramientas&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=las+cosas+buenas;Compru%C3%A9balo;Lleno+de+herramientas&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -102,7 +102,7 @@ Una interfaz de edición profunda para cualquier Pal propiedad de cualquier juga
 
 - **Estadísticas y IVs**: HP, ataque, defensa (IV 0–100), nivel (1–80), rango de confianza (0–10).
 - **Almas**: HP, ataque, defensa, velocidad de artesanía (0–20).
-- **Habilidades** — Selector de habilidades activo; aprende todos los movimientos; Habilidades de sincronización masiva en Pals.
+- **Habilidades** — Selector de habilidades activo; aprender todos los movimientos; Habilidades de sincronización masiva en Pals.
 - **Rasgos pasivos**: selector pasivo con datos completos del juego.
 - **Idoneidad para el trabajo**: establezca niveles individuales de idoneidad para el trabajo (0 a 10).
 - **Banderas de apariencia**: alterna entre Jefe/Alfa, Afortunado/Brillante, Despertado e Importado/ADN.
@@ -169,7 +169,7 @@ Accesible desde la pestaña **Herramientas** como tarjetas en las que se puede h
 |------|-------------|
 | **Convertir guardados** | Convertir entre formatos SAV y JSON |
 | **Convertir GamePass → Steam** | Convertir archivos guardados de Xbox/GamePass al formato Steam |
-| **Convertir SteamID** | Convierta ID de Steam a UID de Palworld |
+| **Convertir SteamID** | Convierta ID Steam a UID Palworld |
 | **Restaurar mapa** | Aplicar el progreso del mapa completamente desbloqueado a todos los mundos/servidores |
 | **Inyector de ranura** | Aumentar espacios de palbox por jugador |
 | **Modificar Guardar** | Abrir y modificar datos guardados sin procesar |
@@ -181,7 +181,7 @@ Accesible desde la pestaña **Herramientas** como tarjetas en las que se puede h
 Accesibles a través de **Menú → Funciones**, estas operaciones de nivel de servidor incluyen:
 
 - **Eliminación**: elimina gremios vacíos, bases/jugadores inactivos, jugadores duplicados y datos sin referencia.
-- **Limpieza**: elimina elementos no válidos/modificados, pals y passives no válidos, estructuras no válidas; arreglar pals ilegal (límite al máximo legal); restablecer las torretas antiaéreas; desbloquear private chests; reparar todas las estructuras.
+- **Limpieza**: elimina elementos no válidos/modificados, pals y passives no válidos, estructuras no válidas; arreglar ilegal pals (límite al máximo legal); restablecer las torretas antiaéreas; desbloquear private chests; reparar todas las estructuras.
 - **Restablecimientos**: reinicio de misiones, mazmorras, plataforma petrolera, invasor y entrega de suministros.
 - **Marcas de tiempo**: corrige marcas de tiempo negativas; restablecer los tiempos del jugador.
 - **PalDefender** — Genera comandos `killnearestbase`.
@@ -199,7 +199,7 @@ Accesibles a través de **Menú → Funciones**, estas operaciones de nivel de s
 
 ## Instalación
 
-<img src="https://readme-typing-svg.demolab.com?lines=Hazlo+ejecutar+en+minutos;Descargar+y+listo;No+se+requiere+configuraci%C3%B3n&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Hazlo+funcionar+en+minutos;Descargar+y+listo;No+se+requiere+configuraci%C3%B3n&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -257,7 +257,7 @@ El iniciador crea un `.venv`, instala dependencias a través de `uv sync` e inic
 
 ## Inicio rápido
 
-<img src="https://readme-typing-svg.demolab.com?lines=Cargar.+Editar.+Guardar.+As%C3%AD+de+simple.;Tres+pasos+hacia+la+gloria;Es+as%C3%AD+de+f%C3%A1cil&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Cargar.+Editar.+Ahorrar.+As%C3%AD+de+sencillo.;Tres+pasos+hacia+la+gloria;es+asi+de+facil&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -291,7 +291,7 @@ El iniciador crea un `.venv`, instala dependencias a través de `uv sync` e inic
 
 ## Guías
 
-<img src="https://readme-typing-svg.demolab.com?lines=Tutoriales+paso+a+paso;Sigue+la+gu%C3%ADa;Te+mostramos+c%C3%B3mo&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Tutoriales+paso+a+paso;Sigue+la+gu%C3%ADa;Te+mostraremos+c%C3%B3mo&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -439,7 +439,7 @@ El formato del archivo guardado está desactualizado. Cargue el guardado en el j
 
 ## Construyendo desde la fuente
 
-<img src="https://readme-typing-svg.demolab.com?lines=Comp%C3%ADlalo+t%C3%BA+mismo;Construye+tu+propio;De+fuente+a+binario&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=comp%C3%ADlalo+t%C3%BA+mismo;Construye+el+tuyo+propio;Del+c%C3%B3digo+fuente+al+binario&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -493,7 +493,7 @@ uv run python build/build_interactively.py
 
 ## Contribuyendo
 
-<img src="https://readme-typing-svg.demolab.com?lines=%C2%BFQuieres+ayudar%3F+As%C3%AD+c%C3%B3mo;%C3%9Anete+al+equipo;Cada+contribuci%C3%B3n+cuenta&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%C2%BFQuieres+ayudar%3F+As%C3%AD+es+como;%C3%9Anete+al+equipo;Cada+contribuci%C3%B3n+cuenta&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -518,7 +518,7 @@ uv run python build/build_interactively.py
 
 ## Descargo de responsabilidad
 
-<img src="https://readme-typing-svg.demolab.com?lines=Lee+esto+antes+de+romper+algo;Has+sido+advertido;%C2%A1Copia+de+seguridad+primero%21;Con+gran+poder...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Lee+esto+antes+de+romper+algo.;has+sido+advertido;%C2%A1Copia+de+seguridad+primero%21;Con+gran+poder...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **Utilice esta herramienta bajo su propia responsabilidad. Siempre haga una copia de seguridad de sus archivos guardados antes de realizar modificaciones.**
@@ -538,7 +538,7 @@ Los desarrolladores no son responsables de ninguna pérdida de datos guardados o
 
 ## Soporte
 
-<img src="https://readme-typing-svg.demolab.com?lines=Te+cubrimos+la+respalda;%C2%BFNecesitas+ayuda%3F;Estamos+aqu%C3%AD+para+ti&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Te+respaldamos;%C2%BFNecesitas+ayuda%3F;Estamos+aqu%C3%AD+para+ti&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -559,7 +559,7 @@ Los desarrolladores no son responsables de ninguna pérdida de datos guardados o
 
 ## Licencia
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+haz+lo+que+quieras+;Gratis+como+en+la+cerveza;C%C3%B3digo+abierto%2C+mente+abierta&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT%3A+haz+lo+que+quieras;Gratis+como+en+la+cerveza;C%C3%B3digo+abierto%2C+mente+abierta&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -578,30 +578,25 @@ Este proyecto tiene la licencia MIT; consulte el archivo [license](license) para
 
 ## El equipo de Palworld
 
-<img src="https://readme-typing-svg.demolab.com?lines=Las+personas+detr%C3%A1s+de+la+magia;Conoce+al+equipo;Construido+con+pasi%C3%B3n&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=La+gente+detr%C3%A1s+de+la+magia;Conoce+al+equipo;Construido+con+pasi%C3%B3n&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 Este proyecto no existiría sin las personas que lo respaldan.
 
+### Mantenedores activos
 
-### Active Maintainers
+**[Pylar](https://github.com/deafdudecomputers)** — El hombre que empezó todo. Cada línea de esta herramienta se remonta a su visión y trabajo incansable en el motor de guardado, la GUI y las funciones que utiliza todos los días.
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
+**[cyrix](https://github.com/CyrixJD115)** — Refactorizador y submantenedor. Centrado en la calidad del código, la simplificación y las mejoras estructurales, manteniendo la base del código limpia, más pequeña y más fácil de mantener a medida que crece el proyecto.
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+### Colaboradores
 
-### Contributors
+**[dkoz](https://github.com/dkoz)** — El hombre detrás de las identificaciones. Proporciona ID de datos del juego, información estructural sobre los códigos de ID y un conocimiento profundo de cómo se conectan los datos de Palworld que mantiene la herramienta precisa con cada actualización del juego.
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+**[oMaN-Rod](https://github.com/oMaN-Rod)**: proporcionó el analizador de guardado original del que se bifurcó este proyecto. Sin su trabajo fundamental para descifrar el formato de guardado de Palworld, nada de esto existiría. La bifurcación simplificó y simplificó su analizador hasta convertirlo en lo que es PST hoy.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+**[Okaetsu](https://github.com/Okaetsu)** — Información sobre modificaciones que hizo posible la importación/exportación básica. Su comprensión de cómo Palworld estructura los datos básicos desde el lado de la modificación cerró la brecha entre la modificación y la edición guardada, haciendo de esta característica una realidad.
 
 
 
@@ -616,14 +611,14 @@ Este proyecto no existiría sin las personas que lo respaldan.
 
 ## Agradecimientos
 
-<img src="https://readme-typing-svg.demolab.com?lines=D%C3%B3nde+vence+el+cr%C3%A9dito+;Gracias+a+todos;Nos+paramos+sobre+los+hombros&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=D%C3%B3nde+se+debe+el+cr%C3%A9dito;gracias+a+todos;Nos+paramos+sobre+los+hombros&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 Un enorme agradecimiento a:
 
 - **Palworld** desarrollado por Pocketpair, Inc. — para el juego que nos unió a todos.
-- **Los reporteros de errores**: cada problema presentado, cada caso extremo encontrado, cada registro pegado en Discord. Usted hace que esta herramienta sea más sólida con cada informe.
+- **Los reporteros de errores**: cada problema presentado, cada caso límite encontrado, cada registro pegado en Discord. Usted hace que esta herramienta sea más sólida con cada informe.
 - **La comunidad de modding de Palworld**: compañeros modders, desarrolladores de herramientas y expertos que comparten conocimientos, realizan ingeniería inversa en formatos e impulsan el ecosistema hacia adelante. Este proyecto se sustenta sobre los hombros de ese esfuerzo colectivo.
 - **Todos los contribuyentes y miembros de la comunidad**: ya sea que enviaron un PR, respondieron una pregunta en Discord o simplemente le contaron a un amigo sobre PST, gracias.
 

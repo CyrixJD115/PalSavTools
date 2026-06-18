@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## 概述
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E4%BB%80%E4%B9%88+%E5%88%B0%E5%BA%95+%E6%98%AF+%E8%BF%99%E4%B8%AA+%E4%B8%9C%E8%A5%BF%EF%BC%9F;%E6%82%A8%E7%9A%84+%E4%BF%9D%E5%AD%98%EF%BC%8C+%E6%82%A8%E7%9A%84+%E6%96%B9%E5%BC%8F;%E4%B8%80%E4%B8%AA+%E5%B7%A5%E5%85%B7+%E7%BB%9F%E6%B2%BB+%E4%BB%96%E4%BB%AC+%E5%85%A8%E9%83%A8&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E8%BF%99%E4%B8%9C%E8%A5%BF%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F;%E4%BD%A0%E7%9A%84%E6%8B%AF%E6%95%91%EF%BC%8C%E4%BD%A0%E7%9A%84%E6%96%B9%E5%BC%8F;%E4%B8%80%E7%A7%8D%E5%B7%A5%E5%85%B7%E5%8D%B3%E5%8F%AF%E7%BB%9F%E6%B2%BB%E4%B8%80%E5%88%87&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -82,7 +82,7 @@ Palworld Save Tools (PST) 是一款快速、一体化的桌面应用程序，用
 
 ## 特点
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%E5%A5%BD+%E4%B8%9C%E8%A5%BF;%E6%A3%80%E6%9F%A5+%E5%AE%83+%E9%80%80%E5%87%BA;%E5%8C%85%E8%A3%85+%E5%B7%A5%E5%85%B7&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%A5%BD%E4%B8%9C%E8%A5%BF;%E6%A3%80%E6%9F%A5%E4%B8%80%E4%B8%8B;%E8%A3%85%E6%BB%A1%E4%BA%86%E5%B7%A5%E5%85%B7&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -102,7 +102,7 @@ Palworld Save Tools (PST) 是一款快速、一体化的桌面应用程序，用
 - **技能** — 主动技能选择器；学习所有动作； Pals 的批量同步技能。
 - **被动特征** — 具有完整游戏数据的被动选择器。
 - **工作适宜性** — 设置个人工作适宜性级别 (0–10)。
-- **外观标志** — 切换 Boss/Alpha、Lucky/Shiny、觉醒和导入/DNA。
+- **外观标志** — 切换 Boss/Alpha、幸运/闪亮、觉醒和导入/DNA。
 - **排名和锁定** — 设置排名和最喜爱的锁定级别 (0–3)。
 - 添加新的 Pals 或双击快速删除。
 
@@ -139,7 +139,7 @@ Palworld Save Tools (PST) 是一款快速、一体化的桌面应用程序，用
 **玩家清单** — 三个子选项卡：
 - *库存* — 主包中的所有物品和设备；编辑数量、添加、删除。
 - *关键物品* — 任务物品、雕像和技术；批量添加所有肖像/关键物品。
-- *统计数据* — 等级、生命值、耐力、攻击力、防御力、工作速度、重量。
+- *统计数据* — 等级、生命值、耐力、攻击力、防御力、工作速度、体重。
 - 武器、配件、食物、盔甲、盾牌、滑翔机和模块插槽的设备面板。
 - 一键解锁所有地图+快速旅行点。
 
@@ -169,7 +169,7 @@ Palworld Save Tools (PST) 是一款快速、一体化的桌面应用程序，用
 | **转换 SteamID** |将 Steam ID 转换为 Palworld UID |
 | **恢复地图** |将完全解锁的地图进度应用于所有世界/服务器 |
 | **槽式注入器** |增加每位玩家的 palbox 槽位 |
-| **修改保存** |打开并修改原始保存数据|
+| **修改保存** |打开并修改原始保存数据 |
 | **角色转移** |在不同世界/服务器之间转移角色（交叉保存）|
 | **修复主机保存** |在两个玩家之间交换 UID（主机交换、平台迁移）|
 
@@ -196,7 +196,7 @@ Palworld Save Tools (PST) 是一款快速、一体化的桌面应用程序，用
 
 ## 安装
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E8%8E%B7%E5%8F%96+%E5%AE%83+%E8%BF%90%E8%A1%8C+%E5%9C%A8+%E5%88%86%E9%92%9F%E5%86%85;%E4%B8%8B%E8%BD%BD+%E7%84%B6%E5%90%8E+%E5%BC%80%E5%A7%8B;%E5%90%A6+%E8%AE%BE%E7%BD%AE+%E5%BF%85%E9%9C%80&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%87%A0%E5%88%86%E9%92%9F%E5%86%85%E5%8D%B3%E5%8F%AF%E8%BF%90%E8%A1%8C;%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%BC%80%E5%A7%8B;%E6%97%A0%E9%9C%80%E8%AE%BE%E7%BD%AE&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -254,7 +254,7 @@ start.cmd
 
 ## 快速入门
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E5%8A%A0%E8%BD%BD%E3%80%82+%E7%BC%96%E8%BE%91%E3%80%82+%E4%BF%9D%E5%AD%98%E3%80%82+%E9%82%A3%E4%B8%AA+%E7%AE%80%E5%8D%95%E3%80%82;%E4%B8%89%E6%AD%A5+%E8%B5%B0%E5%90%91+%E8%8D%A3%E8%80%80;%E5%B0%B1%E8%BF%99%E4%B9%88+%E7%AE%80%E5%8D%95&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E8%B4%9F%E8%BD%BD%E3%80%82%E7%BC%96%E8%BE%91%E3%80%82%E8%8A%82%E7%9C%81%E3%80%82%E5%B0%B1%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95%E3%80%82;%E8%BF%88%E5%90%91%E8%8D%A3%E8%80%80%E7%9A%84%E4%B8%89%E6%AD%A5;%E5%B0%B1%E6%98%AF%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -288,7 +288,7 @@ start.cmd
 
 ## 指南
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E5%88%86%E6%AD%A5+%E6%BC%94%E7%BB%83;%E9%81%B5%E5%BE%AA+%E6%8C%87%E5%8D%97;%E6%88%91%E4%BB%AC%E5%B0%86+%E5%90%91%E6%82%A8%E5%B1%95%E7%A4%BA+%E5%A6%82%E4%BD%95&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%88%86%E6%AD%A5%E6%BC%94%E7%BB%83;%E8%B7%9F%E9%9A%8F%E6%8C%87%E5%8D%97;%E6%88%91%E4%BB%AC%E5%B0%86%E5%90%91%E6%82%A8%E5%B1%95%E7%A4%BA%E5%A6%82%E4%BD%95&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ PST 可以解锁完整地图（所有快速旅行点）以供您保存：
 
 ## 故障排除
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E5%BD%93+%E4%BA%8B%E6%83%85+%E8%B5%B0+%E6%A8%AA%E5%90%91;%E4%B8%8D%E8%A6%81+%E6%81%90%E6%85%8C;%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F+%E7%9C%8B%E5%88%B0+%E5%AE%83+%E5%85%A8%E9%83%A8&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%BD%93%E4%BA%8B%E6%83%85%E5%87%BA%E7%8E%B0%E5%B2%94%E5%AD%90%E6%97%B6;%E4%B8%8D%E8%A6%81%E6%83%8A%E6%85%8C;%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F%E7%9C%8B%E5%88%B0%E4%BA%86%E8%BF%99%E4%B8%80%E5%88%87&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ PST 可以解锁完整地图（所有快速旅行点）以供您保存：
 
 ## 从源代码构建
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E7%BC%96%E8%AF%91+%E5%AE%83+%E4%BD%A0%E8%87%AA%E5%B7%B1;%E6%9E%84%E5%BB%BA+%E4%BD%A0%E7%9A%84+%E8%87%AA%E5%B7%B1%E7%9A%84;%E4%BB%8E+%E6%BA%90+%E5%88%B0+%E4%BA%8C%E8%BF%9B%E5%88%B6&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E8%87%AA%E5%B7%B1%E7%BC%96%E8%AF%91%E4%B8%80%E4%B8%8B;%E5%BB%BA%E7%AB%8B%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84;%E4%BB%8E%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%B0%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## 贡献
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E6%83%B3%E8%A6%81+%E5%B8%AE%E5%8A%A9%EF%BC%9F+%E8%BF%99%E9%87%8C+%E5%A6%82%E4%BD%95;%E5%8A%A0%E5%85%A5+%E5%9B%A2%E9%98%9F+;%E6%AF%8F+%E8%B4%A1%E7%8C%AE+%E8%AE%A1%E6%95%B0&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E6%83%B3%E5%B8%AE%E5%BF%99%E5%90%97%EF%BC%9F%E6%96%B9%E6%B3%95%E5%A6%82%E4%B8%8B;%E5%8A%A0%E5%85%A5%E5%9B%A2%E9%98%9F;%E6%AF%8F%E4%B8%80%E6%AC%A1%E8%B4%A1%E7%8C%AE%E9%83%BD%E5%BE%88%E9%87%8D%E8%A6%81&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ uv run python build/build_interactively.py
 
 ## 免责声明
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E8%AF%BB+%E8%BF%99%E4%B8%AA+%E4%B9%8B%E5%89%8D+%E4%BD%A0+%E6%89%93%E7%A0%B4+%E6%9F%90%E4%BA%8B;%E4%BD%A0%E5%B7%B2%E7%BB%8F+%E8%A2%AB+%E8%AD%A6%E5%91%8A%E8%BF%87;%E5%A4%87%E4%BB%BD+%E5%85%88%EF%BC%81;%E6%8B%A5%E6%9C%89+%E4%BC%9F%E5%A4%A7+%E5%8A%9B%E9%87%8F...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%9C%A8%E7%A0%B4%E5%9D%8F%E6%9F%90%E4%BA%9B%E4%B8%9C%E8%A5%BF%E4%B9%8B%E5%89%8D%E8%AF%B7%E9%98%85%E8%AF%BB%E6%9C%AC%E6%96%87;%E4%BD%A0%E5%B7%B2%E8%A2%AB%E8%AD%A6%E5%91%8A%E8%BF%87;%E5%85%88%E5%A4%87%E4%BB%BD%EF%BC%81;%E5%87%AD%E5%80%9F%E7%9D%80%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%8A%9B%E9%87%8F...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **使用此工具的风险由您自行承担。在进行任何修改之前，请务必备份您的保存文件。**
@@ -535,7 +535,7 @@ uv run python build/build_interactively.py
 
 ## 支持
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E6%88%91%E4%BB%AC+%E5%BE%97%E5%88%B0%E4%BA%86+%E6%82%A8+%E7%9A%84%E6%94%AF%E6%8C%81;%E9%9C%80%E8%A6%81+%E5%B8%AE%E5%8A%A9%EF%BC%9F;%E6%88%91%E4%BB%AC+%E5%9C%A8%E8%BF%99%E9%87%8C+%E4%B8%BA+%E6%82%A8&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E6%88%91%E4%BB%AC%E4%B8%BA%E6%82%A8%E6%8F%90%E4%BE%9B%E6%94%AF%E6%8C%81;%E9%9C%80%E8%A6%81%E5%B8%AE%E5%8A%A9%E5%90%97%EF%BC%9F;%E6%88%91%E4%BB%AC%E9%9A%8F%E6%97%B6%E4%B8%BA%E6%82%A8%E6%9C%8D%E5%8A%A1&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ uv run python build/build_interactively.py
 
 ## 许可证
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+%E5%81%9A+%E4%BB%BB%E4%BD%95%E4%BA%8B+%E4%BD%A0+%E6%83%B3%E8%A6%81;%E5%85%8D%E8%B4%B9+as+in+%E5%95%A4%E9%85%92;%E5%BC%80%E6%BA%90+%E6%BA%90%E4%BB%A3%E7%A0%81+%E5%BC%80%E6%94%BE+%E6%80%9D%E6%83%B3&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E9%BA%BB%E7%9C%81%E7%90%86%E5%B7%A5%E5%AD%A6%E9%99%A2%E2%80%94%E2%80%94%E5%81%9A%E4%BD%A0%E6%83%B3%E5%81%9A%E7%9A%84%E4%BA%8B;%E5%83%8F%E5%95%A4%E9%85%92%E4%B8%80%E6%A0%B7%E5%85%8D%E8%B4%B9;%E5%BC%80%E6%BA%90%EF%BC%8C%E5%BC%80%E6%94%BE%E7%9A%84%E5%BF%83%E6%80%81&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,30 +575,25 @@ uv run python build/build_interactively.py
 
 ## Palworld 团队
 
-<img src="https://readme-typing-svg.demolab.com?lines=+%E4%BA%BA+%E8%83%8C%E5%90%8E+%E9%AD%94%E6%B3%95;%E8%AE%A4%E8%AF%86+%E5%9B%A2%E9%98%9F+;%E5%BB%BA%E9%80%A0+%E7%94%A8+%E7%83%AD%E6%83%85&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E9%AD%94%E6%B3%95%E8%83%8C%E5%90%8E%E7%9A%84%E4%BA%BA%E4%BB%AC;%E8%AE%A4%E8%AF%86%E5%9B%A2%E9%98%9F;%E5%85%85%E6%BB%A1%E6%BF%80%E6%83%85%E5%9C%B0%E5%BB%BA%E9%80%A0&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 如果没有背后的人，这个项目就不会存在。
 
+### 活跃维护者
 
-### Active Maintainers
+**[Pylar](https://github.com/deafdudecomputers)** — 这一切的始作俑者。这个工具的每一行都可以追溯到他对保存引擎、GUI 和您每天使用的功能的愿景和不懈的工作。
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
+**[cyrix](https://github.com/CyrixJD115)** — 重构者和子维护者。专注于代码质量、简化和结构改进——随着项目的发展，保持代码库干净、更小、更易于维护。
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+### 贡献者
 
-### Contributors
+**[dkoz](https://github.com/dkoz)** — ID 背后的人。提供游戏数据 ID、ID 代码的结构洞察，以及对 Palworld 数据如何连接在一起的深入了解，从而使工具在每次游戏更新时保持准确。
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+**[oMaN-Rod](https://github.com/oMaN-Rod)** — 提供了该项目派生的原始保存解析器。如果没有他在破解 Palworld 保存格式方面的基础工作，这一切都不会存在。该分支简化了他的解析器，成为今天的 PST。
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+**[Okaetsu](https://github.com/Okaetsu)** — 修改见解，使基础导入/导出成为可能。他对 Palworld 如何从模组方面构建基础数据的理解弥合了模组和保存编辑之间的差距，使这一功能成为现实。
 
 
 
@@ -613,7 +608,7 @@ uv run python build/build_interactively.py
 
 ## 致谢
 
-<img src="https://readme-typing-svg.demolab.com?lines=%E5%93%AA%E9%87%8C+%E4%BF%A1%E7%94%A8+%E6%98%AF+%E5%88%B0%E6%9C%9F;%E8%B0%A2%E8%B0%A2+%E4%BD%A0%E4%BB%AC+%E5%A4%A7%E5%AE%B6;%E6%88%91%E4%BB%AC+%E7%AB%99%E7%AB%8B+%E8%82%A9%E4%B8%8A&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E4%BF%A1%E7%94%A8%E5%88%B0%E6%9C%9F%E7%9A%84%E5%9C%B0%E6%96%B9;%E8%B0%A2%E8%B0%A2%E5%A4%A7%E5%AE%B6;%E6%88%91%E4%BB%AC%E7%AB%99%E5%9C%A8%E8%82%A9%E8%86%80%E4%B8%8A&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

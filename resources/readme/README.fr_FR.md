@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## Aperçu
 
-<img src="https://readme-typing-svg.demolab.com?lines=Qu%27est-ce+que+exactement+c%27est+cette+chose%C2%A0%3F;%C3%80+votre+sauvegarde+%C3%A0+votre+fa%C3%A7on;Un+outil+pour+les+gouverner+tous&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=C%27est+quoi+exactement+cette+chose+%3F;Votre+sauvegarde%2C+%C3%A0+votre+fa%C3%A7on;Un+outil+pour+les+gouverner+tous&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -82,7 +82,7 @@ Que vous ayez besoin de gérer un serveur dédié, de migrer entre des serveurs 
 
 ## Fonctionnalités
 
-<img src="https://readme-typing-svg.demolab.com?lines=Les++bonnes+trucs;V%C3%A9rifiez+le+out;Emball%C3%A9+avec+des+outils&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Les+bonnes+choses;V%C3%A9rifiez-le;Plein+d%27outils&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -110,8 +110,8 @@ Une interface d'édition approfondie pour n'importe quel Pal appartenant à n'im
 
 Vue à deux panneaux : liste des guildes en haut, liste des membres en bas.
 
-- Renommer les guildes, changer de chef, définir le niveau de guilde, le niveau de guilde maximum.
-- Débloquez toutes les recherches de laboratoire ; reconstruisez toutes les guildes.
+- Renommez les guildes, changez de chef, définissez le niveau de guilde, le niveau de guilde maximum.
+- Débloquez toutes les recherches en laboratoire ; reconstruisez toutes les guildes.
 - Déplacez les joueurs entre les guildes ; supprimer les guildes vides ou inactives.
 
 ### Outils du camp de base
@@ -196,7 +196,7 @@ Accessibles via **Menu → Fonctions**, ces opérations de niveau serveur inclue
 
 ## Installation
 
-<img src="https://readme-typing-svg.demolab.com?lines=Obtenez+le+fonctionnement+en+minutes;T%C3%A9l%C3%A9chargez+et+partez;Non+configuration+obligatoire&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Faites-le+fonctionner+en+quelques+minutes;T%C3%A9l%C3%A9chargez+et+partez;Aucune+configuration+requise&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -216,7 +216,7 @@ Des binaires prédéfinis sont disponibles pour les trois principales plates-for
 2. Extrayez (si archivé) et exécutez l'exécutable.
 3. C'est tout – aucun Python ni dépendance n'est nécessaire.
 
-> **Windows :** Si vous voyez « VCRUNTIME140.dll n'a pas été trouvé », installez [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
+> **Windows :** Si vous voyez « VCRUNTIME140.dll n'a pas été trouvé », installez le [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
 
 > **Linux :** Vous devrez peut-être marquer le fichier comme exécutable : `chmod +x PalworldSaveTools-*-linux`
 
@@ -254,7 +254,7 @@ Le lanceur crée un `.venv`, installe les dépendances via `uv sync` et démarre
 
 ## Démarrage rapide
 
-<img src="https://readme-typing-svg.demolab.com?lines=Charger.+Modifier.+Enregistrer.+%C3%87a+simple.;Trois+%C3%A9tapes+vers+la+gloire;C%27est+c%27est+facile&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Charger.+Modifier.+Sauvegarder.+C%27est+aussi+simple+que+cela.;Trois+%C3%A9tapes+vers+la+gloire;C%27est+aussi+simple+que+%C3%A7a&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -288,7 +288,7 @@ Le lanceur crée un `.venv`, installe les dépendances via `uv sync` et démarre
 
 ## Guides
 
-<img src="https://readme-typing-svg.demolab.com?lines=Proc%C3%A9dures+pas+%C3%A0+pas+++pas+%C3%A0+pas;Suivez+le+guide;Nous+allons+vous+montrer+comment&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Proc%C3%A9dures+pas+%C3%A0+pas;Suivez+le+guide;Nous+allons+vous+montrer+comment&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ Transférez des personnages entre différents mondes ou serveurs tout en préser
 
 ## Dépannage
 
-<img src="https://readme-typing-svg.demolab.com?lines=Quand+les+choses+va+de+c%C3%B4t%C3%A9;Ne+paniquez+pas;Nous+avons+vu+tout+&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Quand+les+choses+tournent+mal;Ne+paniquez+pas;Nous+avons+tout+vu&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ Le format du fichier de sauvegarde est obsolète. Chargez la sauvegarde dans le 
 
 ## Construire à partir de la source
 
-<img src="https://readme-typing-svg.demolab.com?lines=Compilez-le+vous-m%C3%AAme;Construisez+le+votre+propre;De+source+%C3%A0+binaire&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Compilez-le+vous-m%C3%AAme;Construisez+le+v%C3%B4tre;De+la+source+au+binaire&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## Contribuer
 
-<img src="https://readme-typing-svg.demolab.com?lines=Voulez-vous+aider%C2%A0%3F+Voici+comment;Rejoignez+la+%C3%A9quipe;Chaque+contribution+compte&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Vous+voulez+aider+%3F+Voici+comment;Rejoignez+l%27%C3%A9quipe;Chaque+contribution+compte&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Req
 
 ## Avertissement
 
-<img src="https://readme-typing-svg.demolab.com?lines=Lisez+ceci+avant+de+pause+quelque+chose;Vous+avez+%C3%A9t%C3%A9+pr%C3%A9venu;Sauvegarde+d%27abord%C2%A0%21;Avec++une+grande+puissance...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Lisez+ceci+avant+de+casser+quelque+chose;Vous+avez+%C3%A9t%C3%A9+pr%C3%A9venu;Sauvegardez+d%27abord%C2%A0%21;Avec+une+grande+puissance...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **Utilisez cet outil à vos propres risques. Sauvegardez toujours vos fichiers de sauvegarde avant d'apporter des modifications.**
@@ -535,7 +535,7 @@ Les développeurs ne sont pas responsables de toute perte de données de sauvega
 
 ## Assistance
 
-<img src="https://readme-typing-svg.demolab.com?lines=Nous+avons+votre+dos;Besoin+d%27aide%C2%A0%3F;Nous+sommes+l%C3%A0+pour+vous&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Nous+avons+votre+dos;Besoin+d%27aide+%3F;Nous+sommes+l%C3%A0+pour+vous&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ Les développeurs ne sont pas responsables de toute perte de données de sauvega
 
 ## Licence
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+faites+ce+que+tu+veux;Gratuit+comme+dans+la+bi%C3%A8re;Open+source%2C+ouvert+esprit&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT+-+faites+ce+que+vous+voulez;Gratuit+comme+dans+la+bi%C3%A8re;Open+source%2C+esprit+ouvert&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,30 +575,25 @@ Ce projet est sous licence MIT – voir le fichier [license](license) pour plus 
 
 ## L'équipe Palworld
 
-<img src="https://readme-typing-svg.demolab.com?lines=Les+gens+derri%C3%A8re+la+magie;Rencontrer+l%27%C3%A9quipe;Construit+avec+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Les+gens+derri%C3%A8re+la+magie;Rencontrez+l%27%C3%A9quipe;Construit+avec+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 Ce projet n'existerait pas sans les personnes qui le soutiennent.
 
+### Mainteneurs actifs
 
-### Active Maintainers
+**[Pylar](https://github.com/deafdudecomputers)** — L'homme qui a tout déclenché. Chaque ligne de cet outil remonte à sa vision et à son travail acharné sur le moteur de sauvegarde, l'interface graphique et les fonctionnalités que vous utilisez quotidiennement.
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
+**[cyrix](https://github.com/CyrixJD115)** — Refactoriste et sous-responsable. Axé sur la qualité du code, la simplification et les améliorations structurelles, en gardant la base de code propre, plus petite et plus facile à maintenir à mesure que le projet se développe.
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+### Contributeurs
 
-### Contributors
+**[dkoz](https://github.com/dkoz)** — L'homme derrière les pièces d'identité. Fournit des identifiants de données de jeu, un aperçu structurel des codes d'identification et une connaissance approfondie de la manière dont les données de Palworld sont reliées entre elles, ce qui garantit la précision de l'outil à chaque mise à jour du jeu.
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+**[oMaN-Rod](https://github.com/oMaN-Rod)** — Fourni l'analyseur de sauvegarde d'origine à partir duquel ce projet est issu. Sans son travail fondamental sur le piratage du format de sauvegarde Palworld, rien de tout cela n’existerait. Le fork a rationalisé et simplifié son analyseur pour en faire ce qu'est PST aujourd'hui.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+**[Okaetsu](https://github.com/Okaetsu)** — Informations sur le modding qui ont rendu possible l'importation/exportation de base. Sa compréhension de la façon dont Palworld structure les données de base du côté du modding a comblé le fossé entre le modding et l'édition de sauvegarde, faisant de cette fonctionnalité une réalité.
 
 
 
@@ -613,7 +608,7 @@ Ce projet n'existerait pas sans les personnes qui le soutiennent.
 
 ## Remerciements
 
-<img src="https://readme-typing-svg.demolab.com?lines=O%C3%B9+le+cr%C3%A9dit+est+d%C3%BB;Merci+%C3%A0+tous;Nous+++nous+tenons+++sur+++les+%C3%A9paules&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=O%C3%B9+le+cr%C3%A9dit+est+d%C3%BB;Merci+%C3%A0+tous;Nous+nous+tenons+sur+les+%C3%A9paules&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

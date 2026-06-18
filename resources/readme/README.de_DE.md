@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,20 +24,20 @@
 
 ## Übersicht
 
-<img src="https://readme-typing-svg.demolab.com?lines=Was+genau+ist+dieses+Ding%3F;Ihr+Speicher%2C+Ihr+Weg;Ein+Werkzeug%2C+um+sie+alle+zu+beherrschen&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Was+genau+ist+das+f%C3%BCr+ein+Ding%3F;Dein+Save%2C+dein+Weg;Ein+Werkzeug%2C+um+sie+alle+zu+beherrschen&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 Palworld Save Tools (PST) ist eine schnelle All-in-One-Desktopanwendung zum Überprüfen und Bearbeiten von Palworld-Sicherungsdateien. Es wurde mit Python und PySide6 erstellt und liest und schreibt das komprimierte Speicherformat des Spiels direkt – keine Spielmodifikationen erforderlich.
 
-Ganz gleich, ob Sie einen dedizierten Server verwalten, zwischen kooperativen und dedizierten Servern migrieren, aufgegebene Daten bereinigen oder einzelne Pals optimieren müssen, PST bietet für alles eine einzige einheitliche Schnittstelle.
+Ganz gleich, ob Sie einen dedizierten Server verwalten, zwischen Co-op- und dedizierten Servern migrieren, aufgegebene Daten bereinigen oder einzelne Pals optimieren müssen, PST bietet für alles eine einzige, einheitliche Schnittstelle.
 
 ### Highlights
 
 - **Plattformübergreifend** – Vorgefertigte Binärdateien für **Windows**, **Linux** und **macOS**.
-- **Schnelles natives Parsen** – Einer der schnellsten verfügbaren Lesegeräte für gespeicherte Dateien, angetrieben von der [`palsav`](src/palsav)-Engine.
+- **Schnelles natives Parsen** – Einer der schnellsten verfügbaren Lesegeräte für gespeicherte Dateien, angetrieben durch die [`palsav`](src/palsav)-Engine.
 - **Visuelle Karte** – Interaktive Weltkarte mit Basis-/Spielermarkierungen, Sperrzonen und Koordinatenkalibrierung.
-- **Umfassende Pal-Bearbeitung** – Volle Kontrolle über Statistiken, IVs, Seelen, Fertigkeiten, passives, Arbeitseignungen, Rang und Aussehensmarkierungen.
+- **Umfassende Pal-Bearbeitung** – Volle Kontrolle über Statistiken, IVs, Seelen, Fähigkeiten, passives, Arbeitseignungen, Rang und Aussehensflaggen.
 - **Tools auf Serverniveau** – Massenlöschung, Bereinigung, Konvertierung und Zeichenübertragung für Administratoren.
 - **Automatische Backups** – Bei jedem Speichervorgang wird vor dem Schreiben ein Backup erstellt.
 - **8 Sprachen** – Lokalisierte Benutzeroberfläche, In-App-Anleitungen und Dokumentation.
@@ -82,13 +82,13 @@ Ganz gleich, ob Sie einen dedizierten Server verwalten, zwischen kooperativen un
 
 ## Funktionen
 
-<img src="https://readme-typing-svg.demolab.com?lines=Das+gute+Zeug;Probieren+Sie+es+aus;Vollgepackt+mit+Werkzeugen&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Die+guten+Sachen;Schauen+Sie+es+sich+an;Vollgepackt+mit+Werkzeugen&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 ### Spielerverwaltung
 
-- Alle Spieler nach Name, Level, pal-Anzahl, UID, Gilde und zuletzt gesehener Zeit anzeigen und durchsuchen.
+- Alle Spieler nach Name, Level, pal Anzahl, UID, Gilde und zuletzt gesehener Zeit anzeigen und durchsuchen.
 - Bearbeiten Sie Spielernamen, Level, Statistiken und Technologiepunkte.
 - **Massenoperationen** für mehrere Spieler: Gegenstandsverwaltung, pal-Verwaltung und Technologie-Freischaltungen.
 - Inaktive Spieler nach Zeitschwelle löschen; Duplikate entfernen.
@@ -177,8 +177,8 @@ Schutzlisten, die Spieler, Gilden und Stützpunkte vor Aufräumarbeiten schütze
 
 Diese Server-Vorgänge sind über **Menü → Funktionen** zugänglich und umfassen:
 
-- **Löschen** – Leere Gilden, inaktive Basen/Spieler, doppelte Spieler, nicht referenzierte Daten löschen.
-- **Bereinigung** – Ungültige/modifizierte Elemente, ungültige pals und passives, ungültige Strukturen entfernen; unzulässiges pals beheben (Grenze auf zulässiges Maximum); Luftabwehrtürme zurücksetzen; entsperren private chests; alle Strukturen reparieren.
+- **Löschen** – Leere Gilden, inaktive Basen/Spieler, doppelte Spieler und nicht referenzierte Daten löschen.
+- **Bereinigung** – Entfernen Sie ungültige/modifizierte Elemente, ungültige pals und passives, ungültige Strukturen; unzulässiges pals beheben (Grenze auf zulässiges Maximum); Luftabwehrtürme zurücksetzen; entsperren private chests; alle Strukturen reparieren.
 - **Zurücksetzen** – Missionen, Dungeons, Bohrinsel, Eindringling, Versorgungslieferungen zurücksetzen.
 - **Zeitstempel** – Negative Zeitstempel korrigieren; Spielerzeiten zurücksetzen.
 - **PalDefender** – `killnearestbase`-Befehle generieren.
@@ -254,7 +254,7 @@ Der Launcher erstellt einen `.venv`, installiert Abhängigkeiten über `uv sync`
 
 ## Schnellstart
 
-<img src="https://readme-typing-svg.demolab.com?lines=Laden.+Bearbeiten.+Speichern.+Das+einfach.;Drei+Schritte+zum+Ruhm;Es+ist+so+einfach&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Laden.+Bearbeiten.+Speichern.+So+einfach.;Drei+Schritte+zum+Ruhm;So+einfach+ist+das&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -273,7 +273,7 @@ Der Launcher erstellt einen `.venv`, installiert Abhängigkeiten über `uv sync`
 4. **Speichern Sie Ihre Änderungen**
    - Klicken Sie auf **Menü → Änderungen speichern**. Backups werden automatisch erstellt.
 
-> **Tipp:** Jede Registerkarte verfügt über eine integrierte Anleitung – klicken Sie in einer beliebigen Registerkarte auf das Hilfesymbol, um genau zu sehen, was sie tun kann. Um tiefere Informationen zu erhalten, **bewegen Sie den Mauszeiger über eine beliebige Schaltfläche, ein Feld oder ein Steuerelement**, um detaillierte Tooltips in der Kopfzeile anzuzeigen. Das In-App-Tooltip-Hilfesystem ist Ihre beste Referenz, um genau zu verstehen, was die einzelnen Funktionen bewirken und wie sie verwendet werden.
+> **Tipp:** Jede Registerkarte verfügt über eine integrierte Anleitung – klicken Sie auf das Hilfesymbol in einer beliebigen Registerkarte, um genau zu sehen, was sie tun kann. Um tiefere Informationen zu erhalten, **bewegen Sie den Mauszeiger über eine beliebige Schaltfläche, ein Feld oder ein Steuerelement**, um detaillierte Tooltips in der Kopfzeile anzuzeigen. Das In-App-Tooltip-Hilfesystem ist Ihre beste Referenz, um genau zu verstehen, was die einzelnen Funktionen bewirken und wie sie verwendet werden.
 
 
 
@@ -288,7 +288,7 @@ Der Launcher erstellt einen `.venv`, installiert Abhängigkeiten über `uv sync`
 
 ## Anleitungen
 
-<img src="https://readme-typing-svg.demolab.com?lines=Schritt-f%C3%BCr-Schritt-Anleitungen;Folgen+Sie+der+Anleitung;Wir+zeigen+Ihnen%2C+wie&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Schritt-f%C3%BCr-Schritt-Anleitungen;Folgen+Sie+der+Anleitung;Wir+zeigen+Ihnen+wie&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ PST kann die vollständige Karte (alle Schnellreisepunkte) für Ihren Speicherst
 
 ## Fehlerbehebung
 
-<img src="https://readme-typing-svg.demolab.com?lines=Wenn+die+Dinge+seitw%C3%A4rts+laufen;Keine+Panik;Wir+haben+alles+gesehen&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Wenn+die+Dinge+schiefgehen;Keine+Panik;Wir+haben+alles+gesehen&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ Das Speicherdateiformat ist veraltet. Laden Sie den Speicherstand im Spiel (Solo
 
 ## Aufbau aus der Quelle
 
-<img src="https://readme-typing-svg.demolab.com?lines=Kompilieren+Sie+es+selbst;Bauen+Sie+Ihr+eigenes;Von+der+Quelle+zur+Bin%C3%A4rdatei&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Stellen+Sie+es+selbst+zusammen;Bauen+Sie+Ihr+eigenes;Von+der+Quelle+zur+Bin%C3%A4rdatei&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ Beiträge sind willkommen! Bitte senden Sie gerne einen Pull Request.
 
 ## Haftungsausschluss
 
-<img src="https://readme-typing-svg.demolab.com?lines=Lesen+Sie+dies%2C+bevor+Sie+etwas+kaputt+machen;Sie+wurden+gewarnt;Backup+zuerst%21;Mit+gro%C3%9Fer+Kraft...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Lesen+Sie+dies%2C+bevor+Sie+etwas+kaputt+machen;Sie+wurden+gewarnt;Zuerst+sichern%21;Mit+gro%C3%9Fer+Kraft...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **Die Verwendung dieses Tools erfolgt auf eigene Gefahr. Sichern Sie immer Ihre Sicherungsdateien, bevor Sie Änderungen vornehmen.**
@@ -535,7 +535,7 @@ Die Entwickler sind nicht verantwortlich für den Verlust gespeicherter Daten od
 
 ## Unterstützung
 
-<img src="https://readme-typing-svg.demolab.com?lines=Wir+stehen+hinter+Ihnen;Brauchen+Sie+Hilfe%3F;Wir+sind+f%C3%BCr+Sie+da&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Wir+stehen+Ihnen+zur+Seite;Brauchen+Sie+Hilfe%3F;Wir+sind+f%C3%BCr+Sie+da&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ Die Entwickler sind nicht verantwortlich für den Verlust gespeicherter Daten od
 
 ## Lizenz
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT++%E2%80%93++tun+was+Sie+wollen;Kostenloses+Bier;Open+Source%2C+offener+Geist&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%93+machen+Sie%2C+was+Sie+wollen;Kostenlos+wie+beim+Bier;Open+Source%2C+offener+Geist&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,30 +575,25 @@ Dieses Projekt ist unter der MIT-Lizenz lizenziert – Einzelheiten finden Sie i
 
 ## Das Palworld-Team
 
-<img src="https://readme-typing-svg.demolab.com?lines=Die+Menschen+hinter+der+Magie;Lernen+Sie+das+Team+kennen;Gebaut+mit+Leidenschaft&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Die+Menschen+hinter+der+Magie;Lernen+Sie+das+Team+kennen;Mit+Leidenschaft+gebaut&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
 Ohne die Menschen dahinter gäbe es dieses Projekt nicht.
 
+### Aktive Betreuer
 
-### Active Maintainers
+**[Pylar](https://github.com/deafdudecomputers)** – Der Mann, mit dem alles begann. Jede Zeile dieses Tools geht auf seine Vision und seine unermüdliche Arbeit an der Speicher-Engine, der GUI und den Funktionen zurück, die Sie täglich verwenden.
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
+**[cyrix](https://github.com/CyrixJD115)** – Refactorer und Sub-Maintainer. Konzentriert sich auf Codequalität, Vereinfachung und strukturelle Verbesserungen – so bleibt die Codebasis sauber, kleiner und einfacher zu warten, wenn das Projekt wächst.
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+### Mitwirkende
 
-### Contributors
+**[dkoz](https://github.com/dkoz)** – Der Mann hinter den Ausweisen. Bietet Spieldaten-IDs, strukturelle Einblicke in die ID-Codes und umfassende Kenntnisse darüber, wie die Daten von Palworld miteinander verknüpft sind, sodass das Tool bei jedem Spielupdate korrekt bleibt.
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+**[oMaN-Rod](https://github.com/oMaN-Rod)** – Stellte den ursprünglichen Speicherparser bereit, von dem dieses Projekt geforkt wurde. Ohne seine grundlegende Arbeit zum Knacken des Palworld-Speicherformats gäbe es das alles nicht. Der Fork hat seinen Parser zu dem optimiert und vereinfacht, was PST heute ist.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+**[Okaetsu](https://github.com/Okaetsu)** – Modding-Erkenntnisse, die den Basisimport/-export ermöglichten. Sein Verständnis dafür, wie Palworld Basisdaten von der Modding-Seite aus strukturiert, überbrückte die Lücke zwischen Modding und Save Editing und machte dieses Feature Wirklichkeit.
 
 
 
@@ -613,7 +608,7 @@ Ohne die Menschen dahinter gäbe es dieses Projekt nicht.
 
 ## Danksagungen
 
-<img src="https://readme-typing-svg.demolab.com?lines=Wo+Kredit+f%C3%A4llig+ist;Vielen+Dank+an+alle;Wir+stehen+auf+Schultern&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Wo+Kredit+f%C3%A4llig+ist;Vielen+Dank+euch+allen;Wir+stehen+auf+Schultern&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

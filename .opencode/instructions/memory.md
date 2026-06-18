@@ -21,6 +21,11 @@
 
 # PST (PalworldSaveTools) v2.0.0
 
+## Agent Rules
+- **DO NOT commit or push without explicit instruction.** Wait for `"commit and push"`.
+- Ask before making structural changes or adding files.
+- Keep responses terse.
+
 ## Project Purpose
 Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting Palworld save files. Operates on `Level.sav`, per-player `.sav`, and Xbox GamePass (UWP) containers.
 
@@ -61,14 +66,15 @@ Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting P
 - `_bulk_heal_pal`: same + HP restore to max (via `calculate_max_hp`)
 
 ### Restore All / Max All Buttons
-- **edit_pals.py**: Two buttons in palbox header (right of stretch, before ◀▶). Apply to party + current palbox page.
+- **edit_pals.py**: Two buttons in palbox header (right of stretch, before ◀▶). Apply to party + ALL palbox pages (all 960 slots, not just current page).
 - **base_inventory_tab.py**: Two buttons in page_row (leftmost, before ◀▶). Apply to all base worker pals.
 - Both methods clear selection highlight + show No Pal Data after operation.
 - Button text refreshed via `refresh_labels()`.
 - Visibility toggled in show/hide blocks.
 - **Restore All**: HP/FullStomach/SanityValue restore + sickness cleanup.
-- **Max All**: Talents(100)/Ranks(20)/Condenser(5)/Friendship(200k)/Awakening/Level 80/Work Suitabilities(10).
+- **Max All**: Two-phase — first max stats (Talents(100)/Ranks(20)/Condenser(5)/Friendship(200k)/Awakening/Level 80/Work Suitabilities(10)), then restore (same as Restore All). HP recalc in phase 2 uses the now-maxed stats so it's correct on first click.
 - Uses `_set_work_suitability` for work suitability maxing.
+- `_generate_pal_save_param` (add pal + clone skeleton) now sets `FullStomach` from pal base data + `SanityValue` 100.
 
 ### i18n Key Pattern
 - Bulk: `edit_pals.bulk_heal_desc`, `edit_pals.restore_all`/`_confirm`/`_success`, `edit_pals.max_all`/`_confirm`/`_success`

@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## Aperçu
 
-<img src="https://readme-typing-svg.demolab.com?lines=What+exactly+is+this+thing%3F;Your+save%2C+your+way;One+tool+to+rule+them+all&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Qu%27est-ce%20que%2Bexactement%2Bc%27est%2Bcette%2Bchose%C2%A0%3F%3B%C3%80%20votre%2Bsauvegarde%2B%C3%A0%2Bvotre%2Bfa%C3%A7on%3BUn%2Boutil%2Bpour%2Bles%2Bgouverner%2Btous&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -82,7 +82,7 @@ Que vous ayez besoin de gérer un serveur dédié, de migrer entre des serveurs 
 
 ## Fonctionnalités
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+good+stuff;Check+it+out;Packed+with+tools&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Les%20%2Bbonnes%2Btrucs%3BV%C3%A9rifiez%2Ble%2Bout%3BEmball%C3%A9%2Bavec%2Bdes%2Boutils&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -196,7 +196,7 @@ Accessibles via **Menu → Fonctions**, ces opérations de niveau serveur inclue
 
 ## Installation
 
-<img src="https://readme-typing-svg.demolab.com?lines=Get+it+running+in+minutes;Download+and+go;No+setup+required&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Obtenez%2Ble%2Bfonctionnement%2Ben%2Bminutes%3BT%C3%A9l%C3%A9chargez%2Bet%2Bpartez%3BNon%2Bconfiguration%2Bobligatoire&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -254,7 +254,7 @@ Le lanceur crée un `.venv`, installe les dépendances via `uv sync` et démarre
 
 ## Démarrage rapide
 
-<img src="https://readme-typing-svg.demolab.com?lines=Load.+Edit.+Save.+That+simple.;Three+steps+to+glory;It%27s+that+easy&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Charger.%2BModifier.%2BEnregistrer.%2B%C3%87a%2Bsimple.%3BTrois%2B%C3%A9tapes%2Bvers%2Bla%2Bgloire%3BC%27est%2Bc%27est%2Bfacile&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -288,7 +288,7 @@ Le lanceur crée un `.venv`, installe les dépendances via `uv sync` et démarre
 
 ## Guides
 
-<img src="https://readme-typing-svg.demolab.com?lines=Step-by-step+walkthroughs;Follow+the+guide;We%27ll+show+you+how&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Proc%C3%A9dures%20pas%20%C3%A0%20pas%20%2B%20pas%20%C3%A0%20pas%3BSuivez%2Ble%2Bguide%3BNous%20allons%2Bvous%2Bmontrer%2Bcomment&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ Transférez des personnages entre différents mondes ou serveurs tout en préser
 
 ## Dépannage
 
-<img src="https://readme-typing-svg.demolab.com?lines=When+things+go+sideways;Don%27t+panic;We%27ve+seen+it+all&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Quand%2Bles%2Bchoses%2Bva%2Bde%20c%C3%B4t%C3%A9%3BNe%2Bpaniquez%20pas%3BNous%20avons%2Bvu%2Btout%2B&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ Le format du fichier de sauvegarde est obsolète. Chargez la sauvegarde dans le 
 
 ## Construire à partir de la source
 
-<img src="https://readme-typing-svg.demolab.com?lines=Compile+it+yourself;Build+your+own;From+source+to+binary&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Compilez-le%20vous-m%C3%AAme%3BConstruisez%2Ble%2Bvotre%2Bpropre%3BDe%2Bsource%2B%C3%A0%2Bbinaire&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## Contribuer
 
-<img src="https://readme-typing-svg.demolab.com?lines=Want+to+help%3F+Here%27s+how;Join+the+team;Every+contribution+counts&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Voulez-vous%2Baider%C2%A0%3F%2BVoici%2Bcomment%3BRejoignez%2Bla%2B%C3%A9quipe%3BChaque%2Bcontribution%2Bcompte&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Req
 
 ## Avertissement
 
-<img src="https://readme-typing-svg.demolab.com?lines=Read+this+before+you+break+something;You%27ve+been+warned;Backup+first%21;With+great+power...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Lisez%2Bceci%2Bavant%2Bde%2Bpause%2Bquelque%20chose%3BVous%20avez%2B%C3%A9t%C3%A9%2Bpr%C3%A9venu%3BSauvegarde%2Bd%27abord%C2%A0%21%3BAvec%20%2Bune%2Bgrande%2Bpuissance...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **Utilisez cet outil à vos propres risques. Sauvegardez toujours vos fichiers de sauvegarde avant d'apporter des modifications.**
@@ -535,7 +535,7 @@ Les développeurs ne sont pas responsables de toute perte de données de sauvega
 
 ## Assistance
 
-<img src="https://readme-typing-svg.demolab.com?lines=We%27ve+got+your+back;Need+help%3F;We%27re+here+for+you&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Nous%20avons%2Bvotre%2Bdos%3BBesoin%2Bd%27aide%C2%A0%3F%3BNous%20sommes%2Bl%C3%A0%2Bpour%2Bvous&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ Les développeurs ne sont pas responsables de toute perte de données de sauvega
 
 ## Licence
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+do+whatever+you+want;Free+as+in+beer;Open+source%2C+open+mind&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT%2B%E2%80%94%2Bfaites%2Bce%20que%2Btu%2Bveux%3BGratuit%2Bcomme%2Bdans%2Bla%2Bbi%C3%A8re%3BOpen%2Bsource%2C%2Bouvert%2Besprit&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,7 +575,7 @@ Ce projet est sous licence MIT – voir le fichier [license](license) pour plus 
 
 ## L'équipe Palworld
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+people+behind+the+magic;Meet+the+team;Built+with+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=Les%2Bgens%2Bderri%C3%A8re%2Bla%2Bmagie%3BRencontrer%2Bl%27%C3%A9quipe%3BConstruit%2Bavec%2Bpassion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -602,7 +602,7 @@ Ce projet n'existerait pas sans les personnes qui le soutiennent.
 
 ## Remerciements
 
-<img src="https://readme-typing-svg.demolab.com?lines=Where+credit+is+due;Thank+you+all;We+stand+on+shoulders&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=O%C3%B9%2Ble%2Bcr%C3%A9dit%2Best%2Bd%C3%BB%3BMerci%2B%C3%A0%2Btous%3BNous%20%2B%20nous%20tenons%20%2B%20sur%20%2B%20les%20%C3%A9paules&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## 概要
 
-<img src="https://readme-typing-svg.demolab.com?lines=What+exactly+is+this+thing%3F;Your+save%2C+your+way;One+tool+to+rule+them+all&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E3%81%93%E3%82%8C%E3%81%A8%E3%81%AF%2B%E6%AD%A3%E7%A2%BA%E3%81%AB%E3%81%AF%2B%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B%3F%3B%E3%81%82%E3%81%AA%E3%81%9F%2B%E4%BF%9D%E5%AD%98%E3%80%81%2B%E3%81%82%E3%81%AA%E3%81%9F%2B%E6%96%B9%E6%B3%95%3B1%20%E3%81%A4%2B%E3%83%84%E3%83%BC%E3%83%AB%2Bto%2B%E3%83%AB%E3%83%BC%E3%83%AB%2B%E3%81%9D%E3%82%8C%E3%82%89%2B%E3%81%99%E3%81%B9%E3%81%A6&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -82,7 +82,7 @@ Palworld Save Tools (PST) は、Palworld セーブ ファイルを検査およ�
 
 ## 特徴
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+good+stuff;Check+it+out;Packed+with+tools&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%2B%E8%89%AF%E3%81%84%E3%82%82%E3%81%AE%2B%E3%82%82%E3%81%AE%3B%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%2B%E3%82%A4%E3%83%83%E3%83%88%2B%E3%82%A2%E3%82%A6%E3%83%88%3B%E6%A2%B1%E5%8C%85%2B%E4%BB%98%E5%B1%9E%2B%E3%83%84%E3%83%BC%E3%83%AB&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -196,7 +196,7 @@ Palworld Save Tools (PST) は、Palworld セーブ ファイルを検査およ�
 
 ## インストール
 
-<img src="https://readme-typing-svg.demolab.com?lines=Get+it+running+in+minutes;Download+and+go;No+setup+required&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E6%95%B0%E5%88%86%E3%81%A7%E3%81%99%E3%81%90%E3%81%AB%E5%AE%9F%E8%A1%8C%E5%8F%AF%E8%83%BD%3B%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%81%97%E3%81%A6%E3%81%8B%E3%82%89%E5%AE%9F%E8%A1%8C%3B%E3%81%84%E3%81%84%E3%81%88%2B%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97%2B%E5%BF%85%E9%A0%88&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -254,7 +254,7 @@ start.cmd
 
 ## クイックスタート
 
-<img src="https://readme-typing-svg.demolab.com?lines=Load.+Edit.+Save.+That+simple.;Three+steps+to+glory;It%27s+that+easy&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%2B%E7%B7%A8%E9%9B%86%2B%E4%BF%9D%E5%AD%98%2B%E3%81%9D%E3%82%8C%E3%81%A0%E3%81%91%2B%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%80%82%3B3%2B%E3%82%B9%E3%83%86%E3%83%83%E3%83%97%2Bto%2B%E6%A0%84%E5%85%89%3B%E3%81%9D%E3%82%8C%E3%81%AF%2B%E3%81%9D%E3%82%8C%2B%E7%B0%A1%E5%8D%98%E3%81%A7%E3%81%99&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -288,7 +288,7 @@ start.cmd
 
 ## ガイド
 
-<img src="https://readme-typing-svg.demolab.com?lines=Step-by-step+walkthroughs;Follow+the+guide;We%27ll+show+you+how&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E3%82%B9%E3%83%86%E3%83%83%E3%83%97%E3%83%90%E3%82%A4%E3%82%B9%E3%83%86%E3%83%83%E3%83%97%2B%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%AF%E3%82%B9%E3%83%AB%E3%83%BC%3B%2B%E3%82%AC%E3%82%A4%E3%83%89%E3%81%AB%E5%BE%93%E3%81%A3%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%3B%E7%A7%81%E3%81%9F%E3%81%A1%E3%81%8C%2B%E3%81%8A%E8%A6%8B%E3%81%9B%E3%81%97%E3%81%BE%E3%81%99%2B%E3%81%9D%E3%81%AE%E6%96%B9%E6%B3%95&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ PST では、セーブ用にマップ全体 (すべてのファストトラベ�
 
 ## トラブルシューティング
 
-<img src="https://readme-typing-svg.demolab.com?lines=When+things+go+sideways;Don%27t+panic;We%27ve+seen+it+all&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E3%81%84%E3%81%A4%2B%E7%89%A9%E4%BA%8B%2B%E8%A1%8C%E3%81%8F%2B%E6%A8%AA%E5%90%91%E3%81%8D%3B%E3%83%91%E3%83%8B%E3%83%83%E3%82%AF%E3%81%AB%E3%81%AA%E3%82%89%E3%81%AA%E3%81%84%E3%81%A7%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%3B%E7%A7%81%E3%81%9F%E3%81%A1%E3%81%AF%2B%E8%A6%8B%E3%81%9F%2B%E3%81%9D%E3%82%8C%2B%E3%81%99%E3%81%B9%E3%81%A6&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ PST では、セーブ用にマップ全体 (すべてのファストトラベ�
 
 ## ソースからのビルド
 
-<img src="https://readme-typing-svg.demolab.com?lines=Compile+it+yourself;Build+your+own;From+source+to+binary&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%AB%2B%E3%81%9D%E3%82%8C%2B%E8%87%AA%E5%88%86%E8%87%AA%E8%BA%AB%3B%2B%E3%81%82%E3%81%AA%E3%81%9F%E8%87%AA%E8%BA%AB%2B%E7%8B%AC%E8%87%AA%E3%81%AE%E3%82%82%E3%81%AE%E3%82%92%E6%A7%8B%E7%AF%89%3BFrom%2B%E3%82%BD%E3%83%BC%E3%82%B9%2Bto%2B%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## 貢献する
 
-<img src="https://readme-typing-svg.demolab.com?lines=Want+to+help%3F+Here%27s+how;Join+the+team;Every+contribution+counts&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E5%8A%A9%E3%81%91%E3%81%9F%E3%81%84%2B%E3%81%97%E3%81%9F%E3%81%84%3F%2B%E6%96%B9%E6%B3%95%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%3B%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AB%E5%8F%82%E5%8A%A0%E3%81%99%E3%82%8B%3B%E3%81%99%E3%81%B9%E3%81%A6%20%2B%20%E8%B2%A2%E7%8C%AE%20%2B%20%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ uv run python build/build_interactively.py
 
 ## 免責事項
 
-<img src="https://readme-typing-svg.demolab.com?lines=Read+this+before+you+break+something;You%27ve+been+warned;Backup+first%21;With+great+power...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E8%AA%AD%E3%82%93%E3%81%A7%2B%E3%81%93%E3%82%8C%2B%E5%89%8D%2B%E3%81%82%E3%81%AA%E3%81%9F%2B%E4%BC%91%E6%86%A9%2B%E4%BD%95%E3%81%8B%3B%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AF%2B%E8%AD%A6%E5%91%8A%E3%81%95%E3%82%8C%E3%81%BE%E3%81%97%E3%81%9F%2B%3B%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%2B%E3%83%95%E3%82%A1%E3%83%BC%E3%82%B9%E3%83%88%21%3B%2B%E5%81%89%E5%A4%A7%E3%81%AA%2B%E5%8A%9B%E3%81%A7...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **このツールはご自身の責任で使用してください。変更を加える前に、必ず保存ファイルをバックアップしてください。**
@@ -535,7 +535,7 @@ uv run python build/build_interactively.py
 
 ## サポート
 
-<img src="https://readme-typing-svg.demolab.com?lines=We%27ve+got+your+back;Need+help%3F;We%27re+here+for+you&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E7%A7%81%E3%81%9F%E3%81%A1%E3%81%AF%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AE%2B%E3%82%92%2B%E6%8C%81%E3%81%A3%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%2B%3B%2B%E5%8A%A9%E3%81%91%E3%81%8C%E5%BF%85%E8%A6%81%E3%81%A7%E3%81%99%E3%81%8B%3F%3B%E7%A7%81%E3%81%9F%E3%81%A1%E3%81%AF%2B%E3%81%93%E3%81%93%E3%81%AB%2B%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB%2B%E3%81%84%E3%81%BE%E3%81%99&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ uv run python build/build_interactively.py
 
 ## ライセンス
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+do+whatever+you+want;Free+as+in+beer;Open+source%2C+open+mind&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT%2B%E2%80%94%2Bdo%2Bwhatever%2Byou%2Bwant%3B%E7%84%A1%E6%96%99%2B%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%2B%E4%B8%AD%2B%E3%83%93%E3%83%BC%E3%83%AB%3B%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%2B%E3%82%BD%E3%83%BC%E3%82%B9%E3%80%81%2B%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%2B%E3%83%9E%E3%82%A4%E3%83%B3%E3%83%89&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,7 +575,7 @@ uv run python build/build_interactively.py
 
 ## パルワールドチーム
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+people+behind+the+magic;Meet+the+team;Built+with+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%E3%82%B6%2B%E4%BA%BA%E3%80%85%2B%E8%83%8C%E5%BE%8C%2B%E3%82%B6%2B%E9%AD%94%E6%B3%95%3B%2B%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AB%E4%BC%9A%E3%81%86%3B%2B%E6%83%85%E7%86%B1%E3%82%92%E6%8C%81%E3%81%A3%E3%81%A6%E6%A7%8B%E7%AF%89%E3%81%95%E3%82%8C%E3%81%9F&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -602,7 +602,7 @@ uv run python build/build_interactively.py
 
 ## 謝辞
 
-<img src="https://readme-typing-svg.demolab.com?lines=Where+credit+is+due;Thank+you+all;We+stand+on+shoulders&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%2B%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%2B%E3%81%AE%2B%E6%9C%9F%E9%99%90%E3%81%AF%E3%81%A9%E3%81%93%E3%81%A7%E3%81%99%E3%81%8B%3B%E3%81%82%E3%82%8A%E3%81%8C%E3%81%A8%E3%81%86%2B%E3%81%82%E3%82%8A%E3%81%8C%E3%81%A8%E3%81%86%2B%E3%81%BF%E3%82%93%E3%81%AA%3B%E7%A7%81%E3%81%9F%E3%81%A1%2B%E7%AB%8B%E3%81%A4%2B%E8%82%A9%E3%81%AE%E4%B8%8A%E3%81%AB%E7%AB%8B%E3%81%A4&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

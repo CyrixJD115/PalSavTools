@@ -1,6 +1,7 @@
 import re
 import os
 import time
+import urllib.parse
 from pathlib import Path
 from typing import List, Tuple, Optional, Dict
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -204,6 +205,35 @@ def safe_print(*args, **kwargs):
                     print(str(arg).encode('utf-8', errors='ignore').decode('utf-8'), **kwargs)
                 except:
                     print('[Unicode Error]', **kwargs)
+def translate_typing_svgs(body: str, target_lang: str) -> str:
+    TYPING_SVG_RE = re.compile(
+        r'(<img src="https://readme-typing-svg\.demolab\.com\?lines=)([^"&]+)(&[^>]*/>)'
+    )
+    all_lines = set()
+    for m in TYPING_SVG_RE.finditer(body):
+        decoded = urllib.parse.unquote(m.group(2))
+        for line in decoded.split(';'):
+            all_lines.add(line.strip())
+    if not all_lines:
+        return body
+    sorted_lines = sorted(all_lines)
+    translator = GoogleTranslator(source='en', target=target_lang)
+    batch = '\n'.join(sorted_lines)
+    translated_batch = translator.translate(batch)
+    translated_lines = translated_batch.split('\n')
+    mapping = dict(zip(sorted_lines, translated_lines))
+    for original in sorted_lines:
+        mapping.setdefault(original, original)
+    def replace_svg(m):
+        prefix = m.group(1)
+        suffix = m.group(3)
+        decoded = urllib.parse.unquote(m.group(2))
+        lines = decoded.split(';')
+        translated = [mapping.get(line.strip()) or line.strip() for line in lines]
+        new_param = urllib.parse.quote(';'.join(translated))
+        return f'{prefix}{new_param}{suffix}'
+    return TYPING_SVG_RE.sub(replace_svg, body)
+
 def translate_readme(target_lang_code: str, target_file_code: str, lang_name: str, quiet: bool=False):
     if not quiet:
         safe_print(f"\n{'=' * 50}")
@@ -214,6 +244,7 @@ def translate_readme(target_lang_code: str, target_file_code: str, lang_name: st
     translations = TRANSLATIONS.get(target_file_code, {})
     header = HEADER_SECTION.format(title=translations.get('title', 'A comprehensive save file editing toolkit for Palworld'), download_text=translations.get('download_text', 'Download the standalone version from'), download_link=translations.get('download_link', ''))
     body_content = extract_content_after_header(content)
+    body_content = translate_typing_svgs(body_content, target_lang_code)
     pm = PlaceholderManager()
     protected = protect_code_blocks(body_content, pm)
     protected = protect_inline_code(protected, pm)

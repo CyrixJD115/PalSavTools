@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 
@@ -24,7 +24,7 @@
 
 ## Обзор
 
-<img src="https://readme-typing-svg.demolab.com?lines=What+exactly+is+this+thing%3F;Your+save%2C+your+way;One+tool+to+rule+them+all&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%A7%D1%82%D0%BE%2B%D1%82%D0%BE%D1%87%D0%BD%D0%BE%2B%D1%8D%D1%82%D0%BE%2B%D1%8D%D1%82%D0%B0%2B%D0%B2%D0%B5%D1%89%D1%8C%3F%3B%D0%92%D0%B0%D1%88%D0%B5%2B%D1%81%D0%BF%D0%B0%D1%81%D0%B5%D0%BD%D0%B8%D0%B5%2C%2B%D0%B2%D0%B0%D1%88%2B%D0%BF%D1%83%D1%82%D1%8C%3B%D0%9E%D0%B4%D0%B8%D0%BD%2B%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%2B%D1%87%D1%82%D0%BE%D0%B1%D1%8B%2B%D0%BF%D1%80%D0%B0%D0%B2%D0%B8%D1%82%D1%8C%2B%D0%BD%D0%B8%D0%BC%D0%B8%2B%D0%B2%D1%81%D0%B5%D0%BC%D0%B8&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -82,7 +82,7 @@ Palworld Save Tools (PST) — это быстрое универсальное �
 
 ## Особенности
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+good+stuff;Check+it+out;Packed+with+tools&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%2B%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B8%D0%B5%2B%D0%B2%D0%B5%D1%89%D0%B8%3B%D0%92%D1%8B%D0%B5%D0%B7%D0%B4%2B%D1%8D%D1%82%D0%BE%2B%D0%B2%D1%8B%D0%B5%D0%B7%D0%B4%3B%D0%A3%D0%BF%D0%B0%D0%BA%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%2B%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D0%BC%D0%B8&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -196,7 +196,7 @@ Palworld Save Tools (PST) — это быстрое универсальное �
 
 ## Установка
 
-<img src="https://readme-typing-svg.demolab.com?lines=Get+it+running+in+minutes;Download+and+go;No+setup+required&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9F%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D0%B5%2B%D1%8D%D1%82%D0%BE%2B%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%2B%D0%B7%D0%B0%2B%D0%BC%D0%B8%D0%BD%D1%83%D1%82%D1%8B%3B%D0%A1%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C%2B%D0%B8%2B%D0%B8%D0%B4%D1%82%D0%B8%3B%D0%9D%D0%B5%D1%82%2B%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8%2B%D1%82%D1%80%D0%B5%D0%B1%D1%83%D0%B5%D1%82%D1%81%D1%8F&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -254,7 +254,7 @@ start.cmd
 
 ## Быстрый старт
 
-<img src="https://readme-typing-svg.demolab.com?lines=Load.+Edit.+Save.+That+simple.;Three+steps+to+glory;It%27s+that+easy&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%B8%D1%82%D1%8C.%2B%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C.%2B%D0%A1%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D1%82%D1%8C.%2B%D0%AD%D1%82%D0%BE%2B%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE.%3B%D0%A2%D1%80%D0%B8%2B%D1%88%D0%B0%D0%B3%D0%B0%2B%D0%BA%2B%D1%81%D0%BB%D0%B0%D0%B2%D0%B5%3B%D0%AD%D1%82%D0%BE%2B%D1%8D%D1%82%D0%BE%2B%D0%BB%D0%B5%D0%B3%D0%BA%D0%BE&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -288,7 +288,7 @@ start.cmd
 
 ## Руководства
 
-<img src="https://readme-typing-svg.demolab.com?lines=Step-by-step+walkthroughs;Follow+the+guide;We%27ll+show+you+how&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9F%D0%BE%D1%88%D0%B0%D0%B3%D0%BE%D0%B2%D1%8B%D0%B5%20%2B%20%D0%BF%D0%BE%D1%88%D0%B0%D0%B3%D0%BE%D0%B2%D1%8B%D0%B5%20%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%B0%3B%D0%A1%D0%BB%D0%B5%D0%B4%D1%83%D0%B9%D1%82%D0%B5%2B%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D1%83%3B%D0%9C%D1%8B%2B%D0%BF%D0%BE%D0%BA%D0%B0%D0%B6%D0%B5%D0%BC%2B%D1%82%D0%B5%D0%B1%D0%B5%2B%D0%BA%D0%B0%D0%BA&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -399,7 +399,7 @@ PST может разблокировать полную карту (все то
 
 ## Устранение неполадок
 
-<img src="https://readme-typing-svg.demolab.com?lines=When+things+go+sideways;Don%27t+panic;We%27ve+seen+it+all&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9A%D0%BE%D0%B3%D0%B4%D0%B0%2B%D0%B2%D0%B5%D1%89%D0%B8%2B%D0%B8%D0%B4%D1%83%D1%82%2B%D0%B1%D0%BE%D0%BA%D0%BE%D0%BC%3B%D0%9D%D0%B5%2B%D0%BF%D0%B0%D0%BD%D0%B8%D0%BA%D0%B0%3B%D0%9C%D1%8B%2B%D0%B2%D0%B8%D0%B4%D0%B5%D0%BB%D0%B8%2B%D1%8D%D1%82%D0%BE%2B%D0%B2%D1%81%D0%B5&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -436,7 +436,7 @@ PST может разблокировать полную карту (все то
 
 ## Сборка из исходного кода
 
-<img src="https://readme-typing-svg.demolab.com?lines=Compile+it+yourself;Build+your+own;From+source+to+binary&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%A1%D0%BA%D0%BE%D0%BC%D0%BF%D0%B8%D0%BB%D0%B8%D1%80%D1%83%D0%B9%D1%82%D0%B5%2B%D1%81%D0%B0%D0%BC%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%3B%D0%9F%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B9%2B%D1%81%D0%B2%D0%BE%D0%B9%2B%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%3B%D0%98%D0%B7%2B%D0%B8%D1%81%D1%85%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE%2B%D0%B2%2B%D0%B4%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D1%84%D0%B0%D0%B9%D0%BB&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -490,7 +490,7 @@ uv run python build/build_interactively.py
 
 ## Вклад
 
-<img src="https://readme-typing-svg.demolab.com?lines=Want+to+help%3F+Here%27s+how;Join+the+team;Every+contribution+counts&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%A5%D0%BE%D1%82%D0%B8%D1%82%D0%B5%2B%D0%BF%D0%BE%D0%BC%D0%BE%D1%87%D1%8C%3F%2B%D0%92%D0%BE%D1%82%2B%D0%BA%D0%B0%D0%BA%3B%D0%9F%D1%80%D0%B8%D1%81%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D1%8F%D0%B9%D1%82%D0%B5%D1%81%D1%8C%2B%D0%BA%2B%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B5%3B%D0%9A%D0%B0%D0%B6%D0%B4%D1%8B%D0%B9%2B%D0%B2%D0%BA%D0%BB%D0%B0%D0%B4%2B%D0%B2%D0%B0%D0%B6%D0%B5%D0%BD&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -515,7 +515,7 @@ uv run python build/build_interactively.py
 
 ## Отказ от ответственности
 
-<img src="https://readme-typing-svg.demolab.com?lines=Read+this+before+you+break+something;You%27ve+been+warned;Backup+first%21;With+great+power...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9F%D1%80%D0%BE%D1%87%D1%82%D0%B8%D1%82%D0%B5%2B%D1%8D%D1%82%D0%BE%2B%D0%BF%D1%80%D0%B5%D0%B6%D0%B4%D0%B5%20%D1%87%D0%B5%D0%BC%2B%D0%B2%D1%8B%2B%D1%81%D0%BB%D0%BE%D0%BC%D0%B0%D0%B5%D1%82%D0%B5%2B%D1%87%D1%82%D0%BE-%D0%BD%D0%B8%D0%B1%D1%83%D0%B4%D1%8C%3B%D0%92%D0%B0%D1%81%2B%D0%BF%D1%80%D0%B5%D0%B4%D1%83%D0%BF%D1%80%D0%B5%D0%B4%D0%B8%D0%BB%D0%B8%2B%D0%BF%D1%80%D0%B5%D0%B4%D1%83%D0%BF%D1%80%D0%B5%D0%B4%D0%B8%D0%BB%D0%B8%3B%D0%91%D1%8D%D0%BA%D0%B0%D0%BF%2B%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%21%3B%D0%A1%2B%D0%B2%D0%B5%D0%BB%D0%B8%D0%BA%D0%BE%D0%B9%2B%D1%81%D0%B8%D0%BB%D0%BE%D0%B9...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 **Используйте этот инструмент на свой страх и риск. Всегда создавайте резервные копии файлов сохранения перед внесением каких-либо изменений.**
@@ -535,7 +535,7 @@ uv run python build/build_interactively.py
 
 ## Поддержка
 
-<img src="https://readme-typing-svg.demolab.com?lines=We%27ve+got+your+back;Need+help%3F;We%27re+here+for+you&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9C%D1%8B%2B%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D0%BB%D0%B8%2B%D0%B2%D0%B0%D1%88%D1%83%2B%D1%81%D0%BF%D0%B8%D0%BD%D1%83%3B%D0%9D%D1%83%D0%B6%D0%BD%D0%B0%2B%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%3F%3B%D0%9C%D1%8B%2B%D0%B7%D0%B4%D0%B5%D1%81%D1%8C%2B%D0%B4%D0%BB%D1%8F%2B%D0%B2%D0%B0%D1%81&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -556,7 +556,7 @@ uv run python build/build_interactively.py
 
 ## Лицензия
 
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+do+whatever+you+want;Free+as+in+beer;Open+source%2C+open+mind&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=MIT%2B%E2%80%94%2B%D0%B4%D0%B5%D0%BB%D0%B0%D0%B9%2B%D0%B2%D1%81%D0%B5%2C%20%D1%87%D1%82%D0%BE%2B%D1%85%D0%BE%D1%87%D0%B5%D1%88%D1%8C%2B%3B%D0%91%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%BE%2B%D0%BA%D0%B0%D0%BA%2B%D0%B2%2B%D0%BF%D0%B8%D0%B2%D0%B5%3B%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9%2B%D0%B8%D1%81%D1%85%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D0%B4%2C%2B%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9%2B%D1%80%D0%B0%D0%B7%D1%83%D0%BC&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -575,7 +575,7 @@ uv run python build/build_interactively.py
 
 ## Команда Palworld
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+people+behind+the+magic;Meet+the+team;Built+with+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%9B%D1%8E%D0%B4%D0%B8%2B%D0%B7%D0%B0%2B%D0%BC%D0%B0%D0%B3%D0%B8%D0%B5%D0%B9%3B%D0%9F%D0%BE%D0%B7%D0%BD%D0%B0%D0%BA%D0%BE%D0%BC%D1%8C%D1%82%D0%B5%D1%81%D1%8C%2B%D1%81%2B%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BE%D0%B9%3B%D0%9F%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%2B%D1%81%2B%D1%81%D1%82%D1%80%D0%B0%D1%81%D1%82%D1%8C%D1%8E&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 
@@ -602,7 +602,7 @@ uv run python build/build_interactively.py
 
 ## Благодарности
 
-<img src="https://readme-typing-svg.demolab.com?lines=Where+credit+is+due;Thank+you+all;We+stand+on+shoulders&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+<img src="https://readme-typing-svg.demolab.com?lines=%D0%93%D0%B4%D0%B5%2B%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%2B%D0%B4%D0%BE%D0%BB%D0%B6%D0%B5%D0%BD%2B%D0%BF%D1%80%D0%B8%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C%D1%81%D1%8F%3B%D0%A1%D0%BF%D0%B0%D1%81%D0%B8%D0%B1%D0%BE%2B%D0%B2%D0%B0%D0%BC%2B%D0%B2%D1%81%D0%B5%D0%BC%3B%D0%9C%D1%8B%2B%D1%81%D1%82%D0%BE%D0%B8%D0%BC%2B%D0%BD%D0%B0%2B%D0%BF%D0%BB%D0%B5%D1%87%D0%B0%D1%85&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
 
 </div>
 

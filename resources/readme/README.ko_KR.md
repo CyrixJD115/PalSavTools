@@ -581,16 +581,25 @@ uv run python build/build_interactively.py
 
 이 프로젝트는 뒤에 있는 사람들이 없었다면 존재하지 않았을 것입니다.
 
-**[Pylar](https://github.com/deafdudecomputers)** — 모든 것을 시작한 사람. 이 도구의 모든 라인은 저장 엔진, GUI 및 매일 사용하는 기능에 대한 그의 비전과 끊임없는 작업으로 거슬러 올라갑니다.
 
-**[cyrix](https://github.com/CyrixJD115)** — 리팩터러 및 하위 유지관리자. 코드 품질, 단순화 및 구조적 개선에 중점을 두고 프로젝트가 성장함에 따라 코드베이스를 깔끔하고 작게 유지하고 유지 관리하기 쉽게 만듭니다.
+### Active Maintainers
 
-**[dkoz](https://github.com/dkoz)** — ID 뒤에 있는 남자. 게임 데이터 ID, ID 코드에 대한 구조적 통찰력, 모든 게임 업데이트에서 도구의 정확성을 유지하기 위해 Palworld의 데이터가 어떻게 연결되어 있는지에 대한 깊은 지식을 제공합니다.
+**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — 이 프로젝트가 분기된 원본 저장 파서를 제공했습니다. Palworld 저장 형식을 해독하는 그의 기초적인 작업이 없었다면 이 중 어떤 것도 존재하지 않았을 것입니다. 포크는 파서를 오늘날의 PST로 간소화하고 단순화했습니다.
+**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
 
+### Contributors
+
+**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+
+**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
 
 **[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
+
+
+
+
+
 
 
 

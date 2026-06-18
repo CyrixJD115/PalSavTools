@@ -581,16 +581,25 @@ Ce projet est sous licence MIT – voir le fichier [license](license) pour plus 
 
 Ce projet n'existerait pas sans les personnes qui le soutiennent.
 
-**[Pylar](https://github.com/deafdudecomputers)** — L'homme qui a tout déclenché. Chaque ligne de cet outil remonte à sa vision et à son travail acharné sur le moteur de sauvegarde, l'interface graphique et les fonctionnalités que vous utilisez quotidiennement.
 
-**[cyrix](https://github.com/CyrixJD115)** — Refactoriste et sous-responsable. Axé sur la qualité du code, la simplification et les améliorations structurelles, en gardant la base de code propre, plus petite et plus facile à maintenir à mesure que le projet se développe.
+### Active Maintainers
 
-**[dkoz](https://github.com/dkoz)** — L'homme derrière les pièces d'identité. Fournit des identifiants de données de jeu, un aperçu structurel des codes d'identification et une connaissance approfondie de la manière dont les données de Palworld sont reliées entre elles, ce qui garantit la précision de l'outil à chaque mise à jour du jeu.
+**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
 
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Fourni l'analyseur de sauvegarde d'origine à partir duquel ce projet est issu. Sans son travail fondamental sur le piratage du format de sauvegarde Palworld, rien de tout cela n’existerait. Le fork a rationalisé et simplifié son analyseur pour en faire ce qu'est PST aujourd'hui.
+**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
 
+### Contributors
+
+**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
+
+**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
 
 **[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
+
+
+
+
+
 
 
 

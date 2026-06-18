@@ -58,3 +58,13 @@ Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting P
 - Roundtrip fidelity: trailing/unknown bytes captured verbatim via `trailing_unknown_bytes`
 - No DnD in pal editor (pal transfer = delete + create)
 - Structural audit runs every pytest session (checks file pairing, import graph, resource paths)
+
+## README Translation (`scripts/scrs/translate_readme.py`)
+After editing `README.md` (esp. adding/renaming sections), **re-run** the script to regenerate all 7 translated files:
+```
+python scripts/scrs/translate_readme.py all
+```
+Key gotchas if translations appear broken:
+- **Stale files, not script bug** — check if the source README changed before assuming the script is wrong. Regenerate first.
+- **Logo/asset paths in `HEADER_SECTION`** — must be relative to `resources/readme/` (i.e. `../assets/branding/...`), not root-level. The English `README.md` lives at repo root and uses `resources/assets/branding/...`; the translated copies live one level deeper at `resources/readme/README.xx_XX.md`.
+- **Team section content** — the script auto-translates the whole body, including The Palworld Team subheadings and bios. If they're in English, the translated files are just stale.

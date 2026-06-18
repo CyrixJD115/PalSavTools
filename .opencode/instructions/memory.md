@@ -43,6 +43,44 @@ Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting P
 - **Two write strategies:** Level.sav deferred (in-memory → explicit Save), player .savs immediate
 - **CLI ≠ GUI divergence:** GUI skips decode for 6 large opaque properties (foliage, map-object transforms)
 
+## Pal Editor — Bulk & Mass Actions (Jun 17 session)
+### Context Menu (`editor/edit_pals.py`, `ui/tabs/base_inventory_tab.py`)
+- `build_pal_context_menu` → `ScrollableContextMenu` (scrollable, gradient bg, border-radius 6px, QGraphicsDropShadowEffect)
+- Keys dispatched via string-key `popup.exec_()` → `elif` chain in `contextMenuEvent` + `_on_slot_right_clicked` / `_on_pal_right_clicked`
+
+### Clone Pal (`_clone_pal` in `editor/edit_pals.py`)
+- Uses `_generate_pal_save_param` skeleton (same as add pal) → fresh `InstanceId`, correct `OwnerPlayerUId`, guild registration
+- Then copies ALL source fields into skeleton via `for field in source_raw:` (skips `SlotId`/`OwnerPlayerUId`)
+- Guild lookup uses `self.player_uid`, not source pal's owner
+- Base pals clone (`base_inventory_tab.py` `elif action == 'clone'`) uses `copy.deepcopy` directly
+
+### Bulk Operations (`_bulk_rename_pal`, `_bulk_feed_pal`, `_bulk_heal_pal`)
+- `_gather_same_species_items(sender)` collects all same-species pals (party + palbox) by `CharacterID` (strips `boss_` prefix)
+- `FramelessDialog` + `QScrollArea` + checkbox list per pal
+- `_bulk_feed_pal`: `FullStomach→max`, `SanityValue→100`, clears `WorkerSick`/`PhysicalHealth`/`HungerType`/`FoodWithStatusEffect`/`Tiemr_FoodWithStatusEffect`/`FoodRegeneEffectInfo`
+- `_bulk_heal_pal`: same + HP restore to max (via `calculate_max_hp`)
+
+### Restore All / Max All Buttons
+- **edit_pals.py**: Two buttons in palbox header (right of stretch, before ◀▶). Apply to party + current palbox page.
+- **base_inventory_tab.py**: Two buttons in page_row (leftmost, before ◀▶). Apply to all base worker pals.
+- Both methods clear selection highlight + show No Pal Data after operation.
+- Button text refreshed via `refresh_labels()`.
+- Visibility toggled in show/hide blocks.
+- **Restore All**: HP/FullStomach/SanityValue restore + sickness cleanup.
+- **Max All**: Talents(100)/Ranks(20)/Condenser(5)/Friendship(200k)/Awakening/Level 80/Work Suitabilities(10).
+- Uses `_set_work_suitability` for work suitability maxing.
+
+### i18n Key Pattern
+- Bulk: `edit_pals.bulk_heal_desc`, `edit_pals.restore_all`/`_confirm`/`_success`, `edit_pals.max_all`/`_confirm`/`_success`
+- Base: `base_inventory.restore_all`/`_confirm`/`_success`, `base_inventory.max_all`/`_confirm`/`_success`
+- Script at `scripts/scrs/add_translation_keys.py` — add keys to `NEW_TRANSLATIONS` dict, then run
+
+### Selection Highlight Gotchas
+- `_BasePalIcon._build()` saves `was_selected = self.selected` at start, re-applies `slot_selected` at end if True
+- Simply setting `_selected_idx = -1` does NOT clear the visual highlight
+- Must call `widget.set_selected(False)` on the old widget BEFORE any `_rebuild()` or `update_display()`
+- Same pattern in edit_pals.py: `_clear_party_highlight()` + `_clear_palbox_highlight()` before `set_clicked_pal(None)`
+
 ## Booth (ItemBooth / PalBooth) Inventory
 - Booths stored in Level.sav `PalMapObjectConcreteModelSaveData`. ItemBooth → `RawData.trade_infos`, PalBooth → `CharacterContainerSaveData`.
 - ItemBooth deletion: `_remove_item_from_slot` detects `booth_type` → `del` from `trade_infos` list ref (shared via removed `list()` copy in `get_booth_item_contents()`).

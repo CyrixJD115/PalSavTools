@@ -1,6 +1,6 @@
 <div align="center">
 
-![PalworldSaveTools Logo](../PalworldSaveTools_Blue.png)
+![PalworldSaveTools Logo](../assets/branding/PalworldSaveTools_Blue.png)
 
 # PalworldSaveTools
 

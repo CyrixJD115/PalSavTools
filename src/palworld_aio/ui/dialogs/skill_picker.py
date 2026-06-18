@@ -5,8 +5,8 @@ from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QLinearGradient, QIcon
 from PySide6.QtWidgets import QStyle
 from i18n import t
 from palworld_aio import constants as palworld_constants
-import palworld_aio.editor.edit_pals as _ep
-from palworld_aio.editor.edit_pals import _get_cached_pixmap, _get_element_pixmap, _ensure_skill_data, _ensure_passive_data, _clean_desc_for_tooltip
+import palworld_aio.editor.pal_editor as _ep
+from palworld_aio.editor.pal_editor import _get_cached_pixmap, _get_element_pixmap, _ensure_skill_data, _ensure_passive_data, _clean_desc_for_tooltip
 import palworld_aio.managers.data_manager as dm
 from palworld_aio.ui.chrome.styles import PICKER_BG_STYLE, PICKER_SEARCH_STYLE, PICKER_LIST_STYLE
 from resource_resolver import resource_path

@@ -27,8 +27,8 @@ class PalInfoHandlerMixin:
             if obj is self.name_lbl:
                 self._on_name_click()
                 return True
-            if obj is self.star_container:
-                self._on_star_click()
+            if hasattr(obj, '_star_idx'):
+                self._on_star_click(obj._star_idx)
                 return True
             if obj is self.level_num_lbl:
                 self._on_level_click()
@@ -78,14 +78,14 @@ class PalInfoHandlerMixin:
         self._raw['Gender'] = {'id': None, 'type': 'EnumProperty', 'value': {'type': 'EPalGenderType', 'value': new}}
         self._refresh()
 
-    def _on_star_click(self):
+    def _on_star_click(self, star_idx):
         if not self._raw:
             return
         cur = int(extract_value(self._raw, 'Rank', 0))
-        use_shiny = self.info_boss_btn.isChecked()
-        use_lucky = self.info_lucky_btn.isChecked()
-        rank_raw = max(0, min(10, cur + 1 if cur < 10 else 0))
-        self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': rank_raw}}
+        new_r = star_idx + 1
+        if new_r == cur:
+            new_r = 0
+        self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': new_r}}
         self._recalc_hp()
         self._refresh()
 

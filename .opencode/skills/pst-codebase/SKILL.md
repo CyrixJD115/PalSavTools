@@ -45,7 +45,7 @@ src/
       inventory_manager, base_inventory_manager, standardized_container,
       dynamic_item_manager, dynamic_item, container_ownership
     editor/             # ★ pal + world editing engine
-      edit_pals (5454 LOC), dialogs, worldoption_editor
+      pal_editor/ (17 modules + shim, partitioned from edit_pals.py), dialogs, worldoption_editor
     map/                # map generation
       map_generator
     ui/                 # views (sub-organized)
@@ -101,7 +101,7 @@ Commands (run from repo root, venv active):
 Test layout: `tests/unit/{core_logic,palsav_core,palworld_aio_tests,scripts}`, `tests/integration/{test_imports,test_palworld_save,test_resource_integrity}`.
 
 ## Repo composition (measured)
-~2900 tracked files, but 2467 are in `resources/game_data` (mostly 2470 .webp icons — pals/npcs/items/passives/structures/technologies/elements/ui). Real source: 213 files in src/, 35 tests, 31 scripts. Total Python LOC ~50,643. Heaviest files: edit_pals.py (5454), func_manager.py (2657), base_inventory_tab.py (2606), update_game_data.py (2362), inventory_tab.py (2203), main_window.py (2144), map_tab.py (1916). palsav engine (archive.py 809) is dwarfed by the GUI layer.
+~2900 tracked files, but 2467 are in `resources/game_data` (mostly 2470 .webp icons — pals/npcs/items/passives/structures/technologies/elements/ui). Real source: 213 files in src/, 35 tests, 31 scripts. Total Python LOC ~50,643. Heaviest files:       pal_editor/ (partitioned from edit_pals.py, now 17 modules + shim), func_manager.py (2657), base_inventory_tab.py (2606), update_game_data.py (2362), inventory_tab.py (2203), main_window.py (2144), map_tab.py (1916). palsav engine (archive.py 809) is dwarfed by the GUI layer.
 
 ## Structural audit findings (known issues)
 1. **STALE .gitattributes**: references `src/palsav/pyooz/` (deleted in 1e3eff6, renamed to palooz). The 15 SIMDe .h headers now under palooz are NOT marked linguist-vendored → GitHub C++ language stats inflated. Fix: update path to `src/palsav/palooz/ooz/dep/ooz/simde/**`.

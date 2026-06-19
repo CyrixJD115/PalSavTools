@@ -310,7 +310,7 @@ class PalInfoDisplayMixin:
                 self.iv_icon.setPixmap(ivp)
             rank_raw = extract_value(raw, 'Rank', 0)
             rank_int = int(rank_raw) if isinstance(rank_raw, (int, float)) else 0
-            star_count = max(0, rank_int - 1)
+            star_count = max(0, rank_int)
             for i, sl in enumerate(self.star_labels):
                 sl.set_filled(i < star_count)
             if star_count >= 4:

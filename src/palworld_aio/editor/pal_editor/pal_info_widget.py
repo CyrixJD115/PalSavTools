@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt, QEvent, QObject, QPoint, QSize, QTimer, Signal
 from PySide6.QtGui import QFontMetrics, QIcon, QShortcut, QKeySequence
 from i18n import t
 import nerdfont as nf
-from loading_manager import show_information, show_warning, show_question
+
 from palworld_aio import constants
 from resource_resolver import resource_path
 from palworld_aio.utils import extract_value, safe_nested_get, calculate_max_hp, calculate_shot_attack
@@ -19,7 +19,6 @@ from . import icons as _icons
 from .icons import _get_awake_pixmap
 from .widgets import _CircularIcon, _ShinyStar, CornerBracketWidget, GlowRing, PassiveEffectOverlay, PortraitBracketWidget, RotatingCircleWidget
 from .legacy_frame import PalFrame
-from .pal_ops import build_pal_context_menu
 from .pal_info_display import PalInfoDisplayMixin
 from .pal_info_handlers import PalInfoHandlerMixin
 
@@ -325,38 +324,6 @@ class PalInfoWidget(PalInfoDisplayMixin, PalInfoHandlerMixin, QFrame):
         self.exp_header_bar.setStyleSheet('QProgressBar { background: rgba(40,30,40,0.4); border: none; border-radius: 1px; } QProgressBar::chunk { background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #EC4899,stop:1 #F472B6); border-radius: 1px; }')
         header_layout.addWidget(self.exp_header_bar)
         parent.addWidget(header)
-    def _on_portrait_context_menu(self, pos):
-        if not self._raw:
-            return
-        menu = build_pal_context_menu(self, self._raw)
-        key = menu.exec_(self.bracket_wrapper.mapToGlobal(pos))
-        if key is None:
-            return
-        if key == 'boss':
-            self._on_boss_toggle()
-        elif key == 'lucky':
-            self._on_lucky_toggle()
-        elif key == 'awake':
-            self._on_awake_toggle()
-        elif key == 'dna':
-            self._on_dna_toggle()
-        elif key == 'max':
-            self._on_max_click()
-        elif key == 'learn':
-            try:
-                self._learn_all_skills()
-                show_information(self, t('edit_pals.ctx.learn_all_moves'), t('edit_pals.learn_all_success'))
-            except Exception:
-                show_warning(self, t('edit_pals.ctx.learn_all_moves'), t('edit_pals.learn_all_fail'))
-        elif key == 'learned':
-            if self._raw:
-                from .create_dialogs import _show_learned_moves_dialog as _do_show
-                _do_show(self._raw, self)
-        elif key == 'bulk_sync_pal':
-            if self._raw:
-                self._on_bulk_sync_pal()
-        elif key and key.startswith('fav_'):
-            self._on_fav_set(int(key.split('_')[1]))
     def _on_bulk_sync_pal(self):
         if not self._raw:
             return
@@ -388,7 +355,6 @@ class PalInfoWidget(PalInfoDisplayMixin, PalInfoHandlerMixin, QFrame):
         left_layout.setSpacing(2)
         self.star_container = QWidget()
         self.star_container.setCursor(Qt.PointingHandCursor)
-        self.star_container.installEventFilter(self)
         star_layout = QHBoxLayout(self.star_container)
         star_layout.setContentsMargins(0, 0, 0, 0)
         star_layout.setSpacing(1)
@@ -396,6 +362,8 @@ class PalInfoWidget(PalInfoDisplayMixin, PalInfoHandlerMixin, QFrame):
         self.star_labels = []
         for i in range(4):
             sl = _ShinyStar()
+            sl._star_idx = i
+            sl.installEventFilter(self)
             self.star_labels.append(sl)
             star_layout.addWidget(sl)
         self._star_shine_timer = QTimer(self)
@@ -407,8 +375,6 @@ class PalInfoWidget(PalInfoDisplayMixin, PalInfoHandlerMixin, QFrame):
         portrait_frame.setFixedSize(88, 88)
         portrait_frame.setObjectName('portraitGlow')
         portrait_frame.setStyleSheet('QFrame#portraitGlow { background: qradialgradient(cx:0.5,cy:0.5,radius:0.6,fx:0.5,fy:0.5,stop:0 rgba(125,211,252,0.12),stop:0.4 rgba(125,211,252,0.04),stop:1 transparent); border: none; border-radius: 44px; }\nQToolTip { background: rgba(18,20,24,0.98); color: #E2E8F0; border: 1px solid rgba(125,211,252,0.25); border-radius: 6px; padding: 6px 10px; font-size: 11px; }')
-        portrait_frame.setContextMenuPolicy(Qt.CustomContextMenu)
-        portrait_frame.customContextMenuRequested.connect(self._on_portrait_context_menu)
         pf_layout = QVBoxLayout(portrait_frame)
         pf_layout.setContentsMargins(2, 2, 2, 2)
         pf_layout.setAlignment(Qt.AlignCenter)

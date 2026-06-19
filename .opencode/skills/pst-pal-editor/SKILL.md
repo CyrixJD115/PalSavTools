@@ -1,19 +1,63 @@
 ---
 name: pst-pal-editor
-description: The pal editing engine (edit_pals.py, 5454 lines) — pal data model (every SaveParameter field with type-wrapper shapes), editing operations, illegal pal detection, pal generation, container/slot model, game data binding, and the PalEditorWidget UI. Load when editing pal logic, stats, skills, IVs, containers, or illegal detection.
+description: The pal editing engine — pal data model (every SaveParameter field with type-wrapper shapes), editing operations, illegal pal detection, pal generation, container/slot model, game data binding, and the PalEditorWidget UI. Previously the monolithic `edit_pals.py` (5454 lines), now a modular `pal_editor/` package (17 modules + backward-compat `edit_pals.py` shim). Load when editing pal logic, stats, skills, IVs, containers, or illegal detection.
 ---
 
-# PST Pal Editor Engine (edit_pals.py)
+# PST Pal Editor Engine (pal_editor/ subpackage)
+
+Originally a 5454-line monolith (`edit_pals.py`), now a modular package at `src/palworld_aio/editor/pal_editor/` with 17 modules + backward-compat shim (`edit_pals.py` re-exports all public symbols).
+
+## Module structure (17 modules)
+
+| Module | Key contents |
+|---|---|
+| `__init__.py` | Re-exports all public symbols |
+| `data.py` | Data loaders, caches, constants (`_ensure_passive_data`, `_ensure_skill_data`) |
+| `icons.py` | Icons, pixmaps, badges, `_strip_prefix_label` |
+| `pal_ops.py` | Raw-dict mutation functions, `build_pal_context_menu` |
+| `widgets.py` | Self-contained widget classes (`StrokedLabel`, `_ShinyStar`, etc.) |
+| `card_widgets.py` | Pal card grid rendering |
+| `party_slot_widget.py` | Party slot (5 slots) |
+| `palbox_slot_widget.py` | Palbox slot (30 per box) |
+| `pal_info_widget.py` | `PalInfoWidget` — main detailed editor panel |
+| `pal_info_display.py` | PalInfoWidget display mixin (render updates, element colors) |
+| `pal_info_handlers.py` | PalInfoWidget handler mixin (click handlers for all editable fields) |
+| `create_dialogs.py` | `BulkSyncPalDialog`, `PalCreateDialog`, `_show_learned_moves_dialog` |
+| `pal_editor_widget.py` | `PalEditorWidget` — main composition widget |
+| `pal_editor_bulk_ops.py` | `BulkOperationMixin` (batch rename/feed/heal) |
+| `pal_editor_global_ops.py` | Global ops (delete/remove-skill from all pals) |
+| `legacy_frame.py` | `PalFrame` — legacy frame with **global game-data maps** |
+| `edit_pals.py` (shim) | Backward-compat re-exports |
 
 ## Classes (23)
 Key ones:
-- **PalEditorWidget** (4367, QWidget) — main composition: partyPanel (5×PartySlotWidget) + palboxPanel (5×6 grid of 30 PalboxSlotWidget, 32 boxes) + PalInfoWidget. Hotkeys Q/E=box nav, F=focus info.
-- **PalInfoWidget** (2046, QFrame) — THE detailed editor panel. Signal pal_data_changed. All click-edit handlers.
-- **PalIcon** (315) / **PalCardWidget** (516) — grid cells with badges (boss/lucky/awake/dna/fav).
-- **PartySlotWidget** (628) / **PalboxSlotWidget** (947) — slot widgets. Signals: clicked, rightClicked(slot,action), entered, left. Double-click→delete/add.
-- **PalFrame** (5278) — legacy display frame; **holds global game-data maps** (_NAMEMAP, _PASSMAP, _SKILLMAP, _PASSRANK, _PASSFLAGS) via _load_maps(5300).
-- **PalCreateDialog** (5075) — searchable species picker → _generate_pal_save_param → append to save+container+guild.
-- **BulkSyncPalDialog** (4196) — copy _EDITABLE_KEYS from one pal to same-species pals.
+- **PalEditorWidget** (pal_editor_widget.py, QWidget) — main composition: partyPanel (5×PartySlotWidget) + palboxPanel (5×6 grid of 30 PalboxSlotWidget, 32 boxes) + PalInfoWidget. Hotkeys Q/E=box nav, F=focus info.
+- **PalInfoWidget** (pal_info_widget.py, QFrame) — THE detailed editor panel. Signal pal_data_changed. All click-edit handlers. Mixin: pal_info_display.py + pal_info_handlers.py.
+- **PalIcon** (widgets.py) / **PalCardWidget** (card_widgets.py) — grid cells with badges (boss/lucky/awake/dna/fav).
+- **PartySlotWidget** (party_slot_widget.py) / **PalboxSlotWidget** (palbox_slot_widget.py) — slot widgets. Signals: clicked, rightClicked(slot,action), entered, left. Double-click→delete/add.
+- **PalFrame** (legacy_frame.py) — legacy display frame; **holds global game-data maps** (_NAMEMAP, _PASSMAP, _SKILLMAP, _PASSRANK, _PASSFLAGS) via _load_maps.
+- **PalCreateDialog** (create_dialogs.py) — searchable species picker → _generate_pal_save_param → append to save+container+guild.
+- **BulkSyncPalDialog** (create_dialogs.py) — copy _EDITABLE_KEYS from one pal to same-species pals.
+
+## Known extraction-regression bugs (⚠️ pitfall warning)
+
+During the Phase 1 partition (monolith → subpackage), **7 out of ~10 extracted methods were broken** during extraction into `pal_info_handlers.py`. These are not edge cases — they are systemic extraction errors to guard against:
+
+1. **`_on_soul_click`**: Missing `dlg.exec()` + write-back + `_recalc_hp()` calls. The dialog was constructed but never shown, and user input was never applied.
+2. **`_show_skill_picker`**: Rewritten as a stub — passed wrong args, used wrong method name (`exec()` vs `pick()`), referenced non-existent `selected_asset`.
+3. **`_tick_star_shine`**: Rewritten to call `.flash()` on one label (method doesn't exist). Original advances phase counter incrementally and calls `set_phase()` on ALL shine labels.
+4. **`_set_active_skill`**: Wrong `array_type` (`NameProperty` → needs `EnumProperty`), wrong item format (dict vs plain string), missing empty-item filtering, missing `EPalWazaID::` prefix on values.
+5. **`_get_current_passive_list`**: Missing dict-unwrapping (`v['value']` when items are dicts).
+6. **Caller of skill-picker**: Passed `_data._SKILL_DATA` (dict-of-dicts) instead of `PalFrame._SKILLMAP` (flat asset→name dict).
+7. **`_on_portrait_context_menu`** (`pal_info_widget.py`): `build_pal_context_menu` was rewritten to return a single `ScrollableContextMenu` (string-key dispatch), but this caller was left on the old `menu, actions = ...` tuple-unpacking pattern inherited from the monolith.
+
+**Guard against extraction regressions by:**
+- Comparing EVERY line of extracted methods to the original (never rewrite from scratch).
+- Auditing ALL callers when a shared utility's return signature changes.
+- Running `diff <(git show HEAD:original_file) extracted_file` on extracted sections.
+- Loading the QA audit protocol from project memory (§8 Errors and fixes) for any future extraction work.
+
+<div style="page-break-after: always;"></div>
 
 ## Pal data model (THE save structure)
 Access path: `entry['value']['RawData']['value']['object']['SaveParameter']['value']` → flat dict of `{field: typed_wrapper}`.
@@ -66,7 +110,7 @@ Access path: `entry['value']['RawData']['value']['object']['SaveParameter']['val
 **Create wiring** (PalCreateDialog._on_create 5235): resolve group_id from player's guild → compute slot ((box-1)*30+slot) → append cmap entry → append CharacterContainerSaveData slot → register to guild → increment PLAYER_PAL_COUNTS.
 
 ## Editing operations
-All mutate self._raw in place then self._refresh() (4011).
+All mutate self._raw in place then self._refresh(). _(Line numbers reference the original `edit_pals.py` monolith; use `git log -p -S 'method_name'` to find current locations.)_
 | Op | Method(line) | Edits |
 |---|---|---|
 | Level | _set_level(3543) | Level,Exp,Hp,MaxHP |

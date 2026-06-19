@@ -1,11 +1,10 @@
+from . import data as _data
 from .data import (
     _BOSS_PREFIXES,
     _ensure_element_data,
     _ensure_friendship_thresholds,
     _ensure_passive_data,
     _ensure_skill_data,
-    _PASSIVE_DATA,
-    _SKILL_DATA,
     get_pal_base_data,
 )
 from .icons import (
@@ -69,13 +68,11 @@ __all__ = [
     "_max_stats_raw",
     "_PalSlotDelegate",
     "_partner_desc_to_html",
-    "_PASSIVE_DATA",
     "_register_pal_instance_to_guild",
     "_resolve_partner_desc",
     "_set_fav_raw",
     "_set_work_suitability",
     "_show_learned_moves_dialog",
-    "_SKILL_DATA",
     "_strip_prefix_label",
     "_toggle_awake_raw",
     "_toggle_boss_raw",

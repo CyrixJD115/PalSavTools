@@ -6987,7 +6987,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Compact SMG\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Combat SMG\r\n (Uncommon).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7196
         },
         {
@@ -6997,7 +6997,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Compact SMG\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Combat SMG\r\n (Rare).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7197
         },
         {
@@ -7007,7 +7007,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Compact SMG\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Combat SMG\r\n (Epic).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7198
         },
         {
@@ -7017,7 +7017,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Compact SMG\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
+            "description": "When in inventory, unlocks recipe for Combat SMG\r\n (Legendary).\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 7199
         },
         {
@@ -21047,7 +21047,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
-            "description": "Saddle for safely riding Pharapace.",
+            "description": "Saddle for safely riding Tetroise.",
             "sort_id": 10198
         },
         {
@@ -21057,7 +21057,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_PalGear",
-            "description": "Saddle for safely riding Pharapace Primo.",
+            "description": "Saddle for safely riding Tetroise Primo.",
             "sort_id": 10199
         },
         {
@@ -22557,7 +22557,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "[WIP] Description not finalized.\r\nAmmo for the Compact SMG, Heavy Assault Rifle, and similar weapons.",
+            "description": "[WIP] Description not finalized.\r\nAmmo for the Combat SMG, Heavy Assault Rifle, and similar weapons.",
             "sort_id": 9999
         },
         {
@@ -22637,7 +22637,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Ammo for the Compact SMG.\r\nCan be crafted at Ancient Workbench.",
+            "description": "Ammo for the Combat SMG.\r\nCan be crafted at Ancient Workbench.",
             "sort_id": 45
         },
         {

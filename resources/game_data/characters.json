@@ -108,7 +108,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack)",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -167,7 +167,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Gloomhowl",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack)",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_Dark_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -235,12 +235,19 @@
             },
             "partner_skill": "Guardian of the Desert",
             "description": "When activated, Anubis changes the player's attack type to [ICON:ElemIcon_Ground][ELEM:Earth] and increases Attack by {ReferencePassive1_EffectValue1}%. Occasionally evades attacks with a flash sidestep during battle.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Earth_PartnerSkill_1",
+                "AttackUp_Earth_PartnerSkill_2",
+                "AttackUp_Earth_PartnerSkill_3",
+                "AttackUp_Earth_PartnerSkill_4",
+                "AttackUp_Earth_PartnerSkill_5"
             ]
         },
         {
@@ -1206,7 +1213,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Knight of the Abyss",
-            "description": "Can be ridden. Can double jump while mounted. When Twin Spears skill is activated, a Paladius in your party will appear and attack alongside you."
+            "description": "Can be ridden. Can double jump while mounted. When Twin Spears skill is activated, a Paladius in your party will appear and attack alongside you. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Shadowbeak",
@@ -1524,7 +1531,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Waterwing Dance",
-            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {Passive2_EffectValue1}%. {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAWater_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -1590,7 +1597,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Icewing Dance",
-            "description": "Can be ridden to travel on water. While mounted, changes the player’s attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden to travel on water. While mounted, changes the player’s attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {Passive2_EffectValue1}%. {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAIce_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -1656,7 +1663,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fire Tackle",
-            "description": "When activated, Fuack Ignis fire surfs towards an enemy and slams into them."
+            "description": "When activated, Fuack Ignis fire surfs towards an enemy and slams into them. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Shaolong",
@@ -1775,7 +1782,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Plasma Dash",
-            "description": "Can be ridden. Grants Air Dash, to move at even higher speeds."
+            "description": "Can be ridden. Grants Air Dash, to move at even higher speeds. {ReferenceMsgId_ShortDashSpeedCoolTime}"
         },
         {
             "name": "Prunelia",
@@ -1894,7 +1901,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Surfing Slam",
-            "description": "When activated, Fuack body surfs towards an enemy and slams into them."
+            "description": "When activated, Fuack body surfs towards an enemy and slams into them. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Rushoar",
@@ -2012,12 +2019,19 @@
             },
             "partner_skill": "Guardian of the Desert",
             "description": "When activated, Anubis changes the player's attack type to [ICON:ElemIcon_Ground][ELEM:Earth] and increases Attack by {ReferencePassive1_EffectValue1}%. Occasionally evades attacks with a flash sidestep during battle.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Earth_PartnerSkill_1",
+                "AttackUp_Earth_PartnerSkill_2",
+                "AttackUp_Earth_PartnerSkill_3",
+                "AttackUp_Earth_PartnerSkill_4",
+                "AttackUp_Earth_PartnerSkill_5"
             ]
         },
         {
@@ -2489,7 +2503,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lifmunk Recoil",
-            "description": "When activated, leaps onto the player's head and uses a submachine gun to follows up player attacks."
+            "description": "When activated, leaps onto the player's head and uses a submachine gun to follows up player attacks. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Tombat",
@@ -2544,7 +2558,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ultrasonic Sensor",
-            "description": "When activated, uses ultrasonic waves to detect nearby dungeons, treasure chests, and scrap."
+            "description": "When activated, uses ultrasonic waves to detect nearby dungeons, treasure chests, and scrap. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Katress",
@@ -2962,12 +2976,16 @@
             },
             "partner_skill": "Trick Show Fluffle",
             "description": "While in party, when the player's HP falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's HP is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime"
+            ],
+            "passives": [
+                "ClownRabbit_PlayerLowHealthBlast_PartnerSkill_1",
+                "AttackRateHPThreshold_PartnerSkill_1"
             ]
         },
         {
@@ -3023,7 +3041,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Eggbomb Launcher",
-            "description": "When activated, equips to the player and transforms into an egg launcher."
+            "description": "When activated, equips to the player and transforms into an egg launcher. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Mozzarina",
@@ -3426,7 +3444,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fuzzy Fairy",
-            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:IvyCling]. (Does not stack)"
+            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:IvyCling]. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Xenovader",
@@ -3664,7 +3682,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Meteor Wings",
-            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpPartnerSkillAttack_DarkMechaDragon_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -4110,7 +4128,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dream Chaser",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] magic bullets. These bullets will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] magic bullets. These bullets will not reduce the target's Health below 1. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Digtoise",
@@ -4166,12 +4184,15 @@
             },
             "partner_skill": "Drill Crusher",
             "description": "When activated, enters the Shell Spin state. Follows the player while spinning, increasing ore mining efficiency by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "Dummy_Mining_up_PartnerSkill_DrillGame_1",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_2",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_3",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_4",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_5"
+            ],
+            "passives": [
+                "Mining_up_PartnerSkill_DrillGame"
             ]
         },
         {
@@ -4227,7 +4248,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Galeclaw Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Enables high-speed gliding and allows shooting with the right hand."
+            "description": "While in party, modifies the performance of the equipped glider. Enables high-speed gliding and allows shooting with the right hand. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Sparkit",
@@ -4453,7 +4474,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Puffolt",
@@ -5352,7 +5373,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wind and Clouds",
-            "description": "Can be ridden. Can double jump while mounted."
+            "description": "Can be ridden. Can double jump while mounted. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Fenglope Lux",
@@ -5407,7 +5428,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormcloud",
-            "description": "Can be ridden. Can double jump while mounted. While in party, [ICON:ElemIcon_Water][ELEM:Water] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack)",
+            "description": "Can be ridden. Can double jump while mounted. While in party, [ICON:ElemIcon_Water][ELEM:Water] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "ElementAddDrop_Aqua_1_PAL",
                 "ElementAddDrop_Aqua_2_PAL",
@@ -5732,7 +5753,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Warm Body",
-            "description": "Can be ridden. While in party, the player gains Cold Resistance +2. (Does not stack)"
+            "description": "Can be ridden. While in party, the player gains Cold Resistance +2. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Dinossom",
@@ -6058,12 +6079,15 @@
             },
             "partner_skill": "Mist Stalwart",
             "description": "When activated, the player's attacks inflict [EFFECT:Poison] {ReferencePassive1_EffectValue1}. While in party, grants the player and party Pals immunity to [EFFECT:Poison], and nullifies the effects of toxic gas in the World Tree area. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_1",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_2",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_3",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_4",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_5"
+            ],
+            "passives": [
+                "ResistAdditionalEffect_Poison_PartnerSkill_FlowerPrince_1"
             ]
         },
         {
@@ -6119,7 +6143,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Helper Bunny",
-            "description": "While in party, appears near the player. Automatically picks up nearby items."
+            "description": "While in party, appears near the player. Automatically picks up nearby items. {ReferenceMsgId_ItemCollectRangeUp}"
         },
         {
             "name": "Muffly",
@@ -6174,7 +6198,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fluffy Flutterer",
-            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:Freeze]. (Does not stack)"
+            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:Freeze]. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Celaray",
@@ -6229,7 +6253,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Zephyr Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Celaray Lux",
@@ -6290,7 +6314,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Jolt Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Flaracle",
@@ -6404,12 +6428,19 @@
             },
             "partner_skill": "Lord Fox",
             "description": "When activated, Wixen changes the player's attack type to [ICON:ElemIcon_Fire][ELEM:Fire] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Fire_PartnerSkill_1",
+                "AttackUp_Fire_PartnerSkill_2",
+                "AttackUp_Fire_PartnerSkill_3",
+                "AttackUp_Fire_PartnerSkill_4",
+                "AttackUp_Fire_PartnerSkill_5"
             ]
         },
         {
@@ -6472,12 +6503,19 @@
             },
             "partner_skill": "Black Fox Lord",
             "description": "When activated, Wixen Noct changes the player's attack type to [ICON:ElemIcon_Dark][ELEM:Dark] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Fire_PartnerSkill_1",
+                "AttackUp_Fire_PartnerSkill_2",
+                "AttackUp_Fire_PartnerSkill_3",
+                "AttackUp_Fire_PartnerSkill_4",
+                "AttackUp_Fire_PartnerSkill_5"
             ]
         },
         {
@@ -6533,7 +6571,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Teafant",
@@ -6589,12 +6627,15 @@
             },
             "partner_skill": "Soothing Shower",
             "description": "While in party, restores {Passive1_EffectValue1}% of the player's HP when HP falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
-            "passives": [
+            "reference_passives": [
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime"
+            ],
+            "passives": [
+                "RecoverHPOnHPThreshold_Ganesha_1"
             ]
         },
         {
@@ -6650,7 +6691,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Direhowl Rider",
-            "description": "Can be ridden. Moves slightly faster than most mounts."
+            "description": "Can be ridden. Moves slightly faster than most mounts. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Ghangler",
@@ -6891,7 +6932,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Death-Cheating Feline",
-            "description": "While in party, increases the capture rate when awarded a back bonus. (Does not stack)"
+            "description": "While in party, increases the capture rate when awarded a back bonus. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Eidrolon",
@@ -7258,12 +7299,15 @@
             },
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up1_Gorilla",
                 "Attack_ACC_up2_Gorilla",
                 "Attack_ACC_up3_Gorilla",
                 "Attack_ACC_up4_Gorilla",
                 "Attack_ACC_up5_Gorilla"
+            ],
+            "passives": [
+                "PAL_rude"
             ]
         },
         {
@@ -7391,7 +7435,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Forest Laser",
-            "description": "Can be ridden. When activated, Dualith fires a powerful [ICON:ElemIcon_Grass][ELEM:Leaf] laser from its right hand."
+            "description": "Can be ridden. When activated, Dualith fires a powerful [ICON:ElemIcon_Grass][ELEM:Leaf] laser from its right hand. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Dualith Noct",
@@ -7452,7 +7496,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Corruption Laser",
-            "description": "Can be ridden. When activated, Dualith Noct fires a powerful [ICON:ElemIcon_Dark][ELEM:Dark] laser from its right hand."
+            "description": "Can be ridden. When activated, Dualith Noct fires a powerful [ICON:ElemIcon_Dark][ELEM:Dark] laser from its right hand. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Mammorest",
@@ -7654,12 +7698,19 @@
             },
             "partner_skill": "Mother Nature's Menace",
             "description": "When activated, Elgrove changes the player's attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Leaf_PartnerSkill_1",
+                "AttackUp_Leaf_PartnerSkill_2",
+                "AttackUp_Leaf_PartnerSkill_3",
+                "AttackUp_Leaf_PartnerSkill_4",
+                "AttackUp_Leaf_PartnerSkill_5"
             ]
         },
         {
@@ -7770,7 +7821,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Mossanda Lux",
@@ -7825,7 +7876,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Verdash",
@@ -8194,7 +8245,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Travel Companion",
-            "description": "Can be ridden as a flying mount."
+            "description": "Can be ridden as a flying mount. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Jolthog",
@@ -8249,7 +8300,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Jolt Bomb",
-            "description": "When activated, equips Jolthog to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Electric][ELEM:Electricity] explosion upon impact."
+            "description": "When activated, equips Jolthog to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Electric][ELEM:Electricity] explosion upon impact. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Jolthog Cryst",
@@ -8304,7 +8355,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cold Bomb",
-            "description": "When activated, equips Jolthog Cryst to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Ice][ELEM:Ice] explosion upon impact."
+            "description": "When activated, equips Jolthog Cryst to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Ice][ELEM:Ice] explosion upon impact. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Help01",
@@ -9200,7 +9251,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cool Body",
-            "description": "Can be ridden. While in party, the player gains Heat Resistance +2. (Does not stack)"
+            "description": "Can be ridden. While in party, the player gains Heat Resistance +2. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Foxcicle",
@@ -9439,7 +9490,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chilled Whale Cruiser",
-            "description": "Can be ridden. While in party, fishing minigames start with the capture gauge increased by {Passive1_EffectValue1}%. Additionally, while the bars overlap, capture progress increases by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, fishing minigames start with the capture gauge increased by {Passive1_EffectValue1}%. Additionally, while the bars overlap, capture progress increases by {Passive2_EffectValue1}%. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "Fishing_StartProgressAdd_IceNarWhal_PartnerSkill_1",
                 "Fishing_SuccessAmountUp_IceNarWhal_PartnerSkill_1",
@@ -9505,7 +9556,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cozy Whale Cruiser",
-            "description": "Can be ridden. While in party, fishing minigame begins with the capture gauge {Passive1_EffectValue1}% higher than usual, and capture progress increases by {Passive2_EffectValue1}% while the bars overlap. (Does not stack)",
+            "description": "Can be ridden. While in party, fishing minigame begins with the capture gauge {Passive1_EffectValue1}% higher than usual, and capture progress increases by {Passive2_EffectValue1}% while the bars overlap. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "Fishing_StartProgressAdd_IceNarWhal_Fire_PartnerSkill_1",
                 "Fishing_SuccessAmountUp_IceNarWhal_Fire_PartnerSkill_1",
@@ -9694,12 +9745,19 @@
             },
             "partner_skill": "Witch's Icy Veil",
             "description": "When activated, Icelyn changes the player's attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Ice_PartnerSkill_1",
+                "AttackUp_Ice_PartnerSkill_2",
+                "AttackUp_Ice_PartnerSkill_3",
+                "AttackUp_Ice_PartnerSkill_4",
+                "AttackUp_Ice_PartnerSkill_5"
             ]
         },
         {
@@ -9890,7 +9948,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Aerial Missile",
-            "description": "Can be ridden as a flying mount. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden as a flying mount. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Renjishi",
@@ -10120,7 +10178,7 @@
             },
             "partner_skill": "Leap Stance",
             "description": "When activated, Croajiro Noct channels its loyalty and puffs up its abdomen to store energy. Climbing on top will propel the player high into the air. While airborne before landing, the player's Attack is increased by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "TrainerATK_UP_PartnerSkill_KendoFrog_1",
                 "TrainerATK_UP_PartnerSkill_KendoFrog_2",
                 "TrainerATK_UP_PartnerSkill_KendoFrog_3",
@@ -10485,7 +10543,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Charming Fish",
-            "description": "Can be ridden to travel on water. While in party, makes it easier to fish up talented Pals. (Does not stack)"
+            "description": "Can be ridden to travel on water. While in party, makes it easier to fish up talented Pals. (Does not stack) {ReferenceMsgId_SwimSpeedUp}"
         },
         {
             "name": "Solmora Lux",
@@ -10546,7 +10604,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Shocking Fish",
-            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {Passive2_EffectValue1}%. While in party, makes it easier to fish up talented Pals. (Does not stack)",
+            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {Passive2_EffectValue1}%. While in party, makes it easier to fish up talented Pals. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAElectricity_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -10607,7 +10665,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resonant Guardian",
-            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above."
+            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Univolt",
@@ -10779,7 +10837,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Huggy Fire",
-            "description": "When activated, equips to the player and transforms into a flamethrower."
+            "description": "When activated, equips to the player and transforms into a flamethrower. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Foxparks Cryst",
@@ -10834,7 +10892,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Huggy Frost",
-            "description": "When activated, equips to the player and attacks using frigid air."
+            "description": "When activated, equips to the player and attacks using frigid air. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Loomen",
@@ -11145,7 +11203,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Hungry Missile",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Relaxaurus Lux",
@@ -11206,7 +11264,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Missile Party",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Herbil",
@@ -11267,7 +11325,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Herbil Pulse",
-            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated.",
+            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated. {ReferenceMsgId_CooldownReduction}",
             "active_skill_main_value": [
                 30.0,
                 36.0,
@@ -11387,7 +11445,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sacred Barrier",
-            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted."
+            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Lyleen",
@@ -11624,7 +11682,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Too Cool to be Seen",
-            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds.",
+            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds. {ReferenceMsgId_CooldownReduction}",
             "active_skill_overwrite_effect": [
                 10.0,
                 12.0,
@@ -11686,7 +11744,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Too Cool to be Seen",
-            "description": "When activated, Leezpunk Ignis and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds.",
+            "description": "When activated, Leezpunk Ignis and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds. {ReferenceMsgId_CooldownReduction}",
             "active_skill_overwrite_effect": [
                 10.0,
                 12.0,
@@ -12549,7 +12607,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Master of Unlocking",
-            "description": "While fighting together, Mimog can open treasure chests without using a key."
+            "description": "While fighting together, Mimog can open treasure chests without using a key. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Mobu Citizen",
@@ -12628,7 +12686,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cheery Rifle",
-            "description": "When activated, Tanzee will mercilessly fire an assault rifle at nearby enemies for a limited time."
+            "description": "When activated, Tanzee will mercilessly fire an assault rifle at nearby enemies for a limited time. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Tanzee Ignis",
@@ -12683,7 +12741,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chipper Chimp Gunfire",
-            "description": "When activated, Tanzee Ignis will mercilessly fire a [ICON:ElemIcon_Fire][ELEM:Fire] assault rifle at nearby enemies for a limited time."
+            "description": "When activated, Tanzee Ignis will mercilessly fire a [ICON:ElemIcon_Fire][ELEM:Fire] assault rifle at nearby enemies for a limited time. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Solenne",
@@ -13103,7 +13161,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resurrection",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Shroomer",
@@ -13527,7 +13585,7 @@
             },
             "partner_skill": "Caffeine Inoculation",
             "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops Venom Gland when assigned to Ranch.",
-            "passives": [
+            "reference_passives": [
                 "WorkSpeedUp_Negativekoala_PartnerSkill_1",
                 "WorkSpeedUp_Negativekoala_PartnerSkill_2",
                 "WorkSpeedUp_Negativekoala_PartnerSkill_3",
@@ -13594,7 +13652,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fried Squid",
-            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time."
+            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Killamari Primo",
@@ -13655,7 +13713,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fried Killamari",
-            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time."
+            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Negotiator",
@@ -13836,7 +13894,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Kuudere",
-            "description": "When activated, detects the location of nearby Pal Effigy."
+            "description": "When activated, detects the location of nearby Pal Effigy. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Bellanoir",
@@ -14385,7 +14443,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Pengullet Launcher",
-            "description": "When activated, the player equips a Rocket Launcher to fire Pengullet as ammunition. Pengullet explodes on impact and is incapacitated."
+            "description": "When activated, the player equips a Rocket Launcher to fire Pengullet as ammunition. Pengullet explodes on impact and is incapacitated. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Pengullet Lux",
@@ -14446,7 +14504,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Pengullet Lux Launcher",
-            "description": "When activated, the player equips Pengullet Lux to fire Rocket Launcher as ammunition. Pengullet Lux explodes on impact and is incapacitated."
+            "description": "When activated, the player equips Pengullet Lux to fire Rocket Launcher as ammunition. Pengullet Lux explodes on impact and is incapacitated. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Cattiva",
@@ -14614,7 +14672,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Ribbuny",
@@ -15100,7 +15158,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sentinel of the Great Sea",
-            "description": "While in party, it follows up the player's attacks with [ICON:ElemIcon_Water][ELEM:Water] spear strikes. Can be ridden to travel on water. While mounted, it can leap high into the air over water."
+            "description": "While in party, it follows up the player's attacks with [ICON:ElemIcon_Water][ELEM:Water] spear strikes. Can be ridden to travel on water. While mounted, it can leap high into the air over water. {ReferenceMsgId_SwimSpeedUp_CooldownReduction}"
         },
         {
             "name": "Tarantriss",
@@ -15155,7 +15213,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Tarantriss’ Web",
-            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed."
+            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Elizabee",
@@ -15341,7 +15399,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lady of Lightning",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Electric][ELEM:Electricity] bolts. These bolts will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Electric][ELEM:Electricity] bolts. These bolts will not reduce the target's Health below 1. {ReferenceMsgId_Funnel}"
         },
         {
             "name": "Dazzi Noct",
@@ -15402,7 +15460,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lady of Dark Lightning",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] bolts. These bolts will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] bolts. These bolts will not reduce the target's Health below 1. {ReferenceMsgId_Funnel}"
         },
         {
             "name": "Random Event Shop",
@@ -16169,7 +16227,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Holy Knight of the Firmament",
-            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem."
+            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Broncherry",
@@ -16563,12 +16621,19 @@
             },
             "partner_skill": "Scorpion Longwave",
             "description": "When activated, Prixter Lux changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Electricity_PartnerSkill_1",
+                "AttackUp_Electricity_PartnerSkill_2",
+                "AttackUp_Electricity_PartnerSkill_3",
+                "AttackUp_Electricity_PartnerSkill_4",
+                "AttackUp_Electricity_PartnerSkill_5"
             ]
         },
         {
@@ -16683,7 +16748,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Swift Swimmer",
-            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch."
+            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Surfent Terra",
@@ -16738,7 +16803,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sand Swimmer",
-            "description": "Can be ridden. While in party, the player's attacks inflict [EFFECT:Muddy] {Passive1_EffectValue1}. (Does not stack)",
+            "description": "Can be ridden. While in party, the player's attacks inflict [EFFECT:Muddy] {Passive1_EffectValue1}. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AdditionalEffect_Muddy_PartnerSkill_Serpent_Ground_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -16982,7 +17047,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Homeward Prayer",
-            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas."
+            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Quivern",
@@ -17276,7 +17341,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Invisible Eye",
-            "description": "While in party, reduces the chance of being detected by enemies. (Does not stack)"
+            "description": "While in party, reduces the chance of being detected by enemies. (Does not stack) {ReferenceMsgId_EnemySightRate}"
         },
         {
             "name": "Venusa",
@@ -17447,7 +17512,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Blizzard Crash",
-            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]."
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Beegarde",
@@ -17558,12 +17623,19 @@
             },
             "partner_skill": "Water Gun",
             "description": "When activated, Finsider changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Water_PartnerSkill_1",
+                "AttackUp_Water_PartnerSkill_2",
+                "AttackUp_Water_PartnerSkill_3",
+                "AttackUp_Water_PartnerSkill_4",
+                "AttackUp_Water_PartnerSkill_5"
             ]
         },
         {
@@ -18471,7 +18543,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Snow Shepherd",
-            "description": "Can be ridden. Can perform a double jump while mounted. While in party, increases Defense of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. Can perform a double jump while mounted. While in party, increases Defense of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DefenseUp_Ice_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -18716,7 +18788,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Sea Dragon",
-            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -18781,7 +18853,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_Fire_1",
                 "LavaDamageInvalid_PartnerSkill",
@@ -19707,12 +19779,15 @@
             },
             "partner_skill": "Blessing of Chaos",
             "description": "Can be ridden. While in party, the Pal fighting alongside you gradually loses Health in exchange for {ReferencePassive1_EffectValue1}% Attack increase. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_1",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_2",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_3",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_4",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_5"
+            ],
+            "passives": [
+                "SnakeGirl_PartnerSkill_1"
             ]
         },
         {
@@ -20067,7 +20142,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Flying Trapeze",
-            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Hangyu Cryst",
@@ -20122,7 +20197,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Winter Trapeze",
-            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Knocklem",
@@ -20178,7 +20253,7 @@
             },
             "partner_skill": "Steel Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up1_WingGolem",
                 "defense_ACC_up1_WingGolem",
                 "Attack_ACC_up2_WingGolem",
@@ -20189,6 +20264,9 @@
                 "defense_ACC_up4_WingGolem",
                 "Attack_ACC_up5_WingGolem",
                 "defense_ACC_up5_WingGolem"
+            ],
+            "passives": [
+                "Deffence_up2_2"
             ]
         },
         {
@@ -20245,7 +20323,7 @@
             },
             "partner_skill": "Iron Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem Ignis's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up_WingGolem_Fire_1",
                 "defense_ACC_up_WingGolem_Fire_1",
                 "Attack_ACC_up_WingGolem_Fire_2",
@@ -20256,6 +20334,9 @@
                 "defense_ACC_up_WingGolem_Fire_4",
                 "Attack_ACC_up_WingGolem_Fire_5",
                 "defense_ACC_up_WingGolem_Fire_5"
+            ],
+            "passives": [
+                "Deffence_up2_2"
             ]
         },
         {
@@ -20475,7 +20556,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mad Eye Lunge",
-            "description": "When activated, Eye of Cthulhu charges and attacks targeted enemy."
+            "description": "When activated, Eye of Cthulhu charges and attacks targeted enemy. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Demon Eye",
@@ -20980,7 +21061,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Bat Backup",
-            "description": "While in party, appears near the player. Automatically picks up nearby items."
+            "description": "While in party, appears near the player. Automatically picks up nearby items. {ReferenceMsgId_ItemCollectRangeUp}"
         },
         {
             "name": "Illuminant Bat",
@@ -21035,7 +21116,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Bat Backup",
-            "description": "While in party, appears near the player. Automatically picks up nearby items."
+            "description": "While in party, appears near the player. Automatically picks up nearby items. {ReferenceMsgId_ItemCollectRangeUp}"
         },
         {
             "name": "Yamishima guide1",
@@ -21246,7 +21327,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Gloomhowl",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack)"
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Kitsun Noct",
@@ -21301,7 +21382,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Gloomhowl",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack)"
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Armor Woodlouse",
@@ -21466,7 +21547,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack)",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -21525,7 +21606,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Gloomhowl",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack)",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Dark][ELEM:Dark] damage and are immune to [EFFECT:Darkness]. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_Dark_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -22236,7 +22317,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dark Knight of the Abyss",
-            "description": "Can be ridden. Can double jump while mounted. When Twin Spears skill is activated, a Paladius in your party will appear and attack alongside you."
+            "description": "Can be ridden. Can double jump while mounted. When Twin Spears skill is activated, a Paladius in your party will appear and attack alongside you. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Dragostrophe (Boss)",
@@ -22662,7 +22743,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Waterwing Dance",
-            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {Passive2_EffectValue1}%. {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAWater_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -22728,7 +22809,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Icewing Dance",
-            "description": "Can be ridden to travel on water. While mounted, changes the player’s attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden to travel on water. While mounted, changes the player’s attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {Passive2_EffectValue1}%. {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAIce_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -22788,7 +22869,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Surfing Slam",
-            "description": "When activated, Fuack body surfs towards an enemy and slams into them."
+            "description": "When activated, Fuack body surfs towards an enemy and slams into them. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Fuack Ignis (Boss)",
@@ -22849,7 +22930,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fire Tackle",
-            "description": "When activated, Fuack Ignis fire surfs towards an enemy and slams into them."
+            "description": "When activated, Fuack Ignis fire surfs towards an enemy and slams into them. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Shaolong (Boss)",
@@ -23029,7 +23110,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Plasma Dash",
-            "description": "Can be ridden. Grants Air Dash, to move at even higher speeds."
+            "description": "Can be ridden. Grants Air Dash, to move at even higher speeds. {ReferenceMsgId_ShortDashSpeedCoolTime}"
         },
         {
             "name": "Blue Wool Rabbit (Boss)",
@@ -23702,7 +23783,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lifmunk Recoil",
-            "description": "When activated, leaps onto the player's head and uses a submachine gun to follows up player attacks."
+            "description": "When activated, leaps onto the player's head and uses a submachine gun to follows up player attacks. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Tombat (Boss)",
@@ -23757,7 +23838,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ultrasonic Sensor",
-            "description": "When activated, uses ultrasonic waves to detect nearby dungeons, treasure chests, and scrap."
+            "description": "When activated, uses ultrasonic waves to detect nearby dungeons, treasure chests, and scrap. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Katress (Boss)",
@@ -24175,12 +24256,16 @@
             },
             "partner_skill": "Trick Show Fluffle",
             "description": "While in party, when the player's HP falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's HP is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime"
+            ],
+            "passives": [
+                "ClownRabbit_PlayerLowHealthBlast_PartnerSkill_1",
+                "AttackRateHPThreshold_PartnerSkill_1"
             ]
         },
         {
@@ -24236,7 +24321,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Eggbomb Launcher",
-            "description": "When activated, equips to the player and transforms into an egg launcher."
+            "description": "When activated, equips to the player and transforms into an egg launcher. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Mozzarina (Boss)",
@@ -24694,7 +24779,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fuzzy Fairy",
-            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:IvyCling]. (Does not stack)"
+            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:IvyCling]. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Xenovader (Boss)",
@@ -24932,7 +25017,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Meteor Wings",
-            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpPartnerSkillAttack_DarkMechaDragon_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -25362,7 +25447,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Dream Chaser",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] magic bullets. These bullets will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] magic bullets. These bullets will not reduce the target's Health below 1. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Digtoise (Boss)",
@@ -25418,12 +25503,15 @@
             },
             "partner_skill": "Drill Crusher",
             "description": "When activated, enters the Shell Spin state. Follows the player while spinning, increasing ore mining efficiency by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "Dummy_Mining_up_PartnerSkill_DrillGame_1",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_2",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_3",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_4",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_5"
+            ],
+            "passives": [
+                "Mining_up_PartnerSkill_DrillGame"
             ]
         },
         {
@@ -25479,7 +25567,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Galeclaw Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Enables high-speed gliding and allows shooting with the right hand."
+            "description": "While in party, modifies the performance of the equipped glider. Enables high-speed gliding and allows shooting with the right hand. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Sparkit (Boss)",
@@ -25705,7 +25793,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Grizzbolt (Boss)",
@@ -25760,7 +25848,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Puffolt (Boss)",
@@ -26234,7 +26322,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wind and Clouds",
-            "description": "Can be ridden. Can double jump while mounted."
+            "description": "Can be ridden. Can double jump while mounted. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Fenglope Lux (Boss)",
@@ -26289,7 +26377,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormcloud",
-            "description": "Can be ridden. Can double jump while mounted. While in party, [ICON:ElemIcon_Water][ELEM:Water] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack)",
+            "description": "Can be ridden. Can double jump while mounted. While in party, [ICON:ElemIcon_Water][ELEM:Water] Pals drop {Passive1_EffectValue1}% more items when defeated. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "ElementAddDrop_Aqua_1_PAL",
                 "ElementAddDrop_Aqua_2_PAL",
@@ -26534,7 +26622,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Warm Body",
-            "description": "Can be ridden. While in party, the player gains Cold Resistance +2. (Does not stack)"
+            "description": "Can be ridden. While in party, the player gains Cold Resistance +2. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Dinossom (Boss)",
@@ -26860,12 +26948,15 @@
             },
             "partner_skill": "Mist Stalwart",
             "description": "When activated, the player's attacks inflict [EFFECT:Poison] {ReferencePassive1_EffectValue1}. While in party, grants the player and party Pals immunity to [EFFECT:Poison], and nullifies the effects of toxic gas in the World Tree area. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_1",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_2",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_3",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_4",
                 "AdditionalEffect_Poison_PartnerSkill_FlowerPrince_5"
+            ],
+            "passives": [
+                "ResistAdditionalEffect_Poison_PartnerSkill_FlowerPrince_1"
             ]
         },
         {
@@ -26921,7 +27012,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Helper Bunny",
-            "description": "While in party, appears near the player. Automatically picks up nearby items."
+            "description": "While in party, appears near the player. Automatically picks up nearby items. {ReferenceMsgId_ItemCollectRangeUp}"
         },
         {
             "name": "Muffly (Boss)",
@@ -26976,7 +27067,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fluffy Flutterer",
-            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:Freeze]. (Does not stack)"
+            "description": "While in party, increases the capture rate of Pals afflicted with [EFFECT:Freeze]. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Celaray (Boss)",
@@ -27031,7 +27122,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Zephyr Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Celaray Lux (Boss)",
@@ -27092,7 +27183,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Jolt Glider",
-            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Prevents fall damage and extends the duration of high-speed gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Flaracle (Boss)",
@@ -27206,12 +27297,19 @@
             },
             "partner_skill": "Lord Fox",
             "description": "When activated, Wixen changes the player's attack type to [ICON:ElemIcon_Fire][ELEM:Fire] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Fire_PartnerSkill_1",
+                "AttackUp_Fire_PartnerSkill_2",
+                "AttackUp_Fire_PartnerSkill_3",
+                "AttackUp_Fire_PartnerSkill_4",
+                "AttackUp_Fire_PartnerSkill_5"
             ]
         },
         {
@@ -27274,12 +27372,19 @@
             },
             "partner_skill": "Black Fox Lord",
             "description": "When activated, Wixen Noct changes the player's attack type to [ICON:ElemIcon_Dark][ELEM:Dark] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Fire_PartnerSkill_1",
+                "AttackUp_Fire_PartnerSkill_2",
+                "AttackUp_Fire_PartnerSkill_3",
+                "AttackUp_Fire_PartnerSkill_4",
+                "AttackUp_Fire_PartnerSkill_5"
             ]
         },
         {
@@ -27391,12 +27496,15 @@
             },
             "partner_skill": "Soothing Shower",
             "description": "While in party, restores {Passive1_EffectValue1}% of the player's HP when HP falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
-            "passives": [
+            "reference_passives": [
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime"
+            ],
+            "passives": [
+                "RecoverHPOnHPThreshold_Ganesha_1"
             ]
         },
         {
@@ -27452,7 +27560,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Direhowl Rider",
-            "description": "Can be ridden. Moves slightly faster than most mounts."
+            "description": "Can be ridden. Moves slightly faster than most mounts. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Ghangler (Boss)",
@@ -27693,7 +27801,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Death-Cheating Feline",
-            "description": "While in party, increases the capture rate when awarded a back bonus. (Does not stack)"
+            "description": "While in party, increases the capture rate when awarded a back bonus. (Does not stack) {ReferenceMsgId_CaptureRate}"
         },
         {
             "name": "Eidrolon (Boss)",
@@ -28052,12 +28160,15 @@
             },
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up1_Gorilla",
                 "Attack_ACC_up2_Gorilla",
                 "Attack_ACC_up3_Gorilla",
                 "Attack_ACC_up4_Gorilla",
                 "Attack_ACC_up5_Gorilla"
+            ],
+            "passives": [
+                "PAL_rude"
             ]
         },
         {
@@ -28232,7 +28343,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Forest Laser",
-            "description": "Can be ridden. When activated, Dualith fires a powerful [ICON:ElemIcon_Grass][ELEM:Leaf] laser from its right hand."
+            "description": "Can be ridden. When activated, Dualith fires a powerful [ICON:ElemIcon_Grass][ELEM:Leaf] laser from its right hand. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Dualith Noct (Boss)",
@@ -28293,7 +28404,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Corruption Laser",
-            "description": "Can be ridden. When activated, Dualith Noct fires a powerful [ICON:ElemIcon_Dark][ELEM:Dark] laser from its right hand."
+            "description": "Can be ridden. When activated, Dualith Noct fires a powerful [ICON:ElemIcon_Dark][ELEM:Dark] laser from its right hand. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Mammorest (Boss)",
@@ -28495,12 +28606,19 @@
             },
             "partner_skill": "Mother Nature's Menace",
             "description": "When activated, Elgrove changes the player's attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Leaf_PartnerSkill_1",
+                "AttackUp_Leaf_PartnerSkill_2",
+                "AttackUp_Leaf_PartnerSkill_3",
+                "AttackUp_Leaf_PartnerSkill_4",
+                "AttackUp_Leaf_PartnerSkill_5"
             ]
         },
         {
@@ -28611,7 +28729,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Mossanda Lux (Boss)",
@@ -28666,7 +28784,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Verdash (Boss)",
@@ -29019,7 +29137,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Travel Companion",
-            "description": "Can be ridden as a flying mount."
+            "description": "Can be ridden as a flying mount. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Jolthog (Boss)",
@@ -29074,7 +29192,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Jolt Bomb",
-            "description": "When activated, equips Jolthog to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Electric][ELEM:Electricity] explosion upon impact."
+            "description": "When activated, equips Jolthog to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Electric][ELEM:Electricity] explosion upon impact. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Jolthog Cryst (Boss)",
@@ -29129,7 +29247,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cold Bomb",
-            "description": "When activated, equips Jolthog Cryst to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Ice][ELEM:Ice] explosion upon impact."
+            "description": "When activated, equips Jolthog Cryst to the player to be thrown at an enemy, causing an [ICON:ElemIcon_Ice][ELEM:Ice] explosion upon impact. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Warsect (Boss)",
@@ -29608,7 +29726,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cool Body",
-            "description": "Can be ridden. While in party, the player gains Heat Resistance +2. (Does not stack)"
+            "description": "Can be ridden. While in party, the player gains Heat Resistance +2. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Foxcicle (Boss)",
@@ -29847,7 +29965,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chilled Whale Cruiser",
-            "description": "Can be ridden. While in party, fishing minigames start with the capture gauge increased by {Passive1_EffectValue1}%. Additionally, while the bars overlap, capture progress increases by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, fishing minigames start with the capture gauge increased by {Passive1_EffectValue1}%. Additionally, while the bars overlap, capture progress increases by {Passive2_EffectValue1}%. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "Fishing_StartProgressAdd_IceNarWhal_PartnerSkill_1",
                 "Fishing_SuccessAmountUp_IceNarWhal_PartnerSkill_1",
@@ -29913,7 +30031,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cozy Whale Cruiser",
-            "description": "Can be ridden. While in party, fishing minigame begins with the capture gauge {Passive1_EffectValue1}% higher than usual, and capture progress increases by {Passive2_EffectValue1}% while the bars overlap. (Does not stack)",
+            "description": "Can be ridden. While in party, fishing minigame begins with the capture gauge {Passive1_EffectValue1}% higher than usual, and capture progress increases by {Passive2_EffectValue1}% while the bars overlap. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "Fishing_StartProgressAdd_IceNarWhal_Fire_PartnerSkill_1",
                 "Fishing_SuccessAmountUp_IceNarWhal_Fire_PartnerSkill_1",
@@ -30163,12 +30281,19 @@
             },
             "partner_skill": "Witch's Icy Veil",
             "description": "When activated, Icelyn changes the player's attack type to [ICON:ElemIcon_Ice][ELEM:Ice] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Ice_PartnerSkill_1",
+                "AttackUp_Ice_PartnerSkill_2",
+                "AttackUp_Ice_PartnerSkill_3",
+                "AttackUp_Ice_PartnerSkill_4",
+                "AttackUp_Ice_PartnerSkill_5"
             ]
         },
         {
@@ -30351,7 +30476,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Aerial Missile",
-            "description": "Can be ridden as a flying mount. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden as a flying mount. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Renjishi (Boss)",
@@ -30581,7 +30706,7 @@
             },
             "partner_skill": "Leap Stance",
             "description": "When activated, Croajiro Noct channels its loyalty and puffs up its abdomen to store energy. Climbing on top will propel the player high into the air. While airborne before landing, the player's Attack is increased by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "TrainerATK_UP_PartnerSkill_KendoFrog_1",
                 "TrainerATK_UP_PartnerSkill_KendoFrog_2",
                 "TrainerATK_UP_PartnerSkill_KendoFrog_3",
@@ -31001,7 +31126,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Charming Fish",
-            "description": "Can be ridden to travel on water. While in party, makes it easier to fish up talented Pals. (Does not stack)"
+            "description": "Can be ridden to travel on water. While in party, makes it easier to fish up talented Pals. (Does not stack) {ReferenceMsgId_SwimSpeedUp}"
         },
         {
             "name": "Solmora Lux (Boss)",
@@ -31062,7 +31187,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Shocking Fish",
-            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {Passive2_EffectValue1}%. While in party, makes it easier to fish up talented Pals. (Does not stack)",
+            "description": "Can be ridden to travel on water. While mounted, changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {Passive2_EffectValue1}%. While in party, makes it easier to fish up talented Pals. (Does not stack) {ReferenceMsgId_SwimSpeedUp}",
             "passives": [
                 "GiveAElectricity_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1",
@@ -31123,7 +31248,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resonant Guardian",
-            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above."
+            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Panthalus (Boss)",
@@ -31178,7 +31303,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resonant Guardian",
-            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above."
+            "description": "Can be ridden as a flying mount. Only 1 can be summoned to a base. While at a base, it constantly patrols the skies and bombards intruders from high above. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Univolt (Boss)",
@@ -31350,7 +31475,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Huggy Fire",
-            "description": "When activated, equips to the player and transforms into a flamethrower."
+            "description": "When activated, equips to the player and transforms into a flamethrower. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Foxparks Cryst (Boss)",
@@ -31405,7 +31530,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Huggy Frost",
-            "description": "When activated, equips to the player and attacks using frigid air."
+            "description": "When activated, equips to the player and attacks using frigid air. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Loomen (Boss)",
@@ -31716,7 +31841,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Hungry Missile",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Relaxaurus Lux (Boss)",
@@ -31777,7 +31902,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Missile Party",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Leaf Bird (Boss)",
@@ -31893,7 +32018,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Herbil Pulse",
-            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated.",
+            "description": "While in party, Herbil uses its healing powers to restore {ActiveSkillMainValueByRank}% of the player's Hp2 when incapacitated. {ReferenceMsgId_CooldownReduction}",
             "active_skill_main_value": [
                 30.0,
                 36.0,
@@ -32013,7 +32138,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sacred Barrier",
-            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted."
+            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Lyleen (Boss)",
@@ -32305,7 +32430,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Too Cool to be Seen",
-            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds.",
+            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds. {ReferenceMsgId_CooldownReduction}",
             "active_skill_overwrite_effect": [
                 10.0,
                 12.0,
@@ -32367,7 +32492,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Too Cool to be Seen",
-            "description": "When activated, Leezpunk Ignis and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds.",
+            "description": "When activated, Leezpunk Ignis and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds. {ReferenceMsgId_CooldownReduction}",
             "active_skill_overwrite_effect": [
                 10.0,
                 12.0,
@@ -32794,7 +32919,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Master of Unlocking",
-            "description": "While fighting together, Mimog can open treasure chests without using a key."
+            "description": "While fighting together, Mimog can open treasure chests without using a key. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Tanzee (Boss)",
@@ -32849,7 +32974,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Cheery Rifle",
-            "description": "When activated, Tanzee will mercilessly fire an assault rifle at nearby enemies for a limited time."
+            "description": "When activated, Tanzee will mercilessly fire an assault rifle at nearby enemies for a limited time. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Tanzee Ignis (Boss)",
@@ -32904,7 +33029,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Chipper Chimp Gunfire",
-            "description": "When activated, Tanzee Ignis will mercilessly fire a [ICON:ElemIcon_Fire][ELEM:Fire] assault rifle at nearby enemies for a limited time."
+            "description": "When activated, Tanzee Ignis will mercilessly fire a [ICON:ElemIcon_Fire][ELEM:Fire] assault rifle at nearby enemies for a limited time. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Monkey Ice (Boss)",
@@ -33501,7 +33626,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resurrection",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Shroomer (Boss)",
@@ -33909,7 +34034,7 @@
             },
             "partner_skill": "Caffeine Inoculation",
             "description": "When activated, Depresso chugs an entire energy drink, increasing its Movement Speed and Work Speed by {ReferencePassive1_EffectValue1}%. Sometimes drops Venom Gland when assigned to Ranch.",
-            "passives": [
+            "reference_passives": [
                 "WorkSpeedUp_Negativekoala_PartnerSkill_1",
                 "WorkSpeedUp_Negativekoala_PartnerSkill_2",
                 "WorkSpeedUp_Negativekoala_PartnerSkill_3",
@@ -33976,7 +34101,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fried Squid",
-            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time."
+            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Killamari Primo (Boss)",
@@ -34037,7 +34162,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Fried Killamari",
-            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time."
+            "description": "While in party, modifies the performance of the equipped glider. Enables gentle floating while gliding for an extended time. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Starryon (Boss)",
@@ -34210,7 +34335,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Kuudere",
-            "description": "When activated, detects the location of nearby Pal Effigy."
+            "description": "When activated, detects the location of nearby Pal Effigy. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Bellanoir (Boss)",
@@ -34639,7 +34764,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Pengullet Launcher",
-            "description": "When activated, the player equips a Rocket Launcher to fire Pengullet as ammunition. Pengullet explodes on impact and is incapacitated."
+            "description": "When activated, the player equips a Rocket Launcher to fire Pengullet as ammunition. Pengullet explodes on impact and is incapacitated. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Pengullet Lux (Boss)",
@@ -34700,7 +34825,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Pengullet Lux Launcher",
-            "description": "When activated, the player equips Pengullet Lux to fire Rocket Launcher as ammunition. Pengullet Lux explodes on impact and is incapacitated."
+            "description": "When activated, the player equips Pengullet Lux to fire Rocket Launcher as ammunition. Pengullet Lux explodes on impact and is incapacitated. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Cattiva (Boss)",
@@ -34868,7 +34993,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Ribbuny (Boss)",
@@ -35235,7 +35360,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sentinel of the Great Sea",
-            "description": "While in party, it follows up the player's attacks with [ICON:ElemIcon_Water][ELEM:Water] spear strikes. Can be ridden to travel on water. While mounted, it can leap high into the air over water."
+            "description": "While in party, it follows up the player's attacks with [ICON:ElemIcon_Water][ELEM:Water] spear strikes. Can be ridden to travel on water. While mounted, it can leap high into the air over water. {ReferenceMsgId_SwimSpeedUp_CooldownReduction}"
         },
         {
             "name": "Tarantriss (Boss)",
@@ -35290,7 +35415,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Tarantriss’ Web",
-            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed."
+            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Elizabee (Boss)",
@@ -35404,7 +35529,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lady of Lightning",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Electric][ELEM:Electricity] bolts. These bolts will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Electric][ELEM:Electricity] bolts. These bolts will not reduce the target's Health below 1. {ReferenceMsgId_Funnel}"
         },
         {
             "name": "Dazzi Noct (Boss)",
@@ -35465,7 +35590,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Lady of Dark Lightning",
-            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] bolts. These bolts will not reduce the target's Health below 1."
+            "description": "While in party, appears near the player. Attacks hostile enemies with [ICON:ElemIcon_Dark][ELEM:Dark] bolts. These bolts will not reduce the target's Health below 1. {ReferenceMsgId_Funnel}"
         },
         {
             "name": "Ragnahawk (Boss)",
@@ -36063,7 +36188,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Holy Knight of the Firmament",
-            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem."
+            "description": "Can be ridden. Can triple jump while mounted. Activate Spear Thrust to have Necromus stay by your side and attack enemies in tandem. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Broncherry (Boss)",
@@ -36369,12 +36494,19 @@
             },
             "partner_skill": "Scorpion Longwave",
             "description": "When activated, Prixter Lux changes the player's attack type to [ICON:ElemIcon_Electric][ELEM:Electricity] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Electricity_PartnerSkill_1",
+                "AttackUp_Electricity_PartnerSkill_2",
+                "AttackUp_Electricity_PartnerSkill_3",
+                "AttackUp_Electricity_PartnerSkill_4",
+                "AttackUp_Electricity_PartnerSkill_5"
             ]
         },
         {
@@ -36489,7 +36621,7 @@
                 "MonsterFarm": 2
             },
             "partner_skill": "Swift Swimmer",
-            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch."
+            "description": "Can be ridden to travel on water. Sometimes drops Leather when assigned to Ranch. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Surfent Terra (Boss)",
@@ -36544,7 +36676,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sand Swimmer",
-            "description": "Can be ridden. While in party, the player's attacks inflict [EFFECT:Muddy] {Passive1_EffectValue1}. (Does not stack)",
+            "description": "Can be ridden. While in party, the player's attacks inflict [EFFECT:Muddy] {Passive1_EffectValue1}. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AdditionalEffect_Muddy_PartnerSkill_Serpent_Ground_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -36788,7 +36920,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Homeward Prayer",
-            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas."
+            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Quivern (Boss)",
@@ -37082,7 +37214,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Invisible Eye",
-            "description": "While in party, reduces the chance of being detected by enemies. (Does not stack)"
+            "description": "While in party, reduces the chance of being detected by enemies. (Does not stack) {ReferenceMsgId_EnemySightRate}"
         },
         {
             "name": "Venusa (Boss)",
@@ -37308,7 +37440,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Blizzard Crash",
-            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]."
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Bastigor (Boss)",
@@ -37363,7 +37495,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Blizzard Crash",
-            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]."
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Beegarde (Boss)",
@@ -37529,12 +37661,19 @@
             },
             "partner_skill": "Water Gun",
             "description": "When activated, Finsider changes the player's attack type to [ICON:ElemIcon_Water][ELEM:Water] and increases Attack by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "ShotAttack_PartnerSkill_Coop_1",
                 "ShotAttack_PartnerSkill_Coop_2",
                 "ShotAttack_PartnerSkill_Coop_3",
                 "ShotAttack_PartnerSkill_Coop_4",
                 "ShotAttack_PartnerSkill_Coop_5"
+            ],
+            "passives": [
+                "AttackUp_Water_PartnerSkill_1",
+                "AttackUp_Water_PartnerSkill_2",
+                "AttackUp_Water_PartnerSkill_3",
+                "AttackUp_Water_PartnerSkill_4",
+                "AttackUp_Water_PartnerSkill_5"
             ]
         },
         {
@@ -38434,7 +38573,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Snow Shepherd",
-            "description": "Can be ridden. Can perform a double jump while mounted. While in party, increases Defense of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. Can perform a double jump while mounted. While in party, increases Defense of [ICON:ElemIcon_Ice][ELEM:Ice] Pals by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DefenseUp_Ice_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -38740,7 +38879,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Sea Dragon",
-            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -38805,7 +38944,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_Fire_1",
                 "LavaDamageInvalid_PartnerSkill",
@@ -39735,12 +39874,15 @@
             },
             "partner_skill": "Blessing of Chaos",
             "description": "Can be ridden. While in party, the Pal fighting alongside you gradually loses Health in exchange for {ReferencePassive1_EffectValue1}% Attack increase. (Does not stack)",
-            "passives": [
+            "reference_passives": [
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_1",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_2",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_3",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_4",
                 "ActiveOtomoATK_UP_LifeDrain_PartnerSkill_5"
+            ],
+            "passives": [
+                "SnakeGirl_PartnerSkill_1"
             ]
         },
         {
@@ -40095,7 +40237,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Flying Trapeze",
-            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Hangyu Cryst (Boss)",
@@ -40150,7 +40292,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Winter Trapeze",
-            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding."
+            "description": "While in party, modifies the performance of the equipped glider. Enables slow ascension while gliding. {ReferenceMsgId_GriderPerformanceUp}"
         },
         {
             "name": "Knocklem (Boss)",
@@ -40206,7 +40348,7 @@
             },
             "partner_skill": "Steel Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up1_WingGolem",
                 "defense_ACC_up1_WingGolem",
                 "Attack_ACC_up2_WingGolem",
@@ -40217,6 +40359,9 @@
                 "defense_ACC_up4_WingGolem",
                 "Attack_ACC_up5_WingGolem",
                 "defense_ACC_up5_WingGolem"
+            ],
+            "passives": [
+                "Deffence_up2_2"
             ]
         },
         {
@@ -40273,7 +40418,7 @@
             },
             "partner_skill": "Iron Guardian Mode",
             "description": "When activated, a steel resolve increases Knocklem Ignis's Attack by {ReferencePassive1_EffectValue1}% and Defense by {ReferencePassive2_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up_WingGolem_Fire_1",
                 "defense_ACC_up_WingGolem_Fire_1",
                 "Attack_ACC_up_WingGolem_Fire_2",
@@ -40284,6 +40429,9 @@
                 "defense_ACC_up_WingGolem_Fire_4",
                 "Attack_ACC_up_WingGolem_Fire_5",
                 "defense_ACC_up_WingGolem_Fire_5"
+            ],
+            "passives": [
+                "Deffence_up2_2"
             ]
         },
         {
@@ -40503,7 +40651,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Mad Eye Lunge",
-            "description": "When activated, Eye of Cthulhu charges and attacks targeted enemy."
+            "description": "When activated, Eye of Cthulhu charges and attacks targeted enemy. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Wumpo (Boss)",
@@ -41490,7 +41638,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Zoe & Grizzbolt (Gym)",
@@ -41545,7 +41693,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Yellow Tank",
-            "description": "Can be ridden. Can rapidly fire a minigun while mounted."
+            "description": "Can be ridden. Can rapidly fire a minigun while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Marcus & Faleris (Gym)",
@@ -42035,7 +42183,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Blizzard Crash",
-            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]."
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Bjorn & Bastigor (Gym)",
@@ -42090,7 +42238,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Blizzard Crash",
-            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]."
+            "description": "Can be ridden. While mounted, delivers crushing blows with a hammer forged from [ICON:ElemIcon_Ice][ELEM:Ice]. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Axel & Orserk (Gym)",
@@ -42424,7 +42572,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Helzephyr",
@@ -42722,7 +42870,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Missile Party",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Leaf Bird",
@@ -42832,7 +42980,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Too Cool to be Seen",
-            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds.",
+            "description": "When activated, Leezpunk and the player become invisible, making them undetectable to enemies for {ActiveSkillOverWriteEffectTime} seconds. {ReferenceMsgId_CooldownReduction}",
             "active_skill_overwrite_effect": [
                 10.0,
                 12.0,
@@ -43126,7 +43274,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Travel Companion",
-            "description": "Can be ridden as a flying mount."
+            "description": "Can be ridden as a flying mount. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Rayhound (Police)",
@@ -43239,7 +43387,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack)",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "TemperatureInvalid_Cold",
                 "TemperatureInvalid_Heat",
@@ -43559,12 +43707,15 @@
             },
             "partner_skill": "Drill Crusher",
             "description": "When activated, enters the Shell Spin state. Follows the player while spinning, increasing ore mining efficiency by {ReferencePassive1_EffectValue1}%.",
-            "passives": [
+            "reference_passives": [
                 "Dummy_Mining_up_PartnerSkill_DrillGame_1",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_2",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_3",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_4",
                 "Dummy_Mining_up_PartnerSkill_DrillGame_5"
+            ],
+            "passives": [
+                "Mining_up_PartnerSkill_DrillGame"
             ]
         },
         {
@@ -43804,7 +43955,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Helper Bunny",
-            "description": "While in party, appears near the player. Automatically picks up nearby items."
+            "description": "While in party, appears near the player. Automatically picks up nearby items. {ReferenceMsgId_ItemCollectRangeUp}"
         },
         {
             "name": "Direhowl (Predator)",
@@ -43859,7 +44010,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Direhowl Rider",
-            "description": "Can be ridden. Moves slightly faster than most mounts."
+            "description": "Can be ridden. Moves slightly faster than most mounts. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Direhowl (Predator)",
@@ -43914,7 +44065,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Direhowl Rider",
-            "description": "Can be ridden. Moves slightly faster than most mounts."
+            "description": "Can be ridden. Moves slightly faster than most mounts. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Maraith (Predator)",
@@ -44088,12 +44239,15 @@
             },
             "partner_skill": "Full-Power Gorilla Mode",
             "description": "When activated, unleashes a primal fury that increases Gorirat's Attack by {ReferencePassive1_EffectValue1}% for a limited time.",
-            "passives": [
+            "reference_passives": [
                 "Attack_ACC_up1_Gorilla",
                 "Attack_ACC_up2_Gorilla",
                 "Attack_ACC_up3_Gorilla",
                 "Attack_ACC_up4_Gorilla",
                 "Attack_ACC_up5_Gorilla"
+            ],
+            "passives": [
+                "PAL_rude"
             ]
         },
         {
@@ -44268,7 +44422,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grenadier Panda",
-            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a grenade launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Splatterina (Predator)",
@@ -44509,7 +44663,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Hungry Missile",
-            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted."
+            "description": "Can be ridden. Can rapidly fire a missile launcher while mounted. {ReferenceMsgId_DamageUp}"
         },
         {
             "name": "Blazehowl Noct (Predator)",
@@ -44698,7 +44852,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Resurrection",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Shroomer (Predator)",
@@ -44983,7 +45137,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Lovander (Predator)",
@@ -45038,7 +45192,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0."
+            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Tarantriss (Predator)",
@@ -45093,7 +45247,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Tarantriss’ Web",
-            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed."
+            "description": "Can be ridden. Can double jump while mounted. Additionally, can shoot spider web to grapple and move at high speed. {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Ragnahawk (Predator)",
@@ -45400,7 +45554,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Homeward Prayer",
-            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas."
+            "description": "When activated, teleports to the nearest base. Cannot be used inside dungeons or similar areas. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Venusa (Predator)",
@@ -45635,7 +45789,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "ElementBoost_Fire_PAL_PartnerSKill_1"
             ]
@@ -45699,7 +45853,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack)"
+            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Reptyro Cryst (Predator)",
@@ -46309,7 +46463,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Meteor Wings",
-            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpPartnerSkillAttack_DarkMechaDragon_1"
             ]
@@ -46373,7 +46527,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Meteor Wings",
-            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack)",
+            "description": "Can be ridden as a flying mount. While in party, damage done by Partner Skills of weapon-wielding Pals increases by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpPartnerSkillAttack_DarkMechaDragon_1"
             ]
@@ -46565,7 +46719,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sacred Barrier",
-            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted."
+            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Hartalis (Raid)",
@@ -46626,7 +46780,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Sacred Barrier",
-            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted."
+            "description": "Can be ridden. While mounted, it generates a barrier that blocks all attacks. Can triple jump while mounted. {ReferenceMsgId_CooldownReduction}"
         },
         {
             "name": "Bellanoir (Raid)",

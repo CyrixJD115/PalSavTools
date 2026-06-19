@@ -374,6 +374,7 @@ class PalCreateDialog(QDialog):
         self.selected_pal = {'asset': None, 'name': None}
         pal_descs = {}
         pal_passives = {}
+        pal_reference_passives = {}
         pal_main_values = {}
         pal_overwrite_effects = {}
         pal_elements = {}
@@ -388,6 +389,9 @@ class PalCreateDialog(QDialog):
                     if p.get('description'):
                         pal_descs[p['asset'].lower()] = p['description']
                         pal_passives[p['asset'].lower()] = p.get('passives', [])
+                        rp = p.get('reference_passives', [])
+                        if rp:
+                            pal_reference_passives[p['asset'].lower()] = rp
                         mv = p.get('active_skill_main_value', [])
                         if mv:
                             pal_main_values[p['asset'].lower()] = mv
@@ -426,6 +430,7 @@ class PalCreateDialog(QDialog):
         self.pal_list.itemDoubleClicked.connect(lambda item: (on_select(item), self._on_create()))
         self._pal_descs_cache = pal_descs
         self._pal_passives_cache = pal_passives
+        self._pal_reference_passives_cache = pal_reference_passives
         self._pal_main_values_cache = pal_main_values
         self._pal_overwrite_effects_cache = pal_overwrite_effects
         self._pal_elements_cache = pal_elements
@@ -500,7 +505,7 @@ class PalCreateDialog(QDialog):
             passives = self._pal_passives_cache.get(asset.lower(), [])
             tip = f'<b>{name}</b><br>ID: {asset}'
             if pdesc:
-                resolved = _icons._resolve_partner_desc(pdesc, passives, 0, self._pal_main_values_cache.get(asset.lower()), self._pal_overwrite_effects_cache.get(asset.lower()), passives)
+                resolved = _icons._resolve_partner_desc(pdesc, passives, 0, self._pal_main_values_cache.get(asset.lower()), self._pal_overwrite_effects_cache.get(asset.lower()), passives, reference_passives=self._pal_reference_passives_cache.get(asset.lower(), []))
                 elem_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
                 html_desc = _partner_desc_to_html(resolved, elem_colors, tooltip=True)
                 tip += f'<br><br>{html_desc}'

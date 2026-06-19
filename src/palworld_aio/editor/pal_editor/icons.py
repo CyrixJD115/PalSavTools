@@ -118,39 +118,41 @@ def _get_element_pixmap(element_name, variant='small', size=16):
             full_path = webp_path
     return _get_cached_pixmap(full_path, size)
 
-def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values=None, active_overwrite_effect=None, default_passives=None):
+def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values=None, active_overwrite_effect=None, default_passives=None, reference_passives=None):
     if not desc_raw:
         return ''
     _ensure_passive_data()
     star_count = max(0, condenser_rank - 1)
-    def _resolve_effect(m):
-        prefix_num = m.group(1)
-        eff_num = m.group(2)
-        idx = int(prefix_num) - 1
-        p_val = None
-        if default_passives and idx < len(default_passives):
-            p_val = default_passives[idx]
-        elif idx < len(p_list) and p_list[idx]:
-            p_val = p_list[idx]
-            if isinstance(p_val, dict):
-                p_val = p_val.get('value', '')
-        if p_val:
-            p_clean = str(p_val).lower()
-            if p_clean:
-                p_info = _data._PASSIVE_DATA.get(p_clean, {})
-                rank_variant = min(star_count + 1, 5)
-                if rank_variant > 1:
-                    variant_key = re.sub(r'\d+', str(rank_variant), p_clean, count=1)
-                    variant_info = _data._PASSIVE_DATA.get(variant_key.lower(), {})
-                    if isinstance(variant_info, dict) and variant_info.get(f'effect{eff_num}', None) is not None:
-                        p_info = variant_info
-                if isinstance(p_info, dict):
-                    ev = p_info.get(f'effect{eff_num}', None)
-                    if ev is not None:
-                        if isinstance(ev, float) and ev == int(ev):
-                            return str(int(ev))
-                        return str(ev)
-        return '?'
+    def _make_effect_resolver(p_src, use_default=False):
+        def _resolve(m):
+            prefix_num = m.group(1)
+            eff_num = m.group(2)
+            idx = int(prefix_num) - 1
+            p_val = None
+            if use_default and default_passives and idx < len(default_passives):
+                p_val = default_passives[idx]
+            elif p_src and idx < len(p_src) and p_src[idx]:
+                p_val = p_src[idx]
+                if isinstance(p_val, dict):
+                    p_val = p_val.get('value', '')
+            if p_val:
+                p_clean = str(p_val).lower()
+                if p_clean:
+                    p_info = _data._PASSIVE_DATA.get(p_clean, {})
+                    rank_variant = min(star_count + 1, 5)
+                    if rank_variant > 1:
+                        variant_key = re.sub(r'\d+', str(rank_variant), p_clean, count=1)
+                        variant_info = _data._PASSIVE_DATA.get(variant_key.lower(), {})
+                        if isinstance(variant_info, dict) and variant_info.get(f'effect{eff_num}', None) is not None:
+                            p_info = variant_info
+                    if isinstance(p_info, dict):
+                        ev = p_info.get(f'effect{eff_num}', None)
+                        if ev is not None:
+                            if isinstance(ev, float) and ev == int(ev):
+                                return str(int(ev))
+                            return str(ev)
+            return '?'
+        return _resolve
     def _resolve_ranked_value(values):
         if values:
             idx = min(star_count, len(values) - 1)
@@ -175,8 +177,9 @@ def _resolve_partner_desc(desc_raw, p_list, condenser_rank=0, active_main_values
             text = re.sub('<[^>]+>', '', text)
             return text
         return ''
-    desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc_raw)
-    desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
+    ref_src = reference_passives if reference_passives else p_list
+    desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _make_effect_resolver(p_list, use_default=True), desc_raw)
+    desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _make_effect_resolver(ref_src, use_default=False), desc)
     desc = re.sub('\\{ActiveSkillMainValueByRank\\}', _resolve_main_value, desc)
     desc = re.sub('\\{ActiveSkillOverWriteEffectTime\\}', _resolve_overwrite_effect, desc)
     desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_refmsgid, desc)
@@ -218,29 +221,32 @@ def _partner_desc_to_html(desc, elem_colors_map, tooltip=False):
         return desc
     return f'<div style="color:#9CA3AF;font-size:8px;line-height:1.4;">{desc}</div>'
 
-def _clean_desc_for_tooltip(desc, passives=None):
+def _clean_desc_for_tooltip(desc, passives=None, reference_passives=None):
     if not desc:
         return desc
     if passives is not None:
         _ensure_passive_data()
-        def _resolve_effect(m):
-            prefix_num = m.group(1)
-            eff_num = m.group(2)
-            idx = int(prefix_num) - 1
-            if idx < len(passives) and passives[idx]:
-                p_val = passives[idx]
-                p_clean = str(p_val).lower() if p_val else ''
-                if p_clean:
-                    p_info = _data._PASSIVE_DATA.get(p_clean, {})
-                    if isinstance(p_info, dict):
-                        ev = p_info.get(f'effect{eff_num}', None)
-                        if ev is not None:
-                            if isinstance(ev, float) and ev == int(ev):
-                                return str(int(ev))
-                            return str(ev)
-            return '?'
-        desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
-        desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _resolve_effect, desc)
+        def _make_effect_resolver(p_src):
+            def _resolve(m):
+                prefix_num = m.group(1)
+                eff_num = m.group(2)
+                idx = int(prefix_num) - 1
+                if p_src and idx < len(p_src) and p_src[idx]:
+                    p_val = p_src[idx]
+                    p_clean = str(p_val).lower() if p_val else ''
+                    if p_clean:
+                        p_info = _data._PASSIVE_DATA.get(p_clean, {})
+                        if isinstance(p_info, dict):
+                            ev = p_info.get(f'effect{eff_num}', None)
+                            if ev is not None:
+                                if isinstance(ev, float) and ev == int(ev):
+                                    return str(int(ev))
+                                return str(ev)
+                return '?'
+            return _resolve
+        ref_src = reference_passives if reference_passives else passives
+        desc = re.sub('\\{Passive(\\d+)_EffectValue(\\d+)\\}', _make_effect_resolver(passives), desc)
+        desc = re.sub('\\{ReferencePassive(\\d+)_EffectValue(\\d+)\\}', _make_effect_resolver(ref_src), desc)
         desc = re.sub('\\{ActiveSkillMainValueByRank\\}', '?', desc)
         desc = re.sub('\\{ActiveSkillOverWriteEffectTime\\}', '?', desc)
     else:

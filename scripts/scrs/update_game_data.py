@@ -1387,7 +1387,6 @@ def update_pal_descriptions():
             tail = parts[-1] if parts else id_val
             tail = tail[0].upper() + tail[1:].lower() if tail else ''
             return tail
-        desc = re.sub('\\{ReferenceMsgId_(\\w+)\\}', _resolve_reference_msg, desc)
         def _preserve_effect(m):
             return f'_PH({m.group(1)})_'
         desc = re.sub('\\{(Passive\\d+_EffectValue\\d+|ReferencePassive\\d+_EffectValue\\d+|ActiveSkillMainValueByRank|ActiveSkillOverWriteEffectTime|ReferenceMsgId_\\w+)\\}', _preserve_effect, desc)
@@ -1581,8 +1580,7 @@ def update_pal_descriptions():
         if '{ReferencePassive' in desc:
             ref_ps = pal_to_textref_passives.get(asset, [])
             if ref_ps:
-                pal_entry['passives'] = ref_ps
-                continue
+                pal_entry['reference_passives'] = ref_ps
         partner_ps = pal_to_partner_passives.get(asset, [])
         if partner_ps:
             pal_entry['passives'] = partner_ps

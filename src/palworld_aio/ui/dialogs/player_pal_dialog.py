@@ -182,6 +182,7 @@ class PlayerPalActionDialog(QDialog):
         self._pal_icon_map = {}
         self._pal_desc_map = {}
         self._pal_passives_map = {}
+        self._pal_reference_passives_map = {}
         self._pal_main_value_map = {}
         self._pal_overwrite_effect_map = {}
         self._pal_elements_map = {}
@@ -202,6 +203,9 @@ class PlayerPalActionDialog(QDialog):
                 passives = pal.get('passives', [])
                 if passives:
                     self._pal_passives_map[asset] = passives
+                ref_passives = pal.get('reference_passives', [])
+                if ref_passives:
+                    self._pal_reference_passives_map[asset] = ref_passives
                 mv = pal.get('active_skill_main_value', [])
                 if mv:
                     self._pal_main_value_map[asset] = mv
@@ -277,7 +281,7 @@ class PlayerPalActionDialog(QDialog):
             pdesc = self._pal_desc_map.get(asset.lower(), '')
             passives = self._pal_passives_map.get(asset.lower(), [])
             if pdesc:
-                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(asset.lower()), self._pal_overwrite_effect_map.get(asset.lower()), passives)
+                resolved = _resolve_partner_desc(pdesc, passives, 0, self._pal_main_value_map.get(asset.lower()), self._pal_overwrite_effect_map.get(asset.lower()), passives, reference_passives=self._pal_reference_passives_map.get(asset.lower(), []))
                 elem_colors = PalInfoWidget._ELEMENT_COLORS if hasattr(PalInfoWidget, '_ELEMENT_COLORS') else {}
                 html_desc = _partner_desc_to_html(resolved, elem_colors, tooltip=True)
                 tip += f'<br><br>{html_desc}'

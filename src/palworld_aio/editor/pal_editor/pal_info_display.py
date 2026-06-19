@@ -332,7 +332,7 @@ class PalInfoDisplayMixin:
             if base:
                 pskill_desc = base.get('description', '')
                 if pskill_desc:
-                    pskill_resolved = _icons._resolve_partner_desc(pskill_desc, p_list, condenser_rank, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
+                    pskill_resolved = _icons._resolve_partner_desc(pskill_desc, p_list, condenser_rank, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []), reference_passives=base.get('reference_passives', []))
                     pskill_html = _partner_desc_to_html(pskill_resolved, self._ELEMENT_COLORS, tooltip=True)
                     tip += f'<br><br><span style="color:#94a3b8;font-size:11px">{pskill_html}</span>'
             self.portrait_frame.setToolTip(tip)
@@ -474,7 +474,7 @@ class PalInfoDisplayMixin:
             self.partner_name_lbl.setText(pskill_name or pal_name)
             self.partner_lvl_lbl.setText(f'Lv {max(1, condenser_rank)}')
             if pal_desc:
-                resolved = _icons._resolve_partner_desc(pal_desc, p_list, condenser_rank, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []))
+                resolved = _icons._resolve_partner_desc(pal_desc, p_list, condenser_rank, base.get('active_skill_main_value'), base.get('active_skill_overwrite_effect'), base.get('passives', []), reference_passives=base.get('reference_passives', []))
                 html = _partner_desc_to_html(resolved, self._ELEMENT_COLORS)
                 self.partner_desc_lbl.setText(html)
             else:

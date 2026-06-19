@@ -7898,7 +7898,7 @@
             "description": "Can produce wood at a base.\r\nRequires Pal with Deforest suitability."
         },
         {
-            "name": "High Quality Wood Logging Site",
+            "name": "Logging Site II",
             "asset": "Product_StationDeforest2",
             "icon": "/icons/technologies/T_icon_buildObject_StationDeforest3.webp",
             "type": "boss",
@@ -9081,14 +9081,14 @@
             "description": ""
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkySubmachineGun.webp",
             "type": "standard",
-            "description": "Ammo for the Compact SMG.\r\nCan be crafted at Ancient Workbench."
+            "description": "Ammo for the Combat SMG.\r\nCan be crafted at Ancient Workbench."
         },
         {
-            "name": "Compact SMG Ammo",
+            "name": "Combat SMG Ammo",
             "asset": "SkySubmachineGunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_SkySubmachineGunBullet.webp",
             "type": "standard",

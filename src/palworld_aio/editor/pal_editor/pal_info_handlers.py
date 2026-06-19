@@ -82,7 +82,7 @@ class PalInfoHandlerMixin:
         if not self._raw:
             return
         cur = int(extract_value(self._raw, 'Rank', 0))
-        new_r = star_idx + 1
+        new_r = star_idx + 2
         if new_r == cur:
             new_r = 0
         self._raw['Rank'] = {'id': None, 'type': 'ByteProperty', 'value': {'type': 'None', 'value': new_r}}

@@ -1355,21 +1355,24 @@ class BasePalsContentWidget(QFrame):
         page_row.addWidget(self.stats_label)
         left_layout.addLayout(page_row)
         self.hsplit.addWidget(left_panel, 1)
-        right_panel = QWidget()
-        right_panel.setFixedWidth(350)
-        right_layout = QVBoxLayout(right_panel)
+        self.right_panel = QWidget()
+        self.right_panel.setFixedWidth(350)
+        right_layout = QVBoxLayout(self.right_panel)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(0)
         self.pal_info = PalInfoWidget()
         self.pal_info.pal_data_changed.connect(self._on_pal_info_changed)
         right_layout.addWidget(self.pal_info)
-        self.hsplit.addWidget(right_panel, 0)
+        self.hsplit.addWidget(self.right_panel, 0)
         layout.addLayout(self.hsplit)
         self.grid_container_widget.hide()
         self.stats_label.hide()
         self.page_label.hide()
         self.prev_page_btn.hide()
         self.next_page_btn.hide()
+        self.restore_all_btn.hide()
+        self.max_all_btn.hide()
+        self.right_panel.hide()
     def set_pals(self, pals_data, base_id=None):
         self._pals = pals_data
         self._current_base_id = base_id
@@ -1448,6 +1451,7 @@ class BasePalsContentWidget(QFrame):
                 self.next_page_btn.hide()
                 self.restore_all_btn.hide()
                 self.max_all_btn.hide()
+                self.right_panel.show()
                 self.stats_label.setText(t('base_inventory.working_pals_count').format(count=0) if t else 'Working Pals: 0')
                 self._selected_idx = -1
                 self.pal_info.set_clicked_pal(None)
@@ -1462,6 +1466,7 @@ class BasePalsContentWidget(QFrame):
             self.next_page_btn.hide()
             self.restore_all_btn.hide()
             self.max_all_btn.hide()
+            self.right_panel.hide()
             self._selected_idx = -1
             self.pal_info.set_clicked_pal(None)
             self.pal_info._clear_display()
@@ -1474,6 +1479,7 @@ class BasePalsContentWidget(QFrame):
         self.next_page_btn.show()
         self.restore_all_btn.show()
         self.max_all_btn.show()
+        self.right_panel.show()
         self.stats_label.setText(t('base_inventory.working_pals_count').format(count=self._pal_count()) if t else f'Working Pals: {self._pal_count()}')
         self._update_page()
     def eventFilter(self, obj, event):

@@ -5130,7 +5130,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up1_Armor",
+            "name": "Attack Up (S) Lv. 1",
             "asset": "Attack_ACC_up1_Armor",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -5245,7 +5245,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up2_Armor",
+            "name": "Attack Up (S) Lv. 2",
             "asset": "Attack_ACC_up2_Armor",
             "rank": 2,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_02.webp",
@@ -5360,7 +5360,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up3_Armor",
+            "name": "Attack Up (S) Lv. 3",
             "asset": "Attack_ACC_up3_Armor",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
@@ -5452,7 +5452,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up4",
+            "name": "Attack Up Lv. 4",
             "asset": "Attack_ACC_up4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -5475,7 +5475,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up4_Armor",
+            "name": "Attack Up (S) Lv. 4",
             "asset": "Attack_ACC_up4_Armor",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -5521,7 +5521,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Attack_ACC_up4_Otomo_Only_Equip",
+            "name": "Pal Attack Up Lv. 4",
             "asset": "Attack_ACC_up4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -5751,11 +5751,11 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "AutoHPRegeneRate_Passive",
+            "name": "Healing Coach",
             "asset": "AutoHPRegeneRate_Passive",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "en Text",
+            "description": "Player Auto Health Regeneration Rate +{EffectValue1}%",
             "effect1": 5.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -5797,7 +5797,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Extends the invincibility period granted from dodging.",
+            "name": "Extended Dodge Immunity",
             "asset": "AvoidDurationUp_EquipSkill_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6533,7 +6533,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_CactusDoll",
+            "name": "Grass Damage Enhancement (Small)",
             "asset": "BossDefeatReward_CactusDoll",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6625,7 +6625,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_CubeTurtle",
+            "name": "Ground Damage Enhancement (Small)",
             "asset": "BossDefeatReward_CubeTurtle",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6648,7 +6648,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_CubeTurtle_Neutral",
+            "name": "Neutral Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_CubeTurtle_Neutral",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6740,7 +6740,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_ElecLizard",
+            "name": "Electric Damage Enhancement (Small)",
             "asset": "BossDefeatReward_ElecLizard",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6763,7 +6763,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_ElecPanda",
+            "name": "Electric Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_ElecPanda",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6786,7 +6786,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_ElecSnail",
+            "name": "Electric Damage Enhancement (Small)",
             "asset": "BossDefeatReward_ElecSnail",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6878,7 +6878,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_FireKirin",
+            "name": "Fire Damage Enhancement (Small)",
             "asset": "BossDefeatReward_FireKirin",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6901,7 +6901,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_FlameBuffalo",
+            "name": "Fire Damage Enhancement (Small)",
             "asset": "BossDefeatReward_FlameBuffalo",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6970,7 +6970,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_FoxExorcist",
+            "name": "Fire Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_FoxExorcist",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -6993,7 +6993,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_FoxMage",
+            "name": "Fire Damage Enhancement (Small)",
             "asset": "BossDefeatReward_FoxMage",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7016,7 +7016,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_GhostDragon",
+            "name": "Dragon Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_GhostDragon",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7085,7 +7085,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_GrassGolem",
+            "name": "Grass Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_GrassGolem",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7108,7 +7108,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_GrassGolem_Dark",
+            "name": "Dark Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_GrassGolem_Dark",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7315,7 +7315,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_IceFox",
+            "name": "Ice Damage Enhancement (Small)",
             "asset": "BossDefeatReward_IceFox",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7453,7 +7453,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_KabukiMan",
+            "name": "Fire Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_KabukiMan",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7637,7 +7637,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_LilyQueen",
+            "name": "Grass Damage Enhancement (Large)",
             "asset": "BossDefeatReward_LilyQueen",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7683,7 +7683,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_LotusDragon",
+            "name": "Water Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_LotusDragon",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7706,7 +7706,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_Manticore",
+            "name": "Fire Damage Enhancement (Small)",
             "asset": "BossDefeatReward_Manticore",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7729,7 +7729,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_MoonChild",
+            "name": "Dark Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_MoonChild",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -7775,7 +7775,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_MushroomLady",
+            "name": "Grass Damage Enhancement (Small)",
             "asset": "BossDefeatReward_MushroomLady",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8028,7 +8028,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_RockBeast",
+            "name": "Ground Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_RockBeast",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8051,7 +8051,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_RockBeast_Ice",
+            "name": "Ice Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_RockBeast_Ice",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8189,7 +8189,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_ScorpionMan_Electric",
+            "name": "Electric Damage Enhancement (Small)",
             "asset": "BossDefeatReward_ScorpionMan_Electric",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8281,7 +8281,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_ThunderFluffyBird",
+            "name": "Electric Damage Enhancement (Small)",
             "asset": "BossDefeatReward_ThunderFluffyBird",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8350,7 +8350,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_VolcanicMonster",
+            "name": "Ground Damage Enhancement (Small)",
             "asset": "BossDefeatReward_VolcanicMonster",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8373,7 +8373,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_VolcanoDragon",
+            "name": "Fire Damage Enhancement (Small)",
             "asset": "BossDefeatReward_VolcanoDragon",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8396,7 +8396,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_VolcanoDragon_Ice",
+            "name": "Ice Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_VolcanoDragon_Ice",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -8488,7 +8488,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "BossDefeatReward_WhiteDeer_Dark",
+            "name": "Dark Damage Enhancement (Medium)",
             "asset": "BossDefeatReward_WhiteDeer_Dark",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -14882,7 +14882,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Defense_ACC_up4_Otomo_Only_Equip",
+            "name": "Pal Defense Up Lv. 4",
             "asset": "Defense_ACC_up4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -15388,7 +15388,7 @@
             "category": "EPalPassiveCategory::SortDisplayable"
         },
         {
-            "name": "Reduces damage taken from explosions.",
+            "name": "Explosion Immunity",
             "asset": "Defuser_ExplosiveSpore_EquipSkill",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -18470,7 +18470,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Dark_4_Otomo_Only_Equip",
+            "name": "Pal Dark Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Dark_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -18792,7 +18792,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Dragon_4_Otomo_Only_Equip",
+            "name": "Pal Dragon Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Dragon_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -19114,7 +19114,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Earth_4_Otomo_Only_Equip",
+            "name": "Pal Ground Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Earth_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -19390,7 +19390,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Electricity_4_Otomo_Only_Equip",
+            "name": "Pal Electric Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Electricity_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -19712,7 +19712,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Fire_4_Otomo_Only_Equip",
+            "name": "Pal Fire Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Fire_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -20034,7 +20034,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Ice_4_Otomo_Only_Equip",
+            "name": "Pal Ice Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Ice_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -20356,7 +20356,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Leaf_4_Otomo_Only_Equip",
+            "name": "Pal Grass Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Leaf_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -20678,7 +20678,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Normal_4_Otomo_Only_Equip",
+            "name": "Pal Neutral Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Normal_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21023,7 +21023,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementBoost_Water_4_Otomo_Only_Equip",
+            "name": "Pal Water Damage Enhancement Lv. 4",
             "asset": "ElementBoost_Water_4_Otomo_Only_Equip",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21253,7 +21253,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Aqua_4",
+            "name": "Water Damage Reduction Lv. 4",
             "asset": "ElementResist_Aqua_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21391,7 +21391,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Dark_4",
+            "name": "Dark Damage Reduction Lv. 4",
             "asset": "ElementResist_Dark_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21529,7 +21529,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Dragon_4",
+            "name": "Dragon Damage Reduction Lv. 4",
             "asset": "ElementResist_Dragon_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21667,7 +21667,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Earth_4",
+            "name": "Ground Damage Reduction Lv. 4",
             "asset": "ElementResist_Earth_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21828,7 +21828,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Fire_4",
+            "name": "Fire Damage Reduction Lv. 4",
             "asset": "ElementResist_Fire_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -21966,7 +21966,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Ice_4",
+            "name": "Ice Damage Reduction Lv. 4",
             "asset": "ElementResist_Ice_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -22104,7 +22104,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Leaf_4",
+            "name": "Grass Damage Reduction Lv. 4",
             "asset": "ElementResist_Leaf_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -22242,7 +22242,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Normal_4",
+            "name": "Neutral Damage Reduction Lv. 4",
             "asset": "ElementResist_Normal_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -22357,7 +22357,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ElementResist_Thunder_4",
+            "name": "Electric Damage Reduction Lv. 4",
             "asset": "ElementResist_Thunder_4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -24795,7 +24795,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Boosts the bonds of Pals in party.",
+            "name": "Party Pals Bond Boost",
             "asset": "FriendshipPoint_Increase_EquipSkill",
             "rank": -1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_00.webp",
@@ -26290,7 +26290,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "HP_ACC_up4",
+            "name": "Health Up Lv. 4",
             "asset": "HP_ACC_up4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -26773,7 +26773,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Invalid_ToxicGas_EquipSkill",
+            "name": "Toxic Gas Immunity",
             "asset": "Invalid_ToxicGas_EquipSkill",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
@@ -29717,7 +29717,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "MaxInventoryWeight_up_Equip_4",
+            "name": "Max Carrying Capacity Lv. 4",
             "asset": "MaxInventoryWeight_up_Equip_4",
             "rank": -1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_00.webp",
@@ -32665,7 +32665,7 @@
             "asset": "MutationPal_Immortal",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
-            "description": "Life Steal +{EffectValue1}%\r\nPal and Player Auto Health Regeneration Rate +{EffectValue2}%\r\nAttack +{EffectValue3}%",
+            "description": "Life Steal +{EffectValue1}%\r\nPal Auto Health Regeneration Rate +{EffectValue2}%\r\nAttack +{EffectValue3}%",
             "effect1": 5.0,
             "effect2": 100.0,
             "effect3": 15.0,
@@ -32937,11 +32937,11 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "Sleepyhead",
+            "name": "Night Owl",
             "asset": "NightOwl",
             "rank": -1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_00.webp",
-            "description": "Active at night, but sleeps during the day.",
+            "description": "Tends to nap through the day, due to being nocturnal.",
             "effect1": 0.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -34547,11 +34547,11 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "PlayerSP_DecreaseRate_Passive",
+            "name": "Wellness Watcher",
             "asset": "PlayerSP_DecreaseRate_Passive",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "en Text",
+            "description": "Player Stamina Consumption -5.0%",
             "effect1": -5.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -35467,11 +35467,11 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "ReloadSpeedUp_Passive",
+            "name": "Reload Master",
             "asset": "ReloadSpeedUp_Passive",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "en Text",
+            "description": "Player Reload Speed +{EffectValue1}%",
             "effect1": 4.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -37905,11 +37905,11 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "StonWoodDrop_Boost",
+            "name": "Logging/Mining Yield Up",
             "asset": "StonWoodDrop_Boost",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "en Text",
+            "description": "Significantly increases the drop amount of Wood, Stone, and Ore.",
             "effect1": 160.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -42666,7 +42666,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "WorkSpeed_ACC_up4",
+            "name": "Speedy Worker Lv. 4",
             "asset": "WorkSpeed_ACC_up4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -43107,7 +43107,7 @@
             "asset": "WorldTree_ATK",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Attack +{EffectValue1}%\r\nDefense {EffectValue2}%\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Attack +{EffectValue1}%\r\nDefense {EffectValue2}%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": 50.0,
             "effect2": -30.0,
             "effect3": 0.0,
@@ -43130,7 +43130,7 @@
             "asset": "WorldTree_ATK_DEF",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Attack +{EffectValue1}%\r\nDefense +{EffectValue2}%\r\n Max HP{EffectValue3}%\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Attack +{EffectValue1}%\r\nDefense +{EffectValue2}%\r\nMax Health {EffectValue3}%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": 40.0,
             "effect2": 20.0,
             "effect3": -50.0,
@@ -43153,7 +43153,7 @@
             "asset": "WorldTree_CraftSpeed",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Work Speed +{EffectValue1}%\r\nSAN drops +15.0% faster.\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Work Speed +{EffectValue1}%\r\nSAN drops +15.0% faster\r\nWorld Tree harvestables won't vanish when approached.",
             "effect1": 90.0,
             "effect2": 15.0,
             "effect3": 0.0,
@@ -43176,7 +43176,7 @@
             "asset": "WorldTree_DEF",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Defense +{EffectValue1}%\r\nAttack {EffectValue2}%\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Defense +{EffectValue1}%\r\nAttack {EffectValue2}%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": 50.0,
             "effect2": -30.0,
             "effect3": 0.0,
@@ -43199,7 +43199,7 @@
             "asset": "WorldTree_FullStomach",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Hunger drops  +50.0% slower,\r\nHP {EffectValue2}%\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Hunger drops +50.0% slower\r\nHP {EffectValue2}%\r\nWorld Tree harvestables won't vanish when approached.",
             "effect1": -50.0,
             "effect2": -20.0,
             "effect3": 0.0,
@@ -43222,7 +43222,7 @@
             "asset": "WorldTree_MoveSpeed",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Movement Speed +{EffectValue1}%\r\nHunger drops +15.0% faster.\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "Movement Speed +{EffectValue1}%\r\nHunger drops +15.0% faster\r\nWorld Tree harvestables won't vanish when approached.",
             "effect1": 50.0,
             "effect2": 15.0,
             "effect3": 0.0,
@@ -43245,7 +43245,7 @@
             "asset": "WorldTree_Sanity",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "SAN drops  +50.0% slower,\r\nWork Speed {EffectValue2}%\r\nImmune to the annihilating effects of the World Tree's environs.",
+            "description": "SAN drops +50.0% slower\r\nWork Speed {EffectValue2}%\r\nWorld Tree harvestables won't vanish when approached",
             "effect1": -50.0,
             "effect2": -20.0,
             "effect3": 0.0,
@@ -43632,7 +43632,7 @@
             "category": "EPalPassiveCategory::SortNotDisplayable"
         },
         {
-            "name": "defense_ACC_up4",
+            "name": "Defense Up Lv. 4",
             "asset": "defense_ACC_up4",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
@@ -45015,7 +45015,7 @@
             "element": "Earth",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Pharapace's exclusive skill.\r\nSoars up into the air to then crush the enemy underneath its overwhelming weight."
+            "description": "Tetroise 's exclusive skill.\r\nSoars up into the air to then crush the enemy underneath its overwhelming weight."
         },
         {
             "name": "Holy Press",
@@ -45023,7 +45023,7 @@
             "element": "Normal",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Pharapace Primo's exclusive skill.\r\nSoars up into the air to crush the enemy, then gleams and follows up by striking with a pillar of light."
+            "description": "Tetroise Primo's exclusive skill.\r\nSoars up into the air to crush the enemy, then gleams and follows up by striking with a pillar of light."
         },
         {
             "name": "Fuddler Tunneler",
@@ -45383,7 +45383,7 @@
             "element": "Earth",
             "power": 600,
             "cooldown": 30.0,
-            "description": "A skill unique to Dualiths. Its left arm detaches from its body to slash at the enemy, followed shortly by its right."
+            "description": "A skill unique to Dualiths. \r\nIts left arm detaches from its body to slash at the enemy, followed shortly by its right."
         },
         {
             "name": "Earth Impact",
@@ -45615,7 +45615,7 @@
             "element": "Water",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Panthalus's exclusive skill. Briefly dives underwater before bursting forth. The force of the surge sends a ring of waves."
+            "description": "Panthalus's exclusive skill. Briefly dives underwater before bursting forth. \r\nThe force of the surge sends a ring of waves."
         },
         {
             "name": "Bubble Rain",
@@ -46007,7 +46007,7 @@
             "element": "Leaf",
             "power": 550,
             "cooldown": 24.0,
-            "description": "Tropicaw's exclusive skill. Rises gently into the air, then slams its sharp claws into the ground."
+            "description": "Tropicaw's exclusive skill. \r\nRises gently into the air, then slams its sharp claws into the ground."
         },
         {
             "name": "Focus Shot",
@@ -46151,7 +46151,7 @@
             "element": "Dark",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Venusa's exclusive skill. The snake head spews out a toxic glob in a wide arc. Its poison spreads out from the point of impact, infecting those who touch it."
+            "description": "Venusa's exclusive skill. \r\nThe snake head spews out a toxic glob in a wide arc. \r\nIts poison spreads out from the point of impact, infecting those who touch it."
         },
         {
             "name": "Glacial Impact",

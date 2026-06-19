@@ -101,7 +101,7 @@
             "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCorner.webp"
         },
         {
-            "name": "Ancient_SlopedRoofCornerReverse",
+            "name": "Ancient Slanted Triangular Roof (Inverted)",
             "asset": "Ancient_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCornerReverse.webp"
         },
@@ -3221,7 +3221,7 @@
             "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCorner.webp"
         },
         {
-            "name": "Glass Slanted Triangular Roof",
+            "name": "Glass Slanted Corner Roof (Inverted)",
             "asset": "Glass_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Glass_SlopedRoofCornerReverse.webp"
         },
@@ -3391,7 +3391,7 @@
             "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCorner.webp"
         },
         {
-            "name": "Metal Slanted Triangular Roof",
+            "name": "Metal Slanted Corner Roof (Inverted)",
             "asset": "Iron_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Iron_SlopedRoofCornerReverse.webp"
         },
@@ -3511,7 +3511,7 @@
             "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCorner.webp"
         },
         {
-            "name": "Japanese-Style Slanted Triangular Roof",
+            "name": "Japanese-Style Slanted Corner Roof (Inverted)",
             "asset": "JapaneseStyle_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_JapaneseStyle_SlopedRoofCornerReverse.webp"
         },
@@ -4301,7 +4301,7 @@
             "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCorner.webp"
         },
         {
-            "name": "Clean Slanted Triangular Roof",
+            "name": "Clean Slanted Corner Roof (Inverted)",
             "asset": "SF_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_SF_SlopedRoofCornerReverse.webp"
         },
@@ -4631,7 +4631,7 @@
             "icon": "/icons/structures/T_icon_buildObject_StationDeforest2.webp"
         },
         {
-            "name": "High Quality Wood Logging Site",
+            "name": "Logging Site II",
             "asset": "StationDeforest3",
             "icon": "/icons/structures/T_icon_buildObject_StationDeforest3.webp"
         },
@@ -4691,7 +4691,7 @@
             "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCorner.webp"
         },
         {
-            "name": "Stone Slanted Triangular Roof",
+            "name": "Stone Slanted Corner Roof (Inverted)",
             "asset": "Stone_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Stone_SlopedRoofCornerReverse.webp"
         },
@@ -5306,7 +5306,7 @@
             "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCorner.webp"
         },
         {
-            "name": "Wooden Slanted Triangular Roof",
+            "name": "Wooden Slanted Corner Roof (Inverted)",
             "asset": "Wooden_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Wooden_SlopedRoofCornerReverse.webp"
         },
@@ -5557,84 +5557,84 @@
             "asset": "AncientArmor",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmor.webp",
             "type": "standard",
-            "description": "Soralite Ingotから鍛えられた古代の鎧。\r\n失われた文明の粋が惜しみなく注ぎ込まれ、圧倒的な防御力を誇る。\r\n終末級の脅威にさえ立ち向かえる、究極の防具である。"
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats."
         },
         {
             "name": "Cold-Resistant Ancient Armor",
             "asset": "AncientArmorCold",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorCold.webp",
             "type": "standard",
-            "description": "改良されたAncient Armor。\r\n古代技術によって防寒性能がさらに高められ、極寒の地でも力を保てる。"
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill."
         },
         {
             "name": "Heat-Resistant Ancient Armor",
             "asset": "AncientArmorHeat",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorHeat.webp",
             "type": "standard",
-            "description": "改良されたAncient Armor。\r\n古代技術によって耐熱性能がさらに高められ、灼熱の環境にも耐える。"
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed."
         },
         {
             "name": "Lightweight Ancient Armor",
             "asset": "AncientArmorWeight",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientArmorWeight.webp",
             "type": "standard",
-            "description": "改良されたAncient Armor。\r\n古代の補助機構が組み込まれており、より多くの物資を携行できる。"
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies."
         },
         {
             "name": "Ancient Furnace",
             "asset": "AncientBlastFurnace",
             "icon": "/icons/technologies/T_icon_buildObject_AncientBlastFurnace.webp",
             "type": "standard",
-            "description": "すべてのインゴットを製錬できる、古代文明の技術を応用した特殊な炉。\r\n炎の熱で素材を溶かし、氷の力で一気に冷やし固めることで製錬を行う。\r\n稼働には、火おこしと冷却の適性を持つパルが必要になる。"
+            "description": "This specially designed furnace can create any kind of ingot. \r\nMaterials are first melted down under intense heat, then blasted with ice to solidify the liquid metal. \r\nThis smelting process requires two Pals—one with Kindling, the other with Cooling."
         },
         {
             "name": "Ancient Kitchen",
             "asset": "AncientCookingStove",
             "icon": "/icons/technologies/T_icon_buildObject_AncientCookingStove.webp",
             "type": "standard",
-            "description": "既存の料理から未知の新作まで作り出せる、古代文明のキッチン。\r\n炎で熱を蓄え、手作業で仕上げることで、あらゆる料理を完成させる。\r\n稼働には、高位の火おこしと手作業適性を持つパルが必要になる。"
+            "description": "From time-tested dishes to ground-breaking new cuisines, this kitchen can do it all. \r\nPrecision heat control and fine finishing work ensures that every dish comes out perfectly. \r\nOperating this state-of-the-(ancient)-art system requires a Pal with high-level Kindling that can work with its hands."
         },
         {
             "name": "Ancient Power Generator",
             "asset": "AncientElectricGenerator",
             "icon": "/icons/technologies/T_icon_buildObject_AncientElectricGenerator.webp",
             "type": "standard",
-            "description": "失われた古代技術を復元した、超高効率の発電機。\r\n莫大な電力を生み出せる反面、稼働中はオーバーヒートの危険を伴う。\r\n運用には発電を担う雷パルに加え、冷却を行う水パルの配置が必要になる。"
+            "description": "Crafted using long-lost ancient technology, this power generator is hyper-efficient. \r\nWhile its output is immense, it's also prone to overheating. \r\nAs a result, both an Electric Pal and a Water Pal are require to operate this beast."
         },
         {
             "name": "Ancient Farm",
             "asset": "AncientFarmBlock",
             "icon": "/icons/technologies/T_icon_buildObject_AncientFarmBlock.webp",
             "type": "standard",
-            "description": "世界樹の力で、パルパゴス島のあらゆる植物を育てられる古代文明の栽培器。\r\nベリー農園よりはるかに小型で屋内にも設置できるが、栽培の流れ自体は従来通り。\r\n稼働には、高位の種まき・水やり適性を持つパルが必要になる。"
+            "description": "Thanks to the World Tree, this ancient plot can grow any plant from the Palpagos Islands. \r\nSmaller than a berry plantation, and capable of being placed indoors, the cultivation process remains unchanged from conventional plots. \r\nPals with high-level sowing/watering abilities are required to run this farm."
         },
         {
             "name": "Ancient Helm",
             "asset": "AncientHelmet",
             "icon": "/icons/technologies/T_itemicon_Armor_AncientHelmet.webp",
             "type": "standard",
-            "description": "Soralite Ingotから鍛えられた古代の兜。\r\n悠久の時を超えて受け継がれた叡智が宿り、装着者を堅固に守る。\r\nその防御性能は、現代の装備をはるかに凌駕する。"
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts."
         },
         {
             "name": "Ancient Material Manifester",
             "asset": "AncientMultiProduct",
             "icon": "/icons/technologies/T_icon_buildObject_AncientMultiProduct.webp",
             "type": "standard",
-            "description": "世界樹の力を利用し、あらゆる木材や鉱石を生み出せる古代文明の生成器。\r\n好きな資源を選んで得られるが、採掘効率自体は従来の施設と変わらない。\r\n複雑な構造のため、アサインできるパルは1体のみとなる。"
+            "description": "By harnessing the power of the World Tree, this ancient tool can produce any wood or ore under the sun. \r\nHowever, after selecting your material of choice, it won't work any faster than a conventional facility. \r\nDue to the complex nature of this structure, only one Pal can be assigned to it at a time."
         },
         {
             "name": "Ancient Relic Recycler",
             "asset": "AncientRelicRecycler",
             "icon": "/icons/technologies/T_icon_buildObject_AncientRelicRecycler.webp",
             "type": "standard",
-            "description": "失われた文明の技術を転用した、古代の物質変換装置。\r\n『古代文明の遺物』に遺された技術を紐解き、新たな形態へと昇華させる。\r\n遺物を無駄なく活用するための、極めて特殊な設備である。"
+            "description": "This piece of long-lost equipment converts equally ancient materials into other substances, bringing things full circle. \r\nIt unravels Ancient Relics, transforming them into something entirely new and considerably improved. \r\nThis special machine is the best way to put any relics you have lying around to even better use."
         },
         {
             "name": "Ancient Workbench",
             "asset": "AncientWorkBench",
             "icon": "/icons/technologies/T_icon_buildObject_AncientWorkBench.webp",
             "type": "standard",
-            "description": "すべてのアイテムを一か所で製作できる、パル専用の複合施設。\r\nプレイヤーは作業できず、製作速度も通常設備と変わらない。\r\n高度な設備のため、運用には高い手作業・製薬適性を持つパルが必要になる。"
+            "description": "A workbench that is capable of crafting any item, but can only be used by Pals. \r\nOperates at the same speed as a regular workbench, despite the restrictions. \r\nDue to its advanced equipment, Pals with high-level Handiwork and Medicine Production work suitability are required."
         },
         {
             "name": "Ancient Clinic",
@@ -5648,14 +5648,14 @@
             "asset": "Ancient_Houseset",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_foundation.webp",
             "type": "standard",
-            "description": "Set for building bases using ancient architecture. Allows building of ancient-styled foundations, walls, ceilings, stairs and other things necessary for shelters."
+            "description": "Set for building bases using ancient architecture. \r\nAllows building of ancient-styled foundations, walls, ceilings, stairs and other things necessary for shelters."
         },
         {
             "name": "Ancient Pal Bed",
             "asset": "Ancient_MedicalPalBed",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_MedicalPalBed.webp",
             "type": "standard",
-            "description": "Placing a soft mattress in this ancient recovery pod has turned it into the ultimate Pal Bed. It promotes higher rates of SAN recovery and whisks fatigue away faster than any other model. Similar in size to a Large Pal Bed, it can accommodate most Pals with ease."
+            "description": "Placing a soft mattress in this ancient recovery pod has turned it into the ultimate Pal Bed. \r\nIt promotes higher rates of SAN recovery and whisks fatigue away faster than any other model. \r\nSimilar in size to a Large Pal Bed, it can accommodate most Pals with ease."
         },
         {
             "name": "Ancient Hot Spring",
@@ -5669,28 +5669,28 @@
             "asset": "Arrow",
             "icon": "/icons/technologies/T_itemicon_Ammo_Arrow.webp",
             "type": "standard",
-            "description": "Used with Old Bow.\r\nRequires Primitive Workbench to craft."
+            "description": "Arrows for use with bows.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Fire Arrow",
             "asset": "Arrow_Fire",
             "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Fire.webp",
             "type": "standard",
-            "description": "Arrows for shooting with Fire Bow and Fire Arrow Crossbow.\r\nDeals Fire damage.\r\nRequires Primitive Workbench to craft."
+            "description": "Fire Arrows for use with bows. \r\nDeals Fire damage on contact.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Poison Arrow",
             "asset": "Arrow_Poison",
             "icon": "/icons/technologies/T_itemicon_Ammo_Arrow_Poison.webp",
             "type": "standard",
-            "description": "Arrows for shooting with Poison Bow and Poison Arrow Crossbow.\r\nIt poisons any target it hits.\r\nRequires Primitive Workbench to craft."
+            "description": "Poison Arrows for use with bows. \r\nAfflicts target with Poison on contact.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Assault Rifle Ammo",
             "asset": "AssaultRifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_AssaultRifleBullet.webp",
             "type": "standard",
-            "description": "Ammo for Assault Rifle and other similar weapons.\r\nRequires Weapon Assembly Line to craft."
+            "description": "Ammo for the Assault Rifle and similar weapons.\r\nCan be crafted at Weapon Assembly Line."
         },
         {
             "name": "Small Feed Bag",
@@ -5753,14 +5753,14 @@
             "asset": "BaseCampWorkHard02",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard02.webp",
             "type": "standard",
-            "description": "素材と構造を見直し、より洗練された造りになった監視台。\r\n従来通りの作業指示を出せるうえに、拠点内のパルのSAN値が減りにくくなる。\r\n労働環境が少しだけ改善され、パルたちも不満を抱えにくくなるだろう。"
+            "description": "A more refined monitoring stand, made from superior materials. \r\nIn addition to being able to issue work orders, the system also lowers the SAN cost for Pals working on the base. \r\nAny improvements to working conditions are always appreciated by Pals, keeping satisfaction levels high."
         },
         {
             "name": "Ancient Monitoring Stand",
             "asset": "BaseCampWorkHard03",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard03.webp",
             "type": "standard",
-            "description": "赤いパルジウムを埋め込んだ、古代テクノロジーによる監視台。\r\nホログラムのインターフェースで拠点全体に指示を出しながら、パルのSAN値減少を抑える。\r\n特殊な波長が拠点を包み込み、過酷な労働環境でもパルの心を穏やかに保ってくれる。"
+            "description": "A monitoring stand covered in Red Paldium, powered by ancient technology. \r\nMost directives are carried out via a programmable interface, greatly reducing the SAN cost. \r\nIt emits a special wavelength that covers bases, keeping Pals calm in even the harshest working environments."
         },
         {
             "name": "Palbox Control Device",
@@ -5774,140 +5774,140 @@
             "asset": "Bat3",
             "icon": "/icons/technologies/T_itemicon_Weapon_Bat3.webp",
             "type": "standard",
-            "description": "近接戦闘もできるMetal Bat。\r\n気に入らない相手は、これでタコ殴り。"
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like."
         },
         {
             "name": "Cloth Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth",
             "icon": "/icons/technologies/T_itemicon_Armor_ClothArmor.webp",
             "type": "standard",
-            "description": "Protects against cold nights.\r\nRequires Primitive Workbench to craft."
+            "description": "Clothes made from Cloth. Protects against cold nights.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Tundra Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorCold.webp",
             "type": "standard",
-            "description": "Cloth Outfit produced in cold regions.\r\nUseful for surviving in cold climates.\r\nRequires Primitive Workbench to craft."
+            "description": "A Cloth Outfit produced in cold regions. \r\nUseful for surviving in cold climates.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Tropical Outfit",
             "asset": "Battle_Armor_Grade_01_Cloth_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_ClothArmorHeat.webp",
             "type": "standard",
-            "description": "Cloth Outfit produced in hot regions.\r\nBoasts high heat resistance.\r\nRequires Primitive Workbench to craft."
+            "description": "A Cloth Outfit produced in hot regions. \r\nBoasts high heat resistance.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur",
             "icon": "/icons/technologies/T_itemicon_Armor_FurArmor.webp",
             "type": "standard",
-            "description": "Armor made from Leather.\r\nIts warmth and defense have been improved.\r\nRequires High-Quality Workbench to craft."
+            "description": "Armor made from Leather. \r\nIts warmth and defense have been improved.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Cold Resistant Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_FurArmorCold.webp",
             "type": "standard",
-            "description": "Pelt Armor produced in cold regions.\r\nUseful for surviving in cold climates.\r\nRequires High-Quality Workbench to craft."
+            "description": "A Pelt Armor produced in cold regions. \r\nUseful for surviving in cold climates.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Heat Resistant Pelt Armor",
             "asset": "Battle_Armor_Grade_02_Fur_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_FurArmorHeat.webp",
             "type": "standard",
-            "description": "Pelt Armor produced in hot regions.\r\nBoasts high heat resistance.\r\nRequires High-Quality Workbench to craft."
+            "description": "A Pelt Armor produced in hot regions. \r\nBoasts high heat resistance.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper",
             "icon": "/icons/technologies/T_itemicon_Armor_CopperArmor.webp",
             "type": "standard",
-            "description": "Armor made of metal.\r\nSomewhat heavy, but provides good defense.\r\nRequires High-Quality Workbench to craft."
+            "description": "Armor made of metal. Somewhat heavy, but provides good defense.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Cold Resistant Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorCold.webp",
             "type": "standard",
-            "description": "Improved Metal Armor.\r\nUseful for surviving in cold climates.\r\nRequires High-Quality Workbench to craft."
+            "description": "Improved Metal Armor. \r\nUseful for surviving in cold climates.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Heat Resistant Metal Armor",
             "asset": "Battle_Armor_Grade_03_Copper_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_CopperArmorHeat.webp",
             "type": "standard",
-            "description": "Improved Metal Armor.\r\nBoasts high heat resistance.\r\nRequires High-Quality Workbench to craft."
+            "description": "Improved Metal Armor. Boasts high heat resistance.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron",
             "icon": "/icons/technologies/T_itemicon_Armor_IronArmor.webp",
             "type": "standard",
-            "description": "Armor made from high quality metal.\r\nQuite heavy, but provides excellent defense.\r\nRequires Production Assembly Line to craft."
+            "description": "Armor made from high quality metal. \r\nQuite heavy, but provides excellent defense.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Cold Resistant Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_IronArmorCold.webp",
             "type": "standard",
-            "description": "Improved Refined Metal Armor.\r\nUseful for surviving in cold climates.\r\nRequires Production Assembly Line to craft."
+            "description": "Improved Refined Metal Armor. \r\nUseful for surviving in cold climates.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Heat Resistant Refined Metal Armor",
             "asset": "Battle_Armor_Grade_03_Iron_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_IronArmorHeat.webp",
             "type": "standard",
-            "description": "Improved Refined Metal Armor.\r\nBoasts high heat resistance.\r\nRequires Production Assembly Line to craft."
+            "description": "Improved Refined Metal Armor. \r\nBoasts high heat resistance.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal",
             "icon": "/icons/technologies/T_itemicon_Armor_StealArmor.webp",
             "type": "standard",
-            "description": "Armor fully utilizing the latest technology.\r\nBoasts overwhelming defense.\r\nRequires Production Assembly Line II to craft."
+            "description": "Armor made from Pal Metal Ingot. \r\nHigh defense, but extremely heavy.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Cold Resistant Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_StealArmorCold.webp",
             "type": "standard",
-            "description": "Improved Pal Metal Armor.\r\nUseful for surviving in cold climates.\r\nRequires Production Assembly Line II to craft."
+            "description": "Improved Pal Metal Armor. \r\nUseful for surviving in cold climates.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Heat Resistant Pal Metal Armor",
             "asset": "Battle_Armor_Grade_04_Steal_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_StealArmorHeat.webp",
             "type": "standard",
-            "description": "Improved Pal Metal Armor.\r\nBoasts high heat resistance.\r\nRequires Production Assembly Line II to craft."
+            "description": "Improved Pal Metal Armor. \r\nBoasts high heat resistance.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic",
             "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmor.webp",
             "type": "standard",
-            "description": "Armor developed by pushing the edge of technology.\r\nBoasts unparalleled defense.\r\nRequires Production Assembly Line II to craft."
+            "description": "Armor made of Plasteel. \r\nIn addition to enhanced defense capabilities, its weight was also reduced.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Cold Resistant Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Cold",
             "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorCold.webp",
             "type": "standard",
-            "description": "Improved Plasteel Armor.\r\nUseful for surviving in cold climates.\r\nRequires Production Assembly Line II to craft."
+            "description": "Improved Plasteel Armor. \r\nUseful for surviving in cold climates.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Heat Resistant Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Heat",
             "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorHeat.webp",
             "type": "standard",
-            "description": "Improved Plasteel Armor.\r\nBoasts high heat resistance.\r\nRequires Production Assembly Line II to craft."
+            "description": "Improved Plasteel Armor. \r\nBoasts high heat resistance.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Lightweight Plasteel Armor",
             "asset": "Battle_Armor_Grade_05_Plastic_Weight",
             "icon": "/icons/technologies/T_itemicon_Armor_PlasticArmorWeight.webp",
             "type": "standard",
-            "description": "Improved Plasteel Armor.\r\nIncreases carrying capacity.\r\nRequires Production Assembly Line II to craft."
+            "description": "Improved Plasteel Armor. \r\nIncreases carrying capacity.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Cloth",
@@ -5977,35 +5977,35 @@
             "asset": "Battle_Helm_Grade_02_Fur",
             "icon": "/icons/technologies/T_itemicon_Armor_FurHelmet.webp",
             "type": "standard",
-            "description": "A beautiful feathered headband.\r\nThough improbable, it somehow protects its wearer from lethal head injuries.\r\nRequires Primitive Workbench to craft."
+            "description": "A beautiful feathered headband. \r\nThough improbable, it somehow seems to protect its wearer from lethal head injuries.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Metal Helm",
             "asset": "Battle_Helm_Grade_03_Copper",
             "icon": "/icons/technologies/T_itemicon_Armor_CopperHelmet.webp",
             "type": "standard",
-            "description": "A helm made of metal.\r\nA reliable piece of armor that protects your head, and all the thoughts within.\r\nRequires High-Quality Workbench to craft."
+            "description": "A helm made of metal. \r\nA reliable piece of armor that protects your head, and all the thoughts within.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Refined Metal Helm",
             "asset": "Battle_Helm_Grade_04_Iron",
             "icon": "/icons/technologies/T_itemicon_Armor_IronHelmet.webp",
             "type": "standard",
-            "description": "A helm made from high quality metal.\r\nIts sheen gives the wearer a greater sense of confidence.\r\nRequires Production Assembly Line to craft."
+            "description": "A helm made from high quality metal. \r\nThe luster from the polished metal gives the wearer that added boost of confidence.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Pal Metal Helm",
             "asset": "Battle_Helm_Grade_05_Steal",
             "icon": "/icons/technologies/T_itemicon_Armor_StealHelmet.webp",
             "type": "standard",
-            "description": "A helm made from Pal Metal Ingot.\r\nEnvied for its immaculate quality, it is proof of a chosen warrior.\r\nRequires Production Assembly Line II to craft."
+            "description": "A helm made from Pal Metal Ingot. \r\nEnvied for its immaculate quality, it is proof of a chosen warrior.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Plasteel Helmet",
             "asset": "Battle_Helm_Grade_06_Plastic",
             "icon": "/icons/technologies/T_itemicon_Armor_PlasticHelmet.webp",
             "type": "standard",
-            "description": "Helmet made of Plasteel.\r\nIn addition to enhanced defense capabilities, its weight was also reduced.\r\nRequires Production Assembly Line II to craft."
+            "description": "Helmet made of Plasteel. \r\nIn addition to enhanced defense capabilities, its weight was also reduced.\r\nCan be crafted at Production Assembly Line II."
         },
         {
             "name": "Pal Metal Axe",
@@ -6040,21 +6040,21 @@
             "asset": "Battle_MeleeWeapon_Sword",
             "icon": "/icons/technologies/T_itemicon_Weapon_Sword.webp",
             "type": "standard",
-            "description": "Sword for close-range combat.\r\nThe blade is extremely sharp! Mightier than a pen, for sure.\r\nRequires Weapon Workbench to craft."
+            "description": "Sword for close-range combat. \r\nThe blade is extremely sharp! Mightier than a pen, for sure.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Assault Rifle",
             "asset": "Battle_RangeWeapon_AssaultRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_AssaultRifle_Default1.webp",
             "type": "standard",
-            "description": "Mows down enemies with overwhelming force.\r\nIt excels at rapid-fire and is well suited to taking down powerful foes.\r\nCrafted at Weapon Assembly Line."
+            "description": "An Assault Rifle that mows down enemies with overwhelming force. \r\nIt excels at rapid-fire and is well suited to taking down powerful foes.\r\nCan be crafted at Weapon Assembly Line."
         },
         {
             "name": "Old Bow",
             "asset": "Battle_RangeWeapon_Bow1",
             "icon": "/icons/technologies/T_itemicon_Weapon_WeakerBow.webp",
             "type": "standard",
-            "description": "Primitive long range weapon.\r\nRequires Primitive Workbench to craft."
+            "description": "Primitive long-range weapon. \r\nHastily put together, it isn't very powerful.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Three Shot Bow",
@@ -6068,7 +6068,7 @@
             "asset": "Battle_RangeWeapon_BowGun",
             "icon": "/icons/technologies/T_itemicon_Weapon_BowGun.webp",
             "type": "standard",
-            "description": "Fires an Arrow effortlessly.\r\nThough it takes time to load, it delivers a powerful shot.\r\nRequires High-Quality Workbench to craft."
+            "description": "Fires an Arrow effortlessly. \r\nThough it takes time to load, it delivers a powerful shot.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Compound Bow",
@@ -6089,21 +6089,21 @@
             "asset": "Battle_RangeWeapon_GatlingGun",
             "icon": "/icons/technologies/T_itemicon_Weapon_GatlingGun.webp",
             "type": "standard",
-            "description": "A Gatling Gun capable of rapid fire. \r\nMows down enemies with suppressive fire.\r\nCrafted at Weapon Assembly Line II."
+            "description": "A Gatling Gun capable of rapid fire. \r\nMows down enemies with suppressive shots.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Grenade Launcher",
             "asset": "Battle_RangeWeapon_GrenadeLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_GrenadeLauncher.webp",
             "type": "standard",
-            "description": "Fires grenades that cause wide-ranging explosions.\r\nUseful when dealing with a large number of enemies.\r\nCrafted at Weapon Assembly Line II"
+            "description": "Fires grenades that cause wide-ranging explosions. \r\nUseful when dealing with a large number of enemies.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Guided Missile Launcher",
             "asset": "Battle_RangeWeapon_GuidedMissileLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_GuidedMissileLauncher.webp",
             "type": "standard",
-            "description": "Fires missiles that automatically track and pursue enemies.\r\nMissiles explode upon impact, causing damage over a wide area."
+            "description": "Fires missiles that automatically track and pursue enemies. \r\nMissiles explode upon impact, causing damage over a wide area.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Handgun",
@@ -6117,14 +6117,14 @@
             "asset": "Battle_RangeWeapon_HomingSphereLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_HomingSphereLauncher.webp",
             "type": "boss",
-            "description": "Fires Pal Spheres that automatically home in on Pals.\r\nRequires Weapon Assembly Line II to craft."
+            "description": "A launcher for firing spheres. Fired spheres home in on Pals.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Laser Rifle",
             "asset": "Battle_RangeWeapon_LaserRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_LaserRifle.webp",
             "type": "standard",
-            "description": "A weapon that fires high-energy lasers.\r\nIt has impressive firepower and is easy to handle.\r\nCrafted at Weapon Assembly Line II."
+            "description": "A weapon that fires high-energy lasers. \r\nIt has impressive firepower and is easy to handle.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Old Revolver",
@@ -6145,7 +6145,7 @@
             "asset": "Battle_RangeWeapon_RocketLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Default.webp",
             "type": "standard",
-            "description": "A Rocket Launcher \r\nthat can fire a powerful round from long distances.\r\nRequires Weapon Assembly Line II to craft."
+            "description": "A Rocket Launcher that can fire a powerful round from long distances.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Semi-Auto Rifle",
@@ -6173,21 +6173,21 @@
             "asset": "Battle_RangeWeapon_ShotGun_Multi",
             "icon": "/icons/technologies/T_itemicon_Weapon_PumpActionShotgun.webp",
             "type": "standard",
-            "description": "A high capacity, powerful shotgun.\r\nIt has outstanding close range DPS.\r\nCrafted at Weapon Assembly Line."
+            "description": "A high capacity, powerful shotgun.\r\nIt has outstanding close range DPS.\r\nCan be crafted at Weapon Assembly Line."
         },
         {
             "name": "Scatter Sphere Launcher",
             "asset": "Battle_RangeWeapon_SphereLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher.webp",
             "type": "boss",
-            "description": "Innovative launcher that fires many Spheres simultaneously.\r\nCan easily capture a herd of Pals.\r\nRequires Weapon Assembly Line to craft."
+            "description": "A new type of launcher that fires a large number of spheres. \r\nIt can easily capture a herd of Pals.\r\nCan be crafted at Weapon Assembly Line."
         },
         {
             "name": "Single-Shot Sphere Launcher",
             "asset": "Battle_RangeWeapon_SphereLauncher_Once",
             "icon": "/icons/technologies/T_itemicon_Weapon_SphereLauncher_Once.webp",
             "type": "boss",
-            "description": "Can capture distant Pals.\r\nRequires Weapon Workbench to craft."
+            "description": "A launcher that fires spheres. It can capture Pals from a greater distance.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "SMG",
@@ -6201,14 +6201,14 @@
             "asset": "BeamLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_BeamLauncher.webp",
             "type": "standard",
-            "description": "高密度のビームを射出し、広範囲に爆発を引き起こすランチャー。\r\n連射時はオーバーヒートに注意が必要。"
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat."
         },
         {
             "name": "Beam Launcher Ammo",
             "asset": "BeamLauncherBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_BeamLauncherBullet.webp",
             "type": "standard",
-            "description": "Beam Launcherで使用する弾。"
+            "description": "Ammo for the Beam Launcher.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Beam Sword",
@@ -6257,7 +6257,7 @@
             "asset": "BronzeSword",
             "icon": "/icons/technologies/T_itemicon_Weapon_BronzeSword.webp",
             "type": "standard",
-            "description": "近接戦闘用の剣。\r\nあなどれない切れ味！\r\n敵に近づく分、危険がいっぱいだ。"
+            "description": "A sword for close-range combat. \r\nNot bad for a battered sword. \r\nPerfect for getting up close and personal."
         },
         {
             "name": "Statue of Power",
@@ -6418,7 +6418,7 @@
             "asset": "DarkIslandFlagSet",
             "icon": "/icons/technologies/T_icon_buildObject_DarkIsland_Flag.webp",
             "type": "standard",
-            "description": "Feybreak Flag and Feybreak Banner set. Proof of your victory over the Feybreak."
+            "description": "Feybreak Flag and Feybreak Banner set. \r\nProof of your victory over the Feybreak."
         },
         {
             "name": "Decal Gun Set",
@@ -6481,28 +6481,28 @@
             "asset": "DroneLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_DroneLauncher.webp",
             "type": "standard",
-            "description": "自律攻撃を行うドローンを射出するランチャー。\r\n最大9機まで展開可能で、持続的な制圧を行う。"
+            "description": "This launcher sends out fully automated offensive drones. \r\nCapable of deploying up to 9 at a time, these bots will keep your enemies on their toes."
         },
         {
             "name": "Stun Baton",
             "asset": "ElecBaton",
             "icon": "/icons/technologies/T_itemicon_Weapon_ElecBaton.webp",
             "type": "standard",
-            "description": "Close range weapon that sends out an electric jolt upon contact.\r\nPals are easier to capture when electrocuted.\r\nRequires High-Quality Workbench to craft."
+            "description": "Close range weapon that sends out an electric jolt upon contact. \r\nPals are easier to capture when electrocuted.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Plasma Rifle",
             "asset": "ElectricArcAssaultRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_ElectricArcAssaultRifle.webp",
             "type": "standard",
-            "description": "着弾点から電撃が走り、複数の敵へ連鎖するライフル。"
+            "description": "This rifle releases an electrical shock on impact, striking multiple enemies in a chain."
         },
         {
             "name": "Plasma Rifle Ammo",
             "asset": "ElectricArcAssaultRifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_ElectricArcAssaultRifleBullet.webp",
             "type": "standard",
-            "description": "Plasma Rifleで使用する弾。"
+            "description": "Ammo for the Plasma Rifle.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Electric Cooler",
@@ -6985,56 +6985,56 @@
             "asset": "FurnitureTree_Bamboo",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Bamboo.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated bamboo. Create a Bamboo Grove-inspired base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated bamboo. \r\nCreate a Bamboo Grove-inspired base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Cherry Blossoms Set",
             "asset": "FurnitureTree_Cherry",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Cherry.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated cherry blossoms. Create a Sakurajima-inspired base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated cherry blossoms. \r\nCreate a Sakurajima-inspired base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Desert Greenery Set",
             "asset": "FurnitureTree_Desert",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Desert.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated greenery. Create an oasis-worthy base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated greenery. \r\nCreate an oasis-worthy base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Greenery Set",
             "asset": "FurnitureTree_Green",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Green.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated greenery. Create a natural-looking base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated greenery. \r\nCreate a natural-looking base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Crimson Foliage Set",
             "asset": "FurnitureTree_Red",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Red.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated crimson foliage. Create a natural-looking base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated crimson foliage. \r\nCreate a natural-looking base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Snowy Greenery Set",
             "asset": "FurnitureTree_Snow",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Snow.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated snowy greenery. Create a wintery base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated snowy greenery. \r\nCreate a wintery base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Tropical Greenery Set",
             "asset": "FurnitureTree_Tropical",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Tropical.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated tropical greenery. Create a resort-worthy base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated tropical greenery. \r\nCreate a resort-worthy base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Fake Golden Foliage Set",
             "asset": "FurnitureTree_Yellow",
             "icon": "/icons/technologies/T_icon_buildObject_FurnitureTree01_Yellow.webp",
             "type": "standard",
-            "description": "An assortment of painstakingly replicated golden foliage. Create a natural-looking base by adorning it with (fake) plants! Cannot be harvested for materials."
+            "description": "An assortment of painstakingly replicated golden foliage. \r\nCreate a natural-looking base by adorning it with (fake) plants! \r\nCannot be harvested for materials."
         },
         {
             "name": "Corrosive Mist Mask",
@@ -7118,14 +7118,14 @@
             "asset": "HandTorch",
             "icon": "/icons/technologies/T_itemicon_Weapon_Torch.webp",
             "type": "standard",
-            "description": "Lights up dark areas and keeps you warm.\r\nCan also be used for close range combat in a pinch.\r\nCrafts Hand-Held Torch atPrimitive Workbench."
+            "description": "Lights up dark areas and keeps you warm. \r\nCan also be used for close-range combat in a pinch.\r\nCan be crafted at Primitive Workbench."
         },
         {
             "name": "Handgun Ammo",
             "asset": "HandgunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_HandgunBullet.webp",
             "type": "standard",
-            "description": "Ammo for Handgun and other similar weapons.\r\nRequires Weapon Workbench to craft."
+            "description": "Ammo for the Handgun and similar weapons.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Tombstone",
@@ -7356,21 +7356,21 @@
             "asset": "LaserMiningTool",
             "icon": "/icons/technologies/T_itemicon_Weapon_LaserMiningTool.webp",
             "type": "standard",
-            "description": "プラズマエネルギーを収束させ、照射することができる携行用のプラズマカッター。\r\n鉱石の掘削から木の伐採まで、幅広い用途に対応している。"
+            "description": "This portable cutter uses concentrated plasma energy to slice through anything in its path, from the hardest ores to the toughest lumber.\r\nIts high-output energy can even extract special minerals."
         },
         {
             "name": "Rocket Ammo",
             "asset": "LauncherBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_ExplosiveBullet.webp",
             "type": "standard",
-            "description": "Ammo for the Rocket Launcher and other similar weapons.\r\nRequires Weapon Assembly Line II to craft."
+            "description": "Ammo for the Rocket Launcher and similar weapons.\r\nCan be crafted at Weapon Assembly Line II."
         },
         {
             "name": "Meteor Launcher",
             "asset": "Launcher_Meteor",
             "icon": "/icons/technologies/T_itemicon_Weapon_Launcher_Meteor.webp",
             "type": "standard",
-            "description": "A phenomenal weapon that fires a meteor.\r\nUpon striking its target, it creates an explosion similar to a meteorite impact.\r\nCrafted at Weapon Assembly Line."
+            "description": "A phenomenal weapon that fires a meteor. \r\nUpon striking its target, it creates an explosion similar to a meteorite impact.\r\nCan be crafted at Weapon Assembly Line."
         },
         {
             "name": "Makeshift Assault Rifle",
@@ -7496,7 +7496,7 @@
             "asset": "MultiElectricHatchingPalEggWithBreed",
             "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp",
             "type": "boss",
-            "description": "電子ガラスに覆われた、古代文明の高度な配合施設。\r\nタマゴの生産から孵化までを全自動かつ高速で行い、希少なスキルの遺伝率も高める。\r\nパルはホログラム制御で管理されるため、広い牧場スペースを必要としない。"
+            "description": "Electronic panes conceal the inner workings of this highly advanced hatchery. \r\nEggs are produced and incubated at lightning speed, in an entirely hands-off process that boasts higher rates of rare traits being passed down. \r\nAs everything is managed with holograms, the amount of space this facility requires is minimal."
         },
         {
             "name": "Large Incubator",
@@ -7510,7 +7510,7 @@
             "asset": "Musket",
             "icon": "/icons/technologies/T_itemicon_Weapon_Musket.webp",
             "type": "standard",
-            "description": "Simple, old fashioned gun. \r\nFires a single, powerful shot at the expense of a long reload time.\r\nRequires Weapon Workbench to craft."
+            "description": "Simple, old-fashioned gun. \r\nFires a single, powerful shot at the expense of a long reload time.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Moonflower Flag Set",
@@ -7643,14 +7643,14 @@
             "asset": "PalSphere_Ancient_1",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_1.webp",
             "type": "standard",
-            "description": "投げるとパルを捕まえられる道具。\r\n古代文明において、パルとの共存を確かなものとした高位のスフィア。"
+            "description": "An item that captures Pals when thrown. \r\nA relic from an age since past, this exceptional Sphere proves that humanity's relationship with Pals has persevered."
         },
         {
             "name": "Ancient Sphere",
             "asset": "PalSphere_Ancient_2",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_2.webp",
             "type": "standard",
-            "description": "投げるとパルを捕まえられる道具。\r\n世界樹の力を取り込み、古代文明の到達点として生み出された究極のスフィア。"
+            "description": "An item that captures Pals when thrown. \r\nThis omnipotent Sphere contains the power of the World Tree itself, harnessed by an ancient civilization at their peak."
         },
         {
             "name": "Exotic Sphere",
@@ -7706,14 +7706,14 @@
             "asset": "Product_Axe_Grade_02",
             "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.webp",
             "type": "standard",
-            "description": "An axe for cutting wood.\r\nMade from metal, its sharpness has improved.\r\nRequires High-Quality Workbench to craft."
+            "description": "A metal axe made to fell harder trees. \r\nUseful for harvesting sturdy trees far inland.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Refined Metal Axe",
             "asset": "Product_Axe_Grade_03",
             "icon": "/icons/technologies/T_itemicon_Weapon_Axe_Tier_00.webp",
             "type": "standard",
-            "description": "An axe for cutting wood.\r\nMade from high quality metal, its sharpness has improved even further.\r\nRequires Production Assembly Line to craft."
+            "description": "An axe capable of gathering Hardwood from trees found in extreme environments such as deserts and volcanic areas.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Coal Mine",
@@ -7874,14 +7874,14 @@
             "asset": "Product_Pickaxe_Grade_02",
             "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
             "type": "standard",
-            "description": "A pickaxe used for mining.\r\nMade from metal, its durability and efficiency have improved.\r\nRequires High-Quality Workbench to craft."
+            "description": "A pickaxe used for mining. Made from metal, its durability and efficiency have improved.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Refined Metal Pickaxe",
             "asset": "Product_Pickaxe_Grade_03",
             "icon": "/icons/technologies/T_itemicon_Weapon_Pickaxe_Tier_00.webp",
             "type": "standard",
-            "description": "A pickaxe used for mining.\r\nIts durability and efficiency have further improved.\r\nRequires Production Assembly Line to craft."
+            "description": "A pickaxe used for mining. Its durability and efficiency have further improved.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Pure Quartz Mine",
@@ -7972,14 +7972,14 @@
             "asset": "RifleBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_RifleBullet.webp",
             "type": "standard",
-            "description": "Ammo for Single-Shot Rifle and other similar weapons.\r\nRequires Weapon Workbench to craft."
+            "description": "Ammo for the Single-Shot Rifle and similar weapons.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Coarse Ammo",
             "asset": "RoughBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_RoughBullet.webp",
             "type": "standard",
-            "description": "Ammo for Musket, Makeshift Handgun and other similar weapons.\r\nRequires Weapon Workbench to craft."
+            "description": "Ammo for the Musket, Makeshift Handgun, and similar weapons.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Hexolite Armor",
@@ -8098,7 +8098,7 @@
             "asset": "Shield_07",
             "icon": "/icons/technologies/T_itemicon_Armor_Shield_07.webp",
             "type": "standard",
-            "description": "-"
+            "description": "Shield made with lost ancient technology. \r\nIt automatically repairs itself after not taking damage for a while. \r\nIts power is considered beyond modern replication."
         },
         {
             "name": "Advanced Shield",
@@ -8112,7 +8112,7 @@
             "asset": "ShotGunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_ShotgunBullet.webp",
             "type": "standard",
-            "description": "Ammo for shotguns and other similar weapons.\r\nRequires Weapon Workbench to craft."
+            "description": "Ammo for the Pump-Action Shotgun and similar weapons.\r\nCan be crafted at Weapon Workbench."
         },
         {
             "name": "Sign",
@@ -9008,7 +9008,7 @@
             "asset": "SkyAssaultRifle",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyAssaultRifle.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られたアサルトライフル。\r\n汎用性を維持したまま、より高威力な弾薬を扱えるよう強化されている。"
+            "description": "Ammo for the Heavy Assault Rifle.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Heavy Assault Rifle Ammo",
@@ -9022,14 +9022,14 @@
             "asset": "SkyBeamSword",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyBeamSword.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られたBeam Sword。\r\n高出力のエネルギー刃により、対象を瞬時に切断する近接武器。"
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat."
         },
         {
             "name": "Mechanical Bow",
             "asset": "SkyBow",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyBow.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られた弓。\r\n初速と貫通力が大幅に向上し、高精度な遠距離射撃を可能にする。"
+            "description": "Enhanced arrows for shooting with Mechanical Bow.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Mechanical Bow Ammo",
@@ -9043,7 +9043,7 @@
             "asset": "SkyGrenadeLauncher",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyGrenadeLauncher.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られたグレネードランチャー。\r\n弾道の安定性が向上し、長距離への精密な爆撃が可能。"
+            "description": "Ammo for the Tactical Grenade Launcher.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Tactical Grenade Launcher Ammo",
@@ -9057,21 +9057,21 @@
             "asset": "SkyIslandFlagSet",
             "icon": "/icons/technologies/T_icon_buildObject_SkyIsland_Flag.webp",
             "type": "standard",
-            "description": "Azure Oath Flag and Azure Oath Banner set. Proof of your victory over the Azure Oath."
+            "description": "Azure Oath Flag and Azure Oath Banner set. \r\nProof of your victory over the Azure Oath."
         },
         {
             "name": "Soralite Quarry",
             "asset": "SkyIslandOrePit",
             "icon": "/icons/technologies/T_icon_buildObject_SkyIslandOrePit.webp",
             "type": "boss",
-            "description": "Facility for producing Soralites. Digging s is grueling physical work. Leave it to a Pal that is good at mining."
+            "description": "Facility for producing Soralite. \r\nDigging is grueling physical work. \r\nLeave it to a Pal that is good at mining."
         },
         {
             "name": "Prototype Shotgun",
             "asset": "SkyShotgun",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkyShotgun.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られたショットガン。\r\n至近距離で圧倒的な火力を発揮し、特殊マガジンにより継戦能力も高い。"
+            "description": "Ammo for the Prototype Shotgun.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Prototype Shotgun Ammo",
@@ -9085,7 +9085,7 @@
             "asset": "SkySubmachineGun",
             "icon": "/icons/technologies/T_itemicon_Weapon_SkySubmachineGun.webp",
             "type": "standard",
-            "description": "ソルライトインゴットを使って造られたサブマシンガン。\r\n改良されたマガジンと弾薬により、制圧力が強化されている。"
+            "description": "Ammo for the Compact SMG.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Compact SMG Ammo",
@@ -9099,7 +9099,7 @@
             "asset": "SkyislandIngot",
             "icon": "/icons/technologies/T_itemicon_Material_SkyislandIngot.webp",
             "type": "standard",
-            "description": "天陽郷に眠る鉱石から精錬される、古代文明の金属素材。\r\n長い時を超えてなお神秘を宿し、高位の装備や建築物の礎となる。\r\n古代技術によって生み出される、希少な加工素材である。"
+            "description": "An ingot refined from ore unique to Sunreach. \r\nThis metal is a key component of ancient technology and, subsequently, top-tier equipment and structures.\r\nCan be refined at Ancient Furnace."
         },
         {
             "name": "Snowman",
@@ -9141,14 +9141,14 @@
             "asset": "Spear_2",
             "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.webp",
             "type": "standard",
-            "description": "Useful for close-range combat.\r\nThe metal tip enhances its striking power.\r\nRequires High-Quality Workbench to craft."
+            "description": "Useful for close-range combat. \r\nThe metal tip gives it increased attack power.\r\nCan be crafted at High-Quality Workbench."
         },
         {
             "name": "Refined Metal Spear",
             "asset": "Spear_3",
             "icon": "/icons/technologies/T_itemicon_Weapon_Spear_Tier_00.webp",
             "type": "standard",
-            "description": "Useful for close-range combat.\r\nThe high-quality metal tip enhances its striking power.\r\nRequires Production Assembly Line to craft."
+            "description": "Useful for close-range combat. \r\nThe high-quality metal tip gives it increased attack power.\r\nCan be crafted at Production Assembly Line."
         },
         {
             "name": "Lily's Spear",
@@ -9162,7 +9162,7 @@
             "asset": "Spear_ForestBoss2",
             "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss2.webp",
             "type": "standard",
-            "description": "リリィの愛用していた槍が強化されたもの。\r\nパルをないがしろにする者に風穴を開ける。"
+            "description": "An enhanced version of Lily's beloved spear. \r\nPierces those who neglect their Pals."
         },
         {
             "name": "Electric Egg Incubator",
@@ -9197,42 +9197,42 @@
             "asset": "Special_PalSphere_Grade_02",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Mega.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nIts capabilities have been improved, allowing it to catch a wider range of Pals.\r\nRequires Sphere Workbench to craft."
+            "description": "An item that captures Pals when thrown. \r\nIts capabilities have been improved, allowing it to catch a wider range of Pals.\r\nCan be crafted at Sphere Workbench."
         },
         {
             "name": "Giga Sphere",
             "asset": "Special_PalSphere_Grade_03",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Giga.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nAble to capture moderately powerful Pals.\r\nRequires Sphere Workbench to craft."
+            "description": "An item that captures Pals when thrown. \r\nAble to capture moderately powerful Pals.\r\nCan be crafted at Sphere Workbench."
         },
         {
             "name": "Hyper Sphere",
             "asset": "Special_PalSphere_Grade_04",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Tera.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nEnhanced capabilities allow it to capture even more powerful Pals.\r\nRequires Sphere Assembly Line to craft."
+            "description": "An item that captures Pals when thrown. \r\nEnhanced capabilities allow it to capture even more powerful Pals.\r\nCan be crafted at Sphere Assembly Line."
         },
         {
             "name": "Ultra Sphere",
             "asset": "Special_PalSphere_Grade_05",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Master.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nNot many Pals can escape its highly efficient design.\r\nRequires Sphere Assembly Line II to craft."
+            "description": "An item that captures Pals when thrown. \r\nNot many Pals can escape its highly efficient design.\r\nCan be crafted at Sphere Assembly Line II."
         },
         {
             "name": "Legendary Sphere",
             "asset": "Special_PalSphere_Grade_06",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Legend.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nVery few Pals can escape its perfected design.\r\nRequires Sphere Assembly Line II to craft."
+            "description": "An item that captures Pals when thrown. \r\nVery few Pals can escape its perfected design.\r\nCan be crafted at Sphere Assembly Line II."
         },
         {
             "name": "Ultimate Sphere",
             "asset": "Special_PalSphere_Grade_07",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Ultimate.webp",
             "type": "standard",
-            "description": "An item that captures Pals when thrown.\r\nAlmost no Pals can escape its flawless design.\r\nRequires Sphere Assembly Line II to craft."
+            "description": "An item that captures Pals when thrown. \r\nAlmost no Pals can escape its flawless design.\r\nCan be crafted at Sphere Assembly Line II."
         },
         {
             "name": "Sphere Workbench",
@@ -9337,14 +9337,14 @@
             "asset": "Supplement",
             "icon": "/icons/technologies/T_itemicon_food_Supplement.webp",
             "type": "standard",
-            "description": "A nutrient-rich Nutrient Tonic that prevents hunger for a limited time. A concentrated, flavorful blend of nutrients ideal for long journeys."
+            "description": "A nutrient-rich Nutrient Tonic that prevents hunger for a limited time. \r\nA concentrated, flavorful blend of nutrients ideal for long journeys."
         },
         {
             "name": "Tidy Table Set",
             "asset": "TableCircular",
             "icon": "/icons/technologies/T_icon_buildObject_TableCircular_Wood_None.webp",
             "type": "standard",
-            "description": "A set of neat and tidy decorative tables. A clean base is a happy base!"
+            "description": "A set of neat and tidy decorative tables. \r\nA clean base is a happy base!"
         },
         {
             "name": "Antique Dresser",
@@ -9477,7 +9477,7 @@
             "asset": "WaterBuildKit",
             "icon": "/icons/technologies/T_itemicon_Essential_WaterBuildKit.webp",
             "type": "boss",
-            "description": "水上で建築を行うための道具。\r\n土台を水の上に設置できるようになる。"
+            "description": "Construction kit that allows foundations\r\nto be placed on water."
         },
         {
             "name": "Advanced Weapon Assembly Line",
@@ -9491,28 +9491,28 @@
             "asset": "WidePenetrateShotgun",
             "icon": "/icons/technologies/T_itemicon_Weapon_WidePenetrateShotgun.webp",
             "type": "standard",
-            "description": "近距離戦に特化したビーム武器。圧縮されたエネルギーを拡散ビームとして射出する。"
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage."
         },
         {
             "name": "Beam Scatter Ammo",
             "asset": "WidePenetrateShotgunBullet",
             "icon": "/icons/technologies/T_itemicon_Ammo_WidePenetrateShotgunBullet.webp",
             "type": "standard",
-            "description": "Beam Scatterで使用する弾。"
+            "description": "Ammo for the Beam Scatter.\r\nCan be crafted at Ancient Workbench."
         },
         {
             "name": "Wing Pack",
             "asset": "WingGlider",
             "icon": "/icons/technologies/T_itemicon_Glider_WingGlider.webp",
             "type": "boss",
-            "description": "背中に装着して飛行するための翼型装置。\r\nWing Cellを消費して推進力を得る。"
+            "description": "A portable glider that enables flight. \r\nConsumes Wing Cell to propel the user through the skies."
         },
         {
             "name": "Wing Cell",
             "asset": "WingGlider_Fuel",
             "icon": "/icons/technologies/T_itemicon_Material_WingGlider_Fuel.webp",
             "type": "standard",
-            "description": "Wing Packの飛行に使用するエネルギー。"
+            "description": "The fuel required to power the Wing Pack."
         },
         {
             "name": "Wooden Gate",
@@ -9554,7 +9554,7 @@
             "asset": "WorldTreeIngot",
             "icon": "/icons/technologies/T_itemicon_Material_WorldTreeIngot.webp",
             "type": "standard",
-            "description": "SoraliteとPaliciteを融ぜ合わせた至高の合金。\r\n古代文明の技術と世界樹の力が結晶化した、極めて希少な素材。\r\n最高峰の装備や建築物を形にするために欠かせない。"
+            "description": "An indomitable alloy formed by combining Soralite and Palicite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures."
         },
         {
             "name": "Meowmere",

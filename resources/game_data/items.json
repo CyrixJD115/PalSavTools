@@ -937,7 +937,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "Armor forged from Soralite Ingot. A sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
             "sort_id": 1125
         },
         {
@@ -947,7 +947,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. These improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
             "sort_id": 1135
         },
         {
@@ -957,7 +957,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. These improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
             "sort_id": 1136
         },
         {
@@ -967,7 +967,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. These improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
             "sort_id": 1137
         },
         {
@@ -977,7 +977,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. These improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
             "sort_id": 1138
         },
         {
@@ -987,7 +987,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. These improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its frost-resistant properties. \r\nThese improvements allow the wearer to face extremely cold environments without succumbing to the chill.",
             "sort_id": 1139
         },
         {
@@ -997,7 +997,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. These improvements allow the wearer to walk through scorching hot environments unscathed.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed.",
             "sort_id": 1130
         },
         {
@@ -1007,7 +1007,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. These improvements allow the wearer to walk through scorching hot environments unscathed.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed.",
             "sort_id": 1131
         },
         {
@@ -1017,7 +1017,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. These improvements allow the wearer to walk through scorching hot environments unscathed.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed.",
             "sort_id": 1132
         },
         {
@@ -1027,7 +1027,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. These improvements allow the wearer to walk through scorching hot environments unscathed.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed.",
             "sort_id": 1133
         },
         {
@@ -1037,7 +1037,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. These improvements allow the wearer to walk through scorching hot environments unscathed.",
+            "description": "A refined set of Ancient Armor that has been augmented using ancient technology, boosting its heat-resistant properties. \r\nThese improvements allow the wearer to walk through scorching hot environments unscathed.",
             "sort_id": 1134
         },
         {
@@ -1047,7 +1047,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. These allow the wearer to carry considerably more supplies.",
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies.",
             "sort_id": 1140
         },
         {
@@ -1057,7 +1057,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. These allow the wearer to carry considerably more supplies.",
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies.",
             "sort_id": 1141
         },
         {
@@ -1067,7 +1067,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. These allow the wearer to carry considerably more supplies.",
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies.",
             "sort_id": 1142
         },
         {
@@ -1077,7 +1077,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. These allow the wearer to carry considerably more supplies.",
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies.",
             "sort_id": 1143
         },
         {
@@ -1087,7 +1087,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. These allow the wearer to carry considerably more supplies.",
+            "description": "A refined set of Ancient Armor that has been outfitted with a variety of ancient support systems. \r\nThese allow the wearer to carry considerably more supplies.",
             "sort_id": 1144
         },
         {
@@ -1097,7 +1097,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "Armor forged from Soralite Ingot. A sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
             "sort_id": 1126
         },
         {
@@ -1107,7 +1107,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "Armor forged from Soralite Ingot. A sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
             "sort_id": 1127
         },
         {
@@ -1117,7 +1117,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "Armor forged from Soralite Ingot. A sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
             "sort_id": 1128
         },
         {
@@ -1127,7 +1127,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorBody",
-            "description": "Armor forged from Soralite Ingot. A sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
+            "description": "Armor forged from Soralite Ingot. \r\nA sophisticated symbol of a long-forgotten culture, this is the ultimate in defensive gear, capable of standing strong against cataclysmic threats.",
             "sort_id": 1129
         },
         {
@@ -1137,7 +1137,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. Tempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
             "sort_id": 1330
         },
         {
@@ -1147,7 +1147,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. Tempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
             "sort_id": 1331
         },
         {
@@ -1157,7 +1157,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. Tempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
             "sort_id": 1332
         },
         {
@@ -1167,7 +1167,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. Tempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
             "sort_id": 1333
         },
         {
@@ -1177,7 +1177,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. Tempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
+            "description": "A helmet forged from Soralite Ingot, favored in an age long since past. \r\nTempered with wisdom that has persisted through an eternity, this unyielding equipment has better defensive properties than any of its modern counterparts.",
             "sort_id": 1334
         },
         {
@@ -1427,7 +1427,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_UnlockPlayerFuture",
-            "description": "An extraordinarily large sack for storing food. Unlocks 5 food slots in your inventory. Players and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
+            "description": "An extraordinarily large sack for storing food. Unlocks 5 food slots in your inventory. \r\nPlayers and Pals automatically consume food when hungry.\r\nCarrying one is enough.",
             "sort_id": 10024
         },
         {
@@ -1687,7 +1687,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This Metal Bat is perfect for close-quarters combat. If anyone disgrees, just wallop them with it.",
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like.",
             "sort_id": 104
         },
         {
@@ -1697,7 +1697,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This Metal Bat is perfect for close-quarters combat. If anyone disgrees, just wallop them with it.",
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like.",
             "sort_id": 105
         },
         {
@@ -1707,7 +1707,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This Metal Bat is perfect for close-quarters combat. If anyone disgrees, just wallop them with it.",
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like.",
             "sort_id": 106
         },
         {
@@ -1717,7 +1717,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This Metal Bat is perfect for close-quarters combat. If anyone disgrees, just wallop them with it.",
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like.",
             "sort_id": 107
         },
         {
@@ -1727,7 +1727,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "This Metal Bat is perfect for close-quarters combat. If anyone disgrees, just wallop them with it.",
+            "description": "A Metal Bat that works well in close combat. \r\nUse it to beat down anyone you don't like.",
             "sort_id": 108
         },
         {
@@ -1767,7 +1767,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. However, continuous use can cause it to overheat.",
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat.",
             "sort_id": 854
         },
         {
@@ -1787,7 +1787,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. However, continuous use can cause it to overheat.",
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat.",
             "sort_id": 855
         },
         {
@@ -1797,7 +1797,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. However, continuous use can cause it to overheat.",
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat.",
             "sort_id": 856
         },
         {
@@ -1807,7 +1807,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. However, continuous use can cause it to overheat.",
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat.",
             "sort_id": 857
         },
         {
@@ -1817,7 +1817,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponRocketLauncher",
-            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. However, continuous use can cause it to overheat.",
+            "description": "Fires a high-powered beam capable of blowing up just about anything in its path. \r\nHowever, continuous use can cause it to overheat.",
             "sort_id": 858
         },
         {
@@ -1987,7 +1987,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Attack Pendant\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Attack Pendant\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9091
         },
         {
@@ -1997,7 +1997,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Water Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Water Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9099
         },
         {
@@ -2007,7 +2007,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Phantom Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Phantom Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9999
         },
         {
@@ -2017,7 +2017,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Phantom Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Phantom Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9240
         },
         {
@@ -2027,7 +2027,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Wumpo Charm\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Wumpo Charm\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9202
         },
         {
@@ -2037,7 +2037,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Thermal Undershirt\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Thermal Undershirt\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9095
         },
         {
@@ -2047,7 +2047,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Warsect Terra's Belt\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Warsect Terra's Belt\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9205
         },
         {
@@ -2057,7 +2057,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Dark Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Dark Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9104
         },
         {
@@ -2067,7 +2067,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Dragon Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Dragon Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9105
         },
         {
@@ -2077,7 +2077,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Ground Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Ground Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9103
         },
         {
@@ -2087,7 +2087,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Fire Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Fire Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9098
         },
         {
@@ -2097,7 +2097,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Vanguard Charm\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Vanguard Charm\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9204
         },
         {
@@ -2107,7 +2107,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Wandering Merchant Charm\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Wandering Merchant Charm\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9203
         },
         {
@@ -2117,7 +2117,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Life Pendant\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Life Pendant\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9090
         },
         {
@@ -2127,7 +2127,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Multiclimate Undershirt\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Multiclimate Undershirt\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9096
         },
         {
@@ -2137,7 +2137,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Reptyro Charm\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Reptyro Charm\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9201
         },
         {
@@ -2147,7 +2147,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Heat Resistant Undershirt\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Heat Resistant Undershirt\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9094
         },
         {
@@ -2157,7 +2157,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Ice Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Ice Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9102
         },
         {
@@ -2167,7 +2167,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Air Walker Mk I\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Air Walker Mk I\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9217
         },
         {
@@ -2177,7 +2177,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Air Walker Mk II\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Air Walker Mk II\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9218
         },
         {
@@ -2187,7 +2187,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Grass Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Grass Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9101
         },
         {
@@ -2197,7 +2197,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Freight\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Freight\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9106
         },
         {
@@ -2207,7 +2207,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Pal Tamer's Glasses\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Pal Tamer's Glasses\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9216
         },
         {
@@ -2217,7 +2217,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Neutral Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Neutral Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9097
         },
         {
@@ -2227,7 +2227,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Elphidran Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Elphidran Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9236
         },
         {
@@ -2237,7 +2237,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Katress Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Katress Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9235
         },
         {
@@ -2247,7 +2247,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Menasting Terra Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Menasting Terra Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9233
         },
         {
@@ -2257,7 +2257,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Fenglope Lux Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Fenglope Lux Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9232
         },
         {
@@ -2267,7 +2267,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Blazehowl Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Blazehowl Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9230
         },
         {
@@ -2277,7 +2277,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Faleris Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Faleris Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9238
         },
         {
@@ -2287,7 +2287,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Cryolinx Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Cryolinx Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9237
         },
         {
@@ -2297,7 +2297,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Vaelet Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Vaelet Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9234
         },
         {
@@ -2307,7 +2307,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Faleris Aqua Ring\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Faleris Aqua Ring\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9231
         },
         {
@@ -2317,7 +2317,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Dogen Emblem\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Dogen Emblem\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9119
         },
         {
@@ -2327,7 +2327,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Buckler Dragon Emblem\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Buckler Dragon Emblem\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9200
         },
         {
@@ -2337,7 +2337,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Air Walker Mk III\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Air Walker Mk III\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9219
         },
         {
@@ -2347,7 +2347,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Air Walker EX\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Air Walker EX\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9220
         },
         {
@@ -2357,7 +2357,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Electric Resistance\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ring of Electric Resistance\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9100
         },
         {
@@ -2367,7 +2367,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Islander's Tool Belt\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Islander's Tool Belt\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9206
         },
         {
@@ -2377,7 +2377,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Pendant of Diligence\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Pendant of Diligence\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9093
         },
         {
@@ -2387,7 +2387,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Defense Pendant\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Defense Pendant\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9092
         },
         {
@@ -5727,7 +5727,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lord of the Underworld's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Lord of the Underworld's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9214
         },
         {
@@ -5737,7 +5737,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Divine Dragon's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Divine Dragon's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9215
         },
         {
@@ -5747,7 +5747,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Earth Emperor's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Earth Emperor's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9213
         },
         {
@@ -5757,7 +5757,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lord of Lightning's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Lord of Lightning's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9210
         },
         {
@@ -5767,7 +5767,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Flame Emperor's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Flame Emperor's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9208
         },
         {
@@ -5777,7 +5777,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ice Emperor's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Ice Emperor's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9212
         },
         {
@@ -5787,7 +5787,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Spirit Emperor's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Spirit Emperor's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9211
         },
         {
@@ -5797,7 +5797,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Celestial Emperor's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Celestial Emperor's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9207
         },
         {
@@ -5807,7 +5807,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lord of the Sea's Baton\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Lord of the Sea's Baton\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9209
         },
         {
@@ -5817,7 +5817,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for blueprint_otomo_attack_up1\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Attack Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9116
         },
         {
@@ -5827,7 +5827,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lyleen Noct's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Lyleen Noct's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9228
         },
         {
@@ -5847,7 +5847,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Anubis's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Anubis's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9227
         },
         {
@@ -5857,7 +5857,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Orserk's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Orserk's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9224
         },
         {
@@ -5867,7 +5867,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Blazamut's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Blazamut's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9222
         },
         {
@@ -5877,7 +5877,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Frostallion's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Frostallion's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9226
         },
         {
@@ -5887,7 +5887,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lyleen's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Lyleen's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9225
         },
         {
@@ -5897,7 +5897,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Hartalis's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Hartalis's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9221
         },
         {
@@ -5907,7 +5907,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Neptilius's Talisman\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Neptilius's Talisman\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9223
         },
         {
@@ -5917,7 +5917,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for blueprint_otomo_defense_up1\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Defense Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9117
         },
         {
@@ -5927,7 +5927,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Dark Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Dark Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9114
         },
         {
@@ -5937,7 +5937,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Dragon Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Dragon Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9115
         },
         {
@@ -5947,7 +5947,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ground Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ground Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9113
         },
         {
@@ -5957,7 +5957,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Electric Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Electric Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9110
         },
         {
@@ -5967,7 +5967,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Fire Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Fire Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9108
         },
         {
@@ -5977,7 +5977,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ice Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Ice Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9112
         },
         {
@@ -5987,7 +5987,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Grass Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Grass Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9111
         },
         {
@@ -5997,7 +5997,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Neutral Support Whistle\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Neutral Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9107
         },
         {
@@ -6007,7 +6007,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for elementboost_water_1\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Water Support Whistle\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9109
         },
         {
@@ -6027,7 +6027,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Ring of Trust\r\n (Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Ring of Trust\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9239
         },
         {
@@ -6037,7 +6037,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Growth Acceleration Bell\r\n (Rare).\r\nCan be crafted at High-Quality Workbench.",
+            "description": "When in inventory, unlocks recipe for Growth Acceleration Bell\r\n(Rare).\r\nCan be crafted at High-Quality Workbench.",
             "sort_id": 9118
         },
         {
@@ -6981,7 +6981,7 @@
             "sort_id": 7155
         },
         {
-            "name": "Compact SMG Schematic 1",
+            "name": "Combat SMG Schematic 1",
             "asset": "Blueprint_SkySubmachineGun_2",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 1,
@@ -6991,7 +6991,7 @@
             "sort_id": 7196
         },
         {
-            "name": "Compact SMG Schematic 2",
+            "name": "Combat SMG Schematic 2",
             "asset": "Blueprint_SkySubmachineGun_3",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 2,
@@ -7001,7 +7001,7 @@
             "sort_id": 7197
         },
         {
-            "name": "Compact SMG Schematic 3",
+            "name": "Combat SMG Schematic 3",
             "asset": "Blueprint_SkySubmachineGun_4",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 3,
@@ -7011,7 +7011,7 @@
             "sort_id": 7198
         },
         {
-            "name": "Compact SMG Schematic 4",
+            "name": "Combat SMG Schematic 4",
             "asset": "Blueprint_SkySubmachineGun_5",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 4,
@@ -8111,13 +8111,13 @@
             "sort_id": 20040
         },
         {
-            "name": "BossDefeatReward_DomeArmorDragon",
+            "name": "Aegidron Bounty Token",
             "asset": "BossDefeatReward_DomeArmorDragon",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_DomeArmorDragon.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "en-Text",
+            "description": "Proof of defeating [Aegidron, Guardian of Luminous Trails]. \r\nSimply possessing it permanently increases the stats of the Pals in your team.",
             "sort_id": 20102
         },
         {
@@ -9197,7 +9197,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A sword for when you need to get up close and personal. Wickedly sharp. If your opponents doubt how keen the edge is, they only need to take a few steps forward.",
+            "description": "A sword for close-range combat. \r\nNot bad for a battered sword. \r\nPerfect for getting up close and personal.",
             "sort_id": 139
         },
         {
@@ -12977,7 +12977,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "Imbued with the ominous power of Bellanoir Libero (Ultra).\r\nExtremely difficult to obtain.",
+            "description": "Imbued with the ominous power of Bellanoir Libero (Ultra).\r\nA rarity only the most fortunate may obtain.",
             "sort_id": 1600
         },
         {
@@ -13297,7 +13297,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "Imbued with the ominous power of Blazamut Ryu (Ultra).\r\nExtremely difficult to obtain.",
+            "description": "Imbued with the ominous power of Blazamut Ryu (Ultra).\r\nA rarity only the most fortunate may obtain.",
             "sort_id": 1601
         },
         {
@@ -13327,7 +13327,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "Imbued with the ominous power of Hartalis (Ultra). \r\nExtremely difficult to obtain.",
+            "description": "Imbued with the ominous power of Hartalis (Ultra). \r\nA rarity only the most fortunate may obtain.",
             "sort_id": 1604
         },
         {
@@ -13341,13 +13341,13 @@
             "sort_id": 1707
         },
         {
-            "name": "Xenalla Cosplay Hat",
+            "name": "Zenara Cosplay Hat",
             "asset": "HeadEquip049",
             "icon": "/icons/items/T_itemicon_Armor_HeadEquip049.webp",
             "rarity": 4,
             "type_a": "EPalItemTypeA::Armor",
             "type_b": "EPalItemTypeB::ArmorHead",
-            "description": "Dress up like Xenalla using this special headpiece! Getting your hands on this would have been no small feat, either.",
+            "description": "Dress up like Zenara using this special headpiece! \r\nA rarity only the most fortunate may obtain.",
             "sort_id": 1708
         },
         {
@@ -13497,7 +13497,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialProccessing",
-            "description": "Wood that has been cut into high-quality planks. \r\nThe elegant wood grain has been preserved, giving anything made from it an air of luxury.\r\nCan be crafted at Production Assembly Line II.",
+            "description": "Hardwood that has been cut into high-quality planks. \r\nThe elegant wood grain has been preserved, giving anything made from it an air of luxury.\r\nCan be crafted at Production Assembly Line II.",
             "sort_id": 5403
         },
         {
@@ -17271,7 +17271,7 @@
             "sort_id": 6255
         },
         {
-            "name": "PalPassiveSkillChange_Consumable_MutationPal_Babysitter",
+            "name": "Disposable Implant: Babysitter",
             "asset": "PalPassiveSkillChange_Consumable_MutationPal_Babysitter",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
             "rarity": 4,
@@ -17281,7 +17281,7 @@
             "sort_id": 6261
         },
         {
-            "name": "PalPassiveSkillChange_Consumable_MutationPal_ExplosionResist",
+            "name": "Disposable Implant: Heavily Armored",
             "asset": "PalPassiveSkillChange_Consumable_MutationPal_ExplosionResist",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
             "rarity": 4,
@@ -17291,7 +17291,7 @@
             "sort_id": 6264
         },
         {
-            "name": "PalPassiveSkillChange_Consumable_MutationPal_Immortal",
+            "name": "Disposable Implant: Immortality",
             "asset": "PalPassiveSkillChange_Consumable_MutationPal_Immortal",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
             "rarity": 4,
@@ -17301,7 +17301,7 @@
             "sort_id": 6263
         },
         {
-            "name": "PalPassiveSkillChange_Consumable_MutationPal_Mutant",
+            "name": "Disposable Implant: Idiosyncratic",
             "asset": "PalPassiveSkillChange_Consumable_MutationPal_Mutant",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
             "rarity": 4,
@@ -17361,7 +17361,7 @@
             "sort_id": 9999
         },
         {
-            "name": "PalPassiveSkillChange_Consumable_RideJumpCount_Increase2",
+            "name": "Disposable Implant: Skymarcher",
             "asset": "PalPassiveSkillChange_Consumable_RideJumpCount_Increase2",
             "icon": "/icons/items/T_itemicon_Material_PalPassiveSkillChange_Consumable.webp",
             "rarity": 4,
@@ -18961,7 +18961,7 @@
             "sort_id": 5028
         },
         {
-            "name": "Rank Up 1",
+            "name": "Starfruit ☆1",
             "asset": "Rankup_1",
             "icon": "/icons/items/T_itemicon_Food_Rankup_1.webp",
             "rarity": 3,
@@ -18971,7 +18971,7 @@
             "sort_id": 4600
         },
         {
-            "name": "Rank Up 2",
+            "name": "Starfruit ☆2",
             "asset": "Rankup_2",
             "icon": "/icons/items/T_itemicon_Food_Rankup_2.webp",
             "rarity": 3,
@@ -18981,7 +18981,7 @@
             "sort_id": 4601
         },
         {
-            "name": "Rank Up 3",
+            "name": "Starfruit ☆3",
             "asset": "Rankup_3",
             "icon": "/icons/items/T_itemicon_Food_Rankup_3.webp",
             "rarity": 3,
@@ -18991,7 +18991,7 @@
             "sort_id": 4602
         },
         {
-            "name": "Rank Up 4",
+            "name": "Starfruit ☆4",
             "asset": "Rankup_4",
             "icon": "/icons/items/T_itemicon_Food_Rankup_4.webp",
             "rarity": 3,
@@ -19001,7 +19001,7 @@
             "sort_id": 4603
         },
         {
-            "name": "Total Rank Up",
+            "name": "Ripe Starfruit",
             "asset": "Rankup_Arbitrary",
             "icon": "/icons/items/T_itemicon_Food_Rankup_Arbitrary.webp",
             "rarity": 4,
@@ -19037,7 +19037,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Essential",
             "type_b": "EPalItemTypeB::Essential",
-            "description": "A mysterious Pal effigy that can be found all around the Palpagos Islands. \r\nPlayers can enhance their abilities by making offerings to certain statues.",
+            "description": "A mysterious Pal effigy that can be found all around the Palpagos Islands. \r\nPlayers can enhance their abilities by making offerings to a certain statues.",
             "sort_id": 10000
         },
         {
@@ -22367,7 +22367,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 155
         },
         {
@@ -22377,7 +22377,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 156
         },
         {
@@ -22387,7 +22387,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 157
         },
         {
@@ -22397,7 +22397,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 158
         },
         {
@@ -22407,7 +22407,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "A Beam Sword made from Soralite Ingots. The high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
+            "description": "A Beam Sword made from Soralite Ingots. \r\nThe high-intensity beam severs targets the second they get within range, making this perfect for close-quarter combat.",
             "sort_id": 159
         },
         {
@@ -22621,7 +22621,7 @@
             "sort_id": 444
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun",
             "icon": "/icons/items/T_itemicon_Weapon_SkySubmachineGun.webp",
             "rarity": 0,
@@ -22631,7 +22631,7 @@
             "sort_id": 635
         },
         {
-            "name": "Compact SMG Ammo",
+            "name": "Combat SMG Ammo",
             "asset": "SkySubmachineGunBullet",
             "icon": "/icons/items/T_itemicon_Ammo_SkySubmachineGunBullet.webp",
             "rarity": 0,
@@ -22641,7 +22641,7 @@
             "sort_id": 45
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun_2",
             "icon": "/icons/items/T_itemicon_Weapon_SkySubmachineGun.webp",
             "rarity": 1,
@@ -22651,7 +22651,7 @@
             "sort_id": 636
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun_3",
             "icon": "/icons/items/T_itemicon_Weapon_SkySubmachineGun.webp",
             "rarity": 2,
@@ -22661,7 +22661,7 @@
             "sort_id": 637
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun_4",
             "icon": "/icons/items/T_itemicon_Weapon_SkySubmachineGun.webp",
             "rarity": 3,
@@ -22671,7 +22671,7 @@
             "sort_id": 638
         },
         {
-            "name": "Compact SMG",
+            "name": "Combat SMG",
             "asset": "SkySubmachineGun_5",
             "icon": "/icons/items/T_itemicon_Weapon_SkySubmachineGun.webp",
             "rarity": 4,
@@ -22757,7 +22757,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "An enhanced version of Lily's beloved spear. Pierces those who neglect their Pals.",
+            "description": "An enhanced version of Lily's beloved spear. \r\nPierces those who neglect their Pals.",
             "sort_id": 137
         },
         {
@@ -22767,7 +22767,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponMelee",
-            "description": "An enhanced version of Lily's beloved spear. Pierces those who neglect their Pals.",
+            "description": "An enhanced version of Lily's beloved spear. \r\nPierces those who neglect their Pals.",
             "sort_id": 138
         },
         {
@@ -23757,7 +23757,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "This weapon excels at shorter ranged combat. Compressed energy is shot out as a scattering beam, dealing widespread damage.",
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage.",
             "sort_id": 445
         },
         {
@@ -23777,7 +23777,7 @@
             "rarity": 1,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "This weapon excels at shorter ranged combat. Compressed energy is shot out as a scattering beam, dealing widespread damage.",
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage.",
             "sort_id": 446
         },
         {
@@ -23787,7 +23787,7 @@
             "rarity": 2,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "This weapon excels at shorter ranged combat. Compressed energy is shot out as a scattering beam, dealing widespread damage.",
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage.",
             "sort_id": 447
         },
         {
@@ -23797,7 +23797,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "This weapon excels at shorter ranged combat. Compressed energy is shot out as a scattering beam, dealing widespread damage.",
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage.",
             "sort_id": 448
         },
         {
@@ -23807,7 +23807,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Weapon",
             "type_b": "EPalItemTypeB::WeaponShotgun",
-            "description": "This weapon excels at shorter ranged combat. Compressed energy is shot out as a scattering beam, dealing widespread damage.",
+            "description": "This weapon excels at shorter ranged combat. \r\nCompressed energy is shot out as a scattering beam, dealing widespread damage.",
             "sort_id": 449
         },
         {
@@ -23827,7 +23827,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Glider",
             "type_b": "EPalItemTypeB::Glider",
-            "description": "A portable glider that enables flight. Consumes Wing Cell to propel the user through the skies.",
+            "description": "A portable glider that enables flight. \r\nConsumes Wing Cell to propel the user through the skies.",
             "sort_id": 3004
         },
         {
@@ -24037,7 +24037,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": "An indomitable alloy formed by combining Soralite and Palicite. This incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures.",
+            "description": "An indomitable alloy formed by combining Soralite and Palicite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures.",
             "sort_id": 5509
         },
         {

@@ -404,6 +404,11 @@ class GuildStructurePickerDialog(QDialog):
         self.code_label.setStyleSheet('color: #6b7280; font-size: 10px; font-family: monospace; padding: 0 2px;')
         self.code_label.setVisible(False)
         info_layout.addWidget(self.code_label)
+        self.desc_label = QLabel('')
+        self.desc_label.setStyleSheet('color: #94a3b8; font-size: 11px; padding: 0 2px;')
+        self.desc_label.setWordWrap(True)
+        self.desc_label.setVisible(False)
+        info_layout.addWidget(self.desc_label)
         right_layout.addWidget(info_frame, 3)
         guilds_group = QGroupBox(t('base_inventory.select_guilds') if t else 'Select Guilds')
         guilds_inner_layout = QVBoxLayout()
@@ -478,6 +483,8 @@ class GuildStructurePickerDialog(QDialog):
             list_item = QListWidgetItem(name)
             list_item.setData(Qt.UserRole, asset)
             list_item.setData(Qt.UserRole + 1, name)
+            item_desc = s.get('description', '')
+            list_item.setData(Qt.UserRole + 3, item_desc)
             icon_rel = s.get('icon', '')
             if icon_rel:
                 icon_clean = icon_rel.lstrip('/')
@@ -488,6 +495,9 @@ class GuildStructurePickerDialog(QDialog):
                         scaled = pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                         list_item.setIcon(QIcon(scaled))
             tip = f'<b>{name}</b><br>({asset})'
+            if item_desc:
+                cleaned = _clean_desc_for_tooltip(item_desc)
+                tip += f'<br><br>{wrap_tooltip_text(cleaned)}'
             list_item.setToolTip(tip)
             list_item.setSizeHint(QSize(80, 80))
             self.results_list.addItem(list_item)
@@ -501,10 +511,16 @@ class GuildStructurePickerDialog(QDialog):
     def _on_structure_clicked(self, item: QListWidgetItem):
         self.selected_structure_asset = item.data(Qt.UserRole)
         self.selected_structure_name = item.data(Qt.UserRole + 1)
+        item_desc = item.data(Qt.UserRole + 3) or ''
         self.info_label.setText(self.selected_structure_name)
         self.info_label.setStyleSheet('color: #4ade80; font-weight: bold; font-size: 13px; padding: 2px;')
         self.code_label.setText(self.selected_structure_asset)
         self.code_label.setVisible(True)
+        if item_desc:
+            self.desc_label.setText(_clean_desc_for_tooltip(item_desc))
+            self.desc_label.setVisible(True)
+        else:
+            self.desc_label.setVisible(False)
         self.find_btn.setEnabled(True)
         self.delete_btn.setEnabled(True)
         self._load_guilds_for_structure()

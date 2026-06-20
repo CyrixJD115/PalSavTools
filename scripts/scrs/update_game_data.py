@@ -863,6 +863,7 @@ def update_structure_data():
     icon_table = load_export_json('MapObject/Building/DT_BuildObjectIconDataTable.json')
     icon_table_common = load_export_json('MapObject/Building/DT_BuildObjectIconDataTable_Common.json')
     struct_name_l10n = load_l10n_table('DT_MapObjectNameText_Common.json')
+    struct_desc_l10n = load_l10n_table('DT_BuildObjectDescText_Common.json')
     master_rows = {}
     for d in [master_data, master_common, master_enemy]:
         master_rows.update(load_single_table(d))
@@ -888,10 +889,17 @@ def update_structure_data():
         if name and name.lower() not in ('en_text', 'none', '-', ''):
             return name
         return struct_id
+    def resolve_struct_desc(struct_id: str) -> str:
+        key = f'BUILDOBJECT_DESC_{struct_id}'
+        desc = struct_desc_l10n.get(key, '')
+        if desc and desc.lower() not in ('en_text', 'none', '-', ''):
+            return desc
+        return ''
     updated_structures = []
     for struct_id in sorted(all_struct_ids):
         struct_id_lower = struct_id.lower()
         display_name = resolve_struct_name(struct_id)
+        desc = resolve_struct_desc(struct_id)
         copied_icon = None
         icon_row = icon_rows.get(struct_id, {}) or icon_rows_ci.get(struct_id_lower, {})
         if icon_row:
@@ -902,7 +910,7 @@ def update_structure_data():
                     icon_filename = icon_path.split('/')[-1].split('.')[0] if '.' in icon_path else icon_path.split('/')[-1]
                     copied_icon = find_and_copy_icon(icon_filename, 'structures', structure_icon_subdirs)
         final_icon = copied_icon or f'/icons/structures/{struct_id}.webp'
-        struct_entry = {'name': display_name, 'asset': struct_id, 'icon': final_icon}
+        struct_entry = {'name': display_name, 'asset': struct_id, 'icon': final_icon, 'description': desc}
         updated_structures.append(struct_entry)
     result = {'structures': updated_structures}
     save_resource_json('structuredata.json', result)

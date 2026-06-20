@@ -353,7 +353,7 @@
         {
             "name": "Campfire",
             "asset": "Campfire",
-            "icon": "/icons/structures/Campfire.webp"
+            "icon": "/icons/structures/T_icon_buildObject_CampFire.webp"
         },
         {
             "name": "Majestic Candlestick",
@@ -3203,7 +3203,7 @@
         {
             "name": "Glass Pillar",
             "asset": "Glass_Pillars",
-            "icon": "/icons/structures/Glass_Pillars.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Glass_pillar.webp"
         },
         {
             "name": "Glass Pyramid Roof",
@@ -3778,7 +3778,7 @@
         {
             "name": "Metal Pillar",
             "asset": "Metal_Pillars",
-            "icon": "/icons/structures/Metal_Pillars.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_pillar.webp"
         },
         {
             "name": "Metal_Roof",
@@ -3813,7 +3813,7 @@
         {
             "name": "Metal Foundation",
             "asset": "Metal_foundation",
-            "icon": "/icons/structures/Metal_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Foundation.webp"
         },
         {
             "name": "Metal_pillars",
@@ -3823,12 +3823,12 @@
         {
             "name": "Metal Roof",
             "asset": "Metal_roof",
-            "icon": "/icons/structures/Metal_roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Roof.webp"
         },
         {
             "name": "Metal Stairs",
             "asset": "Metal_stair",
-            "icon": "/icons/structures/Metal_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Metal_Stair.webp"
         },
         {
             "name": "Metal Wall",
@@ -4668,7 +4668,7 @@
         {
             "name": "Stone Pillar",
             "asset": "Stone_Pillar",
-            "icon": "/icons/structures/Stone_Pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_pillar.webp"
         },
         {
             "name": "Stone Pyramid Roof",
@@ -4743,7 +4743,7 @@
         {
             "name": "Stone Foundation",
             "asset": "Stone_foundation",
-            "icon": "/icons/structures/Stone_foundation.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Foundation.webp"
         },
         {
             "name": "Stone_pillar",
@@ -4753,12 +4753,12 @@
         {
             "name": "Stone Roof",
             "asset": "Stone_roof",
-            "icon": "/icons/structures/Stone_roof.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Roof.webp"
         },
         {
             "name": "Stone Stairs",
             "asset": "Stone_stair",
-            "icon": "/icons/structures/Stone_stair.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Stone_Stair.webp"
         },
         {
             "name": "Stone Wall",
@@ -5293,7 +5293,7 @@
         {
             "name": "Wooden Pillar",
             "asset": "Wooden_Pillar",
-            "icon": "/icons/structures/Wooden_Pillar.webp"
+            "icon": "/icons/structures/T_icon_buildObject_Wooden_pillar.webp"
         },
         {
             "name": "Wooden Pyramid Roof",
@@ -7459,7 +7459,7 @@
         {
             "name": "Metal Structure Set",
             "asset": "Metal_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_Metal_Wall_V2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Metal_Foundation.webp",
             "type": "standard",
             "description": "Set for building bases using metal.\r\nAllows building of metal foundations, walls, ceilings, stairs and other things necessary for shelters."
         },
@@ -9321,7 +9321,7 @@
         {
             "name": "Stone Structure Set",
             "asset": "Stone_houseset",
-            "icon": "/icons/technologies/T_icon_buildObject_Stone_Wall_V2.webp",
+            "icon": "/icons/technologies/T_icon_buildObject_Stone_Foundation.webp",
             "type": "standard",
             "description": "Set for building bases using stone.\r\nAllows building of stone foundations, walls, ceilings, stairs and other things necessary for shelters."
         },

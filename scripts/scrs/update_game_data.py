@@ -872,6 +872,7 @@ def update_structure_data():
     icon_rows = {}
     for d in [icon_table, icon_table_common]:
         icon_rows.update(load_single_table(d))
+    icon_rows_ci = {k.lower(): v for k, v in icon_rows.items()}
     if not master_rows:
         print('  No map object rows found. Skipping.')
         return
@@ -892,7 +893,7 @@ def update_structure_data():
         struct_id_lower = struct_id.lower()
         display_name = resolve_struct_name(struct_id)
         copied_icon = None
-        icon_row = icon_rows.get(struct_id, {})
+        icon_row = icon_rows.get(struct_id, {}) or icon_rows_ci.get(struct_id_lower, {})
         if icon_row:
             soft_icon = icon_row.get('SoftIcon', {})
             if isinstance(soft_icon, dict):

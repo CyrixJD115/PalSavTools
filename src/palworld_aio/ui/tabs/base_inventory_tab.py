@@ -482,6 +482,8 @@ class GuildStructurePickerDialog(QDialog):
                 continue
             if not desc or desc.lower() in ('en text', 'en_text', 'none', '-', '---'):
                 continue
+            if not s.get('icon', ''):
+                continue
             list_item = QListWidgetItem(name)
             list_item.setData(Qt.UserRole, asset)
             list_item.setData(Qt.UserRole + 1, name)

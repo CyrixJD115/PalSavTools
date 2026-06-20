@@ -1358,7 +1358,6 @@ class MapTab(QWidget):
             rename_action = menu.addAction(t('player.rename.menu') if t else 'Rename Player')
             unlock_cage_action = menu.addAction(t('player.viewing_cage.menu') if t else 'Unlock Viewing Cage')
             unlock_tech_action = menu.addAction(t('player.unlock_technologies.menu') if t else 'Unlock Technologies')
-            update_container_ids_action = menu.addAction(t('player.update_container_ids.menu') if t else 'Update Container IDs')
             action = menu.exec(tree.viewport().mapToGlobal(pos))
             if action == delete_action:
                 self._delete_player(item_data)
@@ -1368,11 +1367,6 @@ class MapTab(QWidget):
                 self._unlock_viewing_cage(item_data)
             elif action == unlock_tech_action:
                 self._unlock_technologies(item_data)
-            elif action == update_container_ids_action:
-                if self.parent_window and hasattr(self.parent_window, '_update_container_ids'):
-                    player_uid = item_data.get('player_uid')
-                    if player_uid:
-                        self.parent_window._update_container_ids(str(player_uid).upper())
     def _delete_base(self, base_data):
         if str(base_data['base_id']) in constants.exclusions.get('bases', []):
             show_warning(self, t('warning.title') if t else 'Warning', t('deletion.warning.protected_base') if t else f"Base {base_data['base_id']} is in exclusion list and cannot be deleted.")

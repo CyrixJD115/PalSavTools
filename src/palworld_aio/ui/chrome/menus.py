@@ -42,7 +42,6 @@ def create_player_context_menu(parent, handlers):
     builder.add_action(t('player.unlock_technologies.menu'), handlers.get('unlock_technologies', lambda: None))
     builder.add_separator()
     builder.add_action(t('player.inventory.menu'), handlers.get('edit_inventory', lambda: None))
-    builder.add_action(t('player.update_container_ids.menu'), handlers.get('update_container_ids', lambda: None))
     builder.add_separator()
     builder.add_action(t('deletion.ctx.delete_guild'), handlers.get('delete_guild', lambda: None))
     builder.add_action(t('guild.rename.menu'), handlers.get('rename_guild', lambda: None))

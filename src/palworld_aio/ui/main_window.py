@@ -31,7 +31,6 @@ from palworld_aio.map.map_generator import generate_world_map
 from palworld_aio.editor.dialogs import InputDialog, DaysInputDialog, LevelInputDialog, RadiusInputDialog, PalDefenderDialog, GameDaysInputDialog
 from palworld_aio.widgets import SearchPanel, StatsPanel, ScrollableContextMenu
 from resource_resolver import resource_path
-from palworld_aio.ui.dialogs.container_selector_dialog import ContainerSelectorDialog
 from palworld_aio.ui.dialogs.player_item_dialog import PlayerItemActionDialog
 from palworld_aio.ui.dialogs.player_pal_dialog import PlayerPalActionDialog
 from palworld_aio.ui.dialogs.player_technology_dialog import PlayerTechnologyActionDialog
@@ -1054,7 +1053,6 @@ class MainWindow(QMainWindow):
         menu.add_action(self._create_action(t('player.rename.menu'), lambda: self._rename_player(item.text(4), item.text(0))))
         menu.add_action(self._create_action(t('player.viewing_cage.menu'), lambda: self._unlock_viewing_cage(item.text(4))))
         menu.add_action(self._create_action(t('player.reset_timestamp.menu') if t else 'Reset Timestamp', lambda: self._reset_player_timestamp(item.text(4))))
-        menu.add_action(self._create_action(t('player.update_container_ids.menu'), lambda: self._update_container_ids(item.text(4))))
         menu.add_action(self._create_action(t('player.unlock_technologies.menu') if t else 'Unlock All Technologies', lambda: self._unlock_all_technologies_for_player(item.text(4))))
         menu.add_action(self._create_action(t('player.edit_tech_points') if t else 'Edit Tech Points', lambda: self._edit_player_tech_points()))
         menu.add_action(self._create_action(t('player.edit_stats') if t else 'Edit Player Stats', lambda: self._edit_player_stats()))
@@ -2109,22 +2107,6 @@ class MainWindow(QMainWindow):
             if constants.current_save_path:
                 self.refresh_all()
         super().keyPressEvent(event)
-    def _update_container_ids(self, uid):
-        if not constants.loaded_level_json:
-            self._show_warning(t('Error'), t('error.no_save_loaded'))
-            return
-        player_name = self._get_player_name(uid)
-        dialog = ContainerSelectorDialog(uid, player_name, self)
-        result = dialog.exec()
-        if result == QDialog.Accepted:
-            container_ids = dialog.get_selected_container_ids()
-            from ..managers.func_manager import update_player_container_ids
-            success = update_player_container_ids(uid, container_ids)
-            if success:
-                self.refresh_all()
-                self._show_info(t('Done'), t('player.container_ids_updated'))
-            else:
-                self._show_warning(t('Error'), t('player.container_ids_failed'))
     def _get_player_name(self, uid):
         try:
             wsd = constants.loaded_level_json['properties']['worldSaveData']['value']

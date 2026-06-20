@@ -482,10 +482,6 @@ class GuildStructurePickerDialog(QDialog):
                 continue
             if not desc or desc.lower() in ('en text', 'en_text', 'none', '-', '---'):
                 continue
-            asset_lower = asset.lower()
-            name_lower = name.lower()
-            if any((asset_lower.startswith(p) or name_lower.startswith(p) for p in ('common', 'enemycamp', 'palegg', 'pickupitem', 'damagable', 'destroyable', 'treasurebox', 'yakushima', 'dev_itemchest', 'altar_raidbossarea', 'antiair', 'banyan', 'deathpenaltychest', 'decal', 'dummyfoliage', 'oilrig', 'palbox_raidbossarea', 'meteordrop_', 'supplydrop', 'table1', 'droppedcharacter', 'trap_movingpanel', 'woodcrusher', 'palstorage_terminal', 'house_1'))) or any((q in asset_lower or q in name_lower for q in ('_grade', '_test', '_autoturret'))):
-                continue
             list_item = QListWidgetItem(name)
             list_item.setData(Qt.UserRole, asset)
             list_item.setData(Qt.UserRole + 1, name)

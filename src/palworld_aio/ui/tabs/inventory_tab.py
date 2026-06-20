@@ -717,7 +717,7 @@ class ItemPickerDialog(QDialog):
             if item.get('asset', '') in self._exclude_assets:
                 continue
             if type_a != 'EPalItemTypeA::Essential':
-                if item['asset'].startswith('PalEgg_') or item['asset'].startswith('YakushimaParts'):
+                if item['asset'].startswith('PalEgg_'):
                     continue
             desc = item.get('description', '').strip()
             if not desc or desc.lower() in ('', 'en text', 'en_text', 'none', '-', '---'):

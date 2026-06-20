@@ -175,7 +175,7 @@ class GuildItemPickerDialog(QDialog):
         for item in items:
             if item.get('sort_id', 0) == 9999:
                 continue
-            if item['asset'].startswith('PalEgg_') or item['asset'].startswith('YakushimaParts'):
+            if item['asset'].startswith('PalEgg_'):
                 continue
             name = item.get('name', 'Unknown')
             asset = item.get('asset', '')

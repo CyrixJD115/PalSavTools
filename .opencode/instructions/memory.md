@@ -87,6 +87,27 @@ Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting P
 - Must call `widget.set_selected(False)` on the old widget BEFORE any `_rebuild()` or `update_display()`
 - Same pattern in edit_pals.py: `_clear_party_highlight()` + `_clear_palbox_highlight()` before `set_clicked_pal(None)`
 
+## Game Data ETL — Structure Icons & Descriptions (Jun 20 session)
+### `scripts/scrs/update_game_data.py`
+- **Structure descs**: `resolve_struct_desc` reads `DT_BuildObjectDescText_Common.json` + CI fallback map. Resolves `BUILDOBJECT_DESC_<id>` per struct. 545/1089 with descs. Resolves rich text tags.
+- **Structure icon CI fallback**: case-insensitive icon row lookup for structures. 11 more icons.
+- **Tech desc CI fallback**: `tech_desc_l10n_ci`, `build_desc_l10n_ci`, `item_desc_l10n_ci` maps used in `update_technology_data()`. Fixes ItemBooth (key `BUILDOBJECT_DESC_ITEMBooth` vs `BUILDOBJECT_DESC_ItemBooth`).
+- **Unknown icon fallback**: copies `T_icon_unknown.webp` to `icons/structures/` on first missing icon; subsequent entries get that fallback path.
+- **Dead icon path cleanup**: structures with no icon file on disk store `''` instead of broken fallback.
+- **Hardcoded exclusion removal**: removed 27-struct exclusion list from `_load_structure_data()` — desc filter catches all junk.
+- **Desc filters**: Universal `desc.lower() not in ('en text','en_text','none','-','---')` applied in GuildItemPickerDialog, GuildStructurePickerDialog, ItemPickerDialog, PlayerTechnologyActionDialog, PlayerItemActionDialog.
+
+### Grenade Quantity Fix
+- `ItemPickerDialog` + `PlayerItemActionDialog`: exempt `EPalItemTypeB::WeaponThrowObject` from `SINGLETON_TYPE_A` check. Type B stored in `Qt.UserRole+5`.
+- `inventory_tab.py` equip slots: context menu shows "Edit Quantity" for `slot_type in ('food', 'weapon')` (was `'food'` only). `_add_to_equip_slot` passes `hide_quantity=slot_type not in ('food', 'weapon')` — picker handles grenade exemption internally.
+
+### NPC Work Suitabilities (this session)
+- **Missing data source**: `update_npc_data()` never loaded `DT_PalHumanParameter.json` (433 entries, each with 13 `WorkSuitability_*` fields + stats). Only loaded icon/name from `DT_PalBossNPCIcon.json`.
+- **Fix**: `update_npc_data()` now loads human params and injects `work_suitabilities` + `stats` into each NPC entry.
+- **Pal array merge**: `update_pal_descriptions()` also loads human params and merges WS/stats into elementless `pals[]` entries (humans in monster params table). 369/384 human pal entries gain non-zero WS.
+- **Lookup fix**: `data.py` `_load_pal_base_data()` now also caches `npcs[]` array entries as fallback (not overwriting `pals[]`).
+- **Result**: Human NPCs (Soldiers, Hunters, Believers, Traders, etc.) now display work suitabilities in pal editor and base inventory.
+
 ## Booth (ItemBooth / PalBooth) Inventory
 - Booths stored in Level.sav `PalMapObjectConcreteModelSaveData`. ItemBooth → `RawData.trade_infos`, PalBooth → `CharacterContainerSaveData`.
 - ItemBooth deletion: `_remove_item_from_slot` detects `booth_type` → `del` from `trade_infos` list ref (shared via removed `list()` copy in `get_booth_item_contents()`).

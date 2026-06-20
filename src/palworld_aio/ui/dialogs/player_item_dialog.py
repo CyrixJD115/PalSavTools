@@ -8,7 +8,7 @@ from palworld_aio import constants
 from palworld_aio.inventory.inventory_manager import ItemData
 from palworld_aio.managers.data_manager import get_guilds, get_guild_members
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
-from palworld_aio.managers.player_manager import add_all_effigies_to_players
+
 from palworld_aio.ui.chrome.styles import DIALOG_STYLE as DARK_THEME_STYLE, wrap_tooltip_text
 from palworld_aio.editor.edit_pals import _clean_desc_for_tooltip
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
@@ -37,7 +37,7 @@ class RarityBorderDelegate(QStyledItemDelegate):
 class PlayerItemActionDialog(QDialog):
     item_action_selected = Signal(str, str, list)
     add_all_key_items_requested = Signal(list)
-    add_all_effigies_requested = Signal(list, int)
+    add_all_effigies_requested = Signal(list)
     unlock_all_map_requested = Signal(list)
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -91,7 +91,7 @@ class PlayerItemActionDialog(QDialog):
         add_all_frame = QFrame()
         add_all_layout = QHBoxLayout(add_all_frame)
         add_all_layout.setContentsMargins(0, 0, 0, 0)
-        self.add_all_effigies_btn = QPushButton(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.add_all_effigies_btn = QPushButton(t('inventory.max_all_abilities', default='Max All Abilities'))
         self.add_all_effigies_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.5); color: #FFFFFF; }')
         self.add_all_effigies_btn.setCursor(Qt.PointingHandCursor)
         self.add_all_effigies_btn.clicked.connect(lambda: self._on_add_all_clicked(True))
@@ -407,15 +407,12 @@ class PlayerItemActionDialog(QDialog):
             QMessageBox.warning(self, t('player_item.no_players_selected') if t else 'No Players Selected', t('player_item.select_at_least_one') if t else 'Please select at least one player.')
             return
         if is_effigies:
-            qty, ok = QInputDialog.getInt(self, t('player_item.add_all_effigies_qty.title', default='Add All Effigies'), t('player_item.add_all_effigies_qty.prompt', default='How many of each effigy type?'), 999, 1, 9999)
-            if not ok:
-                return
-        name = 'Effigies' if is_effigies else 'Key Items'
-        reply = QMessageBox.question(self, f'Add All {name}', f'Add all {name.lower()} types to {len(uids)} player(s)?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            if is_effigies:
-                self.add_all_effigies_requested.emit(uids, qty)
-            else:
+            reply = QMessageBox.question(self, t('inventory.max_all_abilities_confirm.title', default='Max All Abilities'), t('inventory.max_all_abilities_confirm.msg', default='Max all relic abilities for this player?'), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.add_all_effigies_requested.emit(uids)
+        else:
+            reply = QMessageBox.question(self, f'Add All Key Items', f'Add all missing key items to {len(uids)} player(s)?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
                 self.add_all_key_items_requested.emit(uids)
     def _on_unlock_all_map_clicked(self):
         uids = self._get_checked_player_uids()

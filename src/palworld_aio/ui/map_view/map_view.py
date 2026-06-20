@@ -75,6 +75,7 @@ class MapGraphicsView(QGraphicsView):
         self.current_zoom = 1.0
         self.centerOn(self.target_center)
         self.is_animating = True
+        self._phase = 1
         fps = self.config['zoom']['animation_fps']
         interval = int(1000 / fps)
         if not self.zoom_timer.isActive():
@@ -273,13 +274,23 @@ class MapGraphicsView(QGraphicsView):
         self.start_center = QPointF(view_center.x(), view_center.y())
         target_pos = QPointF(marker.center_x, marker.center_y)
         self.target_center = target_pos
-        self.target_zoom = zoom_level
+        self._final_target_zoom = zoom_level
+        self._start_zoom = self.current_zoom
         self.is_animating = True
+        self.base_zoom = max(self.min_zoom, 2.0)
         fps = self.config['zoom']['animation_fps']
         interval = int(1000 / fps)
-        zoom_diff = abs(zoom_level - self.current_zoom)
-        adaptive_duration = max(100, min(int(zoom_diff * 100), duration_ms))
-        steps = max(1, int(adaptive_duration / interval))
+        if self._start_zoom > self.base_zoom + 0.5:
+            self._phase = 0
+            self.target_zoom = self.base_zoom
+            total_dist = (self._start_zoom - self.base_zoom) + (zoom_level - self.base_zoom)
+        else:
+            self._phase = 1
+            self.base_zoom = self._start_zoom
+            self.target_zoom = zoom_level
+            total_dist = zoom_level - self._start_zoom
+        adaptive_duration = max(200, min(int(total_dist * 80), duration_ms))
+        steps = max(4, int(adaptive_duration / interval))
         self._animation_steps = steps
         self._current_step = 0
         if not self.zoom_timer.isActive():
@@ -295,6 +306,18 @@ class MapGraphicsView(QGraphicsView):
             self.current_zoom = self.target_zoom
             clamped_center = self._clamp_center_to_bounds(self.target_center)
             self.centerOn(clamped_center)
+            if hasattr(self, '_phase') and self._phase == 0:
+                self._phase = 1
+                self.target_zoom = self._final_target_zoom
+                self._current_step = 0
+                rem_dist = max(self.target_zoom - self.base_zoom, 0.1)
+                fps = self.config['zoom']['animation_fps']
+                interval = int(1000 / fps)
+                dur = max(200, min(int(rem_dist * 80), 1500))
+                self._animation_steps = max(4, int(dur / interval))
+                self.zoom_label.setText((t('zoom') if t else 'Zoom') + f': {int(self.current_zoom * 100)}%')
+                self.zoom_changed.emit(self.current_zoom)
+                return
             self.is_animating = False
             self.zoom_timer.stop()
             self.zoom_label.setText((t('zoom') if t else 'Zoom') + f': {int(self.current_zoom * 100)}%')
@@ -310,11 +333,15 @@ class MapGraphicsView(QGraphicsView):
             self.current_zoom = target_zoom_for_step
             self.scale(factor, factor)
             if hasattr(self, 'start_center') and hasattr(self, 'target_center'):
-                interpolated_x = self.start_center.x() + (self.target_center.x() - self.start_center.x()) * eased_progress
-                interpolated_y = self.start_center.y() + (self.target_center.y() - self.start_center.y()) * eased_progress
-                interpolated_center = QPointF(interpolated_x, interpolated_y)
-                clamped_center = self._clamp_center_to_bounds(interpolated_center)
-                self.centerOn(clamped_center)
+                if hasattr(self, '_phase') and self._phase == 1:
+                    clamped_center = self._clamp_center_to_bounds(self.target_center)
+                    self.centerOn(clamped_center)
+                else:
+                    interpolated_x = self.start_center.x() + (self.target_center.x() - self.start_center.x()) * eased_progress
+                    interpolated_y = self.start_center.y() + (self.target_center.y() - self.start_center.y()) * eased_progress
+                    interpolated_center = QPointF(interpolated_x, interpolated_y)
+                    clamped_center = self._clamp_center_to_bounds(interpolated_center)
+                    self.centerOn(clamped_center)
             self.zoom_label.setText((t('zoom') if t else 'Zoom') + f': {int(self.current_zoom * 100)}%')
             self.zoom_changed.emit(self.current_zoom)
         else:

@@ -10,7 +10,7 @@ from palsav import json_tools
 from palworld_aio import constants as _constants
 from palworld_aio.inventory.inventory_manager import PlayerInventory, ItemData, get_player_inventory, UI_SLOT_BINDINGS, FOOD_POUCH_ITEMS, ACCESSORY_UNLOCK_ITEMS, WEAPON_UNLOCK_ITEMS, INVENTORY_EXPANSION_ITEMS
 from palworld_aio.editor.edit_pals import _clean_desc_for_tooltip
-from palworld_aio.managers.player_manager import add_all_effigies_to_players, EFFIGY_ITEM_IDS
+from palworld_aio.managers.player_manager import max_all_abilities
 from resource_resolver import resource_path
 SINGLETON_TYPE_A = {'EPalItemTypeA::Weapon', 'EPalItemTypeA::MonsterEquipWeapon', 'EPalItemTypeA::Armor', 'EPalItemTypeA::Accessory', 'EPalItemTypeA::Glider', 'EPalItemTypeA::CaptureItemModifier'}
 from palworld_aio import constants
@@ -494,7 +494,7 @@ class InventoryGridWidget(QWidget):
         self.sort_btn.setStyleSheet('QPushButton { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(168,85,247,0.25); border-color: rgba(168,85,247,0.5); color: #FFFFFF; }')
         self.sort_btn.setCursor(Qt.PointingHandCursor)
         self.sort_btn.clicked.connect(self._sort_items)
-        self.effigies_btn = QPushButton(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.effigies_btn = QPushButton(t('inventory.max_all_abilities', default='Max All Abilities'))
         self.effigies_btn.setFixedHeight(24)
         self.effigies_btn.setStyleSheet('QPushButton { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); border-radius: 6px; padding: 4px 8px; font-weight: 600; font-size: 11px; } QPushButton:hover { background: rgba(251,191,36,0.25); border-color: rgba(251,191,36,0.5); color: #FFFFFF; }')
         self.effigies_btn.setCursor(Qt.PointingHandCursor)
@@ -588,7 +588,7 @@ class InventoryGridWidget(QWidget):
     def refresh_labels(self):
         self.tab_label.setText(t(f'inventory.{self.container_type}', default=self.container_type.title()))
         self.sort_btn.setText(t('inventory.sort', default='Sort'))
-        self.effigies_btn.setText(t('inventory.add_all_effigies', default='Add All Effigies'))
+        self.effigies_btn.setText(t('inventory.max_all_abilities', default='Max All Abilities'))
         self.key_items_btn.setText(t('inventory.add_all_key_items', default='Add All Key Items'))
         self.clear_key_btn.setText(t('inventory.clear_key_btn', default='Clear'))
     def clear(self):
@@ -1128,26 +1128,15 @@ class PlayerInventoryTab(QWidget):
     def _on_add_all_effigies(self):
         if not self.current_player_uid:
             return
-        dlg = QInputDialog(self)
-        dlg.setWindowTitle(t('inventory.add_all_effigies_qty.title', default='Add All Effigies'))
-        dlg.setLabelText(t('inventory.add_all_effigies_qty.prompt', default='How many of each effigy type?'))
-        dlg.setInputMode(QInputDialog.IntInput)
-        dlg.setIntRange(1, 9999)
-        dlg.setIntValue(999)
-        dlg.setStyleSheet(DARK_THEME_STYLE)
-        if dlg.exec() == QDialog.Accepted:
-            qty = dlg.intValue()
-        else:
-            return
-        reply = self._themed_message_box(QMessageBox.Question, t('inventory.add_all_effigies_confirm.title', default='Add All Effigies'), t('inventory.add_all_effigies_confirm.msg').format(count=len(EFFIGY_ITEM_IDS)) if t else f'Add all {len(EFFIGY_ITEM_IDS)} effigy types to key items?', QMessageBox.Yes | QMessageBox.No)
+        reply = self._themed_message_box(QMessageBox.Question, t('inventory.max_all_abilities_confirm.title', default='Max All Abilities'), t('inventory.max_all_abilities_confirm.msg', default='Max all relic abilities for this player?'), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
             return
-        add_all_effigies_to_players([self.current_player_uid], qty)
+        max_all_abilities([self.current_player_uid])
         constants.invalidate_container_lookup()
         from palworld_aio.inventory.inventory_manager import get_player_inventory
         self.inventory = get_player_inventory(self.current_player_uid)
         self._refresh_display()
-        self._themed_message_box(QMessageBox.Information, t('Done') if t else 'Done', t('inventory.add_all_effigies_done', default='Added effigies to key items.'))
+        self._themed_message_box(QMessageBox.Information, t('Done') if t else 'Done', t('inventory.max_all_abilities_done', default='Abilities maxed to maximum rank.'))
     def _on_add_all_key_items(self):
         if not self.inventory:
             return

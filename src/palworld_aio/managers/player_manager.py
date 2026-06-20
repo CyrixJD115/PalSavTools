@@ -215,7 +215,7 @@ def set_player_stats(player_uid, stat_changes, unused_stat_points=None):
                         sp_val['UnusedStatusPoint']['value'] = 0
             return True
     return False
-EFFIGY_ITEM_IDS = ['Relic_01', 'Relic_02', 'Relic_03', 'Relic_04', 'Relic_05', 'Relic_06', 'Relic_07', 'Relic_08', 'Relic_09', 'Relic_10', 'Relic_11', 'Relic_12', 'Relic']
+
 def _load_relic_data():
     relic_path = resource_path(constants.get_base_path(), 'game_data', 'relic_data.json')
     try:
@@ -227,14 +227,13 @@ def _load_relic_data():
         return ({}, {})
 RELIC_CUMULATIVE_MAX, RELIC_MAX_RANK = _load_relic_data()
 RELIC_TO_STATUS_NAME = {'EPalRelicType::CapturePower': '捕獲率', 'EPalRelicType::HungerReduction': '空腹率低減', 'EPalRelicType::SwimSpeed': '泳ぎ速度', 'EPalRelicType::FoodDecayReduction': '食料腐敗低減', 'EPalRelicType::JumpPower': 'ジャンプ力', 'EPalRelicType::GliderSpeed': '滑空速度', 'EPalRelicType::ClimbSpeed': '崖登り速度', 'EPalRelicType::StatusAilmentResist': '状態異常耐性', 'EPalRelicType::ExpBonus': '経験値ボーナス', 'EPalRelicType::RainbowPassiveRate': '虹パッシブ率', 'EPalRelicType::MoveSpeed': '移動速度アップ', 'EPalRelicType::SphereHoming': 'パルスフィアホーミング', 'EPalRelicType::StaminaReduction': 'スタミナ消費軽減'}
-def add_all_effigies_to_players(player_uids, quantity=999):
+def max_all_abilities(player_uids):
     if not constants.loaded_level_json:
-        return 0
+        return False
     if not constants.current_save_path:
-        return 0
+        return False
     from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav
     from palworld_aio.inventory.inventory_manager import PlayerInventory
-    total = 0
     level_changed = False
     for uid in player_uids:
         uid_clean = str(uid).replace('-', '').upper()
@@ -254,31 +253,6 @@ def add_all_effigies_to_players(player_uids, quantity=999):
         rd['RelicPossessNum']['value'] = sum((e.get('value', 0) for e in rmap['value']))
         if rd.get('RelicBonusExpTableIndex', {}).get('value', 0) < 9999:
             rd['RelicBonusExpTableIndex'] = {'id': None, 'value': 9999, 'type': 'IntProperty'}
-        if inv:
-            key_cont = inv.get_container('key')
-            if key_cont:
-                for item_id in EFFIGY_ITEM_IDS:
-                    existing_slot = [s for s in key_cont.slots if s.get('item_id') == item_id]
-                    if existing_slot:
-                        old_qty = existing_slot[0].get('stack_count', 0)
-                        key_cont.set_item_count(existing_slot[0]['slot_index'], old_qty + quantity)
-                    else:
-                        key_cont.add_item(item_id, quantity)
-                    total += quantity
-                wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
-                item_containers = wsd.get('ItemContainerSaveData', {}).get('value', [])
-                container_lookup = {}
-                for c in item_containers:
-                    cid = c.get('key', {}).get('ID', {}).get('value', '')
-                    if cid:
-                        container_lookup[cid] = c
-                for ctype, container in inv.containers.items():
-                    cid = str(container.container_id)
-                    if cid in container_lookup:
-                        raw_slots = container._standardized_container.get_raw_slots()
-                        container_lookup[cid]['value']['Slots']['value']['values'] = raw_slots
-                from palworld_aio.inventory.dynamic_item import sync_dynamic_items_with_registry
-                sync_dynamic_items_with_registry(inv.containers)
         sav_path = os.path.join(players_dir, f'{uid_clean}.sav')
         gvasfile_to_sav(gvas, sav_path)
         wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
@@ -313,9 +287,8 @@ def add_all_effigies_to_players(player_uids, quantity=999):
         data = compress_gvas_to_sav(g.write(SKP_PALWORLD_CUSTOM_PROPERTIES), t)
         with open(os.path.join(constants.current_save_path, 'Level.sav'), 'wb') as f:
             f.write(data)
-    if total:
-        constants.dirty = True
-    return total
+    constants.dirty = True
+    return True
 def adjust_player_level(player_uid, target_level):
     if target_level < 1 or target_level > 80:
         return False

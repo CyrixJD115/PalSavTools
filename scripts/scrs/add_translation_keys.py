@@ -32,8 +32,21 @@ NEW_TRANSLATIONS = {
     'base_inventory.max_all': 'Max All',
     'base_inventory.max_all_confirm': 'Max all stats (talents, ranks, friendship, awakening, level 80, work suitabilities) for all working pals in this base?',
     'base_inventory.max_all_success': 'Maxed {count} pals.',
+    'inventory.max_all_abilities': 'Max All Abilities',
+    'inventory.max_all_abilities_confirm.title': 'Max All Abilities',
+    'inventory.max_all_abilities_confirm.msg': 'Max all relic abilities for this player?',
+    'inventory.max_all_abilities_done': 'Abilities maxed to maximum rank.',
 }
-OLD_KEYS = []
+OLD_KEYS = [
+    'inventory.add_all_effigies',
+    'inventory.add_all_effigies_confirm.title',
+    'inventory.add_all_effigies_confirm.msg',
+    'inventory.add_all_effigies_done',
+    'inventory.add_all_effigies_qty.title',
+    'inventory.add_all_effigies_qty.prompt',
+    'player_item.add_all_effigies_qty.title',
+    'player_item.add_all_effigies_qty.prompt',
+]
 def _clean_uv_locks():
     for p in [Path.cwd() / 'uv.lock', PROJECT_ROOT / 'uv.lock']:
         if p.exists():

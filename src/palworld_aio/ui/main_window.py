@@ -852,12 +852,10 @@ class MainWindow(QMainWindow):
             self._show_error(t('player_item.error') if t else 'Error', str(e))
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
-    def _on_bulk_add_all_effigies(self, player_uids, quantity):
-        from palworld_aio.managers.player_manager import add_all_effigies_to_players
-        from palworld_aio import constants
-        total = add_all_effigies_to_players(player_uids, quantity)
-        constants.invalidate_container_lookup()
-        self._show_info(t('player_item.add_complete') if t else 'Bulk Add Complete', f'Added {total} effigy items to selected player(s).')
+    def _on_bulk_add_all_effigies(self, player_uids):
+        from palworld_aio.managers.player_manager import max_all_abilities
+        max_all_abilities(player_uids)
+        self._show_info(t('inventory.max_all_abilities_done', default='Abilities maxed.'), t('inventory.max_all_abilities_done', default='Abilities maxed to maximum rank.'))
         if hasattr(self, 'refresh_all'):
             self.refresh_all()
     def _on_bulk_add_all_key_items(self, player_uids):

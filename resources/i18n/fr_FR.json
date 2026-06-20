@@ -1428,15 +1428,7 @@
   "3.Preserve all existing map data (icons, markers, etc.)": "3. Préservez toutes les données cartographiques existantes (icônes, marqueurs, etc.)",
   "Clearing fog in: {path}": "Dissiper le brouillard dans : {path}",
   "Fog cleared successfully!": "Le brouillard s'est dissipé avec succès !",
-  "inventory.add_all_effigies": "Ajouter toutes les effigies",
-  "inventory.add_all_effigies_confirm.title": "Ajouter toutes les effigies",
-  "inventory.add_all_effigies_confirm.msg": "Ajouter tous les {count} types d'effigies aux éléments clés ?",
-  "inventory.add_all_effigies_done": "Ajout d'effigies aux éléments clés.",
   "player_item.no_effigies_found": "Aucune effigie trouvée.",
-  "inventory.add_all_effigies_qty.title": "Ajouter toutes les effigies",
-  "inventory.add_all_effigies_qty.prompt": "Combien de chaque type d’effigie ?",
-  "player_item.add_all_effigies_qty.title": "Ajouter toutes les effigies",
-  "player_item.add_all_effigies_qty.prompt": "Combien de chaque type d’effigie ?",
   "paldefender.filter_mode": "Mode filtre :",
   "paldefender.inactivity_only": "Inactivité",
   "paldefender.max_level_only": "Niveau maximum",
@@ -1610,5 +1602,9 @@
   "base_inventory.max_all_confirm": "Maximiser toutes les statistiques (talents, rangs, amitié, éveil, niveau 80, aptitudes professionnelles) pour tous les collègues de travail de cette base ?",
   "base_inventory.max_all_success": "Un maximum de {count} copains.",
   "edit_pals.restore_all_confirm": "Restaurer HP, SAN et la faim pour tous les amis du groupe et toutes les pages Palbox ? La maladie sera également guérie.",
-  "edit_pals.max_all_confirm": "Maximiser toutes les statistiques (talents, rangs, amitié, éveil, niveau 80, aptitudes professionnelles) pour tous les amis du groupe et toutes les pages palbox ?"
+  "edit_pals.max_all_confirm": "Maximiser toutes les statistiques (talents, rangs, amitié, éveil, niveau 80, aptitudes professionnelles) pour tous les amis du groupe et toutes les pages palbox ?",
+  "inventory.max_all_abilities": "Maximiser toutes les capacités",
+  "inventory.max_all_abilities_confirm.title": "Maximiser toutes les capacités",
+  "inventory.max_all_abilities_confirm.msg": "Maximiser toutes les capacités des reliques pour ce joueur ?",
+  "inventory.max_all_abilities_done": "Capacités maximisées jusqu'au rang maximum."
 }

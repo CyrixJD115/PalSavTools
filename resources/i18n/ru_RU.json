@@ -1444,15 +1444,7 @@
   "3.Preserve all existing map data (icons, markers, etc.)": "3. Сохраните все существующие данные карты (значки, маркеры и т. д.).",
   "Clearing fog in: {path}": "Рассеялся туман: {path}",
   "Fog cleared successfully!": "Туман успешно рассеялся!",
-  "inventory.add_all_effigies": "Добавить все чучела",
-  "inventory.add_all_effigies_confirm.title": "Добавить все чучела",
-  "inventory.add_all_effigies_confirm.msg": "Добавить все типы чучел ({count}) в ключевые элементы?",
-  "inventory.add_all_effigies_done": "Добавлены изображения к ключевым предметам.",
   "player_item.no_effigies_found": "Фигурок не обнаружено.",
-  "inventory.add_all_effigies_qty.title": "Добавить все чучела",
-  "inventory.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?",
-  "player_item.add_all_effigies_qty.title": "Добавить все чучела",
-  "player_item.add_all_effigies_qty.prompt": "Сколько фигурок каждого типа?",
   "paldefender.filter_mode": "Режим фильтра:",
   "paldefender.inactivity_only": "Бездействие",
   "paldefender.max_level_only": "Максимальный уровень",
@@ -1626,5 +1618,9 @@
   "base_inventory.max_all_confirm": "Максимально увеличить все характеристики (таланты, звания, дружба, пробуждение, 80-й уровень, рабочие качества) для всех рабочих приятелей на этой базе?",
   "base_inventory.max_all_success": "Максимальное количество друзей: {count}.",
   "edit_pals.restore_all_confirm": "Восстановить HP, SAN и голод для всех друзей в группе и на всех страницах Palbox? Болезнь также будет излечена.",
-  "edit_pals.max_all_confirm": "Максимально увеличить все характеристики (таланты, ранги, дружба, пробуждение, уровень 80, рабочие качества) для всех друзей в группе и на всех страницах палбокса?"
+  "edit_pals.max_all_confirm": "Максимально увеличить все характеристики (таланты, ранги, дружба, пробуждение, уровень 80, рабочие качества) для всех друзей в группе и на всех страницах палбокса?",
+  "inventory.max_all_abilities": "Максимум всех способностей",
+  "inventory.max_all_abilities_confirm.title": "Максимум всех способностей",
+  "inventory.max_all_abilities_confirm.msg": "Максимально использовать все способности реликвий для этого игрока?",
+  "inventory.max_all_abilities_done": "Способности увеличены до максимального ранга."
 }

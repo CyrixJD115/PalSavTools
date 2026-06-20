@@ -1439,15 +1439,7 @@
   "3.Preserve all existing map data (icons, markers, etc.)": "3.Conserve todos los datos del mapa existentes (iconos, marcadores, etc.)",
   "Clearing fog in: {path}": "Despejando niebla en: {ruta}",
   "Fog cleared successfully!": "¡La niebla se disipó con éxito!",
-  "inventory.add_all_effigies": "Agregar todas las efigies",
-  "inventory.add_all_effigies_confirm.title": "Agregar todas las efigies",
-  "inventory.add_all_effigies_confirm.msg": "¿Agregar todos los tipos de efigie {count} a elementos clave?",
-  "inventory.add_all_effigies_done": "Se agregaron efigies a elementos clave.",
   "player_item.no_effigies_found": "No se encontraron efigies.",
-  "inventory.add_all_effigies_qty.title": "Agregar todas las efigies",
-  "inventory.add_all_effigies_qty.prompt": "¿Cuántas de cada tipo de efigie?",
-  "player_item.add_all_effigies_qty.title": "Agregar todas las efigies",
-  "player_item.add_all_effigies_qty.prompt": "¿Cuántas de cada tipo de efigie?",
   "paldefender.filter_mode": "Modo de filtro:",
   "paldefender.inactivity_only": "Inactividad",
   "paldefender.max_level_only": "Nivel máximo",
@@ -1622,5 +1614,9 @@
   "base_inventory.max_all_confirm": "¿Maximizar todas las estadísticas (talentos, rangos, amistad, despertar, nivel 80, idoneidad laboral) para todos los compañeros que trabajan en esta base?",
   "base_inventory.max_all_success": "Número máximo de {count} amigos.",
   "edit_pals.restore_all_confirm": "¿Restaurar HP, SAN y hambre para todos los amigos del grupo y todas las páginas de palbox? Las enfermedades también serán curadas.",
-  "edit_pals.max_all_confirm": "¿Maximizar todas las estadísticas (talentos, rangos, amistad, despertar, nivel 80, idoneidad laboral) para todos los amigos del grupo y todas las páginas de palbox?"
+  "edit_pals.max_all_confirm": "¿Maximizar todas las estadísticas (talentos, rangos, amistad, despertar, nivel 80, idoneidad laboral) para todos los amigos del grupo y todas las páginas de palbox?",
+  "inventory.max_all_abilities": "Max todas las habilidades",
+  "inventory.max_all_abilities_confirm.title": "Max todas las habilidades",
+  "inventory.max_all_abilities_confirm.msg": "¿Maximizar todas las habilidades de reliquia para este jugador?",
+  "inventory.max_all_abilities_done": "Habilidades maximizadas al rango máximo."
 }

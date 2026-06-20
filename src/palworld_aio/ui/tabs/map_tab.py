@@ -771,9 +771,9 @@ class MapTab(QWidget):
                 base_map = base.get('map_type', 'world')
                 if 'raw_x' in base and (base_map == 'tree') == is_tree:
                     if is_tree:
-                        ix, iy = palworld_coord.treemap_to_pixel(base['coords'][0], base['coords'][1], self.map_width, self.map_height)
+                        ix, iy = palworld_coord.treemap_to_pixel(base['map_coords'][0], base['map_coords'][1], self.map_width, self.map_height)
                     else:
-                        ix, iy = self._to_image_coordinates(base['coords'][0], base['coords'][1], self.map_width, self.map_height, coord_range)
+                        ix, iy = self._to_image_coordinates(base['map_coords'][0], base['map_coords'][1], self.map_width, self.map_height, coord_range)
                     base['img_coords'] = (ix, iy)
         for player in self.players_data:
             player_map = player.get('map_type', 'world')
@@ -861,11 +861,13 @@ class MapTab(QWidget):
                         base_val = base_map[bid_str]
                         try:
                             translation = base_val['RawData']['value']['transform']['translation']
-                            pt = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
-                            bx, by = (pt.x, pt.y)
-                            if bx is not None:
-                                img_x, img_y = self._to_image_coordinates(bx, by, self.map_width, self.map_height)
-                                valid_bases.append({'base_id': bid, 'coords': (bx, by), 'img_coords': (img_x, img_y), 'z': translation['z'], 'map_type': 'world', 'raw_x': translation['x'], 'raw_y': translation['y'], 'data': {'key': bid, 'value': base_val}, 'guild_id': gid, 'guild_name': g_val['RawData']['value'].get('guild_name', t('map.unknown.guild') if t else 'Unknown'), 'leader_name': leader_name, 'guild_level': guild_level, 'member_count': member_count, 'total_bases': total_bases, 'base_position': base_position})
+                            pt_new = palworld_coord.sav_to_map(translation['x'], translation['y'], new=True)
+                            bx_new, by_new = (pt_new.x, pt_new.y)
+                            if bx_new is not None:
+                                pt_old = palworld_coord.sav_to_map(translation['x'], translation['y'], new=False)
+                                bx_old, by_old = (pt_old.x, pt_old.y)
+                                img_x, img_y = self._to_image_coordinates(bx_new, by_new, self.map_width, self.map_height)
+                                valid_bases.append({'base_id': bid, 'coords': (bx_old, by_old), 'map_coords': (bx_new, by_new), 'img_coords': (img_x, img_y), 'z': translation['z'], 'map_type': 'world', 'raw_x': translation['x'], 'raw_y': translation['y'], 'data': {'key': bid, 'value': base_val}, 'guild_id': gid, 'guild_name': g_val['RawData']['value'].get('guild_name', t('map.unknown.guild') if t else 'Unknown'), 'leader_name': leader_name, 'guild_level': guild_level, 'member_count': member_count, 'total_bases': total_bases, 'base_position': base_position})
                                 base_position += 1
                         except:
                             pass

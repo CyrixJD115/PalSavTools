@@ -1285,7 +1285,6 @@
   "calibrate.complete_msg": "Constantes mises à jour ! scale={s} transl_x={tx} transl_y={ty} Redémarrez pour appliquer.",
   "base_inventory.select_guild_base_hint": "Sélectionnez une guilde/base pour modifier son inventaire",
   "base_inventory.title": "Éditeur d'inventaire de base",
-  "character_transfer.post_to_pre_blocked": "Le transfert de la version post-v1.0 vers la version antérieure à la version 1.0 n'est pas pris en charge.\nLa version post-v1.0 contient du nouveau contenu qui n'existe pas dans la version cible.",
   "tools.section.converting": "Outils de conversion",
   "tools.section.management": "Outils de gestion",
   "tool.convert.saves.desc": "Convertir les fichiers de sauvegarde entre les formats JSON et SAV",

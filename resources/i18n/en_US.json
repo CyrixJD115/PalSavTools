@@ -1591,7 +1591,6 @@
   "calibrate.complete_title": "Calibration Complete",
   "calibrate.complete_msg": "Constants updated! scale={s}  transl_x={tx}  transl_y={ty}  Restart to apply.",
   "base_inventory.select_guild_base_hint": "Select a Guild/Base to edit their inventory",
-  "character_transfer.post_to_pre_blocked": "Transfer from post-v1.0 to pre-v1.0 is not supported.\nPost-v1.0 contains new content that does not exist in the target version.",
   "tools.section.converting": "Conversion Tools",
   "tools.section.management": "Management Tools",
   "tool.convert.saves.desc": "Convert save files between JSON and SAV formats",

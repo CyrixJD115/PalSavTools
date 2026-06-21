@@ -105,8 +105,6 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
 level_sav_path, t_level_sav_path = (None, None)
 level_json, host_json, targ_lvl, targ_json = (None, None, None, None)
 target_gvas_file, targ_json_gvas = (None, None)
-source_is_post_v1 = None
-target_is_post_v1 = None
 selected_source_player, selected_target_player = (None, None)
 source_guild_dict, target_guild_dict = (dict(), dict())
 source_world_tick, target_world_tick = (0, 0)
@@ -126,59 +124,6 @@ def are_equal_uuids(a, b):
 def fast_deepcopy(obj):
     import pickle
     return pickle.loads(pickle.dumps(obj, -1))
-def _is_post_v1_save(wsd):
-    try:
-        for c in wsd.get('CharacterSaveParameterMap', {}).get('value', []):
-            sp = c['value']['RawData']['value']['object']['SaveParameter']
-            if sp['value'].get('IsPlayer', {}).get('value', False):
-                return 'ExpTableMigrationVersion' in sp['value']
-        return 'BossSpawnerSaveData' in wsd
-    except:
-        return False
-_PRE_ONLY_SP_FIELDS = {'SanityValue'}
-_POST_ONLY_SP_FIELDS = {'ExpTableMigrationVersion', 'bApplyShieldDamage'}
-def _normalize_save_parameter(sp_value, from_pre_to_post):
-    if from_pre_to_post:
-        for field in _PRE_ONLY_SP_FIELDS:
-            sp_value.pop(field, None)
-        if 'ExpTableMigrationVersion' not in sp_value:
-            sp_value['ExpTableMigrationVersion'] = {'id': None, 'value': 0, 'type': 'IntProperty'}
-        if 'bApplyShieldDamage' not in sp_value:
-            sp_value['bApplyShieldDamage'] = {'id': None, 'value': False, 'type': 'BoolProperty'}
-    else:
-        for field in _POST_ONLY_SP_FIELDS:
-            sp_value.pop(field, None)
-        if 'SanityValue' not in sp_value:
-            sp_value['SanityValue'] = {'id': None, 'value': 100.0, 'type': 'FloatProperty'}
-_PRE_TO_POST_PLAYER_FIELDS = {'CompletedQuestArray': 'CompletedQuestArray_FullRelease', 'OrderedQuestArray': 'OrderedQuestArray_FullRelease'}
-_POST_TO_PRE_PLAYER_FIELDS = {v: k for k, v in _PRE_TO_POST_PLAYER_FIELDS.items()}
-_PRE_ONLY_PLAYER_FIELDS = {'OtomoOrder', 'bIsSelectedInitMapPoint'}
-_POST_ONLY_PLAYER_FIELDS = {'LastOnlineDateTime', 'PlayerPlatform'}
-def _normalize_player_save_data(save_data, from_pre_to_post):
-    if from_pre_to_post:
-        rename_map, strip_set, defaults = (_PRE_TO_POST_PLAYER_FIELDS, _PRE_ONLY_PLAYER_FIELDS, {'LastOnlineDateTime': 0, 'PlayerPlatform': 'Steam'})
-    else:
-        rename_map, strip_set, defaults = (_POST_TO_PRE_PLAYER_FIELDS, _POST_ONLY_PLAYER_FIELDS, {})
-    for old_key, new_key in rename_map.items():
-        if old_key in save_data:
-            save_data[new_key] = save_data.pop(old_key)
-    for field in strip_set:
-        save_data.pop(field, None)
-    for field, default in defaults.items():
-        if field not in save_data:
-            save_data[field] = {'id': None, 'value': default, 'type': 'IntProperty' if isinstance(default, int) else 'StrProperty'}
-_PRE_ONLY_LEVEL_FIELDS = {'FixedWeaponDestroySaveData'}
-_POST_ONLY_LEVEL_FIELDS = {'BossSpawnerSaveData'}
-def _normalize_level_data(wsd, from_pre_to_post):
-    if from_pre_to_post:
-        for field in _PRE_ONLY_LEVEL_FIELDS:
-            wsd.pop(field, None)
-        for field in _POST_ONLY_LEVEL_FIELDS:
-            if field not in wsd:
-                wsd[field] = {'value': []}
-    else:
-        for field in _POST_ONLY_LEVEL_FIELDS:
-            wsd.pop(field, None)
 def center_window(win):
     screen = QApplication.primaryScreen().availableGeometry()
     geo = win.frameGeometry()
@@ -617,8 +562,6 @@ def transfer_all_characters():
         total_players = source_player_list.topLevelItemCount()
         print(f'Starting bulk transfer for {total_players} players...')
         total_start = time.perf_counter()
-        if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-            _normalize_level_data(targ_lvl, target_is_post_v1)
         for i in range(total_players):
             player_start = time.perf_counter()
             item = source_player_list.topLevelItem(i)
@@ -756,8 +699,6 @@ def main(skip_msgbox=False, skip_gui=False):
     src_players_folder = os.path.join(os.path.dirname(level_sav_path), 'Players')
     tgt_players_folder = os.path.join(os.path.dirname(t_level_sav_path), 'Players')
     os.makedirs(tgt_players_folder, exist_ok=True)
-    if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-        _normalize_level_data(targ_lvl, target_is_post_v1)
     if _TRANSFER_STEPS['character']:
         if not transfer_character_only(host_guid, targ_uid):
             print('[FAIL]Character + containers')
@@ -949,8 +890,6 @@ def transfer_tech_and_data():
         for k in record_keys:
             if k in src_sd:
                 tgt_sd[k] = fast_deepcopy(src_sd[k])
-        if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-            _normalize_player_save_data(tgt_sd, target_is_post_v1)
         return True
     except Exception as e:
         print(f'[FAIL] transfer_tech_and_data: {e}')
@@ -984,8 +923,6 @@ def transfer_character_only(host_guid, targ_uid):
                 continue
             c['value'] = fast_deepcopy(exported_map['value'])
             c['key']['InstanceId']['value'] = targ_instance_id
-            if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-                _normalize_save_parameter(c['value']['RawData']['value']['object']['SaveParameter']['value'], target_is_post_v1)
             sp = c['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {})
             if 'OwnerPlayerUId' in sp:
                 sp['OwnerPlayerUId']['value'] = targ_uid
@@ -999,8 +936,6 @@ def transfer_character_only(host_guid, targ_uid):
         new_entry = fast_deepcopy(exported_map)
         new_entry['key']['PlayerUId']['value'] = targ_uid
         new_entry['key']['InstanceId']['value'] = targ_instance_id
-        if source_is_post_v1 is not None and target_is_post_v1 is not None and (source_is_post_v1 != target_is_post_v1):
-            _normalize_save_parameter(new_entry['value']['RawData']['value']['object']['SaveParameter']['value'], target_is_post_v1)
         sp = new_entry['value'].get('RawData', {}).get('value', {}).get('object', {}).get('SaveParameter', {}).get('value', {})
         if 'OwnerPlayerUId' in sp:
             sp['OwnerPlayerUId']['value'] = targ_uid
@@ -1194,21 +1129,18 @@ def source_level_file():
             source_world_tick = 0
         return (tmp, wsd)
     def on_finished(result):
-        global level_sav_path, level_json, selected_source_player, source_is_post_v1
+        global level_sav_path, level_json, selected_source_player
         if result is None:
             show_warning(None, t('Error!'), t('Invalid file,must be Level.sav!'))
             return
         path, wsd = result
         level_sav_path = path
         level_json = wsd
-        source_is_post_v1 = _is_post_v1_save(wsd)
         source_level_path_label.setText(path)
         selected_source_player = None
         load_players(wsd, True)
         current_selection_label.setText(f'Source: {selected_source_player},Target: {selected_target_player}')
         print('Done loading the data from Source Save!')
-        if source_is_post_v1 and target_is_post_v1 is not None and (not target_is_post_v1):
-            show_warning(None, t('Warning'), t('character_transfer.post_to_pre_blocked'))
     run_with_loading(on_finished, task)
 def target_level_file():
     global t_level_sav_path, targ_lvl, target_gvas_file, selected_target_player
@@ -1240,7 +1172,7 @@ def target_level_file():
             target_world_tick = 0
         return (tmp, gvas_file, wsd)
     def on_finished(result):
-        global t_level_sav_path, targ_lvl, target_gvas_file, selected_target_player, target_is_post_v1
+        global t_level_sav_path, targ_lvl, target_gvas_file, selected_target_player
         if result is None:
             show_warning(None, t('Error!'), t('Invalid file,must be Level.sav!'))
             return
@@ -1248,15 +1180,12 @@ def target_level_file():
         t_level_sav_path = path
         target_gvas_file = gvas_file
         targ_lvl = wsd
-        target_is_post_v1 = _is_post_v1_save(wsd)
         target_level_path_label.setText(path)
         backup_whole_directory(os.path.dirname(path), 'Backups/Character Transfer')
         selected_target_player = None
         load_players(wsd, False)
         current_selection_label.setText(f'Source: {selected_source_player},Target: {selected_target_player}')
         print('Done loading the data from Target Save!')
-        if source_is_post_v1 is not None and source_is_post_v1 and (not target_is_post_v1):
-            show_warning(None, t('Warning'), t('character_transfer.post_to_pre_blocked'))
     run_with_loading(on_finished, task)
 def on_selection_of_source_player():
     global selected_source_player

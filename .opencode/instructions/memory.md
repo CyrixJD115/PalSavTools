@@ -115,6 +115,27 @@ Desktop GUI + CLI toolkit for editing, repairing, transferring, and converting P
 - Booth pal entries carry `booth_char_container` dict ref from `get_booth_pal_contents()` for slot cleanup.
 - `unlock_all_private_chests` zeros `private_lock_player_uid` on all booths (skip removed).
 
+## Guild Binary Format — V1_MARKER Fix (Jun 21 session)
+### Location: `src/palsav/palsav/rawdata/group.py` — `decode_bytes()` / `encode_bytes()`
+### Problem
+Newer Palworld versions (post-Feybreak?) prepend ~480 bytes of data **before** the known `V1_MARKER` (`02 00 00 00 02 03 00 00 00 00`) in the guild binary tail. The old code checked `post_unk2[:10] == V1_MARKER`, missing the marker when it wasn't at offset 0. The `try/except` at line 76 silently caught the parse failure and set `players: []`.
+
+### Fix (commit `667370dd`)
+- **Decode**: Changed `post_unk2[:10] == V1_MARKER` → `post_unk2.find(V1_MARKER) >= 0`. Pre-marker bytes saved as `_pre_v1_bytes` (bytes) for roundtrip. `_raw_tail` fallback uses `original_tail` (unmodified) so pre-V1 data isn't lost on error.
+- **Encode**: Writes `_pre_v1_bytes` before the V1_MARKER bytes when present.
+- **Roundtrip**: `_pre_v1_bytes` stored as raw `bytes`, written verbatim with `writer.write()`.
+
+### Save Compatibility Verified
+| Save | Pre-V1 bytes | Players parsed | CSPM match |
+|------|-------------|----------------|------------|
+| PylarLatest | 480B | 2 (Pylar, Primarina) | ✅ 2/2 |
+| PylarOld | 0 (at offset 0) | 3 | 3/4 (1 player no guild) |
+| Tenacity | 0 (at offset 0) | 2 (Mohri, Avitius) | 2/10 (others in unparsed guild) |
+| EntUpdated | 0 (at offset 0) | 1 (Ent) | ✅ 1/1 |
+
+### Debug Pattern
+To inspect guild binary tail: search for `V1_MARKER` in `_raw_tail` bytes. If found at offset > 0, guild format was extended. If `_raw_tail` is set and V1_MARKER absent, there's a different format mismatch.
+
 ## Conventions
 - PascalCase for tabs/dialogs, snake_case for modules/utilities
 - `t('key', default=...)` for i18n; all UI widgets implement `refresh_labels()`

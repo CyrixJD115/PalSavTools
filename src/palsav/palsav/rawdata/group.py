@@ -50,10 +50,15 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
         group_data['last_guild_name_modifier_player_uid'] = reader.guid()
         group_data['unknown_2'] = [int(b) for b in reader.byte_list(4)]
         post_unk2 = reader.read_to_end()
+        original_tail = post_unk2
         V1_MARKER = b'\x02\x00\x00\x00\x02\x03\x00\x00\x00\x00'
-        if post_unk2[:10] == V1_MARKER:
+        vi = post_unk2.find(V1_MARKER)
+        if vi >= 0:
             group_data['_has_v1_marker'] = True
-            post_unk2 = post_unk2[10:]
+            pre = post_unk2[:vi]
+            if pre:
+                group_data['_pre_v1_bytes'] = pre
+            post_unk2 = post_unk2[vi + 10:]
         try:
             sub = parent_reader.internal_copy(bytes(post_unk2), debug=False)
             admin_player_uid = sub.guid()
@@ -74,7 +79,7 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
             if trailing_bytes:
                 group_data['_trailing_bytes'] = [int(b) for b in trailing_bytes]
         except Exception:
-            group_data['_raw_tail'] = post_unk2
+            group_data['_raw_tail'] = original_tail
         group_data.setdefault('players', [])
     if not reader.eof():
         group_data['unknown_bytes'] = [int(b) for b in reader.read_to_end()]
@@ -118,6 +123,8 @@ def encode_bytes(p: dict[str, Any]) -> bytes:
             writer.write(bytes(p['_raw_tail']))
         elif 'admin_player_uid' in p:
             if p.get('_has_v1_marker'):
+                if '_pre_v1_bytes' in p:
+                    writer.write(bytes(p['_pre_v1_bytes']))
                 writer.write(b'\x02\x00\x00\x00\x02\x03\x00\x00\x00\x00')
             writer.guid(p['admin_player_uid'])
             writer.tarray(player_info_writer, p.get('players', []))

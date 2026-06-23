@@ -177,6 +177,30 @@ When loading a save with externally-added `NormalBossDefeatFlag` entries, the ga
 ### CLI cross-platform fix (`palsav/cli.py`)
 `os.execv` replaced with `subprocess.run` fallback for non-Unix platforms (Windows). PYTHONHASHSEED re-exec works on all OS now.
 
+## Base Inventory — Structure Filter (Jun 23 session)
+### Concept
+- **Item filter**: Guilds → Bases → Containers → Items (filtered in grid)
+- **Structure filter**: Guilds → Bases → Structure instances (replaces container list)
+- The two filters are mutually exclusive: activating one clears the other
+
+### Location
+`base_inventory_tab.py:BaseInventoryTab`, methods:
+- `_show_structure_picker()`, `_on_structure_action_selected()` — dialog + state
+- `_filter_guilds_and_bases_by_structure()` — calls `find_structure_locations_efficient()`, stores `_structure_locations`, filters `_guilds_data`
+- `_load_bases_for_guild_filtered_by_structure()` — filters bases using `_structure_locations[guild_key]`
+- `_load_structures_for_base()` — replaces container list when structure filter active:
+  - **Container-type structures** (ItemChest_04, Fridge, Booth): loads all containers via `load_containers_for_base()`, filters to those with matching `map_object_id`, shown as normal containers with items/slots in grid
+  - **Non-container structures** (AncientFarmBlock, Monitoring Stand, decorations): no matching containers → shows structure instance entries via `add_structure_entry()` (icon + name, grid empty)
+- `_clear_structure_filter()` — resets state, calls `_load_guilds()` then `_on_guild_changed()` to restore selection
+
+### `ContainerListWidget` additions
+- `add_structure_entry(structure_name, instance_id, structure_asset)` — adds a tree item with icon from `world.json` + structure name + truncated ID
+
+### Data flow
+- `_structure_locations`: `{guild_key: {base_key: [instance_id, ...]}}` (same shape as `_item_locations`)
+- `find_structure_locations_efficient(asset)` iterates `MapObjectSaveData.values`, matches `MapObjectId`, checks `base_camp_id_belong_to`, resolves guild from `base_guild_lookup`
+- UUID keys used without hyphens throughout for matching
+
 ## Booth (ItemBooth / PalBooth) Inventory
 - Booths stored in Level.sav `PalMapObjectConcreteModelSaveData`. ItemBooth → `RawData.trade_infos`, PalBooth → `CharacterContainerSaveData`.
 - ItemBooth deletion: `_remove_item_from_slot` detects `booth_type` → `del` from `trade_infos` list ref (shared via removed `list()` copy in `get_booth_item_contents()`).

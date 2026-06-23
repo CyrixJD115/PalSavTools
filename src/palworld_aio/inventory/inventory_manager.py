@@ -263,6 +263,47 @@ class PlayerInventory:
         self.player_gvas = None
         self.is_loaded = False
         self.max_slots = 42
+        self._bounty_tokens = {}
+    def _load_bounty_tokens(self) -> None:
+        self._bounty_tokens = {}
+        if not self.player_gvas:
+            return
+        props = self.player_gvas.properties if hasattr(self.player_gvas, 'properties') else self.player_gvas.get('properties', {})
+        save_data = props.get('SaveData', {}).get('value', {})
+        if not save_data:
+            return
+        record_data = save_data.get('RecordData', {}).get('value', {})
+        if not record_data:
+            return
+        nbdf = record_data.get('NormalBossDefeatFlag', {})
+        flags = nbdf.get('value', [])
+        if not flags:
+            return
+        rev = self._build_reverse_boss_map()
+        exist_keys = {e.get('key', '') for e in flags}
+        seen = set()
+        for boss_key in exist_keys:
+            item_id = rev.get(boss_key)
+            if item_id and item_id not in seen:
+                seen.add(item_id)
+                self._bounty_tokens[item_id] = self._bounty_tokens.get(item_id, 0) + 1
+    def get_bounty_token_items(self, existing_slot_count: int=0) -> list:
+        items = []
+        for i, (item_id, count) in enumerate(sorted(self._bounty_tokens.items())):
+            idx = existing_slot_count + i
+            info = ItemData.get_item_by_asset(item_id)
+            items.append({'slot_index': idx, 'item_id': item_id, 'item_name': info.get('name', item_id), 'icon_path': info.get('icon', ''), 'stack_count': count or 1, 'category': 'key_item', 'rarity': info.get('rarity', 0), 'description': info.get('description', ''), 'container_type': 'key', 'raw_data': None, 'is_bounty': True})
+        return items
+    def remove_bounty_item(self, item_id: str) -> bool:
+        self._cleanup_boss_defeat_flags([item_id])
+        self._save_player_sav()
+        self._load_bounty_tokens()
+        return True
+    def clear_all_bounty_tokens(self) -> None:
+        for item_id in list(self._bounty_tokens.keys()):
+            self._cleanup_boss_defeat_flags([item_id])
+        self._save_player_sav()
+        self._load_bounty_tokens()
     def load(self) -> bool:
         try:
             self.player_gvas = self._load_player_save()
@@ -282,6 +323,7 @@ class PlayerInventory:
             for container_type, container_id in container_ids.items():
                 if container_id and container_id in container_lookup:
                     self.containers[container_type] = InventoryContainer(container_id, container_lookup[container_id])
+            self._load_bounty_tokens()
             self._calculate_max_slots()
             self.is_loaded = True
             return True
@@ -376,6 +418,19 @@ class PlayerInventory:
                     unlock_count += 1
         return base_slots + unlock_count
     _BOSS_MAP_CACHE = None
+    _BOSS_REVERSE_CACHE = None
+    def _build_reverse_boss_map(self) -> dict[str, str]:
+        if PlayerInventory._BOSS_REVERSE_CACHE is not None:
+            return PlayerInventory._BOSS_REVERSE_CACHE
+        fwd = self._build_boss_key_map()
+        rev = {}
+        for item_id, keys in fwd.items():
+            if isinstance(keys, str):
+                keys = [keys]
+            for k in keys:
+                rev[k] = item_id
+        PlayerInventory._BOSS_REVERSE_CACHE = rev
+        return rev
     def _build_boss_key_map(self) -> dict[str, str]:
         if PlayerInventory._BOSS_MAP_CACHE is not None:
             return PlayerInventory._BOSS_MAP_CACHE
@@ -413,23 +468,58 @@ class PlayerInventory:
         record_data = save_data.setdefault('RecordData', {'value': {}, 'type': 'StructProperty'})['value']
         nbdf = record_data.setdefault('NormalBossDefeatFlag', {'key_type': 'NameProperty', 'value_type': 'BoolProperty', 'key_struct_type': None, 'value_struct_type': None, 'id': None, 'value': [], 'type': 'MapProperty'})
         existing_keys = {e['key'] for e in nbdf['value']}
-        new_entries = []
+        added = 0
         for item_id in boss_item_ids:
             boss_keys = boss_key_map.get(item_id, [])
             if isinstance(boss_keys, str):
                 boss_keys = [boss_keys]
             for boss_key in boss_keys:
                 if boss_key not in existing_keys:
-                    new_entries.append({'key': boss_key, 'value': True})
+                    nbdf['value'].append({'key': boss_key, 'value': True})
                     existing_keys.add(boss_key)
-        if not new_entries:
+                    added += 1
+        if added == 0:
             return
-        nbdf['value'].extend(new_entries)
-        new_count = len(new_entries)
         bdeti = record_data.setdefault('BossDefeatExpBonusTableIndex', {'id': None, 'value': 0, 'type': 'IntProperty'})
-        bdeti['value'] = bdeti['value'] + new_count
+        bdeti['value'] = bdeti['value'] + added
         btp = save_data.setdefault('bossTechnologyPoint', {'id': None, 'value': 0, 'type': 'IntProperty'})
-        btp['value'] = btp['value'] + new_count
+        btp['value'] = btp['value'] + added
+    def _cleanup_boss_defeat_flags(self, item_ids: list[str]) -> None:
+        boss_item_ids = [i for i in item_ids if i.startswith('BossDefeatReward_')]
+        if not boss_item_ids or not self.player_gvas:
+            return
+        boss_key_map = self._build_boss_key_map()
+        if not boss_key_map:
+            return
+        props = self.player_gvas.properties if hasattr(self.player_gvas, 'properties') else self.player_gvas.get('properties', {})
+        save_data = props.get('SaveData', {}).get('value', {})
+        if not save_data:
+            return
+        record_data = save_data.get('RecordData', {}).get('value', {})
+        if not record_data:
+            return
+        nbdf = record_data.get('NormalBossDefeatFlag', {})
+        flags = nbdf.get('value', [])
+        if not flags:
+            return
+        removed = 0
+        for item_id in boss_item_ids:
+            boss_keys = boss_key_map.get(item_id, [])
+            if isinstance(boss_keys, str):
+                boss_keys = [boss_keys]
+            for boss_key in boss_keys:
+                before = len(flags)
+                flags[:] = [e for e in flags if e.get('key') != boss_key]
+                removed += before - len(flags)
+        if removed == 0:
+            return
+        nbdf['value'] = flags
+        bdeti = record_data.get('BossDefeatExpBonusTableIndex', {})
+        if bdeti and 'value' in bdeti:
+            bdeti['value'] = max(0, bdeti['value'] - removed)
+        btp = save_data.get('bossTechnologyPoint', {})
+        if btp and 'value' in btp:
+            btp['value'] = max(0, btp['value'] - removed)
     def add_key_item(self, item_id: str, quantity: int=1) -> bool:
         return self.add_item('key', item_id, quantity)
     def get_equipment(self) -> dict:
@@ -451,6 +541,13 @@ class PlayerInventory:
             container_type = ItemData.get_target_container(item_id)
         elif container_type == 'main' and ItemData.is_essential_item(item_id):
             container_type = 'key'
+        # Bounty tokens: only update player save flags, never add to container
+        if item_id and item_id.startswith('BossDefeatReward_'):
+            for _ in range(quantity):
+                self._ensure_boss_defeat_flags([item_id])
+            self._save_player_sav()
+            self._load_bounty_tokens()
+            return True
         container = self.get_container(container_type)
         if not container:
             return False
@@ -469,17 +566,23 @@ class PlayerInventory:
         success = container._standardized_container.add_item(item_id, min(quantity, 9999), slot_index, dynamic_item_id)
         if success:
             self.save()
-            self._ensure_boss_defeat_flags([item_id])
-            self._save_player_sav()
         return success
     def remove_item(self, container_type: str, slot_index: int) -> bool:
         container = self.get_container(container_type)
         if not container:
             return False
-        success = container.remove_item(slot_index)
-        if success:
-            self.save()
-        return success
+        item_id = None
+        for slot in container.slots:
+            if slot.get('slot_index') == slot_index:
+                item_id = slot.get('item_id', '')
+                break
+        if item_id and item_id.startswith('BossDefeatReward_'):
+            self._cleanup_boss_defeat_flags([item_id])
+            self._save_player_sav()
+        # Always try container removal (may be in container from old code)
+        container.remove_item(slot_index)
+        self.save()
+        return True
     def update_quantity(self, container_type: str, slot_index: int, new_quantity: int) -> bool:
         container = self.get_container(container_type)
         if not container:
@@ -487,6 +590,7 @@ class PlayerInventory:
         success = container.set_item_count(slot_index, new_quantity)
         if success:
             self.save()
+            self._save_player_sav()
         return success
     def save(self) -> bool:
         if not self.player_gvas or not constants.loaded_level_json:

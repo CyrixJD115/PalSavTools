@@ -295,6 +295,24 @@ class PlayerItemActionDialog(QDialog):
             save_data = gvas.properties.get('SaveData', {}).get('value', {})
             if not save_data:
                 return 0
+            # For bounty tokens, count from player save NormalBossDefeatFlag instead of containers
+            if item_id.startswith('BossDefeatReward_'):
+                try:
+                    from palworld_aio.inventory.base_inventory_manager import _load_boss_key_map
+                    boss_keys = _load_boss_key_map().get(item_id, [])
+                    if isinstance(boss_keys, str):
+                        boss_keys = [boss_keys]
+                    record_data = save_data.get('RecordData', {}).get('value', {})
+                    if record_data:
+                        nbdf = record_data.get('NormalBossDefeatFlag', {})
+                        flags = nbdf.get('value', [])
+                        flag_keys = {f.get('key', '') for f in flags}
+                        for bk in boss_keys:
+                            if bk in flag_keys:
+                                return 1
+                except:
+                    pass
+                return 0
             inv_info = save_data.get('InventoryInfo', {}).get('value', {})
             if not inv_info:
                 return 0

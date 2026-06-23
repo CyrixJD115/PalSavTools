@@ -873,6 +873,7 @@ class MainWindow(QMainWindow):
                     continue
                 key_container = inv.containers.get('key')
                 existing = {s.get('item_id', '') for s in (key_container.slots if key_container else []) if s.get('item_id', '')}
+                existing.update(inv._bounty_tokens.keys())
                 missing = [c['asset'] for c in candidates if c['asset'] not in existing]
                 for item_id in FOOD_POUCH_ITEMS:
                     if item_id not in existing:

@@ -1868,46 +1868,105 @@ def update_pal_passive_data():
     save_resource_json('palpassivedata.json', result)
 def update_boss_mapping():
     print('\n=== Updating Boss Mapping ===')
-    wild_spawner = load_export_json('Spawner/DT_PalWildSpawner.json')
-    if not wild_spawner:
-        print('  No spawner data found. Skipping.')
-        return
-    rows = get_rows(wild_spawner)
     items_data = load_resource_json('items.json')
-    boss_item_suffixes = set()
+    chars_data = load_resource_json('characters.json')
+
+    pals = chars_data.get('pals', [])
+    suffix_to_name = {}
+    for p in pals:
+        suffix_to_name[p['asset']] = p['name']
+
+    boss_items = []
     for it in items_data.get('items', []):
         if it.get('type_b') == 'EPalItemTypeB::Essential_BossReward':
             asset = it.get('asset', '')
             if asset.startswith('BossDefeatReward_') and asset != 'TEST_BossDefeatReward':
-                boss_item_suffixes.add(asset.replace('BossDefeatReward_', ''))
+                boss_items.append(asset)
+
+    asset_suffixes = {a.lower(): a.replace('BossDefeatReward_', '') for a in boss_items}
+
     mapping = {}
-    for row_key, row in rows.items():
-        pal_1 = row.get('Pal_1', 'None')
-        if not pal_1 or pal_1 == 'None':
-            continue
-        suffix = pal_1
-        if suffix.startswith('BOSS_'):
-            suffix = suffix[5:]
-        elif suffix.startswith('Boss_'):
-            suffix = suffix[5:]
-        if suffix not in boss_item_suffixes:
-            continue
-        spawner_name = row.get('SpawnerName', '')
-        if not spawner_name:
-            continue
-        item_asset = f'BossDefeatReward_{suffix}'
+    unmatched = set(boss_items)
+
+    def add_to_mapping(item_asset, spawner_name):
         if item_asset in mapping:
             if isinstance(mapping[item_asset], list):
-                mapping[item_asset].append(spawner_name)
+                if spawner_name not in mapping[item_asset]:
+                    mapping[item_asset].append(spawner_name)
             else:
-                mapping[item_asset] = [mapping[item_asset], spawner_name]
+                if mapping[item_asset] != spawner_name:
+                    mapping[item_asset] = [mapping[item_asset], spawner_name]
         else:
             mapping[item_asset] = spawner_name
+
+    def try_match(name_str, flag_key):
+        if not name_str or not flag_key:
+            return
+        for asset in list(unmatched):
+            suffix = asset_suffixes[asset.lower()]
+            if name_str.lower() == suffix.lower():
+                unmatched.discard(asset)
+                add_to_mapping(asset, flag_key)
+                return
+            pal_name = suffix_to_name.get(suffix, '')
+            if pal_name and name_str.lower() == pal_name.lower():
+                unmatched.discard(asset)
+                add_to_mapping(asset, flag_key)
+                return
+
+    # Phase 1: DT_BossSpawnerLoactionData.json (authoritative flag mapping)
+    bsld = load_export_json('UI/DT_BossSpawnerLoactionData.json')
+    if bsld:
+        bsld_rows = get_rows(bsld)
+        for k, v in bsld_rows.items():
+            cid = v.get('CharacterID', '')
+            sid = v.get('SpawnerID', '')
+            if not cid or not sid:
+                continue
+            if cid.startswith('BOSS_'):
+                name_str = cid[5:]
+            elif cid.startswith('Boss_'):
+                name_str = cid[5:]
+            else:
+                continue
+            try_match(name_str, sid)
+        print(f'  Phase 1 (BossSpawnerLoactionData): {len(boss_items) - len(unmatched)} items mapped')
+
+    # Phase 2: DT_PalWildSpawner.json (fallback for sealed realm + other bosses)
+    if unmatched:
+        wild_spawner = load_export_json('Spawner/DT_PalWildSpawner.json')
+        if wild_spawner:
+            rows = get_rows(wild_spawner)
+            for row_key, row in rows.items():
+                if not unmatched:
+                    break
+                pal_1 = row.get('Pal_1', 'None')
+                if not pal_1 or pal_1 == 'None':
+                    continue
+                spawner_name = row.get('SpawnerName', '')
+                if not spawner_name:
+                    continue
+                if pal_1.startswith('BOSS_'):
+                    s = pal_1[5:]
+                elif pal_1.startswith('Boss_'):
+                    s = pal_1[5:]
+                else:
+                    s = pal_1
+                try_match(s, spawner_name)
+            print(f'  Phase 2 (WildSpawner): {len(boss_items) - len(unmatched)} items mapped')
+
+    unmatched = {a for a in unmatched if a not in mapping}
+
     output = {'boss_defeat_flag_map': mapping}
     save_resource_json('boss_mapping.json', output)
     total_keys = sum((1 for v in mapping.values() if isinstance(v, str))) + sum((len(v) if isinstance(v, list) else 0 for v in mapping.values()))
     print(f'  Total mapped boss entries: {total_keys}')
     print(f'  Unique item assets mapped: {len(mapping)}')
+    if unmatched:
+        print(f'  WARNING: {len(unmatched)} bounty items not found in data:')
+        for a in sorted(unmatched):
+            name = next((it.get('name','?') for it in items_data.get('items',[]) if it.get('asset')==a), a)
+            print(f'    {a} ({name})')
 def update_world_map_area_data():
     print('\n=== Updating World Map Area Data ===')
     area_data = load_export_json('WorldMapAreaData/DT_WorldMapAreaData.json')

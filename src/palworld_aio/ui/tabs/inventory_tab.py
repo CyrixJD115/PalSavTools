@@ -1193,8 +1193,12 @@ class PlayerInventoryTab(QWidget):
             self.main_grid.load_items(main_container.slots, max_slots=max_slots)
         key_container = self.inventory.get_container('key')
         if key_container:
-            key_slot_count = max(50, len(key_container.slots) + 10)
-            self.key_grid.load_items(key_container.slots, max_slots=key_slot_count)
+            container_items = key_container.slots
+            occupied = max((s.get('slot_index', -1) for s in container_items), default=-1) + 1
+            bounty_items = self.inventory.get_bounty_token_items(existing_slot_count=occupied)
+            merged = container_items + bounty_items
+            key_slot_count = max(50, len(merged) + 10)
+            self.key_grid.load_items(merged, max_slots=key_slot_count)
         unlocked_food_slots = self.inventory.get_unlocked_food_slots() if self.inventory else 0
         unlocked_accessory_slots = self.inventory.get_unlocked_accessory_slots() if self.inventory else 2
         unlocked_weapon_slots = self.inventory.get_unlocked_weapon_slots() if self.inventory else 4
@@ -1409,6 +1413,7 @@ class PlayerInventoryTab(QWidget):
             return
         if not self.inventory:
             return
+        self.inventory.clear_all_bounty_tokens()
         key_container = self.inventory.get_container('key')
         if key_container:
             key_container.update_slots([])
@@ -1432,6 +1437,7 @@ class PlayerInventoryTab(QWidget):
             main_container.update_slots([s for s in main_container.slots if s.get('slot_index', 0) < max_slots])
             self._update_raw_save_data('main', main_container)
         self.inventory.save()
+        self.selected_item = None
         self._refresh_display()
     def _clear_all_equipment(self):
         if not self.current_player_uid:
@@ -1699,27 +1705,13 @@ class PlayerInventoryTab(QWidget):
         container = self.inventory.get_container(actual_container_type)
         if not container:
             return
-        if actual_container_type == 'main':
-            max_slots = self.inventory.max_slots if self.inventory else 42
-        else:
-            max_slots = 100
         existing_indices = set((s.get('slot_index', 0) for s in container.slots))
         if self._context_slot_index not in existing_indices:
-            new_slot_index = self._context_slot_index
+            slot_index = self._context_slot_index
         else:
-            new_slot_index = None
-            for i in range(max_slots):
-                if i not in existing_indices:
-                    new_slot_index = i
-                    break
-            if new_slot_index is None:
-                max_index = max(existing_indices) if existing_indices else -1
-                new_slot_index = max_index + 1
-        item_info = ItemData.get_item_by_asset(item_id)
-        new_slot = {'slot_index': new_slot_index, 'item_id': item_id, 'item_name': item_info.get('name', item_id), 'icon_path': item_info.get('icon', ''), 'stack_count': quantity, 'category': ItemData.get_item_category(item_id), 'description': item_info.get('description', ''), 'container_type': actual_container_type, 'raw_data': None}
-        container.update_slots(container.slots + [new_slot])
-        self._update_raw_save_data(actual_container_type, container)
-        self.inventory.save()
+            slot_index = None
+        for _ in range(quantity):
+            self.inventory.add_item(actual_container_type, item_id, 1, slot_index=slot_index)
         self._refresh_display()
     def _update_raw_save_data(self, container_type: str, container):
         if not self.inventory or not container:
@@ -1798,16 +1790,17 @@ class PlayerInventoryTab(QWidget):
         container_type = slot_data.get('container_type', 'main')
         slot_index = slot_data.get('slot_index', 0)
         item_name = slot_data.get('item_name', 'Unknown')
+        is_bounty = slot_data.get('is_bounty', False)
+        item_id = slot_data.get('item_id', '')
         msg = t('inventory.delete_confirm.msg', item=item_name, default=f'Delete "{item_name}"?')
         reply = self._themed_message_box(QMessageBox.Question, t('inventory.delete_confirm.title', default='Delete Item'), msg, QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
-            container = self.inventory.get_container(container_type)
-            if container:
-                container.update_slots([s for s in container.slots if s.get('slot_index') != slot_index])
-                self._update_raw_save_data(container_type, container)
-                self.inventory.save()
-                self.selected_item = None
-                self._refresh_display()
+            if is_bounty and item_id:
+                self.inventory.remove_bounty_item(item_id)
+            else:
+                self.inventory.remove_item(container_type, slot_index)
+            self.selected_item = None
+            self._refresh_display()
     def _edit_quantity(self):
         if self.selected_item:
             self._edit_quantity_for(self.selected_item)

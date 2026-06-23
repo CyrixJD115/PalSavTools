@@ -1238,6 +1238,9 @@ def remove_item_from_players(item_id, percentage=None, player_uids=None):
                         player_modified = True
                 if player_modified:
                     players_affected += 1
+                    # If removing a boss defeat reward, also clean up player save flags
+                    if item_id.startswith('BossDefeatReward_'):
+                        _cleanup_boss_defeat_flags_in_save_data(save_data, item_id)
                     gvasfile_to_sav(gvas, sav_file)
             except Exception as e:
                 print(f'Error processing player {player_uid}: {e}')
@@ -1250,6 +1253,45 @@ def remove_item_from_players(item_id, percentage=None, player_uids=None):
         import traceback
         traceback.print_exc()
         return {'removed': 0, 'players_affected': 0, 'containers_modified': 0}
+
+def _load_boss_key_map():
+    try:
+        import json, os
+        from resource_resolver import resource_path
+        from palworld_aio import constants as _c
+        path = resource_path(_c.get_base_path(), 'game_data', 'boss_mapping.json')
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f).get('boss_defeat_flag_map', {})
+    except:
+        return {}
+
+def _cleanup_boss_defeat_flags_in_save_data(save_data, item_id):
+    boss_key_map = _load_boss_key_map()
+    if not boss_key_map:
+        return
+    record_data = save_data.get('RecordData', {}).get('value', {})
+    if not record_data:
+        return
+    nbdf = record_data.get('NormalBossDefeatFlag', {})
+    flags = nbdf.get('value', [])
+    if not flags:
+        return
+    boss_keys = boss_key_map.get(item_id, [])
+    if isinstance(boss_keys, str):
+        boss_keys = [boss_keys]
+    before = len(flags)
+    keys_to_remove = set(boss_keys)
+    flags[:] = [e for e in flags if e.get('key') not in keys_to_remove]
+    removed = before - len(flags)
+    if removed == 0:
+        return
+    nbdf['value'] = flags
+    bdeti = record_data.get('BossDefeatExpBonusTableIndex', {})
+    if bdeti and 'value' in bdeti:
+        bdeti['value'] = max(0, bdeti['value'] - removed)
+    btp = save_data.get('bossTechnologyPoint', {})
+    if btp and 'value' in btp:
+        btp['value'] = max(0, btp['value'] - removed)
 def get_base_worker_pals(base_id):
     if not constants.loaded_level_json:
         return []
@@ -1303,6 +1345,43 @@ def get_base_worker_container_id(base_id):
 def add_item_to_players(item_id, quantity=1, container_type='key', player_uids=None):
     if not constants.loaded_level_json:
         return {'added': 0, 'players_affected': 0, 'containers_modified': 0}
+    from palworld_aio.inventory.inventory_manager import PlayerInventory
+    from palworld_aio.utils import gvasfile_to_sav
+    import os
+    added = 0
+    players_affected = 0
+    for uid in (player_uids or []):
+        try:
+            inv = PlayerInventory(uid)
+            if not inv.load():
+                continue
+            for _ in range(quantity):
+                if inv.add_item(container_type, item_id, 1):
+                    added += 1
+            if added > 0:
+                wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+                item_containers = wsd.get('ItemContainerSaveData', {}).get('value', [])
+                container_lookup = {}
+                for c in item_containers:
+                    cid = c.get('key', {}).get('ID', {}).get('value', '')
+                    if cid:
+                        container_lookup[cid] = c
+                for ctype, inventory_container in inv.containers.items():
+                    cid = str(inventory_container.container_id)
+                    if cid in container_lookup:
+                        raw_slots = inventory_container._standardized_container.get_raw_slots()
+                        container_lookup[cid]['value']['Slots']['value']['values'] = raw_slots
+                from palworld_aio.inventory.dynamic_item import sync_dynamic_items_with_registry
+                sync_dynamic_items_with_registry(inv.containers)
+                gvasfile_to_sav(inv.player_gvas, os.path.join(constants.current_save_path, 'Players', f"{str(uid).replace('-', '').upper()}.sav"))
+                players_affected += 1
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            continue
+    if added > 0:
+        constants.invalidate_container_lookup()
+    return {'added': added, 'players_affected': players_affected, 'containers_modified': players_affected}
 def find_structure_locations_efficient(structure_asset):
     if not constants.loaded_level_json:
         return {}

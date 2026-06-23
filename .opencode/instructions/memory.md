@@ -175,6 +175,15 @@ Newer Palworld versions (post-Feybreak?) prepend ~480 bytes of data **before** t
 ### Debug Pattern
 To inspect guild binary tail: search for `V1_MARKER` in `_raw_tail` bytes. If found at offset > 0, guild format was extended. If `_raw_tail` is set and V1_MARKER absent, there's a different format mismatch.
 
+### `_u8_flag` — Spurious Flag Byte Bug (Jun 22 session)
+**Problem** (`group.py:decode_bytes`): The decoder unconditionally read a `_u8_flag` byte after each player entry (unless at EOF). In the **pre-V1_MARKER** format, these flag bytes don't exist — the byte after each player's fstring is the **first byte of the next player's GUID**. This caused a 1-byte shift per player:
+- **The Good Team** (5 players, ViperGeek's guild): 5× shift → parser overran buffer → `except` caught → `_raw_tail` fallback, **0 players** parsed
+- **Maifest Destiny** (2 players): 1× shift → player 1 consumed `0x81` as flag=129 → player 2 GUID shifted → corrupted name/UID
+
+**Fix** (`group.py:71`): Changed `if not sub.eof():` → `if group_data.get('_has_v1_marker') and not sub.eof():`. Only reads `_u8_flag` when V1_MARKER was present. Encoder already conditional (`if '_u8_flag' in p`), so roundtrip preserved for both formats.
+
+**Diagnosis tools**: Convert Level.sav to JSON, load with `json_tools.load()`, inspect `_raw_tail` hex. Parsing same bytes with/without flag byte confirms alignment.
+
 ## Guild Manager — `_u8_flag` Guild Move Bug (Jun 21 session)
 ### Location: `src/palworld_aio/managers/guild_manager.py` — `move_player_to_guild()`
 ### Problem

@@ -103,6 +103,7 @@ t = 50 if 'Pal.PalworldSaveGame' in g.header.save_game_class_name else 49
 - `1e3eff6` (cyrix) — renamed pyooz→palooz, stripped to Kraken-only compress + universal Oodle decompress, removed ~288 unused SIMDe headers.
 - Recent commits (1a9c328 guild integrity, 5152beb use_u8 fallback, 9ac23cc dynamic item IDs) are ALL about defending roundtrip fidelity against game-format drift.
 - **Lesson:** any change to archive.py, a rawdata decoder, or the property dispatch MUST be validated with `pytest -m slow` (the 3.2MB V1 beta roundtrip) AND ideally a real-save byte diff. Roundtrip drift is the project's recurring failure mode.
+- **Jun 22 — `group.py:_u8_flag`**: Pre-V1_MARKER guild format has NO `_u8_flag` bytes between player entries. Old code always read a flag byte when not at EOF, consuming first byte of next player's GUID → 1-byte shift per player → corruption or `_raw_tail` fallback. Fix: `if group_data.get('_has_v1_marker') and not sub.eof()`.
 
 ## Validation tooling (palsav.commands)
 - `roundtrip_validation.py` — SAV→JSON→SAV byte comparison.

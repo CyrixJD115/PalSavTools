@@ -68,7 +68,7 @@ def decode_bytes(parent_reader: FArchiveReader, group_bytes: Sequence[int], grou
                 puid = sub.guid()
                 lt = sub.i64()
                 nm = sub.fstring()
-                if not sub.eof():
+                if group_data.get('_has_v1_marker') and not sub.eof():
                     flag = sub.byte()
                     players.append({'player_uid': str(puid), 'player_info': {'last_online_real_time': lt, 'player_name': nm}, '_u8_flag': flag})
                 else:

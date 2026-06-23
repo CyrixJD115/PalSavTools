@@ -64,14 +64,22 @@ class TestSchemaValidation:
 
     def test_characters_pals_stats_fields(self):
         data = _load("characters.json")
-        stat_fields = ["hp", "melee_attack", "shot_attack", "defense",
-                       "zukan_index", "rarity"]
+        base_fields = ["hp", "melee_attack", "shot_attack", "defense"]
+        paldeck_fields = ["zukan_index", "rarity"]
         errors = []
         for i, p in enumerate(data["pals"]):
             stats = p.get("stats")
             if stats is None:
                 continue
-            for sf in stat_fields:
+            has_scaling = "scaling" in p
+            for sf in base_fields:
+                if sf not in stats:
+                    errors.append(
+                        f"  pals[{i}] ({p.get('name','?')}).stats missing '{sf}'"
+                    )
+            if not has_scaling:
+                continue
+            for sf in paldeck_fields:
                 if sf not in stats:
                     errors.append(
                         f"  pals[{i}] ({p.get('name','?')}).stats missing '{sf}'"

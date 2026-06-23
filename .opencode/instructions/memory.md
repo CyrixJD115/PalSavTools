@@ -208,6 +208,15 @@ When loading a save with externally-added `NormalBossDefeatFlag` entries, the ga
 - Booth pal entries carry `booth_char_container` dict ref from `get_booth_pal_contents()` for slot cleanup.
 - `unlock_all_private_chests` zeros `private_lock_player_uid` on all booths (skip removed).
 
+### Clear Button Fix (Jun 23 session)
+- **Problem**: `_clear_container` only called `manager.clear_container()` → cleared regular container items (payment items) but not booth-specific data. Booth trade infos (ItemBooth) or CharacterContainer+CharacterSaveParameterMap (PalBooth) were left untouched.
+- **Fix**: `_clear_container` now checks `booth_type`:
+  - `PalMapObjectItemBoothModel`: `booth_trade_infos.clear()`
+  - `PalMapObjectPalBoothModel`: calls `_clear_pal_booth_slots()` helper
+- `_clear_pal_booth_slots`: finds CharacterContainer by `booth_char_container_id`, iterates all slots to remove matching `CharacterSaveParameterMap` entries by `instance_id`, then clears slots + resets `SlotNum` to 0
+- After booth-specific clear, calls `manager.clear_container()` for payment items, then `_on_container_selected()` to refresh full view
+- `_on_container_selected` now calls `self.inventory_grid.refresh_labels()` in both non-booth `else` branches so tab_label resets from "Booth: ..." back to default when switching away from booth view
+
 ## Guild Binary Format — V1_MARKER Fix (Jun 21 session)
 ### Location: `src/palsav/palsav/rawdata/group.py` — `decode_bytes()` / `encode_bytes()`
 ### Problem

@@ -2909,6 +2909,7 @@ class BaseInventoryTab(QWidget):
                         payment_items = items
                 self._update_container_stats()
             else:
+                self.inventory_grid.refresh_labels()
                 inventory_container = self.manager.select_container(container_id)
                 if inventory_container:
                     items = inventory_container.get_items()
@@ -2918,6 +2919,7 @@ class BaseInventoryTab(QWidget):
                 else:
                     self.inventory_grid.clear()
         else:
+            self.inventory_grid.refresh_labels()
             self.container_info.set_container_info(None)
             self.inventory_grid.clear()
     def _update_container_stats(self):
@@ -2958,16 +2960,50 @@ class BaseInventoryTab(QWidget):
             return
         if show_question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?'):
             container_id = self.manager.current_container['id'] if self.manager.current_container else None
-            if container_id:
-                if self.manager.clear_container(container_id):
-                    self.manager.select_container(container_id)
-                    self._refresh_container_ui()
-                    self._update_container_stats()
-                    self._show_info(t('base_inventory.container_cleared') if t else 'Container cleared successfully')
-                else:
-                    self._show_warning(t('base_inventory.failed_to_clear_container') if t else 'Failed to clear container')
-            else:
+            if not container_id:
                 self._show_warning(t('base_inventory.select_container_first') if t else 'Please select a container first')
+                return
+            container_info = self.manager.current_container
+            if container_info:
+                booth_type = container_info.get('booth_type')
+                if booth_type == 'PalMapObjectItemBoothModel':
+                    trade_infos = container_info.get('booth_trade_infos', [])
+                    trade_infos.clear()
+                elif booth_type == 'PalMapObjectPalBoothModel':
+                    self._clear_pal_booth_slots(container_info)
+            if self.manager.clear_container(container_id):
+                self._on_container_selected(container_id)
+                self._show_info(t('base_inventory.container_cleared') if t else 'Container cleared successfully')
+            else:
+                self._show_warning(t('base_inventory.failed_to_clear_container') if t else 'Failed to clear container')
+    def _clear_pal_booth_slots(self, container_info):
+        if not constants.loaded_level_json:
+            return
+        wsd = constants.loaded_level_json.get('properties', {}).get('worldSaveData', {}).get('value', {})
+        char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
+        cmap = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+        char_container_id = container_info.get('booth_char_container_id', '')
+        if not char_container_id:
+            return
+        cc_id_norm = char_container_id.replace('-', '').lower()
+        for cc in char_containers:
+            try:
+                cid = str(cc.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower()
+                if cid == cc_id_norm:
+                    slots = cc['value']['Slots']['value']['values']
+                    for slot in slots:
+                        raw_val = slot.get('RawData', {}).get('value', {})
+                        if isinstance(raw_val, dict):
+                            inst_id = str(raw_val.get('instance_id', '')).replace('-', '').lower()
+                            if inst_id and inst_id != '00000000000000000000000000000000':
+                                pal_entry = next((e for e in cmap if str(e.get('key', {}).get('InstanceId', {}).get('value', '')).replace('-', '').lower() == inst_id), None)
+                                if pal_entry and pal_entry in cmap:
+                                    cmap.remove(pal_entry)
+                    cc['value']['Slots']['value']['values'] = []
+                    cc['value']['SlotNum']['value'] = 0
+                    break
+            except Exception:
+                pass
     def _delete_container(self, container_id):
         container_info = next((c for c in self.manager.containers if c['id'] == container_id), None)
         if not container_info:

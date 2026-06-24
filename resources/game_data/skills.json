@@ -15342,7 +15342,7 @@
             "category": "EPalPassiveCategory::SortDisplayable"
         },
         {
-            "name": "Heavy Weight",
+            "name": "Heavyweight",
             "asset": "Deffence_up2_2",
             "rank": 2,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_02.webp",
@@ -32619,7 +32619,7 @@
             "asset": "MutationPal_Babysitter",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
-            "description": "While at a base, Breeding Speed Pals for assigned to a Breeding Farm is increased by +{EffectValue2}%, and Hatching Speed by +{EffectValue1}%",
+            "description": "While at a base, increases egg production speed by +{EffectValue2}% and incubation speed by +{EffectValue1}% for Pals assigned to a Breeding Farm.",
             "effect1": 30.0,
             "effect2": 30.0,
             "effect3": 0.0,
@@ -37794,7 +37794,7 @@
             "asset": "StonDrop_Boost_1",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
-            "description": "Slightly increases Stone and Ore Drop Rate",
+            "description": "Slightly increases the drop amount of Stone and Ore.",
             "effect1": 50.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -37817,7 +37817,7 @@
             "asset": "StonDrop_Boost_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
-            "description": "Increases Stone and Ore Drop Rate",
+            "description": "Increases the drop amount of Stone and Ore.",
             "effect1": 80.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -37840,7 +37840,7 @@
             "asset": "StonDrop_Boost_3",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "Notably increases Stone and Ore Drop Rate",
+            "description": "Greatly increases the drop amount of Stone and Ore.",
             "effect1": 120.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -37863,7 +37863,7 @@
             "asset": "StonDrop_Boost_4",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "Greatly Stone and Ore Drop Rate",
+            "description": "Significantly increases the drop amount of Stone and Ore.",
             "effect1": 160.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -37886,7 +37886,7 @@
             "asset": "StonDrop_Boost_5",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
-            "description": "Considerably increases Stone and Ore Drop Rate",
+            "description": "Massively increases the drop amount of Stone and Ore.",
             "effect1": 200.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -41796,7 +41796,7 @@
             "asset": "WoodDrop_Boost_1",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
-            "description": "Slightly increases Wood Drop Rate",
+            "description": "Slightly increases the drop amount of Wood.",
             "effect1": 50.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -41819,7 +41819,7 @@
             "asset": "WoodDrop_Boost_2",
             "rank": 1,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_01.webp",
-            "description": "Increases Wood Drop Rate",
+            "description": "Increases the drop amount of Wood.",
             "effect1": 80.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -41842,7 +41842,7 @@
             "asset": "WoodDrop_Boost_3",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "Notably increases Wood Drop Rate",
+            "description": "Greatly increases the drop amount of Wood.",
             "effect1": 120.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -41865,7 +41865,7 @@
             "asset": "WoodDrop_Boost_4",
             "rank": 3,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_03.webp",
-            "description": "Greatly increases Wood Drop Rate",
+            "description": "Significantly increases the drop amount of Wood.",
             "effect1": 160.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -41888,7 +41888,7 @@
             "asset": "WoodDrop_Boost_5",
             "rank": 4,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_04.webp",
-            "description": "Considerably increases Wood Drop Rate",
+            "description": "Massively increases the drop amount of Wood.",
             "effect1": 200.0,
             "effect2": 0.0,
             "effect3": 0.0,
@@ -43153,7 +43153,7 @@
             "asset": "WorldTree_CraftSpeed",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Work Speed +{EffectValue1}%\r\nSAN drops +15.0% faster\r\nWorld Tree harvestables won't vanish when approached.",
+            "description": "Work Speed +{EffectValue1}%\r\nSAN dreceases +15.0% faster\r\nWorld Tree harvestables won't vanish when approached.",
             "effect1": 90.0,
             "effect2": 15.0,
             "effect3": 0.0,
@@ -43199,7 +43199,7 @@
             "asset": "WorldTree_FullStomach",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Hunger drops +50.0% slower\r\nHP {EffectValue2}%\r\nWorld Tree harvestables won't vanish when approached.",
+            "description": "Decrease Hunger depletion rate by +50.0%\r\nHP {EffectValue2}%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": -50.0,
             "effect2": -20.0,
             "effect3": 0.0,
@@ -43222,7 +43222,7 @@
             "asset": "WorldTree_MoveSpeed",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "Movement Speed +{EffectValue1}%\r\nHunger drops +15.0% faster\r\nWorld Tree harvestables won't vanish when approached.",
+            "description": "Movement Speed +{EffectValue1}%\r\nIncreases Hunger depletion rate by +15.0%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": 50.0,
             "effect2": 15.0,
             "effect3": 0.0,
@@ -43245,7 +43245,7 @@
             "asset": "WorldTree_Sanity",
             "rank": 5,
             "icon": "/icons/passives/T_icon_skillstatus_rank_arrow_05.webp",
-            "description": "SAN drops +50.0% slower\r\nWork Speed {EffectValue2}%\r\nWorld Tree harvestables won't vanish when approached",
+            "description": "SAN depletion rate -50.0%\r\nWork Speed {EffectValue2}%\r\nWorld Tree resources will not vanish when approached.",
             "effect1": -50.0,
             "effect2": -20.0,
             "effect3": 0.0,
@@ -43935,7 +43935,7 @@
             "element": "Water",
             "power": 200,
             "cooldown": 12.0,
-            "description": "Panthalus's exclusive skill.\r\nLaunches a mass of bubbles to encircle and assault a target."
+            "description": "Panthalus's exclusive skill.\r\nGenerates a multitude of bubbles around the enemy to surround and attack them."
         },
         {
             "name": "Crosswind",
@@ -44439,7 +44439,7 @@
             "element": "Dark",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Utilizes gravity by grabbing enemies and flinging them into the ground from above."
+            "description": "Utilizes gravity to deprive enemies of their freedom, \r\nthen slams them into the ground from high above."
         },
         {
             "name": "Radiant Barrage",
@@ -44927,7 +44927,7 @@
             "element": "Water",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Shaolong's exclusive skill.\r\nCalls down a massive vortex that towers into the heavens.\r\nIt swallows up any and all nearby enemies."
+            "description": "Shaolong's exclusive skill.\r\nSummons a massive vortex reaching into the heavens.\r\nThe vortex draws in and eliminates all surrounding enemies at once."
         },
         {
             "name": "Unique_BlueSkyDragon_GYM_Act",
@@ -44943,7 +44943,7 @@
             "element": "Dragon",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Shaolong's exclusive skill.\r\nBreathes a swath of dragonfire that scorches all that it touches."
+            "description": "Shaolong's exclusive skill.\r\nBreathes Dragon-elemental flames in a sweeping motion, scorching the surrounding area."
         },
         {
             "name": "Hydra Charge",
@@ -44951,7 +44951,7 @@
             "element": "Water",
             "power": 500,
             "cooldown": 24.0,
-            "description": "Shaolong's exclusive skill.\r\nCloaks itself completely in water and charges directly ahead."
+            "description": "Shaolong's exclusive skill.\r\nCloaks the body in water and charges straight forward."
         },
         {
             "name": "Bolt Blink",
@@ -44967,7 +44967,7 @@
             "element": "Electricity",
             "power": 500,
             "cooldown": 24.0,
-            "description": "Azurmane's exclusive skill.\r\nEnvelops itself in electricity and rushes at high speed towards the enemy."
+            "description": "Azurmane's exclusive skill.\r\nCloaks the body in lightning and performs a high-speed charge toward the enemy."
         },
         {
             "name": "Reckless Charge",
@@ -45007,7 +45007,7 @@
             "element": "Fire",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Dupin's exclusive skill.\r\nSummons two illusory clones to occupy the enemy while its real form launches a flaming bird from its top hat."
+            "description": "Dupin's exclusive skill.\r\nCreates two illusions to distract enemies, then launches fire birds from its top hat."
         },
         {
             "name": "Pyramid Press",
@@ -45015,7 +45015,7 @@
             "element": "Earth",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Tetroise 's exclusive skill.\r\nSoars up into the air to then crush the enemy underneath its overwhelming weight."
+            "description": "Tetroise 's exclusive skill.\r\nLeaps into the air and crushes enemies with its massive weight."
         },
         {
             "name": "Holy Press",
@@ -45023,7 +45023,7 @@
             "element": "Normal",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Tetroise Primo's exclusive skill.\r\nSoars up into the air to crush the enemy, then gleams and follows up by striking with a pillar of light."
+            "description": "Tetroise Primo's exclusive skill.\r\nLeaps into the air and crushes enemies with its massive weight.\r\nUpon landing, light spreads outward, forming pillars of light that burst forth and strike nearby enemies."
         },
         {
             "name": "Fuddler Tunneler",
@@ -45031,7 +45031,7 @@
             "element": "Earth",
             "power": 60,
             "cooldown": 4.0,
-            "description": "Fuddler's exclusive skill.\r\nDives underground to then burst out with great force from beneath the enemy's feet."
+            "description": "Fuddler's exclusive skill.\r\nBurrows underground and bursts out from beneath enemies."
         },
         {
             "name": "Evil Slash",
@@ -45175,7 +45175,7 @@
             "element": "Electricity",
             "power": 500,
             "cooldown": 24.0,
-            "description": "A skill exclusive to Snock species.\r\nWithdraws into its shell to reduce incoming damage and build an electric charge.\r\nOnce its finished charging, it discharges it to damage all surrounding enemies.\r\nAfter discharging, any Electric skills used by this Pal have increased Attack for a limited time."
+            "description": "Snock's exclusive skill.\r\nWithdraws into its shell to reduce damage taken while building electric charge.\r\nOnce fully charged, it discharges, damaging nearby enemies.\r\nAfter discharging, the Attack of this Pal's Electric skills is increased for a limited time."
         },
         {
             "name": "Mystic Whirlwind",
@@ -45255,7 +45255,7 @@
             "element": "Dark",
             "power": 800,
             "cooldown": 30.0,
-            "description": "Dandilord's exclusive skill.\r\nDances and emits a corrosive mist.\r\nThe mist hangs in the air for a limited time."
+            "description": "Dandilord's exclusive skill.\r\nPerforms a dance while releasing corrosive mist.\r\nThe mist remains in the area for a limited time."
         },
         {
             "name": "Poison Promenade",
@@ -45263,7 +45263,7 @@
             "element": "Dark",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Dandilord's exclusive skill.\r\nEmits a corrosive mist as it glides towards an enemy.\r\nThe mist hangs in the air for a limited time."
+            "description": "Dandilord's exclusive skill.\r\nCharges forward while sliding along the ground, spraying corrosive mist.\r\nThe mist remains in the area for a limited time."
         },
         {
             "name": "Fierce Fang",
@@ -45271,7 +45271,7 @@
             "element": "Normal",
             "power": 50,
             "cooldown": 2.0,
-            "description": "Direhowl's exclusive skill. \r\nSwiftly leaps at an enemy and bites into them."
+            "description": "Swiftly leaps at an enemy and bites into them."
         },
         {
             "name": "Double Fang",
@@ -45279,7 +45279,7 @@
             "element": "Normal",
             "power": 40,
             "cooldown": 2.0,
-            "description": "Launches into a swift series of bites at the enemy."
+            "description": "Launches a rapid succession of bites at the enemy."
         },
         {
             "name": "Scorching Lantern Sweep",
@@ -45311,7 +45311,7 @@
             "element": "Dragon",
             "power": 700,
             "cooldown": 30.0,
-            "description": "A skill exclusive to Eidrolon species.\r\nSpews a superheated light beam for a limited time.\r\nThe beam erupts at the last second, causing a massive explosion wherever it's landing."
+            "description": "Eidrolon's exclusive skill.\r\nEmits a superheated light beam for a short time.\r\nAt the final moment, the targeted area is engulfed in a massive explosion."
         },
         {
             "name": "Tail Slash",
@@ -45319,7 +45319,7 @@
             "element": "Dragon",
             "power": 550,
             "cooldown": 24.0,
-            "description": "A skill exclusive to Eidrolon species.\r\nCloses in on the enemy at high speed to take a cleaving swipe with its tail."
+            "description": "Eidrolon's exclusive skill.\r\nCloses in on the enemy at high speed to deliver a cleaving swipe with its tail."
         },
         {
             "name": "Fierce Fang (Ground)",
@@ -45367,7 +45367,7 @@
             "element": "Leaf",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Dualith's exclusive skill.\r\nFires a round of Grass energy from its left hand.\r\nUpon landing, the round flowers from the enemy's feet as a root that clings to them."
+            "description": "Dualiths exclusive skill.\r\nFires a Grass-elemental energy projectile from its arm.\r\nUpon impact, the blast transforms into persistent roots that track and pierce the enemy from below."
         },
         {
             "name": "Dark Root",
@@ -45375,7 +45375,7 @@
             "element": "Dark",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Dualith Noct's exclusive skill.\r\nFires a round of Dark energy from its left hand.\r\nUpon landing, the round flowers from the enemy's feet as a root that clings to them."
+            "description": "Dualith Nocts exclusive skill.\r\nFires a Dark-elemental energy projectile from its arm.\r\nUpon impact, the blast transforms into persistent roots that track and pierce the enemy from below."
         },
         {
             "name": "Rocket Arm",
@@ -45383,7 +45383,7 @@
             "element": "Earth",
             "power": 600,
             "cooldown": 30.0,
-            "description": "A skill unique to Dualiths. \r\nIts left arm detaches from its body to slash at the enemy, followed shortly by its right."
+            "description": "Dualiths exclusive skill.\r\nDetaches its left arm to sweep enemies, then launches its right arm."
         },
         {
             "name": "Earth Impact",
@@ -45399,7 +45399,7 @@
             "element": "Leaf",
             "power": 650,
             "cooldown": 30.0,
-            "description": "Elgrove's exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into four furious Grass-based rush attacks."
+            "description": "Elgrove's exclusive skill.\r\nEnters a violent frenzy and unleashes four consecutive rage-fueled Grass-element charge attacks."
         },
         {
             "name": "Bull Rush",
@@ -45407,7 +45407,7 @@
             "element": "Leaf",
             "power": 250,
             "cooldown": 12.0,
-            "description": "Elgrove's exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into two Grass-based rush attacks."
+            "description": "Elgrove's exclusive skill.\r\nEnters a wild frenzy and unleashes two consecutive Grass-element charge attacks."
         },
         {
             "name": "Raging Snow Rush",
@@ -45415,7 +45415,7 @@
             "element": "Ice",
             "power": 650,
             "cooldown": 30.0,
-            "description": "Elgrove Cryst's exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into four furious Ice-based rush attacks."
+            "description": "Elgrove Cryst's exclusive skill.\r\nEnters a violent frenzy and unleashes four consecutive rage-fueled Ice-element charge attacks."
         },
         {
             "name": "Snow Rush",
@@ -45423,7 +45423,7 @@
             "element": "Ice",
             "power": 250,
             "cooldown": 12.0,
-            "description": "Elgrove Cryst's exclusive skill.\r\nWhips itself into a spirited frenzy, breaking into two Ice-based rush attacks."
+            "description": "Elgrove Cryst's exclusive skill.\r\nEnters a wild frenzy and unleashes two consecutive Ice-element charge attacks."
         },
         {
             "name": "Blast Punch",
@@ -45599,7 +45599,7 @@
             "element": "Water",
             "power": 300,
             "cooldown": 16.0,
-            "description": "Panthalus's exclusive skill.\r\nSends a keen blade of water flying towards the target."
+            "description": "Panthalus's exclusive skill.\r\nLaunches sharp water blades at enemies."
         },
         {
             "name": "Aqua Tornado",
@@ -45607,7 +45607,7 @@
             "element": "Water",
             "power": 800,
             "cooldown": 40.0,
-            "description": "Panthalus's exclusive skill.\r\nSoars up into the sky to call down a number of massive tornadoes to slowly pursue the enemy."
+            "description": "Panthalus's exclusive skill.\r\nSoars into the sky and generates multiple massive tornadoes that slowly track enemies."
         },
         {
             "name": "Grand Breach",
@@ -45615,7 +45615,7 @@
             "element": "Water",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Panthalus's exclusive skill. Briefly dives underwater before bursting forth. \r\nThe force of the surge sends a ring of waves."
+            "description": "Panthalus's exclusive skill.\r\nDives underwater and leaps out after a short delay.\r\nThe momentum of the leap creates ripples that damage the surrounding area."
         },
         {
             "name": "Bubble Rain",
@@ -45623,7 +45623,7 @@
             "element": "Water",
             "power": 200,
             "cooldown": 12.0,
-            "description": "Panthalus's exclusive skill.\r\nFires a stream of bubbles that pursue its target.\r\nThe bubbles pop shortly after contact to cause damage."
+            "description": "Panthalus's exclusive skill.\r\nFires a large cluster of homing bubbles that remain in place upon landing.\r\nBubbles burst and deal damage upon contact or after several seconds."
         },
         {
             "name": "Maelstrom",
@@ -45631,7 +45631,7 @@
             "element": "Water",
             "power": 500,
             "cooldown": 24.0,
-            "description": "Panthalus's exclusive skill.\r\nCreates a whirlpool around an enemy that draws them in as it contracts, until finally exploding in a pillar of water."
+            "description": "Panthalus's exclusive skill.\r\nCreates a vortex around the enemy. \r\nThe vortex pulls targets toward its center while shrinking, ending in a high-pressure water pillar explosion."
         },
         {
             "name": "Unique_KingWhale_SuperTidalBore",
@@ -45655,7 +45655,7 @@
             "element": "Water",
             "power": 400,
             "cooldown": 20.0,
-            "description": "Panthalus's exclusive skill.\r\nLaunches a wave that strikes all enemies."
+            "description": "Panthalus's exclusive skill.\r\nSlams the body into the enemy, generating a massive wave on impact."
         },
         {
             "name": "Ice Gale Strike",
@@ -45663,7 +45663,7 @@
             "element": "Ice",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Univolt Cryst's exclusive skill.\r\nGenerates pillars of ice all around while charging at its target."
+            "description": "Univolt Cryst's exclusive skill.\r\nGenerates ice pillars around itself while charging toward enemies."
         },
         {
             "name": "Lightning Gale",
@@ -45679,7 +45679,7 @@
             "element": "Dark",
             "power": 650,
             "cooldown": 30.0,
-            "description": "Loomen's exclusive skill.\r\nHoists its lantern to summon a host of balls of malice that relentlessly pursue the enemy."
+            "description": "Loomen's exclusive skill.\r\nRaises a lantern and summons multiple spirits that relentlessly pursue enemies."
         },
         {
             "name": "Konoha Flip",
@@ -45783,7 +45783,7 @@
             "element": "Leaf",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Ophydia's exclusive skill.\r\nBuries itself in the ground to become a flower bud.\r\nThe bud then emerges to blossom, striking enemies within a wide area of effect."
+            "description": "Ophydia's exclusive skill.\r\nBurrows into the ground and vanishes.\r\nIt then emerges at the surface as a flower bud, blooms, and unleashes a wide-area attack."
         },
         {
             "name": "Volcanic Fang",
@@ -45799,7 +45799,7 @@
             "element": "Dark",
             "power": 500,
             "cooldown": 24.0,
-            "description": "Solenne's exclusive skill.\r\nLaunches diagonally into the air and fires a volley of sharp, black wings."
+            "description": "Solenne's exclusive skill.\r\nJumps diagonally and throws sharp black feathers at enemies."
         },
         {
             "name": "Unique_MoonQueen_GYM_Act",
@@ -45847,7 +45847,7 @@
             "element": "Leaf",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Silvance's exclusive skill.\r\nFires a massive spore that pursues the enemy. The spore explodes over a wide area upon impact."
+            "description": "Silvance's exclusive skill.\r\nFires a massive tracking spore that pursues enemies. \r\nIt explodes on impact, releasing a wide-area blast."
         },
         {
             "name": "Spore Burst",
@@ -45855,7 +45855,7 @@
             "element": "Leaf",
             "power": 800,
             "cooldown": 30.0,
-            "description": "Silvance's exclusive skill.\r\nScatters explosive spores over a wide area around it.\r\nThe spores simultaneously explode after a set amount of time."
+            "description": "Silvance's exclusive skill.\r\nScatters explosive spores over a wide area, \r\nthen triggers a mass explosion after a set period of time."
         },
         {
             "name": "Mummy Rush",
@@ -45863,7 +45863,7 @@
             "element": "Dark",
             "power": 500,
             "cooldown": 24.0,
-            "description": "Gildra's exclusive skill.\r\nWhips at the enemy with repeated blows of the bandages from its hands."
+            "description": "Gildra's exclusive skill.\r\nExtends bandages from its hands to deliver a series of attacks."
         },
         {
             "name": "Soul Drain",
@@ -45903,7 +45903,7 @@
             "element": "Normal",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Starryon Primo's exclusive skill.\r\nEnvelops itself in glowing flames and rushes towards the enemy."
+            "description": "Starryon Primo's exclusive skill.\r\nCloaks the body in radiant flames and charges toward the enemy."
         },
         {
             "name": "Spectral Steed",
@@ -45911,7 +45911,7 @@
             "element": "Dark",
             "power": 450,
             "cooldown": 20.0,
-            "description": "Starryon's exclusive skill.\r\nEnvelops itself in flickering flames and rushes towards the enemy."
+            "description": "Starryon's exclusive skill.\r\nCloaks the body in flickering flames and charges toward the enemy."
         },
         {
             "name": "Flame Waltz",
@@ -45951,7 +45951,7 @@
             "element": "Leaf",
             "power": 250,
             "cooldown": 12.0,
-            "description": "Leafan's exclusive skill.\r\nSwiftly throws out a series of repeated roundhouse kicks, punctuated with a final blast of energy."
+            "description": "Leafan's exclusive skill.\r\nRapidly delivers a series of consecutive roundhouse kicks, finishing with an engery blast."
         },
         {
             "name": "Punch Flurry",
@@ -46007,7 +46007,7 @@
             "element": "Leaf",
             "power": 550,
             "cooldown": 24.0,
-            "description": "Tropicaw's exclusive skill. \r\nRises gently into the air, then slams its sharp claws into the ground."
+            "description": "Tropicaw's exclusive skill. \r\nLeaps lightly into the air, then forcefully slams its sharp claws into the ground."
         },
         {
             "name": "Focus Shot",
@@ -46023,7 +46023,7 @@
             "element": "Ice",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Pierdon Cryst's exclusive skill.\r\nBores into the ground with its horn to dig up snowpacks and fling them at the enemy."
+            "description": "Pierdon Cryst's exclusive skill.\r\nRakes the ground with its horn, then hurls a snow chunk at enemies."
         },
         {
             "name": "Horn Burst",
@@ -46031,7 +46031,7 @@
             "element": "Earth",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Pierdon's exclusive skill.\r\nBores into the ground with its horn to dig up rocks and fling them at the enemy."
+            "description": "Pierdon's exclusive skill.\r\nRakes the ground with its horn, then hurls a rock projectile at enemies."
         },
         {
             "name": "Iaigiri",
@@ -46095,7 +46095,7 @@
             "element": "Earth",
             "power": 90,
             "cooldown": 4.0,
-            "description": "Pupperai's exclusive skill.\r\nCharges at full speed to swing at the enemy with the stick in its mouth.\r\nStrikes twice in a row."
+            "description": "Pupperai's exclusive skill.\r\nCharges at full speed, delivering two consecutive slashes with the wooden stick held in its mouth."
         },
         {
             "name": "Thunder Uppercut",
@@ -46103,7 +46103,7 @@
             "element": "Electricity",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Prixter Lux's exclusive skill.\r\nChannels its superconductivity to close the distance to the enemy, then swings its pincers upward with full force."
+            "description": "'s exclusive skill.\r\nUses superconductivity to closes the distance to the enemy at high speed,\r\nthen swings its pincers upward with full force."
         },
         {
             "name": "Unique_ScorpionMan_Uppercut",
@@ -46119,7 +46119,7 @@
             "element": "Earth",
             "power": 400,
             "cooldown": 20.0,
-            "description": "Sekhmet's exclusive skill.\r\nBecomes a rolling ball of furious scratches that instantly closes the distance from the enemy."
+            "description": "Sekhmets exclusive skill.\r\nSpins forward to quickly close the distance and scratch the enemy."
         },
         {
             "name": "Somersault Scratch",
@@ -46127,7 +46127,7 @@
             "element": "Earth",
             "power": 300,
             "cooldown": 16.0,
-            "description": "Sekhmet's exclusive skill.\r\nScratches at the enemy while somersaulting backwards to create distance."
+            "description": "Sekhmets exclusive skill.\r\nScratches the enemy while performing a backward somersault to create distance."
         },
         {
             "name": "Roly Poly",
@@ -46151,7 +46151,7 @@
             "element": "Dark",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Venusa's exclusive skill. \r\nThe snake head spews out a toxic glob in a wide arc. \r\nIts poison spreads out from the point of impact, infecting those who touch it."
+            "description": "Venusa's exclusive skill. \r\nThe snakes on her head spit toxic globs in a wide arc.\r\nThe poisonous pool left at the impact point inflicts Poison on anyone who touches it."
         },
         {
             "name": "Glacial Impact",
@@ -46191,7 +46191,7 @@
             "element": "Earth",
             "power": 550,
             "cooldown": 24.0,
-            "description": "Bulldosu's exclusive skill.\r\nRaises its right hind leg high up to stomp the ground, sending a shock wave fanning forth to strike foes."
+            "description": "Bulldosu's exclusive skill.\r\nRaises its right hind leg high and stomps the ground, creating a shockwave that strikes enemies in a fan-shaped area ahead."
         },
         {
             "name": "Hydro Spin",
@@ -46207,7 +46207,7 @@
             "element": "Ice",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Beakon Cryst's exclusive skill.\r\nIt first flings ice at the enemy's location.\r\nIt then glides forward and flings ice to the left and right."
+            "description": "Beakon Cryst's exclusive skill\r\nIce first erupts from the ground at the target's location.\r\nThen glides forward in a rushing charge, causing ice to burst from the ground on both sides along its path."
         },
         {
             "name": "Lightning Dive",
@@ -46255,7 +46255,7 @@
             "element": "Ice",
             "power": 300,
             "cooldown": 16.0,
-            "description": "Rayhound Cryst's exclusive skill.\r\nGenerates pillars of ice one after another in front, then charges forward at high speed through the gaps between the pillars."
+            "description": "Rayhound Cryst's exclusive skill.\r\nGenerates ice pillars ahead and charges forward at high speed through the gaps between them."
         },
         {
             "name": "Beckon Lightning",
@@ -46335,7 +46335,7 @@
             "element": "Ice",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Moldron Cryst's exclusive skill.\r\nEmits a freezing ray from its mouth that supercools the earth wherever it strikes.\r\nThe frozen ground becomes a puddle of frost, freezing and damaging enemies that come into contact with it."
+            "description": "Moldron Cryst's exclusive skill.\r\nFires a freezing beam from the mouth that coats the ground in ice.\r\nFrozen ground forms frost pools that freeze and damage enemies on contact."
         },
         {
             "name": "Ice Spit",
@@ -46343,7 +46343,7 @@
             "element": "Ice",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Moldron Cryst's exclusive skill.\r\nSpews a lump of ice from its mouth.\r\nThe ground it strikes becomes a puddle of frost, freezing and damaging enemies that come into contact with it."
+            "description": "Moldron Cryst's exclusive skill.\r\nSpits a chunk of ice from its mouth.\r\nThe impact creates frost pools that freeze and damage enemies on contact."
         },
         {
             "name": "Magma Spit",
@@ -46351,7 +46351,7 @@
             "element": "Fire",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Moldron's exclusive skill.\r\nSpews a lump of magma from its mouth.\r\nIt becomes a magma pool upon impact, damaging enemies that come into contact with it."
+            "description": "Moldron's exclusive skill.\r\nSpits a mass of magma from its mouth.\r\nThe impact creates magma pools that damage enemies on contact."
         },
         {
             "name": "Magma Laser",
@@ -46359,7 +46359,7 @@
             "element": "Fire",
             "power": 700,
             "cooldown": 30.0,
-            "description": "Moldron's exclusive skill.\r\nBurns the very earth itself with a ray of heat spilling from its mouth.\r\nThe superheated earth turns into a magma pool, damaging enemies that come into contact with it."
+            "description": "Moldron's exclusive skill.\r\nEmits a thermal beam from its mouth that scorches the ground.\r\nHeated ground forms magma pools that damage enemies on contact."
         },
         {
             "name": "Rocket Slam",
@@ -46791,7 +46791,7 @@
             "element": "Leaf",
             "power": 600,
             "cooldown": 30.0,
-            "description": "Summons a massive whirlwind around the user that deals high damage to enemies it strikes."
+            "description": "Summons a massive wind vortex around itself and unleashes a powerful attack."
         },
         {
             "name": "Wind Cutter",

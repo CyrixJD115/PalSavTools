@@ -108,7 +108,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze]. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -4406,7 +4406,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Trick Show Fluffle",
-            "description": "While in party, when the player's HP falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's HP is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "While in party, when the player's Health falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's Health is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
             "reference_passives": [
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
@@ -5394,7 +5394,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Guardian of the Forest",
-            "description": "Can be ridden. Can perform a double jump while mounted. Increases lumbering efficiency by {Passive1_EffectValue1}%.",
+            "description": "Can be ridden. Can perform a double jump while mounted and increases lumbering efficiency by {Passive1_EffectValue1}%.",
             "passives": [
                 "Logging_up2_Otomo_only",
                 "Logging_up3_Otomo_only",
@@ -10001,7 +10001,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Soothing Shower",
-            "description": "While in party, restores {Passive1_EffectValue1}% of the player's HP when HP falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
+            "description": "While in party, restores {Passive1_EffectValue1}% of the player's Health when Health falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
             "reference_passives": [
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
@@ -10764,7 +10764,7 @@
                 "Transport": 3,
                 "MonsterFarm": 0
             },
-            "partner_skill": "Full Power Gorilla Pound",
+            "partner_skill": "Full-Power Gorilla Pound",
             "description": "While in party, increases the player's climbing speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ClimbSpeedUp_1"
@@ -20995,7 +20995,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Kuudere",
-            "description": "When activated, detects the location of nearby Pal Effigy. {ReferenceMsgId_SearchAreaCoolTime}"
+            "description": "When activated, detects the location of nearby Pal Effigies. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Bellanoir",
@@ -22178,7 +22178,10 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
+            "description": "While fighting together, grants the player and Lovander a life steal effect that restores {Passive1_EffectValue1}% of damage dealt as Hp.",
+            "passives": [
+                "LifeSteal_1"
+            ]
         },
         {
             "name": "Ribbuny",
@@ -26589,7 +26592,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grass Dragon Affection",
-            "description": "Can be ridden as a flying mount. While mounted, changes the player’s attack type to [ICON:ElemIcon_Grass]<uiCommon id=Leaf style=Grass/ and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden as a flying mount. While mounted, changes the player’s attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] and increases Attack by {Passive2_EffectValue1}%.",
             "passives": [
                 "GiveALeaf_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1"
@@ -27469,7 +27472,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Severed Flesh for Bone",
-            "description": "When activated, Skutlass becomes the player's katana (Attack：{ActiveSkillMainValueByRank}). If it does not revert to its normal form quickly, Skutlass will become incapacitated. It will also become incapacitated if Iaigiri is used.",
+            "description": "When activated, Skutlass becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). If it does not revert to its normal form quickly, Skutlass will become incapacitated. It will also become incapacitated if Iaigiri is used.",
             "active_skill_main_value": [
                 2600.0,
                 2700.0,
@@ -28058,7 +28061,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ferocious Thunder Dragon",
-            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times.",
+            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times. (Does not stack.)",
             "passives": [
                 "ThunderDragonMan_PartnerSkill_1"
             ]
@@ -28238,7 +28241,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Sea Dragon",
-            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden to travel on water. While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -28303,7 +28306,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, nullifies lava damage and increases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_Fire_1",
                 "LavaDamageInvalid_PartnerSkill",
@@ -31510,7 +31513,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze]. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "AmaterasuWolf_PartnerSkill_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -34218,7 +34221,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Trick Show Fluffle",
-            "description": "While in party, when the player's HP falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's HP is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
+            "description": "While in party, when the player's Health falls below 50%, Dupin generates an explosion around the player ([ICON:ElemIcon_Fire][ELEM:Fire] / Power: {Passive1_EffectValue1} / [EFFECT:Burn] buildup: {ReferencePassive1_EffectValue1}). Additionally, while the player's Health is below 50%, the player's Attack is increased by {Passive2_EffectValue1}%. (Does not stack)",
             "reference_passives": [
                 "Dummy_ClownRabbit_CoolTime",
                 "Dummy_ClownRabbit_CoolTime",
@@ -35226,7 +35229,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Guardian of the Forest",
-            "description": "Can be ridden. Can perform a double jump while mounted. Increases lumbering efficiency by {Passive1_EffectValue1}%.",
+            "description": "Can be ridden. Can perform a double jump while mounted and increases lumbering efficiency by {Passive1_EffectValue1}%.",
             "passives": [
                 "Logging_up2_Otomo_only",
                 "Logging_up3_Otomo_only",
@@ -37458,7 +37461,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Soothing Shower",
-            "description": "While in party, restores {Passive1_EffectValue1}% of the player's HP when HP falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
+            "description": "While in party, restores {Passive1_EffectValue1}% of the player's Health when Health falls below 30%. (Does not stack) ({ReferencePassive1_EffectValue1}-second cooldown after activation)",
             "reference_passives": [
                 "Dummy_Ganesha_CoolTime",
                 "Dummy_Ganesha_CoolTime",
@@ -38186,7 +38189,7 @@
                 "Transport": 3,
                 "MonsterFarm": 0
             },
-            "partner_skill": "Full Power Gorilla Pound",
+            "partner_skill": "Full-Power Gorilla Pound",
             "description": "While in party, increases the player's climbing speed by {Passive1_EffectValue1}%. (Does not stack)",
             "passives": [
                 "ClimbSpeedUp_1"
@@ -44298,7 +44301,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Kuudere",
-            "description": "When activated, detects the location of nearby Pal Effigy. {ReferenceMsgId_SearchAreaCoolTime}"
+            "description": "When activated, detects the location of nearby Pal Effigies. {ReferenceMsgId_SearchAreaCoolTime}"
         },
         {
             "name": "Bellanoir (Boss)",
@@ -44956,7 +44959,10 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
+            "description": "While fighting together, grants the player and Lovander a life steal effect that restores {Passive1_EffectValue1}% of damage dealt as Hp.",
+            "passives": [
+                "LifeSteal_1"
+            ]
         },
         {
             "name": "Ribbuny (Boss)",
@@ -47002,7 +47008,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Grass Dragon Affection",
-            "description": "Can be ridden as a flying mount. While mounted, changes the player’s attack type to [ICON:ElemIcon_Grass]<uiCommon id=Leaf style=Grass/ and increases Attack by {Passive2_EffectValue1}%.",
+            "description": "Can be ridden as a flying mount. While mounted, changes the player’s attack type to [ICON:ElemIcon_Grass][ELEM:Leaf] and increases Attack by {Passive2_EffectValue1}%.",
             "passives": [
                 "GiveALeaf_Ride",
                 "GiveElement_TrainerATK_UP_PartnerSkill_Ride_1"
@@ -48047,7 +48053,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Severed Flesh for Bone",
-            "description": "When activated, Skutlass becomes the player's katana (Attack：{ActiveSkillMainValueByRank}). If it does not revert to its normal form quickly, Skutlass will become incapacitated. It will also become incapacitated if Iaigiri is used.",
+            "description": "When activated, Skutlass becomes the player's katana (Attack: {ActiveSkillMainValueByRank}). If it does not revert to its normal form quickly, Skutlass will become incapacitated. It will also become incapacitated if Iaigiri is used.",
             "active_skill_main_value": [
                 2600.0,
                 2700.0,
@@ -48601,7 +48607,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ferocious Thunder Dragon",
-            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times.",
+            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times. (Does not stack.)",
             "passives": [
                 "ThunderDragonMan_PartnerSkill_1"
             ]
@@ -48665,7 +48671,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ferocious Thunder Dragon",
-            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times."
+            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times. (Does not stack.)"
         },
         {
             "name": "Dynamoff (Boss)",
@@ -48842,7 +48848,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Sea Dragon",
-            "description": "While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden to travel on water. While in party, increases player's and Pals' damage to enemies afflicted with [EFFECT:Wetness] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_1",
                 "MoveSpeed_up_PartnerSkill_Ride_1"
@@ -48907,7 +48913,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, nullifies lava damage and increases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "DamageUpTrainerAndOtomo_ToWetness_PartnerSkill_Umihebi_Fire_1",
                 "LavaDamageInvalid_PartnerSkill",
@@ -52262,7 +52268,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ferocious Thunder Dragon",
-            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times.",
+            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times. (Does not stack.)",
             "passives": [
                 "ThunderDragonMan_PartnerSkill_1"
             ]
@@ -52326,7 +52332,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Ferocious Thunder Dragon",
-            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times.",
+            "description": "While in party, hitting an enemy with a bullet increases the Attack and Defense of the Pal fighting alongside you by {Passive1_EffectValue1}% for 5 seconds. This effect stacks up to 30 times. (Does not stack.)",
             "passives": [
                 "ThunderDragonMan_PartnerSkill_1"
             ]
@@ -53185,7 +53191,7 @@
             "description": ""
         },
         {
-            "name": "Nitewing (Police)",
+            "name": "PIDF Rider (Police)",
             "asset": "POLICE_HawkBird",
             "icon": "/icons/pals/T_HawkBird_icon_normal.webp",
             "elements": {
@@ -53240,7 +53246,7 @@
             "description": "Can be ridden as a flying mount. {ReferenceMsgId_RideSpeedUp}"
         },
         {
-            "name": "Rayhound (Police)",
+            "name": "PIDF Rider (Police)",
             "asset": "POLICE_ThunderDog",
             "icon": "/icons/pals/T_ThunderDog_icon_normal.webp",
             "elements": {
@@ -53350,7 +53356,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Wolf of the Sun",
-            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze] status. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, player and party Pals take {Passive1_EffectValue1}% less [ICON:ElemIcon_Ice][ELEM:Ice] damage and are immune to [EFFECT:Freeze]. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "TemperatureInvalid_Cold",
                 "TemperatureInvalid_Heat",
@@ -55100,7 +55106,10 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
+            "description": "While fighting together, grants the player and Lovander a life steal effect that restores {Passive1_EffectValue1}% of damage dealt as Hp.",
+            "passives": [
+                "LifeSteal_1"
+            ]
         },
         {
             "name": "Lovander (Predator)",
@@ -55155,7 +55164,10 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Heart Drain",
-            "description": "While fighting together, when Gildra is incapacitated, it revives with its Hunger reduced to 0. {ReferenceMsgId_CooldownReduction}"
+            "description": "While fighting together, grants the player and Lovander a life steal effect that restores {Passive1_EffectValue1}% of damage dealt as Hp.",
+            "passives": [
+                "ElementResist_Normal_1_PAL"
+            ]
         },
         {
             "name": "Tarantriss (Predator)",
@@ -55752,7 +55764,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
+            "description": "Can be ridden. While in party, nullifies lava damage and increases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}",
             "passives": [
                 "ElementBoost_Fire_PAL_PartnerSKill_1"
             ]
@@ -55816,7 +55828,7 @@
                 "MonsterFarm": 0
             },
             "partner_skill": "Stormbringer Lava Dragon",
-            "description": "Can be ridden. While in party, nullifies lava damage andincreases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
+            "description": "Can be ridden. While in party, nullifies lava damage and increases player's and Pals' damage to enemies afflicted with [EFFECT:Burn] by {Passive1_EffectValue1}%. (Does not stack) {ReferenceMsgId_RideSpeedUp}"
         },
         {
             "name": "Reptyro Cryst (Predator)",

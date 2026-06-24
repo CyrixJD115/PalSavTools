@@ -721,7 +721,7 @@
             "sort_id": 2217
         },
         {
-            "name": "Buckler Dragon Emblem",
+            "name": "Silvegis Emblem",
             "asset": "Accessory_PPDF_1",
             "icon": "/icons/items/T_itemicon_Accessory_PPDF_1.webp",
             "rarity": 3,
@@ -1277,7 +1277,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Fire Arrows for use with bows. Deals Fire damage on contact.\r\nCan be crafted at Primitive Workbench.",
+            "description": "Fire Arrows for use with bows. \r\nDeals Fire damage on contact.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 17
         },
         {
@@ -1287,7 +1287,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Ammo",
             "type_b": "EPalItemTypeB::ConsumeBullet",
-            "description": "Poison Arrows for use with bows. Afflicts target with Poison on contact.\r\nCan be crafted at Primitive Workbench.",
+            "description": "Poison Arrows for use with bows. \r\nAfflicts target with Poison on contact.\r\nCan be crafted at Primitive Workbench.",
             "sort_id": 16
         },
         {
@@ -2321,7 +2321,7 @@
             "sort_id": 9119
         },
         {
-            "name": "Buckler Dragon Emblem Schematic",
+            "name": "Silvegis Emblem Schematic",
             "asset": "Blueprint_Accessory_PPDF_1",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 3,
@@ -7021,7 +7021,7 @@
             "sort_id": 7199
         },
         {
-            "name": "Lily's Spear (Enhanced) Schematic 4",
+            "name": "Enhanced Lily's Spear Schematic 4",
             "asset": "Blueprint_Spear_ForestBoss2_5",
             "icon": "/icons/items/T_itemicon_Material_Blueprint.webp",
             "rarity": 4,
@@ -8071,7 +8071,7 @@
             "sort_id": 20010
         },
         {
-            "name": "Pharapace Bounty Token",
+            "name": "Tetroise Bounty Token",
             "asset": "BossDefeatReward_CubeTurtle",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle.webp",
             "rarity": 2,
@@ -8081,7 +8081,7 @@
             "sort_id": 20075
         },
         {
-            "name": "Pharapace Primo Bounty Token",
+            "name": "Tetroise Primo Bounty Token",
             "asset": "BossDefeatReward_CubeTurtle_Neutral",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle_Neutral.webp",
             "rarity": 3,
@@ -13331,7 +13331,7 @@
             "sort_id": 1604
         },
         {
-            "name": "Auri Cosplay Hat",
+            "name": "Auri Hat",
             "asset": "HeadEquip048",
             "icon": "/icons/items/T_itemicon_Armor_HeadEquip048.webp",
             "rarity": 4,
@@ -13341,7 +13341,7 @@
             "sort_id": 1707
         },
         {
-            "name": "Zenara Cosplay Hat",
+            "name": "Zenara Hat",
             "asset": "HeadEquip049",
             "icon": "/icons/items/T_itemicon_Armor_HeadEquip049.webp",
             "rarity": 4,
@@ -16251,7 +16251,7 @@
             "sort_id": 4186
         },
         {
-            "name": "Dark Shiny Stone",
+            "name": "Dark Radiant Gem",
             "asset": "PalAwakening_Material_Dark",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Dark.webp",
             "rarity": 2,
@@ -16261,7 +16261,7 @@
             "sort_id": 4177
         },
         {
-            "name": "Dragon Shiny Stone",
+            "name": "Dragon Radiant Gem",
             "asset": "PalAwakening_Material_Dragon",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Dragon.webp",
             "rarity": 2,
@@ -16271,7 +16271,7 @@
             "sort_id": 4176
         },
         {
-            "name": "Electric Shiny Stone",
+            "name": "Electric Radiant Gem",
             "asset": "PalAwakening_Material_Electric",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Electric.webp",
             "rarity": 2,
@@ -16281,7 +16281,7 @@
             "sort_id": 4171
         },
         {
-            "name": "Fire Shiny Stone",
+            "name": "Fire Radiant Gem",
             "asset": "PalAwakening_Material_Fire",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Fire.webp",
             "rarity": 2,
@@ -16291,7 +16291,7 @@
             "sort_id": 4174
         },
         {
-            "name": "Grass Shiny Stone",
+            "name": "Grass Radiant Gem",
             "asset": "PalAwakening_Material_Grass",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Grass.webp",
             "rarity": 2,
@@ -16301,7 +16301,7 @@
             "sort_id": 4173
         },
         {
-            "name": "Ground Shiny Stone",
+            "name": "Ground Radiant Gem",
             "asset": "PalAwakening_Material_Ground",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Ground.webp",
             "rarity": 2,
@@ -16311,7 +16311,7 @@
             "sort_id": 4172
         },
         {
-            "name": "Ice Shiny Stone",
+            "name": "Ice Radiant Gem",
             "asset": "PalAwakening_Material_Ice",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Ice.webp",
             "rarity": 2,
@@ -16321,7 +16321,7 @@
             "sort_id": 4175
         },
         {
-            "name": "Neutral Shiny Stone",
+            "name": "Neutral Radiant Gem",
             "asset": "PalAwakening_Material_Neutral",
             "icon": "/icons/items/T_itemicon_Material_PalAwakening_Material_Neutral.webp",
             "rarity": 2,
@@ -16331,7 +16331,7 @@
             "sort_id": 4178
         },
         {
-            "name": "Water Shiny Stone",
+            "name": "Water Radiant Gem",
             "asset": "PalAwakening_Material_Water",
             "icon": "/icons/items/T_itemicon_PalAwakening_Material_Water.webp",
             "rarity": 2,
@@ -17911,7 +17911,7 @@
             "sort_id": 1
         },
         {
-            "name": "[WIP] Anceint Sphere 1",
+            "name": "Sol Sphere",
             "asset": "PalSphere_Ancient_1",
             "icon": "/icons/items/T_itemicon_PalSphere_Ancient_1.webp",
             "rarity": 3,
@@ -21041,7 +21041,7 @@
             "sort_id": 10127
         },
         {
-            "name": "Pharapace Saddle",
+            "name": "Tetroise Saddle",
             "asset": "SkillUnlock_CubeTurtle",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "rarity": 3,
@@ -21051,7 +21051,7 @@
             "sort_id": 10198
         },
         {
-            "name": "Pharapace Primo Saddle",
+            "name": "Tetroise Primo Saddle",
             "asset": "SkillUnlock_CubeTurtle_Neutral",
             "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "rarity": 3,
@@ -22751,7 +22751,7 @@
             "sort_id": 135
         },
         {
-            "name": "Lily's Spear (Enhanced)",
+            "name": "Enhanced Lily's Spear",
             "asset": "Spear_ForestBoss2",
             "icon": "/icons/items/T_itemicon_Weapon_Spear_ForestBoss2.webp",
             "rarity": 2,
@@ -22761,7 +22761,7 @@
             "sort_id": 137
         },
         {
-            "name": "Lily's Spear (Enhanced)",
+            "name": "Enhanced Lily's Spear",
             "asset": "Spear_ForestBoss2_5",
             "icon": "/icons/items/T_itemicon_Weapon_Spear_ForestBoss2.webp",
             "rarity": 4,
@@ -23971,7 +23971,7 @@
             "sort_id": 4617
         },
         {
-            "name": "Applied Farming Technique Ⅰ",
+            "name": "Applied Ranching Technique Ⅰ",
             "asset": "WorkSuitability_AddTicket_MonsterFarm",
             "icon": "/icons/items/T_itemicon_Consume_PalWorkLvUp_12.webp",
             "rarity": 4,
@@ -24031,7 +24031,7 @@
             "sort_id": 5069
         },
         {
-            "name": "Palicite Ingot",
+            "name": "Paloxite Ingot",
             "asset": "WorldTreeIngot",
             "icon": "/icons/items/T_itemicon_Material_WorldTreeIngot.webp",
             "rarity": 0,
@@ -24041,7 +24041,7 @@
             "sort_id": 5509
         },
         {
-            "name": "Palicite",
+            "name": "Paloxite",
             "asset": "WorldTreeOre",
             "icon": "/icons/items/T_itemicon_Material_WorldTreeOre.webp",
             "rarity": 0,

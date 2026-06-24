@@ -22,43 +22,43 @@
             "name": "Ancient Furnace",
             "asset": "AncientBlastFurnace",
             "icon": "/icons/structures/T_icon_buildObject_AncientBlastFurnace.webp",
-            "description": "This specially designed furnace can create any kind of ingot. \r\nMaterials are first melted down under intense heat, then blasted with ice to solidify the liquid metal. \r\nThis smelting process requires two Pals—one with a high level of Kindling, the other with Cooling."
+            "description": "A special furnace based on ancient technology that can smelt all types of ingots.\r\nMaterials are melted with fire, then quickly cooled and solidified using ice.\r\nIt requires Pals with high-level Kindling and Cooling suitability."
         },
         {
             "name": "Ancient Kitchen",
             "asset": "AncientCookingStove",
             "icon": "/icons/structures/T_icon_buildObject_AncientCookingStove.webp",
-            "description": "From time-tested dishes to groundbreaking new cuisines, this kitchen can do it all. \r\nPrecision heat control and fine finishing work ensures that every dish comes out perfectly. \r\nOperating this state-of-the-(ancient)-art system requires a Pal with high-level Kindling and Handiwork skills."
+            "description": "A special kitchen based on ancient technology that can create everything from existing dishes to entirely new recipes.\r\nIt retains heat through fire and completes cooking with manual preparation, allowing it to prepare any kind of cuisine.\r\nIt requires Pals with high-level Kindling and Handiwork suitability."
         },
         {
             "name": "Ancient Power Generator",
             "asset": "AncientElectricGenerator",
             "icon": "/icons/structures/T_icon_buildObject_AncientElectricGenerator.webp",
-            "description": "Crafted using long-lost ancient technology, this power generator is hyper-efficient. \r\nWhile its output is immense, it's also prone to overheating. \r\nAs a result, operation requires two Pals—one with a high level of Generating Electricity, the other with Watering."
+            "description": "A highly efficient power generator restored from lost ancient technology.\r\nIt produces massive amounts of electricity, but is prone to overheating while in operation.\r\nIt requires Pals with high-level Generating Electricity and any level of Watering suitability."
         },
         {
             "name": "Ancient Farm",
             "asset": "AncientFarmBlock",
             "icon": "/icons/structures/T_icon_buildObject_AncientFarmBlock.webp",
-            "description": "Thanks to the World Tree, this ancient plot can grow any plant from the Palpagos Islands. \r\nSmaller than a berry plantation and capable of being placed indoors, the cultivation process remains unchanged from conventional plots. \r\nPals with high-level Planting and Watering abilities are required to run this farm."
+            "description": "A special cultivation device based on ancient technology that harnesses the power of the World Tree to grow all kinds of plants on Palpagos Island.\r\nSmaller than a berry plantation and suitable for indoor placement, it still follows the same cultivation process as standard plots.\r\nIt requires Pals with high-level Planting, Watering, and Harvesting suitability."
         },
         {
             "name": "Ancient Material Manifester",
             "asset": "AncientMultiProduct",
             "icon": "/icons/structures/T_icon_buildObject_AncientMultiProduct.webp",
-            "description": "By harnessing the power of the World Tree, this ancient tool can produce any wood or ore under the sun. \r\nDue to the complex nature of this structure, only one Pal can be assigned to it at a time."
+            "description": "A special generator based on ancient technology that uses the power of the World Tree to produce all kinds of wood and ore.\r\nDue to its complex structure, only one Pal can be assigned to it."
         },
         {
             "name": "Ancient Relic Recycler",
             "asset": "AncientRelicRecycler",
             "icon": "/icons/structures/T_icon_buildObject_AncientRelicRecycler.webp",
-            "description": "This piece of long-lost equipment converts equally ancient materials into other substances, bringing things full circle. \r\nIt unravels Ancient Relics, transforming them into something entirely new and considerably improved. \r\nThis special machine is the best way to put any relics you have lying around to even better use."
+            "description": "An ancient civilization device that converts materials using repurposed technology from a lost civilization.\r\nIt deciphers the technology left within Ancient Relics and refines them into new forms.\r\nA highly specialized facility designed for the efficient use of relics without waste."
         },
         {
             "name": "Ancient Workbench",
             "asset": "AncientWorkBench",
             "icon": "/icons/structures/T_icon_buildObject_AncientWorkBench.webp",
-            "description": "A workbench that is capable of crafting any item, but can only be used by Pals. \r\nOperates at the same speed as a regular workbench, despite the restrictions. \r\nDue to its advanced equipment, Pals with high-level Handiwork and Medicine Production work suitability are required."
+            "description": "A Pal-exclusive workbench that is capable of crafting any item in one place.\r\nIt cannot be used by the player, and operates at the same speed as a regular workbench.\r\nDue to its advanced equipment, it requires Pals with high-level Handiwork and Medicine Production suitability."
         },
         {
             "name": "Ancient Air Conditioner",
@@ -70,133 +70,133 @@
             "name": "Ancient Clinic",
             "asset": "Ancient_Clinic",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_Clinic.webp",
-            "description": "The reemergence of ancient technology has resulted in a boost to medical services, culminating in this top-tier clinic. Larger than a general clinic, it can protect against even more ailments. By assigning a Pal with pharmaceutical skills to it, even bases with grueling labor standards can be kept to the highest levels of cleanliness."
+            "description": "A top-tier medical facility that reproduces advanced ancient medical technology.\r\nIt offers significantly greater protective capability than a standard clinic.\r\nBy assigning a Pal with Medicine Production suitability, even bases with harsh working conditions can maintain the highest level of hygiene."
         },
         {
             "name": "Ancient Diagonal Wall",
             "asset": "Ancient_DiagonalWall",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_DiagonalWall.webp",
-            "description": "An angled wall built on triangular foundations for keeping out intruders. A faithful reproduction of the style favored by ancient architects."
+            "description": "An angled wall built on triangular foundations to keep out intruders.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Wall and Door",
             "asset": "Ancient_DoorWall",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_DoorWall.webp",
-            "description": "Door built on a foundation. Becomes an entrance. A faithful reproduction of the style favored by ancient architects."
+            "description": "Door built on a foundation. Becomes an entrance. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Fence",
             "asset": "Ancient_Fence",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_Fence.webp",
-            "description": "Fencing built on foundations and roofs for keeping out intruders. \r\nA faithful reproduction of the style favored by ancient architects."
+            "description": "Fencing built on foundations and roofs for keeping out intruders. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Pal Bed",
             "asset": "Ancient_MedicalPalBed",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_MedicalPalBed.webp",
-            "description": "Placing a soft mattress in this ancient recovery pod has turned it into the ultimate Pal Bed. \r\nIt promotes higher rates of SAN recovery and whisks fatigue away faster than any other model. \r\nSimilar in size to a Large Pal Bed, it can accommodate most Pals with ease."
+            "description": "A ulitmate Pal Bed made from ancient recovery pod with soft matress.\r\nIt offers one of the highest SAN recovery rates of all Pal beds, quickly relieving fatigue.\r\nIt is the same size as a Large Pal Bed, allowing large Pals to rest comfortably."
         },
         {
             "name": "Ancient Pillar",
             "asset": "Ancient_Pillars",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_Pillars.webp",
-            "description": "Column for structural support. A faithful reproduction of the style favored by ancient architects."
+            "description": "Column for structural support. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Pyramid Roof",
             "asset": "Ancient_PyramidRoof",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_PyramidRoof.webp",
-            "description": "A pyramidal roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "A pyramidal roof built on top of walls to keep out the rain and wind.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Slanted Roof",
             "asset": "Ancient_SlantedRoof",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_SlantedRoof.webp",
-            "description": "A slanted roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "Slanted roof built on top of walls to keep out the rain and wind. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Slanted Triangular Roof",
             "asset": "Ancient_SlopedRoofCorner",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCorner.webp",
-            "description": "A slanted triangular roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "A slanted triangular roof built on top of diagonal walls to keep out the rain and wind.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Slanted Triangular Roof (Inverted)",
             "asset": "Ancient_SlopedRoofCornerReverse",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_SlopedRoofCornerReverse.webp",
-            "description": "An inverted slanted triangular roof built on top of walls to keep out the rain and wind. \r\nA faithful reproduction of the style favored by ancient architects."
+            "description": "An inverted slanted triangular roof built on top of walls to keep out the rain and wind. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Hot Spring",
             "asset": "Ancient_Spa",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_Spa.webp",
-            "description": "Made with ancient technology, this bath's warm water is infused with mineral Paldium. \r\nThe same size as a regular hot spring, not only does it boast higher SAN restoring powers than any other bath available, it replenishes physical endurance. \r\nInjured Pals can rest and recuperate without a care in the world."
+            "description": "A hot spring built with ancient technology, filled with special water infused with Paldium.\r\nIt offers the highest SAN recovery of all hot springs and also restores Health.\r\nIt is the same size as a standard hot spring, and can fully heal injured Pals."
         },
         {
             "name": "Ancient Triangular Foundation",
             "asset": "Ancient_TriangleFoundation",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleFoundation.webp",
-            "description": "A triangular foundation for building walls or facilities on. A faithful reproduction of the style favored by ancient architects."
+            "description": "A triangular foundation for building walls or facilities.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Triangular Roof",
             "asset": "Ancient_TriangleRoof",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleRoof.webp",
-            "description": "A triangular roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "A triangular roof built on top of walls to keep out the rain and wind.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Corner Roof",
             "asset": "Ancient_TriangleStairsCorner",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleStairsCorner.webp",
-            "description": "A corner roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "A corner roof built on top of walls to keep out the rain and wind.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Triangular Wall",
             "asset": "Ancient_TriangleWall",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWall.webp",
-            "description": "A triangular wall built on a foundation for keeping out intruders. A faithful reproduction of the style favored by ancient architects."
+            "description": "Triangular wall built on a foundation to keep out intruders. \r\nCan be used to create create clean, futuristic architecture."
         },
         {
             "name": "Ancient Triangular Wall (Inverted)",
             "asset": "Ancient_TriangleWallReverse",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_TriangleWallReverse.webp",
-            "description": "An inverted triangular wall built on a foundation for keeping out intruders. A faithful reproduction of the style favored by ancient architects."
+            "description": "An inverted triangular wall built on a foundation to keep out intruders.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Pal Passage Entrance",
             "asset": "Ancient_WallGate",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_WallGate.webp",
-            "description": "An entrance to a Pal passage built on a foundation. A faithful reproduction of the style favored by ancient architects."
+            "description": "An entrance to a Pal passage built on a foundation.\r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Wall and Window",
             "asset": "Ancient_WindowWall",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_WindowWall.webp",
-            "description": "A wall built on a foundation for keeping out intruders. Includes a window. A faithful reproduction of the style favored by ancient architects."
+            "description": "Wall with windows, built on a foundation to keep out intruders. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Foundation",
             "asset": "Ancient_foundation",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_foundation.webp",
-            "description": "A foundation for building walls or facilities on. A faithful reproduction of the style favored by ancient architects."
+            "description": "A foundation for building walls or facilities. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Roof",
             "asset": "Ancient_roof",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_roof.webp",
-            "description": "A roof built on top of walls to keep out the rain and wind. A faithful reproduction of the style favored by ancient architects."
+            "description": "A roof built on top of walls to keep out the rain and wind. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Stairs",
             "asset": "Ancient_stair",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_stair.webp",
-            "description": "Stairs placed below a foundation or roof for climbing up. A faithful reproduction of the style favored by ancient architects."
+            "description": "Stairs placed below a foundation or roof to climb up. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Ancient Wall",
             "asset": "Ancient_wall",
             "icon": "/icons/structures/T_icon_buildObject_Ancient_wall.webp",
-            "description": "A wall built on foundations for keeping out intruders. A faithful reproduction of the style favored by ancient architects."
+            "description": "Walls built on foundations to keep out intruders. \r\nRecreates the architectural style of ancient civilizations."
         },
         {
             "name": "Japanese Paper Lantern",
@@ -232,7 +232,7 @@
             "name": "Arcade Game Cabinet",
             "asset": "ArcadeVideoGame",
             "icon": "/icons/structures/T_icon_buildObject_ArcadeVideoGame.webp",
-            "description": "A decorative arcade game cabinet. Sadly, broken, and can't be played."
+            "description": "Decorative arcade machine.\r\nBroken, it can't be played."
         },
         {
             "name": "Banyan_Big",
@@ -286,13 +286,13 @@
             "name": "High Quality Monitoring Stand",
             "asset": "BaseCampWorkHard02",
             "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard02.webp",
-            "description": "A more refined monitoring stand, made from superior materials. \r\nIn addition to being able to issue work orders, the system also lowers the SAN cost for Pals working on the base. \r\nAny improvements to working conditions are always appreciated by Pals, keeping satisfaction levels high."
+            "description": "A refined monitoring station with improved materials and structure.\r\nIn addition to being able to issue work orders, the system also lowers the SAN cost for Pals working at the base. \r\nWorking conditions are slightly improved, making Pals less likely to become dissatisfied."
         },
         {
             "name": "Ancient Monitoring Stand",
             "asset": "BaseCampWorkHard03",
             "icon": "/icons/structures/T_icon_buildObject_BaseCampWorkHard03.webp",
-            "description": "A monitoring stand covered in Red Paldium, powered by ancient technology. \r\nMost directives are carried out via a programmable interface, greatly reducing the SAN cost. \r\nIt emits a special wavelength that covers bases, keeping Pals calm in even the harshest working environments."
+            "description": "A monitoring station based on ancient technology, embedded with Red Paldium.\r\nIt issues commands across the entire base through a holographic interface, reducing SAN depletion in Pals.\r\nA special wavelength surrounds the base, keeping Pals calm even in harsh working environments."
         },
         {
             "name": "Palbox Control Device",
@@ -490,7 +490,7 @@
             "name": "Clinic",
             "asset": "Clinic",
             "icon": "/icons/structures/T_icon_buildObject_Clinic.webp",
-            "description": "A basic medical facility, for managing the health of any Pals working on base. By assigning a Pal with pharmaceutical skills to it, SAN values are reduced, and illnesses and injuries are made more manageable. While it would be impossible to expect a pristine base at all times, sanitation management is truly pivotal in the early establishment stages."
+            "description": "A basic medical facility for managing the health of Pals working at the base.\r\nAssigning a Pal with Medicine Production suitability helps reduce SAN depletion and prevent illness and injury.\r\nWhile sanitation has its limits, it plays a crucial role in early base development."
         },
         {
             "name": "Antique Grandfather Clock",
@@ -826,25 +826,25 @@
             "name": "Mounted Crossbow",
             "asset": "DefenseBowGun",
             "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_BowGun.webp",
-            "description": "A defensive installation for protecting a base from enemies.\r\nAssign a Pal with Handiwork suitability and it will protect a base using the crossbow."
+            "description": "A defensive installation for protecting a base from enemies.\r\nWhen a Pal with Handiwork suitability is assigned, it will continuously defend the base using a crossbow."
         },
         {
             "name": "Mounted Gatling Gun",
             "asset": "DefenseGatlingGun",
             "icon": "/icons/structures/T_icon_buildObject_DefenseGatlingGun.webp",
-            "description": "A defensive installation for protecting a base from enemies.\r\nAssign a Pal with Handiwork suitability and it will protect a base using the gatling gun."
+            "description": "A defensive installation for protecting a base from enemies.\r\nWhen a Pal with Handiwork suitability is assigned, it will continuously defend the base using a gatling gun."
         },
         {
             "name": "Mounted Machine Gun",
             "asset": "DefenseMachinegun",
             "icon": "/icons/structures/T_icon_buildObject_DefenseMachinegun.webp",
-            "description": "A defensive installation for protecting a base from enemies.\r\nAssign a Pal with Handiwork suitability and it will protect a base using the machine gun."
+            "description": "A defensive installation for protecting a base from enemies.\r\nWhen a Pal with Handiwork suitability is assigned, it will continuously defend the base using a machine gun."
         },
         {
             "name": "Ancient Turret",
             "asset": "DefenseMachinegun_AutoTurret",
             "icon": "/icons/structures/T_icon_buildObject_DefenseMachinegun.webp",
-            "description": "An unmanned turret with rocket launcher-grade firepower. \r\nThis completely automated system relies on electricity to get the job done, forgoing ammo or Pal assistance. \r\nHowever, with great power comes a great drain on electrical resources."
+            "description": "An unmanned turret of ancient technology equipped with rocket launcher–level size and firepower.\r\nIt requires no ammunition or Pal assignment, and performs fully automated interception using only electricity.\r\nHowever, despite its immense power, it requires a massive amount of electricity to operate."
         },
         {
             "name": "DefenseMinigun",
@@ -856,13 +856,13 @@
             "name": "Mounted Missile Launcher",
             "asset": "DefenseMissile",
             "icon": "/icons/structures/T_icon_buildObject_efenseBulletLauncher_Missile.webp",
-            "description": "A defensive installation for protecting a base from enemies.\r\nAssign a Pal with Handiwork suitability and it will protect a base using the missile launcher."
+            "description": "A defensive installation for protecting a base from enemies.\r\nWhen a Pal with Handiwork suitability is assigned, it will continuously defend the base using a missile launcher."
         },
         {
             "name": "Sandbag",
             "asset": "DefenseWait",
             "icon": "/icons/structures/T_icon_buildObject_DefenseWait.webp",
-            "description": "A defensive installation for protecting a base from enemies.\r\nPlace a Pal and it will ignore other work\r\nto stay on lookout and prepare for combat."
+            "description": "A defensive installation for protecting a base from enemies.\r\nWhen a Pal is assigned, it will stop other work and stay on lookout and prepare for combat."
         },
         {
             "name": "Stone Defensive Wall",
@@ -3472,7 +3472,7 @@
             "name": "Gold Coin Assembly Line",
             "asset": "Factory_Money",
             "icon": "/icons/structures/T_icon_buildObject_Factory_Money.webp",
-            "description": "An Assembly Line that manufactures Gold Coin.\r\nThe work puts a strain on the mind, causing a decrease in Pal's SAN value. \r\nRequires Pals that can work with their hands.\r\nWarning: building this structure may result in a considerable increase in PIDF scrutiny."
+            "description": "An Assembly Line that manufactures Gold Coin.\r\nThe work puts a strain on the mind, causing a decrease in Pal's SAN value. \r\nRequires Pals that can work with their hands.\r\nWarning: building this facility may draw severe scrutiny from the PIDF."
         },
         {
             "name": "Plantation",
@@ -4042,7 +4042,7 @@
             "name": "Frostallion Statue",
             "asset": "IceHorseStatue",
             "icon": "/icons/structures/T_icon_buildObject_IceHorseStatue.webp",
-            "description": "A decorative Frostallion figure."
+            "description": "Decorative Frostallion statue."
         },
         {
             "name": "Metal Diagonal Wall",
@@ -4306,7 +4306,7 @@
             "name": "Jetragon Statue",
             "asset": "JetDragonStatue",
             "icon": "/icons/structures/T_icon_buildObject_JetDragonStatue.webp",
-            "description": "A decorative Jetragon figure."
+            "description": "Decorative Jetragon statue."
         },
         {
             "name": "Hanging Scroll",
@@ -4654,7 +4654,7 @@
             "name": "Ancient Hatchery",
             "asset": "MultiElectricHatchingPalEggWithBreed",
             "icon": "/icons/structures/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp",
-            "description": "Electronic panes conceal the inner workings of this highly advanced hatchery. \r\nEggs are produced and incubated at lightning speed, in an entirely hands-off process that boasts higher rates of rare traits being passed down. \r\nAs everything is managed with holograms, the amount of space this facility requires is minimal."
+            "description": "An advanced breeding facility of ancient civilization technology, enclosed in electronic glass.\r\nIt fully automates everything from egg production to incubation at high speed, and increases the inheritance rate of rare skills.\r\nPals are managed through holograms, it requires minimal pasture space."
         },
         {
             "name": "Large Incubator",
@@ -4681,10 +4681,10 @@
             "description": "Equipment required to extract Crude Oil from oil fields.\r\nRequires a power supply to operate."
         },
         {
-            "name": "OilPump02",
+            "name": "Crude Oil Extractor High Pressure",
             "asset": "OilPump02",
             "icon": "/icons/structures/T_icon_buildObject_OilPump02.webp",
-            "description": ""
+            "description": "A device that pumps up and extracts Crude Oil from deep underground.\r\nIt can produce Crude Oil even in areas without oil fields, but can only be placed on open ground with no structures beneath it.\r\nRequires a far greater power supply than the Crude Oil Extractor."
         },
         {
             "name": "OilRig",
@@ -5416,7 +5416,7 @@
             "name": "Soralite Mine",
             "asset": "SkyIslandOrePit",
             "icon": "/icons/structures/T_icon_buildObject_SkyIslandOrePit.webp",
-            "description": "Facility for producing Soralites. Digging s is grueling physical work. Leave it to a Pal that is good at mining."
+            "description": "Facility for producing Soralite.\r\nDigging Soralite is grueling physical work.\r\nLeave it to a Pal that is good at mining."
         },
         {
             "name": "Azure Oath Banner",
@@ -6716,7 +6716,7 @@
             "asset": "AncientRelicRecycler",
             "icon": "/icons/technologies/T_icon_buildObject_AncientRelicRecycler.webp",
             "type": "standard",
-            "description": "This piece of long-lost equipment converts equally ancient materials into other substances, bringing things full circle. \r\nIt unravels Ancient Relics, transforming them into something entirely new and considerably improved. \r\nThis special machine is the best way to put any relics you have lying around to even better use."
+            "description": "An ancient civilization device that converts materials using repurposed technology from a lost civilization.\r\nIt deciphers the technology left within Ancient Relics and refines them into new forms.\r\nA highly specialized facility designed for the efficient use of relics without waste."
         },
         {
             "name": "Ancient Workbench",
@@ -6730,7 +6730,7 @@
             "asset": "Ancient_Clinic",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_Clinic.webp",
             "type": "standard",
-            "description": "The reemergence of ancient technology has resulted in a boost to medical services, culminating in this top-tier clinic. Larger than a general clinic, it can protect against even more ailments. By assigning a Pal with pharmaceutical skills to it, even bases with grueling labor standards can be kept to the highest levels of cleanliness."
+            "description": "A top-tier medical facility that reproduces advanced ancient medical technology.\r\nIt offers significantly greater protective capability than a standard clinic.\r\nBy assigning a Pal with Medicine Production suitability, even bases with harsh working conditions can maintain the highest level of hygiene."
         },
         {
             "name": "Ancient Structure Set",
@@ -6744,14 +6744,14 @@
             "asset": "Ancient_MedicalPalBed",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_MedicalPalBed.webp",
             "type": "standard",
-            "description": "Placing a soft mattress in this ancient recovery pod has turned it into the ultimate Pal Bed. \r\nIt promotes higher rates of SAN recovery and whisks fatigue away faster than any other model. \r\nSimilar in size to a Large Pal Bed, it can accommodate most Pals with ease."
+            "description": "A ulitmate Pal Bed made from ancient recovery pod with soft matress.\r\nIt offers one of the highest SAN recovery rates of all Pal beds, quickly relieving fatigue.\r\nIt is the same size as a Large Pal Bed, allowing large Pals to rest comfortably."
         },
         {
             "name": "Ancient Hot Spring",
             "asset": "Ancient_Spa",
             "icon": "/icons/technologies/T_icon_buildObject_Ancient_Spa.webp",
             "type": "standard",
-            "description": "Made with ancient technology, this bath's warm water is infused with mineral Paldium. \r\nThe same size as a regular hot spring, not only does it boast higher SAN restoring powers than any other bath available, it replenishes physical endurance. \r\nInjured Pals can rest and recuperate without a care in the world."
+            "description": "A hot spring built with ancient technology, filled with special water infused with Paldium.\r\nIt offers the highest SAN recovery of all hot springs and also restores Health.\r\nIt is the same size as a standard hot spring, and can fully heal injured Pals."
         },
         {
             "name": "Arrow",
@@ -6842,14 +6842,14 @@
             "asset": "BaseCampWorkHard02",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard02.webp",
             "type": "standard",
-            "description": "A more refined monitoring stand, made from superior materials. \r\nIn addition to being able to issue work orders, the system also lowers the SAN cost for Pals working on the base. \r\nAny improvements to working conditions are always appreciated by Pals, keeping satisfaction levels high."
+            "description": "A refined monitoring station with improved materials and structure.\r\nIn addition to being able to issue work orders, the system also lowers the SAN cost for Pals working at the base. \r\nWorking conditions are slightly improved, making Pals less likely to become dissatisfied."
         },
         {
             "name": "Ancient Monitoring Stand",
             "asset": "BaseCampWorkHard03",
             "icon": "/icons/technologies/T_icon_buildObject_BaseCampWorkHard03.webp",
             "type": "standard",
-            "description": "A monitoring stand covered in Red Paldium, powered by ancient technology. \r\nMost directives are carried out via a programmable interface, greatly reducing the SAN cost. \r\nIt emits a special wavelength that covers bases, keeping Pals calm in even the harshest working environments."
+            "description": "A monitoring station based on ancient technology, embedded with Red Paldium.\r\nIt issues commands across the entire base through a holographic interface, reducing SAN depletion in Pals.\r\nA special wavelength surrounds the base, keeping Pals calm even in harsh working environments."
         },
         {
             "name": "Palbox Control Device",
@@ -7430,7 +7430,7 @@
             "asset": "Clinic",
             "icon": "/icons/technologies/T_icon_buildObject_Clinic.webp",
             "type": "standard",
-            "description": "A basic medical facility, for managing the health of any Pals working on base. By assigning a Pal with pharmaceutical skills to it, SAN values are reduced, and illnesses and injuries are made more manageable. While it would be impossible to expect a pristine base at all times, sanitation management is truly pivotal in the early establishment stages."
+            "description": "A basic medical facility for managing the health of Pals working at the base.\r\nAssigning a Pal with Medicine Production suitability helps reduce SAN depletion and prevent illness and injury.\r\nWhile sanitation has its limits, it plays a crucial role in early base development."
         },
         {
             "name": "Cloth2",
@@ -7668,7 +7668,7 @@
             "asset": "Factory_Money",
             "icon": "/icons/technologies/T_icon_buildObject_Factory_Money.webp",
             "type": "standard",
-            "description": "An Assembly Line that manufactures Gold Coin.\r\nThe work puts a strain on the mind, causing a decrease in Pal's SAN value. \r\nRequires Pals that can work with their hands.\r\nWarning: building this structure may result in a considerable increase in PIDF scrutiny."
+            "description": "An Assembly Line that manufactures Gold Coin.\r\nThe work puts a strain on the mind, causing a decrease in Pal's SAN value. \r\nRequires Pals that can work with their hands.\r\nWarning: building this facility may draw severe scrutiny from the PIDF."
         },
         {
             "name": "Skillfruit Orchard",
@@ -8270,7 +8270,7 @@
             "asset": "IceHorseStatue",
             "icon": "/icons/technologies/T_icon_buildObject_IceHorseStatue.webp",
             "type": "standard",
-            "description": "A decorative Frostallion figure."
+            "description": "Decorative Frostallion statue."
         },
         {
             "name": "Power Generator",
@@ -8368,7 +8368,7 @@
             "asset": "JetDragonStatue",
             "icon": "/icons/technologies/T_icon_buildObject_JetDragonStatue.webp",
             "type": "standard",
-            "description": "A decorative Jetragon figure."
+            "description": "Decorative Jetragon statue."
         },
         {
             "name": "Katana",
@@ -8585,7 +8585,7 @@
             "asset": "MultiElectricHatchingPalEggWithBreed",
             "icon": "/icons/technologies/T_icon_buildObject_MultiElectricHatchingPalEggWithBreed.webp",
             "type": "boss",
-            "description": "Electronic panes conceal the inner workings of this highly advanced hatchery. \r\nEggs are produced and incubated at lightning speed, in an entirely hands-off process that boasts higher rates of rare traits being passed down. \r\nAs everything is managed with holograms, the amount of space this facility requires is minimal."
+            "description": "An advanced breeding facility of ancient civilization technology, enclosed in electronic glass.\r\nIt fully automates everything from egg production to incubation at high speed, and increases the inheritance rate of rare skills.\r\nPals are managed through holograms, it requires minimal pasture space."
         },
         {
             "name": "Large Incubator",
@@ -8634,7 +8634,7 @@
             "asset": "OilPump02",
             "icon": "/icons/technologies/T_icon_buildObject_OilPump02.webp",
             "type": "boss",
-            "description": ""
+            "description": "A device that pumps up and extracts Crude Oil from deep underground.\r\nIt can produce Crude Oil even in areas without oil fields, but can only be placed on open ground with no structures beneath it.\r\nRequires a far greater power supply than the Crude Oil Extractor."
         },
         {
             "name": "Flame Cauldron",
@@ -10153,7 +10153,7 @@
             "asset": "SkyIslandOrePit",
             "icon": "/icons/technologies/T_icon_buildObject_SkyIslandOrePit.webp",
             "type": "boss",
-            "description": "Facility for producing Soralites. Digging s is grueling physical work. Leave it to a Pal that is good at mining."
+            "description": "Facility for producing Soralite.\r\nDigging Soralite is grueling physical work.\r\nLeave it to a Pal that is good at mining."
         },
         {
             "name": "Prototype Shotgun",

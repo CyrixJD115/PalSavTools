@@ -10,7 +10,7 @@ import nerdfont as nf
 from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants
 from resource_resolver import resource_path
-from palworld_aio.utils import extract_value, safe_nested_get, calculate_max_hp, calculate_shot_attack, resolve_name
+from palworld_aio.utils import extract_value, safe_nested_get, calculate_max_hp, calculate_shot_attack, calculate_defense, calculate_work_speed, resolve_name
 from palworld_aio.ui.chrome.styles import slot_full, slot_selected, TOOLTIP_STYLE
 from palworld_aio.ui.chrome.sidebar_widget import NerdBtn
 from palworld_aio.ui.dialogs.skill_picker import SkillPicker
@@ -152,24 +152,27 @@ class PalInfoDisplayMixin:
                 if p_clean and p_clean in _data._PASSIVE_DATA:
                     p_info = _data._PASSIVE_DATA[p_clean]
                     for ei in range(1, 5):
-                        etype = p_info.get(f'efftype{ei}', '')
+                        etype = str(p_info.get(f'efftype{ei}', ''))
                         ev = p_info.get(f'effect{ei}', 0)
-                        if 'ShotAttack' in str(etype):
+                        if 'ShotAttack' in etype:
                             passive_shot_bonus += float(ev)
-                        elif 'Defense' in str(etype) and 'ElementResist' not in str(etype) and ('Resist' not in str(etype)) and ('Rate' not in str(etype)):
+                        elif 'Defense' in etype and 'ElementResist' not in etype and 'Resist' not in etype and 'Rate' not in etype:
                             passive_def_bonus += float(ev)
-                        elif 'CraftSpeed' in str(etype):
+                        elif 'CraftSpeed' in etype:
                             passive_craft_bonus += float(ev)
             talent_shot_tmp = extract_value(raw, 'Talent_Shot', 0)
             rank_atk_tmp = extract_value(raw, 'Rank_Attack', 0)
-            atk_val = calculate_shot_attack(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank) if base else atk_val
-            atk_val = math.floor(atk_val * (1 + passive_shot_bonus / 100))
+            condenser_atk_tmp = int(extract_value(raw, 'Rank', 0))
+            is_awake_tmp = bool(extract_value(raw, 'bIsAwakening', False))
+            condenser_amp = 1 + max(0, condenser_atk_tmp - 1) * 0.20
+            effective_shot_bonus = passive_shot_bonus * condenser_amp
+            atk_val = calculate_shot_attack(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank, condenser_atk_tmp, passive_bonus=effective_shot_bonus / 100, is_awake=is_awake_tmp) if base else atk_val
             if def_val == 0:
-                def_val = base_def
+                def_val = calculate_defense(base, level, extract_value(raw, 'Talent_Defense', 0), extract_value(raw, 'Rank_Defence', 0), trust_rank, condenser_atk_tmp, passive_bonus=passive_def_bonus / 100, is_awake=is_awake_tmp)
+            else:
+                def_val = math.floor(def_val * (1 + passive_def_bonus / 100))
             if wspd_val == 0:
-                wspd_val = base_craft
-            def_val = math.floor(def_val * (1 + passive_def_bonus / 100))
-            wspd_val = math.floor(wspd_val * (1 + passive_craft_bonus / 100))
+                wspd_val = calculate_work_speed(base, level, extract_value(raw, 'Rank_CraftSpeed', 0), passive_craft_bonus / 100)
             ws = _get_effective_work_suitabilities(raw)
             for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)

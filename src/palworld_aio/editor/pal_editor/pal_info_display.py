@@ -154,6 +154,9 @@ class PalInfoDisplayMixin:
                     for ei in range(1, 5):
                         etype = str(p_info.get(f'efftype{ei}', ''))
                         ev = p_info.get(f'effect{ei}', 0)
+                        tt = str(p_info.get(f'target_type{ei}', '') or '')
+                        if 'ToTrainer' in tt and 'ToSelf' not in tt and 'ToSelfAndTrainer' not in tt:
+                            continue
                         if 'ShotAttack' in etype:
                             passive_shot_bonus += float(ev)
                         elif 'Defense' in etype and 'ElementResist' not in etype and 'Resist' not in etype and 'Rate' not in etype:

@@ -8630,7 +8630,7 @@
             "description": "Equipment required to extract Crude Oil from oil fields.\r\nRequires a power supply to operate."
         },
         {
-            "name": "OilPump02",
+            "name": "Crude Oil Extractor High Pressure",
             "asset": "OilPump02",
             "icon": "/icons/technologies/T_icon_buildObject_OilPump02.webp",
             "type": "boss",
@@ -8728,7 +8728,7 @@
             "description": "A potion that revives a Pal that has been injured and is unable to move."
         },
         {
-            "name": "[WIP] Anceint Sphere 1",
+            "name": "Sol Sphere",
             "asset": "PalSphere_Ancient_1",
             "icon": "/icons/technologies/T_itemicon_PalSphere_Ancient_1.webp",
             "type": "standard",
@@ -9337,14 +9337,14 @@
             "description": "Gloves for gently holding Tocotoco.\r\nActivate its Partner Skill to hold Tocotoco\r\nand use it to fire explosive eggs."
         },
         {
-            "name": "Pharapace Saddle",
+            "name": "Tetroise Saddle",
             "asset": "SkillUnlock_CubeTurtle",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard",
             "description": "Saddle for safely riding Tetroise."
         },
         {
-            "name": "Pharapace Primo Saddle",
+            "name": "Tetroise Primo Saddle",
             "asset": "SkillUnlock_CubeTurtle_Neutral",
             "icon": "/icons/technologies/T_itemicon_Essential_SkillUnlock_Saddle.webp",
             "type": "standard",
@@ -10247,7 +10247,7 @@
             "description": "The spear cherished by Lily.\r\nPunishes those who neglect their Pals."
         },
         {
-            "name": "Lily's Spear (Enhanced)",
+            "name": "Enhanced Lily's Spear",
             "asset": "Spear_ForestBoss2",
             "icon": "/icons/technologies/T_itemicon_Weapon_Spear_ForestBoss2.webp",
             "type": "standard",
@@ -10639,11 +10639,11 @@
             "description": "Primitive Workbench for producing simple items.\r\nPals with Handcraft suitability help\r\nspeed up production."
         },
         {
-            "name": "Palicite Ingot",
+            "name": "Paloxite Ingot",
             "asset": "WorldTreeIngot",
             "icon": "/icons/technologies/T_itemicon_Material_WorldTreeIngot.webp",
             "type": "standard",
-            "description": "An indomitable alloy formed by combining Soralite and Palicite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures."
+            "description": "An indomitable alloy formed by combining Soralite and Paloxite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures."
         },
         {
             "name": "Meowmere",

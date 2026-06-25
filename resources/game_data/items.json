@@ -2327,7 +2327,7 @@
             "rarity": 3,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Buckler Dragon Emblem\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Silvegis Emblem\r\n(Epic).\r\nCan be crafted at Production Assembly Line.",
             "sort_id": 9200
         },
         {
@@ -7027,7 +7027,7 @@
             "rarity": 4,
             "type_a": "EPalItemTypeA::Blueprint",
             "type_b": "EPalItemTypeB::Blueprint",
-            "description": "When in inventory, unlocks recipe for Lily's Spear (Enhanced)\r\n (Legendary).\r\nCan be crafted at Advanced Weapon Assembly Line.",
+            "description": "When in inventory, unlocks recipe for Enhanced Lily's Spear\r\n (Legendary).\r\nCan be crafted at Advanced Weapon Assembly Line.",
             "sort_id": 6955
         },
         {
@@ -24037,7 +24037,7 @@
             "rarity": 0,
             "type_a": "EPalItemTypeA::Material",
             "type_b": "EPalItemTypeB::MaterialIngot",
-            "description": "An indomitable alloy formed by combining Soralite and Palicite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures.",
+            "description": "An indomitable alloy formed by combining Soralite and Paloxite. \r\nThis incredibly rare material combines ancient technology with crystallized World Tree energy, and is vital for the construction of supreme equipment and structures.",
             "sort_id": 5509
         },
         {

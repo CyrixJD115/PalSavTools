@@ -971,9 +971,9 @@ def _format_effect_value(v):
             return str(int(v))
         return f'{v:g}'
     return str(v)
-def _generate_passive_desc(passive_id, etype1, eval1, etype2, eval2, etype3, eval3):
+def _generate_passive_desc(passive_id, etype1, eval1, etype2, eval2, etype3, eval3, etype4=None, eval4=0):
     parts = []
-    for etype, evalue in [(etype1, eval1), (etype2, eval2), (etype3, eval3)]:
+    for etype, evalue in [(etype1, eval1), (etype2, eval2), (etype3, eval3), (etype4, eval4)]:
         if evalue == 0:
             continue
         label = _resolve_effect_label(etype)
@@ -1113,12 +1113,17 @@ def update_passive_data():
         et1 = row_data.get('EffectType1', '') if isinstance(row_data, dict) else ''
         et2 = row_data.get('EffectType2', '') if isinstance(row_data, dict) else ''
         et3 = row_data.get('EffectType3', '') if isinstance(row_data, dict) else ''
+        et4 = row_data.get('EffectType4', '') if isinstance(row_data, dict) else ''
+        tt1 = row_data.get('TargetType1', '') if isinstance(row_data, dict) else ''
+        tt2 = row_data.get('TargetType2', '') if isinstance(row_data, dict) else ''
+        tt3 = row_data.get('TargetType3', '') if isinstance(row_data, dict) else ''
+        tt4 = row_data.get('TargetType4', '') if isinstance(row_data, dict) else ''
         ev1 = row_data.get('EffectValue1', 0) if isinstance(row_data, dict) else 0
         ev2 = row_data.get('EffectValue2', 0) if isinstance(row_data, dict) else 0
         ev3 = row_data.get('EffectValue3', 0) if isinstance(row_data, dict) else 0
         ev4 = row_data.get('EffectValue4', 0) if isinstance(row_data, dict) else 0
         if not desc_text:
-            desc_text = _generate_passive_desc(passive_id, et1, ev1, et2, ev2, et3, ev3)
+            desc_text = _generate_passive_desc(passive_id, et1, ev1, et2, ev2, et3, ev3, et4, ev4)
         add_pal = bool(row_data.get('AddPal', False)) if isinstance(row_data, dict) else False
         add_rare_pal = bool(row_data.get('AddRarePal', False)) if isinstance(row_data, dict) else False
         add_world_tree_pal = bool(row_data.get('AddWorldTreePal', False)) if isinstance(row_data, dict) else False
@@ -1128,7 +1133,7 @@ def update_passive_data():
         add_weapon = bool(row_data.get('AddShotWeapon', False) or row_data.get('AddMeleeWeapon', False)) if isinstance(row_data, dict) else False
         invoke_always = bool(row_data.get('InvokeAlways', False)) if isinstance(row_data, dict) else False
         category = row_data.get('Category', '') if isinstance(row_data, dict) else ''
-        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or '/icons/passives/T_icon_skillstatus_rank_arrow_04.webp', 'description': desc_text, 'effect1': ev1, 'effect2': ev2, 'effect3': ev3, 'effect4': ev4, 'efftype1': et1, 'efftype2': et2, 'efftype3': et3, 'add_pal': add_pal, 'add_rare_pal': add_rare_pal, 'add_world_tree_pal': add_world_tree_pal, 'add_mutation_pal': add_mutation_pal, 'add_armor': add_armor, 'add_accessory': add_accessory, 'add_weapon': add_weapon, 'invoke_always': invoke_always, 'category': category}
+        passive_entry = {'name': display_name, 'asset': passive_id, 'rank': rank, 'icon': copied_icon or '/icons/passives/T_icon_skillstatus_rank_arrow_04.webp', 'description': desc_text, 'effect1': ev1, 'effect2': ev2, 'effect3': ev3, 'effect4': ev4, 'efftype1': et1, 'efftype2': et2, 'efftype3': et3, 'efftype4': et4, 'target_type1': tt1, 'target_type2': tt2, 'target_type3': tt3, 'target_type4': tt4, 'add_pal': add_pal, 'add_rare_pal': add_rare_pal, 'add_world_tree_pal': add_world_tree_pal, 'add_mutation_pal': add_mutation_pal, 'add_armor': add_armor, 'add_accessory': add_accessory, 'add_weapon': add_weapon, 'invoke_always': invoke_always, 'category': category}
         updated_passives.append(passive_entry)
     result = {'passives': updated_passives}
     save_resource_json('passivedata.json', result)

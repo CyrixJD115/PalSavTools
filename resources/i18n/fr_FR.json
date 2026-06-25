@@ -1580,5 +1580,16 @@
   "inventory.max_all_abilities_confirm.msg": "Maximiser toutes les capacités des reliques pour ce joueur ?",
   "inventory.max_all_abilities_done": "Capacités maximisées jusqu'au rang maximum.",
   "inventory.add_all_key_items_success.title": "Ajouter tous les éléments clés",
-  "inventory.add_all_key_items_success.msg": "Ajout de {count} éléments clés manquants."
+  "inventory.add_all_key_items_success.msg": "Ajout de {count} éléments clés manquants.",
+  "base_inventory.replace_structures": "Remplacer les structures",
+  "base_inventory.replace_dialog_title": "Remplacer les structures - {base}",
+  "base_inventory.replace_from_list": "Structures dans la base",
+  "base_inventory.replace_to_list": "Remplacer par",
+  "base_inventory.replace_select_prompt": "Sélectionnez une structure à gauche...",
+  "base_inventory.replace_no_building_parts": "Aucune pièce de construction trouvée dans cette base.",
+  "base_inventory.replace_source_label": "Remplacer:",
+  "base_inventory.replace_target_label": "Avec:",
+  "base_inventory.replace_confirm": "Remplacer {count} {old_name} par {new_name} ?",
+  "base_inventory.replace_success": "Remplacement de {count} structures.",
+  "base_inventory.replace_skip_current": "Même élément"
 }

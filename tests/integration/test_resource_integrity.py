@@ -264,12 +264,14 @@ class TestResourcePathResolution:
     def test_resource_path_maps_icon(self):
         base = str(PROJECT_ROOT)
         result = resource_path(base, 'icon.ico')
-        assert result.endswith(os.path.join('resources', 'assets', 'icons', 'app', 'icon.ico'))
+        expected = os.path.join('resources', 'assets', 'icons', 'app', 'icon.ico')
+        assert result.replace('\\', '/').endswith(expected.replace('\\', '/'))
 
     def test_resource_path_passes_through_game_data(self):
         base = str(PROJECT_ROOT)
         result = resource_path(base, 'game_data', 'skills.json')
-        assert result.endswith(os.path.join('resources', 'game_data', 'skills.json'))
+        expected = os.path.join('resources', 'game_data', 'skills.json')
+        assert result.replace('\\', '/').endswith(expected.replace('\\', '/'))
 
     def test_resource_path_resolved_files_exist(self):
         base = str(PROJECT_ROOT)

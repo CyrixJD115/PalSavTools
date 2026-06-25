@@ -13,6 +13,7 @@ _resources_path = str(RESOURCES_DIR)
 if _resources_path not in sys.path:
     sys.path.insert(0, _resources_path)
 import copy
+import re
 from i18n import t
 from loading_manager import show_information, show_warning, show_question
 from palworld_aio import constants
@@ -741,6 +742,270 @@ class ContainerSlotModificationDialog(QDialog):
         self.accept()
     def get_slot_count(self):
         return self.new_slot_count
+class ReplaceStructureDialog(QDialog):
+    replacement_confirmed = Signal(str, str, int)
+
+    BUILDING_CLASSES = {'PalBuildObject', 'PalMapObjectDoorModel'}
+
+    def __init__(self, parent, base_id, base_name, structure_entries, all_family_variants):
+        super().__init__(parent)
+        self.base_id = base_id
+        self.base_name = base_name
+        self.structure_entries = structure_entries
+        self._all_family_variants = all_family_variants
+        self._source_asset = None
+        self._target_asset = None
+        self._source_count = 0
+
+        title = t('base_inventory.replace_dialog_title').format(base=base_name) if t else f'Replace Structures - {base_name}'
+        self.setWindowTitle(title)
+        self.setMinimumSize(1200, 650)
+        self.setStyleSheet(_DIALOG_STYLE)
+        self._setup_ui()
+        self._populate_left()
+
+    def _get_element_and_family(self, asset: str) -> tuple:
+        return BaseInventoryTab._extract_element_family(asset)
+
+    def _get_family_display_name(self, family: str) -> str:
+        name_map = {
+            'wall': 'Wall', 'foundation': 'Foundation', 'roof': 'Roof',
+            'stair': 'Stairs', 'pillar': 'Pillar', 'pillars': 'Pillar',
+            'fence': 'Fence', 'windowwall': 'Window Wall',
+            'trianglewall': 'Triangle Wall', 'slantedroof': 'Slanted Roof',
+            'doorwall': 'Door', 'gate': 'Gate', 'wallgate': 'Wall Gate',
+            'ladder': 'Ladder', 'barricade': 'Barricade',
+            'pyramidroof': 'Pyramid Roof', 'slopedroofcorner': 'Sloped Roof Corner',
+            'trianglefoundation': 'Triangle Foundation', 'trianglestairscorner': 'Triangle Stairs Corner',
+            'triangleroof': 'Triangle Roof', 'diagonalwall': 'Diagonal Wall',
+            'defensewall': 'Defensive Wall', 'fence_reverse': 'Fence (Reverse)',
+            'stair_01': 'Stairs', 'stair_02': 'Stairs',
+        }
+        return name_map.get(family, family.replace('_', ' ').title())
+
+    def _get_element_display_name(self, element: str) -> str:
+        name_map = {
+            'wooden': 'Wood', 'wood': 'Wood', 'stone': 'Stone',
+            'metal': 'Metal', 'iron': 'Metal', 'glass': 'Glass',
+            'sf': 'Clean', 'ancient': 'Ancient', 'japanesestyle': 'Japanese',
+            'wire': 'Wire', 'defensewall': 'Stone (Defense)',
+        }
+        return name_map.get(element, element.replace('_', ' ').title())
+
+    def _setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setSpacing(8)
+        layout.setContentsMargins(12, 12, 12, 12)
+
+        content_layout = QHBoxLayout()
+        content_layout.setSpacing(12)
+
+        left_widget = QWidget()
+        left_layout = QVBoxLayout(left_widget)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_label = QLabel(t('base_inventory.replace_from_list') if t else 'Replace:')
+        left_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
+        left_layout.addWidget(left_label)
+        self.left_search = QLineEdit()
+        self.left_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
+        self.left_search.setStyleSheet(PICKER_SEARCH_STYLE)
+        self.left_search.textChanged.connect(lambda q: self._filter_list(self.left_list, q))
+        left_layout.addWidget(self.left_search)
+        self.left_list = QListWidget()
+        self.left_list.setViewMode(QListView.IconMode)
+        self.left_list.setIconSize(QSize(48, 48))
+        self.left_list.setGridSize(QSize(80, 80))
+        self.left_list.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.left_list.setWordWrap(True)
+        self.left_list.setSpacing(4)
+        self.left_list.setStyleSheet('QListWidget { background: transparent; border: 1px solid rgba(125,211,252,0.15); border-radius: 8px; } QListWidget::item { border-radius: 6px; padding: 4px; } QListWidget::item:selected { background: rgba(125,211,252,0.15); border: 1px solid #7DD3FC; } QListWidget::item:hover { background: rgba(125,211,252,0.06); }')
+        self.left_list.itemClicked.connect(self._on_left_clicked)
+        left_layout.addWidget(self.left_list)
+
+        right_widget = QWidget()
+        right_layout = QVBoxLayout(right_widget)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_label = QLabel(t('base_inventory.replace_to_list') if t else 'Replace With:')
+        right_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
+        right_layout.addWidget(right_label)
+        self.right_search = QLineEdit()
+        self.right_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
+        self.right_search.setStyleSheet(PICKER_SEARCH_STYLE)
+        self.right_search.textChanged.connect(lambda q: self._filter_list(self.right_list, q))
+        right_layout.addWidget(self.right_search)
+        self.right_list = QListWidget()
+        self.right_list.setViewMode(QListView.IconMode)
+        self.right_list.setIconSize(QSize(48, 48))
+        self.right_list.setGridSize(QSize(80, 80))
+        self.right_list.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.right_list.setWordWrap(True)
+        self.right_list.setSpacing(4)
+        self.right_list.setStyleSheet('QListWidget { background: transparent; border: 1px solid rgba(125,211,252,0.15); border-radius: 8px; } QListWidget::item { border-radius: 6px; padding: 4px; } QListWidget::item:selected { background: rgba(125,211,252,0.15); border: 1px solid #7DD3FC; } QListWidget::item:hover { background: rgba(125,211,252,0.06); } QListWidget::item:disabled { color: #555; }')
+        self.right_list.itemClicked.connect(self._on_right_clicked)
+        right_layout.addWidget(self.right_list)
+
+        content_layout.addWidget(left_widget, 1)
+        content_layout.addWidget(right_widget, 1)
+        layout.addLayout(content_layout)
+
+        self.info_label = QLabel(t('base_inventory.replace_select_prompt') if t else 'Select a structure on the left...')
+        self.info_label.setStyleSheet('color: #94a3b8; font-size: 12px; padding: 6px; border-top: 1px solid rgba(255,255,255,0.06);')
+        self.info_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.info_label)
+
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+        self.confirm_btn = QPushButton(t('base_inventory.replace_structures') if t else 'Replace')
+        self.confirm_btn.setStyleSheet('QPushButton { background: rgba(250,204,21,0.12); color: #FACC15; border: 1px solid rgba(250,204,21,0.2); border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(250,204,21,0.2); border-color: rgba(250,204,21,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
+        self.confirm_btn.setEnabled(False)
+        self.confirm_btn.clicked.connect(self._on_confirm)
+        btn_layout.addWidget(self.confirm_btn)
+        cancel_btn = QPushButton(t('button.cancel') if t else 'Cancel')
+        cancel_btn.setStyleSheet('QPushButton { background: rgba(255,80,80,0.4); color: #fff; border: none; border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(255,80,80,0.7); }')
+        cancel_btn.clicked.connect(self.reject)
+        btn_layout.addWidget(cancel_btn)
+        layout.addLayout(btn_layout)
+
+    def _filter_list(self, list_widget, query):
+        q = query.lower()
+        for i in range(list_widget.count()):
+            item = list_widget.item(i)
+            item.setHidden(bool(q and q not in item.text().lower()))
+
+    def _resolve_structure_icon(self, asset):
+        base_path = constants.get_base_path() if hasattr(constants, 'get_base_path') else '.'
+        from palworld_aio.inventory.base_inventory_manager import load_structure_data
+        sd = load_structure_data()
+        for s in sd.get('structures', []):
+            if s.get('asset', '').lower() == asset.lower():
+                icon_rel = s.get('icon', '')
+                if icon_rel:
+                    icon_clean = icon_rel.lstrip('/')
+                    icon_abs = resource_path(base_path, 'game_data', icon_clean)
+                    if os.path.exists(icon_abs):
+                        pixmap = QPixmap(icon_abs)
+                        if not pixmap.isNull():
+                            return QIcon(pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        return QIcon()
+
+    def _populate_left(self):
+        self.left_list.clear()
+
+        if not self.structure_entries:
+            item = QListWidgetItem(t('base_inventory.replace_no_building_parts') if t else 'No building parts found')
+            item.setFlags(item.flags() & ~Qt.ItemIsSelectable)
+            item.setForeground(QColor('#94a3b8'))
+            self.left_list.addItem(item)
+            return
+
+        for entry in self.structure_entries:
+            asset = entry['asset']
+            count = entry['count']
+            icon = entry.get('icon')
+            name = entry.get('name', asset)
+            element, family = self._get_element_and_family(asset)
+            family_display = self._get_family_display_name(family)
+            element_display = self._get_element_display_name(element)
+
+            display_text = f'{element_display} {family_display}\n({count})'
+            list_item = QListWidgetItem(display_text)
+            list_item.setData(Qt.UserRole, asset)
+            list_item.setData(Qt.UserRole + 1, count)
+            list_item.setData(Qt.UserRole + 2, family)
+            list_item.setData(Qt.UserRole + 3, element)
+            list_item.setData(Qt.UserRole + 4, name)
+            if icon and not icon.isNull():
+                list_item.setIcon(icon)
+            else:
+                fallback_icon = self._resolve_structure_icon(asset)
+                if not fallback_icon.isNull():
+                    list_item.setIcon(fallback_icon)
+            list_item.setToolTip(f'<b>{name}</b><br>({asset})<br><br>Count: {count}')
+            list_item.setSizeHint(QSize(90, 90))
+            self.left_list.addItem(list_item)
+
+    def _on_left_clicked(self, item):
+        source_asset = item.data(Qt.UserRole)
+        if not source_asset:
+            return
+        self._source_asset = source_asset
+        self._source_count = item.data(Qt.UserRole + 1) or 0
+        source_family = item.data(Qt.UserRole + 2) or ''
+        source_element = item.data(Qt.UserRole + 3) or ''
+        source_name = item.data(Qt.UserRole + 4) or source_asset
+        self._populate_right(source_family, source_element, source_name)
+
+    def _populate_right(self, family, source_element, source_name):
+        self.right_list.clear()
+        self._target_asset = None
+        self.confirm_btn.setEnabled(False)
+
+        family_variants = self._all_family_variants.get(family, {})
+
+        if not family_variants:
+            item = QListWidgetItem(t('base_inventory.replace_incompatible') if t else 'No compatible replacements')
+            item.setFlags(item.flags() & ~Qt.ItemIsSelectable)
+            item.setForeground(QColor('#94a3b8'))
+            self.right_list.addItem(item)
+            self.info_label.setText(t('base_inventory.replace_incompatible') if t else 'No compatible replacements for this structure.')
+            return
+
+        for element, asset in sorted(family_variants.items()):
+            element_display = self._get_element_display_name(element)
+            family_display = self._get_family_display_name(family)
+            display_text = f'{element_display} {family_display}'
+            icon = self._resolve_structure_icon(asset)
+
+            list_item = QListWidgetItem(display_text)
+            list_item.setData(Qt.UserRole, asset)
+            list_item.setData(Qt.UserRole + 1, element)
+            if not icon.isNull():
+                list_item.setIcon(icon)
+
+            if element == source_element:
+                list_item.setToolTip(f'<b>{display_text}</b> — {t("base_inventory.replace_skip_current") if t else "Same element"}')
+                list_item.setForeground(QColor('#555555'))
+                list_item.setFlags(list_item.flags() & ~Qt.ItemIsSelectable)
+            else:
+                list_item.setToolTip(f'<b>{display_text}</b><br>({asset})')
+                list_item.setForeground(QColor('#e0e0e0'))
+
+            list_item.setSizeHint(QSize(90, 90))
+            self.right_list.addItem(list_item)
+
+        self.info_label.setText(
+            f'Replace {self._source_count} {source_name} with...'
+            if not t else
+            t('base_inventory.replace_confirm').format(
+                count=self._source_count,
+                old_name=source_name,
+                new_name='...'
+            )
+        )
+
+    def _on_right_clicked(self, item):
+        target_asset = item.data(Qt.UserRole)
+        if not target_asset or not (item.flags() & Qt.ItemIsSelectable):
+            return
+        self._target_asset = target_asset
+        self.confirm_btn.setEnabled(True)
+
+        element_display = self._get_element_display_name(item.data(Qt.UserRole + 1) or '')
+        source_name = self.left_list.currentItem().data(Qt.UserRole + 4) if self.left_list.currentItem() else self._source_asset or ''
+        self.info_label.setText(
+            t('base_inventory.replace_confirm').format(
+                count=self._source_count,
+                old_name=source_name,
+                new_name=item.text()
+            ) if t else f'Replace {self._source_count} {source_name} with {item.text()}?'
+        )
+
+    def _on_confirm(self):
+        if self._source_asset and self._target_asset and self._source_count > 0:
+            self.replacement_confirmed.emit(self._source_asset, self._target_asset, self._source_count)
+            self.accept()
+
+
 class ContainerListWidget(QTreeWidget):
     container_selected = Signal(str)
     def __init__(self, parent=None):
@@ -2400,6 +2665,14 @@ class BaseInventoryTab(QWidget):
         self.pals_tab_btn.clicked.connect(lambda: self._switch_tab(1))
         header_layout.addWidget(self.pals_tab_btn)
         header_layout.addStretch()
+        self.replace_button = QPushButton(t('base_inventory.replace_structures') if t else 'Replace Structures')
+        self.replace_button.setMinimumWidth(120)
+        self.replace_button.setMaximumHeight(28)
+        self.replace_button.setStyleSheet('QPushButton { background: rgba(250,204,21,0.12); color: #FACC15; border: 1px solid rgba(250,204,21,0.2); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(250,204,21,0.2); border-color: rgba(250,204,21,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
+        self.replace_button.setCursor(Qt.PointingHandCursor)
+        self.replace_button.setEnabled(False)
+        self.replace_button.clicked.connect(self._show_replace_dialog)
+        header_layout.addWidget(self.replace_button)
         self.item_button = QPushButton(t('base_inventory.all_items') if t else 'All Items')
         self.item_button.setMinimumWidth(100)
         self.item_button.setMaximumHeight(28)
@@ -2654,6 +2927,7 @@ class BaseInventoryTab(QWidget):
         self._current_base_id = None
         self._current_base_name = ''
         self.base_button.setText(t('base_inventory.select_base') if t else 'Select Base')
+        self.replace_button.setEnabled(False)
         self._clear_display()
     def _load_guilds(self):
         self._guilds_data = []
@@ -2670,6 +2944,7 @@ class BaseInventoryTab(QWidget):
             self.guild_button.setEnabled(False)
             self.base_button.setText(t('base_inventory.select_base') if t else 'Select Base')
             self.base_button.setEnabled(False)
+            self.replace_button.setEnabled(False)
             self._clear_display()
             return
         guilds_with_bases = []
@@ -2772,9 +3047,11 @@ class BaseInventoryTab(QWidget):
             self._current_base_id = None
             self._current_base_name = ''
             self.base_button.setText(t('base_inventory.select_base') if t else 'Select Base')
+            self.replace_button.setEnabled(False)
             self._clear_display()
             return
         self._current_base_id = base_id
+        self.replace_button.setEnabled(True)
         base = next((b for b in self._bases_data if str(b['id']) == str(base_id)), None)
         self._current_base_name = str(base_id)[:8] if base else str(base_id)[:8]
         self.base_button.setText(self._current_base_name)
@@ -3113,6 +3390,148 @@ class BaseInventoryTab(QWidget):
             self._on_guild_changed(previous_guild_id)
             if previous_base_id:
                 self._on_base_changed(previous_base_id)
+    def _get_building_parts_in_base(self, base_id):
+        wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+        map_objs = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+        base_norm = str(base_id).lower().replace('-', '')
+        base_path = constants.get_base_path() if hasattr(constants, 'get_base_path') else '.'
+        from palworld_aio.inventory.base_inventory_manager import load_structure_data
+        sd = load_structure_data()
+        structure_map = {}
+        for s in sd.get('structures', []):
+            asset = s.get('asset', '')
+            if asset:
+                structure_map[asset.lower()] = {'name': s.get('name', asset), 'icon': s.get('icon', '')}
+        building_asset_set = set()
+        try:
+            from palsav.rawdata.map_concrete_model import MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS
+            for a, cls in MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS.items():
+                if cls in ('PalBuildObject', 'PalMapObjectDoorModel'):
+                    building_asset_set.add(a)
+        except ImportError:
+            building_prefixes = [
+                'wooden_', 'wood_', 'stone_', 'metal_', 'iron_', 'glass_',
+                'sf_', 'ancient_', 'japanesestyle_', 'defensewall_', 'wire_',
+            ]
+        asset_counts = {}
+        for obj in map_objs:
+            oid = obj.get('MapObjectId', {}).get('value', '')
+            oid_low = oid.lower()
+            if oid_low not in building_asset_set:
+                continue
+            bp = obj.get('Model', {}).get('value', {}).get('BuildProcess', {}).get('value', {}).get('RawData', {}).get('value', {})
+            if bp.get('state', 0) != 1:
+                continue
+            mr = obj.get('Model', {}).get('value', {}).get('RawData', {}).get('value', {})
+            bcid = str(mr.get('base_camp_id_belong_to', '')).lower().replace('-', '')
+            if bcid != base_norm:
+                continue
+            asset_counts[oid] = asset_counts.get(oid, 0) + 1
+        result = []
+        for asset, count in sorted(asset_counts.items()):
+            info = structure_map.get(asset.lower(), {})
+            icon_rel = info.get('icon', '')
+            icon_pixmap = None
+            if icon_rel:
+                icon_clean = icon_rel.lstrip('/')
+                icon_abs = resource_path(base_path, 'game_data', icon_clean)
+                if os.path.exists(icon_abs):
+                    pixmap = QPixmap(icon_abs)
+                    if not pixmap.isNull():
+                        icon_pixmap = QIcon(pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            result.append({
+                'asset': asset,
+                'name': info.get('name', asset),
+                'count': count,
+                'icon': icon_pixmap,
+            })
+        return result
+    def _show_replace_dialog(self):
+        if not self._current_base_id:
+            return
+        entries = self._get_building_parts_in_base(self._current_base_id)
+        if not entries:
+            from loading_manager import show_information
+            show_information(
+                t('base_inventory.replace_structures') if t else 'Replace Structures',
+                t('base_inventory.replace_no_building_parts') if t else 'No building parts found in this base.',
+            )
+            return
+        all_family_variants = self._build_all_family_variants()
+        base_name = self._current_base_name or str(self._current_base_id)[:8]
+        dialog = ReplaceStructureDialog(self, self._current_base_id, base_name, entries, all_family_variants)
+        dialog.replacement_confirmed.connect(self._replace_structures_impl)
+        dialog.exec()
+    def _build_all_family_variants(self):
+        family_variants = {}
+        building_asset_set = set()
+        try:
+            from palsav.rawdata.map_concrete_model import MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS
+            for a, cls in MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS.items():
+                if cls in ('PalBuildObject', 'PalMapObjectDoorModel'):
+                    building_asset_set.add(a)
+        except ImportError:
+            pass
+        from palworld_aio.inventory.base_inventory_manager import load_structure_data
+        sd = load_structure_data()
+        for s in sd.get('structures', []):
+            asset = s.get('asset', '')
+            if not asset:
+                continue
+            asset_low = asset.lower()
+            if building_asset_set and asset_low not in building_asset_set:
+                continue
+            element, family = self._extract_element_family(asset)
+            if not family:
+                continue
+            if family not in family_variants:
+                family_variants[family] = {}
+            family_variants[family][element] = asset
+        return family_variants
+    @staticmethod
+    def _extract_element_family(asset):
+        asset_lower = asset.lower()
+        prefixes = sorted([
+            'JapaneseStyle_', 'DefenseWall_', 'Wooden_', 'Wood_', 'Stone_',
+            'Metal_', 'Iron_', 'Glass_', 'SF_', 'Ancient_', 'Wire_',
+        ], key=len, reverse=True)
+        if asset_lower == 'defensewall':
+            return ('stone', 'defensewall')
+        if asset_lower.startswith('defensewall_'):
+            element = asset.split('_', 1)[1]
+            return (element.lower(), 'defensewall')
+        for prefix in prefixes:
+            if asset_lower.startswith(prefix.lower()):
+                family = asset[len(prefix):]
+                family = re.sub(r'_\d+$', '', family)
+                return (prefix.rstrip('_').lower(), family)
+        return (asset, '')
+    def _replace_structures_impl(self, old_asset, new_asset, count):
+        wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
+        map_objs = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+        base_norm = str(self._current_base_id).lower().replace('-', '')
+        replaced = 0
+        for obj in map_objs:
+            oid = obj.get('MapObjectId', {}).get('value', '')
+            if oid != old_asset:
+                continue
+            mr = obj.get('Model', {}).get('value', {}).get('RawData', {}).get('value', {})
+            bcid = str(mr.get('base_camp_id_belong_to', '')).lower().replace('-', '')
+            if bcid != base_norm:
+                continue
+            obj['MapObjectId']['value'] = new_asset
+            replaced += 1
+        if replaced:
+            constants.invalidate_container_lookup()
+            from loading_manager import show_information
+            show_information(
+                t('base_inventory.replace_structures') if t else 'Replace Structures',
+                t('base_inventory.replace_success').format(count=replaced) if t else f'Replaced {replaced} structures.',
+            )
+            self._trigger_auto_save()
+            self._load_guilds()
+            if self._guilds_data:
+                self._on_guild_changed(self._guilds_data[0]['id'])
     def _filter_guilds_and_bases_by_item(self):
         if not self.selected_item_id:
             self._reset_filters()

@@ -1622,5 +1622,16 @@
   "inventory.max_all_abilities_confirm.msg": "Alle Reliktfähigkeiten für diesen Spieler maximieren?",
   "inventory.max_all_abilities_done": "Fähigkeiten auf maximalen Rang maximiert.",
   "inventory.add_all_key_items_success.title": "Fügen Sie alle wichtigen Elemente hinzu",
-  "inventory.add_all_key_items_success.msg": "{count} fehlende Schlüsselelemente hinzugefügt."
+  "inventory.add_all_key_items_success.msg": "{count} fehlende Schlüsselelemente hinzugefügt.",
+  "base_inventory.replace_structures": "Ersetzen Sie Strukturen",
+  "base_inventory.replace_dialog_title": "Strukturen ersetzen - {base}",
+  "base_inventory.replace_from_list": "Strukturen in der Basis",
+  "base_inventory.replace_to_list": "Ersetzen durch",
+  "base_inventory.replace_select_prompt": "Wählen Sie links eine Struktur aus...",
+  "base_inventory.replace_no_building_parts": "In dieser Basis wurden keine Gebäudeteile gefunden.",
+  "base_inventory.replace_source_label": "Ersetzen:",
+  "base_inventory.replace_target_label": "Mit:",
+  "base_inventory.replace_confirm": "{count} {old_name} durch {new_name} ersetzen?",
+  "base_inventory.replace_success": "{count} Strukturen ersetzt.",
+  "base_inventory.replace_skip_current": "Gleiches Element"
 }

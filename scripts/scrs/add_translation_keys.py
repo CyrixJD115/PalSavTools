@@ -40,6 +40,17 @@ NEW_TRANSLATIONS = {
     'inventory.add_all_key_items_confirm.msg': 'Add all missing key items? ({count} items)',
     'inventory.add_all_key_items_success.title': 'Add All Key Items',
     'inventory.add_all_key_items_success.msg': 'Added {count} missing key items.',
+    'base_inventory.replace_structures': 'Replace Structures',
+    'base_inventory.replace_dialog_title': 'Replace Structures - {base}',
+    'base_inventory.replace_from_list': 'Structures in Base',
+    'base_inventory.replace_to_list': 'Replace With',
+    'base_inventory.replace_select_prompt': 'Select a structure on the left...',
+    'base_inventory.replace_no_building_parts': 'No building parts found in this base.',
+    'base_inventory.replace_source_label': 'Replace:',
+    'base_inventory.replace_target_label': 'With:',
+    'base_inventory.replace_confirm': 'Replace {count} {old_name} with {new_name}?',
+    'base_inventory.replace_success': 'Replaced {count} structures.',
+    'base_inventory.replace_skip_current': 'Same element',
 }
 OLD_KEYS = [
     'inventory.add_all_effigies',

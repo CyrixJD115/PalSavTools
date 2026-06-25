@@ -1592,5 +1592,16 @@
   "inventory.max_all_abilities_confirm.msg": "¿Maximizar todas las habilidades de reliquia para este jugador?",
   "inventory.max_all_abilities_done": "Habilidades maximizadas al rango máximo.",
   "inventory.add_all_key_items_success.title": "Agregar todos los elementos clave",
-  "inventory.add_all_key_items_success.msg": "Se agregaron {count} elementos clave faltantes."
+  "inventory.add_all_key_items_success.msg": "Se agregaron {count} elementos clave faltantes.",
+  "base_inventory.replace_structures": "Reemplazar estructuras",
+  "base_inventory.replace_dialog_title": "Reemplazar estructuras - {base}",
+  "base_inventory.replace_from_list": "Estructuras en Base",
+  "base_inventory.replace_to_list": "Reemplazar con",
+  "base_inventory.replace_select_prompt": "Seleccione una estructura a la izquierda...",
+  "base_inventory.replace_no_building_parts": "No se encontraron piezas de construcción en esta base.",
+  "base_inventory.replace_source_label": "Reemplazar:",
+  "base_inventory.replace_target_label": "Con:",
+  "base_inventory.replace_confirm": "¿Reemplazar {count} {old_name} con {new_name}?",
+  "base_inventory.replace_success": "Se reemplazaron {count} estructuras.",
+  "base_inventory.replace_skip_current": "Mismo elemento"
 }

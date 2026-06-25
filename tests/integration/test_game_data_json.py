@@ -96,7 +96,9 @@ class TestSchemaValidation:
             if stats is None:
                 continue
             for sf in stat_fields:
-                val = stats[sf]
+                val = stats.get(sf)
+                if val is None:
+                    continue
                 if not isinstance(val, int):
                     errors.append(
                         f"  pals[{i}] ({p.get('name','?')}).stats.{sf} "

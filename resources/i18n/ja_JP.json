@@ -1598,5 +1598,16 @@
   "inventory.max_all_abilities_confirm.msg": "このプレイヤーのすべてのレリック能力を最大にしますか?",
   "inventory.max_all_abilities_done": "能力は最大ランクまで最大化されます。",
   "inventory.add_all_key_items_success.title": "すべてのキーアイテムを追加",
-  "inventory.add_all_key_items_success.msg": "{count} 個の不足している主要アイテムを追加しました。"
+  "inventory.add_all_key_items_success.msg": "{count} 個の不足している主要アイテムを追加しました。",
+  "base_inventory.replace_structures": "構造を置き換える",
+  "base_inventory.replace_dialog_title": "構造を置換 - {base}",
+  "base_inventory.replace_from_list": "基地内の構造物",
+  "base_inventory.replace_to_list": "次で置換",
+  "base_inventory.replace_select_prompt": "左側で構造を選択します...",
+  "base_inventory.replace_no_building_parts": "この基地には建物の部品が見つかりません。",
+  "base_inventory.replace_source_label": "交換する：",
+  "base_inventory.replace_target_label": "と：",
+  "base_inventory.replace_confirm": "{count} {old_name} を {new_name} に置き換えますか?",
+  "base_inventory.replace_success": "{count} 個の構造を置き換えました。",
+  "base_inventory.replace_skip_current": "同じ要素"
 }

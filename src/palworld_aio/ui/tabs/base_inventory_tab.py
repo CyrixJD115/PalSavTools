@@ -620,6 +620,13 @@ class GuildStructurePickerDialog(QDialog):
         reply = msg_box.exec()
         if reply == QMessageBox.Yes:
             self.structure_action_selected.emit(self.selected_structure_asset, 'delete_all', selected_guilds)
+            from PySide6.QtWidgets import QApplication
+            app = QApplication.instance()
+            if app:
+                for w in app.topLevelWidgets():
+                    if hasattr(w, 'tools_tab'):
+                        w.tools_tab.refresh()
+                        break
             self._load_guilds_for_structure()
 class EconomyStatsDialog(QDialog):
     def __init__(self, stats, item_name=None, parent=None):

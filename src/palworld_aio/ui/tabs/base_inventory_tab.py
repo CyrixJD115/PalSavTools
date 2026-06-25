@@ -3435,21 +3435,16 @@ class BaseInventoryTab(QWidget):
         from palworld_aio.inventory.base_inventory_manager import load_structure_data
         sd = load_structure_data()
         structure_map = {}
+        building_asset_set = set()
         for s in sd.get('structures', []):
             asset = s.get('asset', '')
-            if asset:
-                structure_map[asset.lower()] = {'name': s.get('name', asset), 'icon': s.get('icon', '')}
-        building_asset_set = set()
-        try:
-            from palsav.rawdata.map_concrete_model import MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS
-            for a, cls in MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS.items():
-                if cls in ('PalBuildObject', 'PalMapObjectDoorModel'):
-                    building_asset_set.add(a)
-        except ImportError:
-            building_prefixes = [
-                'wooden_', 'wood_', 'stone_', 'metal_', 'iron_', 'glass_',
-                'sf_', 'ancient_', 'japanesestyle_', 'defensewall_', 'wire_',
-            ]
+            if not asset:
+                continue
+            structure_map[asset.lower()] = {'name': s.get('name', asset), 'icon': s.get('icon', '')}
+            asset_low = asset.lower()
+            prefixes = ['wooden_', 'wood_', 'stone_', 'metal_', 'iron_', 'glass_', 'sf_', 'ancient_', 'japanesestyle_', 'defensewall_', 'wire_']
+            if asset_low == 'defensewall' or any(asset_low.startswith(p) for p in prefixes):
+                building_asset_set.add(asset_low)
         asset_counts = {}
         for obj in map_objs:
             oid = obj.get('MapObjectId', {}).get('value', '')
@@ -3502,14 +3497,7 @@ class BaseInventoryTab(QWidget):
         dialog.exec()
     def _build_all_family_variants(self):
         family_variants = {}
-        building_asset_set = set()
-        try:
-            from palsav.rawdata.map_concrete_model import MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS
-            for a, cls in MAP_OBJECT_NAME_TO_CONCRETE_MODEL_CLASS.items():
-                if cls in ('PalBuildObject', 'PalMapObjectDoorModel'):
-                    building_asset_set.add(a)
-        except ImportError:
-            pass
+        prefixes = ['wooden_', 'wood_', 'stone_', 'metal_', 'iron_', 'glass_', 'sf_', 'ancient_', 'japanesestyle_', 'defensewall_', 'wire_']
         from palworld_aio.inventory.base_inventory_manager import load_structure_data
         sd = load_structure_data()
         for s in sd.get('structures', []):
@@ -3517,7 +3505,7 @@ class BaseInventoryTab(QWidget):
             if not asset:
                 continue
             asset_low = asset.lower()
-            if building_asset_set and asset_low not in building_asset_set:
+            if asset_low != 'defensewall' and not any(asset_low.startswith(p) for p in prefixes):
                 continue
             element, family = self._extract_element_family(asset)
             if not family:

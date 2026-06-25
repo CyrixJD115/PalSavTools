@@ -1029,7 +1029,16 @@ class ReplaceStructureDialog(QDialog):
     def _on_confirm(self):
         if self._source_asset and self._target_asset and self._source_count > 0:
             self.replacement_confirmed.emit(self._source_asset, self._target_asset, self._source_count)
-            self.accept()
+            parent_tab = self.parent()
+            if hasattr(parent_tab, '_get_building_parts_in_base'):
+                self.structure_entries = parent_tab._get_building_parts_in_base(self.base_id)
+            self._populate_left()
+            self.right_list.clear()
+            self._target_asset = None
+            self._source_asset = None
+            self._source_count = 0
+            self.confirm_btn.setEnabled(False)
+            self.info_label.setText(t('base_inventory.replace_select_prompt') if t else 'Select a structure on the left...')
 
 
 class ContainerListWidget(QTreeWidget):
@@ -3553,16 +3562,7 @@ class BaseInventoryTab(QWidget):
             replaced += 1
         if replaced:
             constants.invalidate_container_lookup()
-            from loading_manager import show_information
-            show_information(
-                self,
-                t('base_inventory.replace_structures') if t else 'Replace Structures',
-                t('base_inventory.replace_success').format(count=replaced) if t else f'Replaced {replaced} structures.',
-            )
             self._trigger_auto_save()
-            self._load_guilds()
-            if self._guilds_data:
-                self._on_guild_changed(self._guilds_data[0]['id'])
     def _filter_guilds_and_bases_by_item(self):
         if not self.selected_item_id:
             self._reset_filters()

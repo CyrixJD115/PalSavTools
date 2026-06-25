@@ -1572,7 +1572,7 @@
   "base_inventory.restore_all_success": "{count} amis restaurés.",
   "base_inventory.max_all": "Max Tout",
   "base_inventory.max_all_confirm": "Maximiser toutes les statistiques (talents, rangs, amitié, éveil, niveau 80, aptitudes professionnelles) pour tous les collègues de travail de cette base ?",
-  "base_inventory.max_all_success": "Un maximum de {count} copains.",
+  "base_inventory.max_all_success": "Nombre maximal d'amis : {count}.",
   "edit_pals.restore_all_confirm": "Restaurer HP, SAN et la faim pour tous les amis du groupe et toutes les pages Palbox ? La maladie sera également guérie.",
   "edit_pals.max_all_confirm": "Maximiser toutes les statistiques (talents, rangs, amitié, éveil, niveau 80, aptitudes professionnelles) pour tous les amis du groupe et toutes les pages palbox ?",
   "inventory.max_all_abilities": "Maximiser toutes les capacités",

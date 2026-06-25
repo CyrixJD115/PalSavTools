@@ -95,14 +95,20 @@ def add_keys_to_language(lang_code: str, lang_info: dict) -> bool:
         lang_file = PROJECT_ROOT / 'resources' / 'i18n' / f'{lang_code}.json'
         with open(lang_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        had_failure = False
         for key, english_text in NEW_TRANSLATIONS.items():
-            translated = translate_text(english_text, lang_info['code'])
-            data[key] = translated
+            try:
+                translated = translate_text(english_text, lang_info['code'])
+                data[key] = translated
+            except Exception as e:
+                print(f'  [WARN] {key}: translate failed ({e}), using English fallback')
+                data[key] = english_text
+                had_failure = True
         with open(lang_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        return True
+        return not had_failure
     except Exception as e:
-        print(f'  [ERROR] Failed: {e}')
+        print(f'  [ERROR] File-level failure: {e}')
         return False
 def main():
     _clean_uv_locks()

@@ -1596,5 +1596,16 @@
   "inventory.max_all_abilities_confirm.msg": "Максимально использовать все способности реликвий для этого игрока?",
   "inventory.max_all_abilities_done": "Способности увеличены до максимального ранга.",
   "inventory.add_all_key_items_success.title": "Добавить все ключевые элементы",
-  "inventory.add_all_key_items_success.msg": "Добавлено недостающих ключевых элементов: {count}."
+  "inventory.add_all_key_items_success.msg": "Добавлено недостающих ключевых элементов: {count}.",
+  "base_inventory.replace_structures": "Заменить структуры",
+  "base_inventory.replace_dialog_title": "Заменить структуры - {base}",
+  "base_inventory.replace_from_list": "Структуры в базе",
+  "base_inventory.replace_to_list": "Заменить на",
+  "base_inventory.replace_select_prompt": "Выберите структуру слева...",
+  "base_inventory.replace_no_building_parts": "На этой базе не найдено никаких строительных деталей.",
+  "base_inventory.replace_source_label": "Заменять:",
+  "base_inventory.replace_target_label": "С:",
+  "base_inventory.replace_confirm": "Заменить {count} {old_name} на {new_name}?",
+  "base_inventory.replace_success": "Заменено структур: {count}.",
+  "base_inventory.replace_skip_current": "Тот же элемент"
 }

@@ -757,12 +757,15 @@ class ReplaceStructureDialog(QDialog):
         self._target_asset = None
         self._source_count = 0
 
-        title = t('base_inventory.replace_dialog_title').format(base=base_name) if t else f'Replace Structures - {base_name}'
-        self.setWindowTitle(title)
+        self._dialog_base_name = base_name
+        self.setWindowTitle(self._dialog_title_text())
         self.setMinimumSize(1200, 650)
         self.setStyleSheet(_DIALOG_STYLE)
         self._setup_ui()
         self._populate_left()
+
+    def _dialog_title_text(self):
+        return t('base_inventory.replace_dialog_title').format(base=self._dialog_base_name) if t else f'Replace Structures - {self._dialog_base_name}'
 
     def _get_element_and_family(self, asset: str) -> tuple:
         return BaseInventoryTab._extract_element_family(asset)
@@ -770,7 +773,7 @@ class ReplaceStructureDialog(QDialog):
     def _get_family_display_name(self, family: str) -> str:
         name_map = {
             'wall': 'Wall', 'foundation': 'Foundation', 'roof': 'Roof',
-            'stair': 'Stairs', 'pillar': 'Pillar', 'pillars': 'Pillar',
+            'stair': 'Stairs', 'pillar': 'Pillar',
             'fence': 'Fence', 'windowwall': 'Window Wall',
             'trianglewall': 'Triangle Wall', 'slantedroof': 'Slanted Roof',
             'doorwall': 'Door', 'gate': 'Gate', 'wallgate': 'Wall Gate',
@@ -782,6 +785,21 @@ class ReplaceStructureDialog(QDialog):
             'stair_01': 'Stairs', 'stair_02': 'Stairs',
         }
         return name_map.get(family, family.replace('_', ' ').title())
+
+    @staticmethod
+    def _normalize_family(family):
+        norms = {
+            'pillars': 'pillar',
+            'foundations': 'foundation',
+            'roofs': 'roof',
+            'stairs': 'stair',
+            'fences': 'fence',
+            'walls': 'wall',
+            'gates': 'gate',
+            'doors': 'door',
+            'ladders': 'ladder',
+        }
+        return norms.get(family, family)
 
     def _get_element_display_name(self, element: str) -> str:
         name_map = {
@@ -803,9 +821,9 @@ class ReplaceStructureDialog(QDialog):
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(0, 0, 0, 0)
-        left_label = QLabel(t('base_inventory.replace_from_list') if t else 'Replace:')
-        left_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
-        left_layout.addWidget(left_label)
+        self.left_label = QLabel(t('base_inventory.replace_from_list') if t else 'Replace:')
+        self.left_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
+        left_layout.addWidget(self.left_label)
         self.left_search = QLineEdit()
         self.left_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
         self.left_search.setStyleSheet(PICKER_SEARCH_STYLE)
@@ -825,9 +843,9 @@ class ReplaceStructureDialog(QDialog):
         right_widget = QWidget()
         right_layout = QVBoxLayout(right_widget)
         right_layout.setContentsMargins(0, 0, 0, 0)
-        right_label = QLabel(t('base_inventory.replace_to_list') if t else 'Replace With:')
-        right_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
-        right_layout.addWidget(right_label)
+        self.right_label = QLabel(t('base_inventory.replace_to_list') if t else 'Replace With:')
+        self.right_label.setStyleSheet('font-size: 13px; font-weight: bold; color: #e0e0e0; padding: 4px 0;')
+        right_layout.addWidget(self.right_label)
         self.right_search = QLineEdit()
         self.right_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
         self.right_search.setStyleSheet(PICKER_SEARCH_STYLE)
@@ -856,15 +874,26 @@ class ReplaceStructureDialog(QDialog):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
         self.confirm_btn = QPushButton(t('base_inventory.replace_structures') if t else 'Replace')
-        self.confirm_btn.setStyleSheet('QPushButton { background: rgba(250,204,21,0.12); color: #FACC15; border: 1px solid rgba(250,204,21,0.2); border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(250,204,21,0.2); border-color: rgba(250,204,21,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
+        self.confirm_btn.setStyleSheet('QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
         self.confirm_btn.setEnabled(False)
         self.confirm_btn.clicked.connect(self._on_confirm)
         btn_layout.addWidget(self.confirm_btn)
-        cancel_btn = QPushButton(t('button.cancel') if t else 'Cancel')
-        cancel_btn.setStyleSheet('QPushButton { background: rgba(255,80,80,0.4); color: #fff; border: none; border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(255,80,80,0.7); }')
-        cancel_btn.clicked.connect(self.reject)
-        btn_layout.addWidget(cancel_btn)
+        self.cancel_btn = QPushButton(t('button.cancel') if t else 'Cancel')
+        self.cancel_btn.setStyleSheet('QPushButton { background: rgba(255,80,80,0.4); color: #fff; border: none; border-radius: 6px; padding: 6px 20px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(255,80,80,0.7); }')
+        self.cancel_btn.clicked.connect(self.reject)
+        btn_layout.addWidget(self.cancel_btn)
         layout.addLayout(btn_layout)
+
+    def refresh_labels(self):
+        self.setWindowTitle(self._dialog_title_text())
+        self.left_label.setText(t('base_inventory.replace_from_list') if t else 'Replace:')
+        self.right_label.setText(t('base_inventory.replace_to_list') if t else 'Replace With:')
+        self.left_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
+        self.right_search.setPlaceholderText(t('base_inventory.search_structures') if t else 'Search...')
+        if not self._source_asset:
+            self.info_label.setText(t('base_inventory.replace_select_prompt') if t else 'Select a structure on the left...')
+        self.confirm_btn.setText(t('base_inventory.replace_structures') if t else 'Replace')
+        self.cancel_btn.setText(t('button.cancel') if t else 'Cancel')
 
     def _filter_list(self, list_widget, query):
         q = query.lower()
@@ -963,13 +992,10 @@ class ReplaceStructureDialog(QDialog):
                 list_item.setIcon(icon)
 
             if element == source_element:
-                list_item.setToolTip(f'<b>{display_text}</b> — {t("base_inventory.replace_skip_current") if t else "Same element"}')
-                list_item.setForeground(QColor('#555555'))
-                list_item.setFlags(list_item.flags() & ~Qt.ItemIsSelectable)
-            else:
-                list_item.setToolTip(f'<b>{display_text}</b><br>({asset})')
-                list_item.setForeground(QColor('#e0e0e0'))
+                continue
 
+            list_item.setToolTip(f'<b>{display_text}</b><br>({asset})')
+            list_item.setForeground(QColor('#e0e0e0'))
             list_item.setSizeHint(QSize(90, 90))
             self.right_list.addItem(list_item)
 
@@ -2612,6 +2638,8 @@ class BaseInventoryTab(QWidget):
             self.inv_tab_btn.setText(t('base_inventory.tab_inventory') if t else 'Inventory')
         if hasattr(self, 'pals_tab_btn'):
             self.pals_tab_btn.setText(t('base_inventory.tab_base_pals') if t else 'Base Pals')
+        if hasattr(self, 'replace_button'):
+            self.replace_button.setText(t('base_inventory.replace_structures') if t else 'Replace Structures')
         if hasattr(self, 'base_inv_loadout_btn'):
             self.base_inv_loadout_btn.setText(t('inventory.loadouts_btn', default='Loadouts'))
         if hasattr(self, 'base_inv_clear_btn'):
@@ -2668,7 +2696,7 @@ class BaseInventoryTab(QWidget):
         self.replace_button = QPushButton(t('base_inventory.replace_structures') if t else 'Replace Structures')
         self.replace_button.setMinimumWidth(120)
         self.replace_button.setMaximumHeight(28)
-        self.replace_button.setStyleSheet('QPushButton { background: rgba(250,204,21,0.12); color: #FACC15; border: 1px solid rgba(250,204,21,0.2); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(250,204,21,0.2); border-color: rgba(250,204,21,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
+        self.replace_button.setStyleSheet('QPushButton { background: rgba(125,211,252,0.12); color: #7DD3FC; border: 1px solid rgba(125,211,252,0.2); border-radius: 6px; padding: 4px 12px; font-weight: 600; font-size: 12px; } QPushButton:hover { background: rgba(125,211,252,0.2); border-color: rgba(125,211,252,0.4); color: #FFFFFF; } QPushButton:disabled { color: #666; border-color: #444; background: transparent; }')
         self.replace_button.setCursor(Qt.PointingHandCursor)
         self.replace_button.setEnabled(False)
         self.replace_button.clicked.connect(self._show_replace_dialog)
@@ -3453,6 +3481,7 @@ class BaseInventoryTab(QWidget):
         if not entries:
             from loading_manager import show_information
             show_information(
+                self,
                 t('base_inventory.replace_structures') if t else 'Replace Structures',
                 t('base_inventory.replace_no_building_parts') if t else 'No building parts found in this base.',
             )
@@ -3504,6 +3533,7 @@ class BaseInventoryTab(QWidget):
             if asset_lower.startswith(prefix.lower()):
                 family = asset[len(prefix):]
                 family = re.sub(r'_\d+$', '', family)
+                family = ReplaceStructureDialog._normalize_family(family.lower())
                 return (prefix.rstrip('_').lower(), family)
         return (asset, '')
     def _replace_structures_impl(self, old_asset, new_asset, count):
@@ -3525,6 +3555,7 @@ class BaseInventoryTab(QWidget):
             constants.invalidate_container_lookup()
             from loading_manager import show_information
             show_information(
+                self,
                 t('base_inventory.replace_structures') if t else 'Replace Structures',
                 t('base_inventory.replace_success').format(count=replaced) if t else f'Replaced {replaced} structures.',
             )

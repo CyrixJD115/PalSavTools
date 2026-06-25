@@ -3408,9 +3408,10 @@ class BaseInventoryTab(QWidget):
                         if hasattr(w, '_refresh_players'):
                             w._refresh_players()
                             break
+                self._filter_guilds_and_bases_by_structure(structure_asset, silent=True)
             else:
                 self._show_warning(t('base_inventory.no_structures_removed') if t else 'No structures found to remove')
-    def _filter_guilds_and_bases_by_structure(self, structure_asset):
+    def _filter_guilds_and_bases_by_structure(self, structure_asset, silent=False):
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
             from palworld_aio.inventory.base_inventory_manager import find_structure_locations_efficient
@@ -3428,7 +3429,8 @@ class BaseInventoryTab(QWidget):
                     if hasattr(self._main_window, 'status_bar'):
                         self._main_window.status_bar.showMessage(f'Found {structure_asset} in {len(self._guilds_data)} guild(s)', 3000)
             else:
-                self._show_info(t('base_inventory.no_structures') if t else f'No guilds found with this structure')
+                if not silent:
+                    self._show_info(t('base_inventory.no_structures') if t else f'No guilds found with this structure')
                 self.selected_structure_asset = None
                 self.selected_structure_name = None
                 self.structure_button.setText(t('base_inventory.all_structures') if t else 'All Structures')

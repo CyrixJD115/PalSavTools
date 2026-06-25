@@ -1747,8 +1747,7 @@ class PlayerInventoryTab(QWidget):
             slot_index = self._context_slot_index
         else:
             slot_index = None
-        for _ in range(quantity):
-            self.inventory.add_item(actual_container_type, item_id, 1, slot_index=slot_index)
+        self.inventory.add_item(actual_container_type, item_id, quantity, slot_index=slot_index)
         self._refresh_display()
     def _update_raw_save_data(self, container_type: str, container):
         if not self.inventory or not container:

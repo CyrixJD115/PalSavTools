@@ -3100,6 +3100,10 @@ class BaseInventoryTab(QWidget):
             self._load_containers_for_base_filtered(base_id)
         else:
             self._load_containers_for_base(base_id)
+        if self._current_tab == 1 and self._current_base_id:
+            from palworld_aio.inventory.base_inventory_manager import get_base_worker_pals
+            pals = get_base_worker_pals(self._current_base_id)
+            self.base_pals_widget.set_pals(pals, self._current_base_id)
     def _load_containers_for_base(self, base_id):
         self.container_list.clear()
         guild_id = self._current_guild_id

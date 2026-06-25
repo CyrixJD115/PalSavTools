@@ -108,7 +108,7 @@ class PalInfoDisplayMixin:
             is_awake = bool(extract_value(raw, 'bIsAwakening', False))
             hp_val = safe_nested_get(raw, ['Hp', 'value', 'Value', 'value'], 0)
             max_hp = safe_nested_get(raw, ['MaxHP', 'value', 'Value', 'value'], 0)
-            if max_hp <= 0 and base:
+            if base:
                 max_hp = calculate_max_hp(base, level, talent_hp, rank_hp, is_boss, is_lucky, trust_rank, condenser_rank, is_awake)
             if max_hp <= 0:
                 max_hp = hp_val if hp_val > 0 else 1
@@ -170,12 +170,9 @@ class PalInfoDisplayMixin:
             condenser_atk_tmp = int(extract_value(raw, 'Rank', 0))
             is_awake_tmp = bool(extract_value(raw, 'bIsAwakening', False))
             atk_val = calculate_shot_attack(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank, condenser_atk_tmp, passive_bonus=passive_shot_bonus / 100, is_awake=is_awake_tmp) if base else atk_val
-            if def_val == 0:
-                def_val = calculate_defense(base, level, extract_value(raw, 'Talent_Defense', 0), extract_value(raw, 'Rank_Defence', 0), trust_rank, condenser_atk_tmp, passive_bonus=passive_def_bonus / 100, is_awake=is_awake_tmp)
-            else:
-                def_val = math.floor(def_val * (1 + passive_def_bonus / 100))
-            if wspd_val == 0:
-                wspd_val = calculate_work_speed(base, level, extract_value(raw, 'Rank_CraftSpeed', 0), passive_craft_bonus / 100)
+            def_val = calculate_defense(base, level, extract_value(raw, 'Talent_Defense', 0), extract_value(raw, 'Rank_Defence', 0), trust_rank, condenser_atk_tmp, passive_bonus=passive_def_bonus / 100, is_awake=is_awake_tmp) if base else def_val
+            if wspd_val == 0 or base:
+                wspd_val = calculate_work_speed(base, level, extract_value(raw, 'Rank_CraftSpeed', 0), passive_craft_bonus / 100, condenser_atk_tmp)
             ws = _get_effective_work_suitabilities(raw)
             for i, (icon_lbl, (val_lbl, ws_key, val_badge)) in enumerate(zip(self.work_icon_labels, self.work_icon_values)):
                 ws_level = ws.get(ws_key, 0)
@@ -221,7 +218,7 @@ class PalInfoDisplayMixin:
             bd_hp = _hp_breakdown(base, level, talent_hp, rank_hp, is_boss, is_lucky, trust_rank, condenser_rank, is_awake)
             bd_atk = _atk_breakdown(base, level, talent_shot_tmp, rank_atk_tmp, trust_rank, condenser_atk_tmp, passive_bonus=passive_shot_bonus / 100, is_awake=is_awake_tmp)
             bd_def = _def_breakdown(base, level, extract_value(raw, 'Talent_Defense', 0), extract_value(raw, 'Rank_Defence', 0), trust_rank, condenser_atk_tmp, passive_bonus=passive_def_bonus / 100, is_awake=is_awake_tmp)
-            bd_ws = _ws_breakdown(base, level, extract_value(raw, 'Rank_CraftSpeed', 0), passive_craft_bonus / 100)
+            bd_ws = _ws_breakdown(base, level, extract_value(raw, 'Rank_CraftSpeed', 0), passive_craft_bonus / 100, condenser_atk_tmp)
             texts = {self.hp_bar: ('HP', bd_hp), self.atk_lbl: ('ATK', bd_atk), self.def_lbl: ('DEF', bd_def), self.wspd_lbl: ('WS', bd_ws)}
             for w, (lbl, bd) in texts.items():
                 w._stat_tip_text = stat_breakdown_tooltip(lbl, bd)

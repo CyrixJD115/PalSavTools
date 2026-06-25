@@ -1107,6 +1107,20 @@ def remove_item_from_guilds(item_id, percentage=None, guild_ids=None):
         if not item_locations:
             return {'removed': 0, 'containers_affected': 0}
         container_lookup = constants.get_container_lookup()
+        booth_trade_map = {}
+        try:
+            map_objs = constants.loaded_level_json['properties']['worldSaveData']['value'].get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+            for obj in map_objs:
+                cm_raw = obj.get('ConcreteModel', {}).get('value', {}).get('RawData', {}).get('value', {})
+                if cm_raw.get('concrete_model_type') == 'PalMapObjectItemBoothModel':
+                    mm = obj.get('ConcreteModel', {}).get('value', {}).get('ModuleMap', {}).get('value', [])
+                    for mod in mm:
+                        mod_raw = mod.get('value', {}).get('RawData', {}).get('value', {})
+                        cid = str(mod_raw.get('target_container_id', '')).replace('-', '').lower()
+                        if cid and cid != '00000000000000000000000000000000':
+                            booth_trade_map.setdefault(cid, cm_raw.get('trade_infos', []))
+        except Exception:
+            pass
         for guild_id_normalized, bases in item_locations.items():
             if guild_ids is not None and guild_id_normalized not in guild_ids:
                 continue
@@ -1145,6 +1159,17 @@ def remove_item_from_guilds(item_id, percentage=None, guild_ids=None):
                     if modified:
                         containers_affected += 1
                         container_data['value']['Slots']['value']['values'] = slots
+                    trade_infos = booth_trade_map.get(container_id)
+                    if trade_infos is not None:
+                        booth_removed = 0
+                        keep = []
+                        for t in trade_infos:
+                            if t.get('product', {}).get('static_id', '') == item_id:
+                                booth_removed += t.get('product', {}).get('num', 1)
+                            else:
+                                keep.append(t)
+                        trade_infos[:] = keep
+                        removed_count += booth_removed
         if removed_count > 0:
             constants.invalidate_container_lookup()
         return {'removed': removed_count, 'containers_affected': containers_affected}
@@ -1520,6 +1545,48 @@ def remove_structure_from_guilds(structure_asset, guild_ids=None):
             concrete_id = str(mr.get('concrete_model_instance_id', '')).replace('-', '').lower()
             if concrete_id and concrete_id != '00000000000000000000000000000000':
                 deleted_instance_ids.add(concrete_id)
+            cm = obj.get('ConcreteModel', {}).get('value', {})
+            cm_raw = cm.get('RawData', {}).get('value', {})
+            ctype = cm_raw.get('concrete_model_type', '')
+            if ctype == 'PalMapObjectItemBoothModel':
+                trade_infos = cm_raw.get('trade_infos', [])
+                trade_infos.clear()
+            elif ctype == 'PalMapObjectPalBoothModel':
+                mm = cm.get('ModuleMap', {}).get('value', [])
+                char_container_id = None
+                for mod in mm:
+                    if mod.get('key') == 'EPalMapObjectConcreteModelModuleType::CharacterContainer':
+                        char_container_id = str(mod.get('value', {}).get('RawData', {}).get('value', {}).get('target_container_id', ''))
+                        break
+                if char_container_id:
+                    cc_id_norm = char_container_id.replace('-', '').lower()
+                    char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
+                    cmap = wsd.get('CharacterSaveParameterMap', {}).get('value', [])
+                    for cc in char_containers:
+                        try:
+                            cid = str(cc.get('key', {}).get('ID', {}).get('value', '')).replace('-', '').lower()
+                            if cid == cc_id_norm:
+                                slots = cc['value']['Slots']['value']['values']
+                                for slot in slots:
+                                    raw_val = slot.get('RawData', {}).get('value', {})
+                                    if isinstance(raw_val, dict):
+                                        inst_id = str(raw_val.get('instance_id', '')).replace('-', '').lower()
+                                        if inst_id and inst_id != '00000000000000000000000000000000':
+                                                pal_entry = next((e for e in cmap if str(e.get('key', {}).get('InstanceId', {}).get('value', '')).replace('-', '').lower() == inst_id), None)
+                                                if pal_entry and pal_entry in cmap:
+                                                    cmap.remove(pal_entry)
+                                                owner_uid = str(raw_val.get('player_uid', '')).replace('-', '').lower()
+                                                if owner_uid and owner_uid != '00000000000000000000000000000000':
+                                                    cur = constants.PLAYER_PAL_COUNTS.get(owner_uid, 0)
+                                                    if cur > 0:
+                                                        constants.PLAYER_PAL_COUNTS[owner_uid] = cur - 1
+                                    cc['value']['Slots']['value']['values'] = []
+                                    cc['value']['SlotNum']['value'] = 0
+                                    if cc in char_containers:
+                                        char_containers.remove(cc)
+                                break
+                        except Exception:
+                            pass
             mm = obj.get('ConcreteModel', {}).get('value', {}).get('ModuleMap', {}).get('value', [])
             for mod in mm:
                 raw_mod = mod.get('value', {}).get('RawData', {}).get('value', {})

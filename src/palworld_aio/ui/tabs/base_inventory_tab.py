@@ -973,13 +973,8 @@ class ContainerListWidget(QTreeWidget):
             if base_inventory_tab is None:
                 self._show_warning('Could not find inventory manager')
                 return
-            if show_question(self, t('base_inventory.clear_container') if t else 'Clear Container', t('base_inventory.clear_container_confirm') if t else 'Are you sure you want to clear all items from this container?'):
-                if base_inventory_tab.manager.clear_container(container_id):
-                    base_inventory_tab.manager.select_container(container_id)
-                    base_inventory_tab._refresh_container_ui()
-                    base_inventory_tab._show_info(t('base_inventory.container_cleared') if t else 'Container cleared successfully')
-                else:
-                    base_inventory_tab._show_warning(t('base_inventory.failed_to_clear_container') if t else 'Failed to clear container')
+            base_inventory_tab.manager.select_container(container_id)
+            base_inventory_tab._clear_container()
         except Exception as e:
             self._show_warning(f'Failed to clear container: {str(e)}')
     def _modify_container_slots(self, container_id):
@@ -1667,6 +1662,10 @@ class BasePalsContentWidget(QFrame):
                         _register_pal_instance_to_guild(instance_id, guild_id)
                 except Exception:
                     pass
+            owner_uid = safe_nested_get(entry, ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value', 'OwnerPlayerUId', 'value'])
+            if owner_uid:
+                key = str(owner_uid).replace('-', '').lower()
+                constants.PLAYER_PAL_COUNTS[key] = constants.PLAYER_PAL_COUNTS.get(key, 0) + 1
             new_pal = {'slot_index': 0, 'instance_id': instance_id, 'character_entry': entry}
             if slot_idx < len(self._pals):
                 self._pals[slot_idx] = new_pal
@@ -1689,6 +1688,8 @@ class BasePalsContentWidget(QFrame):
         for w in app.topLevelWidgets():
             if hasattr(w, 'tools_tab'):
                 w.tools_tab.refresh()
+                if hasattr(w, '_refresh_players'):
+                    w._refresh_players()
                 break
     def _delete_base_pal(self, pal_idx):
         import gc
@@ -1699,6 +1700,12 @@ class BasePalsContentWidget(QFrame):
                 cmap.remove(pal['character_entry'])
         except Exception:
             pass
+        owner_raw = safe_nested_get(pal['character_entry'], ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value', 'OwnerPlayerUId', 'value'])
+        if owner_raw:
+            key = str(owner_raw).replace('-', '').lower()
+            current = constants.PLAYER_PAL_COUNTS.get(key, 0)
+            if current > 0:
+                constants.PLAYER_PAL_COUNTS[key] = current - 1
         if pal.get('booth_char_container') and pal.get('container_slot') and constants.loaded_level_json:
             try:
                 target_slot = pal['container_slot']
@@ -1777,6 +1784,10 @@ class BasePalsContentWidget(QFrame):
                 new_raw['SlotId']['value']['SlotIndex']['value'] = slot_idx
             cmap = constants.loaded_level_json['properties']['worldSaveData']['value']['CharacterSaveParameterMap']['value']
             cmap.append(new_pal_entry)
+            owner_raw = safe_nested_get(new_pal_entry, ['value', 'RawData', 'value', 'object', 'SaveParameter', 'value', 'OwnerPlayerUId', 'value'])
+            if owner_raw:
+                key = str(owner_raw).replace('-', '').lower()
+                constants.PLAYER_PAL_COUNTS[key] = constants.PLAYER_PAL_COUNTS.get(key, 0) + 1
             wsd = constants.loaded_level_json['properties']['worldSaveData']['value']
             char_containers = wsd.get('CharacterContainerSaveData', {}).get('value', [])
             for cont in char_containers:
@@ -3039,6 +3050,11 @@ class BaseInventoryTab(QWidget):
                                 pal_entry = next((e for e in cmap if str(e.get('key', {}).get('InstanceId', {}).get('value', '')).replace('-', '').lower() == inst_id), None)
                                 if pal_entry and pal_entry in cmap:
                                     cmap.remove(pal_entry)
+                                owner_uid = str(raw_val.get('player_uid', '')).replace('-', '').lower()
+                                if owner_uid and owner_uid != '00000000000000000000000000000000':
+                                    cur = constants.PLAYER_PAL_COUNTS.get(owner_uid, 0)
+                                    if cur > 0:
+                                        constants.PLAYER_PAL_COUNTS[owner_uid] = cur - 1
                     cc['value']['Slots']['value']['values'] = []
                     cc['value']['SlotNum']['value'] = 0
                     break
@@ -3053,6 +3069,12 @@ class BaseInventoryTab(QWidget):
             self._show_warning('Cannot delete Guild Chest')
             return
         if show_question(self, t('base_inventory.delete_container') if t else 'Delete Container', t('base_inventory.delete_container_confirm') if t else 'Are you sure you want to delete this container and its map object? This action cannot be undone.'):
+            booth_type = container_info.get('booth_type')
+            if booth_type == 'PalMapObjectItemBoothModel':
+                trade_infos = container_info.get('booth_trade_infos', [])
+                trade_infos.clear()
+            elif booth_type == 'PalMapObjectPalBoothModel':
+                self._clear_pal_booth_slots(container_info)
             if self.manager.delete_container(container_id):
                 base_id = container_info.get('base_id')
                 if base_id:

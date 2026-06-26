@@ -1,22 +1,104 @@
 """SAV <-> GVAS <-> dict round-trip via the installed palsav engine.
 
-Uses the FULL ``PALWORLD_CUSTOM_PROPERTIES`` table (CLI-grade fidelity), not
-the GUI's 6-path no-op override. The save_type reported by decompression is
-reused on encode for byte-faithful round-trips.
+Uses ``SKP_PALWORLD_CUSTOM_PROPERTIES`` (the GUI-grade property table with 6
+heavy paths skipped as opaque blobs) for maximum compatibility. The save_type
+reported by decompression is reused on encode for byte-faithful round-trips.
 """
 
 from __future__ import annotations
 
+import copy
 import io
 from pathlib import Path
 
+from palsav.archive import FArchiveReader, FArchiveWriter
 from palsav.core import compress_gvas_to_sav, decompress_sav_to_gvas
 from palsav.gvas import GvasFile
 from palsav.paltypes import PALWORLD_CUSTOM_PROPERTIES, PALWORLD_TYPE_HINTS
 
-# Module-level constants reused on every read/write.
+
+def _skip_decode(
+    reader: FArchiveReader, type_name: str, size: int, path: str
+) -> dict:
+    """Read property as raw bytes — skip complex sub-parsing."""
+    if type_name == "ArrayProperty":
+        array_type = reader.fstring()
+        value = {
+            "skip_type": type_name,
+            "array_type": array_type,
+            "id": reader.optional_guid(),
+            "value": reader.read(size),
+        }
+    elif type_name == "MapProperty":
+        key_type = reader.fstring()
+        value_type = reader.fstring()
+        _id = reader.optional_guid()
+        value = {
+            "skip_type": type_name,
+            "key_type": key_type,
+            "value_type": value_type,
+            "id": _id,
+            "value": reader.read(size),
+        }
+    elif type_name == "StructProperty":
+        value = {
+            "skip_type": type_name,
+            "struct_type": reader.fstring(),
+            "struct_id": reader.guid(),
+            "id": reader.optional_guid(),
+            "value": reader.read(size),
+        }
+    else:
+        raise Exception(
+            f"Expected ArrayProperty|MapProperty|StructProperty, got {type_name} in {path}"
+        )
+    return value
+
+
+def _skip_encode(
+    writer: FArchiveWriter, property_type: str, properties: dict
+) -> int:
+    """Write raw bytes that were stored by skip_decode."""
+    if "skip_type" not in properties:
+        return writer.property_inner(property_type, properties)
+
+    del properties["custom_type"]
+    del properties["skip_type"]
+
+    if property_type == "ArrayProperty":
+        writer.fstring(properties["array_type"])
+        writer.optional_guid(properties.get("id"))
+        writer.write(properties["value"])
+        return len(properties["value"])
+    if property_type == "MapProperty":
+        writer.fstring(properties["key_type"])
+        writer.fstring(properties["value_type"])
+        writer.optional_guid(properties.get("id"))
+        writer.write(properties["value"])
+        return len(properties["value"])
+    # StructProperty
+    writer.fstring(properties["struct_type"])
+    writer.guid(properties["struct_id"])
+    writer.optional_guid(properties.get("id"))
+    writer.write(properties["value"])
+    return len(properties["value"])
+
+
+_SKIP_PATHS = [
+    ".worldSaveData.MapObjectSaveData.MapObjectSaveData.WorldLocation",
+    ".worldSaveData.MapObjectSaveData.MapObjectSaveData.WorldRotation",
+    ".worldSaveData.MapObjectSaveData.MapObjectSaveData.WorldScale3D",
+    ".worldSaveData.MapObjectSaveData.MapObjectSaveData.Model.Value.EffectMap",
+    ".worldSaveData.FoliageGridSaveDataMap",
+    ".worldSaveData.MapObjectSpawnerInStageSaveData",
+]
+
+# Build the skip table: clone PALWORLD_CUSTOM_PROPERTIES and override 6 paths.
+_CUSTOM_PROPS = copy.deepcopy(PALWORLD_CUSTOM_PROPERTIES)
+for _p in _SKIP_PATHS:
+    _CUSTOM_PROPS[_p] = (_skip_decode, _skip_encode)
+
 _TYPE_HINTS = PALWORLD_TYPE_HINTS
-_CUSTOM_PROPS = PALWORLD_CUSTOM_PROPERTIES
 
 
 class SaveDecodeError(Exception):

@@ -8681,26 +8681,6 @@
             "sort_id": 20059
         },
         {
-            "name": "BossDefeatReward_PyramidTurtle",
-            "asset": "BossDefeatReward_PyramidTurtle",
-            "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle_Neutral.webp",
-            "rarity": 2,
-            "type_a": "EPalItemTypeA::Essential",
-            "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "",
-            "sort_id": 20075
-        },
-        {
-            "name": "BossDefeatReward_PyramidTurtle_Neutral",
-            "asset": "BossDefeatReward_PyramidTurtle_Neutral",
-            "icon": "/icons/items/T_icon_item_BossDefeatReward_CubeTurtle_Neutral.webp",
-            "rarity": 3,
-            "type_a": "EPalItemTypeA::Essential",
-            "type_b": "EPalItemTypeB::Essential_BossReward",
-            "description": "",
-            "sort_id": 20096
-        },
-        {
             "name": "Elizabee Bounty Token",
             "asset": "BossDefeatReward_QueenBee",
             "icon": "/icons/items/T_icon_item_BossDefeatReward_QueenBee.webp",
@@ -21909,26 +21889,6 @@
             "type_b": "EPalItemTypeB::Essential_PalGear",
             "description": "Saddle for safely riding Tarantriss.",
             "sort_id": 10134
-        },
-        {
-            "name": "SkillUnlock_PyramidTurtle",
-            "asset": "SkillUnlock_PyramidTurtle",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
-            "rarity": 3,
-            "type_a": "EPalItemTypeA::Essential",
-            "type_b": "EPalItemTypeB::Essential_PalGear",
-            "description": "",
-            "sort_id": 10198
-        },
-        {
-            "name": "SkillUnlock_PyramidTurtle_Neutral",
-            "asset": "SkillUnlock_PyramidTurtle_Neutral",
-            "icon": "/icons/items/T_itemicon_Essential_SkillUnlock_Saddle.webp",
-            "rarity": 3,
-            "type_a": "EPalItemTypeA::Essential",
-            "type_b": "EPalItemTypeB::Essential_PalGear",
-            "description": "",
-            "sort_id": 10199
         },
         {
             "name": "Dazzi's Necklace",

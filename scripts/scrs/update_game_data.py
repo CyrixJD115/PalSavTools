@@ -83,6 +83,11 @@ def _build_icon_lookup():
                     icon_name_to_path[stem] = os.path.join(root, f)
     return icon_name_to_path
 icon_name_to_path = {}
+def _safe_get(d, key, default=0):
+    v = d.get(key, default) if isinstance(d, dict) else default
+    if isinstance(v, dict):
+        return v.get('value', default)
+    return v
 def ensure_dir(directory: Path):
     directory.mkdir(parents=True, exist_ok=True)
 def load_export_json(rel_path: str) -> dict | list | None:
@@ -827,22 +832,48 @@ def update_item_data():
         final_icon = copied_icon or f'/icons/items/{item_id}.webp'
         if not final_icon.startswith('/icons/'):
             final_icon = f'/icons/items/{item_id}.webp'
-        rarity = 0
-        type_a = ''
-        type_b = ''
-        sort_id = 0
-        if isinstance(item_row, dict):
-            rarity_val = item_row.get('Rarity', 0)
-            if isinstance(rarity_val, dict):
-                rarity_val = rarity_val.get('value', 0)
-            rarity = int(rarity_val) if rarity_val else 0
-            type_a = item_row.get('TypeA', '')
-            type_b = item_row.get('TypeB', '')
-            sort_id_val = item_row.get('SortId', 0)
-            if isinstance(sort_id_val, dict):
-                sort_id_val = sort_id_val.get('value', 0)
-            sort_id = int(sort_id_val) if sort_id_val else 0
-        item_entry = {'name': item_name, 'asset': item_id, 'icon': final_icon, 'rarity': rarity, 'type_a': type_a, 'type_b': type_b, 'description': item_desc, 'sort_id': sort_id}
+        item_entry = {
+            'name': item_name,
+            'asset': item_id,
+            'icon': final_icon,
+            'rarity': int(_safe_get(item_row, 'Rarity', 0)),
+            'type_a': item_row.get('TypeA', '') if isinstance(item_row, dict) else '',
+            'type_b': item_row.get('TypeB', '') if isinstance(item_row, dict) else '',
+            'type_a_display': _ITEM_TYPE_A_DISPLAY.get(item_row.get('TypeA', '') if isinstance(item_row, dict) else '', ''),
+            'type_b_display': _ITEM_TYPE_B_DISPLAY.get(item_row.get('TypeB', '') if isinstance(item_row, dict) else '', ''),
+            'sort_id': int(_safe_get(item_row, 'SortId', 0)),
+            'description': item_desc,
+            'weight': float(_safe_get(item_row, 'Weight', 0.0)),
+            'price': int(_safe_get(item_row, 'Price', 0)),
+            'max_stack': int(_safe_get(item_row, 'MaxStackCount', 1)),
+            'restore_satiety': int(_safe_get(item_row, 'RestoreSatiety', 0)),
+            'restore_sanity': int(_safe_get(item_row, 'RestoreSanity', 0)),
+            'restore_health': int(_safe_get(item_row, 'RestoreHealth', 0)),
+            'durability': int(_safe_get(item_row, 'Durability', 0)),
+            'magazine_size': int(_safe_get(item_row, 'MagazineSize', 0)),
+            'physical_atk': int(_safe_get(item_row, 'PhysicalAttackValue', 0)),
+            'hp_value': int(_safe_get(item_row, 'HPValue', 0)),
+            'physical_def': int(_safe_get(item_row, 'PhysicalDefenseValue', 0)),
+            'shield_value': int(_safe_get(item_row, 'ShieldValue', 0)),
+            'magic_atk': int(_safe_get(item_row, 'MagicAttackValue', 0)),
+            'magic_def': int(_safe_get(item_row, 'MagicDefenseValue', 0)),
+            'element_type': item_row.get('ElementType', '') if isinstance(item_row, dict) else '',
+            'sneak_atk_rate': float(_safe_get(item_row, 'SneakAttackRate', 1.0)),
+            'corruption_factor': float(_safe_get(item_row, 'CorruptionFactor', 0.0)),
+            'rank': int(_safe_get(item_row, 'Rank', 0)),
+            'passive_skills': [
+                item_row.get('PassiveSkillName', '') if isinstance(item_row, dict) else '',
+                item_row.get('PassiveSkillName2', '') if isinstance(item_row, dict) else '',
+                item_row.get('PassiveSkillName3', '') if isinstance(item_row, dict) else '',
+                item_row.get('PassiveSkillName4', '') if isinstance(item_row, dict) else '',
+            ],
+            'waza_id': item_row.get('WazaID', '') if isinstance(item_row, dict) else '',
+            'not_consumed': bool(item_row.get('bNotConsumed', False)) if isinstance(item_row, dict) else False,
+            'enable_handcraft': bool(item_row.get('bEnableHandcraft', False)) if isinstance(item_row, dict) else False,
+            'tech_tree_lock': int(_safe_get(item_row, 'TechnologyTreeLock', 0)),
+            'item_static_class': item_row.get('ItemStaticClass', '') if isinstance(item_row, dict) else '',
+            'drop_item_type': item_row.get('DropItemType', '') if isinstance(item_row, dict) else '',
+        }
         updated_items.append(item_entry)
     try:
         pal_data = load_resource_json('paldata.json')
@@ -956,7 +987,48 @@ def update_structure_data():
                 final_icon = '/icons/structures/T_icon_unknown.webp'
             else:
                 final_icon = ''
-        struct_entry = {'name': display_name, 'asset': struct_id, 'icon': final_icon, 'description': desc}
+        build_row = build_rows.get(struct_id, {})
+        master_row = master_rows.get(struct_id, {})
+        if not master_row and isinstance(build_row, dict):
+            map_obj_id = build_row.get('MapObjectId', '')
+            if map_obj_id and map_obj_id != 'None':
+                master_row = master_rows.get(map_obj_id, {})
+        materials = []
+        if isinstance(build_row, dict):
+            for i in range(1, 5):
+                mid = build_row.get(f'Material{i}_Id', '')
+                if mid and mid != 'None' and mid != '':
+                    materials.append({
+                        'id': mid,
+                        'count': int(_safe_get(build_row, f'Material{i}_Count', 0)),
+                    })
+        struct_entry = {
+            'name': display_name,
+            'asset': struct_id,
+            'icon': final_icon,
+            'description': desc,
+            'type_a': build_row.get('TypeA', '') if isinstance(build_row, dict) else '',
+            'type_b': build_row.get('TypeB', '') if isinstance(build_row, dict) else '',
+            'type_ui_display': build_row.get('TypeUIDisplay', '') if isinstance(build_row, dict) else '',
+            'type_a_display': _BUILD_TYPE_A_DISPLAY.get(build_row.get('TypeA', '') if isinstance(build_row, dict) else '', ''),
+            'required_work_amount': float(_safe_get(build_row, 'RequiredBuildWorkAmount', 0.0)),
+            'materials': materials,
+            'rank': int(_safe_get(build_row, 'Rank', 0)),
+            'build_capacity': int(_safe_get(build_row, 'BuildCapacity', 0)),
+            'asset_value': int(_safe_get(build_row, 'AssetValue', 0)),
+            'build_exp_rate': float(_safe_get(build_row, 'BuildExpRate', 0.0)),
+            'required_energy_type': build_row.get('RequiredEnergyType', '') if isinstance(build_row, dict) else '',
+            'consume_energy_speed': float(_safe_get(build_row, 'ConsumeEnergySpeed', 0.0)),
+            'material_type': master_row.get('MaterialType', '') if isinstance(master_row, dict) else '',
+            'material_sub_type': master_row.get('MaterialSubType', '') if isinstance(master_row, dict) else '',
+            'hp': int(_safe_get(master_row, 'Hp', 0)),
+            'defense': int(_safe_get(master_row, 'Defense', 0)),
+            'belongs_to_base': bool(master_row.get('bBelongToBaseCamp', False)) if isinstance(master_row, dict) else False,
+            'deterioration_damage': float(_safe_get(master_row, 'DeteriorationDamage', 0.0)),
+            'install_max_per_base': int(_safe_get(build_row, 'InstallMaxNumInBaseCamp', 0)),
+            'is_paintable': bool(build_row.get('bIsPaintable', False)) if isinstance(build_row, dict) else False,
+            'blueprint_item_id': build_row.get('BlueprintItemID', '') if isinstance(build_row, dict) else '',
+        }
         updated_structures.append(struct_entry)
     result = {'structures': updated_structures}
     save_resource_json('structuredata.json', result)
@@ -965,6 +1037,68 @@ _EFFECT_LABEL_MAP = {'ShotAttack': 'Attack', 'MeleeAttack': 'Melee Attack', 'Def
 _WORK_TYPE_MAP = {'EmitFlame': 'Kindling', 'Watering': 'Watering', 'Seeding': 'Planting', 'GenerateElectricity': 'Generating Electricity', 'Handcraft': 'Handiwork', 'Collection': 'Gathering', 'Deforest': 'Lumbering', 'Mining': 'Mining', 'Transport': 'Transporting', 'MonsterFarm': 'Ranching', 'ProductMedicine': 'Medicine Production', 'OilExtraction': 'Oil Extraction', 'Cool': 'Cooling'}
 _ELEMENT_MAP = {'Fire': 'Fire', 'Water': 'Water', 'Leaf': 'Grass', 'Electricity': 'Electric', 'Ice': 'Ice', 'Earth': 'Ground', 'Dark': 'Dark', 'Dragon': 'Dragon', 'Normal': 'Neutral'}
 _ADDITIONAL_MAP = {'Burn': 'Burn', 'Poison': 'Poison', 'Freeze': 'Freeze', 'Electrical': 'Electrified', 'IvyCling': 'Ivy Cling', 'Muddy': 'Muddy', 'Darkness': 'Darkness', 'Stun': 'Stun', 'Wetness': 'Wet'}
+_ITEM_TYPE_A_DISPLAY = {
+    'EPalItemTypeA::Weapon': 'Weapon',
+    'EPalItemTypeA::Armor': 'Armor',
+    'EPalItemTypeA::Accessory': 'Accessory',
+    'EPalItemTypeA::Food': 'Food',
+    'EPalItemTypeA::Material': 'Material',
+    'EPalItemTypeA::Consume': 'Consumable',
+    'EPalItemTypeA::Essential': 'Essential',
+    'EPalItemTypeA::Glider': 'Glider',
+    'EPalItemTypeA::MonsterEquipWeapon': 'Pal Weapon',
+    'EPalItemTypeA::CaptureItemModifier': 'Sphere Modifier',
+    'EPalItemTypeA::BuildProhibit': 'Building',
+    'EPalItemTypeA::WeaponBullet': 'Ammo',
+    'EPalItemTypeA::ArmorModelChange': 'Costume',
+}
+_ITEM_TYPE_B_DISPLAY = {
+    'EPalItemTypeB::FoodDishMeat': 'Meat Dish',
+    'EPalItemTypeB::FoodDishFish': 'Fish Dish',
+    'EPalItemTypeB::FoodDishVegetable': 'Vegetable Dish',
+    'EPalItemTypeB::FoodDishFruit': 'Fruit Dish',
+    'EPalItemTypeB::FoodDishSoup': 'Soup',
+    'EPalItemTypeB::FoodDishSalad': 'Salad',
+    'EPalItemTypeB::FoodDishCurry': 'Curry',
+    'EPalItemTypeB::FoodDishStew': 'Stew',
+    'EPalItemTypeB::FoodDishDrink': 'Drink',
+    'EPalItemTypeB::FoodDishDessert': 'Dessert',
+    'EPalItemTypeB::FoodDishPizza': 'Pizza',
+    'EPalItemTypeB::MaterialProccessing': 'Processing Material',
+    'EPalItemTypeB::MaterialOre': 'Ore',
+    'EPalItemTypeB::MaterialWood': 'Wood',
+    'EPalItemTypeB::MaterialCloth': 'Cloth',
+    'EPalItemTypeB::MaterialGem': 'Gem',
+    'EPalItemTypeB::MaterialIngot': 'Ingot',
+    'EPalItemTypeB::WeaponAssaultRifle': 'Assault Rifle',
+    'EPalItemTypeB::WeaponBow': 'Bow',
+    'EPalItemTypeB::WeaponCrossbow': 'Crossbow',
+    'EPalItemTypeB::WeaponHandgun': 'Handgun',
+    'EPalItemTypeB::WeaponLauncher': 'Launcher',
+    'EPalItemTypeB::WeaponMelee': 'Melee Weapon',
+    'EPalItemTypeB::WeaponShotgun': 'Shotgun',
+    'EPalItemTypeB::WeaponSniperRifle': 'Sniper Rifle',
+    'EPalItemTypeB::ArmorHead': 'Head Armor',
+    'EPalItemTypeB::ArmorBody': 'Body Armor',
+    'EPalItemTypeB::Shield': 'Shield',
+    'EPalItemTypeB::Glider': 'Glider',
+    'EPalItemTypeB::Money': 'Money',
+}
+_BUILD_TYPE_A_DISPLAY = {
+    'EPalBuildObjectTypeA::Food': 'Food',
+    'EPalBuildObjectTypeA::Utility': 'Utility',
+    'EPalBuildObjectTypeA::Structure': 'Structure',
+    'EPalBuildObjectTypeA::Defense': 'Defense',
+    'EPalBuildObjectTypeA::Furniture': 'Furniture',
+    'EPalBuildObjectTypeA::Product': 'Production',
+    'EPalBuildObjectTypeA::Pal': 'Pal',
+    'EPalBuildObjectTypeA::Energy': 'Energy',
+}
+_SKILL_CATEGORY_DISPLAY = {
+    'EPalWazaCategory::Shot': 'Shot',
+    'EPalWazaCategory::Melee': 'Melee',
+    'EPalWazaCategory::Assault': 'Assault',
+}
 def _format_effect_value(v):
     if isinstance(v, float):
         if v == int(v):
@@ -1245,7 +1379,26 @@ def update_technology_data():
             desc_text = ''
         else:
             desc_text = _resolve_rich_text(desc_text)
-        tech_entry = {'name': display_name, 'asset': tech_id, 'icon': copied_icon or f'/icons/technologies/{tech_id}.webp', 'type': 'boss' if tech_type else 'standard', 'description': desc_text}
+        require_tech = row_data.get('RequireTechnology', '')
+        if require_tech == 'None':
+            require_tech = ''
+        unlock_items = list(row_data.get('UnlockItemRecipes', [])) if isinstance(row_data.get('UnlockItemRecipes'), list) else []
+        unlock_builds = list(row_data.get('UnlockBuildObjects', [])) if isinstance(row_data.get('UnlockBuildObjects'), list) else []
+        tech_entry = {
+            'name': display_name,
+            'asset': tech_id,
+            'icon': copied_icon or f'/icons/technologies/{tech_id}.webp',
+            'type': 'boss' if tech_type else 'standard',
+            'description': desc_text,
+            'level_cap': int(_safe_get(row_data, 'LevelCap', 1)),
+            'tier': int(_safe_get(row_data, 'Tier', 0)),
+            'cost': int(_safe_get(row_data, 'Cost', 1)),
+            'require_technology': require_tech,
+            'require_tower_boss': row_data.get('RequireDefeatTowerBoss', '').replace('EPalBossType::', '') if isinstance(row_data.get('RequireDefeatTowerBoss'), str) else '',
+            'is_boss_tech': bool(tech_type),
+            'unlock_build_objects': unlock_builds,
+            'unlock_item_recipes': unlock_items,
+        }
         updated_techs.append(tech_entry)
     result = {'technology': updated_techs}
     save_resource_json('technologydata.json', result)
@@ -1342,13 +1495,44 @@ def update_skill_data():
         skill_lower = skill_asset.lower()
         if skill_lower in skill_map:
             continue
-        skill_map[skill_lower] = {'name': skill_asset, 'asset': skill_asset, 'element': element, 'power': power if isinstance(power, (int, float)) else 0, 'cooldown': cooldown if isinstance(cooldown, (int, float)) else 0}
+        skill_map[skill_lower] = {'name': skill_asset, 'asset': skill_asset, 'element': element, 'power': power if isinstance(power, (int, float)) else 0, 'cooldown': cooldown if isinstance(cooldown, (int, float)) else 0, 'row_data': row_data if isinstance(row_data, dict) else {}}
     updated_skills = []
     for skill_asset in sorted(skill_map.keys()):
         entry = skill_map[skill_asset]
+        rd = entry.get('row_data', {})
         skill_lower = entry['asset'].lower()
         l10n_name = skill_name_l10n.get(entry['asset'], None)
-        skill_entry = {'name': l10n_name or entry['name'], 'asset': entry['asset'], 'element': entry['element'], 'power': entry['power'], 'cooldown': entry['cooldown'], 'description': skill_desc_l10n.get(entry['asset'], '')}
+        waza_type_raw = rd.get('WazaType', '')
+        if isinstance(waza_type_raw, str) and waza_type_raw.startswith('EPalWazaID::'):
+            waza_type_raw = waza_type_raw.replace('EPalWazaID::', '')
+        effect_type_1 = rd.get('EffectType1', '')
+        if isinstance(effect_type_1, str):
+            effect_type_1 = effect_type_1.replace('EPalAdditionalEffectType::', '')
+        effect_type_2 = rd.get('EffectType2', '')
+        if isinstance(effect_type_2, str):
+            effect_type_2 = effect_type_2.replace('EPalAdditionalEffectType::', '')
+        skill_entry = {
+            'name': l10n_name or entry['name'],
+            'asset': entry['asset'],
+            'element': entry['element'],
+            'power': entry['power'],
+            'display_power': int(_safe_get(rd, 'DisplayPower', 0)),
+            'cooldown': entry['cooldown'],
+            'category': waza_type_raw,
+            'min_range': int(_safe_get(rd, 'MinRange', 0)),
+            'max_range': int(_safe_get(rd, 'MaxRange', 0)),
+            'max_height_diff': int(_safe_get(rd, 'MaxHeightDiff', 0)),
+            'effect_type_1': effect_type_1,
+            'effect_value_1': int(_safe_get(rd, 'EffectValue1', 0)),
+            'effect_type_2': effect_type_2,
+            'effect_value_2': int(_safe_get(rd, 'EffectValue2', 0)),
+            'force_ragdoll_size': rd.get('ForceRagdollSize', ''),
+            'strength': rd.get('Strength', ''),
+            'is_weapon_damage': bool(rd.get('bIsWeaponDamage', False)),
+            'is_explosion_damage': bool(rd.get('bIsExplosionDamage', False)),
+            'camera_shake': rd.get('CameraShake', ''),
+            'description': skill_desc_l10n.get(entry['asset'], ''),
+        }
         updated_skills.append(skill_entry)
     result = {'skills': updated_skills}
     save_resource_json('skilldata.json', result)
@@ -2410,6 +2594,26 @@ def _cleanup_stale_icons():
         print(f'  Removed {removed_count} stale icon files')
     else:
         print('  No stale icons to remove')
+def update_work_data():
+    print('\n=== Updating Work Suitability Data ===')
+    uidata = load_resource_json('uidata.json')
+    ui_icons = uidata.get('ui_icons', {}) if isinstance(uidata, dict) else {}
+    work_types = []
+    for idx, (key, display) in enumerate(_WORK_TYPE_MAP.items()):
+        icon_key = f'palwork_{idx:02d}'
+        icon_val = ui_icons.get(icon_key, '')
+        if icon_val.endswith('.png'):
+            icon_val = icon_val[:-4] + '.webp'
+        work_entry = {
+            'id': key,
+            'display_name': display,
+            'icon': icon_val,
+            'index': idx,
+        }
+        work_types.append(work_entry)
+    result = {'work_types': work_types}
+    save_resource_json('work_suitability.json', result)
+    print(f'  Total work types: {len(work_types)}')
 def main():
     if os.name == 'nt':
         os.system('title PalworldSaveTools - Game Data Extractor and Updater')
@@ -2471,6 +2675,7 @@ def main():
     _run_step('Updating relic data...', update_relic_data)
     _run_step('Updating UI icons...', update_ui_icons)
     _run_step('Updating boss mapping...', update_boss_mapping)
+    _run_step('Updating work data...', update_work_data)
     _run_step('Updating world map areas...', update_world_map_area_data)
     _run_step('Updating map data...', update_map_data)
     _run_step('Writing merged game data files...', _write_merged_files)

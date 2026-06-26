@@ -21,6 +21,7 @@
   //  Deep-dive details belong in skills/, not here.
   // ─────────────────────────────────────────────
   "instructions": [
+    "AGENTS.md",
     ".opencode/instructions/memory.md"
   ],
   // ─────────────────────────────────────────────

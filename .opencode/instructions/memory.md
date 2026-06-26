@@ -5,6 +5,7 @@
 - Ask before adding or removing files.
 - Keep responses terse.
 - Run `backup_whole_directory()` before any destructive operation.
+- `AGENTS.md` at repo root is also loaded as an instruction — read it for the condensed reference.
 
 ## Project Snapshot
 - **Purpose:** GUI + CLI for editing Palworld save files. GitHub `deadafdudecomputers/PalworldSaveTools`, author **Pylar**. MIT.

@@ -3,10 +3,10 @@ import json
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QPushButton, QLabel,
     QListWidget, QListWidgetItem, QStackedWidget, QLineEdit, QScrollArea,
-    QFrame, QGridLayout, QAbstractItemView
+    QFrame, QGridLayout, QAbstractItemView, QStyleOptionButton, QStylePainter, QStyle
 )
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPixmap, QIcon, QCursor, QFont
+from PySide6.QtGui import QPixmap, QIcon, QCursor, QFont, QPainter, QColor, QBrush
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.inventory.inventory_manager import ItemData
@@ -26,9 +26,9 @@ _CATEGORIES = [
 
 _CAT_BTN_STYLE = (
     "QPushButton { background: transparent; color: #94a3b8; border: none; "
-    "border-radius: 4px; padding: 6px 10px; text-align: left; font-size: 11px; }"
+    "border-radius: 4px; font-size: 11px; }"
     "QPushButton:hover { background: rgba(125,211,252,0.06); color: #e2e8f0; }"
-    "QPushButton[active=true] { background: rgba(125,211,252,0.1); color: #7DD3FC; font-weight: 600; }"
+    "QPushButton[active=true] { background: rgba(125,211,252,0.08); color: #7DD3FC; font-weight: 600; }"
 )
 
 _SEARCH_STYLE = (
@@ -55,6 +55,32 @@ _DETAIL_STYLE = (
 
 _ICON_SIZE = 36
 _LIST_ICON_SIZE = 28
+
+
+class CatBtn(QPushButton):
+    def paintEvent(self, event):
+        sp = QStylePainter(self)
+        opt = QStyleOptionButton()
+        self.initStyleOption(opt)
+        opt.text = ''
+        sp.drawControl(QStyle.CE_PushButton, opt)
+        sp.end()
+        p = QPainter(self)
+        p.setRenderHint(QPainter.TextAntialiasing | QPainter.Antialiasing)
+        p.setFont(self.font())
+        fm = p.fontMetrics()
+        text_r = fm.boundingRect(self.text())
+        tx = 14
+        ty = (self.height() - text_r.height()) // 2 - text_r.y()
+        p.setPen(self.palette().color(self.foregroundRole()))
+        p.drawText(tx, ty, self.text())
+        if self.property('active'):
+            pw, ph = (3, 16)
+            px, py = (0, (self.height() - ph) // 2)
+            p.setPen(Qt.NoPen)
+            p.setBrush(QBrush(QColor('#7DD3FC')))
+            p.drawRoundedRect(px, py, pw, ph, pw / 2, pw / 2)
+        p.end()
 
 
 def _load_json(filename, key):
@@ -481,7 +507,7 @@ class WikiTab(QWidget):
 
         self._cat_btns = {}
         for cat_id, i18n_key, fname, data_key in _CATEGORIES:
-            btn = QPushButton(t(i18n_key) if t else i18n_key)
+            btn = CatBtn(t(i18n_key) if t else i18n_key)
             btn.setProperty('active', False)
             btn.setStyleSheet(_CAT_BTN_STYLE)
             btn.setCursor(QCursor(Qt.PointingHandCursor))

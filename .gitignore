@@ -5,8 +5,11 @@ __pycache__/
 *.so
 .Python
 develop-eggs/
+
 dist/
+
 downloads/
+
 eggs/
 .eggs/
 lib/
@@ -14,8 +17,7 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
-*.egg-info/
+wheels/*.egg-info/
 .installed.cfg
 *.egg
 
@@ -43,8 +45,7 @@ Desktop.ini
 
 # Temp
 temp/
-tmp/
-*.tmp
+tmp/*.tmp
 
 # Compiled
 *.pyc
@@ -70,3 +71,4 @@ Backups/
 *.sav
 *.savc
 *.7z
+.pytest_cache/

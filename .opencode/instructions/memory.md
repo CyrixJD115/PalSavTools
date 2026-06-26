@@ -30,6 +30,9 @@
 ## 13 Managers
 `save_manager.py` (load/save/reload, QObject singleton), `player_manager.py`, `guild_manager.py`, `inventory_manager.py` (per‑player), `base_inventory_manager.py` (guild/base, thread‑safe, 2s debounce), `base_manager.py` (blueprint export/import), `dynamic_item_manager.py`, `standardized_container.py` (low‑level slots), `container_ownership.py`, `data_manager.py` (queries + structural deletes), `func_manager.py` (catch‑all cleanup, ~50 fns, 2657 lines), `zone_manager.py` (exclusion zones), `backup_manager.py` (.pstbase/.pst7 export).
 
+## Reference file
+- `.opencode/instructions/session-notes.md` — historical work logs for specific features/fixes. Search this when working on something that sounds like past debug sessions (bounty tokens, booth inventory, pal editor bulk ops, etc.).
+
 ## Skills (load on demand)
 - `pst-codebase` – repo layout & entry points.
 - `pst-save-pipeline` – save/round‑trip logic.

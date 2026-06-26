@@ -766,6 +766,13 @@ def unlock_all_private_chests(parent=None):
             for item in data:
                 deep_unlock(item)
     deep_unlock(wsd)
+    map_objects = wsd.get('MapObjectSaveData', {}).get('value', {}).get('values', [])
+    for obj in map_objects:
+        raw = obj.get('ConcreteModel', {}).get('value', {}).get('RawData', {}).get('value', {})
+        if raw.get('concrete_model_type') in ('PalMapObjectItemBoothModel', 'PalMapObjectPalBoothModel'):
+            if raw.get('is_private_lock', 0) != 0:
+                raw['is_private_lock'] = 0
+                count += 1
     return count
 def remove_invalid_items_from_level(parent=None):
     if not constants.loaded_level_json:

@@ -97,6 +97,35 @@ t = 50 if 'Pal.PalworldSaveGame' in g.header.save_game_class_name else 49
 ```
 50=PLZ(double-zlib), 49=PLM(Oodle). So world-class saves → zlib, others → Oodle. NOTE the lowercase 'w' in 'PalworldSaveGame' — verify actual UE class names are lowercase-matching (UE class names are often PascalCase like `PalWorldSaveGame`); if mismatched, format selection silently falls back to Oodle.
 
+## Booth concrete model schema — `map_concrete_model.py` (Jun 25)
+RE'd by comparing locked vs unlocked Level.sav bytes for both booth types:
+
+### ItemBooth (old: `trailing_bytes` 20B blob)
+Unknown structure within the 20 trailing bytes. Byte-level diff of locked/unlocked ATest saves revealed only byte[12] differs (1=locked, 0=unlocked). Key finding: `private_lock_player_uid` is identically non-zero in both states → lock is NOT the GUID, it's `is_private_lock` at byte[12].
+
+| New field | Size | Description |
+|-----------|------|-------------|
+| `unknown_before_lock` | 12B | opaque prefix before lock flag |
+| `is_private_lock` | 1B u8 | 0=unlocked, 1=locked |
+| `unknown_after_lock` | 7B | opaque suffix |
+
+### PalBooth (old: `unknown_bytes` 236B blob)
+Byte[224] differs (1=locked, 0=unlocked). No `private_lock_player_uid` field exists in the model at all.
+
+| New field | Size | Description |
+|-----------|------|-------------|
+| `unknown_prefix` | 224B | everything before the lock flag |
+| `is_private_lock` | 1B u8 | 0=unlocked, 1=locked |
+| `unknown_suffix` | 11B | remaining bytes |
+
+### Roundtrip verified
+Locked save → decode → set `is_private_lock=0` → encode → reload → confirmed `is_private_lock=0`. Only the lock flag byte changes; everything else byte-identical. Binary blob manipulation (base64 patch) is gone — lock is set through the typed field.
+
+### `unlock_all_private_chests` (func_manager.py)
+- `deep_unlock` skips both booth types (no GUID zeroing)
+- After deep_unlock, iterates `MapObjectSaveData.values`, sets `is_private_lock=0` on booth entries
+- No base64/binary patch, no `private_lock_player_uid` zeroing on booths
+
 ## History (the sacred-roundtrip theme)
 - palsav began bundled with pyooz (Oodle submodule), then locally bundled.
 - `ee362bb` (cyrix) — **THE pivotal commit**: replaced palsav core with "proven 1:1-roundtrip palworld_save_tools code" (copied 40 files). An earlier "modernized" core had BROKEN byte-exact roundtrip; this reverted to the proven code. Verified: player save 30,921 bytes 1:1, Level 4,215,854 bytes 1:1.

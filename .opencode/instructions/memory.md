@@ -206,7 +206,7 @@ When loading a save with externally-added `NormalBossDefeatFlag` entries, the ga
 - ItemBooth deletion: `_remove_item_from_slot` detects `booth_type` → `del` from `trade_infos` list ref (shared via removed `list()` copy in `get_booth_item_contents()`).
 - PalBooth deletion: `_delete_base_pal` also cleans up the CharacterContainer slot by identity-matching `container_slot` in `values` list and `del`'ing it, then decrementing `SlotNum`.
 - Booth pal entries carry `booth_char_container` dict ref from `get_booth_pal_contents()` for slot cleanup.
-- `unlock_all_private_chests` zeros `private_lock_player_uid` on all booths (skip removed).
+- `unlock_all_private_chests` now sets `is_private_lock = 0` on booth RawData dicts (both ItemBooth + PalBooth). Skips both booth types in deep_unlock — does NOT zero `private_lock_player_uid` on booths (game needs it non-zero).
 
 ### Clear Button Fix (Jun 23 session)
 - **Problem**: `_clear_container` only called `manager.clear_container()` → cleared regular container items (payment items) but not booth-specific data. Booth trade infos (ItemBooth) or CharacterContainer+CharacterSaveParameterMap (PalBooth) were left untouched.
@@ -216,6 +216,45 @@ When loading a save with externally-added `NormalBossDefeatFlag` entries, the ga
 - `_clear_pal_booth_slots`: finds CharacterContainer by `booth_char_container_id`, iterates all slots to remove matching `CharacterSaveParameterMap` entries by `instance_id`, then clears slots + resets `SlotNum` to 0
 - After booth-specific clear, calls `manager.clear_container()` for payment items, then `_on_container_selected()` to refresh full view
 - `_on_container_selected` now calls `self.inventory_grid.refresh_labels()` in both non-booth `else` branches so tab_label resets from "Booth: ..." back to default when switching away from booth view
+
+## Booth Binary Schema — palsav Decode/Encode (Jun 25 session)
+### Location
+`src/palsav/palsav/rawdata/map_concrete_model.py` — `decode_bytes()` / `encode_bytes()`
+
+### ItemBooth `trailing_bytes` (20B) → 3 named fields
+RE'd by comparing ATest (unlocked) vs ATest2 (locked, original) Level.sav byte diffs:
+```
+unlocked: 000000000000000000000000 00 0000000
+locked:   000000000000000000000000 01 0000000
+                                    ^^ byte[12]=1
+```
+- `unknown_before_lock` (12B): opaque prefix
+- `is_private_lock` (1B u8): 0=unlocked, 1=locked
+- `unknown_after_lock` (7B): opaque suffix
+- **Key finding**: `private_lock_player_uid` is identical (non-zero) in both locked & unlocked — lock state is NOT controlled by that GUID, it's in `is_private_lock`.
+
+### PalBooth `unknown_bytes` (236B) → 3 named fields
+```
+unlocked byte[224]: 00
+locked   byte[224]: 01
+```
+- `unknown_prefix` (224B): everything before the lock flag
+- `is_private_lock` (1B u8): 0=unlocked, 1=locked
+- `unknown_suffix` (11B): trailing bytes
+
+### Roundtrip verified
+- ATest2 locked save → decode → set `is_private_lock=0` → encode → reload → `is_private_lock=0` confirmed
+- Only the lock flag byte differs between locked/unlocked encode; everything else byte-identical
+- Binary blob manipulation eliminated — lock is set through the typed `is_private_lock` field, no base64 patching
+
+### `unlock_all_private_chests` (`func_manager.py`)
+- `deep_unlock` skips both `PalMapObjectItemBoothModel` and `PalMapObjectPalBoothModel`
+- After deep_unlock iterates map objects directly, sets `is_private_lock = 0` on booth entries
+- No binary blob manipulation, no `private_lock_player_uid` zeroing on booths
+
+### Files
+- `src/palsav/palsav/rawdata/map_concrete_model.py:39-45` (decode), `183-189` (encode)
+- `src/palworld_aio/managers/func_manager.py:748-782` (unlock func)
 
 ## Guild Binary Format — V1_MARKER Fix (Jun 21 session)
 ### Location: `src/palsav/palsav/rawdata/group.py` — `decode_bytes()` / `encode_bytes()`

@@ -1,0 +1,13 @@
+pyside6-essentials
+Pillow
+cx-freeze>=8.3.0
+nerdfont
+packaging
+palsav-flex
+brotli
+cbor2
+msgpack
+zstandard
+orjson
+py7zr
+nuitka>=4.1.2

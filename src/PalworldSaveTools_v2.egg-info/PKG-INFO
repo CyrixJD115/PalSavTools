@@ -1,11 +1,12 @@
 Metadata-Version: 2.4
-Name: PalworldSaveTools
+Name: PalworldSaveTools-v2
 Version: 2.0.0
 Summary: All-in-one tool for fixing/transferring/editing Palworld saves
 Author: Pylar
 License-Expression: MIT
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
+License-File: license
 Requires-Dist: pyside6-essentials
 Requires-Dist: Pillow
 Requires-Dist: cx-freeze>=8.3.0
@@ -19,6 +20,7 @@ Requires-Dist: zstandard
 Requires-Dist: orjson
 Requires-Dist: py7zr
 Requires-Dist: nuitka>=4.1.2
+Dynamic: license-file
 
 <div align="center">
 

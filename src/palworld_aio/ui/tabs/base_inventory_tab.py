@@ -2822,6 +2822,7 @@ class BaseInventoryTab(QWidget):
         self.clear_item_button.setVisible(can_filter and bool(self.selected_item_id))
         self.structure_button.setVisible(can_filter)
         self.clear_structure_button.setVisible(can_filter and bool(self.selected_structure_asset))
+        self.replace_button.setVisible(can_filter)
     def _create_styled_combo(self):
         combo = StyledCombo()
         combo.setMinimumWidth(180)

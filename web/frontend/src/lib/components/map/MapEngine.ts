@@ -318,14 +318,19 @@ export class MapEngine {
 
   // ---- hit testing ---------------------------------------------------------
 
-  /** Find the topmost marker at screen coords. */
+  /** Find the topmost visible marker at screen coords. */
   hitTestMarker(sx: number, sy: number): RuntimeMarker | null {
-    // Players render on top of bases.
-    for (const m of [...this.playerMarkers].reverse()) {
-      if (this.isInMarker(m, sx, sy)) return m;
+    // Only test markers whose layer is visible — hidden markers shouldn't
+    // respond to clicks, hovers, or context menus.
+    if (this.showPlayers) {
+      for (const m of [...this.playerMarkers].reverse()) {
+        if (this.isInMarker(m, sx, sy)) return m;
+      }
     }
-    for (const m of [...this.baseMarkers].reverse()) {
-      if (this.isInMarker(m, sx, sy)) return m;
+    if (this.showBases) {
+      for (const m of [...this.baseMarkers].reverse()) {
+        if (this.isInMarker(m, sx, sy)) return m;
+      }
     }
     return null;
   }

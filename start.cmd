@@ -1,5 +1,5 @@
 @echo off
-title PalworldSaveTools Launcher
+title PalworldSaveTools Web Launcher
 cd /d "%~dp0"
 
 where uv >nul 2>&1 || (
@@ -8,7 +8,7 @@ where uv >nul 2>&1 || (
     exit /b 1
 )
 
-uv run start.py
+uv run src/start.py --web
 set "EXIT_CODE=%errorlevel%"
 if %EXIT_CODE% neq 0 pause
 exit /b %EXIT_CODE%

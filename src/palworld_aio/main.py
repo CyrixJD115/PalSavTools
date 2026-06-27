@@ -65,7 +65,7 @@ else:
     src_dir = base_dir if os.path.basename(base_dir) == 'src' else os.path.join(base_dir, 'src')
 if src_dir not in sys.path:
     sys.path.insert(0, src_dir)
-for sub in ['palworld_coord', 'palsav', 'palworld_xgp_import', 'resources', 'palworld_aio']:
+for sub in ['coord', 'palsav', 'xgp_import', 'resources', 'palworld_aio']:
     p = os.path.join(src_dir, sub)
     if os.path.isdir(p) and p not in sys.path:
         sys.path.insert(0, p)

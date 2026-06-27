@@ -1,6 +1,6 @@
 import os
 from palsav import json_tools
-import palworld_coord
+import coord as palworld_coord
 from palsav.archive import UUID
 from i18n import t
 from palworld_aio import constants
@@ -458,8 +458,8 @@ def get_container_location(map_obj):
         transform = map_obj.get('Model', {}).get('value', {}).get('RawData', {}).get('value', {}).get('transform', {})
         if transform and 'translation' in transform:
             trans = transform['translation']
-            from palworld_coord import sav_to_map
-            return palworld_coord.sav_to_map(trans['x'], trans['y'], new=True)
+            from coord import sav_to_map
+            return sav_to_map(trans['x'], trans['y'], new=True)
     except:
         pass
     return t('base_inventory.unknown_location') if t else 'Unknown Location'

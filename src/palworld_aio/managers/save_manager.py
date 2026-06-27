@@ -18,7 +18,7 @@ from palsav.paltypes import PALWORLD_TYPE_HINTS
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 from palobject import MappingCacheObject, toUUID
 from import_libs import backup_whole_directory, run_with_loading
-import palworld_coord
+import coord as palworld_coord
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvas_wrapper, wrapper_to_sav, sav_to_gvasfile, extract_value, sanitize_filename, format_duration_short, resolve_name

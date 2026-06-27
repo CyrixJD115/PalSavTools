@@ -2,7 +2,7 @@ from palsav import json_tools
 import os
 import uuid
 from typing import List, Dict, Optional, Tuple
-import palworld_coord
+import coord as palworld_coord
 from palworld_aio import constants
 ZONE_EXCLUSIONS_FILE = None
 def _get_zone_file():

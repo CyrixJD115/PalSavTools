@@ -6,7 +6,7 @@ import tempfile
 import uuid
 from typing import Optional
 
-from palworld_xgp_import.container_types import (
+from xgp_import.container_types import (
     ContainerIndex, ContainerFileList, FILETIME, Container,
 )
 

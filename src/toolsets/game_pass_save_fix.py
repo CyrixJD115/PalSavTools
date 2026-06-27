@@ -1,6 +1,6 @@
 from import_libs import *
 from palworld_aio.utils import sav_to_json, json_to_sav, extract_value
-from palworld_toolsets.fix_host_save import ask_string_with_icon
+from toolsets.fix_host_save import ask_string_with_icon
 from common import get_base_directory
 from palworld_aio.ui.chrome.styles import ThemeManager
 from loading_manager import run_with_loading, show_information, show_critical
@@ -268,7 +268,7 @@ class GamePassSaveFixWidget(QWidget):
         import gc
         global save_info_map
         try:
-            from palworld_toolsets import xgp_save_extract as extractor
+            from toolsets import xgp_save_extract as extractor
             extractor.main(self.xgp_source_folder)
             zip_files = [f for f in os.listdir(base_dir) if f.startswith('palworld_') and f.endswith('.zip')]
             if not zip_files:
@@ -495,7 +495,7 @@ class GamePassSaveFixWidget(QWidget):
         try:
             self.stop_gaming_services()
             time.sleep(1)
-            from palworld_xgp_import import main as xgp_main
+            from xgp_import import main as xgp_main
             old_argv = sys.argv
             try:
                 sys.argv = ['main.py', source_folder]

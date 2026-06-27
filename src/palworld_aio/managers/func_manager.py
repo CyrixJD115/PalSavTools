@@ -78,7 +78,7 @@ def get_entity_location(entity_data):
                 save_x = float(translation.get('x', 0))
                 save_y = float(translation.get('y', 0))
                 save_z = float(translation.get('z', 0))
-                import palworld_coord
+                import coord as palworld_coord
                 world_x, world_y = palworld_coord.sav_to_map_by_z(save_x, save_y, save_z)
                 return (world_x, world_y)
     except Exception as e:

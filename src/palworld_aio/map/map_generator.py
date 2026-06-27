@@ -1,7 +1,7 @@
 import os
 import time
 from palsav import json_tools
-import palworld_coord
+import coord as palworld_coord
 from i18n import t
 from palworld_aio import constants
 from PySide6.QtGui import QFontDatabase, QFont, QPainter, QColor, QImage, QPen, QFontMetrics

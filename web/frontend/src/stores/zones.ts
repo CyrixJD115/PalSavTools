@@ -1,6 +1,6 @@
 /**
  * Zone store — per-browser exclusion zones with localStorage persistence.
- * Mirrors the schema of `palworld_aio/managers/zone_manager.py` so the
+ * Mirrors the schema of `palworld_aio/managers/zone_manager.py` (kept as
  * exported JSON is interchangeable with the desktop app.
  */
 

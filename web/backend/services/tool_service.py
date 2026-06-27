@@ -1,7 +1,7 @@
 """Headless tool wrappers using palsav primitives.
 
 Each function wraps save-file manipulation logic from the corresponding
-``src/palworld_toolsets/`` tool but uses only the installed ``palsav``
+``src/toolsets/`` tool but uses only the installed ``palsav``
 package -- no Qt, no PySide6, no desktop-only imports.
 """
 

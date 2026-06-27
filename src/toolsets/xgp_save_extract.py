@@ -5,23 +5,16 @@ from typing import Any, Dict, List, Tuple
 from common import get_base_directory
 filetime_epoch = datetime(1601, 1, 1, tzinfo=timezone.utc)
 packages_root = Path(os.path.expandvars(f'%LOCALAPPDATA%\\Packages'))
-def read_game_list() -> Dict[str, Any] | None:
-    try:
-        base_dir = get_base_directory()
-        games_json_path = Path(base_dir) / 'games.json'
-        if not games_json_path.exists():
-            games_json_path = Path(base_dir) / 'src' / 'games.json'
-        if not games_json_path.exists():
-            return None
-        with games_json_path.open('r') as f:
-            without_comments = '\n'.join([l for l in f.readlines() if not l.lstrip().startswith('//')])
-        j = json.loads(without_comments)
-        games: Dict[str, Any] = {}
-        for entry in j['games']:
-            games[entry['package']] = {'name': entry['name'], 'handler': entry['handler'], 'handler_args': entry.get('handler_args') or {}}
-        return games
-    except:
-        return None
+_XGP_GAMES: Dict[str, Any] = {
+    "PocketpairInc.Palworld_ad4psfrxyesvt": {
+        "name": "Palworld",
+        "handler": "palworld",
+        "handler_args": {},
+    },
+}
+
+def read_game_list() -> Dict[str, Any]:
+    return _XGP_GAMES
 def discover_games(supported_games: Dict[str, Any]) -> List[str]:
     found_games = []
     for pkg_name in supported_games.keys():

@@ -1,6 +1,6 @@
 from __future__ import annotations
 import os, sys, subprocess, shutil, pathlib, argparse, threading, webbrowser
-PROJECT_DIR = pathlib.Path(__file__).resolve().parent
+PROJECT_DIR = pathlib.Path(__file__).resolve().parent.parent
 uv_lock = PROJECT_DIR / 'uv.lock'
 if uv_lock.exists():
     uv_lock.unlink()

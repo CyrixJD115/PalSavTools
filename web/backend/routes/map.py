@@ -2,7 +2,7 @@
 
 ``GET /api/map/data`` returns bases and players with pre-computed pixel
 coordinates for both world and tree maps. All coordinate math is done in
-``map_service`` using the real ``palworld_coord`` Python module.
+``map_service`` using the real ``coord`` Python module.
 """
 
 from __future__ import annotations

@@ -134,7 +134,7 @@ def get_container_location(map_obj, base_name=None):
         if transform and 'translation' in transform:
             trans = transform['translation']
             try:
-                from palworld_coord import sav_to_map
+                from coord import sav_to_map
                 return sav_to_map(trans['x'], trans['y'], new=True)
             except ImportError:
                 return f"X: {trans['x']:.1f}, Y: {trans['y']:.1f}"

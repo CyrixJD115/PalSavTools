@@ -39,6 +39,10 @@ members = [
 where = ["."]
 include = ["src*"]
 
+[tool.pyright]
+extraPaths = ["src/palsav"]
+reportAttributeAccessIssue = false
+
 [dependency-groups]
 dev = [
     "cx-freeze>=8.6.0",

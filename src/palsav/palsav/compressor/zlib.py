@@ -22,7 +22,7 @@ class Zlib(Compressor):
         logger.debug(f'  Hex dump: {compressed_data.hex()[:64]}')
         sav_data = self.build_sav(compressed_data, uncompressed_len, compressed_len, magic_bytes, save_type)
         return sav_data
-    def decompress(self, data: bytes) -> bytes:
+    def decompress(self, data: bytes) -> tuple[bytes, int]:
         logger.info('Starting decompression process with zlib...')
         format_result = self.check_sav_format(data)
         if format_result is None:

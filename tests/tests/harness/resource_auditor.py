@@ -4,9 +4,9 @@ import ast
 import os
 from pathlib import Path
 from tests.structural_report import ReportSection
+from tests.test_registry import PROJECT_ROOT
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 SRC_DIR = PROJECT_ROOT / 'src'
 SCRIPTS_DIR = PROJECT_ROOT / 'scripts' / 'scrs'
 RESOURCES_DIR = PROJECT_ROOT / 'resources'

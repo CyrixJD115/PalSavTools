@@ -5,10 +5,10 @@ import os
 import time
 from pathlib import Path
 from typing import Any
+from tests.test_registry import PROJECT_ROOT
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-CACHE_DIR = PROJECT_ROOT / '.pytest_cache' / 'structural'
+CACHE_DIR = Path(__file__).resolve().parent.parent.parent / '.pytest_cache' / 'structural'
 
 
 def _hash_file(path: Path) -> float:

@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon, QFont
 import os
 from palsav.core import decompress_sav_to_gvas, compress_gvas_to_sav
+
 from palsav.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 from palsav.gvas import GvasFile
 from palworld_aio.ui.chrome.styles import ThemeManager

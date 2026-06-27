@@ -106,31 +106,6 @@ def get_guild_members(gid):
         return out
     return []
 def get_bases():
-    target = as_uuid(gid)
-    for g in wsd['GroupSaveDataMap']['value']:
-        if g['value']['GroupType']['value']['value'] != 'EPalGroupType::Guild':
-            continue
-        if as_uuid(g['key']) != target:
-            continue
-        admin_uid = as_uuid(g['value']['RawData']['value'].get('admin_player_uid', ''))
-        out = []
-        for p in g['value']['RawData']['value'].get('players', []):
-            uid = str(p.get('player_uid', ''))
-            name = p.get('player_info', {}).get('player_name', 'Unknown')
-            last = p.get('player_info', {}).get('last_online_real_time')
-            lastseen_seconds = None
-            lastseen = 'Unknown'
-            if last is not None:
-                from ..utils import format_duration_short
-                lastseen_seconds = (tick - last) / 10000000.0
-                lastseen = format_duration_short(lastseen_seconds)
-            level = constants.player_levels.get(uid.replace('-', ''), '?')
-            pals = constants.PLAYER_PAL_COUNTS.get(uid.lower(), 0)
-            is_leader = as_uuid(uid) == admin_uid
-            out.append({'uid': uid, 'name': name, 'lastseen': lastseen, 'lastseen_seconds': lastseen_seconds, 'level': level, 'pals': pals, 'is_leader': is_leader})
-        return out
-    return []
-def get_bases():
     if not constants.loaded_level_json:
         return []
     out = []

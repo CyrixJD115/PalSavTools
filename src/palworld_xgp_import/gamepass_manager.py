@@ -51,6 +51,7 @@ def _try_read_world_name(data: bytes) -> str:
         from palsav.paltypes import PALWORLD_TYPE_HINTS
         from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
         from palsav.core import decompress_sav_to_gvas
+
         raw, _ = decompress_sav_to_gvas(data)
         g = GvasFile.read(raw, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
         return g.properties.get("SaveData", {}).get("value", {}).get("WorldName", {}).get("value", "Unknown")

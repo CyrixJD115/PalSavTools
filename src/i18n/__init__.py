@@ -3,6 +3,7 @@ import os
 import sys
 from typing import Dict, Any
 from palsav import json_tools
+
 from resource_resolver import get_base_dir, get_resources_dir
 base_dir = get_base_dir()
 _CFG: str = os.path.join(base_dir, 'src', 'data', 'configs', 'config.json')

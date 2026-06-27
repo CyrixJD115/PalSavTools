@@ -5,8 +5,8 @@ import warnings
 
 import pytest
 from pathlib import Path
+from tests.test_registry import PROJECT_ROOT, SRC_DIR
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 RESOURCES_DIR = PROJECT_ROOT / "resources"
 GAME_DATA_DIR = RESOURCES_DIR / "game_data"
 
@@ -1043,8 +1043,6 @@ class TestPythonIconResolution:
 # ===================================================================
 # Python source scanning — discover game_data path references in code
 # ===================================================================
-
-SRC_DIR = PROJECT_ROOT / "src"
 
 _RE_RP_GAMEDATA = re.compile(
     r"resource_path\s*\(\s*[^,]+,\s*'game_data'\s*,(.+)\)"

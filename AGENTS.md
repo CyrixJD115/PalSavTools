@@ -10,11 +10,11 @@ source .venv/bin/activate                # activate venv directly
 ## Commands
 
 ```bash
-pytest                                   # fast suite (~0.6s, excludes slow)
-pytest -m slow                           # 40s save-file roundtrip
-pytest -m ""                             # everything (~206 tests)
-pytest --skip-structural                 # bypass all file-pairing/import/resource audits
-pytest --no-deep-audit --no-strict-paths # skip import graph + AST resource-path checks
+cd tests && pytest                       # fast suite (~0.6s, excludes slow)
+cd tests && pytest -m slow               # 40s save-file roundtrip
+cd tests && pytest -m ""                 # everything (~206 tests)
+cd tests && pytest --skip-structural     # bypass all file-pairing/import/resource audits
+cd tests && pytest --no-deep-audit --no-strict-paths # skip import graph + AST resource-path checks
 ```
 
 ## Architecture

@@ -8,7 +8,8 @@ resource_path = import_from('resource_resolver', 'resource_path')
 get_base_dir = import_from('resource_resolver', 'get_base_dir')
 _RESOURCE_MAP = import_from('resource_resolver', '_RESOURCE_MAP')
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+from tests.test_registry import PROJECT_ROOT
+
 RESOURCES_DIR = PROJECT_ROOT / 'resources'
 SRC_DIR = PROJECT_ROOT / 'src'
 

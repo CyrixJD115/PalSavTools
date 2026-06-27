@@ -2,8 +2,19 @@ from __future__ import annotations
 
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SAVE_TEST_DIR = PROJECT_ROOT / 'tests' / 'save_test'
+def _find_project_root() -> Path:
+    p = Path(__file__).resolve()
+    for parent in [p] + list(p.parents):
+        if (parent / 'pyproject.toml').exists():
+            return parent
+    return p.parent.parent.parent / 'pst_dev'
+
+PROJECT_ROOT = _find_project_root()
+TESTS_ROOT = Path(__file__).resolve().parent
+SRC_DIR = PROJECT_ROOT / 'src'
+SCRIPTS_DIR = PROJECT_ROOT / 'scripts'
+RESOURCES_DIR = PROJECT_ROOT / 'resources'
+SAVE_TEST_DIR = TESTS_ROOT / 'save_test'
 
 MODULE_MAP: dict[str, dict] = {
     'common':                {'import_as': 'common',                'parent': 'src'},

@@ -18,6 +18,7 @@ _src = str(PROJECT_DIR / 'src')
 if _src not in sys.path:
     sys.path.insert(0, _src)
 from palsav import json_tools
+
 if os.environ.get('PST_NO_GUI', '') in ('1', 'true', 'True'):
     GUI_AVAILABLE = False
 else:

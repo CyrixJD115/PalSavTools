@@ -4,11 +4,11 @@ import ast
 import sys
 from pathlib import Path
 from tests.structural_report import ReportSection
+from tests.test_registry import PROJECT_ROOT
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 SRC_DIR = PROJECT_ROOT / 'src'
-TESTS_DIR = PROJECT_ROOT / 'tests'
+TESTS_DIR = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = PROJECT_ROOT / 'scripts' / 'scrs'
 
 _STARTUP_FILES = {'bootup.py', 'loading_manager.py', 'common.py', 'path_setup.py'}

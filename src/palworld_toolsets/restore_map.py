@@ -1,5 +1,6 @@
 from import_libs import *
 from palsav.core import decompress_sav_to_gvas, compress_gvas_to_sav
+
 from loading_manager import show_critical
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QApplication
 from PySide6.QtGui import QIcon, QFont

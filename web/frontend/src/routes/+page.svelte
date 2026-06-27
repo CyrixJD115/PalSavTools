@@ -1,17 +1,55 @@
 <script lang="ts">
-  import { saveLoaded, saveSummary, saveCounts, loadingSave } from '$stores/index';
+  import { saveLoaded, saveSummary, saveCounts, loadingSave, saveState } from '$stores/index';
   import { api } from '$lib/api/client';
   import { toast } from '$stores/toast';
-  import { saveState } from '$stores/index';
+  import type { ToolInfo } from '$types/index';
   import Card from '$components/ui/Card.svelte';
   import Button from '$components/ui/Button.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import EmptyState from '$components/ui/EmptyState.svelte';
   import LoadSaveModal from '$components/layout/LoadSaveModal.svelte';
+  import ToolModal from '$components/tools/ToolModal.svelte';
   import Icon from '@iconify/svelte';
 
   let loadOpen = $state(false);
   let exporting = $state(false);
+  let dragOver = $state(false);
+  let winW = $state(0);
+  let winH = $state(0);
+  let toolModalOpen = $state(false);
+  let currentTool = $state<ToolInfo | null>(null);
+
+  $effect(() => {
+    function upd() { winW = window.innerWidth; winH = window.innerHeight; }
+    upd();
+    addEventListener('resize', upd);
+    return () => removeEventListener('resize', upd);
+  });
+
+  let tooSmall = $derived(winW > 0 && (winW < 800 || winH < 500));
+
+  const quickTools: (ToolInfo & { icon: string })[] = [
+    { id: 'convert', name: 'Convert SAV ↔ JSON', icon: 'lucide:file-symlink', category: 'converting', category_label: 'Converting', description: 'Convert between binary .sav and human-readable .json formats.', windows_only: false },
+    { id: 'convert-ids', name: 'Steam ID ↔ Palworld UID', icon: 'lucide:hash', category: 'utility', category_label: 'Utility', description: 'Convert Steam IDs to Palworld UIDs and vice versa.', windows_only: false },
+    { id: 'slot-injector', name: 'Slot Injector', icon: 'lucide:package-plus', category: 'management', category_label: 'Management', description: 'Increase pal container slot counts (max 960) across all player palboxes/parties.', windows_only: false },
+    { id: 'restore-map', name: 'Restore Map', icon: 'lucide:map', category: 'management', category_label: 'Management', description: 'Clear fog of war and reveal hidden map locations.', windows_only: false },
+  ];
+
+  const catBgs: Record<string, string> = {
+    converting: 'bg-sky-500/10',
+    management: 'bg-amber-500/10',
+    utility: 'bg-emerald-500/10',
+  };
+  const catColors: Record<string, string> = {
+    converting: 'text-sky-400',
+    management: 'text-amber-400',
+    utility: 'text-emerald-400',
+  };
+  const chipTones: Record<string, string> = {
+    converting: 'chip-blue',
+    management: 'chip-amber',
+    utility: 'chip-green',
+  };
 
   async function doExport() {
     exporting = true;
@@ -41,6 +79,52 @@
     }
   }
 
+  function onQuickToolSelect(tool: ToolInfo) {
+    currentTool = tool;
+    toolModalOpen = true;
+  }
+
+  $effect(() => {
+    function onEnter(e: DragEvent) {
+      if (e.dataTransfer?.types?.includes('Files')) {
+        e.preventDefault();
+        dragOver = true;
+      }
+    }
+    function onLeave(e: DragEvent) {
+      if (!e.relatedTarget || !(document.body as Node).contains(e.relatedTarget as Node)) {
+        dragOver = false;
+      }
+    }
+    document.addEventListener('dragenter', onEnter);
+    document.addEventListener('dragleave', onLeave);
+    return () => {
+      document.removeEventListener('dragenter', onEnter);
+      document.removeEventListener('dragleave', onLeave);
+    };
+  });
+
+  function onDragOver(e: DragEvent) {
+    if (dragOver) e.preventDefault();
+  }
+
+  async function onDrop(e: DragEvent) {
+    e.preventDefault();
+    dragOver = false;
+    const file = e.dataTransfer?.files?.[0];
+    if (!file || !file.name.toLowerCase().endsWith('.sav')) return;
+    loadingSave.set(true);
+    try {
+      const res = await api.uploadSave(file);
+      saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
+      toast.success(`Loaded ${res.summary.filename} from drop`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Upload failed');
+    } finally {
+      loadingSave.set(false);
+    }
+  }
+
   function fmtBytes(n: number): string {
     if (!n) return '0 B';
     const u = ['B', 'KB', 'MB', 'GB'];
@@ -57,21 +141,55 @@
   ]);
 </script>
 
-<div class="p-6 max-w-6xl mx-auto space-y-6 animate-fade-in">
+<svelte:window onkeydown={(e) => e.key === 'Escape' && dragOver && (dragOver = false)} />
+
+  <!-- resize warning -->
+{#if tooSmall}
+  <div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-base animate-fade-in">
+    <Icon icon="lucide:monitor-warning" width={48} class="text-amber-400 mb-3" />
+    <h2 class="text-lg font-bold text-ink-emphasis mb-1">Window Too Small</h2>
+    <p class="text-xs text-ink-muted text-center max-w-xs">
+      Please resize to at least <span class="text-ink-secondary font-medium">800×500</span> px.
+    </p>
+  </div>
+{/if}
+
+<!-- drag-and-drop overlay -->
+{#if dragOver}
+  <div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-base/90 backdrop-blur-sm animate-fade-in"
+    ondrop={onDrop} ondragover={(e) => e.preventDefault()}>
+    <div class="w-60 h-60 rounded-2xl border-2 border-dashed border-status-success/60 flex flex-col items-center justify-center gap-2 bg-bg-elevated/80">
+      <Icon icon="lucide:upload" width={40} class="text-status-success" />
+      <span class="text-base font-bold text-status-success">Drop Level.sav</span>
+      <span class="text-xs text-ink-muted">to load this save file</span>
+    </div>
+    <button class="mt-4 text-xs text-ink-dim hover:text-ink-secondary underline" onclick={() => (dragOver = false)}>
+      Cancel
+    </button>
+  </div>
+{/if}
+
+<div class="p-4 max-w-5xl mx-auto space-y-4 animate-fade-in min-h-[calc(100vh-3.5rem)]"
+  ondragover={onDragOver} ondrop={onDrop}>
   <div>
-      <h1 class="text-2xl font-bold heading-gradient">Overview</h1>
-    <p class="text-sm text-ink-muted mt-1">
-      Load a Palworld save to inspect its contents. Viewers are read-only in this phase.
+    <h1 class="text-xl font-bold heading-gradient">Overview</h1>
+    <p class="text-xs text-ink-muted mt-0.5">
+      Load a Palworld save to inspect its contents.
     </p>
   </div>
 
   <Card>
-    <div class="flex flex-wrap items-center gap-3">
-      {#if !$saveLoaded}
-        <Button variant="primary" onclick={() => (loadOpen = true)}>
+    {#if !$saveLoaded}
+      <div class="flex flex-col items-center gap-2 py-3">
+        <Icon icon="lucide:folder-open" width={28} class="text-accent" />
+        <span class="text-sm font-semibold text-ink-secondary">No Save Loaded</span>
+        <Button variant="primary" onclick={() => (loadOpen = true)} disabled={$loadingSave}>
           <Icon icon="lucide:folder-open" width={16} /> Load Save
         </Button>
-      {:else}
+        <span class="text-xs text-ink-dim">or drag & drop a Level.sav file here</span>
+      </div>
+    {:else}
+      <div class="flex flex-wrap items-center gap-2">
         <Button variant="primary" onclick={() => (loadOpen = true)} disabled={$loadingSave}>
           <Icon icon="lucide:folder-open" width={16} /> Load Another
         </Button>
@@ -81,27 +199,27 @@
         <Button variant="ghost" onclick={doUnload}>
           <Icon icon="lucide:log-out" width={16} /> Unload
         </Button>
-      {/if}
-      <div class="flex-1"></div>
-      {#if $saveSummary}
-        <Badge tone="accent">type {$saveSummary.save_type}</Badge>
-        <Badge tone="neutral">{$saveSummary.class_name}</Badge>
-      {/if}
-    </div>
+        <div class="flex-1"></div>
+        {#if $saveSummary}
+          <Badge tone="accent">type {$saveSummary.save_type}</Badge>
+          <Badge tone="neutral">{$saveSummary.class_name}</Badge>
+        {/if}
+      </div>
+    {/if}
   </Card>
 
   {#if $saveLoaded}
     <div>
-      <h2 class="text-sm font-semibold text-ink-secondary uppercase tracking-wider mb-3">World Summary</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <h2 class="text-xs font-semibold text-ink-secondary uppercase tracking-wider mb-2">World Summary</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
         {#each stats as s}
-          <a href={s.href} class="card card-hover flex flex-col gap-2 group animate-fade-in">
+          <a href={s.href} class="card card-hover flex flex-col gap-1.5 group animate-fade-in">
             <div class="flex items-center justify-between">
-              <Icon icon={s.icon} width={18} class="text-accent" />
-              <Icon icon="lucide:arrow-right" width={14} class="text-ink-dim group-hover:text-accent transition-fast" />
+              <Icon icon={s.icon} width={16} class="text-accent" />
+              <Icon icon="lucide:arrow-right" width={12} class="text-ink-dim group-hover:text-accent transition-fast" />
             </div>
             <div>
-              <p class="text-2xl font-bold text-ink-emphasis tabular-nums">{s.value}</p>
+              <p class="text-xl font-bold text-ink-emphasis tabular-nums">{s.value}</p>
               <p class="text-xs text-ink-muted uppercase tracking-wide">{s.label}</p>
             </div>
           </a>
@@ -110,22 +228,22 @@
     </div>
 
     <Card title="Loaded File">
-      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
-        <div class="flex justify-between py-1.5 border-b border-line/30">
-          <dt class="text-ink-muted">Filename</dt>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
+        <div class="flex justify-between py-1 border-b border-line/30">
+          <dt class="text-ink-muted text-xs">Filename</dt>
           <dd class="text-ink-primary font-mono text-xs">{$saveSummary?.filename}</dd>
         </div>
-        <div class="flex justify-between py-1.5 border-b border-line/30">
-          <dt class="text-ink-muted">File size</dt>
-          <dd class="text-ink-primary tabular-nums">{fmtBytes($saveSummary?.file_size ?? 0)}</dd>
+        <div class="flex justify-between py-1 border-b border-line/30">
+          <dt class="text-ink-muted text-xs">File size</dt>
+          <dd class="text-ink-primary tabular-nums text-xs">{fmtBytes($saveSummary?.file_size ?? 0)}</dd>
         </div>
-        <div class="flex justify-between py-1.5 border-b border-line/30">
-          <dt class="text-ink-muted">Save directory</dt>
-          <dd class="text-ink-secondary font-mono text-xs truncate max-w-[260px]">{$saveSummary?.save_dir}</dd>
+        <div class="flex justify-between py-1 border-b border-line/30">
+          <dt class="text-ink-muted text-xs">Save directory</dt>
+          <dd class="text-ink-secondary font-mono text-xs truncate max-w-[200px]">{$saveSummary?.save_dir}</dd>
         </div>
-        <div class="flex justify-between py-1.5 border-b border-line/30">
-          <dt class="text-ink-muted">Compression</dt>
-          <dd class="text-ink-primary">
+        <div class="flex justify-between py-1 border-b border-line/30">
+          <dt class="text-ink-muted text-xs">Compression</dt>
+          <dd class="text-ink-primary text-xs">
             {$saveSummary?.save_type === 50 ? 'PLZ (double-zlib)' : 'PLM (Oodle)'}
           </dd>
         </div>
@@ -139,6 +257,40 @@
       </EmptyState>
     </Card>
   {/if}
+
+  <!-- Quick Tools -->
+  <div>
+    <div class="flex items-center gap-2 mb-2">
+      <h2 class="text-xs font-semibold text-ink-secondary uppercase tracking-wider">Quick Tools</h2>
+      <span class="text-[10px] text-ink-dim">— 4 most used</span>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      {#each quickTools as tool}
+        <button onclick={() => onQuickToolSelect(tool)} class="card card-hover group flex items-start gap-2.5 px-3 py-2.5 cursor-pointer text-left w-full">
+          <div class="w-8 h-8 rounded-lg {catBgs[tool.category] ?? 'bg-surface-hover'} flex items-center justify-center shrink-0 mt-0.5">
+            <Icon icon={tool.icon} width={16} class={catColors[tool.category] ?? 'text-ink-muted'} />
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-semibold text-ink-emphasis group-hover:text-accent transition-colors truncate">{tool.name}</span>
+              <span class="chip {chipTones[tool.category] ?? 'chip-blue'} text-[9px] whitespace-nowrap shrink-0">{tool.category_label}</span>
+            </div>
+            <p class="text-[10px] text-ink-muted mt-0.5 leading-snug truncate">{tool.description}</p>
+          </div>
+        </button>
+      {/each}
+      <a href="/tools" class="card card-hover flex items-center justify-center gap-1.5 px-3 py-2.5 cursor-pointer col-span-2 border border-dashed border-line/40 hover:border-accent/40">
+        <span class="text-xs text-ink-muted hover:text-accent transition-colors">View all tools</span>
+        <Icon icon="lucide:arrow-right" width={14} class="text-ink-dim hover:text-accent transition-colors" />
+      </a>
+    </div>
+  </div>
 </div>
+
+<ToolModal
+  tool={currentTool}
+  open={toolModalOpen}
+  onClose={() => { toolModalOpen = false; currentTool = null; }}
+/>
 
 <LoadSaveModal bind:open={loadOpen} />

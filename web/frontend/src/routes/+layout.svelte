@@ -5,9 +5,10 @@
   import Sidebar from '$components/layout/Sidebar.svelte';
   import Header from '$components/layout/Header.svelte';
   import ToastContainer from '$components/ui/ToastContainer.svelte';
+  import LoadingOverlay from '$components/ui/LoadingOverlay.svelte';
   import { api } from '$lib/api/client';
   import {
-    health, wsConnected, languages, currentLang, i18n, saveState,
+    health, wsConnected, languages, currentLang, i18n, saveState, loadingSave,
   } from '$stores/index';
 
   let { children }: { children: Snippet } = $props();
@@ -59,14 +60,20 @@
   }
 </script>
 
-<div class="flex h-screen overflow-hidden">
+<div class="flex h-screen overflow-hidden relative z-[1]">
   <Sidebar />
   <div class="flex-1 flex flex-col overflow-hidden">
     <Header />
-    <main class="flex-1 overflow-y-auto">
+    <main class="flex-1 overflow-y-auto opacity-[0.90]">
       {@render children()}
     </main>
   </div>
 </div>
+
+<div class="fixed inset-0 pointer-events-none z-0"
+  style="  background: url('/bg-corner.png') no-repeat bottom right / 880px auto;">
+</div>
+
+<LoadingOverlay open={$loadingSave} />
 
 <ToastContainer />

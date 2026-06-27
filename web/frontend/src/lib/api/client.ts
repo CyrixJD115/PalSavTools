@@ -46,6 +46,19 @@ export const api = {
     request<LoadResponse>('/save/load', jsonBody({ path })),
   unload: () => request<SaveStateResponse>('/save', { method: 'DELETE' }),
 
+  uploadSave: async (file: File): Promise<LoadResponse> => {
+    const form = new FormData();
+    form.append('file', file);
+    const res = await fetch(`${API_BASE}/save/upload`, { method: 'POST', body: form });
+    const text = await res.text();
+    if (!res.ok) {
+      let detail = text;
+      try { const j = JSON.parse(text); detail = j.detail ?? text; } catch { /* keep raw */ }
+      throw new Error(`API ${res.status}: ${detail}`);
+    }
+    return JSON.parse(text) as LoadResponse;
+  },
+
   exportSave: async (): Promise<{ blob: Blob; filename: string; size: number }> => {
     const res = await fetch(`${API_BASE}/save/export`, { method: 'POST' });
     if (!res.ok) {

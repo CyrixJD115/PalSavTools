@@ -103,6 +103,7 @@ export default {
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
         'float': 'float 3s ease-in-out infinite alternate',
         'shimmer': 'shimmer 3s linear infinite',
+        'loading-bar': 'loadingBar 1.5s ease-in-out infinite',
         'breathe': 'breathe 4s ease-in-out infinite alternate',
         'drift': 'drift 8s ease-in-out infinite alternate',
         'border-glow': 'borderGlow 3s linear infinite',
@@ -151,6 +152,10 @@ export default {
         pulseDot: {
           '0%, 100%': { opacity: '1', boxShadow: '0 0 6px currentColor' },
           '50%': { opacity: '0.5', boxShadow: '0 0 14px currentColor' },
+        },
+        loadingBar: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(200%)' },
         },
       },
     },

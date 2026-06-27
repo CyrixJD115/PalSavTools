@@ -34,5 +34,6 @@ async def get_map_data() -> MapDataResponse:
         players_dir,
         pal_counts=loaded.player_pal_counts,
         levels=loaded.player_levels,
+        positions=loaded.player_positions,
     )
     return MapDataResponse(**data)

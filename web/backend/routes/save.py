@@ -24,7 +24,7 @@ class LoadPathRequest(BaseModel):
 
 def _summarize(gvas, save_type: int, path: Path, level_dict: dict) -> LoadedSave:
     from web.backend.services.map_service import precompute_player_data
-    pal_counts, levels = precompute_player_data(level_dict)
+    pal_counts, levels, positions = precompute_player_data(level_dict)
     return LoadedSave(
         filename=path.name,
         save_dir=str(path.parent),
@@ -37,6 +37,7 @@ def _summarize(gvas, save_type: int, path: Path, level_dict: dict) -> LoadedSave
         level_dict=level_dict,
         player_pal_counts=pal_counts,
         player_levels=levels,
+        player_positions=positions,
     )
 
 
@@ -97,7 +98,7 @@ async def upload_save(file: UploadFile = File(...)) -> LoadResponse:
             gvas, save_type, level_dict = save_service.decode_bytes(data)
         except save_service.SaveDecodeError as exc:
             raise HTTPException(422, str(exc))
-        pal_counts, levels = precompute_player_data(level_dict)
+        pal_counts, levels, positions = precompute_player_data(level_dict)
         loaded = LoadedSave(
             filename=file.filename or "Level.sav",
             save_dir="(uploaded)", players_dir="(unknown)",
@@ -105,6 +106,7 @@ async def upload_save(file: UploadFile = File(...)) -> LoadResponse:
             file_size=len(data), loaded_at=time.time(),
             gvas=gvas, level_dict=level_dict,
             player_pal_counts=pal_counts, player_levels=levels,
+            player_positions=positions,
         )
         save_state.set(loaded)
     return LoadResponse(

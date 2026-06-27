@@ -35,6 +35,9 @@ class LoadedSave:
     # (lowercase, no hyphens).
     player_pal_counts: dict[str, int] = field(default_factory=dict)
     player_levels: dict[str, int] = field(default_factory=dict)
+    # Fallback positions from LastJumpedLocation in CharacterSaveParameterMap.
+    # Used when Players/*.sav files aren't available (drag-drop upload).
+    player_positions: dict[str, tuple[float, float, float]] = field(default_factory=dict)
 
 
 class SaveState:

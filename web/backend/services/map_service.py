@@ -228,15 +228,22 @@ def _read_player_position(sav_path: Path) -> tuple[float, float, float] | None:
         return None
 
 
-def precompute_player_data(level_dict: dict) -> tuple[dict[str, int], dict[str, int]]:
-    """Pre-compute pal counts and player levels at save-load time.
+def precompute_player_data(
+    level_dict: dict,
+) -> tuple[dict[str, int], dict[str, int], dict[str, tuple[float, float, float]]]:
+    """Pre-compute pal counts, player levels, and fallback positions at load.
 
     Ports the combined logic of:
       - ``save_manager._build_player_levels``  → player_levels
       - ``save_manager._count_pals_found``     → player_pal_counts
 
-    Returns ``(player_pal_counts, player_levels)`` where both dicts are keyed
-    by cleaned UID (lowercase, no hyphens).
+    Also extracts ``LastJumpedLocation`` from player entries as a fallback
+    position source when ``Players/*.sav`` files aren't available (drag-drop
+    upload). This allows player markers to appear on the map even without
+    per-player save files.
+
+    Returns ``(player_pal_counts, player_levels, player_positions)`` where all
+    dicts are keyed by cleaned UID (lowercase, no hyphens).
 
     Pal counting uses the **SaveParameter's** ``OwnerPlayerUId`` (not the outer
     key's ``PlayerUId``), and resolves worker pals via ``ContainerOwnership`` —
@@ -251,6 +258,7 @@ def precompute_player_data(level_dict: dict) -> tuple[dict[str, int], dict[str, 
 
     player_pal_counts: dict[str, int] = {}
     player_levels: dict[str, int] = {}
+    player_positions: dict[str, tuple[float, float, float]] = {}
 
     for entry in cmap:
         try:
@@ -287,6 +295,18 @@ def precompute_player_data(level_dict: dict) -> tuple[dict[str, int], dict[str, 
                 level = 0
             if player_uid:
                 player_levels[player_uid] = level
+
+            # Extract LastJumpedLocation as fallback position (for drag-drop uploads).
+            ljl_raw = sp.get("LastJumpedLocation", {}).get("value", {})
+            if isinstance(ljl_raw, dict) and "x" in ljl_raw:
+                try:
+                    player_positions[player_uid] = (
+                        float(ljl_raw["x"]),
+                        float(ljl_raw["y"]),
+                        float(ljl_raw.get("z", 0.0)),
+                    )
+                except (ValueError, TypeError):
+                    pass
             continue
 
         # ---- Pal counting (mirrors _count_pals_found) ----
@@ -305,7 +325,7 @@ def precompute_player_data(level_dict: dict) -> tuple[dict[str, int], dict[str, 
         if not is_worker and owner_uid:
             player_pal_counts[owner_uid] = player_pal_counts.get(owner_uid, 0) + 1
 
-    return player_pal_counts, player_levels
+    return player_pal_counts, player_levels, player_positions
 
 
 def list_map_players(
@@ -313,18 +333,18 @@ def list_map_players(
     players_dir: str | None,
     pal_counts: dict[str, int] | None = None,
     levels: dict[str, int] | None = None,
+    positions: dict[str, tuple[float, float, float]] | None = None,
 ) -> list[dict]:
     """Build the enriched player list with pre-computed pixel coordinates.
 
     Players are ALWAYS included in the list (for the sidebar), even when their
-    position can't be read (e.g. drag-drop upload where Players/ isn't
-    accessible). Players without positions get null projections and simply
-    won't appear as map markers — the frontend's makePlayerMarker returns null
-    for null world_img/tree_img.
+    position can't be read from ``Players/*.sav``. When ``.sav`` files aren't
+    available (drag-drop upload), ``LastJumpedLocation`` from the Level.sav's
+    CharacterSaveParameterMap is used as a fallback — passed via ``positions``.
 
-    ``pal_counts`` and ``levels`` are pre-computed at save-load time by
-    :func:`precompute_player_data`. When not provided, pal_count and level
-    default to 0.
+    ``pal_counts``, ``levels``, and ``positions`` are pre-computed at save-load
+    time by :func:`precompute_player_data`. When not provided, they default to
+    empty/zero.
     """
     base_players = world_service.list_players(level_dict)
     if not base_players:
@@ -343,6 +363,10 @@ def list_map_players(
             sav_path = real_dir / f"{uid_clean.upper()}.sav"
             if sav_path.is_file():
                 location = _read_player_position(sav_path)
+
+        # Fallback: use LastJumpedLocation from Level.sav if no .sav position.
+        if location is None and positions:
+            location = positions.get(uid_clean)
 
         pal_count = (pal_counts or {}).get(uid_clean, 0)
         level = (levels or {}).get(uid_clean, 0)
@@ -387,11 +411,14 @@ def get_map_data(
     players_dir: str | None,
     pal_counts: dict[str, int] | None = None,
     levels: dict[str, int] | None = None,
+    positions: dict[str, tuple[float, float, float]] | None = None,
 ) -> dict:
     """Build the full map data payload for ``GET /api/map/data``."""
     return {
         "bases": list_map_bases(level_dict),
-        "players": list_map_players(level_dict, players_dir, pal_counts, levels),
+        "players": list_map_players(
+            level_dict, players_dir, pal_counts, levels, positions,
+        ),
         "map_size": MAP_SIZE,
         "world_coord_range": WORLD_COORD_RANGE,
         "tree_coord_range": TREE_COORD_RANGE,

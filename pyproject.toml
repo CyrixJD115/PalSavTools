@@ -46,5 +46,4 @@ reportAttributeAccessIssue = false
 [dependency-groups]
 dev = [
     "cx-freeze>=8.6.0",
-    "pytest",
 ]

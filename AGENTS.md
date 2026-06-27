@@ -10,11 +10,8 @@ source .venv/bin/activate                # activate venv directly
 ## Commands
 
 ```bash
-cd tests && pytest                       # fast suite (~0.6s, excludes slow)
-cd tests && pytest -m slow               # 40s save-file roundtrip
-cd tests && pytest -m ""                 # everything (~206 tests)
-cd tests && pytest --skip-structural     # bypass all file-pairing/import/resource audits
-cd tests && pytest --no-deep-audit --no-strict-paths # skip import graph + AST resource-path checks
+uv run start.py                          # app entry (bootstraps venv)
+source .venv/bin/activate                # activate venv directly
 ```
 
 ## Architecture
@@ -34,27 +31,6 @@ cd tests && pytest --no-deep-audit --no-strict-paths # skip import graph + AST r
 - **i18n default**: `init_language()` falls back to `zh_CN`, not English.
 - **Re-export hub**: `import_libs.py` star-imports everything from palsav into namespace.
 
-## Dynamic test imports (MUST follow)
-
-Tests never hardcode import paths. On module move, update **only** `tests/test_registry.py`:
-
-```python
-# test_registry.py
-MODULE_MAP = {
-    'common':     {'import_as': 'common',     'parent': 'src'},
-    'bootup':     {'import_as': 'bootup',     'parent': 'src'},
-    'palsav':     {'installed': True},    # workspace package
-    'palooz':     {'installed': True},
-    ...
-}
-```
-
-Tests import via:
-```python
-from tests.dynamic_importer import import_from
-X = import_from('common', 'APP_NAME')
-```
-
 ## Build
 
 | Target | Command | Output |
@@ -62,7 +38,7 @@ X = import_from('common', 'APP_NAME')
 | Release binary | `uv run python build/nuitka/build_nuitka.py --onefile` | `dist/` |
 | Windows installer | `uv run python build/cx_freeze/build_cx.py` | `PST_standalone/` |
 
-CI (5 workflows) builds Nuitka binaries; **pytest does NOT run in CI**.
+CI (5 workflows) builds Nuitka binaries.
 
 ## OpenCode config (`.opencode/`)
 

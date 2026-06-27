@@ -238,10 +238,11 @@ def _count_pals_for_owner(level_dict: dict, owner_uid: str) -> int:
 def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
     """Build the enriched player list with pre-computed pixel coordinates.
 
-    Mirrors MapTab._get_players. Player positions come from individual
-    ``Players/<uid>.sav`` files (LastTransform). If ``players_dir`` is not
-    accessible (e.g. uploaded saves), positions are unavailable and those
-    players are skipped.
+    Players are ALWAYS included in the list (for the sidebar), even when their
+    position can't be read (e.g. drag-drop upload where Players/ isn't
+    accessible). Players without positions get null projections and simply
+    won't appear as map markers — the frontend's makePlayerMarker returns null
+    for null world_img/tree_img.
     """
     base_players = world_service.list_players(level_dict)
     if not base_players:
@@ -260,27 +261,41 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
             sav_path = real_dir / f"{uid_clean}.sav"
             if sav_path.is_file():
                 location = _read_player_position(sav_path)
-        if location is None:
-            # No position → can't place on map. Skip, matching PySide6 behavior.
-            continue
 
-        raw_x, raw_y, raw_z = location
-        map_type = _classify_map_type(raw_x, raw_y)
         pal_count = _count_pals_for_owner(level_dict, uid)
 
-        out.append({
-            "uid": uid,
-            "name": p["name"],
-            "level": 0,  # not available without full player save parse; UI shows "?" if 0
-            "guild_id": p["guild_id"],
-            "guild_name": p["guild_name"] or "",
-            "last_seen_text": p["last_seen_text"] or "Unknown",
-            "pal_count": pal_count,
-            "location": [raw_x, raw_y, raw_z],
-            "map_type": map_type,
-            "world_img": _project_world(raw_x, raw_y),
-            "tree_img": _project_tree(raw_x, raw_y),
-        })
+        if location is not None:
+            raw_x, raw_y, raw_z = location
+            map_type = _classify_map_type(raw_x, raw_y)
+            out.append({
+                "uid": uid,
+                "name": p["name"],
+                "level": 0,
+                "guild_id": p["guild_id"],
+                "guild_name": p["guild_name"] or "",
+                "last_seen_text": p["last_seen_text"] or "Unknown",
+                "pal_count": pal_count,
+                "location": [raw_x, raw_y, raw_z],
+                "map_type": map_type,
+                "world_img": _project_world(raw_x, raw_y),
+                "tree_img": _project_tree(raw_x, raw_y),
+            })
+        else:
+            # No position data (e.g. drag-drop upload) — still include in list
+            # so the sidebar can show them. They just won't appear as markers.
+            out.append({
+                "uid": uid,
+                "name": p["name"],
+                "level": 0,
+                "guild_id": p["guild_id"],
+                "guild_name": p["guild_name"] or "",
+                "last_seen_text": p["last_seen_text"] or "Unknown",
+                "pal_count": pal_count,
+                "location": None,
+                "map_type": "world",
+                "world_img": None,
+                "tree_img": None,
+            })
     return out
 
 

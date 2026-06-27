@@ -172,12 +172,28 @@ export class MapEngine {
     const cw = this.canvas.clientWidth;
     const ch = this.canvas.clientHeight;
     if (cw === 0 || ch === 0) return;
-    const scale = Math.max(cw / this.mapSize, ch / this.mapSize);
+    // Use Math.min so the entire map fits in the viewport (contain, not cover).
+    const scale = Math.min(cw / this.mapSize, ch / this.mapSize);
     this.view.baseScale = scale;
     this.view.zoom = 1.0;
     this.view.panX = (cw - this.mapSize * scale) / 2;
     this.view.panY = (ch - this.mapSize * scale) / 2;
     this.callbacks.onZoomChange?.(1.0);
+  }
+
+  /** Clamp pan so the map image never scrolls off-screen. */
+  private clampPan(): void {
+    const s = this.view.zoom * this.view.baseScale;
+    const cw = this.canvas.clientWidth;
+    const ch = this.canvas.clientHeight;
+    const imgW = this.mapSize * s;
+    const imgH = this.mapSize * s;
+    const minPanX = Math.min(0, cw - imgW);
+    const maxPanX = Math.max(0, cw - imgW);
+    this.view.panX = Math.max(minPanX, Math.min(maxPanX, this.view.panX));
+    const minPanY = Math.min(0, ch - imgH);
+    const maxPanY = Math.max(0, ch - imgH);
+    this.view.panY = Math.max(minPanY, Math.min(maxPanY, this.view.panY));
   }
 
   zoomAt(screenX: number, screenY: number, factor: number): void {
@@ -189,6 +205,7 @@ export class MapEngine {
     this.view.panX = screenX - (screenX - this.view.panX) * actualFactor;
     this.view.panY = screenY - (screenY - this.view.panY) * actualFactor;
     this.view.zoom = newZoom;
+    this.clampPan();
     this.callbacks.onZoomChange?.(newZoom);
   }
 
@@ -201,6 +218,7 @@ export class MapEngine {
   panBy(dx: number, dy: number): void {
     this.view.panX += dx;
     this.view.panY += dy;
+    this.clampPan();
   }
 
   resetView(): void {
@@ -469,6 +487,7 @@ export class MapEngine {
   // ---- rendering -----------------------------------------------------------
 
   render(): void {
+    this.clampPan();
     const ctx = this.ctx;
     const cw = this.canvas.clientWidth;
     const ch = this.canvas.clientHeight;

@@ -7,7 +7,6 @@
   import Card from '$components/ui/Card.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
-  import { Users } from '@lucide/svelte';
 
   let players = $state<PlayerSummary[]>([]);
   let loading = $state(true);
@@ -31,7 +30,7 @@
   );
 </script>
 
-<SaveGate icon={Users}>
+<SaveGate icon="lucide:users">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div class="flex items-center justify-between gap-4">
       <div>

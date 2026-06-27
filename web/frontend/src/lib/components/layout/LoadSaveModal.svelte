@@ -4,7 +4,7 @@
   import { toast } from '$stores/toast';
   import Button from '$components/ui/Button.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
-  import { X, FolderOpen } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
 
   let { open = $bindable(false) }: { open: boolean } = $props();
 
@@ -48,10 +48,10 @@
     <div class="w-full max-w-lg card shadow-card-lg border-accent/40 border-2" role="dialog" aria-modal="true" aria-label="Load save">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-base font-semibold text-ink-emphasis flex items-center gap-2">
-          <FolderOpen size={18} class="text-accent" /> Load Save
+          <Icon icon="lucide:folder-open" width={18} class="text-accent" /> Load Save
         </h2>
         <button class="text-ink-dim hover:text-ink-primary" onclick={close} disabled={busy} aria-label="Close">
-          <X size={18} />
+          <Icon icon="lucide:x" width={18} />
         </button>
       </div>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { health, saveLoaded, saveSummary, saveCounts, isHealthy } from '$stores/index';
-  import { Save, ExternalLink, MessageCircle } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
 
   function fmtBytes(n: number): string {
     if (!n) return '0 B';
@@ -17,11 +17,11 @@
   <div class="flex items-center gap-2 min-w-0">
     <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title="App version">
-      <ExternalLink size={15} />
+      <Icon icon="lucide:external-link" width={15} />
       <span>v{h?.app_version ?? '?'}</span>
     </a>
     <span class="version-chip version-green" title="Palworld version">
-      <Save size={15} />
+      <Icon icon="lucide:save" width={15} />
       <span>{h?.game_version ?? '?'}</span>
     </span>
   </div>
@@ -59,7 +59,7 @@
   <div class="flex items-center gap-2">
     <a href="https://discord.gg/sYcZwcT4cT" target="_blank" rel="noreferrer"
        class="discord-link" title="Join Discord">
-      <MessageCircle size={16} />
+      <Icon icon="lucide:message-circle" width={16} />
     </a>
     <div class="flex items-center gap-1.5 text-xs">
     <span

@@ -7,7 +7,6 @@
   import Card from '$components/ui/Card.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
-  import { Box } from '@lucide/svelte';
 
   let containers = $state<ContainerSummary[]>([]);
   let total = $state(0);
@@ -33,7 +32,7 @@
   );
 </script>
 
-<SaveGate icon={Box}>
+<SaveGate icon="lucide:box">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div class="flex items-center justify-between gap-4">
       <div>

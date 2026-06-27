@@ -1,19 +1,23 @@
 <script lang="ts">
   import type { ToolInfo } from '$types/index';
-  import {
-    FileSymlink, Hash, PackagePlus, Map, Wrench,
-    Gamepad2, FileArchive, ArrowRightFromLine, UserRoundPlus,
-    Users, HardDrive,
-  } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
   let { tool, onSelect }: {
     tool: ToolInfo;
     onSelect: (id: string) => void;
   } = $props();
 
-  const iconMap: Record<string, typeof FileSymlink> = {
-    FileSymlink, Hash, PackagePlus, Map, Wrench,
-    Gamepad2, FileArchive, ArrowRightFromLine, UserRoundPlus,
-    Users, HardDrive,
+  const iconMap: Record<string, string> = {
+    FileSymlink: 'lucide:file-symlink',
+    Hash: 'lucide:hash',
+    PackagePlus: 'lucide:package-plus',
+    Map: 'lucide:map',
+    Wrench: 'lucide:wrench',
+    Gamepad2: 'lucide:gamepad-2',
+    FileArchive: 'lucide:file-archive',
+    ArrowRightFromLine: 'lucide:arrow-right-from-line',
+    UserRoundPlus: 'lucide:user-round-plus',
+    Users: 'lucide:users',
+    HardDrive: 'lucide:hard-drive',
   };
 
   const iconColors: Record<string, string> = {
@@ -28,7 +32,7 @@
     utility: 'bg-emerald-500/10',
   };
 
-  let Icon = $derived(iconMap[tool.icon] ?? Wrench);
+  let iconName = $derived(iconMap[tool.icon] ?? 'lucide:wrench');
 </script>
 
 <button
@@ -38,7 +42,7 @@
 >
   <div class="flex items-start gap-3 px-4 py-3">
     <div class="w-9 h-9 rounded-lg {iconBgs[tool.category] ?? 'bg-surface-hover'} flex items-center justify-center shrink-0 mt-0.5">
-      <Icon class="w-4 h-4 {iconColors[tool.category] ?? 'text-ink-muted'}" />
+      <Icon icon={iconName} width={16} class="{iconColors[tool.category] ?? 'text-ink-muted'}" />
     </div>
     <div class="min-w-0 flex-1">
       <div class="flex items-center gap-2">

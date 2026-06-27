@@ -6,7 +6,7 @@
   import Card from '$components/ui/Card.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import Button from '$components/ui/Button.svelte';
-  import { Globe, Cpu, Check } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
 
   let switching = $state(false);
   let savedPath = $state('');
@@ -58,7 +58,7 @@
           disabled={switching}
         >
           {#if lang.code === $currentLang}
-            <Check size={14} class="absolute top-2 right-2 text-accent" />
+            <Icon icon="lucide:check" width={14} class="absolute top-2 right-2 text-accent" />
           {/if}
           <p class="text-sm font-medium">{lang.label}</p>
           <p class="text-[10px] font-mono text-ink-muted mt-0.5">{lang.code}</p>
@@ -66,14 +66,14 @@
       {/each}
     </div>
     <p class="mt-3 text-xs text-ink-muted flex items-center gap-1.5">
-      <Globe size={12} /> Active: <span class="text-ink-secondary font-mono">{$currentLang}</span>
+      <Icon icon="lucide:globe" width={12} /> Active: <span class="text-ink-secondary font-mono">{$currentLang}</span>
     </p>
   </Card>
 
   <Card title="Backend">
     <dl class="space-y-2 text-sm">
       <div class="flex justify-between py-1.5 border-b border-line/30">
-        <dt class="text-ink-muted flex items-center gap-1.5"><Cpu size={13} /> Status</dt>
+        <dt class="text-ink-muted flex items-center gap-1.5"><Icon icon="lucide:cpu" width={13} /> Status</dt>
         <dd>
           {#if $isHealthy}
             <Badge tone="success">online</Badge>

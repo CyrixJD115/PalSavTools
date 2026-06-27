@@ -1,43 +1,38 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { saveLoaded } from '$stores/index';
-  import {
-    Wrench, Users, Building2, MapPin, Map as MapIcon, Package,
-    Warehouse, Pencil, ShieldOff, Box, Archive, Settings,
-  } from '@lucide/svelte';
-  import type { Component } from 'svelte';
+  import Icon from '@iconify/svelte';
 
-  interface NavItem { href: string; label: string; icon: Component; needsSave?: boolean; }
+  interface NavItem { href: string; label: string; icon: string; needsSave?: boolean; }
   interface NavGroup { label: string; items: NavItem[]; }
 
-  // Mirrors web/.web_ref/pstmain/core/constants.py NAV_GROUPS (layout only).
   const groups: NavGroup[] = [
     {
       label: 'Tools',
       items: [
-        { href: '/', label: 'Overview', icon: Wrench },
-        { href: '/tools', label: 'All Tools', icon: Wrench },
-        { href: '/players', label: 'Players', icon: Users, needsSave: true },
-        { href: '/guilds', label: 'Guilds', icon: Building2, needsSave: true },
-        { href: '/bases', label: 'Bases', icon: MapPin, needsSave: true },
-        { href: '/map', label: 'Map', icon: MapIcon, needsSave: true },
+        { href: '/', label: 'Overview', icon: 'lucide:wrench' },
+        { href: '/tools', label: 'All Tools', icon: 'lucide:wrench' },
+        { href: '/players', label: 'Players', icon: 'lucide:users', needsSave: true },
+        { href: '/guilds', label: 'Guilds', icon: 'lucide:building-2', needsSave: true },
+        { href: '/bases', label: 'Bases', icon: 'lucide:map-pin', needsSave: true },
+        { href: '/map', label: 'Map', icon: 'lucide:map', needsSave: true },
       ],
     },
     {
       label: 'Editors',
       items: [
-        { href: '/inventory', label: 'Player Inventory', icon: Package, needsSave: true },
-        { href: '/base-inventory', label: 'Base Inventory', icon: Warehouse, needsSave: true },
-        { href: '/pal-editor', label: 'Pal Editor', icon: Pencil, needsSave: true },
+        { href: '/inventory', label: 'Player Inventory', icon: 'lucide:package', needsSave: true },
+        { href: '/base-inventory', label: 'Base Inventory', icon: 'lucide:warehouse', needsSave: true },
+        { href: '/pal-editor', label: 'Pal Editor', icon: 'lucide:pencil', needsSave: true },
       ],
     },
     {
       label: 'Utilities',
       items: [
-        { href: '/containers', label: 'Containers', icon: Box, needsSave: true },
-        { href: '/exclusions', label: 'Exclusions', icon: ShieldOff, needsSave: true },
-        { href: '/backups', label: 'Backups', icon: Archive },
-        { href: '/settings', label: 'Settings', icon: Settings },
+        { href: '/containers', label: 'Containers', icon: 'lucide:box', needsSave: true },
+        { href: '/exclusions', label: 'Exclusions', icon: 'lucide:shield-off', needsSave: true },
+        { href: '/backups', label: 'Backups', icon: 'lucide:archive' },
+        { href: '/settings', label: 'Settings', icon: 'lucide:settings' },
       ],
     },
   ];
@@ -68,7 +63,7 @@
               class:opacity-40={item.needsSave && !$saveLoaded}
               title={item.needsSave && !$saveLoaded ? 'Load a save to enable' : item.label}
             >
-              <item.icon size={16} class="shrink-0" />
+              <Icon icon={item.icon} width={16} class="shrink-0" />
               <span class="truncate">{item.label}</span>
             </a>
           {/each}

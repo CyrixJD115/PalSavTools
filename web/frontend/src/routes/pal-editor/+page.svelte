@@ -5,7 +5,7 @@
   import Card from '$components/ui/Card.svelte';
   import EmptyState from '$components/ui/EmptyState.svelte';
   import Badge from '$components/ui/Badge.svelte';
-  import { Sparkles, Search, Shield, Sword, Brain, Heart, Zap } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
   import type { PalSummary } from '$types/index';
 
   let pals: PalSummary[] = $state([]);
@@ -45,7 +45,7 @@
     </div>
     {#if total > 0}
       <div class="relative">
-        <Search size={14} class="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
+        <Icon icon="lucide:search" width={14} class="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
         <input
           type="text" placeholder="Search pals..."
           bind:value={search}
@@ -56,13 +56,13 @@
   </div>
 
   {#if !$saveLoaded}
-    <EmptyState icon={Sparkles} title="No save loaded">
+    <EmptyState icon="lucide:sparkles" title="No save loaded">
       Load a save to browse and edit pals.
     </EmptyState>
   {:else if loading}
     <div class="text-center text-ink-muted py-12">Loading pals...</div>
   {:else if filtered.length === 0}
-    <EmptyState icon={Sparkles} title="No pals found">
+    <EmptyState icon="lucide:sparkles" title="No pals found">
       No pal entries in this save.
     </EmptyState>
   {:else}
@@ -81,18 +81,18 @@
             <Badge>{pal.gender}</Badge>
           </div>
           <div class="flex items-center gap-3 text-xs text-ink-muted">
-            <span class="flex items-center gap-1"><Zap size={12} />Lv.{pal.level}</span>
-            <span class="flex items-center gap-1"><Shield size={12} />★{pal.rank}</span>
+            <span class="flex items-center gap-1"><Icon icon="lucide:zap" width={12} />Lv.{pal.level}</span>
+            <span class="flex items-center gap-1"><Icon icon="lucide:shield" width={12} />★{pal.rank}</span>
           </div>
           <div class="grid grid-cols-3 gap-1 text-xs">
             <span class="{pal.talent_hp >= 90 ? "text-status-success" : pal.talent_hp >= 70 ? "text-yellow-400" : "text-ink-muted"}">
-              <Heart size={12} class="inline" /> {pal.talent_hp}
+              <Icon icon="lucide:heart" width={12} class="inline" /> {pal.talent_hp}
             </span>
             <span class="{pal.talent_shot >= 90 ? "text-status-success" : pal.talent_shot >= 70 ? "text-yellow-400" : "text-ink-muted"}">
-              <Sword size={12} class="inline" /> {pal.talent_shot}
+              <Icon icon="lucide:sword" width={12} class="inline" /> {pal.talent_shot}
             </span>
             <span class="{pal.talent_defense >= 90 ? "text-status-success" : pal.talent_defense >= 70 ? "text-yellow-400" : "text-ink-muted"}">
-              <Brain size={12} class="inline" /> {pal.talent_defense}
+              <Icon icon="lucide:brain" width={12} class="inline" /> {pal.talent_defense}
             </span>
           </div>
           {#if pal.passive_skills.length > 0}

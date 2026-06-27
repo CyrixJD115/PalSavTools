@@ -8,11 +8,7 @@
   import Badge from '$components/ui/Badge.svelte';
   import EmptyState from '$components/ui/EmptyState.svelte';
   import LoadSaveModal from '$components/layout/LoadSaveModal.svelte';
-  import {
-    FolderOpen, Download, LogOut, Users, Building2, MapPin, Box, Sparkles,
-    ArrowRight, FileX,
-  } from '@lucide/svelte';
-  import type { Component } from 'svelte';
+  import Icon from '@iconify/svelte';
 
   let loadOpen = $state(false);
   let exporting = $state(false);
@@ -53,11 +49,11 @@
   }
 
   const stats = $derived([
-    { label: 'Guilds', value: $saveCounts?.guilds ?? 0, icon: Building2 as Component, href: '/guilds' },
-    { label: 'Players', value: $saveCounts?.players ?? 0, icon: Users as Component, href: '/players' },
-    { label: 'Bases', value: $saveCounts?.bases ?? 0, icon: MapPin as Component, href: '/bases' },
-    { label: 'Containers', value: $saveCounts?.containers ?? 0, icon: Box as Component, href: '/containers' },
-    { label: 'Pals', value: $saveCounts?.pals ?? 0, icon: Sparkles as Component, href: '/pal-editor' },
+    { label: 'Guilds', value: $saveCounts?.guilds ?? 0, icon: 'lucide:building-2', href: '/guilds' },
+    { label: 'Players', value: $saveCounts?.players ?? 0, icon: 'lucide:users', href: '/players' },
+    { label: 'Bases', value: $saveCounts?.bases ?? 0, icon: 'lucide:map-pin', href: '/bases' },
+    { label: 'Containers', value: $saveCounts?.containers ?? 0, icon: 'lucide:box', href: '/containers' },
+    { label: 'Pals', value: $saveCounts?.pals ?? 0, icon: 'lucide:sparkles', href: '/pal-editor' },
   ]);
 </script>
 
@@ -73,17 +69,17 @@
     <div class="flex flex-wrap items-center gap-3">
       {#if !$saveLoaded}
         <Button variant="primary" onclick={() => (loadOpen = true)}>
-          <FolderOpen size={16} /> Load Save
+          <Icon icon="lucide:folder-open" width={16} /> Load Save
         </Button>
       {:else}
         <Button variant="primary" onclick={() => (loadOpen = true)} disabled={$loadingSave}>
-          <FolderOpen size={16} /> Load Another
+          <Icon icon="lucide:folder-open" width={16} /> Load Another
         </Button>
         <Button variant="secondary" onclick={doExport} disabled={exporting}>
-          <Download size={16} /> Export .sav
+          <Icon icon="lucide:download" width={16} /> Export .sav
         </Button>
         <Button variant="ghost" onclick={doUnload}>
-          <LogOut size={16} /> Unload
+          <Icon icon="lucide:log-out" width={16} /> Unload
         </Button>
       {/if}
       <div class="flex-1"></div>
@@ -101,8 +97,8 @@
         {#each stats as s}
           <a href={s.href} class="card card-hover flex flex-col gap-2 group animate-fade-in">
             <div class="flex items-center justify-between">
-              <s.icon size={18} class="text-accent" />
-              <ArrowRight size={14} class="text-ink-dim group-hover:text-accent transition-fast" />
+              <Icon icon={s.icon} width={18} class="text-accent" />
+              <Icon icon="lucide:arrow-right" width={14} class="text-ink-dim group-hover:text-accent transition-fast" />
             </div>
             <div>
               <p class="text-2xl font-bold text-ink-emphasis tabular-nums">{s.value}</p>
@@ -137,7 +133,7 @@
     </Card>
   {:else}
     <Card>
-      <EmptyState icon={FileX} title="No save loaded">
+      <EmptyState icon="lucide:file-x" title="No save loaded">
         <p>Click <strong class="text-ink-secondary">Load Save</strong> and point to your
         <code class="text-accent-light">Level.sav</code> to begin.</p>
       </EmptyState>

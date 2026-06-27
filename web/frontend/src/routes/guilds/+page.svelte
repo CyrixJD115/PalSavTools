@@ -7,7 +7,7 @@
   import Card from '$components/ui/Card.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
-  import { Building2, Users, MapPin, Crown } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
 
   let guilds = $state<GuildSummary[]>([]);
   let loading = $state(true);
@@ -22,7 +22,7 @@
   onMount(() => { if ($saveLoaded) load(); });
 </script>
 
-<SaveGate icon={Building2}>
+<SaveGate icon="lucide:building-2">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
       <h1 class="text-xl font-bold heading-gradient">Guilds</h1>
@@ -39,22 +39,22 @@
           <Card hover>
             <div class="flex items-start justify-between mb-3">
               <div class="flex items-center gap-2">
-                <Building2 size={18} class="text-accent" />
+                <Icon icon="lucide:building-2" width={18} class="text-accent" />
                 <h3 class="text-base font-semibold text-ink-emphasis">{g.name}</h3>
               </div>
               <Badge tone="neutral">{g.player_count} players</Badge>
             </div>
             <div class="grid grid-cols-2 gap-3 text-sm">
               <div class="flex items-center gap-2 text-ink-secondary">
-                <Users size={14} class="text-ink-muted" /> {g.player_count} members
+                <Icon icon="lucide:users" width={14} class="text-ink-muted" /> {g.player_count} members
               </div>
               <div class="flex items-center gap-2 text-ink-secondary">
-                <MapPin size={14} class="text-ink-muted" /> {g.base_count} bases
+                <Icon icon="lucide:map-pin" width={14} class="text-ink-muted" /> {g.base_count} bases
               </div>
             </div>
             {#if g.leader_uid}
               <div class="mt-3 pt-3 border-t border-line/30 flex items-center gap-2 text-xs text-ink-muted">
-                <Crown size={12} class="text-status-amber" />
+                <Icon icon="lucide:crown" width={12} class="text-status-amber" />
                 <span class="font-mono">{g.leader_uid}</span>
               </div>
             {/if}

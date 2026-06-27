@@ -6,7 +6,6 @@
   import SaveGate from '$components/ui/SaveGate.svelte';
   import Card from '$components/ui/Card.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
-  import { Map as MapIcon } from '@lucide/svelte';
 
   let bases = $state<BaseSummary[]>([]);
   let loading = $state(true);
@@ -25,7 +24,7 @@
   onMount(() => { if ($saveLoaded) load(); });
 </script>
 
-<SaveGate icon={MapIcon}>
+<SaveGate icon="lucide:map">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
       <h1 class="text-xl font-bold heading-gradient">Map</h1>

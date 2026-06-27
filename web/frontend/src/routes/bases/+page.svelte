@@ -7,7 +7,7 @@
   import Card from '$components/ui/Card.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
-  import { MapPin, Building2 } from '@lucide/svelte';
+  import Icon from '@iconify/svelte';
 
   let bases = $state<BaseSummary[]>([]);
   let loading = $state(true);
@@ -27,7 +27,7 @@
   }
 </script>
 
-<SaveGate icon={MapPin}>
+<SaveGate icon="lucide:map-pin">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
       <h1 class="text-xl font-bold heading-gradient">Bases</h1>
@@ -56,7 +56,7 @@
                   <td class="py-2.5 pr-4 text-ink-muted tabular-nums">{i + 1}</td>
                   <td class="py-2.5 pr-4">
                     {#if b.guild_name}
-                      <Badge tone="accent"><Building2 size={11} />{b.guild_name}</Badge>
+                      <Badge tone="accent"><Icon icon="lucide:building-2" width={11} />{b.guild_name}</Badge>
                     {:else}
                       <span class="text-ink-dim">—</span>
                     {/if}

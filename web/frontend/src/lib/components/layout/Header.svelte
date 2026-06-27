@@ -17,7 +17,7 @@
   <div class="flex items-center gap-2 min-w-0">
     <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title="App version">
-      <Icon icon="lucide:external-link" width={15} />
+      <Icon icon="simple-icons:github" width={15} />
       <span>v{h?.app_version ?? '?'}</span>
     </a>
     <span class="version-chip version-green" title="Palworld version">

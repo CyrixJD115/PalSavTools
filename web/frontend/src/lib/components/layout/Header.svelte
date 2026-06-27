@@ -59,7 +59,7 @@
   <div class="flex items-center gap-2">
     <a href="https://discord.gg/sYcZwcT4cT" target="_blank" rel="noreferrer"
        class="discord-link" title="Join Discord">
-      <Icon icon="lucide:message-circle" width={16} />
+      <Icon icon="simple-icons:discord" width={16} />
     </a>
     <div class="flex items-center gap-1.5 text-xs">
     <span

@@ -40,7 +40,7 @@
 <div class="p-6 max-w-7xl mx-auto space-y-4 animate-fade-in">
   <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-2xl font-bold text-ink-emphasis">Pal Editor</h1>
+      <h1 class="text-2xl font-bold heading-gradient">Pal Editor</h1>
       <p class="text-sm text-ink-muted mt-1">{total} pals found</p>
     </div>
     {#if total > 0}

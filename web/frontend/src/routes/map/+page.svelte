@@ -28,7 +28,7 @@
 <SaveGate icon={MapIcon}>
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
-      <h1 class="text-xl font-bold text-ink-emphasis">Map</h1>
+      <h1 class="text-xl font-bold heading-gradient">Map</h1>
       <p class="text-xs text-ink-muted">Approximate base positions from save coordinates (read-only)</p>
     </div>
 

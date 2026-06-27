@@ -45,7 +45,7 @@
 
 {#if open}
   <div class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" role="presentation">
-    <div class="w-full max-w-lg card shadow-card-lg" role="dialog" aria-modal="true" aria-label="Load save">
+    <div class="w-full max-w-lg card shadow-card-lg border-accent/40 border-2" role="dialog" aria-modal="true" aria-label="Load save">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-base font-semibold text-ink-emphasis flex items-center gap-2">
           <FolderOpen size={18} class="text-accent" /> Load Save

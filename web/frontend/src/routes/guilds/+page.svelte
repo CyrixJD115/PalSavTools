@@ -25,7 +25,7 @@
 <SaveGate icon={Building2}>
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
-      <h1 class="text-xl font-bold text-ink-emphasis">Guilds</h1>
+      <h1 class="text-xl font-bold heading-gradient">Guilds</h1>
       <p class="text-xs text-ink-muted">{guilds.length} guilds</p>
     </div>
 

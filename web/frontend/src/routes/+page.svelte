@@ -63,7 +63,7 @@
 
 <div class="p-6 max-w-6xl mx-auto space-y-6 animate-fade-in">
   <div>
-    <h1 class="text-2xl font-bold text-ink-emphasis">Overview</h1>
+      <h1 class="text-2xl font-bold heading-gradient">Overview</h1>
     <p class="text-sm text-ink-muted mt-1">
       Load a Palworld save to inspect its contents. Viewers are read-only in this phase.
     </p>
@@ -99,7 +99,7 @@
       <h2 class="text-sm font-semibold text-ink-secondary uppercase tracking-wider mb-3">World Summary</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {#each stats as s}
-          <a href={s.href} class="card card-hover flex flex-col gap-2 group">
+          <a href={s.href} class="card card-hover flex flex-col gap-2 group animate-fade-in">
             <div class="flex items-center justify-between">
               <s.icon size={18} class="text-accent" />
               <ArrowRight size={14} class="text-ink-dim group-hover:text-accent transition-fast" />

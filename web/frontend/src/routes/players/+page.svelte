@@ -35,7 +35,7 @@
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div class="flex items-center justify-between gap-4">
       <div>
-        <h1 class="text-xl font-bold text-ink-emphasis">Players</h1>
+        <h1 class="text-xl font-bold heading-gradient">Players</h1>
         <p class="text-xs text-ink-muted">{players.length} players across all guilds</p>
       </div>
       <input class="input max-w-xs" placeholder="Filter by name, UID, guild..." bind:value={query} />

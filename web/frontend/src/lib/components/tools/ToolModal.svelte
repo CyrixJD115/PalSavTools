@@ -129,7 +129,7 @@
     bind:this={overlayEl}
   >
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-    <div class="relative w-full max-w-lg mx-4 max-h-[85vh] flex flex-col rounded-xl bg-surface border border-line shadow-2xl">
+    <div class="relative w-full max-w-lg mx-4 max-h-[85vh] flex flex-col rounded-xl bg-surface border-2 border-accent/30 shadow-2xl">
       <!-- Header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-line shrink-0">
         <h2 class="text-base font-semibold text-ink-emphasis">{tool.name}</h2>

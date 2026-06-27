@@ -50,8 +50,8 @@
 
 <aside class="relative h-full w-56 shrink-0 flex flex-col bg-nav-gradient border-r border-line/50">
   <div class="flex items-center gap-2.5 px-4 h-14 border-b border-line/40 shrink-0">
-    <div class="w-6 h-6 rounded-4 bg-accent-gradient shrink-0 shadow-glow"></div>
-    <span class="font-semibold text-ink-emphasis text-sm tracking-wide">PalworldSaveTools</span>
+    <div class="w-6 h-6 rounded-4 bg-cyber-gradient shrink-0 shadow-glow-cyan animate-breathe" style="background-size:200% 200%;animation:gradientShift 3s ease infinite;"></div>
+    <span class="font-semibold text-sm tracking-wide heading-gradient">PalworldSaveTools</span>
   </div>
 
   <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-4">

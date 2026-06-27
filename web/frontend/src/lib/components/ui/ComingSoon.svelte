@@ -18,7 +18,7 @@
         <Icon size={26} class="text-accent" />
       </div>
       <span class="badge bg-status-amber/15 border-status-amber/40 text-status-amber mb-3">{phase}</span>
-      <h1 class="text-xl font-bold text-ink-emphasis">{title}</h1>
+      <h1 class="text-xl font-bold heading-gradient">{title}</h1>
       {#if description}
         <p class="mt-2 text-sm text-ink-muted max-w-md">{description}</p>
       {/if}

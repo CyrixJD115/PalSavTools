@@ -23,7 +23,7 @@
     {@const Icon = iconFor[toast.kind]}
     <div
       class="flex items-start gap-2.5 p-3 rounded-8 bg-bg-card/95 backdrop-blur
-             border shadow-card-lg animate-slide-up {toneFor[toast.kind]}"
+             border shadow-card-lg animate-slide-up {toneFor[toast.kind]} border-2"
     >
       <Icon size={18} class="shrink-0 mt-0.5" />
       <p class="flex-1 text-sm text-ink-primary leading-snug">{toast.message}</p>

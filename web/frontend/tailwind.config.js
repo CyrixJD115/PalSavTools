@@ -1,12 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-// Palette ported verbatim from web/.web_ref/pstmain/styles/colors.py (dark navy + blue/cyan).
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Background surfaces (deep navy)
         bg: {
           base: '#0A0E1A',
           deep: '#0F1621',
@@ -15,7 +13,6 @@ export default {
           elevated: '#1E2633',
           card: '#161E2D',
         },
-        // Primary accent (blue) + cyan secondary
         accent: {
           DEFAULT: '#3B8ED0',
           light: '#5BA3E0',
@@ -23,7 +20,16 @@ export default {
           secondary: '#1E88E5',
           cyan: '#00BCD4',
         },
-        // Status semantics
+        pal: {
+          sky: '#87CEEB',
+          electric: '#00BFFF',
+          cyan: '#00E5FF',
+          light: '#B3E5FC',
+          deep: '#0D47A1',
+          yellow: '#FFD700',
+          amber: '#FFB300',
+          glow: '#4FC3F7',
+        },
         status: {
           success: '#4CAF50',
           warning: '#FFD24D',
@@ -32,7 +38,6 @@ export default {
           amber: '#FFB74D',
           'amber-dark': '#FF9800',
         },
-        // Text ink
         ink: {
           primary: '#E3F2FD',
           secondary: '#B0BEC5',
@@ -41,13 +46,11 @@ export default {
           inverse: '#0A0E1A',
           emphasis: '#FFFFFF',
         },
-        // Borders / dividers
         line: {
           DEFAULT: '#1E2633',
           hover: '#2D3A4E',
           focus: '#3B8ED0',
         },
-        // Accent headers used on chips/badges
         header: {
           purple: '#A78BFA',
           sky: '#7DD3FC',
@@ -66,15 +69,21 @@ export default {
         '12': '12px',
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(59, 142, 208, 0.3)',
+        glow: '0 0 20px rgba(59, 142, 208, 0.3)',
         'glow-strong': '0 0 30px rgba(59, 142, 208, 0.5)',
+        'glow-cyan': '0 0 20px rgba(0, 188, 212, 0.4)',
+        'glow-electric': '0 0 25px rgba(0, 191, 255, 0.35)',
+        'glow-amber': '0 0 20px rgba(255, 215, 0, 0.3)',
         'card': '0 4px 6px rgba(0, 0, 0, 0.4)',
         'card-lg': '0 10px 15px rgba(0, 0, 0, 0.5)',
       },
+      borderWidth: {
+        '3': '3px',
+      },
       transitionDuration: {
-        'fast': '150ms',
-        'normal': '250ms',
-        'slow': '350ms',
+        fast: '150ms',
+        normal: '250ms',
+        slow: '350ms',
       },
       backgroundImage: {
         'surface-gradient': 'linear-gradient(180deg, #0A0E1A 0%, #0F1621 100%)',
@@ -84,11 +93,21 @@ export default {
         'accent-gradient': 'linear-gradient(135deg, #1E88E5 0%, #3B8ED0 50%, #00BCD4 100%)',
         'stats-gradient': 'linear-gradient(180deg, #3B8ED0 0%, #00BCD4 100%)',
         'selection-gradient': 'linear-gradient(180deg, #FFB74D 0%, #FF9800 100%)',
+        'cyber-gradient': 'linear-gradient(135deg, #0D47A1 0%, #1E88E5 30%, #00BCD4 60%, #00E5FF 100%)',
+        'amber-glow': 'linear-gradient(135deg, #FFB300 0%, #FFD700 100%)',
       },
       animation: {
         'fade-in': 'fadeIn 0.2s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
+        'float': 'float 3s ease-in-out infinite alternate',
+        'shimmer': 'shimmer 3s linear infinite',
+        'breathe': 'breathe 4s ease-in-out infinite alternate',
+        'drift': 'drift 8s ease-in-out infinite alternate',
+        'border-glow': 'borderGlow 3s linear infinite',
+        'gradient-shift': 'gradientShift 4s ease infinite',
+        'fade-in-up': 'fadeInUp 0.35s ease-out',
+        'pulse-dot': 'pulseDot 2s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
@@ -96,6 +115,41 @@ export default {
         pulseGlow: {
           '0%': { boxShadow: '0 0 12px rgba(59, 142, 208, 0.2)' },
           '100%': { boxShadow: '0 0 24px rgba(59, 142, 208, 0.45)' },
+        },
+        float: {
+          '0%': { transform: 'translateY(0px)' },
+          '100%': { transform: 'translateY(-6px)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        breathe: {
+          '0%': { opacity: '0.6' },
+          '100%': { opacity: '1' },
+        },
+        drift: {
+          '0%': { transform: 'translateX(0px) translateY(0px)' },
+          '33%': { transform: 'translateX(4px) translateY(-2px)' },
+          '66%': { transform: 'translateX(-2px) translateY(3px)' },
+          '100%': { transform: 'translateX(0px) translateY(0px)' },
+        },
+        borderGlow: {
+          '0%, 100%': { borderColor: 'rgba(59, 142, 208, 0.4)' },
+          '50%': { borderColor: 'rgba(0, 188, 212, 0.7)' },
+        },
+        gradientShift: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseDot: {
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 6px currentColor' },
+          '50%': { opacity: '0.5', boxShadow: '0 0 14px currentColor' },
         },
       },
     },

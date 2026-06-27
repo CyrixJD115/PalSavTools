@@ -30,7 +30,7 @@
 <SaveGate icon={MapPin}>
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
     <div>
-      <h1 class="text-xl font-bold text-ink-emphasis">Bases</h1>
+      <h1 class="text-xl font-bold heading-gradient">Bases</h1>
       <p class="text-xs text-ink-muted">{bases.length} base camps</p>
     </div>
 

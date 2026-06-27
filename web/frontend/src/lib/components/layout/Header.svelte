@@ -61,7 +61,8 @@
     <!-- Backend status -->
     <div class="flex items-center gap-1.5 text-xs ml-1">
       <span
-        class="w-2 h-2 rounded-full {$isHealthy ? 'bg-status-success shadow-glow' : 'bg-status-error'}"
+        class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
+        class:animate-pulse-dot={$isHealthy}
       ></span>
       <span class="{$isHealthy ? 'text-status-success' : 'text-status-error'}">
         {$isHealthy ? 'Online' : 'Offline'}
@@ -80,21 +81,26 @@
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
     cursor: default;
   }
   .chip-sky {
     background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.15);
     color: #7dd3fc;
     cursor: pointer;
   }
   .chip-sky:hover {
-    background: rgba(56, 189, 248, 0.12);
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
   }
   .chip-green {
     background: rgba(74, 222, 128, 0.08);
-    border: 1px solid rgba(74, 222, 128, 0.12);
+    border: 1px solid rgba(74, 222, 128, 0.15);
     color: #86efac;
+  }
+  .chip-green:hover {
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.1);
   }
 </style>

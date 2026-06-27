@@ -42,7 +42,7 @@
 
 <div class="p-6 max-w-3xl mx-auto space-y-6 animate-fade-in">
   <div>
-    <h1 class="text-xl font-bold text-ink-emphasis">Settings</h1>
+    <h1 class="text-xl font-bold heading-gradient">Settings</h1>
     <p class="text-xs text-ink-muted">Interface language and backend information</p>
   </div>
 

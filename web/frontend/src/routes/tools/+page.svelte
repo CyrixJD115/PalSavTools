@@ -29,7 +29,7 @@
 <div class="p-6 max-w-6xl mx-auto space-y-4 animate-fade-in">
   <div class="flex items-center justify-between gap-4 mb-2">
     <div>
-      <h1 class="text-xl font-bold text-ink-emphasis">Tools</h1>
+      <h1 class="text-xl font-bold heading-gradient">Tools</h1>
       <p class="text-xs text-ink-muted">{tools.length} tools available</p>
     </div>
   </div>

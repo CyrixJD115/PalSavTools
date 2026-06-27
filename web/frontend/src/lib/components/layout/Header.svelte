@@ -13,7 +13,19 @@
   const h = $derived($health);
 </script>
 
-<header class="flex items-center gap-4 h-14 px-5 border-b border-line/50 bg-header-gradient shrink-0">
+<header class="flex items-center gap-4 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
+  <div class="flex items-center gap-2 min-w-0">
+    <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
+       class="version-chip version-sky" title="App version">
+      <ExternalLink size={15} />
+      <span>v{h?.app_version ?? '?'}</span>
+    </a>
+    <span class="version-chip version-green" title="Palworld version">
+      <Save size={15} />
+      <span>{h?.game_version ?? '?'}</span>
+    </span>
+  </div>
+
   <div class="flex items-center gap-3 min-w-0">
     {#if $saveLoaded}
       <span class="badge bg-status-success/15 border-status-success/40 text-status-success">
@@ -25,18 +37,18 @@
     {/if}
     <div class="hidden md:flex items-center gap-3 text-xs text-ink-muted min-w-0">
       {#if $saveLoaded}
-        <span class="truncate max-w-[220px] text-ink-secondary font-medium">
+        <span class="truncate max-w-[200px] text-ink-secondary font-medium">
           {$saveSummary?.filename}
         </span>
-        <span>·</span>
+        <span class="text-line-hover">|</span>
         <span>{fmtBytes($saveSummary?.file_size ?? 0)}</span>
       {/if}
       {#if counts}
-        <span>·</span>
+        <span class="text-line-hover">|</span>
         <span>{counts.guilds} guilds</span>
-        <span>·</span>
+        <span class="text-line-hover">|</span>
         <span>{counts.players} players</span>
-        <span>·</span>
+        <span class="text-line-hover">|</span>
         <span>{counts.bases} bases</span>
       {/if}
     </div>
@@ -44,63 +56,50 @@
 
   <div class="flex-1"></div>
 
-  <div class="flex items-center gap-2">
-    <!-- App version chip -->
-    <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
-       class="chip chip-sky" title="App version">
-      <ExternalLink size={14} />
-      <span>v{h?.app_version ?? '?'}</span>
-    </a>
-
-    <!-- Game version chip -->
-    <span class="chip chip-green" title="Palworld version">
-      <Save size={14} />
-      <span>{h?.game_version ?? '?'}</span>
+  <div class="flex items-center gap-1.5 text-xs">
+    <span
+      class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
+      class:animate-pulse-dot={$isHealthy}
+    ></span>
+    <span class="{$isHealthy ? 'text-status-success' : 'status-error'}">
+      {$isHealthy ? 'Online' : 'Offline'}
     </span>
-
-    <!-- Backend status -->
-    <div class="flex items-center gap-1.5 text-xs ml-1">
-      <span
-        class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
-        class:animate-pulse-dot={$isHealthy}
-      ></span>
-      <span class="{$isHealthy ? 'text-status-success' : 'text-status-error'}">
-        {$isHealthy ? 'Online' : 'Offline'}
-      </span>
-    </div>
   </div>
 </header>
 
 <style>
-  .chip {
+  .version-chip {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 10px;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 4px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: default;
+    border-width: 2px;
   }
-  .chip-sky {
-    background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.15);
-    color: #7dd3fc;
+  .version-sky {
+    background: linear-gradient(135deg, rgba(59, 142, 208, 0.12), rgba(0, 188, 212, 0.08));
+    border-color: rgba(59, 142, 208, 0.5);
+    color: #7DD3FC;
     cursor: pointer;
   }
-  .chip-sky:hover {
-    background: rgba(56, 189, 248, 0.15);
-    border-color: rgba(56, 189, 248, 0.35);
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+  .version-sky:hover {
+    background: linear-gradient(135deg, rgba(59, 142, 208, 0.2), rgba(0, 188, 212, 0.15));
+    border-color: rgba(59, 142, 208, 0.7);
+    box-shadow: 0 0 16px rgba(59, 142, 208, 0.2);
   }
-  .chip-green {
-    background: rgba(74, 222, 128, 0.08);
-    border: 1px solid rgba(74, 222, 128, 0.15);
-    color: #86efac;
+  .version-green {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(0, 200, 83, 0.08));
+    border-color: rgba(76, 175, 80, 0.5);
+    color: #81C784;
   }
-  .chip-green:hover {
-    box-shadow: 0 0 10px rgba(74, 222, 128, 0.1);
+  .version-green:hover {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(0, 200, 83, 0.15));
+    border-color: rgba(76, 175, 80, 0.7);
+    box-shadow: 0 0 16px rgba(76, 175, 80, 0.2);
   }
 </style>

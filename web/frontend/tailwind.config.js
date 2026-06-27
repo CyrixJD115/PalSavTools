@@ -79,6 +79,7 @@ export default {
       },
       borderWidth: {
         '3': '3px',
+        '4': '4px',
       },
       transitionDuration: {
         fast: '150ms',

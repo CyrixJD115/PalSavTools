@@ -8,7 +8,7 @@ if ! command -v uv &>/dev/null; then
     exit 1
 fi
 
-uv run src/start.py --web
+uv run src/main.py --web
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     read -n 1 -p "Press any key to exit..."

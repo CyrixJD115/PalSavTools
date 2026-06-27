@@ -1,0 +1,35 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Aperçu fonctionnel</h4>
+<p>Tableau consultable de tous les joueurs de la sauvegarde. Les colonnes indiquent le nom du joueur, la dernière vue, le niveau, le nombre de copains, l'UID, le nom de la guilde, l'identifiant de la guilde et le niveau de la guilde. Utilisez les boutons d'action groupée en bas pour la gestion des objets, des amis et de la technologie sur plusieurs joueurs.</p>
+<h4>Opérations de base (clic gauche et boutons)</h4>
+<ul>
+  <li>Tapez dans la barre de recherche pour filtrer les joueurs en temps réel — toute correspondance de colonne s'affichera.</li>
+  <li>Cliquez sur une ligne pour la sélectionner.</li>
+  <li>Cliquez sur <b>Gestion groupée des éléments</b> pour ouvrir la boîte de dialogue Action des éléments du joueur (ajouter/supprimer des éléments sur les joueurs sélectionnés).</li>
+  <li>Cliquez sur <b>Bulk Pal Management</b> pour les opérations Pal.</li>
+  <li>Cliquez sur <b>Gestion globale de la technologie</b> pour les déverrouillages technologiques.</li>
+</ul>
+<h4>Raccourcis avancés (interactions par double-clic)</h4>
+<ul>
+  <li>Un double-clic sur une ligne de joueur émet le signal <code>item_double_clicked</code>.</li>
+  <li>Cependant, aucun gestionnaire par défaut n'est connecté dans le code actuel — le double-clic n'a actuellement aucun effet visible.</li>
+  <li>(Destiné à une utilisation future.)</li>
+</ul>
+<h4>Menus cachés (contexte du clic droit)</h4>
+<ul>
+  <li>Cliquez avec le bouton droit sur une ligne de joueur pour : Ajouter/Supprimer une exclusion, Supprimer un joueur, Renommer un joueur, Déverrouiller la cage de visualisation, Réinitialiser l'horodatage, Mettre à jour les identifiants des conteneurs, Déverrouiller toutes les technologies, Modifier les points techniques, Modifier les statistiques du joueur, Définir le niveau du joueur.</li>
+  <li>Comprend également des actions au niveau de la guilde pour la guilde du joueur : devenir chef de guilde, supprimer une guilde, renommer une guilde, débloquer toutes les recherches en laboratoire, définir le niveau de guilde, importer une base dans une guilde.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Conseil d'utilisateur expérimenté</p>
+<p>Triez n'importe quelle colonne en cliquant sur son en-tête. La colonne UID (index de colonne 4) est utilisée comme clé pour les opérations d'exclusion et de suppression. Utilisez <b>Menu → Fonctions → Supprimer les joueurs inactifs</b> après avoir vérifié les dates de dernière visite pour nettoyer en masse les joueurs abandonnés.</p>
+</div>
+</div>

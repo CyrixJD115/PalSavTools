@@ -1,0 +1,31 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Searchable table of all base camps in the save. Columns show Base ID, Guild ID, Guild Name, and Guild Level. Right-click context menu provides full base management: deletion, radius adjustment, import/export, cloning, and guild operations.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Type in the search bar to filter bases by any column.</li>
+  <li>Click a base row to select it.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-clicking a base row emits the <code>item_double_clicked</code> signal.</li>
+  <li>No default handler is connected — double-click currently has no visible effect.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click a base row for: Add/Remove Exclusion, Delete Base (requires base ID and guild ID), Rename Guild, Set Guild Level, Export Base, Adjust Radius, Import Base, Clone Base.</li>
+  <li>Note that some actions operate on the <b>guild</b> associated with the base rather than the base itself.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>The base ID (column index 0) and guild ID (column index 1) are both needed for deletion — the context menu passes both. Use the <b>Menu → Functions</b> path for bulk base cleanup like Delete Inactive Bases and Delete Non-Base Map Objects.</p>
+</div>
+</div>

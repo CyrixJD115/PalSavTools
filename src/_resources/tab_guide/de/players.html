@@ -1,0 +1,35 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Funktionsübersicht</h4>
+<p>Durchsuchbare Tabelle aller Spieler im Spielstand. In den Spalten werden Spielername, Zuletzt gesehen, Level, Anzahl der Freunde, UID, Gildenname, Gilden-ID und Gildenlevel angezeigt. Verwenden Sie die Massenaktionsschaltflächen unten für die Verwaltung von Gegenständen, Freunden und Technologien für mehrere Spieler.</p>
+<h4>Grundfunktionen (Linksklick und Tasten)</h4>
+<ul>
+  <li>Geben Sie die Suchleiste ein, um Spieler in Echtzeit zu filtern – jede Spaltenübereinstimmung wird angezeigt.</li>
+  <li>Klicken Sie auf eine Zeile, um sie auszuwählen.</li>
+  <li>Klicken Sie auf <b>Bulk Item Management</b>, um das Dialogfeld „Player Item Action“ (Elemente für ausgewählte Spieler hinzufügen/entfernen) zu öffnen.</li>
+  <li>Klicken Sie auf <b>Bulk Pal Management</b> für Pal-Operationen.</li>
+  <li>Klicken Sie auf <b>Bulk Technology Management</b> für freigeschaltete Technologien.</li>
+</ul>
+<h4>Erweiterte Verknüpfungen (Doppelklick-Interaktionen)</h4>
+<ul>
+  <li>Ein Doppelklick auf eine Spielerzeile gibt das Signal <code>item_double_clicked</code> aus.</li>
+  <li>Allerdings ist im aktuellen Code kein Standardhandler verbunden – Doppelklick hat derzeit keine sichtbare Auswirkung.</li>
+  <li>(Für zukünftige Verwendung vorgesehen.)</li>
+</ul>
+<h4>Versteckte Menüs (Rechtsklick-Kontext)</h4>
+<ul>
+  <li>Klicken Sie mit der rechten Maustaste auf eine Spielerzeile für: Ausschluss hinzufügen/entfernen, Spieler löschen, Spieler umbenennen, Anzeigekäfig entsperren, Zeitstempel zurücksetzen, Container-IDs aktualisieren, Alle Technologien freischalten, Tech Points bearbeiten, Spielerstatistiken bearbeiten, Spielerstufe festlegen.</li>
+  <li>Enthält außerdem Aktionen auf Gildenebene für die Gilde des Spielers: Gildenanführer ernennen, Gilde löschen, Gilde umbenennen, Gesamte Laborforschung freischalten, Gildenstufe festlegen, Basis in Gilde importieren.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User-Tipp</p>
+<p>Sortieren Sie eine beliebige Spalte, indem Sie auf deren Überschrift klicken. Als Schlüssel für Ausschluss- und Löschvorgänge wird die UID-Spalte (Spaltenindex 4) verwendet. Verwenden Sie <b>Menü → Funktionen → Inaktive Spieler löschen</b>, nachdem Sie die zuletzt gesehenen Daten überprüft haben, um verlassene Spieler in großen Mengen zu bereinigen.</p>
+</div>
+</div>

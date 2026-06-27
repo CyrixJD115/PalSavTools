@@ -1,0 +1,42 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Interactive world map showing base markers (house icon), player markers (person icon), and exclusion zones. Click markers to inspect bases/players, right-click for management actions, and use the sidebar tree to navigate by guild.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click a marker to select it (highlights with glow effect).</li>
+  <li>Scroll mouse wheel to zoom (1.15x per step, range 1.0x–30.0x).</li>
+  <li>Click-and-drag empty space to pan.</li>
+  <li>Toggle map overlays via toolbar: Bases, Players, Radius Rings, and Exclusion Zones buttons.</li>
+  <li>Switch between World Map and Tree Map views.</li>
+  <li>The search bar filters markers by guild or player name.</li>
+  <li>The Bases/Players tab buttons on the left switch between base tree and player tree panels.</li>
+  <li>Click <b>Calibrate</b> to enter calibration mode for precise coordinate alignment.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-click any base or player marker to zoom in and animate the map view to that marker at 26.0x zoom while updating the info panel with its details.</li>
+  <li>Double-click a zone item (exclusion zone drawn on the map) to open a rename dialog.</li>
+  <li>In zone-drawing mode with Rect selected: first double-click sets corner A, second double-click sets corner B and creates the zone.</li>
+  <li>In Polygon mode with at least 3 points: double-click closes and creates the polygon zone.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click a <b>base marker</b> for: Delete Base, Export Base, Adjust Radius.</li>
+  <li>Right-click a <b>player marker</b> for: Delete Player, Rename Player, Unlock Viewing Cage, Unlock Technologies.</li>
+  <li>Right-click <b>empty map space</b> for: Import Base, Draw Zones, Clear All Zones, Export Zones, Import Zones.</li>
+  <li>Right-click items in the <b>base/player tree</b> for additional actions including guild-level operations (Rename Guild, Delete Guild, Export/Import Bases for Guild, Update Container IDs).</li>
+  <li>Right-click a <b>zone</b> on the map for: Delete Zone (with confirmation), Rename Zone.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Press <b>Escape</b> while in zone-drawing mode to cancel and exit immediately. Use calibration mode (Calibrate button) to precisely align the map with game coordinates by left-clicking known locations and right-clicking to undo.</p>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Full player inventory management with three sub-tabs: <b>Inventory</b> (all items/equipment in the main bag), <b>Key Items</b> (quest items, effigies, technology), and <b>Stats</b> (player attributes: Level, HP, Stamina, Attack, Defense, Work Speed, Weight). An equipment panel on the right shows weapon, accessory, food, armor, shield, glider, and module slots.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click <b>Select Player...</b> to pick a player from the searchable popup (type to filter, Enter to select).</li>
+  <li>Click sub-tabs to switch views.</li>
+  <li>In the Stats sub-tab, click the <b>+</b>/<b>−</b> buttons next to each stat to adjust by 1, or type a value directly into the number field and press Enter.</li>
+  <li>Click the <b>Level +/−</b> buttons or type a level (1–80).</li>
+  <li>Click the <b>Unlock All Map + Fast Travel</b> button in the Inventory tab to reveal all fast travel points.</li>
+  <li>Click locked equipment slots (weapon/armor/food/accessory) to attempt unlocking — a tooltip tells you what item is needed.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-click any item in the Inventory or Key Items grid to <b>delete it directly</b> with no confirmation prompt.</li>
+  <li>Double-click an empty slot to <b>open the add-item dialog</b>.</li>
+  <li>Double-click an equipment slot that has an item to <b>remove that item</b>; double-click an empty equipment slot to <b>open the add-item picker</b> for that slot.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click a filled inventory slot for: Edit Quantity, Delete, Add Item.</li>
+  <li>Right-click an empty slot for: Add Item, Clear Slot (useful for corrupted slots).</li>
+  <li>Right-click an equipment slot for: Edit Quantity (food slots only), Clear Slot, or Add Item.</li>
+  <li>The item picker dialog also supports double-click on a search result to immediately add the item.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Hover over any item to see a tooltip with the item name, quantity, internal ID, and full game description. The Sort button organizes items by category. The Key Items tab has dedicated "Add All Effigies" and "Add All Key Items" buttons for bulk operations.</p>
+</div>
+</div>

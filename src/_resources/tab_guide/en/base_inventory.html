@@ -1,0 +1,41 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Browse and manage item inventories and working Pals for all bases across all guilds. Switch between two sub-tabs: <b>Inventory</b> (view/edit items in containers) and <b>Base Pals</b> (view/manage working Pals assigned to the selected base).</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click the <b>Guild</b> button to open a searchable popup and select a guild, then click the <b>Base</b> button to select a base.</li>
+  <li>Click a container in the container list (left panel) to view its items in the grid.</li>
+  <li>Click the <b>Inventory</b> or <b>Base Pals</b> tab buttons to switch views.</li>
+  <li>Use the <b>Item</b> button to open cross-guild item operations (find/remove items across all guilds).</li>
+  <li>Use the <b>Structure</b> button for cross-guild structure deletion.</li>
+  <li>The <b>Find Bases</b> button scans all bases for containers matching an item filter.</li>
+  <li>Use the scroll wheel on the Base Pals grid to navigate pages when a base has more than 30 working Pals.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-click an item in the inventory grid to <b>remove it from the slot immediately</b> (no confirmation).</li>
+  <li>Double-click an empty slot to <b>open the add-item dialog</b> for that slot.</li>
+  <li>Double-click a Pal slot in Base Pals: if the slot has a Pal, it is <b>deleted directly</b> (no confirmation); if empty, it opens the <b>Add New Pal</b> dialog.</li>
+  <li>Double-click a pal in the search list of item dialogs to find containers holding that item.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click a <b>container in the list</b> for: Add Item (debug), Clear Container, Modify Container Slots, Delete Container.</li>
+  <li>Right-click an <b>item in the grid</b> for: Edit Quantity, Remove Item, Clear Container.</li>
+  <li>Right-click an <b>empty grid slot</b> for: Add Item, Clear Container.</li>
+  <li>Right-click a <b>Pal slot</b> with data for: Boss/Lucky/Awakened/DNA toggles, Lock Level (4 levels), Max All Stats, Learn All Moves, Learnt Skills, Bulk Sync Pal, Delete.</li>
+  <li>Right-click an empty Pal slot for: Add New Pal.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Hover over a Pal slot in Base Pals to preview its stats in the info panel. The pagination at the bottom shows the current page of working Pals — use the prev/next buttons or scroll wheel to navigate.</p>
+</div>
+</div>

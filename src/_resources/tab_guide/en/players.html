@@ -1,0 +1,35 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Searchable table of all players in the save. Columns show Player Name, Last Seen, Level, Pal Count, UID, Guild Name, Guild ID, and Guild Level. Use bulk action buttons at the bottom for item, Pal, and technology management across multiple players.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Type in the search bar to filter players in real-time — any column match will show.</li>
+  <li>Click a row to select it.</li>
+  <li>Click <b>Bulk Item Management</b> to open the Player Item Action dialog (add/remove items across selected players).</li>
+  <li>Click <b>Bulk Pal Management</b> for Pal operations.</li>
+  <li>Click <b>Bulk Technology Management</b> for technology unlocks.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-clicking a player row emits the <code>item_double_clicked</code> signal.</li>
+  <li>However, no default handler is connected in the current code — double-click currently has no visible effect.</li>
+  <li>(Intended for future use.)</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click a player row for: Add/Remove Exclusion, Delete Player, Rename Player, Unlock Viewing Cage, Reset Timestamp, Update Container IDs, Unlock All Technologies, Edit Tech Points, Edit Player Stats, Set Player Level.</li>
+  <li>Also includes guild-level actions for the player's guild: Make Guild Leader, Delete Guild, Rename Guild, Unlock All Lab Research, Set Guild Level, Import Base to Guild.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Sort any column by clicking its header. The UID column (column index 4) is used as the key for exclusion and deletion operations. Use <b>Menu → Functions → Delete Inactive Players</b> after checking Last Seen dates to clean up abandoned players in bulk.</p>
+</div>
+</div>

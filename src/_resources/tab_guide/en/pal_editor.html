@@ -1,0 +1,43 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Deep editing interface for any Pal owned by any player. Browse Pals organized by Party (active squad) and Palbox (storage), with full control over stats, IVs, active skills, passive traits, work suitabilities, rank, soul upgrades, appearance flags (Boss/Lucky/Awakened/DNA), and more. An info panel on the right shows all editable details.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click <b>Select Player...</b> to choose a player from the searchable popup (type to filter, Enter to select).</li>
+  <li>Click a Party or Palbox slot to select a Pal for editing — the info panel populates with all editable fields.</li>
+  <li>Click toggle buttons in the info panel header: Gender, Boss Alpha, Lucky/Shiny, Awakened, Imported/DNA, Max All Stats.</li>
+  <li>Click the Favorite star to cycle through lock levels (0–3).</li>
+  <li>Click label fields to edit inline via input dialogs: Name (nickname), Level (1–80), Trust Rank (0–10).</li>
+  <li>Click IV labels (HP/Attack/Defense) to set 0–100.</li>
+  <li>Click Soul labels (HP/Attack/Defense/Craft Speed) to set 0–20.</li>
+  <li>Click active skill slots to open the Skill Picker.</li>
+  <li>Click passive slots to open the Passive Picker.</li>
+  <li>Click work suitability values to set their level (0–10).</li>
+  <li>Navigate between Palbox pages using the <b>← Previous</b> / <b>Next →</b> buttons or mouse wheel on the grid.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-click a Party or Palbox slot that has a Pal to <b>quick-delete it</b> (no confirmation — fires the same 'delete_direct' action as the context menu).</li>
+  <li>Double-click an empty Party or Palbox slot to <b>open the Add New Pal creation dialog</b>.</li>
+  <li>Double-click a Pal in the Add New Pal list to immediately create it.</li>
+  <li>Double-click the FramelessDialog title bar to toggle maximize.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Right-click any Party or Palbox slot with a Pal for: Boss Alpha toggle, Lucky/Shiny toggle, Awakened toggle, Imported/DNA toggle, Lock Level (submenu: 4 levels), Max All Stats, Learn All Moves, Learnt Skills dialog, Bulk Sync Pal, Delete.</li>
+  <li>Right-click an empty slot for: Add New Pal.</li>
+  <li>Right-click the Pal portrait in the info panel for the same expanded context menu.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Keyboard shortcuts speed up editing: <b>Q</b> = previous Palbox page, <b>E</b> = next Palbox page, <b>F</b> = focus and scroll to the info panel, <b>C</b> = toggle skills view. Hover over a slot to preview its Pal in the info panel without selecting it. Use <b>Bulk Sync</b> (from context menu) to copy stats/skills/passives from one Pal to multiple others at once.</p>
+</div>
+</div>

@@ -1,0 +1,30 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Funktionsübersicht</h4>
+<p>Drei nebeneinander liegende Suchfelder, in denen ausgeschlossene Spieler-UIDs, Gilden-IDs und Basis-IDs angezeigt werden. Die hier aufgeführten Elemente sind vor Lösch- und Bereinigungsvorgängen geschützt.</p>
+<h4>Grundfunktionen (Linksklick und Tasten)</h4>
+<ul>
+  <li>Klicken Sie auf einen Ausschlusseintrag, um ihn auszuwählen.</li>
+  <li>Geben Sie die Suchleiste ein, um Ausschluss-IDs in Echtzeit zu filtern.</li>
+  <li>Einträge über Rechtsklick-Kontextmenüs in den Registerkarten „Spieler“, „Gilden“ oder „Basen“ hinzufügen.</li>
+  <li>Ausschlusslisten speichern und laden über <b>Menü → Ausschlüsse → Ausschlüsse speichern</b> und <b>Ausschlüsse laden</b>.</li>
+</ul>
+<h4>Erweiterte Verknüpfungen (Doppelklick-Interaktionen)</h4>
+<ul>
+  <li>Ein Doppelklick auf eine Ausschlusszeile gibt das Signal <code>item_double_clicked</code> aus.</li>
+  <li>Es ist kein Standardhandler verbunden – Doppelklick hat derzeit keine sichtbare Auswirkung auf eines der drei Ausschlussfenster.</li>
+</ul>
+<h4>Versteckte Menüs (Rechtsklick-Kontext)</h4>
+<p>Klicken Sie mit der rechten Maustaste auf einen beliebigen Ausschlusseintrag für: <b>Ausschluss entfernen</b> – entfernt die ausgewählte ID aus der Schutzliste und macht sie wieder für Bereinigungsvorgänge verfügbar.</p>
+<div class="tip">
+<p class="tip-title">Power-User-Tipp</p>
+<p>Erstellen Sie Ihre Ausschlussliste <b>bevor</b> Massenbereinigungsfunktionen ausführen. Ausschlüsse können über die Rechtsklick-Menüs in den Registerkarten „Spieler“, „Gilden“ und „Basen“ hinzugefügt werden – Sie müssen hier keine IDs manuell eingeben. Speichern Sie Ihre Ausschlussliste regelmäßig über die Menüschaltfläche.</p>
+</div>
+</div>

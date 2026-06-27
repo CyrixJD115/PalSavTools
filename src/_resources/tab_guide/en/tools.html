@@ -1,0 +1,33 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Central hub for save file management — convert between JSON and SAV, GamePass and Steam formats, transfer characters between saves, fix corrupted host saves, and inject player slots. Each tool is presented as a clickable card with an icon and description.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click any tool card to launch its operation (Convert Saves, Convert GamePass→Steam, Convert SteamID, Restore Map, Slot Injector, Modify Save, Character Transfer, Fix Host Save).</li>
+  <li>Use the <b>Load Save</b> button in the header or the <b>Menu → File → Load Save</b> path.</li>
+  <li>The save path label below the title opens File Explorer to the current save location.</li>
+  <li>Quick-nav icons in the stats bar (Players, Guilds, Bases, Pals) jump directly to those tabs.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>There is no double-click handling on tool cards — single-click is the only trigger.</li>
+  <li>In the Conversion Options dialog (SAV↔JSON), double-click on list items is not supported — use the option buttons instead.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<ul>
+  <li>Tool cards have no right-click actions — all features are left-click only.</li>
+  <li>However, the <b>Menu</b> button (top-left) contains many cleanup Functions not available as cards: Delete Empty Guilds, Delete Inactive Bases/Players, Delete Duplicate Players, Fix Illegal Pals, Remove Invalid Items/Structures/Pals, Reset Dungeons/Oil Rig/Invader/Supply, Repair All Structures, Unlock Private Chests, and more.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Drag-and-drop a <code>.sav</code> file onto the window to load it instantly — a green drop zone overlay appears to confirm. Always back up before conversion tools. Save changes regularly via <b>Menu → Save Changes</b>.</p>
+</div>
+</div>

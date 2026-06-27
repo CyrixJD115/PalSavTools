@@ -1,0 +1,32 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Funktionsübersicht</h4>
+<p>Zwei-Panel-Ansicht: Das obere Panel listet alle Gilden mit Spalten für Gildenname, Gilden-ID und Gildenstufe auf. Das untere Feld zeigt die Mitglieder der ausgewählten Gilde mit Spalten für Mitgliedsname, Zuletzt gesehen, Level, Freunde und UID.</p>
+<h4>Grundfunktionen (Linksklick und Tasten)</h4>
+<ul>
+  <li>Geben Sie in die Suchleiste ein, um Gilden nach einer beliebigen Spalte zu filtern.</li>
+  <li>Klicken Sie auf eine Gildenzeile, um sie auszuwählen – das untere Feld wird automatisch mit den Mitgliedsspielern dieser Gilde gefüllt.</li>
+  <li>Klicken Sie auf eine Mitgliedszeile, um deren Details anzuzeigen.</li>
+</ul>
+<h4>Erweiterte Verknüpfungen (Doppelklick-Interaktionen)</h4>
+<ul>
+  <li>Ein Doppelklick auf eine Gilden- oder Mitgliederzeile sendet das Signal <code>item_double_clicked</code>.</li>
+  <li>Es ist kein Standard-Handler verbunden – Doppelklick hat derzeit keine sichtbare Auswirkung auf beide Panels.</li>
+</ul>
+<h4>Versteckte Menüs (Rechtsklick-Kontext)</h4>
+<ul>
+  <li>Klicken Sie mit der rechten Maustaste auf eine <b>Gildenzeile</b> für: Ausschluss hinzufügen/entfernen, Gilde löschen, Gilde umbenennen, Gildenstufe festlegen, Gesamte Laborforschung freischalten, Basen für Gilde exportieren, Basen importieren (mehrere Dateien), Ausgewählten Spieler in ausgewählte Gilde verschieben.</li>
+  <li>Klicken Sie mit der rechten Maustaste auf eine <b>Mitgliedszeile</b> für: Gildenanführer ernennen, alle Laborforschungen für die Gilde freischalten, Spielerausschluss hinzufügen/entfernen, Spieler löschen, Spieler umbenennen, Zeitstempel zurücksetzen, Spielerstufe festlegen.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Power-User-Tipp</p>
+<p>Verwenden Sie <b>Menü → Funktionen → Leere Gilden löschen</b>, um Gilden mit null Mitgliedern mit einem Klick zu entfernen. Die Gilden-ID (Spaltenindex 1) ist die Schlüsselreferenz, die von Ausschlusslisten und Löschvorgängen verwendet wird.</p>
+</div>
+</div>

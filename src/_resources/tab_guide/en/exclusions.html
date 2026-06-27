@@ -1,0 +1,30 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Functional Overview</h4>
+<p>Three side-by-side search panels displaying excluded Player UIDs, Guild IDs, and Base IDs. Items listed here are protected from deletion and cleanup operations.</p>
+<h4>Basic Operations (Left-Click & Buttons)</h4>
+<ul>
+  <li>Click any exclusion entry to select it.</li>
+  <li>Type in the search bar to filter exclusion IDs in real-time.</li>
+  <li>Add entries via right-click context menus in the Players, Guilds, or Bases tabs.</li>
+  <li>Save and load exclusion lists via <b>Menu → Exclusions → Save Exclusions</b> and <b>Load Exclusions</b>.</li>
+</ul>
+<h4>Advanced Shortcuts (Double-Click Interactions)</h4>
+<ul>
+  <li>Double-clicking an exclusion row emits the <code>item_double_clicked</code> signal.</li>
+  <li>No default handler is connected — double-click currently has no visible effect on any of the three exclusion panels.</li>
+</ul>
+<h4>Hidden Menus (Right-Click Context)</h4>
+<p>Right-click any exclusion entry for: <b>Remove Exclusion</b> — removes the selected ID from the protection list, making it eligible for cleanup operations again.</p>
+<div class="tip">
+<p class="tip-title">Power-User Tip</p>
+<p>Build your exclusion list <b>before</b> running any bulk cleanup functions. Exclusions can be added from the right-click menus in Players, Guilds, and Bases tabs — you do not need to manually type IDs here. Save your exclusion list frequently via the Menu button.</p>
+</div>
+</div>

@@ -1,0 +1,31 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>Descripción funcional</h4>
+<p>Tabla de búsqueda de todos los campamentos base en el guardado. Las columnas muestran ID de base, ID de gremio, nombre de gremio y nivel de gremio. El menú contextual del botón derecho proporciona administración completa de la base: eliminación, ajuste de radio, importación/exportación, clonación y operaciones de gremio.</p>
+<h4>Operaciones básicas (clic izquierdo y botones)</h4>
+<ul>
+  <li>Escriba en la barra de búsqueda para filtrar bases por cualquier columna.</li>
+  <li>Haga clic en una fila base para seleccionarla.</li>
+</ul>
+<h4>Atajos avanzados (interacciones de doble clic)</h4>
+<ul>
+  <li>Al hacer doble clic en una fila base se emite la señal <code>item_double_clicked</code>.</li>
+  <li>No hay ningún controlador predeterminado conectado; actualmente, hacer doble clic no tiene ningún efecto visible.</li>
+</ul>
+<h4>Menús ocultos (contexto de clic derecho)</h4>
+<ul>
+  <li>Haga clic con el botón derecho en una fila de base para: Agregar o quitar exclusión, Eliminar base (requiere ID de base e ID de gremio), Cambiar nombre de gremio, Establecer nivel de gremio, Exportar base, Ajustar radio, Importar base, Clonar base.</li>
+  <li>Tenga en cuenta que algunas acciones operan en el <b>gremio</b> asociado con la base en lugar de en la base misma.</li>
+</ul>
+<div class="tip">
+<p class="tip-title">Consejo para usuarios avanzados</p>
+<p>El ID base (índice de columna 0) y el ID de gremio (índice de columna 1) son necesarios para eliminarlos; el menú contextual pasa por ambos. Utilice la ruta <b>Menú → Funciones</b> para una limpieza masiva de bases como Eliminar bases inactivas y Eliminar objetos de mapa que no son bases.</p>
+</div>
+</div>

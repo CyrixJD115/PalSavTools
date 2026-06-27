@@ -1,0 +1,31 @@
+<style>
+h4 { color: #4a90e2; font-size: 13px; font-weight: bold; margin: 6px 0 1px 0; }
+p  { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; line-height: 1.5; }
+ul { color: #e0e0e0; font-size: 12px; margin: 1px 0 3px 0; padding-left: 18px; line-height: 1.5; }
+li { margin: 0; }
+.tip { background: #0d1117; border-left: 3px solid #7DD3FC; padding: 4px 8px; margin: 6px 0 0 0; border-radius: 4px; }
+.tip-title { color: #7DD3FC; font-weight: bold; font-size: 12px; }
+</style>
+<div>
+<h4>機能概要</h4>
+<p>保存されているすべてのベースキャンプの検索可能なテーブル。列には、Base ID、Guild ID、Guild Name、および Guild Level が表示されます。右クリックのコンテキスト メニューでは、完全な基本管理 (削除、半径調整、インポート/エクスポート、クローン作成、ギルド操作など) を実行できます。</p>
+<h4>基本操作 (左クリックとボタン)</h4>
+<ul>
+  <li>検索バーに入力して、任意の列で塩基をフィルタリングします。</li>
+  <li>ベース行をクリックして選択します。</li>
+</ul>
+<h4>高度なショートカット (ダブルクリック操作)</h4>
+<ul>
+  <li>ベース行をダブルクリックすると、<code>item_double_clicked</code> シグナルが生成されます。</li>
+  <li>デフォルトのハンドラーが接続されていません。現在、ダブルクリックしても目に見える効果はありません。</li>
+</ul>
+<h4>隠しメニュー (コンテキストを右クリック)</h4>
+<ul>
+  <li>ベース行を右クリックして、除外の追加/削除、ベースの削除 (ベース ID とギルド ID が必要)、ギルド名の変更、ギルド レベルの設定、ベースのエクスポート、半径の調整、ベースのインポート、ベースのクローン作成を行います。</li>
+  <li>一部のアクションは、ベース自体ではなく、ベースに関連付けられた <b>ギルド</b> で動作することに注意してください。</li>
+</ul>
+<div class="tip">
+<p class="tip-title">パワー ユーザー向けのヒント</p>
+<p>削除にはベース ID (列インデックス 0) とギルド ID (列インデックス 1) の両方が必要です。コンテキスト メニューは両方を渡します。非アクティブなベースの削除や非ベース マップ オブジェクトの削除などの一括ベース クリーンアップには、<b>Menu → Functions</b> パスを使用します。</p>
+</div>
+</div>

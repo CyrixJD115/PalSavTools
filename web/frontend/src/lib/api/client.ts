@@ -1,10 +1,13 @@
 // Typed API client. Uses relative /api paths so it works both through the Vite
 // dev proxy (:5173 -> :8000) and the production single-origin FastAPI serve.
 import type {
-  BaseListResponse, ContainerListResponse, ConvertIdsRequest,
-  ConvertIdsResponse, ConvertRequest, GuildListResponse,
-  HealthResponse, LanguagesResponse, LoadResponse, MapDataResponse,
-  PalListResponse, PlayerListResponse, SaveStateResponse,
+  BaseDetail, BaseListResponse, ContainerListResponse, ConvertIdsRequest,
+  ConvertIdsResponse, ConvertRequest, DeleteBaseRequest, GuildDetail,
+  GuildListResponse, HealthResponse, LanguagesResponse, LoadResponse,
+  MapDataResponse, MaxAbilitiesRequest, PalListResponse, PlayerDetail,
+  PlayerListResponse, RenameGuildRequest, RenamePlayerRequest,
+  SaveStateResponse, SetBaseRadiusRequest, SetGuildLevelRequest,
+  SetLeaderRequest, SetLevelRequest, SetStatsRequest, SetTechPointsRequest,
   SlotInjectorRequest, ToolResponse, ToolsListResponse,
 } from '$types/index';
 
@@ -26,9 +29,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return text ? (JSON.parse(text) as T) : (undefined as unknown as T);
 }
 
-function jsonBody(body: unknown): RequestInit {
+function jsonBody(body: unknown, method = 'POST'): RequestInit {
   return {
-    method: 'POST',
+    method,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   };
@@ -73,8 +76,48 @@ export const api = {
   },
 
   players: () => request<PlayerListResponse>('/players'),
+
+  playerDetail: (uid: string) => request<PlayerDetail>(`/players/${uid}`),
+  renamePlayer: (uid: string, body: RenamePlayerRequest) =>
+    request<{ status: string }>(`/players/${uid}/name`, jsonBody(body, 'PUT')),
+  deletePlayer: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}`, { method: 'DELETE' }),
+  setPlayerLevel: (uid: string, body: SetLevelRequest) =>
+    request<{ status: string }>(`/players/${uid}/level`, jsonBody(body, 'PUT')),
+  setPlayerTechPoints: (uid: string, body: SetTechPointsRequest) =>
+    request<{ status: string }>(`/players/${uid}/tech-points`, jsonBody(body, 'PUT')),
+  setPlayerStats: (uid: string, body: SetStatsRequest) =>
+    request<{ status: string }>(`/players/${uid}/stats`, jsonBody(body, 'PUT')),
+  resetPlayerTimestamp: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}/reset-timestamp`, { method: 'PUT' }),
+  unlockViewingCage: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}/viewing-cage`, { method: 'PUT' }),
+  unlockPlayerTechnologies: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}/unlock-technologies`, { method: 'PUT' }),
+  maxPlayerAbilities: (body: MaxAbilitiesRequest) =>
+    request<{ status: string }>('/players/max-abilities', jsonBody(body)),
   guilds: () => request<GuildListResponse>('/guilds'),
+  guildDetail: (id: string) => request<GuildDetail>(`/guilds/${id}`),
+  renameGuild: (gid: string, body: RenameGuildRequest) =>
+    request<{ status: string }>(`/guilds/${gid}/name`, jsonBody(body, 'PUT')),
+  setGuildLevel: (gid: string, body: SetGuildLevelRequest) =>
+    request<{ status: string }>(`/guilds/${gid}/level`, jsonBody(body, 'PUT')),
+  setGuildLeader: (gid: string, body: SetLeaderRequest) =>
+    request<{ status: string }>(`/guilds/${gid}/leader`, jsonBody(body, 'PUT')),
+  removeGuildMember: (gid: string, uid: string) =>
+    request<{ status: string }>(`/guilds/${gid}/members/${uid}`, { method: 'DELETE' }),
+  deleteGuild: (gid: string) =>
+    request<{ status: string }>(`/guilds/${gid}`, { method: 'DELETE' }),
   bases: () => request<BaseListResponse>('/bases'),
+  baseDetail: (id: string) => request<BaseDetail>(`/bases/${id}`),
+  deleteBase: (id: string, body?: DeleteBaseRequest) =>
+    request<{ status: string }>(`/bases/${id}`, jsonBody(body ?? {}, 'DELETE')),
+  setBaseRadius: (id: string, body: SetBaseRadiusRequest) =>
+    request<{ status: string }>(`/bases/${id}/radius`, jsonBody(body, 'PUT')),
+  renameBaseGuild: (baseId: string, body: RenameGuildRequest) =>
+    request<{ status: string }>(`/bases/${baseId}/guild/name`, jsonBody(body, 'PUT')),
+  setBaseGuildLevel: (baseId: string, body: SetGuildLevelRequest) =>
+    request<{ status: string }>(`/bases/${baseId}/guild/level`, jsonBody(body, 'PUT')),
   containers: (limit = 200) =>
     request<ContainerListResponse>(`/containers?limit=${limit}`),
   pals: (limit = 300) => request<PalListResponse>(`/pals?limit=${limit}`),

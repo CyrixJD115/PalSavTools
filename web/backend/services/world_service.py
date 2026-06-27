@@ -161,6 +161,14 @@ def list_players(level_dict: dict) -> list[dict]:
             continue
         gid = str(g["key"]) if g.get("key") else ""
         gname = _gname(g)
+        try:
+            guild_level = g["value"]["RawData"]["value"].get("base_camp_level", 1)
+        except Exception:
+            guild_level = 1
+        try:
+            admin_uid = str(g["value"]["RawData"]["value"].get("admin_player_uid", "")).replace("-", "").lower()
+        except Exception:
+            admin_uid = ""
         for p in _gplayers(g):
             uid = str(p.get("player_uid", "")) or ""
             if not uid or uid in seen:
@@ -172,11 +180,16 @@ def list_players(level_dict: dict) -> list[dict]:
             elapsed = None
             if isinstance(last, (int, float)) and tick:
                 elapsed = (tick - last) / 10_000_000.0
+            is_leader = uid.replace("-", "").lower() == admin_uid
             out.append({
                 "uid": uid,
                 "name": name,
+                "level": 0,
+                "pal_count": 0,
                 "guild_id": gid,
                 "guild_name": gname,
+                "guild_level": guild_level,
+                "is_leader": is_leader,
                 "last_seen_seconds": elapsed,
                 "last_seen_text": _fmt_last_seen(elapsed),
             })

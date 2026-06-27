@@ -125,6 +125,17 @@ Build: `@sveltejs/adapter-static`, SPA fallback via `index.html`. Output to `bui
 
 Bootstraps `sys.path` to include `src/`, calls `app.create_app()`, runs `uvicorn` on `PST_WEB_HOST:PST_WEB_PORT` (default `127.0.0.1:16921`). No reload (Vite handles HMR).
 
+### Resource path resolution (`paths.py`)
+
+`RESOURCES_DIR = REPO_ROOT / "src" / "_resources"` (the old `resources/` was renamed to `src/_resources/`). Serves `game_data/` and `i18n/` from there. See `pst-codebase` for the resource layout.
+
+### Key fixes / gotchas
+
+- **`map_data_service.py` (lines 513–531)**: `list_map_players()` inlines `sav_to_gvasfile` directly instead of importing from `palworld_aio.utils`. Reason: `palworld_aio.__init__` imports `main.py` which pulls in deleted/renamed modules (`i18n` → `_i18n`, `import_libs`). The inlined version only imports `palsav` (installed workspace pkg) and `palobject` (via try/except + `sys.path.insert(0, src)` fallback).
+- **`palobject.py`**: replaced `from import_libs import *` with explicit imports (`ctypes`, `FArchiveReader`, `FArchiveWriter`, etc.). `import_libs.py` was deleted during the refactor.
+- **`paths.py`**: `RESOURCES_DIR` points to `REPO_ROOT / "src" / "_resources"` now, not `"resources"` (the dir was renamed).
+- **`start.py`**: `KeyboardInterrupt` caught around `subprocess.call` to avoid traceback on Ctrl+C.
+
 ### App Factory (`web/backend/app.py`)
 
 ```python

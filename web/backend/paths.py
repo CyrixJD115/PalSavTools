@@ -13,7 +13,7 @@ from pathlib import Path
 # web/backend/paths.py -> web/backend -> web -> <repo_root>
 REPO_ROOT: Path = Path(__file__).resolve().parents[2]
 
-RESOURCES_DIR: Path = REPO_ROOT / "resources"
+RESOURCES_DIR: Path = REPO_ROOT / "src" / "_resources"
 GAME_DATA_DIR: Path = RESOURCES_DIR / "game_data"
 I18N_DIR: Path = RESOURCES_DIR / "i18n"
 CONFIGS_DIR: Path = REPO_ROOT / "src" / "data" / "configs"

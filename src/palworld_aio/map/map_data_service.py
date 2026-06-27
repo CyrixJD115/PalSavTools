@@ -507,7 +507,33 @@ def list_map_players(
         if pd.is_dir():
             real_dir = pd
 
-    from palworld_aio.utils import sav_to_gvasfile
+    import mmap
+    import os
+    from palsav.core import decompress_sav_to_gvas
+    from palsav.gvas import GvasFile
+    from palsav.paltypes import PALWORLD_TYPE_HINTS
+    try:
+        from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
+    except ImportError:
+        import importlib.util as _iu
+        import sys as _sys
+        _repo = Path(__file__).resolve().parents[2]
+        _src = str(_repo)
+        if _src not in _sys.path:
+            _sys.path.insert(0, _src)
+        from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
+
+    def sav_to_gvasfile(path):
+        file_size = os.path.getsize(path)
+        if file_size > 100 * 1024 * 1024:
+            with open(path, 'rb') as f:
+                with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+                    raw_gvas, _ = decompress_sav_to_gvas(mm.read())
+        else:
+            with open(path, 'rb') as f:
+                data = f.read()
+            raw_gvas, _ = decompress_sav_to_gvas(data)
+        return GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
 
     out: list[dict] = []
     for uid, name, gid, last_seen, _ in base_players:

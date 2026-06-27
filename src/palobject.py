@@ -1,8 +1,14 @@
-from import_libs import *
+import ctypes
+from multiprocessing import shared_memory
+from typing import Any
+
 try:
     import msgpack
 except ImportError:
     msgpack = None
+
+from palsav.archive import UUID, FArchiveReader, FArchiveWriter
+from palsav.paltypes import PALWORLD_CUSTOM_PROPERTIES, PALWORLD_TYPE_HINTS
 def toUUID(uuid_str):
     if isinstance(uuid_str, UUID):
         return uuid_str

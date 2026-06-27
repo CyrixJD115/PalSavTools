@@ -156,6 +156,7 @@
 
 <!-- drag-and-drop overlay -->
 {#if dragOver}
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-base/90 backdrop-blur-sm animate-fade-in"
     ondrop={onDrop} ondragover={(e) => e.preventDefault()}>
     <div class="w-60 h-60 rounded-2xl border-2 border-dashed border-status-success/60 flex flex-col items-center justify-center gap-2 bg-bg-elevated/80">
@@ -169,6 +170,7 @@
   </div>
 {/if}
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="p-4 max-w-5xl mx-auto space-y-4 animate-fade-in min-h-[calc(100vh-3.5rem)]"
   ondragover={onDragOver} ondrop={onDrop}>
   <div>

@@ -15,4 +15,7 @@ if os.name == "nt":
 elif not vpy.exists():
     vpy = ROOT / ".venv" / "bin" / "python"
 
-sys.exit(subprocess.call([str(vpy), str(MAIN), *sys.argv[1:]]))
+try:
+    sys.exit(subprocess.call([str(vpy), str(MAIN), *sys.argv[1:]]))
+except KeyboardInterrupt:
+    sys.exit(0)

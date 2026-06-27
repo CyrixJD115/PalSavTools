@@ -76,8 +76,12 @@ class ExportResponse(BaseModel):
 class PlayerSummary(BaseModel):
     uid: str
     name: str = "Unknown"
+    level: int = 0
+    pal_count: int = 0
     guild_id: Optional[str] = None
     guild_name: Optional[str] = None
+    guild_level: Optional[int] = None
+    is_leader: bool = False
     last_seen_seconds: Optional[float] = None
     last_seen_text: Optional[str] = None
 
@@ -105,14 +109,72 @@ class BaseSummary(BaseModel):
     id: str
     guild_id: Optional[str] = None
     guild_name: Optional[str] = None
+    guild_level: Optional[int] = None
+    leader_name: Optional[str] = None
+    member_count: int = 0
+    total_bases: int = 0
+    base_position: int = 0
     location: Optional[tuple[float, float, float]] = None
+    area_range: float = 3500.0
     worker_count: int = 0
-    raw: dict[str, Any] = {}
 
 
 class BaseListResponse(BaseModel):
     bases: list[BaseSummary]
     total: int
+
+
+class BaseDetail(BaseModel):
+    id: str
+    guild_id: Optional[str] = None
+    guild_name: Optional[str] = None
+    guild_level: int = 1
+    leader_name: Optional[str] = None
+    member_count: int = 0
+    total_bases: int = 0
+    base_position: int = 0
+    location: Optional[tuple[float, float, float]] = None
+    area_range: float = 3500.0
+    worker_count: int = 0
+
+
+class GuildMember(BaseModel):
+    uid: str
+    name: str = "Unknown"
+    is_leader: bool = False
+    _u8_flag: int = 3
+    last_seen_seconds: Optional[float] = None
+
+
+class GuildDetail(BaseModel):
+    id: str
+    name: str = "Unnamed Guild"
+    level: int = 1
+    admin_uid: str = ""
+    member_count: int = 0
+    base_count: int = 0
+    members: list[GuildMember] = []
+    base_ids: list[str] = []
+
+
+class RenameGuildRequest(BaseModel):
+    name: str
+
+
+class SetGuildLevelRequest(BaseModel):
+    level: int
+
+
+class SetLeaderRequest(BaseModel):
+    player_uid: str
+
+
+class SetBaseRadiusRequest(BaseModel):
+    radius: float
+
+
+class DeleteBaseRequest(BaseModel):
+    delete_workers: bool = False
 
 
 class ContainerSummary(BaseModel):
@@ -153,6 +215,48 @@ class PalSummary(BaseModel):
 class PalListResponse(BaseModel):
     pals: list[PalSummary]
     total: int
+
+
+# ---- player detail / mutation ------------------------------------------------
+
+class PlayerDetail(BaseModel):
+    uid: str
+    name: str = "Unknown"
+    level: int = 0
+    pal_count: int = 0
+    guild_id: Optional[str] = None
+    guild_name: Optional[str] = None
+    guild_level: int = 1
+    is_leader: bool = False
+    last_seen_seconds: Optional[float] = None
+    last_seen_text: Optional[str] = None
+
+
+class RenamePlayerRequest(BaseModel):
+    name: str
+
+
+class SetLevelRequest(BaseModel):
+    level: int
+
+
+class SetTechPointsRequest(BaseModel):
+    tech_points: int = 0
+    boss_tech_points: int = 0
+
+
+class SetStatsRequest(BaseModel):
+    max_hp: Optional[int] = None
+    max_sp: Optional[int] = None
+    attack: Optional[int] = None
+    weight: Optional[int] = None
+    capture_rate: Optional[int] = None
+    work_speed: Optional[int] = None
+    unused_stat_points: Optional[int] = None
+
+
+class MaxAbilitiesRequest(BaseModel):
+    uids: list[str]
 
 
 # ---- map -------------------------------------------------------------------

@@ -74,8 +74,8 @@ src/
 - `orjson` for speed; GC is disabled during parsing then re-enabled.
 
 ## Resources & data
-- `resources/game_data/*.json` — static game reference: `characters` (pal data + passives), `items`, `skills`, `boss_mapping`, `pal_exp_table`, `friendship`, `relic_data`, `reference_unlock_data`, `uidata`, `world`, `world_map_areas`.
-- `resources/i18n/*.json` — 8 langs (en_US, zh_CN, de_DE, es_ES, fr_FR, ru_RU, ja_JP, ko_KR); `resources/i18n/config.json` is the lang registry. i18n loader at `src/i18n/__init__.py`.
+- `src/_resources/game_data/*.json` — static game reference: `characters` (pal data + passives), `items`, `skills`, `boss_mapping`, `pal_exp_table`, `friendship`, `relic_data`, `reference_unlock_data`, `uidata`, `world`, `world_map_areas`.
+- `src/_resources/i18n/*.json` — 8 langs (en_US, zh_CN, de_DE, es_ES, fr_FR, ru_RU, ja_JP, ko_KR); `src/_resources/i18n/config.json` is the lang registry. i18n loader at `src/i18n/__init__.py`.
 - `src/data/configs/*.json` — app presets: `base_inventory_loadouts`, `equipment_loadouts`, `inventory_loadouts`, `passive_loadouts`, `zone_exclusions`, plus `config.json`.
 - `resources/tab_guide/` — in-app help. `resources/readme/` — localized READMEs.
 

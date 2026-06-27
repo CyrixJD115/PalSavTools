@@ -4,9 +4,9 @@ from fastapi import APIRouter, HTTPException, Query
 
 from web.backend.schemas import (
     BaseListResponse, ContainerListResponse, GuildListResponse,
-    PalListResponse, PlayerListResponse,
+    PalListResponse, PlayerDetail, PlayerListResponse,
 )
-from web.backend.services import data_service, world_service
+from web.backend.services import base_service, data_service, player_service, world_service
 from web.backend.state import save_state
 
 router = APIRouter()
@@ -21,8 +21,18 @@ def _level_dict() -> dict:
 
 @router.get("/players", response_model=PlayerListResponse)
 async def get_players() -> PlayerListResponse:
-    players = world_service.list_players(_level_dict())
-    return PlayerListResponse(players=players, total=len(players))
+    loaded = save_state.get()
+    level_dict = _level_dict()
+    players = world_service.list_players(level_dict)
+    enriched = []
+    pal_counts = loaded.player_pal_counts if loaded else {}
+    levels = loaded.player_levels if loaded else {}
+    for p in players:
+        uid_clean = p["uid"].replace("-", "").lower()
+        p["level"] = levels.get(uid_clean, 0)
+        p["pal_count"] = pal_counts.get(uid_clean, 0)
+        enriched.append(p)
+    return PlayerListResponse(players=enriched, total=len(enriched))
 
 
 @router.get("/guilds", response_model=GuildListResponse)
@@ -34,10 +44,11 @@ async def get_guilds() -> GuildListResponse:
 @router.get("/bases", response_model=BaseListResponse)
 async def get_bases() -> BaseListResponse:
     level = _level_dict()
-    bases = world_service.list_bases(level)
-    guilds = world_service.list_guilds(level)
-    world_service.attach_guild_names(bases, guilds)
-    return BaseListResponse(bases=bases, total=len(bases))
+    try:
+        enriched = base_service.get_enriched_base_list(level)
+    except Exception as e:
+        raise HTTPException(500, f"Failed to build base list: {e}")
+    return BaseListResponse(bases=enriched, total=len(enriched))
 
 
 @router.get("/containers", response_model=ContainerListResponse)

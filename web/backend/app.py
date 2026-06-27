@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 
 from web.backend import __version__
 from web.backend.config import settings
-from web.backend.routes import data, health, map, save, tools, world
+from web.backend.routes import bases, data, guilds, health, map, players, save, tools, world
 from web.backend.ws_manager import manager
 
 
@@ -65,7 +65,10 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
     app.include_router(save.router, prefix="/api")
     app.include_router(world.router, prefix="/api")
     app.include_router(map.router, prefix="/api")
+    app.include_router(bases.router, prefix="/api")
     app.include_router(data.router, prefix="/api")
+    app.include_router(guilds.router, prefix="/api")
+    app.include_router(players.router, prefix="/api")
     app.include_router(tools.router, prefix="/api")
 
     @app.websocket("/ws")

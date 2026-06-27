@@ -53,8 +53,12 @@ export interface LoadResponse {
 export interface PlayerSummary {
   uid: string;
   name: string;
+  level: number;
+  pal_count: number;
   guild_id: string | null;
   guild_name: string | null;
+  guild_level: number | null;
+  is_leader: boolean;
   last_seen_seconds: number | null;
   last_seen_text: string | null;
 }
@@ -62,6 +66,46 @@ export interface PlayerSummary {
 export interface PlayerListResponse {
   players: PlayerSummary[];
   total: number;
+}
+
+export interface PlayerDetail {
+  uid: string;
+  name: string;
+  level: number;
+  pal_count: number;
+  guild_id: string | null;
+  guild_name: string | null;
+  guild_level: number;
+  is_leader: boolean;
+  last_seen_seconds: number | null;
+  last_seen_text: string | null;
+}
+
+export interface RenamePlayerRequest {
+  name: string;
+}
+
+export interface SetLevelRequest {
+  level: number;
+}
+
+export interface SetTechPointsRequest {
+  tech_points: number;
+  boss_tech_points: number;
+}
+
+export interface SetStatsRequest {
+  max_hp?: number;
+  max_sp?: number;
+  attack?: number;
+  weight?: number;
+  capture_rate?: number;
+  work_speed?: number;
+  unused_stat_points?: number;
+}
+
+export interface MaxAbilitiesRequest {
+  uids: string[];
 }
 
 export interface GuildSummary {
@@ -78,19 +122,78 @@ export interface GuildListResponse {
   total: number;
 }
 
+export interface GuildMember {
+  uid: string;
+  name: string;
+  is_leader: boolean;
+  _u8_flag: number;
+  last_seen_seconds: number | null;
+}
+
+export interface GuildDetail {
+  id: string;
+  name: string;
+  level: number;
+  admin_uid: string;
+  member_count: number;
+  base_count: number;
+  members: GuildMember[];
+  base_ids: string[];
+}
+
+export interface SetLeaderRequest {
+  player_uid: string;
+}
+
 export type Vec3 = [number, number, number] | null;
 
 export interface BaseSummary {
   id: string;
   guild_id: string | null;
   guild_name: string | null;
+  guild_level: number | null;
+  leader_name: string | null;
+  member_count: number;
+  total_bases: number;
+  base_position: number;
   location: Vec3;
+  area_range: number;
   worker_count: number;
 }
 
 export interface BaseListResponse {
   bases: BaseSummary[];
   total: number;
+}
+
+export interface BaseDetail {
+  id: string;
+  guild_id: string | null;
+  guild_name: string | null;
+  guild_level: number;
+  leader_name: string | null;
+  member_count: number;
+  total_bases: number;
+  base_position: number;
+  location: Vec3;
+  area_range: number;
+  worker_count: number;
+}
+
+export interface RenameGuildRequest {
+  name: string;
+}
+
+export interface SetGuildLevelRequest {
+  level: number;
+}
+
+export interface SetBaseRadiusRequest {
+  radius: number;
+}
+
+export interface DeleteBaseRequest {
+  delete_workers?: boolean;
 }
 
 export interface ContainerSummary {

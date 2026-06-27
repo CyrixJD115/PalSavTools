@@ -33,7 +33,11 @@ All functional logic comes from the **existing** project scripts. Do **not** rei
 
 The backend's job is to **wrap or interface** with these — import and call them. New "logic" in `web/backend/` should be limited to adaptation/glue (shaping a core result into a Pydantic schema, threading a long task, etc.). If you are about to implement save/parse/edit/stat logic inside `web/`, stop — it belongs in `src/`.
 
-> Re-export hub reminder: `src/import_libs.py` star-imports palsav into one namespace; services import from the installed workspace packages, never from `src/` by relative path.
+> **`src/` is NOT on `sys.path` in web context** — the editable `palsav` workspace install shadows `src/`. Services load `src/` modules via `importlib.util.spec_from_file_location` (not `sys.path`). See `map_data_service.py` for the established pattern (try/except → `sys.path.insert(0, src)` fallback for `palobject`).
+> 
+> Don't import from `palworld_aio` or `palworld_coord` directly — those packages pull in Qt/PySide6 or heavy init chains. Instead inline the specific function or use `importlib` for the narrow module you need.
+> 
+> Re-export hub reminder: `src/import_libs.py` (restored from git history but no longer imported) star-imports palsav — services import from the installed workspace packages directly.
 
 ## 3. `.web_ref` is VISUAL-ONLY
 

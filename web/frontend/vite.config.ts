@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [sveltekit()],
   server: {
     port: 16920,
+    watch: { usePolling: true, interval: 300 },
     proxy: {
       '/api': { target: BACKEND, changeOrigin: true },
       '/ws': { target: BACKEND.replace('http', 'ws'), ws: true },

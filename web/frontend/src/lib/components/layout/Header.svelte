@@ -1,6 +1,11 @@
 <script lang="ts">
   import { health, saveLoaded, saveSummary, saveCounts, isHealthy } from '$stores/index';
   import Icon from '@iconify/svelte';
+  import AboutModal from './AboutModal.svelte';
+  import WarningModal from './WarningModal.svelte';
+
+  let aboutOpen = $state(false);
+  let warnOpen = $state(false);
 
   function fmtBytes(n: number): string {
     if (!n) return '0 B';
@@ -13,7 +18,7 @@
   const h = $derived($health);
 </script>
 
-<header class="flex items-center gap-4 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
+<header class="flex items-center gap-3 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
   <div class="flex items-center gap-2 min-w-0">
     <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title="App version">
@@ -24,6 +29,18 @@
       <Icon icon="lucide:save" width={15} />
       <span>{h?.game_version ?? '?'}</span>
     </span>
+  </div>
+
+  <div class="flex items-center gap-1">
+    <button class="hdr-btn hdr-info" title="About PST" onclick={() => (aboutOpen = true)}>
+      <Icon icon="lucide:info" width={16} />
+    </button>
+    <button class="hdr-btn hdr-warn" title="Warnings" onclick={() => (warnOpen = true)}>
+      <Icon icon="lucide:triangle-alert" width={16} />
+    </button>
+    <button class="hdr-btn hdr-toolbox" title="Tab Usage Guide — Click to view detailed usage instructions for every tab">
+      <Icon icon="lucide:book-open" width={16} />
+    </button>
   </div>
 
   <div class="flex items-center gap-3 min-w-0">
@@ -62,15 +79,19 @@
       <Icon icon="simple-icons:discord" width={16} />
     </a>
     <div class="flex items-center gap-1.5 text-xs">
-    <span
-      class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
-      class:animate-pulse-dot={$isHealthy}
-    ></span>
-    <span class="{$isHealthy ? 'text-status-success' : 'status-error'}">
-      {$isHealthy ? 'Online' : 'Offline'}
-    </span>
+      <span
+        class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
+        class:animate-pulse-dot={$isHealthy}
+      ></span>
+      <span class="{$isHealthy ? 'text-status-success' : 'status-error'}">
+        {$isHealthy ? 'Online' : 'Offline'}
+      </span>
+    </div>
   </div>
 </header>
+
+<AboutModal bind:open={aboutOpen} />
+<WarningModal bind:open={warnOpen} />
 
 <style>
   .version-chip {
@@ -106,6 +127,49 @@
     background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(0, 200, 83, 0.15));
     border-color: rgba(76, 175, 80, 0.7);
     box-shadow: 0 0 16px rgba(76, 175, 80, 0.2);
+  }
+
+  .hdr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .hdr-info {
+    color: #7DD3FC;
+    border-color: rgba(59, 142, 208, 0.35);
+  }
+  .hdr-info:hover {
+    background: rgba(59, 142, 208, 0.15);
+    border-color: rgba(59, 142, 208, 0.6);
+    box-shadow: 0 0 12px rgba(59, 142, 208, 0.2);
+    color: #B3E5FC;
+  }
+  .hdr-warn {
+    color: #FFCC80;
+    border-color: rgba(255, 183, 77, 0.35);
+  }
+  .hdr-warn:hover {
+    background: rgba(255, 183, 77, 0.15);
+    border-color: rgba(255, 183, 77, 0.6);
+    box-shadow: 0 0 12px rgba(255, 183, 77, 0.2);
+    color: #FFE0B2;
+  }
+  .hdr-toolbox {
+    color: #81C784;
+    border-color: rgba(76, 175, 80, 0.35);
+  }
+  .hdr-toolbox:hover {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: rgba(76, 175, 80, 0.6);
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.2);
+    color: #A5D6A7;
   }
 
   .discord-link {

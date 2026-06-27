@@ -1,6 +1,6 @@
 <script lang="ts">
   import { health, saveLoaded, saveSummary, saveCounts, isHealthy } from '$stores/index';
-  import { Save, ExternalLink } from '@lucide/svelte';
+  import { Save, ExternalLink, MessageCircle } from '@lucide/svelte';
 
   function fmtBytes(n: number): string {
     if (!n) return '0 B';
@@ -56,7 +56,12 @@
 
   <div class="flex-1"></div>
 
-  <div class="flex items-center gap-1.5 text-xs">
+  <div class="flex items-center gap-2">
+    <a href="https://discord.gg/sYcZwcT4cT" target="_blank" rel="noreferrer"
+       class="discord-link" title="Join Discord">
+      <MessageCircle size={16} />
+    </a>
+    <div class="flex items-center gap-1.5 text-xs">
     <span
       class="w-2.5 h-2.5 rounded-full {$isHealthy ? 'bg-status-success' : 'bg-status-error'}"
       class:animate-pulse-dot={$isHealthy}
@@ -101,5 +106,24 @@
     background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(0, 200, 83, 0.15));
     border-color: rgba(76, 175, 80, 0.7);
     box-shadow: 0 0 16px rgba(76, 175, 80, 0.2);
+  }
+
+  .discord-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 2px solid rgba(88, 101, 242, 0.4);
+    color: #8B9CF7;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .discord-link:hover {
+    background: rgba(88, 101, 242, 0.15);
+    border-color: rgba(88, 101, 242, 0.7);
+    color: #A5B4FC;
+    box-shadow: 0 0 14px rgba(88, 101, 242, 0.25);
   }
 </style>

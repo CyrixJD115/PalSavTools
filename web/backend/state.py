@@ -30,6 +30,11 @@ class LoadedSave:
     loaded_at: float
     gvas: GvasFile          # for re-encode
     level_dict: dict[str, Any] = field(default_factory=dict)
+    # Pre-computed at load time (mirrors constants.PLAYER_PAL_COUNTS and
+    # constants.player_levels in the desktop app). Keys are cleaned UIDs
+    # (lowercase, no hyphens).
+    player_pal_counts: dict[str, int] = field(default_factory=dict)
+    player_levels: dict[str, int] = field(default_factory=dict)
 
 
 class SaveState:

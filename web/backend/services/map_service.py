@@ -29,6 +29,20 @@ assert _spec is not None and _spec.loader is not None, "palworld_coord not found
 palworld_coord = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(palworld_coord)
 
+# Load ContainerOwnership the same way — it's a standalone class (only depends
+# on collections.Counter) used to resolve worker pal ownership, matching the
+# desktop app's _count_pals_found() logic.
+_CONTAINER_OWNERSHIP_PATH = (
+    _REPO_ROOT / "src" / "palworld_aio" / "inventory" / "container_ownership.py"
+)
+_spec2 = importlib.util.spec_from_file_location(
+    "container_ownership", _CONTAINER_OWNERSHIP_PATH
+)
+assert _spec2 is not None and _spec2.loader is not None, "container_ownership not found"
+_ownership_mod = importlib.util.module_from_spec(_spec2)
+_spec2.loader.exec_module(_ownership_mod)
+ContainerOwnership = _ownership_mod.ContainerOwnership
+
 from web.backend.services import save_service, world_service
 from web.backend.state import save_state
 
@@ -214,28 +228,92 @@ def _read_player_position(sav_path: Path) -> tuple[float, float, float] | None:
         return None
 
 
-def _count_pals_for_owner(level_dict: dict, owner_uid: str) -> int:
-    """Count pal entries in CharacterSaveParameterMap owned by a player."""
+def precompute_player_data(level_dict: dict) -> tuple[dict[str, int], dict[str, int]]:
+    """Pre-compute pal counts and player levels at save-load time.
+
+    Ports the combined logic of:
+      - ``save_manager._build_player_levels``  → player_levels
+      - ``save_manager._count_pals_found``     → player_pal_counts
+
+    Returns ``(player_pal_counts, player_levels)`` where both dicts are keyed
+    by cleaned UID (lowercase, no hyphens).
+
+    Pal counting uses the **SaveParameter's** ``OwnerPlayerUId`` (not the outer
+    key's ``PlayerUId``), and resolves worker pals via ``ContainerOwnership`` —
+    exactly like the desktop app. This ensures counts match what the GUI shows.
+    """
     wsd = world_service.get_world_save_data(level_dict)
-    owner_norm = owner_uid.replace("-", "").lower()
-    count = 0
-    for ch in world_service._map_values(wsd, "CharacterSaveParameterMap"):
-        if not world_service._is_pal_entry(ch):
-            continue
+    cmap = world_service._map_values(wsd, "CharacterSaveParameterMap")
+    container_data = world_service._map_values(wsd, "CharacterContainerSaveData")
+
+    # Build container ownership map for worker pal resolution.
+    ownership = ContainerOwnership.build(cmap, container_data)
+
+    player_pal_counts: dict[str, int] = {}
+    player_levels: dict[str, int] = {}
+
+    for entry in cmap:
         try:
-            key = ch.get("key", {})
-            if isinstance(key, dict):
-                player_uid = str(key.get("PlayerUId", ""))
-            else:
-                player_uid = ""
+            raw_obj = (
+                entry["value"]["RawData"]["value"]["object"]["SaveParameter"]
+            )
+            if raw_obj.get("struct_type") != "PalIndividualCharacterSaveParameter":
+                continue
+            sp = raw_obj.get("value", {})
+            if not isinstance(sp, dict):
+                continue
         except Exception:
-            player_uid = ""
-        if player_uid.replace("-", "").lower() == owner_norm:
-            count += 1
-    return count
+            continue
+
+        key = entry.get("key", {})
+        # key fields can be wrapped in {"value": ...} or be bare values.
+        def _unwrap(v):
+            if isinstance(v, dict) and "value" in v:
+                return v["value"]
+            return v
+
+        player_uid_raw = _unwrap(key.get("PlayerUId", ""))
+        inst_raw = _unwrap(key.get("InstanceId", ""))
+        player_uid = str(player_uid_raw).replace("-", "").lower() if player_uid_raw else ""
+        inst_id = str(inst_raw) if inst_raw else ""
+
+        # ---- Player level extraction (mirrors _build_player_levels) ----
+        if sp.get("IsPlayer", {}).get("value", False):
+            # Level is a ByteProperty: {"value": {"type": "None", "value": 80}, "type": "ByteProperty"}
+            level_raw = world_service._pal_field(sp, "Level")
+            try:
+                level = int(level_raw) if level_raw is not None else 0
+            except (ValueError, TypeError):
+                level = 0
+            if player_uid:
+                player_levels[player_uid] = level
+            continue
+
+        # ---- Pal counting (mirrors _count_pals_found) ----
+        # Read OwnerPlayerUId from the SaveParameter value, NOT the outer key.
+        owner_val = world_service._pal_field(sp, "OwnerPlayerUId")
+        owner_uid = str(owner_val).replace("-", "").lower() if owner_val else ""
+
+        is_worker = not owner_uid
+        if is_worker:
+            # Resolve worker via container ownership (pal assigned to a base/box).
+            effective = ownership.get_effective_owner(inst_id, "")
+            if effective:
+                owner_uid = effective
+                is_worker = False
+
+        if not is_worker and owner_uid:
+            player_pal_counts[owner_uid] = player_pal_counts.get(owner_uid, 0) + 1
+
+    return player_pal_counts, player_levels
 
 
-def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
+def list_map_players(
+    level_dict: dict,
+    players_dir: str | None,
+    pal_counts: dict[str, int] | None = None,
+    levels: dict[str, int] | None = None,
+) -> list[dict]:
     """Build the enriched player list with pre-computed pixel coordinates.
 
     Players are ALWAYS included in the list (for the sidebar), even when their
@@ -243,6 +321,10 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
     accessible). Players without positions get null projections and simply
     won't appear as map markers — the frontend's makePlayerMarker returns null
     for null world_img/tree_img.
+
+    ``pal_counts`` and ``levels`` are pre-computed at save-load time by
+    :func:`precompute_player_data`. When not provided, pal_count and level
+    default to 0.
     """
     base_players = world_service.list_players(level_dict)
     if not base_players:
@@ -255,14 +337,15 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
     out: list[dict] = []
     for p in base_players:
         uid = p["uid"]
-        uid_clean = uid.replace("-", "").upper()
+        uid_clean = uid.replace("-", "").lower()
         location: tuple[float, float, float] | None = None
         if real_dir is not None:
-            sav_path = real_dir / f"{uid_clean}.sav"
+            sav_path = real_dir / f"{uid_clean.upper()}.sav"
             if sav_path.is_file():
                 location = _read_player_position(sav_path)
 
-        pal_count = _count_pals_for_owner(level_dict, uid)
+        pal_count = (pal_counts or {}).get(uid_clean, 0)
+        level = (levels or {}).get(uid_clean, 0)
 
         if location is not None:
             raw_x, raw_y, raw_z = location
@@ -270,7 +353,7 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
             out.append({
                 "uid": uid,
                 "name": p["name"],
-                "level": 0,
+                "level": level,
                 "guild_id": p["guild_id"],
                 "guild_name": p["guild_name"] or "",
                 "last_seen_text": p["last_seen_text"] or "Unknown",
@@ -286,7 +369,7 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
             out.append({
                 "uid": uid,
                 "name": p["name"],
-                "level": 0,
+                "level": level,
                 "guild_id": p["guild_id"],
                 "guild_name": p["guild_name"] or "",
                 "last_seen_text": p["last_seen_text"] or "Unknown",
@@ -299,11 +382,16 @@ def list_map_players(level_dict: dict, players_dir: str | None) -> list[dict]:
     return out
 
 
-def get_map_data(level_dict: dict, players_dir: str | None) -> dict:
+def get_map_data(
+    level_dict: dict,
+    players_dir: str | None,
+    pal_counts: dict[str, int] | None = None,
+    levels: dict[str, int] | None = None,
+) -> dict:
     """Build the full map data payload for ``GET /api/map/data``."""
     return {
         "bases": list_map_bases(level_dict),
-        "players": list_map_players(level_dict, players_dir),
+        "players": list_map_players(level_dict, players_dir, pal_counts, levels),
         "map_size": MAP_SIZE,
         "world_coord_range": WORLD_COORD_RANGE,
         "tree_coord_range": TREE_COORD_RANGE,

@@ -29,5 +29,10 @@ async def get_map_data() -> MapDataResponse:
     if loaded is None:
         raise HTTPException(409, "No save loaded")
     players_dir = loaded.players_dir if loaded.players_dir != "(unknown)" else None
-    data = map_service.get_map_data(loaded.level_dict, players_dir)
+    data = map_service.get_map_data(
+        loaded.level_dict,
+        players_dir,
+        pal_counts=loaded.player_pal_counts,
+        levels=loaded.player_levels,
+    )
     return MapDataResponse(**data)

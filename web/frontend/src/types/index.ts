@@ -133,6 +133,55 @@ export interface PalListResponse {
   total: number;
 }
 
+// ---- map -------------------------------------------------------------------
+
+export type MapType = 'world' | 'tree';
+
+export interface MapProjection {
+  x: number;
+  y: number;
+  world_x: number;
+  world_y: number;
+}
+
+export interface MapBase {
+  id: string;
+  guild_id: string | null;
+  guild_name: string;
+  guild_level: number;
+  leader_name: string;
+  member_count: number;
+  total_bases: number;
+  base_position: number;
+  location: [number, number, number] | null;
+  area_range: number;
+  map_type: MapType;
+  world_img: MapProjection | null;
+  tree_img: MapProjection | null;
+}
+
+export interface MapPlayer {
+  uid: string;
+  name: string;
+  level: number;
+  guild_id: string | null;
+  guild_name: string;
+  last_seen_text: string | null;
+  pal_count: number;
+  location: [number, number, number] | null;
+  map_type: MapType;
+  world_img: MapProjection | null;
+  tree_img: MapProjection | null;
+}
+
+export interface MapDataResponse {
+  bases: MapBase[];
+  players: MapPlayer[];
+  map_size: number;
+  world_coord_range: number;
+  tree_coord_range: number;
+}
+
 // ---- tools ----------------------------------------------------------------
 
 export interface ToolInfo {

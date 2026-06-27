@@ -3,9 +3,9 @@
 import type {
   BaseListResponse, ContainerListResponse, ConvertIdsRequest,
   ConvertIdsResponse, ConvertRequest, GuildListResponse,
-  HealthResponse, LanguagesResponse, LoadResponse, PalListResponse,
-  PlayerListResponse, SaveStateResponse, SlotInjectorRequest,
-  ToolResponse, ToolsListResponse,
+  HealthResponse, LanguagesResponse, LoadResponse, MapDataResponse,
+  PalListResponse, PlayerListResponse, SaveStateResponse,
+  SlotInjectorRequest, ToolResponse, ToolsListResponse,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -78,6 +78,8 @@ export const api = {
   containers: (limit = 200) =>
     request<ContainerListResponse>(`/containers?limit=${limit}`),
   pals: (limit = 300) => request<PalListResponse>(`/pals?limit=${limit}`),
+
+  mapData: () => request<MapDataResponse>('/map/data'),
 
   // ---- tools ----
   tools: () => request<ToolsListResponse>('/tools'),

@@ -155,6 +155,53 @@ class PalListResponse(BaseModel):
     total: int
 
 
+# ---- map -------------------------------------------------------------------
+
+class MapProjection(BaseModel):
+    x: float
+    y: float
+    world_x: float
+    world_y: float
+
+
+class MapBase(BaseModel):
+    id: str
+    guild_id: Optional[str] = None
+    guild_name: str = ""
+    guild_level: int = 1
+    leader_name: str = ""
+    member_count: int = 0
+    total_bases: int = 0
+    base_position: int = 1
+    location: Optional[tuple[float, float, float]] = None
+    area_range: float = 3500.0
+    map_type: str = "world"  # "world" | "tree"
+    world_img: Optional[MapProjection] = None
+    tree_img: Optional[MapProjection] = None
+
+
+class MapPlayer(BaseModel):
+    uid: str
+    name: str = "Unknown"
+    level: int = 0
+    guild_id: Optional[str] = None
+    guild_name: str = ""
+    last_seen_text: Optional[str] = None
+    pal_count: int = 0
+    location: Optional[tuple[float, float, float]] = None
+    map_type: str = "world"
+    world_img: Optional[MapProjection] = None
+    tree_img: Optional[MapProjection] = None
+
+
+class MapDataResponse(BaseModel):
+    bases: list[MapBase]
+    players: list[MapPlayer]
+    map_size: int = 2048
+    world_coord_range: int = 1000
+    tree_coord_range: int = 2500
+
+
 # ---- static data -----------------------------------------------------------
 
 class GameDataResponse(BaseModel):

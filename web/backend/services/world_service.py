@@ -16,11 +16,7 @@ CharacterNameMap = dict[str, str]
 # ---- small unwrap helpers ---------------------------------------------------
 
 def _u(node: Any, *path, default=None) -> Any:
-    """Walk a chain of ``['value']``-and-key accesses, never raising.
-
-    ``_u(x, 'a', 'b')`` returns ``x['a']['value']['b']['value']`` if present,
-    tolerating the UE ``{'value': ...}`` wrappers at every step.
-    """
+    """Walk a chain of ``['value']``-and-key accesses, never raising."""
     cur = node
     for key in path:
         if isinstance(cur, Mapping):
@@ -68,20 +64,21 @@ def count_world(level_dict: dict) -> dict:
     players = sum(
         len(_gplayers(g)) for g in guilds
     )
+    total_chars = _map_values(wsd, "CharacterSaveParameterMap")
+    pals = sum(1 for c in total_chars if _is_pal_entry(c))
     return {
         "guilds": len(guilds),
         "players": players,
         "bases": len(_map_values(wsd, "BaseCampSaveData")),
         "containers": len(_map_values(wsd, "ItemContainerSaveData")),
-        "characters": len(_map_values(wsd, "CharacterSaveParameterMap")),
+        "characters": len(total_chars),
+        "pals": pals,
     }
 
 
 # ---- guilds / players -------------------------------------------------------
 
-
 def _group_type(g: dict) -> str:
-    """Guild entries are ``{key, value: {GroupType: {value: {value: ...}}}}``."""
     try:
         return g["value"]["GroupType"]["value"]["value"]
     except Exception:
@@ -273,47 +270,150 @@ def _pal_field(sp: dict, key: str) -> Any:
     return node
 
 
+def _pal_entry_raw(ch: dict) -> dict:
+    """Extract the SaveParameter dict from a CharacterSaveParameterMap entry."""
+    try:
+        return ch["value"]["RawData"]["value"]["object"]["SaveParameter"]["value"]
+    except Exception:
+        return {}
+
+
+def _is_pal_entry(ch: dict) -> bool:
+    """True if this CharacterSaveParameterMap entry is a pal (not a player)."""
+    sp = _pal_entry_raw(ch)
+    return "IsPlayer" not in sp
+
+
+def _int_field(sp: dict, key: str, default: int = 0) -> int:
+    v = _pal_field(sp, key)
+    if v is None:
+        return default
+    try:
+        return int(v)
+    except (ValueError, TypeError):
+        return default
+
+
+def _str_field(sp: dict, key: str, default: str = "") -> str:
+    v = _pal_field(sp, key)
+    return str(v) if v is not None else default
+
+
+def _gender_str(sp: dict) -> str:
+    gv = _pal_field(sp, "Gender")
+    gv_str = str(gv) if gv else ""
+    return {
+        "EPalGenderType::Male": "Male",
+        "EPalGenderType::Female": "Female",
+    }.get(gv_str, "Unknown")
+
+
+def _skill_list(sp: dict, key: str) -> list[str]:
+    """Extract a list of skill strings from a repeated-value field."""
+    try:
+        raw = sp.get(key, {})
+        vals = raw.get("value", {}).get("values", [])
+        return [str(s) for s in vals if s]
+    except Exception:
+        return []
+
+
 def list_pals(
     level_dict: dict,
     name_map: CharacterNameMap | None = None,
-    limit: int = 300,
+    limit: int = 500,
 ) -> list[dict]:
     wsd = get_world_save_data(level_dict)
     nm = name_map or {}
     out = []
     for ch in _map_values(wsd, "CharacterSaveParameterMap"):
+        if not _is_pal_entry(ch):
+            continue
         try:
             owner = _norm_uid(_u(ch, "key", "PlayerUId"))
             inst = str(_u(ch, "key", "InstanceId") or "")
         except Exception:
             owner, inst = None, ""
-        try:
-            sp = ch["value"]["RawData"]["value"]["object"]["SaveParameter"]["value"]
-        except Exception:
-            sp = {}
+        sp = _pal_entry_raw(ch)
         cid = _pal_field(sp, "CharacterID") or ""
         cid_str = str(cid)
         display = nm.get(cid_str.lower(), cid_str) if cid_str else None
-        level = _pal_field(sp, "Level")
-        rank = _pal_field(sp, "Rank")
-        try:
-            level = int(level) if level is not None else None
-        except Exception:
-            level = None
-        try:
-            rank = int(rank) if rank is not None else None
-        except Exception:
-            rank = None
         out.append({
             "instance_id": inst,
             "character_id": cid_str,
             "display_name": display,
             "owner_uid": owner,
-            "nickname": _pal_field(sp, "NickName"),
-            "level": level,
-            "rank": rank,
+            "nickname": _str_field(sp, "NickName"),
+            "level": _int_field(sp, "Level", 1),
+            "rank": _int_field(sp, "Rank", 1),
+            "gender": _gender_str(sp),
+            "talent_hp": _int_field(sp, "Talent_HP"),
+            "talent_shot": _int_field(sp, "Talent_Shot"),
+            "talent_defense": _int_field(sp, "Talent_Defense"),
+            "rank_hp": _int_field(sp, "Rank_HP"),
+            "rank_attack": _int_field(sp, "Rank_Attack"),
+            "rank_defense": _int_field(sp, "Rank_Defence"),
+            "rank_craftspeed": _int_field(sp, "Rank_CraftSpeed"),
+            "passive_skills": _skill_list(sp, "PassiveSkillList"),
+            "active_skills": _skill_list(sp, "EquipWaza"),
+            "learned_skills": _skill_list(sp, "MasteredWaza"),
             "is_illegal": False,
         })
         if limit and len(out) >= limit:
             break
     return out
+
+
+def get_current_stats(level_dict: dict) -> dict:
+    """Aggregate stats: level distribution, gender ratio, top skills, etc."""
+    wsd = get_world_save_data(level_dict)
+    stats = {
+        "total": 0,
+        "avg_level": 0.0,
+        "gender": {"Male": 0, "Female": 0, "Unknown": 0},
+        "level_brackets": {"1-20": 0, "21-40": 0, "41-60": 0},
+        "talent_avg": {"hp": 0, "attack": 0, "defense": 0},
+        "common_passives": {},
+        "common_active": {},
+    }
+    count = 0
+    sum_level = 0
+    sum_t_hp = sum_t_atk = sum_t_def = 0
+    for ch in _map_values(wsd, "CharacterSaveParameterMap"):
+        if not _is_pal_entry(ch):
+            continue
+        sp = _pal_entry_raw(ch)
+        if not sp:
+            continue
+        count += 1
+        lv = _int_field(sp, "Level", 1)
+        sum_level += lv
+        if lv <= 20:
+            stats["level_brackets"]["1-20"] += 1
+        elif lv <= 40:
+            stats["level_brackets"]["21-40"] += 1
+        else:
+            stats["level_brackets"]["41-60"] += 1
+        g = _gender_str(sp)
+        stats["gender"][g] = stats["gender"].get(g, 0) + 1
+        sum_t_hp += _int_field(sp, "Talent_HP")
+        sum_t_atk += _int_field(sp, "Talent_Shot")
+        sum_t_def += _int_field(sp, "Talent_Defense")
+        for s in _skill_list(sp, "PassiveSkillList"):
+            stats["common_passives"][s] = stats["common_passives"].get(s, 0) + 1
+        for s in _skill_list(sp, "EquipWaza"):
+            stats["common_active"][s] = stats["common_active"].get(s, 0) + 1
+    if count:
+        stats["total"] = count
+        stats["avg_level"] = round(sum_level / count, 1)
+        stats["talent_avg"]["hp"] = round(sum_t_hp / count, 1)
+        stats["talent_avg"]["attack"] = round(sum_t_atk / count, 1)
+        stats["talent_avg"]["defense"] = round(sum_t_def / count, 1)
+    # Sort skill dicts by freq descending, keep top 10
+    stats["common_passives"] = dict(
+        sorted(stats["common_passives"].items(), key=lambda x: -x[1])[:10]
+    )
+    stats["common_active"] = dict(
+        sorted(stats["common_active"].items(), key=lambda x: -x[1])[:10]
+    )
+    return stats

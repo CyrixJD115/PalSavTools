@@ -23,7 +23,7 @@
     try {
       health.set(await api.health());
     } catch {
-      health.set({ status: 'error', version: '?', save_loaded: false });
+      health.set({ status: 'error', version: '?', app_version: '?', game_version: '?', save_loaded: false });
     }
     try {
       saveState.set(await api.saveState());

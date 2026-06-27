@@ -4,6 +4,8 @@
 export interface HealthResponse {
   status: string;
   version: string;
+  app_version: string;
+  game_version: string;
   save_loaded: boolean;
 }
 
@@ -34,6 +36,7 @@ export interface WorldCounts {
   bases: number;
   containers: number;
   characters: number;
+  pals: number;
 }
 
 export interface SaveStateResponse {
@@ -109,8 +112,19 @@ export interface PalSummary {
   display_name: string | null;
   owner_uid: string | null;
   nickname: string | null;
-  level: number | null;
-  rank: number | null;
+  level: number;
+  rank: number;
+  gender: string;
+  talent_hp: number;
+  talent_shot: number;
+  talent_defense: number;
+  rank_hp: number;
+  rank_attack: number;
+  rank_defense: number;
+  rank_craftspeed: number;
+  passive_skills: string[];
+  active_skills: string[];
+  learned_skills: string[];
   is_illegal: boolean;
 }
 
@@ -118,3 +132,51 @@ export interface PalListResponse {
   pals: PalSummary[];
   total: number;
 }
+
+// ---- tools ----------------------------------------------------------------
+
+export interface ToolInfo {
+  id: string;
+  name: string;
+  category: string;
+  category_label: string;
+  icon: string;
+  description: string;
+  windows_only: boolean;
+}
+
+export interface ToolsListResponse {
+  tools: ToolInfo[];
+}
+
+export interface ConvertRequest {
+  direction: string;
+  input_path: string;
+  output_path?: string;
+}
+
+export interface ConvertIdsRequest {
+  input: string;
+}
+
+export interface ConvertIdsResponse {
+  input: string;
+  input_type: string;
+  steam_id: string | null;
+  palworld_uid: string | null;
+  nosteam_uid: string | null;
+}
+
+export interface SlotInjectorRequest {
+  level_sav_path: string;
+  players_folder?: string;
+  new_slot_count: number;
+  container_ids?: string[];
+}
+
+export interface ToolResponse {
+  success: boolean;
+  message: string;
+  details: Record<string, unknown> | null;
+}
+

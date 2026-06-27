@@ -57,7 +57,7 @@
     { label: 'Players', value: $saveCounts?.players ?? 0, icon: Users as Component, href: '/players' },
     { label: 'Bases', value: $saveCounts?.bases ?? 0, icon: MapPin as Component, href: '/bases' },
     { label: 'Containers', value: $saveCounts?.containers ?? 0, icon: Box as Component, href: '/containers' },
-    { label: 'Characters', value: $saveCounts?.characters ?? 0, icon: Sparkles as Component, href: '/pal-editor' },
+    { label: 'Pals', value: $saveCounts?.pals ?? 0, icon: Sparkles as Component, href: '/pal-editor' },
   ]);
 </script>
 

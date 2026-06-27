@@ -1,10 +1,8 @@
-import logging
 from import_libs import *
 try:
     import msgpack
 except ImportError:
     msgpack = None
-logger = logging.getLogger(__name__)
 def toUUID(uuid_str):
     if isinstance(uuid_str, UUID):
         return uuid_str
@@ -231,28 +229,30 @@ class MappingCacheObject:
             elif isinstance(self._worldSaveData[key]['value'], dict) and 'values' in self._worldSaveData[key]['value'] and isinstance(self._worldSaveData[key]['value']['values'], MPArrayProperty):
                 self._worldSaveData[key]['value']['values'].close()
                 self._worldSaveData[key]['value']['values'].release()
-def _make_read_safe(path: str, decode_fn: callable) -> callable:
+def _make_decode_safe(path: str, decode_fn: callable) -> callable:
     def _safe(reader, type_name, size, path_):
         pos = reader.data.tell()
         try:
             result = decode_fn(reader, type_name, size, path_)
-            result['__skip__'] = False
+            result["__skip__"] = False
             return result
         except Exception as exc:
-            logger.warning(
-                '%s raised at %r: %s; storing opaque bytes',
+            import logging
+            logging.getLogger(__name__).warning(
+                "%s raised at '%s': %s; storing opaque bytes",
                 decode_fn.__name__, path_, exc,
             )
             reader.data.seek(pos)
             result = skip_decode(reader, type_name, size, path_)
-            result['__skip__'] = True
+            result["__skip__"] = True
             return result
     return _safe
 
-def _make_write_safe(path: str, encode_fn: callable) -> callable:
+def _make_encode_safe(path: str, encode_fn: callable) -> callable:
     def _safe(writer, property_type: str, properties: dict) -> int:
-        skip = properties.pop('__skip__', None)
+        skip = properties.pop("__skip__", None)
         if skip:
+            del properties["custom_type"]
             return skip_encode(writer, property_type, properties)
         return encode_fn(writer, property_type, properties)
     return _safe
@@ -260,10 +260,10 @@ def _make_write_safe(path: str, encode_fn: callable) -> callable:
 SKP_PALWORLD_CUSTOM_PROPERTIES = {}
 for _prop_path, (_decode_fn, _encode_fn) in PALWORLD_CUSTOM_PROPERTIES.items():
     SKP_PALWORLD_CUSTOM_PROPERTIES[_prop_path] = (
-        _make_read_safe(_prop_path, _decode_fn),
-        _make_write_safe(_prop_path, _encode_fn),
+        _make_decode_safe(_prop_path, _decode_fn),
+        _make_encode_safe(_prop_path, _encode_fn),
     )
-# 6 heavy-path skip overrides (byte-exact, no safety wrappers needed).
+# 6 heavy-path skip overrides (already safe — skip_decode never raises).
 SKP_PALWORLD_CUSTOM_PROPERTIES['.worldSaveData.MapObjectSaveData.MapObjectSaveData.WorldLocation'] = (skip_decode, skip_encode)
 SKP_PALWORLD_CUSTOM_PROPERTIES['.worldSaveData.MapObjectSaveData.MapObjectSaveData.WorldRotation'] = (skip_decode, skip_encode)
 SKP_PALWORLD_CUSTOM_PROPERTIES['.worldSaveData.MapObjectSaveData.MapObjectSaveData.Model.Value.EffectMap'] = (skip_decode, skip_encode)

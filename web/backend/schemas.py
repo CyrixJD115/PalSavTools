@@ -17,6 +17,8 @@ from pydantic import BaseModel
 class HealthResponse(BaseModel):
     status: str = "ok"
     version: str
+    app_version: str
+    game_version: str
     save_loaded: bool
 
 
@@ -49,6 +51,7 @@ class WorldCounts(BaseModel):
     bases: int = 0
     containers: int = 0
     characters: int = 0
+    pals: int = 0
 
 
 class SaveStateResponse(BaseModel):
@@ -127,6 +130,17 @@ class ContainerListResponse(BaseModel):
 
 class PalSummary(BaseModel):
     instance_id: str
+    gender: str = ""
+    talent_hp: int = 0
+    talent_shot: int = 0
+    talent_defense: int = 0
+    rank_hp: int = 0
+    rank_attack: int = 0
+    rank_defense: int = 0
+    rank_craftspeed: int = 0
+    passive_skills: list[str] = []
+    active_skills: list[str] = []
+    learned_skills: list[str] = []
     character_id: str = ""
     display_name: Optional[str] = None
     owner_uid: Optional[str] = None
@@ -151,3 +165,50 @@ class GameDataResponse(BaseModel):
 class I18nResponse(BaseModel):
     lang: str
     keys: dict[str, str]
+
+
+# ---- tools ------------------------------------------------------------------
+
+class ToolInfo(BaseModel):
+    id: str
+    name: str
+    category: str  # "converting", "management", "utility"
+    category_label: str
+    icon: str
+    description: str
+    windows_only: bool = False
+
+
+class ToolsListResponse(BaseModel):
+    tools: list[ToolInfo]
+
+
+class ConvertRequest(BaseModel):
+    direction: str = "sav2json"  # "sav2json" | "json2sav"
+    input_path: str
+    output_path: str | None = None
+
+
+class ConvertIdsRequest(BaseModel):
+    input: str
+
+
+class ConvertIdsResponse(BaseModel):
+    input: str
+    input_type: str
+    steam_id: str | None = None
+    palworld_uid: str | None = None
+    nosteam_uid: str | None = None
+
+
+class SlotInjectorRequest(BaseModel):
+    level_sav_path: str
+    players_folder: str | None = None
+    new_slot_count: int = 960
+    container_ids: list[str] | None = None
+
+
+class ToolResponse(BaseModel):
+    success: bool
+    message: str
+    details: dict | None = None

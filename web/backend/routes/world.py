@@ -58,3 +58,8 @@ async def get_pals(
         limit=limit,
     )
     return PalListResponse(pals=pals, total=len(pals))
+
+@router.get("/pals/stats")
+async def get_pal_stats() -> dict:
+    return world_service.get_current_stats(_level_dict())
+

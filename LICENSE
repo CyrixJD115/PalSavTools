@@ -672,3 +672,47 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
+
+----------------------------------------------------------------------
+                    ADDITIONAL ATTRIBUTION TERMS
+                       (GPL v3, Section 7(b))
+----------------------------------------------------------------------
+
+As permitted by Section 7 of the GNU General Public License (version 3),
+the following additional terms apply to this software:
+
+1. Any distribution of this software, whether in source code or
+   compiled form, and any derivative work, modified version, or
+   work based on any portion of this software, must include
+   reasonable attribution to:
+
+     (a) Pocketpair, Inc. / Palworld — as the creators of the game
+         for which this tool is designed.
+
+     (b) The PalworldSaveTools (PST) project — including a reference
+         to the original tool name ("PalworldSaveTools" or "PST")
+         and a link to the project repository (if distributed in a
+         medium where such links are feasible).
+
+     (c) Any libraries used within PalworldSaveTools that are
+         themselves under copyleft or permissive licenses that
+         require attribution, to the extent required by their
+         respective licenses.
+
+2. This attribution requirement extends to any and all source code,
+   code snippets, configuration files, tool files, and associated
+   documentation extracted from or based on this software.
+
+3. Such attribution must be placed in a reasonable and customary
+   location, such as an "About" dialog, a credits file, a README,
+   or similar documentation accompanying the distribution.
+
+4. This additional term shall not be construed to restrict any
+   rights already granted under the GNU General Public License,
+   nor shall it impose any obligation beyond what is stated herein.
+
+These additional terms are applied under GPL v3 Section 7(b) as
+"requiring preservation of specified reasonable legal notices or
+author attributions".
+
+Copyright (c) 2026 Palworld Save Tools Team

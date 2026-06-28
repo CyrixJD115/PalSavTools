@@ -198,15 +198,39 @@ export interface DeleteBaseRequest {
 
 export interface ContainerSummary {
   id: string;
+  container_type: string;
   owner_player_uid: string | null;
   guild_id: string | null;
+  guild_name: string | null;
+  base_camp_id: string | null;
   slot_count: number;
   item_count: number;
+  location: Vec3;
 }
 
 export interface ContainerListResponse {
   containers: ContainerSummary[];
   total: number;
+}
+
+export interface ContainerItemSlot {
+  slot_index: number;
+  count: number;
+  static_id: string;
+  dynamic_id: string | null;
+}
+
+export interface ContainerDetail {
+  id: string;
+  owner_player_uid: string | null;
+  guild_id: string | null;
+  slot_count: number;
+  item_count: number;
+  items: ContainerItemSlot[];
+}
+
+export interface ExpandContainerRequest {
+  new_slot_count: number;
 }
 
 export interface PalSummary {

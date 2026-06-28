@@ -1,14 +1,14 @@
 // Typed API client. Uses relative /api paths so it works both through the Vite
 // dev proxy (:5173 -> :8000) and the production single-origin FastAPI serve.
 import type {
-  BaseDetail, BaseListResponse, ContainerListResponse, ConvertIdsRequest,
-  ConvertIdsResponse, ConvertRequest, DeleteBaseRequest, GuildDetail,
-  GuildListResponse, HealthResponse, LanguagesResponse, LoadResponse,
-  MapDataResponse, MaxAbilitiesRequest, PalListResponse, PlayerDetail,
-  PlayerListResponse, RenameGuildRequest, RenamePlayerRequest,
-  SaveStateResponse, SetBaseRadiusRequest, SetGuildLevelRequest,
-  SetLeaderRequest, SetLevelRequest, SetStatsRequest, SetTechPointsRequest,
-  SlotInjectorRequest, ToolResponse, ToolsListResponse,
+  BaseDetail, BaseListResponse, ContainerDetail, ContainerListResponse,
+  ConvertIdsRequest, ConvertIdsResponse, ConvertRequest, DeleteBaseRequest,
+  ExpandContainerRequest, GuildDetail, GuildListResponse, HealthResponse,
+  LanguagesResponse, LoadResponse, MapDataResponse, MaxAbilitiesRequest,
+  PalListResponse, PlayerDetail, PlayerListResponse, RenameGuildRequest,
+  RenamePlayerRequest, SaveStateResponse, SetBaseRadiusRequest,
+  SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest, SetStatsRequest,
+  SetTechPointsRequest, SlotInjectorRequest, ToolResponse, ToolsListResponse,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -118,8 +118,13 @@ export const api = {
     request<{ status: string }>(`/bases/${baseId}/guild/name`, jsonBody(body, 'PUT')),
   setBaseGuildLevel: (baseId: string, body: SetGuildLevelRequest) =>
     request<{ status: string }>(`/bases/${baseId}/guild/level`, jsonBody(body, 'PUT')),
-  containers: (limit = 200) =>
+  containers: (limit = 500) =>
     request<ContainerListResponse>(`/containers?limit=${limit}`),
+  containerDetail: (id: string) => request<ContainerDetail>(`/containers/${id}`),
+  clearContainer: (id: string) =>
+    request<{ status: string }>(`/containers/${id}/clear`, { method: 'POST' }),
+  expandContainer: (id: string, body: ExpandContainerRequest) =>
+    request<{ status: string }>(`/containers/${id}/expand`, jsonBody(body, 'PUT')),
   pals: (limit = 300) => request<PalListResponse>(`/pals?limit=${limit}`),
 
   mapData: () => request<MapDataResponse>('/map/data'),

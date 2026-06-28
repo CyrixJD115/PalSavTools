@@ -82,7 +82,7 @@ export const MAP_CONFIG: MapConfig = {
       dynamic_sizing_formula: 'sqrt',
     },
     icon: {
-      path: '/map/baseicon.webp',
+      path: '/assets/icons/game/baseicon.webp',
       size_min: 32,
       size_max: 64,
       base_size: 48,
@@ -162,11 +162,11 @@ export function save_radius_to_scene_pixels(saveRadius: number): number {
 
 /** Asset paths. */
 export const MAP_ASSETS = {
-  worldMap: '/map/T_WorldMap.webp',
-  treeMap: '/map/T_TreeMap.webp',
-  baseIcon: '/map/baseicon.webp',
-  playerIcon: '/map/playericon.webp',
-  ringIcon: '/map/ring.webp',
-  zonesIcon: '/map/zones.webp',
-  calibrateIcon: '/map/calibrate.webp',
+  worldMap: '/assets/maps/T_WorldMap.webp',
+  treeMap: '/assets/maps/T_TreeMap.webp',
+  baseIcon: '/assets/icons/game/baseicon.webp',
+  playerIcon: '/assets/icons/game/playericon.webp',
+  ringIcon: '/assets/icons/game/ring.webp',
+  zonesIcon: '/assets/icons/game/zones.webp',
+  calibrateIcon: '/assets/icons/game/calibrate.webp',
 } as const;

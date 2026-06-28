@@ -42,10 +42,15 @@ Desktop.ini
 
 # Logs
 *.log
+logs/
 
 # Temp
 temp/
-tmp/*.tmp
+tmp/
+*.tmp
+*.bak
+*.orig
+*.rej
 
 # Compiled
 *.pyc
@@ -56,8 +61,24 @@ uv.lock
 
 Logs/
 
-# pyooz (Cython)
-src/palsav/pyooz/build/
+# Environment
+.env
+.env.*
+!.env.example
+
+# Lint / type caches
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Coverage
+htmlcov/
+.coverage*
+coverage/
+
+# Python wheels
+*.whl
 
 # Test saves
 pal-save/

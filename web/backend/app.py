@@ -16,6 +16,7 @@ from fastapi.staticfiles import StaticFiles
 
 from web.backend import __version__
 from web.backend.config import settings
+from web.backend.paths import RESOURCES_DIR
 from web.backend.routes import bases, containers, data, guilds, health, map, players, save, tools, world
 from web.backend.ws_manager import manager
 
@@ -82,6 +83,15 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
             await manager.disconnect(websocket)
         except Exception:
             await manager.disconnect(websocket)
+
+    # Serve static assets (icons, maps, branding, fonts) from src/_resources/assets/
+    assets_dir = RESOURCES_DIR / "assets"
+    if assets_dir.is_dir():
+        app.mount(
+            "/assets",
+            StaticFiles(directory=str(assets_dir)),
+            name="assets",
+        )
 
     if serve_frontend:
         frontend_dir = _resolve_frontend_build()

@@ -11,6 +11,7 @@ export default defineConfig({
     watch: { usePolling: true, interval: 300 },
     proxy: {
       '/api': { target: BACKEND, changeOrigin: true },
+      '/assets': { target: BACKEND, changeOrigin: true },
       '/ws': { target: BACKEND.replace('http', 'ws'), ws: true },
     },
   },

@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os, sys, subprocess, shutil, pathlib, argparse, threading, webbrowser
+import os, sys, subprocess, shutil, pathlib, argparse, threading, webbrowser, time, urllib.request, urllib.error
 PROJECT_DIR = pathlib.Path(__file__).resolve().parent.parent
 uv_lock = PROJECT_DIR / 'uv.lock'
 if uv_lock.exists():
@@ -95,8 +95,6 @@ def start_webui(vpy: pathlib.Path):
         bufsize=1,
     )
 
-    frontend_ready = threading.Event()
-
     def log_frontend():
         out = frontend_proc.stdout
         if out:
@@ -105,12 +103,26 @@ def start_webui(vpy: pathlib.Path):
                     stripped = line.rstrip()
                     if stripped:
                         print(f'{DIM}[frontend] {stripped}{RESET}')
-                    if 'Local:' in stripped and '16920' in stripped:
-                        frontend_ready.set()
             except Exception:
                 pass
     t = threading.Thread(target=log_frontend, daemon=True)
     t.start()
+
+    frontend_ready = threading.Event()
+    FRONTEND_URL = f'http://127.0.0.1:{FRONTEND_PORT}'
+
+    def poll_frontend():
+        for _ in range(300):
+            if frontend_proc.poll() is not None:
+                return
+            try:
+                urllib.request.urlopen(FRONTEND_URL, timeout=1)
+                frontend_ready.set()
+                return
+            except (urllib.error.URLError, OSError):
+                time.sleep(1)
+    t3 = threading.Thread(target=poll_frontend, daemon=True)
+    t3.start()
 
     log('Starting PST WebUI backend...', GREEN)
     backend_proc = subprocess.Popen(
@@ -169,10 +181,16 @@ def main():
     if args.web:
         log(f'  Press Ctrl+C to stop', DIM)
         if frontend_ready.wait(timeout=60):
-            opened = webbrowser.open('http://127.0.0.1:16920')
-            if not opened:
+            url = 'http://127.0.0.1:16920'
+            log(f'  Opening {url}...', DIM)
+            try:
+                if os.name == 'nt':
+                    subprocess.Popen(['explorer.exe', url])
+                else:
+                    webbrowser.open(url)
+            except Exception:
                 log('  Unable to open browser automatically', YELLOW)
-                log(f'  Open {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually{RESET}', YELLOW)
+                log(f'  Open {CYAN}{url}{RESET}{YELLOW} manually{RESET}', YELLOW)
         else:
             log(f'  Frontend server did not start within 60s', YELLOW)
             log(f'  Try opening {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually{RESET}', YELLOW)

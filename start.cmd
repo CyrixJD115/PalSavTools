@@ -8,7 +8,7 @@ where uv >nul 2>&1 || (
     exit /b 1
 )
 
-uv run src/main.py --web
+uv run src/main.py
 set "EXIT_CODE=%errorlevel%"
 if %EXIT_CODE% neq 0 pause
 exit /b %EXIT_CODE%

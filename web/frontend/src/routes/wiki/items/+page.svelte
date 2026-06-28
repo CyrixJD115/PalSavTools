@@ -65,7 +65,7 @@
     </div>
     <div class="flex gap-1 flex-wrap">
       {#each types as t}
-        <button class="chip text-[10px] cursor-pointer {typeFilter === t ? 'chip-blue' : ''}" onclick={() => (typeFilter = t)}>{t}</button>
+        <button class="chip text-[10px] cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {typeFilter === t ? 'chip-blue' : ''}" onclick={() => (typeFilter = t)}>{t}</button>
       {/each}
     </div>
     <span class="text-[11px] text-ink-dim ml-auto tabular-nums">{filtered.length} items</span>
@@ -78,15 +78,15 @@
       <table class="w-full text-xs">
         <thead class="bg-bg-deep sticky top-0 z-10">
           <tr class="border-b-2 border-line/40">
-            <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('name')}>
+            <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('name')}>
               Name {sortKey === 'name' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
             <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider">Type</th>
             <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider">Rarity</th>
-            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('weight')}>
+            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('weight')}>
               Weight {sortKey === 'weight' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
-            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('price')}>
+            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('price')}>
               Price {sortKey === 'price' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
             <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider">Max Stack</th>

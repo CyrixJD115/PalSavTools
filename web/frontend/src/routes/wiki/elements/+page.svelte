@@ -43,7 +43,7 @@
 </script>
 
 <div class="flex h-full gap-4">
-  <div class="w-64 shrink-0 flex flex-col">
+  <div class="w-64 shrink-0 flex flex-col bg-bg-deep/25 rounded-4 p-2">
     <div class="flex-1 overflow-y-auto space-y-0.5">
       {#each elements as el}
         <button

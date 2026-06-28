@@ -65,14 +65,14 @@
   <Sidebar />
   <div class="flex-1 flex flex-col overflow-hidden">
     <Header />
-    <main class="flex-1 overflow-y-auto {$page.url.pathname === '/map' ? '' : 'opacity-[0.90]'}">
+    <main class="flex-1 overflow-y-auto {$page.url.pathname === '/map' ? '' : ''}">
       {@render children()}
     </main>
   </div>
 </div>
 
 <div class="fixed inset-0 pointer-events-none z-0"
-  style="  background: url('/bg-corner.png') no-repeat bottom right / 880px auto;">
+  style="  background: url('/bg-corner.png') no-repeat bottom right / 880px auto; opacity: 0.50;">
 </div>
 
 <LoadingOverlay open={$loadingSave} />

@@ -25,7 +25,7 @@
 </script>
 
 <div class="flex h-full">
-  <aside class="w-48 shrink-0 flex flex-col gap-0.5 border-r-2 border-line/50 p-3 pt-4 bg-bg-deep/50">
+  <aside class="w-48 shrink-0 flex flex-col gap-0.5 border-r-2 border-line/50 p-3 pt-4 bg-bg-deep/85">
     <a href="/wiki" class="nav-link {activeCategory === '' ? 'nav-link-active' : 'nav-link-inactive'} mb-2">
       <Icon icon="lucide:book-open" width={16} class="shrink-0" />
       <span class="text-xs font-semibold">Wiki Home</span>
@@ -41,7 +41,7 @@
       </a>
     {/each}
   </aside>
-  <div class="flex-1 overflow-y-auto p-5">
+  <div class="flex-1 overflow-y-auto p-5 bg-bg-base/80">
     {@render children()}
   </div>
 </div>

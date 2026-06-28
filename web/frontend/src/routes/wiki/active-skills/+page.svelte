@@ -67,7 +67,7 @@
     <div class="flex gap-1 flex-wrap items-center">
       <span class="text-[10px] text-ink-dim font-semibold uppercase tracking-wider mr-1">Element:</span>
       {#each elementNames as el}
-        <button class="chip text-[10px] cursor-pointer {elementFilter === el ? 'chip-blue' : ''}" onclick={() => (elementFilter = el)}>
+        <button class="chip text-[10px] cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {elementFilter === el ? 'chip-blue' : ''}" onclick={() => (elementFilter = el)}>
           {el === 'All' ? 'All' : ''}
           {#if el !== 'All' && elementMap[el]}
             <img src={assetUrl(elementMap[el].icons.small)} alt={el} class="w-3.5 h-3.5 inline" onerror={imgOnError} loading="lazy" />
@@ -86,14 +86,14 @@
       <table class="w-full text-xs">
         <thead class="bg-bg-deep sticky top-0 z-10">
           <tr class="border-b-2 border-line/40">
-            <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('name')}>
+            <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('name')}>
               Name {sortKey === 'name' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
             <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider">Element</th>
-            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('power')}>
+            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('power')}>
               Power {sortKey === 'power' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
-            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none" onclick={() => toggleSort('cooldown')}>
+            <th class="text-right px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider cursor-pointer select-none hover:text-ink-primary transition-fast" onclick={() => toggleSort('cooldown')}>
               Cooldown {sortKey === 'cooldown' ? (sortAsc ? '▲' : '▼') : ''}
             </th>
             <th class="text-left px-3 py-2 text-[10px] font-semibold text-ink-dim uppercase tracking-wider">Category</th>

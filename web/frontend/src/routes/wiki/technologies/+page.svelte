@@ -53,18 +53,18 @@
 </script>
 
 <div class="flex h-full gap-4">
-  <div class="w-64 shrink-0 flex flex-col">
-    <div class="flex items-center justify-between mb-2">
+  <div class="w-64 shrink-0 flex flex-col bg-bg-deep/25 rounded-4 p-2">
+    <div class="flex items-center justify-between mb-2 px-1">
       <span class="text-[11px] text-ink-dim font-semibold tracking-wide uppercase">{filtered.length} entries</span>
     </div>
-    <div class="relative mb-3">
-      <Icon icon="lucide:search" width={14} class="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-dim" />
+    <div class="relative mb-3 px-1">
+      <Icon icon="lucide:search" width={14} class="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-dim" />
       <input type="text" bind:value={search} placeholder="Search technologies..." class="input pl-8 text-xs" />
     </div>
-    <div class="flex gap-1 mb-3">
-      <button class="chip text-[10px] cursor-pointer {bossFilter === 'All' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'All')}>All</button>
-      <button class="chip text-[10px] cursor-pointer {bossFilter === 'normal' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'normal')}>Normal</button>
-      <button class="chip text-[10px] cursor-pointer {bossFilter === 'boss' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'boss')}>Boss</button>
+    <div class="flex gap-1 mb-3 px-1">
+      <button class="chip text-[10px] cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {bossFilter === 'All' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'All')}>All</button>
+      <button class="chip text-[10px] cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {bossFilter === 'normal' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'normal')}>Normal</button>
+      <button class="chip text-[10px] cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {bossFilter === 'boss' ? 'chip-blue' : ''}" onclick={() => (bossFilter = 'boss')}>Boss</button>
     </div>
     <div class="flex-1 overflow-y-auto space-y-0.5">
       {#each filtered as tech}

@@ -45,17 +45,17 @@
 </script>
 
 <div class="flex h-full gap-4">
-  <div class="w-64 shrink-0 flex flex-col">
-    <div class="flex items-center justify-between mb-2">
+  <div class="w-64 shrink-0 flex flex-col bg-bg-deep/25 rounded-4 p-2">
+    <div class="flex items-center justify-between mb-2 px-1">
       <span class="text-[11px] text-ink-dim font-semibold tracking-wide uppercase">{filtered.length} entries</span>
     </div>
-    <div class="relative mb-3">
-      <Icon icon="lucide:search" width={14} class="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-dim" />
+    <div class="relative mb-3 px-1">
+      <Icon icon="lucide:search" width={14} class="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-dim" />
       <input type="text" bind:value={search} placeholder="Search buildings..." class="input pl-8 text-xs" />
     </div>
-    <div class="flex flex-wrap gap-1 mb-3">
+    <div class="flex flex-wrap gap-1 mb-3 px-1">
       {#each types as t}
-        <button class="chip text-[10px] px-2 py-0.5 cursor-pointer {typeFilter === t ? 'chip-blue' : ''}" onclick={() => (typeFilter = t)}>{t}</button>
+        <button class="chip text-[10px] px-2 py-0.5 cursor-pointer hover:bg-bg-hover hover:border-line/80 transition-fast {typeFilter === t ? 'chip-blue' : ''}" onclick={() => (typeFilter = t)}>{t}</button>
       {/each}
     </div>
     <div class="flex-1 overflow-y-auto space-y-0.5">

@@ -13,9 +13,6 @@
 
 <header class="flex items-center gap-3 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
   <div class="flex items-center gap-2 min-w-0">
-    <button class="hdr-btn hdr-settings" title="Settings" onclick={() => goto('/settings')}>
-      <Icon icon="lucide:settings" width={16} />
-    </button>
     <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title="App version">
       <Icon icon="simple-icons:github" width={15} />
@@ -54,6 +51,9 @@
   <div class="flex-1"></div>
 
   <div class="flex items-center gap-2">
+    <button class="hdr-btn hdr-settings" title="Settings" onclick={() => goto('/settings')}>
+      <Icon icon="lucide:settings" width={16} />
+    </button>
     <a href="https://discord.gg/sYcZwcT4cT" target="_blank" rel="noreferrer"
        class="discord-link" title="Join Discord">
       <Icon icon="simple-icons:discord" width={16} />

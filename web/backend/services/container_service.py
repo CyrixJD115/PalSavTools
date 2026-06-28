@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from web.backend.services.world_service import (
     get_world_save_data, _map_values, _u, _norm_uid,
 )
@@ -176,59 +178,92 @@ def _belong_inner(raw: dict | None) -> dict:
     return raw
 
 
-def list_containers(level_dict: dict, limit: int = 500) -> list[dict]:
-    """Enriched container list with item count, type, and location."""
-    wsd = get_world_save_data(level_dict)
-    map_index = _build_map_object_index(wsd)
+def _build_map_index(wsd: dict) -> dict[str, dict]:
+    """Build MapObject→container index (runs in thread)."""
+    return _build_map_object_index(wsd)
 
-    # Build guild name lookup
-    guild_names: dict[str, str] = {}
+
+def _build_guild_names(wsd: dict) -> dict[str, str]:
+    """Build guild name lookup (runs in thread)."""
+    names: dict[str, str] = {}
     for g in _map_values(wsd, "GroupSaveDataMap"):
         try:
             gid = _s(g.get("key"))
             name = g.get("value", {}).get("RawData", {}).get("value", {}).get("guild_name", "Unnamed Guild")
-            guild_names[gid] = name
+            names[gid] = name
         except Exception:
             continue
+    return names
 
-    out = []
-    for c in _map_values(wsd, "ItemContainerSaveData"):
-        try:
-            v = c.get("value", {})
-            cid = _extract_id(c.get("key"))
-            cid_clean = _s(c.get("key"))
-            belong_raw = _u(v, "BelongInfo")
-            belong = _belong_inner(belong_raw)
-            slot_num = _u(v, "SlotNum")
-            slot_count = int(slot_num) if slot_num is not None else 0
-            slots_node = v.get("Slots")
-            item_count = _count_items(slots_node)
 
-            owner_uid = _norm_uid(_extract_id(belong.get("PlayerUId")))
-            guild_id = _norm_uid(_extract_id(belong.get("GroupId")))
+def _enrich_container(
+    entry: dict, map_index: dict, guild_names: dict,
+) -> dict | None:
+    """Enrich a single container entry with type, location, guild, items."""
+    try:
+        v = entry.get("value", {})
+        cid = _extract_id(entry.get("key"))
+        cid_clean = _s(entry.get("key"))
+        belong_raw = _u(v, "BelongInfo")
+        belong = _belong_inner(belong_raw)
+        slot_num = _u(v, "SlotNum")
+        slot_count = int(slot_num) if slot_num is not None else 0
+        slots_node = v.get("Slots")
+        item_count = _count_items(slots_node)
 
-            map_info = map_index.get(cid_clean, {})
-            ctype = map_info.get("type", "Unknown")
-            location = map_info.get("location")
-            base_camp_id = map_info.get("base_camp_id")
-            guild_name = guild_names.get(_s(guild_id)) if guild_id else None
+        owner_uid = _norm_uid(_extract_id(belong.get("PlayerUId")))
+        guild_id = _norm_uid(_extract_id(belong.get("GroupId")))
 
-            out.append({
-                "id": cid,
-                "container_type": ctype,
-                "owner_player_uid": owner_uid,
-                "guild_id": guild_id,
-                "guild_name": guild_name,
-                "base_camp_id": base_camp_id,
-                "slot_count": slot_count,
-                "item_count": item_count,
-                "location": location,
-            })
-            if limit and len(out) >= limit:
-                break
-        except Exception:
-            continue
-    return out
+        map_info = map_index.get(cid_clean, {})
+        ctype = map_info.get("type", "Unknown")
+        location = map_info.get("location")
+        base_camp_id = map_info.get("base_camp_id")
+        guild_name = guild_names.get(_s(guild_id)) if guild_id else None
+
+        return {
+            "id": cid,
+            "container_type": ctype,
+            "owner_player_uid": owner_uid,
+            "guild_id": guild_id,
+            "guild_name": guild_name,
+            "base_camp_id": base_camp_id,
+            "slot_count": slot_count,
+            "item_count": item_count,
+            "location": location,
+        }
+    except Exception:
+        return None
+
+
+def list_containers(
+    level_dict: dict, offset: int = 0, limit: int = 500,
+) -> tuple[list[dict], int]:
+    """Enriched container list with item count, type, and location.
+
+    Returns (containers_slice, total_count).  ``offset``/``limit`` slice
+    *after* building the index/names so the call is consistent regardless
+    of page; the slice is just a Python list slice on the full array.
+    """
+    wsd = get_world_save_data(level_dict)
+
+    # Build map index + guild names in parallel threads
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        fut_index = pool.submit(_build_map_index, wsd)
+        fut_names = pool.submit(_build_guild_names, wsd)
+        map_index = fut_index.result()
+        guild_names = fut_names.result()
+
+    all_entries = _map_values(wsd, "ItemContainerSaveData")
+    total = len(all_entries)
+    page = all_entries[offset:offset + limit]
+
+    out: list[dict] = []
+    for entry in page:
+        enriched = _enrich_container(entry, map_index, guild_names)
+        if enriched is not None:
+            out.append(enriched)
+
+    return out, total
 
 
 def get_container_detail(level_dict: dict, container_id: str) -> dict | None:

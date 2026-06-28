@@ -118,8 +118,8 @@ export const api = {
     request<{ status: string }>(`/bases/${baseId}/guild/name`, jsonBody(body, 'PUT')),
   setBaseGuildLevel: (baseId: string, body: SetGuildLevelRequest) =>
     request<{ status: string }>(`/bases/${baseId}/guild/level`, jsonBody(body, 'PUT')),
-  containers: (limit = 50000) =>
-    request<ContainerListResponse>(`/containers?limit=${limit}`),
+  containers: (offset = 0, limit = 1000) =>
+    request<ContainerListResponse>(`/containers?offset=${offset}&limit=${limit}`),
   containerDetail: (id: string) => request<ContainerDetail>(`/containers/${id}`),
   clearContainer: (id: string) =>
     request<{ status: string }>(`/containers/${id}/clear`, { method: 'POST' }),

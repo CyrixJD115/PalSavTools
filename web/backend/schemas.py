@@ -192,6 +192,7 @@ class ContainerSummary(BaseModel):
 class ContainerListResponse(BaseModel):
     containers: list[ContainerSummary]
     total: int
+    has_more: bool = False
 
 
 class ContainerItemSlot(BaseModel):

@@ -211,6 +211,7 @@ export interface ContainerSummary {
 export interface ContainerListResponse {
   containers: ContainerSummary[];
   total: number;
+  has_more: boolean;
 }
 
 export interface ContainerItemSlot {

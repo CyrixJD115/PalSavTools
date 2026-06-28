@@ -8,24 +8,41 @@
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
+  import Button from '$components/ui/Button.svelte';
   import ContainerDetailModal from '$components/containers/ContainerDetailModal.svelte';
 
   let containers = $state<ContainerSummary[]>([]);
   let total = $state(0);
+  let hasMore = $state(false);
   let loading = $state(true);
+  let loadingMore = $state(false);
   let error = $state<string | null>(null);
   let selectedContainer = $state<ContainerSummary | null>(null);
   let query = $state('');
   let sortCol = $state<'type' | 'slots' | 'items' | 'guild'>('type');
   let sortDir = $state<'asc' | 'desc'>('asc');
 
-  const LIMIT = 50000;
+  const PAGE = 1000;
+
   async function load() {
-    loading = true; error = null;
-    try { const r = await api.containers(LIMIT); containers = r.containers; total = r.total; }
-    catch (e) { error = e instanceof Error ? e.message : String(e); }
+    loading = true; error = null; containers = [];
+    try {
+      const r = await api.containers(0, PAGE);
+      containers = r.containers; total = r.total; hasMore = r.has_more;
+    } catch (e) { error = e instanceof Error ? e.message : String(e); }
     finally { loading = false; }
   }
+
+  async function loadMore() {
+    loadingMore = true;
+    try {
+      const r = await api.containers(containers.length, PAGE);
+      containers = [...containers, ...r.containers];
+      hasMore = r.has_more;
+    } catch (e) { error = e instanceof Error ? e.message : String(e); }
+    finally { loadingMore = false; }
+  }
+
   onMount(() => { if ($saveLoaded) load(); });
 
   type SortCol = 'type' | 'slots' | 'items' | 'guild';
@@ -69,13 +86,15 @@
     return typeColors[type] ?? 'bg-neutral-500/10 text-neutral-400';
   }
 
-  function onDetailSaved() { load(); selectedContainer = null; }
+  function onDetailSaved() { selectedContainer = null; }
 
   function fmtVec(loc: [number, number, number] | null): string {
     if (!loc) return '—';
     if (loc[0] === 0 && loc[1] === 0 && loc[2] === 0) return '—';
     return `${loc[0].toFixed(0)}, ${loc[1].toFixed(0)}`;
   }
+
+  let remaining = $derived(total - containers.length);
 </script>
 
 <SaveGate icon="lucide:box">
@@ -84,7 +103,7 @@
       <div>
         <h1 class="text-xl font-bold heading-gradient">Containers</h1>
         <p class="text-xs text-ink-muted">
-          Showing first {containers.length} of {total} item containers
+          {containers.length} of {total} loaded
         </p>
       </div>
       <input class="input max-w-xs" placeholder="Filter by type, ID, guild..." bind:value={query} />
@@ -179,10 +198,20 @@
             </tbody>
           </table>
         </div>
-        {#if total > LIMIT}
-          <p class="mt-3 text-xs text-ink-dim text-center">
-            Refine the filter or increase the backend limit to see beyond the first {LIMIT}.
-          </p>
+
+        {#if hasMore}
+          <div class="flex justify-center py-4">
+            {#if loadingMore}
+              <Spinner size={20} />
+            {:else}
+              <Button variant="secondary" onclick={loadMore}>
+                <Icon icon="lucide:plus" width={14} class="mr-1" />
+                Load Next {Math.min(PAGE, remaining)} ({remaining} remaining)
+              </Button>
+            {/if}
+          </div>
+        {:else if containers.length < total}
+          <p class="mt-3 text-xs text-ink-dim text-center">All {total} containers loaded.</p>
         {/if}
       {/if}
     </Card>

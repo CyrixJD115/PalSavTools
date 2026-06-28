@@ -22,10 +22,13 @@ def _require() -> dict:
 
 @router.get("", response_model=ContainerListResponse)
 async def list_containers(
-    limit: int = Query(50000, ge=1, le=50000),
+    offset: int = Query(0, ge=0),
+    limit: int = Query(1000, ge=1, le=50000),
 ) -> ContainerListResponse:
-    containers = container_service.list_containers(_require(), limit=limit)
-    return ContainerListResponse(containers=containers, total=len(containers))
+    containers, total = container_service.list_containers(_require(), offset=offset, limit=limit)
+    return ContainerListResponse(
+        containers=containers, total=total, has_more=(offset + limit < total),
+    )
 
 
 @router.get("/{container_id}", response_model=ContainerDetail)

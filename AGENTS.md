@@ -21,10 +21,22 @@ uv run src/main.py --web                 # launch WebUI (frontend + backend)
 
 - **Triplicated reset block**: constants reset on load is copy-pasted in `src/palworld_aio/main.py` + `save_manager.py` + `reload_current_save`. Adding a global = edit all three.
 - **CLI ≠ GUI decoding**: GUI uses `SKP_PALWORLD_CUSTOM_PROPERTIES` (6 no-op paths for speed). Full foliage/spawner edits require CLI.
-- **Compression**: world saves → PLZ (double-zlib, type=50); others → PLM (Oodle, type=49). Checked via `'Pal.PalworldSaveGame'` (note lowercase `w`).
+- **Compression**: world saves → PLZ (double-zlib, type=50); others → PLM (Oodle, type=49). Checked via `'Pal.PalWorldSaveGame'` (note lowercase `w`).
 - **Two save locations**: `constants.loaded_level_json` (Level.sav, deferred write) + per-player .sav files (written immediately).
 - **i18n default**: `init_language()` falls back to `zh_CN`, not English.
 - **`src/` NOT on `sys.path` in web context** — backend loads `map_data_service.py` via `importlib` to avoid shadowing the editable `palsav` install. `map_data_service.py` handles its own dependency imports (`coord`, `ContainerOwnership`) with try/except fallback.
+
+## WebUI data model gotchas
+
+- **StructProperty wrapper**: `BelongInfo`, `PlayerUId`, `GroupId`, and many other fields are wrapped in `{'struct_type': 'X', 'struct_id': UUID, 'id': None, 'value': ACTUAL_DATA, 'type': 'StructProperty'}`. The `_u()` helper auto-unwraps them via `len(cur) <= 5` check — **not** `<= 4`, because StructProperty dicts have 5 keys. Changing this threshold is the most common cause of "owner=None / guild=None" bugs.
+- **`MapObjectId` location**: In `MapObjectSaveData` entries, the map object type identifier (`ItemChest_04`, `PalBooth`, etc.) is at the **top level**: `obj['MapObjectId']['value']`. NOT inside `Model.RawData.value`. Reading from the wrong path → all types show "Unknown".
+- **Container key format**: `ItemContainerSaveData` entry keys are StructProperty dicts `{ID: {struct_type: 'Guid', value: UUID('...')}}`. Use `_extract_id()` (extracts UUID string) and `_s()` (normalizes for comparison) — never `str(dict)`.
+- **Container BelongInfo access**: `BelongInfo` is a `PalItemContainerBelongInfo` StructProperty. The inner dict `value` contains `GroupId` and `PlayerUId` fields, which are themselves GUID StructProperty wrappers. Three levels of wrapping.
+- **Save entries are heterogeneous**: The first ~500 `ItemContainerSaveData` entries are typically internal/engine containers (player inventories, guild chests). Map-object-backed containers (Booth, Chest, Mining Pit, etc.) start appearing at index 500+. Don't assume the start of the list is representative.
+- **`_s()` vs `_extract_id()`**: `_s()` strips dashes and lowercases (for map-key comparison), `_extract_id()` preserves UUID format with dashes (for display/URL). A bug in one but not the other causes all types/locations to show "Unknown" despite matching correctly.
+- **Container type classification**: `_classify_container()` handles 40+ map object types via case-insensitive substring matching. Falls back to "Unknown". The classification chain is: `MapObjectId` → `_classify_container()` → type badge in frontend.
+- **Container list performance**: 10,000+ containers is common. The backend builds the map-object index + guild names in parallel threads (`ThreadPoolExecutor(max_workers=2)`), then slices `entries[offset:offset+limit]` so only the requested page is enriched. Never iterate all entries just to serve one page.
+- **Pagination contract**: `GET /api/containers?offset=0&limit=1000` returns `{containers: [...], total: N, has_more: bool}`. Frontend loads in 1000-item chunks, appends to existing array. IntersectionObserver triggers auto-load 200px before bottom.
 
 ## Build
 

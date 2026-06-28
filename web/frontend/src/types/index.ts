@@ -345,10 +345,45 @@ export interface ConvertIdsResponse {
 }
 
 export interface SlotInjectorRequest {
-  level_sav_path: string;
+  level_sav_path?: string;
   players_folder?: string;
   new_slot_count: number;
   container_ids?: string[];
+  use_loaded_save?: boolean;
+}
+
+export interface FixHostSaveRequest {
+  level_sav_path?: string;
+  old_uid: string;
+  new_uid: string;
+  guild_fix?: boolean;
+  use_loaded_save?: boolean;
+}
+
+export interface FixGuildRequest {
+  level_sav_path?: string;
+  player_uid: string;
+  target_guild_id: string;
+  use_loaded_save?: boolean;
+}
+
+export interface CharacterTransferRequest {
+  source_sav_path: string;
+  target_sav_path: string;
+  source_player_uid: string;
+  target_player_uid?: string;
+  steps?: Record<string, boolean>;
+}
+
+export interface PlayerMigrateRequest {
+  source_sav_path: string;
+  target_sav_path: string;
+  source_player_uid: string;
+  target_player_uid?: string;
+}
+
+export interface ConvertExportRequest {
+  output_path?: string;
 }
 
 export interface ToolResponse {

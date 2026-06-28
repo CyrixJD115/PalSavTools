@@ -53,9 +53,107 @@ def ensure_venv():
         if VENV_DIR.exists():
             shutil.rmtree(VENV_DIR, ignore_errors=True)
         return False
+
+FRONTEND_PORT = 16920
+BACKEND_PORT = 16921
+
+def free_ports():
+    if os.name == 'nt':
+        return
+    for port in (FRONTEND_PORT, BACKEND_PORT):
+        try:
+            subprocess.run(['fuser', '-k', f'{port}/tcp'], capture_output=True, timeout=5)
+        except (subprocess.CalledProcessError, OSError, FileNotFoundError):
+            pass
+
+def start_webui(vpy: pathlib.Path):
+    """Start frontend dev server and backend, return (frontend_proc, backend_proc)."""
+    frontend_dir = PROJECT_DIR / 'web' / 'frontend'
+    backend_py = PROJECT_DIR / 'web' / 'backend' / 'main.py'
+
+    _npm = shutil.which('npm')
+    if not _npm:
+        log('npm not found — install Node.js from https://nodejs.org', RED)
+        sys.exit(1)
+
+    nm = frontend_dir / 'node_modules'
+    if not nm.exists() or not any(nm.iterdir()):
+        log('Installing frontend dependencies...', CYAN)
+        r = subprocess.run([_npm, 'install'], cwd=str(frontend_dir))
+        if r.returncode != 0:
+            log('Failed to install frontend dependencies', RED)
+            sys.exit(1)
+
+    frontend_proc = subprocess.Popen(
+        [_npm, 'run', 'dev', '--', '--host', '127.0.0.1', '--port', '16920'],
+        cwd=str(frontend_dir),
+        env={**os.environ, 'PST_BACKEND_URL': 'http://127.0.0.1:16921'},
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding='utf-8',
+        bufsize=1,
+    )
+
+    frontend_ready = threading.Event()
+
+    def log_frontend():
+        out = frontend_proc.stdout
+        if out:
+            try:
+                for line in iter(out.readline, ''):
+                    stripped = line.rstrip()
+                    if stripped:
+                        print(f'{DIM}[frontend] {stripped}{RESET}')
+                    if 'Local:' in stripped and '16920' in stripped:
+                        frontend_ready.set()
+            except Exception:
+                pass
+    t = threading.Thread(target=log_frontend, daemon=True)
+    t.start()
+
+    log('Starting PST WebUI backend...', GREEN)
+    backend_proc = subprocess.Popen(
+        [str(vpy), str(backend_py)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=0,
+    )
+
+    def log_backend():
+        out = backend_proc.stdout
+        if out:
+            try:
+                for line in iter(out.readline, ''):
+                    stripped = line.rstrip()
+                    if stripped:
+                        print(f'{DIM}[backend] {stripped}{RESET}')
+            except Exception:
+                pass
+    t2 = threading.Thread(target=log_backend, daemon=True)
+    t2.start()
+
+    log(f'  Frontend → http://127.0.0.1:16920', GREEN)
+    log(f'  Backend  → http://127.0.0.1:16921', GREEN)
+
+    return frontend_proc, backend_proc, frontend_ready
+
+def cleanup_procs(*procs: subprocess.Popen):
+    for p in procs:
+        if p.poll() is None:
+            try:
+                p.terminate()
+                p.wait(timeout=3)
+            except Exception:
+                try:
+                    p.kill()
+                except Exception:
+                    pass
+
 def main():
     parser = argparse.ArgumentParser(description='PalworldSaveTools')
-    parser.add_argument('--web', action='store_true', help='Launch WebUI instead of desktop GUI')
+    parser.add_argument('--web', action='store_true', help='Launch WebUI in browser instead of native window')
     args = parser.parse_args()
 
     print(f'{BOLD}{LOGO}{RESET}')
@@ -64,77 +162,12 @@ def main():
         input('Press Enter to exit...')
         sys.exit(1)
 
+    free_ports()
     vpy = venv_python()
+    frontend_proc, backend_proc, frontend_ready = start_webui(vpy)
+
     if args.web:
-        frontend_dir = PROJECT_DIR / 'web' / 'frontend'
-        backend_py = PROJECT_DIR / 'web' / 'backend' / 'main.py'
-
-        _npm = shutil.which('npm')
-        if not _npm:
-            log('npm not found — install Node.js from https://nodejs.org', RED)
-            sys.exit(1)
-
-        # Check for node_modules — install if missing
-        nm = frontend_dir / 'node_modules'
-        if not nm.exists() or not any(nm.iterdir()):
-            log('Installing frontend dependencies...', CYAN)
-            r = subprocess.run([_npm, 'install'], cwd=str(frontend_dir))
-            if r.returncode != 0:
-                log('Failed to install frontend dependencies', RED)
-                sys.exit(1)
-
-        # Start frontend dev server
-        frontend_proc = subprocess.Popen(
-            [_npm, 'run', 'dev', '--', '--host', '127.0.0.1', '--port', '16920'],
-            cwd=str(frontend_dir),
-            env={**os.environ, 'PST_BACKEND_URL': 'http://127.0.0.1:16921'},
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            encoding='utf-8',
-            bufsize=1,
-        )
-
-        frontend_ready = threading.Event()
-
-        def log_frontend():
-            try:
-                for line in iter(frontend_proc.stdout.readline, ''):
-                    stripped = line.rstrip()
-                    if stripped:
-                        print(f'{DIM}[frontend] {stripped}{RESET}')
-                    if 'Local:' in stripped and '16920' in stripped:
-                        frontend_ready.set()
-            except Exception:
-                pass
-        t = threading.Thread(target=log_frontend, daemon=True)
-        t.start()
-
-        # Start backend
-        log('Starting PST WebUI backend...', GREEN)
-        backend_proc = subprocess.Popen(
-            [str(vpy), str(backend_py)],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=0,
-        )
-
-        def log_backend():
-            try:
-                for line in iter(backend_proc.stdout.readline, ''):
-                    stripped = line.rstrip()
-                    if stripped:
-                        print(f'{DIM}[backend] {stripped}{RESET}')
-            except Exception:
-                pass
-        t2 = threading.Thread(target=log_backend, daemon=True)
-        t2.start()
-
-        log(f'  Frontend → http://127.0.0.1:16920', GREEN)
-        log(f'  Backend  → http://127.0.0.1:16921', GREEN)
         log(f'  Press Ctrl+C to stop', DIM)
-
         if frontend_ready.wait(timeout=60):
             opened = webbrowser.open('http://127.0.0.1:16920')
             if not opened:
@@ -144,34 +177,62 @@ def main():
             log(f'  Frontend server did not start within 60s', YELLOW)
             log(f'  Try opening {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually{RESET}', YELLOW)
 
-        def cleanup():
-            for p in (frontend_proc, backend_proc):
-                if p.poll() is None:
-                    try:
-                        p.terminate()
-                        p.wait(timeout=3)
-                    except Exception:
-                        try:
-                            p.kill()
-                        except Exception:
-                            pass
         try:
             frontend_proc.wait()
             backend_proc.terminate()
             backend_proc.wait()
         except KeyboardInterrupt:
-            cleanup()
+            cleanup_procs(frontend_proc, backend_proc)
             sys.exit(0)
         except Exception:
-            cleanup()
+            cleanup_procs(frontend_proc, backend_proc)
             sys.exit(1)
     else:
-        bootup_py = PROJECT_DIR / 'src' / 'bootup.py'
-        log('Starting PalworldSaveTools...', GREEN)
-        try:
-            result = subprocess.run([str(vpy), str(bootup_py)])
-            sys.exit(result.returncode)
-        except KeyboardInterrupt:
-            sys.exit(0)
+        log('Launching WebUI window...', GREEN)
+        log(f'  Press Ctrl+C or close the window to stop', DIM)
+        if frontend_ready.wait(timeout=60):
+            npm = shutil.which('npm')
+            if not npm:
+                log('npm not found — cannot launch Tauri', RED)
+                log(f'  Open {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually instead{RESET}', YELLOW)
+                frontend_proc.wait()
+            else:
+                tauri_dir = PROJECT_DIR / 'web' / 'frontend'
+                log('  Building Tauri app (first run compiles Rust)...', DIM)
+                tauri_proc = subprocess.Popen(
+                    [npm, 'run', 'tauri', '--', 'dev'],
+                    cwd=str(tauri_dir),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    bufsize=1,
+                )
+
+                def log_tauri():
+                    out = tauri_proc.stdout
+                    if out:
+                        try:
+                            for line in iter(out.readline, ''):
+                                stripped = line.rstrip()
+                                if stripped:
+                                    print(f'{DIM}[tauri] {stripped}{RESET}')
+                        except Exception:
+                            pass
+                t3 = threading.Thread(target=log_tauri, daemon=True)
+                t3.start()
+
+                try:
+                    tauri_proc.wait()
+                except KeyboardInterrupt:
+                    pass
+                finally:
+                    if tauri_proc.poll() is None:
+                        cleanup_procs(tauri_proc)
+        else:
+            log(f'  Frontend server did not start within 60s', YELLOW)
+            log(f'  Try opening {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually{RESET}', YELLOW)
+
+        cleanup_procs(frontend_proc, backend_proc)
+
 if __name__ == '__main__':
     main()

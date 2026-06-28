@@ -10,6 +10,8 @@
   import LoadSaveModal from '$components/layout/LoadSaveModal.svelte';
   import ToolModal from '$components/tools/ToolModal.svelte';
   import Icon from '@iconify/svelte';
+  import TauriDropZone from '$components/drop/TauriDropZone.svelte'
+  import { isTauri } from '$lib/tauri'
 
   let loadOpen = $state(false);
   let exporting = $state(false);
@@ -125,6 +127,21 @@
     }
   }
 
+  async function onTauriDrop(paths: string[]) {
+    const file = paths[0]
+    if (!file || !file.toLowerCase().endsWith('.sav')) return
+    loadingSave.set(true)
+    try {
+      const res = await api.loadFromPath(file)
+      saveState.set({ loaded: true, summary: res.summary, counts: res.counts })
+      toast.success(`Loaded ${res.summary.filename} from drop`)
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Load failed')
+    } finally {
+      loadingSave.set(false)
+    }
+  }
+
   function fmtBytes(n: number): string {
     if (!n) return '0 B';
     const u = ['B', 'KB', 'MB', 'GB'];
@@ -153,6 +170,8 @@
     </p>
   </div>
 {/if}
+
+<TauriDropZone onFilesDrop={onTauriDrop}>
 
 <!-- drag-and-drop overlay -->
 {#if dragOver}
@@ -288,6 +307,8 @@
     </div>
   </div>
 </div>
+
+</TauriDropZone>
 
 <ToolModal
   tool={currentTool}

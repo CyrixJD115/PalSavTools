@@ -378,10 +378,45 @@ class ConvertIdsResponse(BaseModel):
 
 
 class SlotInjectorRequest(BaseModel):
-    level_sav_path: str
+    level_sav_path: str | None = None
     players_folder: str | None = None
     new_slot_count: int = 960
     container_ids: list[str] | None = None
+    use_loaded_save: bool = False
+
+
+class FixHostSaveRequest(BaseModel):
+    level_sav_path: str | None = None
+    old_uid: str
+    new_uid: str
+    guild_fix: bool = True
+    use_loaded_save: bool = False
+
+
+class FixGuildRequest(BaseModel):
+    level_sav_path: str | None = None
+    player_uid: str
+    target_guild_id: str
+    use_loaded_save: bool = False
+
+
+class CharacterTransferRequest(BaseModel):
+    source_sav_path: str
+    target_sav_path: str
+    source_player_uid: str
+    target_player_uid: str | None = None
+    steps: dict | None = None
+
+
+class PlayerMigrateRequest(BaseModel):
+    source_sav_path: str
+    target_sav_path: str
+    source_player_uid: str
+    target_player_uid: str | None = None
+
+
+class ConvertExportRequest(BaseModel):
+    output_path: str | None = None
 
 
 class ToolResponse(BaseModel):

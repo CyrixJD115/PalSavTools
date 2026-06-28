@@ -1,11 +1,13 @@
 // Typed API client. Uses relative /api paths so it works both through the Vite
 // dev proxy (:5173 -> :8000) and the production single-origin FastAPI serve.
 import type {
-  BaseDetail, BaseListResponse, ContainerDetail, ContainerListResponse,
-  ConvertIdsRequest, ConvertIdsResponse, ConvertRequest, DeleteBaseRequest,
-  ExpandContainerRequest, GuildDetail, GuildListResponse, HealthResponse,
-  LanguagesResponse, LoadResponse, MapDataResponse, MaxAbilitiesRequest,
-  PalListResponse, PlayerDetail, PlayerListResponse, RenameGuildRequest,
+  BaseDetail, BaseListResponse, CharacterTransferRequest, ContainerDetail,
+  ContainerListResponse, ConvertExportRequest, ConvertIdsRequest,
+  ConvertIdsResponse, ConvertRequest, DeleteBaseRequest,
+  ExpandContainerRequest, FixGuildRequest, FixHostSaveRequest, GuildDetail,
+  GuildListResponse, HealthResponse, LanguagesResponse, LoadResponse,
+  MapDataResponse, MaxAbilitiesRequest, PalListResponse, PlayerDetail,
+  PlayerListResponse, PlayerMigrateRequest, RenameGuildRequest,
   RenamePlayerRequest, SaveStateResponse, SetBaseRadiusRequest,
   SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest, SetStatsRequest,
   SetTechPointsRequest, SlotInjectorRequest, ToolResponse, ToolsListResponse,
@@ -139,6 +141,14 @@ export const api = {
     request<ToolResponse>('/tools/restore-map', jsonBody(params)),
   toolSlotInject: (params: SlotInjectorRequest) =>
     request<ToolResponse>('/tools/slot-injector', jsonBody(params)),
-  toolFixHostSave: (params: Record<string, unknown>) =>
+  toolFixHostSave: (params: FixHostSaveRequest) =>
     request<ToolResponse>('/tools/fix-host-save', jsonBody(params)),
+  toolFixGuild: (params: FixGuildRequest) =>
+    request<ToolResponse>('/tools/fix-guild', jsonBody(params)),
+  toolCharacterTransfer: (params: CharacterTransferRequest) =>
+    request<ToolResponse>('/tools/character-transfer', jsonBody(params)),
+  toolPlayerMigrate: (params: PlayerMigrateRequest) =>
+    request<ToolResponse>('/tools/player-migrate', jsonBody(params)),
+  toolConvertExport: (params: ConvertExportRequest) =>
+    request<ToolResponse>('/tools/convert-export', jsonBody(params)),
 };

@@ -8,14 +8,20 @@ from __future__ import annotations
 
 import logging
 import os
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
+from pathlib import Path
+
 from web.backend.schemas import (
-    ConvertIdsRequest, ConvertIdsResponse, ConvertRequest,
-    SlotInjectorRequest, ToolInfo, ToolResponse, ToolsListResponse,
+    CharacterTransferRequest, ConvertExportRequest, ConvertIdsRequest,
+    ConvertIdsResponse, ConvertRequest, FixGuildRequest, FixHostSaveRequest,
+    PlayerMigrateRequest, SlotInjectorRequest, ToolInfo, ToolResponse,
+    ToolsListResponse,
 )
-from web.backend.services import tool_service
+from web.backend.services import save_service, tool_service
+from web.backend.state import save_state
 
 logger = logging.getLogger(__name__)
 
@@ -188,9 +194,33 @@ async def restore_map(body: dict):
 
 @router.post("/tools/slot-injector", response_model=ToolResponse)
 async def slot_injector(body: SlotInjectorRequest):
-    """Modify pal container slot counts in a Level.sav."""
+    """Modify pal container slot counts in a Level.sav.
+
+    When ``use_loaded_save`` is true (or ``level_sav_path`` is omitted and a
+    save is already loaded), operates on the in-memory save from ``save_state``
+    and writes changes back to disk automatically.
+    """
     try:
-        result = await tool_service.apply_slot_injector(
+        use_loaded = body.use_loaded_save or not body.level_sav_path
+        if use_loaded and save_state.is_loaded():
+            loaded = save_state.require()
+            with save_state.lock:
+                result = tool_service._apply_slot_injector_to_gvas(
+                    loaded.gvas, loaded.save_type,
+                    players_folder=body.players_folder or loaded.players_dir,
+                    new_slot_count=body.new_slot_count,
+                    container_ids=body.container_ids,
+                )
+                sav = save_service.encode_bytes(loaded.gvas, loaded.save_type)
+                Path(loaded.save_dir, loaded.filename).write_bytes(sav)
+            return ToolResponse(
+                success=True,
+                message=f"Slot injection complete. Modified {result['containers_modified']} container(s), removed {result['pals_removed']} pal(s).",
+                details=result,
+            )
+        if not body.level_sav_path:
+            return ToolResponse(success=False, message="No save loaded and no path provided.", details=None)
+        result = tool_service.apply_slot_injector(
             body.level_sav_path,
             players_folder=body.players_folder,
             new_slot_count=body.new_slot_count,
@@ -205,9 +235,116 @@ async def slot_injector(body: SlotInjectorRequest):
 
 
 @router.post("/tools/fix-host-save", response_model=ToolResponse)
-async def fix_host_save(body: dict):
-    """Stub — Fix Host Save is desktop-only for now."""
-    return _not_implemented("fix-host-save")
+async def fix_host_save(body: FixHostSaveRequest):
+    """Swap two players' GUIDs in a Level.sav to fix a corrupted host save."""
+    try:
+        use_loaded = body.use_loaded_save or not body.level_sav_path
+        if use_loaded and save_state.is_loaded():
+            loaded = save_state.require()
+            with save_state.lock:
+                result = tool_service._apply_fix_host_save_to_gvas(
+                    loaded.gvas, loaded.save_type,
+                    players_folder=loaded.players_dir,
+                    old_uid=body.old_uid, new_uid=body.new_uid,
+                    guild_fix=body.guild_fix,
+                )
+                if result.get("success"):
+                    sav = save_service.encode_bytes(loaded.gvas, loaded.save_type)
+                    Path(loaded.save_dir, loaded.filename).write_bytes(sav)
+            return ToolResponse(success=result.get("success", False), message="Fix host save complete.", details=result)
+        if not body.level_sav_path:
+            return ToolResponse(success=False, message="No save loaded and no path provided.", details=None)
+        result = tool_service.fix_host_save(
+            body.level_sav_path, body.old_uid, body.new_uid, body.guild_fix,
+        )
+        return ToolResponse(success=result.get("success", False), message="Fix host save complete.", details=result)
+    except FileNotFoundError as e:
+        return ToolResponse(success=False, message=str(e), details=None)
+    except Exception as e:
+        logger.exception("Fix host save failed")
+        return ToolResponse(success=False, message=str(e), details=None)
+
+
+@router.post("/tools/fix-guild", response_model=ToolResponse)
+async def fix_guild(body: FixGuildRequest):
+    """Move a player to a different guild within the same save."""
+    try:
+        use_loaded = body.use_loaded_save or not body.level_sav_path
+        if use_loaded and save_state.is_loaded():
+            loaded = save_state.require()
+            with save_state.lock:
+                result = tool_service._apply_fix_guild_to_gvas(
+                    loaded.gvas, loaded.save_type,
+                    player_uid=body.player_uid,
+                    target_guild_id=body.target_guild_id,
+                    players_folder=loaded.players_dir,
+                )
+                if result.get("success"):
+                    sav = save_service.encode_bytes(loaded.gvas, loaded.save_type)
+                    Path(loaded.save_dir, loaded.filename).write_bytes(sav)
+            return ToolResponse(success=result.get("success", False), message="Fix guild complete.", details=result)
+        if not body.level_sav_path:
+            return ToolResponse(success=False, message="No save loaded and no path provided.", details=None)
+        result = tool_service.fix_guild(body.level_sav_path, body.player_uid, body.target_guild_id)
+        return ToolResponse(success=result.get("success", False), message="Fix guild complete.", details=result)
+    except FileNotFoundError as e:
+        return ToolResponse(success=False, message=str(e), details=None)
+    except Exception as e:
+        logger.exception("Fix guild failed")
+        return ToolResponse(success=False, message=str(e), details=None)
+
+
+@router.post("/tools/character-transfer", response_model=ToolResponse)
+async def character_transfer(body: CharacterTransferRequest):
+    """Transfer a character between two save files."""
+    try:
+        result = tool_service.character_transfer(
+            source_sav_path=body.source_sav_path,
+            target_sav_path=body.target_sav_path,
+            source_player_uid=body.source_player_uid,
+            target_player_uid=body.target_player_uid,
+            steps=body.steps,
+        )
+        return ToolResponse(success=result.get("success", False), message="Character transfer complete.", details=result)
+    except FileNotFoundError as e:
+        return ToolResponse(success=False, message=str(e), details=None)
+    except Exception as e:
+        logger.exception("Character transfer failed")
+        return ToolResponse(success=False, message=str(e), details=None)
+
+
+@router.post("/tools/player-migrate", response_model=ToolResponse)
+async def player_migrate(body: PlayerMigrateRequest):
+    """Migrate a player's guild/base/pals to another save file."""
+    try:
+        result = tool_service.player_migrate(
+            source_sav_path=body.source_sav_path,
+            target_sav_path=body.target_sav_path,
+            source_player_uid=body.source_player_uid,
+            target_player_uid=body.target_player_uid,
+        )
+        return ToolResponse(success=result.get("success", False), message="Player migrate complete.", details=result)
+    except FileNotFoundError as e:
+        return ToolResponse(success=False, message=str(e), details=None)
+    except Exception as e:
+        logger.exception("Player migrate failed")
+        return ToolResponse(success=False, message=str(e), details=None)
+
+
+@router.post("/tools/convert-export", response_model=ToolResponse)
+async def convert_export(body: ConvertExportRequest):
+    """Export the currently loaded save as JSON to a file on the server."""
+    try:
+        loaded = save_state.require()
+        output_path = body.output_path or str(
+            Path(loaded.save_dir) / f"{Path(loaded.filename).stem}.json"
+        )
+        with save_state.lock:
+            result = tool_service.export_loaded_save_json(loaded.gvas, output_path)
+        return ToolResponse(success=True, message="Export complete.", details=result)
+    except Exception as e:
+        logger.exception("Convert export failed")
+        return ToolResponse(success=False, message=str(e), details=None)
 
 
 @router.post("/tools/game-pass-fix", response_model=ToolResponse)

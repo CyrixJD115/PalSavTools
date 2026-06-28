@@ -38,7 +38,13 @@ All Lucide imports migrated to `@iconify/svelte`. Icon string format: `"lucide:n
 
 ### API Client (`src/lib/api/client.ts`)
 
-Typed `fetch()` wrapper, base path `/api`. 15 methods: `health()`, `languages()`, `i18n(lang)`, `saveState()`, `loadFromPath(path)`, `unload()`, `exportSave()`, `players()`, `guilds()`, `bases()`, `containers(limit)`, `pals(limit)`, `tools()`, toolConvert/ConvertIds/RestoreMap/SlotInject/FixHostSave.
+Typed `fetch()` wrapper, base path `/api`. Methods (latest count ~40):
+- System: `health()`, `languages()`, `i18n(lang)`, `saveState()`, `loadFromPath(path)`, `unload()`, `exportSave()`
+- Players: `players()`, `playerDetail(uid)`, `renamePlayer(uid, name)`, `setPlayerLevel(uid, level)`, `setTechPoints(uid, tp)`, `setStats(uid, stats)`, `maxAbilities(body)`, `resetPlayerTimestamp(uid)`, `deletePlayer(uid)`
+- Guilds: `guilds()`, `guildDetail(id)`, `renameGuild(id, name)`, `setGuildLevel(id, level)`, `setGuildLeader(id, player_uid)`, `removeGuildMember(id, player_uid)`, `deleteGuild(id)`
+- Bases: `bases()`, `baseDetail(id)`, `deleteBase(id, delete_workers)`, `setBaseRadius(id, radius)`, `renameBaseGuild(id, name)`, `setBaseGuildLevel(id, level)`
+- Containers: `containers(offset, limit)`, `containerDetail(id)`, `clearContainer(id)`, `expandContainer(id, body)`
+- Other: `pals(limit)`, `mapData()`, `tools()`, toolConvert/ConvertIds/RestoreMap/SlotInject/FixHostSave
 
 ### Layout Components (`src/lib/components/layout/`)
 
@@ -71,15 +77,26 @@ Typed `fetch()` wrapper, base path `/api`. 15 methods: `health()`, `languages()`
 | `ToolGrid.svelte` | Grid grouped by Converting/Management/Utility |
 | `ToolModal.svelte` | Tool-runner modal with 5 tool-specific forms |
 
+### Feature Components (`src/lib/components/{players,bases,guilds,containers}/`)
+
+| Component | Route | Purpose |
+|---|---|---|
+| `players/PlayerDetailModal.svelte` | `/players` | Rename, set level/tech/stats, max abilities, reset timestamp, viewing cage, unlock techs, delete |
+| `bases/BaseDetailModal.svelte` | `/bases` | Rename guild, set guild level, adjust area range, delete with/without workers |
+| `guilds/GuildDetailModal.svelte` | `/guilds` | Member table with kick, rename, set level, promote leader, delete |
+| `containers/ContainerDetailModal.svelte` | `/containers` | Item slot list with counts, clear all items, expand capacity |
+
+**Detail modal pattern**: Each modal receives a `summary` object (from the table row), loads `detail` via API in `onMount`, then shows stats + action buttons. `onclose` / `onsaved` callbacks handle dismissal. The modal div uses `onclick={onclose}` on backdrop + `e.stopPropagation()` on inner panel. Keyboard `Escape` closes.
+
 ### Routes (`src/routes/`)
 
 | Route | Page | Guard |
 |---|---|---|
 | `/` | Overview — Load/Export/Unload buttons, 5 stat count cards, file details | None |
-| `/players` | Player table (name/UID/guild filter) | SaveGate |
-| `/guilds` | Guild cards (members/bases) | SaveGate |
-| `/bases` | Base table (guild badge, coords) | SaveGate |
-| `/containers` | Container table (slots, owner) | SaveGate |
+| `/players` | Sortable player table (name/UID/guild/level/status) | SaveGate |
+| `/guilds` | Grid/list toggle, sortable table, card grid | SaveGate |
+| `/bases` | Sortable base table (guild badge, coords, workers) | SaveGate |
+| `/containers` | Infinite-scroll container table with type/location/guild; scroll-aware row range | SaveGate |
 | `/pal-editor` | Pal card grid (level, rank, IVs, skills, search) | SaveGate |
 | `/map` | Coordinate plot (-440k..440k normalised 0-100%) | SaveGate |
 | `/inventory` | **ComingSoon** | — |
@@ -146,36 +163,71 @@ app.include_router(health.router)      # /api/health
 app.include_router(save.router)        # /api/save/*
 app.include_router(data.router)        # /api/data/*
 app.include_router(world.router)       # /api/players, /guilds, /bases, etc.
+app.include_router(players.router)     # /api/players/*
+app.include_router(guilds.router)      # /api/guilds/*
+app.include_router(bases.router)       # /api/bases/*
+app.include_router(containers.router)  # /api/containers/*
 app.include_router(tools.router)       # /api/tools*
-# Static SPA fallback for production builds
 ```
 
 ### Endpoints
 
-| Route | Methods | Module |
+#### World (read-only aggregators — `world.py`)
+
+| Route | Methods | Returns |
 |---|---|---|
-| `/api/health` | GET | `health.py` — regex-parses `APP_VERSION`/`GAME_VERSION` from `src/common.py` |
-| `/api/save/state` | GET | `save.py` — returns current save state |
-| `/api/save/load` | POST | `save.py` — load from path, payload `{path}` |
-| `/api/save/upload` | POST | `save.py` — upload .sav file, parse |
-| `/api/save/export` | POST | `save.py` — stream re-encoded .sav |
-| `/api/save` | DELETE | `save.py` — unload |
-| `/api/data/game-data` | GET | `data.py` — list all game data names |
-| `/api/data/game-data/{name}` | GET | `data.py` — specific JSON |
-| `/api/data/i18n/{lang}` | GET | `data.py` — locale strings |
-| `/api/data/languages` | GET | `data.py` — available languages |
-| `/api/players` | GET | `world.py` — player summaries |
-| `/api/guilds` | GET | `world.py` — guild summaries |
-| `/api/bases` | GET | `world.py` — base summaries |
-| `/api/containers` | GET | `world.py` — container summaries |
-| `/api/pals` | GET | `world.py` — pal summaries |
-| `/api/pals/stats` | GET | `world.py` — aggregate pal stats |
-| `/api/tools` | GET | `tools.py` — 11 tool definitions |
-| `/api/tools/convert` | POST | `tools.py` — SAV↔JSON |
-| `/api/tools/convert-ids` | POST | `tools.py` — Steam↔PalworldID |
-| `/api/tools/restore-map` | POST | `tools.py` — clear fog of war |
-| `/api/tools/slot-injector` | POST | `tools.py` — container slot count |
-| `/api/tools/fix-host-save` | POST | `tools.py` — host save fix |
+| `/api/players` | GET | `PlayerListResponse` — all players with guild info, last-seen |
+| `/api/guilds` | GET | `GuildListResponse` — guild summaries with member/base counts |
+| `/api/bases` | GET | `BaseListResponse` — base summaries (guild name attached post-hoc) |
+| `/api/containers` | GET | (redirected to containers router) |
+| `/api/pals` | GET | `PalListResponse` — pal list with IVs/skills/level |
+| `/api/pals/stats` | GET | aggregate pal statistics (avg level, gender ratio, talent avg, top skills) |
+| `/api/map/data` | GET | `MapDataResponse` — bases + players with coord transforms |
+
+#### Players (`routes/players.py`)
+
+| Route | Methods | Purpose |
+|---|---|---|
+| `/api/players/{uid}` | GET | `PlayerDetail` — full player detail |
+| `/api/players/{uid}/name` | PUT | Rename player |
+| `/api/players/{uid}/level` | PUT | Set player level |
+| `/api/players/{uid}/tech-points` | PUT | Set technology points (both normal + boss) |
+| `/api/players/{uid}/stats` | PUT | Set stats (HP/SP/ATK/Weight/CaptureRate/WorkSpeed) |
+| `/api/players/{uid}/max-abilities` | POST | Max all abilities (HP/ATK/DEF/WorkSpeed) |
+| `/api/players/{uid}/reset-timestamp` | POST | Reset player last-online timestamp |
+| `/api/players/{uid}/viewing-cage` | POST | Add viewing cage unlock |
+| `/api/players/{uid}/unlock-techs` | POST | Unlock all technologies |
+| `/api/players/{uid}` | DELETE | Delete player from save |
+
+#### Bases (`routes/bases.py`)
+
+| Route | Methods | Purpose |
+|---|---|---|
+| `/api/bases/{base_id}` | GET | `BaseDetail` — full base with guild/members/location |
+| `/api/bases/{base_id}` | DELETE | Delete base (optionally delete workers) |
+| `/api/bases/{base_id}/radius` | PUT | Set area range |
+| `/api/bases/{base_id}/guild/name` | PUT | Rename the guild that owns this base |
+| `/api/bases/{base_id}/guild/level` | PUT | Set the guild level |
+
+#### Guilds (`routes/guilds.py`)
+
+| Route | Methods | Purpose |
+|---|---|---|
+| `/api/guilds/{guild_id}` | GET | `GuildDetail` — members, bases, admin |
+| `/api/guilds/{guild_id}/name` | PUT | Rename guild |
+| `/api/guilds/{guild_id}/level` | PUT | Set guild level |
+| `/api/guilds/{guild_id}/leader` | PUT | Promote member to leader |
+| `/api/guilds/{guild_id}/members/{player_uid}` | DELETE | Remove member from guild |
+| `/api/guilds/{guild_id}` | DELETE | Delete guild entirely |
+
+#### Containers (`routes/containers.py`)
+
+| Route | Methods | Purpose |
+|---|---|---|
+| `/api/containers?offset={n}&limit={n}` | GET | `ContainerListResponse` — paginated enriched container list with type/location/guild, computed from MapObjectSaveData cross-reference |
+| `/api/containers/{id}` | GET | `ContainerDetail` — full item slot list |
+| `/api/containers/{id}/clear` | POST | Remove all items from container |
+| `/api/containers/{id}/expand` | PUT | Expand container slot capacity |
 
 ### Config (`web/backend/config.py`)
 
@@ -206,13 +258,46 @@ Clients connect to `/ws`. `WsManager` broadcasts `save_state` / `save_update` JS
 | Service | Role |
 |---|---|
 | `save_service.py` | SAV↔GVAS↔dict decode/encode via palsav; safety net catches custom property decoder failures and stores them as opaque bytes; 6 skip-path overrides for heavy foliage/spawner properties |
-| `world_service.py` | Read-only dict queries: `count_world()`, `list_players/guilds/bases/containers/pals()`, `get_current_stats()` |
+| `world_service.py` | Read-only dict queries: `count_world()`, `list_players/guilds/bases/containers/pals()`, `get_current_stats()`. **Contains the critical `_u()` helper** — auto-unwraps property wrappers by checking `len(cur) <= 5` (not `<= 4`) to handle StructProperty dicts (5 keys). |
 | `data_service.py` | Static JSON loader for game_data + i18n; `character_name_map()` builds display name lookup; `list_languages()` |
+| `base_service.py` | Base/guild mutation helpers: `_s()` (UUID normalization — strips dashes + lowercases), `_extract_id()` (preserves UUID format with dashes for display/URL), `_find_base_entry()`, `_find_guild_by_base()`, delete base with worker handling |
+| `guild_service.py` | Guild mutations: get detail, rename, set level, promote leader, remove member, delete. Operates on `GroupSaveDataMap` entries |
+| `player_service.py` | Player mutations: get detail, rename, set level/tech/stats, max abilities, reset timestamp, delete. Player `.sav` mutations (viewing cage, unlock techs) use `save_service.decode/encode` |
+| `container_service.py` | Container operations: **list_containers** builds map-object index + guild names in parallel threads (`ThreadPoolExecutor(max_workers=2)`), then slices `entries[offset:offset+limit]` and enriches each entry. `_build_map_object_index()` cross-references `MapObjectSaveData.ConcreteModel.ModuleMap` for `target_container_id`. `_classify_container()` handles 40+ types. `_belong_inner()` extracts the inner `value` dict from the `PalItemContainerBelongInfo` StructProperty. Detail/clear/expand operate on individual containers. |
+| `map_data_service.py` | Map data queries: inlines `sav_to_gvasfile` to avoid `palworld_aio.__init__` import chain; loads coord transforms via importlib |
 | `tool_service.py` | Headless tool wrappers: re-invokes palsav CLI for convert, cityhash64 for convert_ids, clears WorldMapUISaveDataMap for restore_map, modifies CharacterContainerSaveData for slot_injector |
+
+### Data Model Gotchas
+
+- **StructProperty wrapper**: `BelongInfo`, `PlayerUId`, `GroupId`, and many other fields are wrapped in `{'struct_type': 'X', 'struct_id': UUID, 'id': None, 'value': ACTUAL_DATA, 'type': 'StructProperty'}`. The `_u()` helper auto-unwraps via `len(cur) <= 5` — never change this to `<= 4` (StructProperty dicts have 5 keys).
+- **`MapObjectId` location**: In `MapObjectSaveData` entries, the type identifier (`ItemChest_04`, `PalBooth`) is at the **top level**: `obj['MapObjectId']['value']`. NOT inside `Model.RawData.value`. Use `_u(obj, "MapObjectId")`.
+- **Container key format**: `ItemContainerSaveData` entry keys are StructProperty dicts `{ID: {struct_type: 'Guid', value: UUID('...')}}`. Use `_extract_id()` for display, `_s()` for comparison.
+- **Container BelongInfo**: Three levels of wrapping: `BelongInfo` is a `PalItemContainerBelongInfo` StructProperty → `.value` → contains `GroupId` and `PlayerUId` fields, each of which are themselves GUID StructProperty wrappers.
+- **Container list is heterogeneous**: First ~500 entries are internal/engine containers. Map-object-backed containers (Booth, Chest) start appearing at index 500+. Never assume start-of-list is representative.
+- **`_s()` vs `_extract_id()`**: `_s()` normalizes (lowercase, no dashes) for dict-key comparison; `_extract_id()` preserves UUID format with dashes for display/URLs. A mismatch between the two causes all types/locations to show "Unknown".
+- **Container classification**: `_classify_container()` handles 40+ map object types via case-insensitive substring matching. Falls back to "Unknown". Common types: Chest, Booth, Mining Pit, Feed Box, Factory, Campfire, Container, Medicine Facility, Kitchen, Blast Furnace, Egg Incubator, Workbench, Ice Crusher, Oil Pump, Crusher, Refrigerator, BreedFarm, Logging Site.
+- **Pagination contract**: `GET /api/containers?offset=0&limit=1000` → `{containers: [...], total: N, has_more: bool}`. Frontend loads 1000 at a time, appends to array, uses IntersectionObserver sentinel for auto-load.
+
+### Container Service Internals (`container_service.py`)
+
+```
+list_containers(level_dict, offset, limit)
+  │
+  ├── ThreadPoolExecutor(max_workers=2)      ← parallel
+  │   ├── _build_map_index(wsd)              ← iterates MapObjectSaveData (6k entries)
+  │   │   └── For each: ConcreteModel.ModuleMap → EPalMapObjectConcreteModelModuleType::ItemContainer
+  │   │       → _s(target_container_id) → map key
+  │   └── _build_guild_names(wsd)            ← iterates GroupSaveDataMap
+  │
+  ├── entries = wsd["ItemContainerSaveData"]["value"]
+  ├── page = entries[offset : offset+limit]   ← slice, no iteration wasted
+  └── for each entry:
+        _enrich_container()                   ← type from map_index, guild from names, item count from Slots
+```
 
 ### Schemas (`web/backend/schemas.py`)
 
-26 Pydantic models mirroring frontend `types/index.ts` — `HealthResponse`, `LanguagesResponse`, `SaveStateResponse`, `SaveSummary`, `WorldCounts`, `PlayerSummary`, `GuildSummary`, `BaseSummary`, `ContainerSummary`, `PalSummary`, `ToolInfo`, `ConvertRequest/Response`, `ConvertIdsRequest/Response`, `SlotInjectRequest/Response`, `FixHostSaveRequest/Response`.
+~40 Pydantic models. Key groups: Health/Languages/Save lifecycle, Player/Guild/Base/Container summaries and details, mutation request schemas, map data, tools. **Mirror frontend `types/index.ts`** — add fields to both files together.
 
 ## Key Conventions
 
@@ -223,3 +308,6 @@ Clients connect to `/ws`. `WsManager` broadcasts `save_state` / `save_update` JS
 - Icon buttons in header use `width: 33px; height: 33px; box-sizing: border-box` (matching version chip 33px height)
 - Routes requiring a save wrap content in `<SaveGate>`
 - Header version chips show GitHub commit version and Palworld game version
+- Detail modals follow a consistent pattern: load detail in `onMount`, show stats grid + action buttons, `doAction()` wrapper for loading/error state, `onclick={onclose}` backdrop + `e.stopPropagation()` inner panel
+- Paginated tables use IntersectionObserver sentinel for infinite scroll + scroll position tracking for "Row X–Y" range display
+- All backend endpoints are async FastAPI handlers; services are synchronous Python — FastAPI's thread pool handles the blocking calls

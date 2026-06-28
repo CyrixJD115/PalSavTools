@@ -22,7 +22,7 @@ def _require() -> dict:
 
 @router.get("", response_model=ContainerListResponse)
 async def list_containers(
-    limit: int = Query(500, ge=1, le=5000),
+    limit: int = Query(50000, ge=1, le=50000),
 ) -> ContainerListResponse:
     containers = container_service.list_containers(_require(), limit=limit)
     return ContainerListResponse(containers=containers, total=len(containers))

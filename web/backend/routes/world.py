@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Query
 
 from web.backend.schemas import (
-    BaseListResponse, ContainerListResponse, GuildListResponse,
+    BaseListResponse, GuildListResponse,
     PalListResponse, PlayerDetail, PlayerListResponse,
 )
 from web.backend.services import base_service, data_service, player_service, world_service
@@ -50,13 +50,6 @@ async def get_bases() -> BaseListResponse:
         raise HTTPException(500, f"Failed to build base list: {e}")
     return BaseListResponse(bases=enriched, total=len(enriched))
 
-
-@router.get("/containers", response_model=ContainerListResponse)
-async def get_containers(
-    limit: int = Query(200, ge=1, le=5000),
-) -> ContainerListResponse:
-    containers = world_service.list_containers(_level_dict(), limit=limit)
-    return ContainerListResponse(containers=containers, total=len(containers))
 
 
 @router.get("/pals", response_model=PalListResponse)

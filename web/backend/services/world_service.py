@@ -16,16 +16,21 @@ CharacterNameMap = dict[str, str]
 # ---- small unwrap helpers ---------------------------------------------------
 
 def _u(node: Any, *path, default=None) -> Any:
-    """Walk a chain of ``['value']``-and-key accesses, never raising."""
+    """Walk a chain of ``['value']``-and-key accesses, never raising.
+
+    Auto-unwraps simple wrappers (Int/Float/Str/Byte/StructProperty) by
+    recognising they carry their payload in ``value``.  Uses ``<= 5``
+    because StructProperty wrappers have 5 keys; standard ones have 3.
+    """
     cur = node
     for key in path:
         if isinstance(cur, Mapping):
             cur = cur.get(key, default)
         else:
             return default
-        if isinstance(cur, Mapping) and "value" in cur and len(cur) <= 4:
+        if isinstance(cur, Mapping) and "value" in cur and len(cur) <= 5:
             cur = cur.get("value", cur)
-    if isinstance(cur, Mapping) and "value" in cur and len(cur) <= 4:
+    if isinstance(cur, Mapping) and "value" in cur and len(cur) <= 5:
         cur = cur.get("value", cur)
     return cur
 
@@ -236,7 +241,7 @@ def attach_guild_names(bases: list[dict], guilds: list[dict]) -> None:
 
 # ---- containers -------------------------------------------------------------
 
-def list_containers(level_dict: dict, limit: int = 200) -> list[dict]:
+def list_containers(level_dict: dict, limit: int = 50000) -> list[dict]:
     wsd = get_world_save_data(level_dict)
     out = []
     for c in _map_values(wsd, "ItemContainerSaveData"):
@@ -247,10 +252,11 @@ def list_containers(level_dict: dict, limit: int = 200) -> list[dict]:
             slot_count = int(slot_num) if slot_num is not None else 0
         except Exception:
             slot_count = 0
+        cid = str(_u(c, "key") or "")
         out.append({
-            "id": str(_u(c, "key") or ""),
-            "owner_player_uid": _norm_uid(belong.get("PlayerUId") if isinstance(belong, dict) else None),
-            "guild_id": _norm_uid(belong.get("GroupId") if isinstance(belong, dict) else None),
+            "id": cid,
+            "owner_player_uid": _norm_uid(_u(belong, "PlayerUId") or "" if isinstance(belong, dict) else None),
+            "guild_id": _norm_uid(_u(belong, "GroupId") or "" if isinstance(belong, dict) else None),
             "slot_count": slot_count,
             "item_count": 0,
         })

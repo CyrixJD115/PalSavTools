@@ -75,13 +75,13 @@ def _build_map_object_index(wsd: dict) -> dict[str, dict]:
                 continue
 
             model_raw = obj.get("Model", {}).get("value", {}).get("RawData", {}).get("value", {})
-            map_obj_id = model_raw.get("MapObjectId", {}).get("value", "") if isinstance(model_raw.get("MapObjectId"), dict) else model_raw.get("MapObjectId", "")
+            map_obj_id = str(_u(obj, "MapObjectId") or "")
             trans = model_raw.get("initital_transform_cache", {}).get("translation", {})
             base_camp = model_raw.get("base_camp_id_belong_to")
 
             index[target_cid] = {
                 "type": _classify_container(map_obj_id),
-                "map_object_id": str(map_obj_id) if map_obj_id else "",
+                "map_object_id": map_obj_id,
                 "location": (
                     float(trans.get("x", 0)) if trans else None,
                     float(trans.get("y", 0)) if trans else None,
@@ -108,14 +108,55 @@ def _classify_container(map_obj_id: str) -> str:
         return "Storage Box"
     if "itembox" in mid:
         return "Item Box"
-    if "itemcontainer" in mid:
+    if "itemcontainer" in mid or mid == "container01_iron":
         return "Container"
     if "ammo" in mid:
         return "Ammo Box"
     if "refrigerator" in mid:
         return "Refrigerator"
-    if "feedbox" in mid or "feed_box" in mid:
+    if "foodbox" in mid or "feed_box" in mid:
         return "Feed Box"
+    # Production / workplace buildings with item storage
+    if "campfire" in mid:
+        return "Campfire"
+    if "copperpit" in mid or "coalpit" in mid or "crystalpit" in mid or "quartzpit" in mid or "sulfurpit" in mid or "stonepit" in mid:
+        return "Mining Pit"
+    if "oilpump" in mid:
+        return "Oil Pump"
+    if "blastfurnace" in mid:
+        return "Blast Furnace"
+    if "factory" in mid:
+        return "Factory"
+    if "spherefactory" in mid:
+        return "Sphere Factory"
+    if "weaponfactory" in mid:
+        return "Weapon Factory"
+    if "workbench" in mid:
+        return "Workbench"
+    if "kitchen" in mid:
+        return "Kitchen"
+    if "medicinefacility" in mid or "medicinetable" in mid or "medic" in mid:
+        return "Medicine Facility"
+    if "breedfarm" in mid or "breeding" in mid:
+        return "Breeding Farm"
+    if "expedition" in mid:
+        return "Expedition Station"
+    if "icecrusher" in mid:
+        return "Ice Crusher"
+    if "crusher" in mid and "icecrusher" not in mid:
+        return "Crusher"
+    if "flourmill" in mid:
+        return "Flour Mill"
+    if "compositedesk" in mid:
+        return "Assembly Desk"
+    if "hatching" in mid or "egg" in mid:
+        return "Egg Incubator"
+    if "skillunlock" in mid:
+        return "Technology Unlock"
+    if "deforest" in mid:
+        return "Logging Site"
+    if "money" in mid:
+        return "Gold Factory"
     return "Unknown"
 
 
@@ -124,6 +165,15 @@ def _get_item_name(static_id: str) -> str:
     s = static_id.replace("Item_", "").replace("Weapon_", "").replace("Armor_", "").replace("Accessory_", "")
     s = s.replace("_", " ").strip()
     return s if s else static_id
+
+
+def _belong_inner(raw: dict | None) -> dict:
+    """Extract the inner value dict from a PalItemContainerBelongInfo StructProperty."""
+    if not raw:
+        return {}
+    if isinstance(raw, dict) and raw.get("type") == "StructProperty":
+        return raw.get("value", {})
+    return raw
 
 
 def list_containers(level_dict: dict, limit: int = 500) -> list[dict]:
@@ -147,14 +197,15 @@ def list_containers(level_dict: dict, limit: int = 500) -> list[dict]:
             v = c.get("value", {})
             cid = _extract_id(c.get("key"))
             cid_clean = _s(c.get("key"))
-            belong = _u(v, "BelongInfo") or {}
+            belong_raw = _u(v, "BelongInfo")
+            belong = _belong_inner(belong_raw)
             slot_num = _u(v, "SlotNum")
             slot_count = int(slot_num) if slot_num is not None else 0
             slots_node = v.get("Slots")
             item_count = _count_items(slots_node)
 
-            owner_uid = _norm_uid(belong.get("PlayerUId") if isinstance(belong, dict) else None)
-            guild_id = _norm_uid(belong.get("GroupId") if isinstance(belong, dict) else None)
+            owner_uid = _norm_uid(_extract_id(belong.get("PlayerUId")))
+            guild_id = _norm_uid(_extract_id(belong.get("GroupId")))
 
             map_info = map_index.get(cid_clean, {})
             ctype = map_info.get("type", "Unknown")
@@ -190,7 +241,8 @@ def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
             continue
         try:
             v = c.get("value", {})
-            belong = _u(v, "BelongInfo") or {}
+            belong_raw = _u(v, "BelongInfo")
+            belong = _belong_inner(belong_raw)
             slot_num = _u(v, "SlotNum")
             slot_count = int(slot_num) if slot_num is not None else 0
             slots_node = v.get("Slots")
@@ -198,8 +250,8 @@ def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
 
             return {
                 "id": _extract_id(c.get("key")) or container_id,
-                "owner_player_uid": _norm_uid(belong.get("PlayerUId") if isinstance(belong, dict) else None),
-                "guild_id": _norm_uid(belong.get("GroupId") if isinstance(belong, dict) else None),
+                "owner_player_uid": _norm_uid(_extract_id(belong.get("PlayerUId"))),
+                "guild_id": _norm_uid(_extract_id(belong.get("GroupId"))),
                 "slot_count": slot_count,
                 "item_count": len(items),
                 "items": items,

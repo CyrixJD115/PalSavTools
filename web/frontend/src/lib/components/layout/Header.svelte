@@ -1,5 +1,6 @@
 <script lang="ts">
   import { health, saveLoaded, isHealthy } from '$stores/index';
+  import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
   import AboutModal from './AboutModal.svelte';
   import WarningModal from './WarningModal.svelte';
@@ -12,6 +13,9 @@
 
 <header class="flex items-center gap-3 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
   <div class="flex items-center gap-2 min-w-0">
+    <button class="hdr-btn hdr-settings" title="Settings" onclick={() => goto('/settings')}>
+      <Icon icon="lucide:settings" width={16} />
+    </button>
     <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title="App version">
       <Icon icon="simple-icons:github" width={15} />
@@ -147,6 +151,16 @@
     border-color: rgba(76, 175, 80, 0.6);
     box-shadow: 0 0 12px rgba(76, 175, 80, 0.2);
     color: #A5D6A7;
+  }
+  .hdr-settings {
+    color: #94A3B8;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+  .hdr-settings:hover {
+    background: rgba(148, 163, 184, 0.15);
+    border-color: rgba(148, 163, 184, 0.6);
+    box-shadow: 0 0 12px rgba(148, 163, 184, 0.2);
+    color: #CBD5E1;
   }
 
   .discord-link {

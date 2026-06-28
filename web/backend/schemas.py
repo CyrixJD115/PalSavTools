@@ -179,15 +179,39 @@ class DeleteBaseRequest(BaseModel):
 
 class ContainerSummary(BaseModel):
     id: str
+    container_type: str = "Unknown"
     owner_player_uid: Optional[str] = None
     guild_id: Optional[str] = None
+    guild_name: Optional[str] = None
+    base_camp_id: Optional[str] = None
     slot_count: int = 0
     item_count: int = 0
+    location: Optional[tuple[float, float, float]] = None
 
 
 class ContainerListResponse(BaseModel):
     containers: list[ContainerSummary]
     total: int
+
+
+class ContainerItemSlot(BaseModel):
+    slot_index: int = 0
+    count: int = 0
+    static_id: str = ""
+    dynamic_id: Optional[str] = None
+
+
+class ContainerDetail(BaseModel):
+    id: str
+    owner_player_uid: Optional[str] = None
+    guild_id: Optional[str] = None
+    slot_count: int = 0
+    item_count: int = 0
+    items: list[ContainerItemSlot] = []
+
+
+class ExpandContainerRequest(BaseModel):
+    new_slot_count: int
 
 
 class PalSummary(BaseModel):

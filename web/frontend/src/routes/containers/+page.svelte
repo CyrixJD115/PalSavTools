@@ -19,7 +19,7 @@
   let sortCol = $state<'type' | 'slots' | 'items' | 'guild'>('type');
   let sortDir = $state<'asc' | 'desc'>('asc');
 
-  const LIMIT = 500;
+  const LIMIT = 50000;
   async function load() {
     loading = true; error = null;
     try { const r = await api.containers(LIMIT); containers = r.containers; total = r.total; }

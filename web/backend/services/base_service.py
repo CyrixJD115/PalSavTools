@@ -13,12 +13,25 @@ from web.backend.services.world_service import (
 )
 
 
-def _s(uid: str | dict | None) -> str:
-    if uid is None:
+def _extract_id(raw: object) -> str:
+    """Extract a clean UUID string from any format the save data uses."""
+    if raw is None:
         return ""
-    if isinstance(uid, dict):
-        uid = uid.get("value", "") or uid.get("ID", "") or ""
-    return str(uid).replace("-", "").lower()
+    if isinstance(raw, dict):
+        id_field = raw.get("ID")
+        if isinstance(id_field, dict):
+            v = id_field.get("value")
+            if v is not None:
+                return str(v)
+        v = raw.get("value")
+        if v is not None:
+            return str(v)
+        return ""
+    return str(raw)
+
+
+def _s(uid: str | dict | None) -> str:
+    return _extract_id(uid).replace("-", "").lower()
 
 
 def _find_base_entry(level_dict: dict, base_id: str) -> dict | None:

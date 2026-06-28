@@ -8,7 +8,6 @@
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
-  import Button from '$components/ui/Button.svelte';
   import ContainerDetailModal from '$components/containers/ContainerDetailModal.svelte';
 
   let containers = $state<ContainerSummary[]>([]);
@@ -21,8 +20,12 @@
   let query = $state('');
   let sortCol = $state<'type' | 'slots' | 'items' | 'guild'>('type');
   let sortDir = $state<'asc' | 'desc'>('asc');
+  let scrollTop = $state(0);
+  let tableEl = $state<HTMLElement | null>(null);
+  let sentinelEl = $state<HTMLElement | null>(null);
 
   const PAGE = 1000;
+  let obs: IntersectionObserver | null = null;
 
   async function load() {
     loading = true; error = null; containers = [];
@@ -34,6 +37,7 @@
   }
 
   async function loadMore() {
+    if (loadingMore || !hasMore) return;
     loadingMore = true;
     try {
       const r = await api.containers(containers.length, PAGE);
@@ -43,12 +47,23 @@
     finally { loadingMore = false; }
   }
 
+  function setupObserver(el: HTMLElement) {
+    sentinelEl = el;
+    obs?.disconnect();
+    obs = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) loadMore(); },
+      { rootMargin: '200px' },
+    );
+    obs.observe(el);
+  }
+
   onMount(() => { if ($saveLoaded) load(); });
 
   type SortCol = 'type' | 'slots' | 'items' | 'guild';
   function toggleSort(col: SortCol) {
     if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
     else { sortCol = col; sortDir = 'asc'; }
+    load();
   }
 
   const filtered = $derived(
@@ -68,6 +83,18 @@
         return sortDir === 'asc' ? cmp : -cmp;
       }),
   );
+
+  /** Estimate visible row range from scroll position */
+  const ROW_H = 37; // approximate row height in px
+  let visibleRange = $derived.by(() => {
+    if (!tableEl || filtered.length === 0 || containers.length === 0) return { from: 0, to: 0 };
+    const scrollEl = tableEl.closest('.overflow-x-auto') ?? tableEl;
+    const st = scrollEl instanceof HTMLElement ? scrollEl.scrollTop : 0;
+    const ch = scrollEl instanceof HTMLElement ? scrollEl.clientHeight : 600;
+    const first = Math.max(0, Math.floor(st / ROW_H));
+    const last = Math.min(filtered.length, Math.ceil((st + ch) / ROW_H));
+    return { from: first, to: Math.max(first + 1, last) };
+  });
 
   let typeColors: Record<string, string> = {
     'Chest': 'bg-amber-500/10 text-amber-400',
@@ -94,7 +121,12 @@
     return `${loc[0].toFixed(0)}, ${loc[1].toFixed(0)}`;
   }
 
-  let remaining = $derived(total - containers.length);
+  function fmtRange(from: number, to: number, limit: number): string {
+    const lo = Math.max(1, Math.min(from + 1, limit));
+    const hi = Math.min(to, limit);
+    if (lo >= hi) return `${limit.toLocaleString()}`;
+    return `${lo.toLocaleString()}–${hi.toLocaleString()}`;
+  }
 </script>
 
 <SaveGate icon="lucide:box">
@@ -103,7 +135,15 @@
       <div>
         <h1 class="text-xl font-bold heading-gradient">Containers</h1>
         <p class="text-xs text-ink-muted">
-          {containers.length} of {total} loaded
+          {#if loading}
+            Loading…
+          {:else}
+            {containers.length.toLocaleString()} / {total.toLocaleString()}
+            {#if filtered.length !== containers.length}
+              &middot; {filtered.length.toLocaleString()} shown
+            {/if}
+            &middot; Row {fmtRange(visibleRange.from, visibleRange.to, filtered.length)}
+          {/if}
         </p>
       </div>
       <input class="input max-w-xs" placeholder="Filter by type, ID, guild..." bind:value={query} />
@@ -115,7 +155,7 @@
       {:else if error}
         <p class="text-sm text-status-error p-4">{error}</p>
       {:else}
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto" bind:this={tableEl} onscroll={() => scrollTop = tableEl?.scrollTop ?? 0}>
           <table class="w-full text-sm">
             <thead>
               <tr class="text-left text-xs uppercase tracking-wider text-ink-muted border-b border-line/40">
@@ -199,19 +239,27 @@
           </table>
         </div>
 
-        {#if hasMore}
-          <div class="flex justify-center py-4">
-            {#if loadingMore}
-              <Spinner size={20} />
-            {:else}
-              <Button variant="secondary" onclick={loadMore}>
-                <Icon icon="lucide:plus" width={14} class="mr-1" />
-                Load Next {Math.min(PAGE, remaining)} ({remaining} remaining)
-              </Button>
-            {/if}
-          </div>
-        {:else if containers.length < total}
-          <p class="mt-3 text-xs text-ink-dim text-center">All {total} containers loaded.</p>
+        <!-- sentinel for infinite scroll -->
+        {#if containers.length > 0}
+          {#if hasMore}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+              class="flex justify-center py-4"
+              use:setupObserver
+              role="status"
+            >
+              {#if loadingMore}
+                <div class="flex items-center gap-2 text-xs text-ink-muted">
+                  <Spinner size={16} />
+                  Loading {containers.length.toLocaleString()}–{Math.min(containers.length + PAGE, total).toLocaleString()}…
+                </div>
+              {:else}
+                <span class="text-xs text-ink-dim">Scroll for more</span>
+              {/if}
+            </div>
+          {:else}
+            <p class="py-3 text-xs text-ink-dim text-center">All {total.toLocaleString()} containers loaded.</p>
+          {/if}
         {/if}
       {/if}
     </Card>

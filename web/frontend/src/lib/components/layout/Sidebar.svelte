@@ -35,6 +35,12 @@
         { href: '/settings', label: 'Settings', icon: 'lucide:settings' },
       ],
     },
+    {
+      label: 'Wiki',
+      items: [
+        { href: '/wiki', label: 'Game Reference', icon: 'lucide:book-open' },
+      ],
+    },
   ];
 
   function isActive(href: string): boolean {

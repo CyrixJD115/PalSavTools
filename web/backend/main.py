@@ -8,6 +8,8 @@ without this the ``from web.backend...`` imports would fail.
 
 from __future__ import annotations
 
+import logging
+import re
 import sys
 from pathlib import Path
 
@@ -22,7 +24,20 @@ from web.backend.app import create_app
 from web.backend.config import settings
 
 
+class _AssetAccessFilter(logging.Filter):
+    """Suppress 2xx access logs for the game-data-asset endpoint (too noisy)."""
+    _ASSET_PATH = "/api/data/game-data-asset/"
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        msg = record.getMessage()
+        if self._ASSET_PATH not in msg:
+            return True
+        m = re.search(r'" (\d{3}) ', msg)
+        return not (m and m.group(1).startswith("2"))
+
+
 def main() -> None:
+    logging.getLogger("uvicorn.access").addFilter(_AssetAccessFilter())
     app = create_app()
     uvicorn.run(
         app,

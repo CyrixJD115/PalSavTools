@@ -11,7 +11,6 @@ authors = [{ name = "Pylar" }]
 requires-python = ">=3.11"
 dependencies = [
     "Pillow",
-    "cx-freeze>=8.3.0",
     "nerdfont",
     "packaging",
     "palsav-flex",
@@ -42,7 +41,4 @@ include = ["src*"]
 extraPaths = ["src/palsav"]
 reportAttributeAccessIssue = false
 
-[dependency-groups]
-dev = [
-    "cx-freeze>=8.6.0",
-]
+

@@ -66,7 +66,7 @@ Schema: `{ areas:[str] }`. ~123 valid world map area identifiers.
 - `resources/i18n/config.json`: NOT a lang registry — mixed settings file (lang + showiconinlist + checkstartlogs + base.radius.* UI strings).
 
 ## Resource resolution (src/resource_resolver.py + boot_paths.py)
-**Dual-mode**: works dev (running from source) and frozen (Nuitka/cx_Freeze).
+**Dual-mode**: works dev (running from source) and frozen (Nuitka).
 - `_compute_binary_root()` (resource_resolver:5): checks sys._PST_BINARY_ROOT → sys.executable dir for resources/ → parent → walks up 5 dirs from __file__ → fallback. Cached in sys._PST_BINARY_ROOT.
 - boot_paths.py: ROOT_DIR, SRC_DIR, RESOURCES_DIR, DATA_DIR, CONFIG_DIR, GUI_DIR(=resources/ui/themes), ASSETS_DIR.
 - `_RESOURCE_MAP` (resource_resolver:44-99): legacy/flat name → canonical resources/ path aliases (logo.png→assets/branding/logo.png, etc). `_FLAT_KEYS` for quick matching.

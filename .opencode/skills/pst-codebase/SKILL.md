@@ -111,7 +111,7 @@ Test layout: `tests/unit/{core_logic,palsav_core,palworld_aio_tests,scripts}`, `
 5. **9 .cmd wrappers** in scripts/ duplicate the uv-venv bootstrap logic each (Windows launcher pattern).
 
 ## Gotchas
-- The repo has a `dist/` and `build/` dir full of Nuitka/cx_Freeze build artifacts and a `.venv` — **always exclude these** when scanning files (`find` without filters drowns in noise). Scan only real source: exclude `.git`, `.venv`, `dist`, `build`, `__pycache__`, `*.egg-info`, `.pytest_cache`.
+- The repo has a `dist/` and `build/` dir full of Nuitka build artifacts and a `.venv` — **always exclude these** when scanning files (`find` without filters drowns in noise). Scan only real source: exclude `.git`, `.venv`, `dist`, `build`, `__pycache__`, `*.egg-info`, `.pytest_cache`.
 - There is no `AGENTS.md`/`CLAUDE.md`/`.cursorrules` yet — repo conventions live in README + tests/README.md + this skill.
 - `palsav` (the engine) and `palooz` are installed packages; everything else under `src/` is path-imported.
 - Save format versioning: tests target V1 beta saves. Mind format changes across Palworld updates (see `commands/auto_update.py`, `commands/diag.py`).

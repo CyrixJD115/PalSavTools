@@ -117,12 +117,13 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="fixed inset-0 z-50 flex items-center justify-center" onclick={onclose} role="dialog" tabindex="-1">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div class="fixed inset-0 z-50 flex items-center justify-center" onclick={onclose} role="dialog" tabindex="-1" onkeydown={(e) => e.key === 'Escape' && onclose()}>
   <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
   <div
     class="relative bg-bg-surface border border-line/40 rounded-6 shadow-xl max-w-lg w-full mx-4 max-h-[85vh] overflow-y-auto animate-scale-in"
     transition:scale={{ start: 0.95, duration: 150 }}
+    role="presentation"
     onclick={(e: MouseEvent) => e.stopPropagation()}
   >
     <!-- header -->

@@ -41,9 +41,9 @@ uv run src/main.py --web                 # launch WebUI (frontend + backend)
 ## Build
 
 | Target | Command | Output |
-|---|---|---|
-| Release binary | `uv run python build/nuitka/build_nuitka.py --onefile` | `dist/` |
-| Windows installer | `uv run python build/cx_freeze/build_cx.py` | `PST_standalone/` |
+|---|---|---|---|
+| Standalone binary | `uv run python build/nuitka/build_nuitka.py --onefile` | `dist/` |
+| Tauri desktop app | `python build/tauri/build_tauri.py` | `web/frontend/src-tauri/target/release/` |
 
 CI (5 workflows) builds Nuitka binaries.
 

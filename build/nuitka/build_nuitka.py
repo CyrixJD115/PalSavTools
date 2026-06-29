@@ -139,7 +139,7 @@ def build_with_nuitka(onefile: bool = True):
         '--include-data-dir=resources=resources',
         '--include-data-dir=src/data=src/data',
         '--include-data-file=README.md=README.md',
-        '--include-data-file=license=license',
+        '--include-data-file=LICENSE=LICENSE',
         '--output-dir=dist',
         '--product-name=Palworld Save Tools',
         f'--file-version={version}',

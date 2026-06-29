@@ -57,6 +57,7 @@
   class="absolute z-50 min-w-[200px] rounded-6 border border-line/40 bg-bg-elevated/95 backdrop-blur-md shadow-2xl py-1"
   style="left: {menuX}px; top: {menuY}px;"
   role="menu"
+  tabindex="-1"
   onkeydown={(e) => { if (e.key === 'Escape') e.stopPropagation(); }}
   onclick={(e) => e.stopPropagation()}
 >

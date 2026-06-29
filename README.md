@@ -438,9 +438,9 @@ The save file format is outdated. Load the save in-game (Solo, Co-op, or Dedicat
 
 </div>
 
-PST supports two build paths. The CI/CD pipeline uses Nuitka for cross-platform release binaries; cx_Freeze is used for the local Windows installer.
+PST supports two build paths: Nuitka for standalone desktop binaries and Tauri for the WebUI desktop app.
 
-### Nuitka (Cross-Platform — Used by CI/Releases)
+### Nuitka (Standalone Desktop Binary)
 
 Requires Python 3.11+ and `uv`. Nuitka is installed automatically.
 
@@ -457,15 +457,16 @@ Outputs go to `dist/`:
 - Linux → `dist/PalworldSaveTools-*-linux`
 - macOS → `dist/PalworldSaveTools.app` → packaged as `.dmg`
 
-### cx_Freeze (Windows Installer)
+### Tauri (WebUI Desktop App)
 
-For a local Windows `.7z` package:
+Builds the Svelte frontend + Python FastAPI backend into a Tauri desktop application.
 
+```bash
+# Full build (frontend → Nuitka sidecar → Tauri)
+python build/tauri/build_tauri.py
 ```
-scripts\build_cx.cmd
-```
 
-This creates `PST_standalone_v{version}.7z` in the project root.
+See `build/tauri/` for the build scripts and `web/frontend/src-tauri/` for the Tauri configuration.
 
 ### Interactive Builder
 

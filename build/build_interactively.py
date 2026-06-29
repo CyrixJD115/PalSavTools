@@ -16,8 +16,8 @@ else:
     PYTHON = str(VENV / 'bin' / 'python3')
 
 BUILD = PROJECT_ROOT / 'build'
-CX_FREEZE_SCRIPT = BUILD / 'cx_freeze' / 'build_cx.py'
 NUITKA_SCRIPT = BUILD / 'nuitka' / 'build_nuitka.py'
+TAURI_SCRIPT = BUILD / 'tauri' / 'build_tauri.py'
 VERIFY_SCRIPT = BUILD / 'verify_build.py'
 
 _COLORS = (
@@ -66,10 +66,6 @@ class Runner:
         self.verbose = True
         self.open_dist = False
 
-    def cx_freeze(self) -> int:
-        cmd = [PYTHON, str(CX_FREEZE_SCRIPT), '--use-venv']
-        return _run(cmd, label='cx_Freeze — Directory (local)')
-
     def nuitka_onefile(self) -> int:
         cmd = [PYTHON, str(NUITKA_SCRIPT), '--onefile']
         return _run(cmd, label='Nuitka — One-File (local)')
@@ -77,6 +73,10 @@ class Runner:
     def nuitka_onedir(self) -> int:
         cmd = [PYTHON, str(NUITKA_SCRIPT), '--onedir']
         return _run(cmd, label='Nuitka — Directory (local)')
+
+    def tauri(self) -> int:
+        cmd = [PYTHON, str(TAURI_SCRIPT)]
+        return _run(cmd, label='Tauri Desktop App')
 
     def verify(self) -> int:
         cmd = [PYTHON, str(VERIFY_SCRIPT)]
@@ -86,9 +86,9 @@ class Runner:
         v = GREEN('ON') if self.verbose else RED('OFF')
         print(f'''
   {BOLD("───── Build engine ─────")}
-    {CYAN("1")}   cx_Freeze (Directory)        {DIM("local  — standard distribution")}
-    {CYAN("2")}   Nuitka (One-File)            {YELLOW("local")} {DIM("C-compiled single binary")}
-    {CYAN("3")}   Nuitka (Directory)           {YELLOW("local")} {DIM("C-compiled package")}
+    {CYAN("1")}   Nuitka (One-File)            {YELLOW("local")} {DIM("C-compiled single binary")}
+    {CYAN("2")}   Nuitka (Directory)           {YELLOW("local")} {DIM("C-compiled package")}
+    {CYAN("3")}   Tauri Desktop App            {YELLOW("local")} {DIM("Python sidecar + Svelte frontend")}
 
   {BOLD("───── Verification ────")}
     {CYAN("0")}   Verify last build             {DIM("structural + smoke tests")}
@@ -116,9 +116,9 @@ class Runner:
                 return
 
             handler = {
-                '1': lambda: self.cx_freeze(),
-                '2': lambda: self.nuitka_onefile(),
-                '3': lambda: self.nuitka_onedir(),
+                '1': lambda: self.nuitka_onefile(),
+                '2': lambda: self.nuitka_onedir(),
+                '3': lambda: self.tauri(),
                 '0': lambda: self.verify(),
                 'v': lambda: self._toggle('verbose'),
             }.get(choice)
@@ -140,12 +140,12 @@ class Runner:
 
 def main() -> int:
     runner = Runner()
-    if '--cx-freeze' in sys.argv:
-        return runner.cx_freeze()
     if '--nuitka-onefile' in sys.argv:
         return runner.nuitka_onefile()
     if '--nuitka-onedir' in sys.argv:
         return runner.nuitka_onedir()
+    if '--tauri' in sys.argv:
+        return runner.tauri()
     if '--verify' in sys.argv:
         return runner.verify()
     runner.run_forever()

@@ -135,25 +135,6 @@ def check_dist_structure():
             test(f'Archive {item.name} is non-empty', item.stat().st_size > 1024 * 1024, f'{size_mb:.1f} MB')
 
 
-def check_pst_standalone():
-    pst = ROOT_DIR / 'PST_standalone'
-    if not pst.is_dir():
-        skip('PST_standalone directory exists', 'not found (cx_Freeze builds)')
-        return
-
-    files = list(pst.iterdir())
-    test('PST_standalone/ exists and has files', len(files) > 0, f'{len(files)} item(s)')
-
-    has_exe = any(f.name in ('PalworldSaveTools.exe', 'PalworldSaveTools') for f in files)
-    test('PST_standalone contains executable', has_exe)
-
-    has_python = any(f.suffix == '.pyd' or f.name.startswith('python') for f in files)
-    skip('PST_standalone contains python libs', 'checking .pyd count' if has_python else 'directory build')
-
-    total_size = sum(f.stat().st_size for f in files if f.is_file())
-    size_mb = total_size / (1024 * 1024)
-    test(f'PST_standalone total size', total_size > 10 * 1024 * 1024, f'{size_mb:.1f} MB')
-
 
 def check_resources_in_bundle(bin_path: Path):
     if not bin_path:
@@ -302,7 +283,6 @@ def main():
 
     check_binary_size(bin_path)
     check_dist_structure()
-    check_pst_standalone()
     check_resources_in_bundle(bin_path)
     try_run_headless(bin_path)
     try_run_palsav_cli(bin_path)

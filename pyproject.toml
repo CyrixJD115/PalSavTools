@@ -13,7 +13,7 @@ dependencies = [
     "Pillow",
     "nerdfont",
     "packaging",
-    "palsav-flex",
+    "PalSav",
     "brotli",
     "cbor2",
     "msgpack",
@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-palsav-flex = { workspace = true, editable = true }
+PalSav = { workspace = true, editable = true }
 
 [tool.uv.workspace]
 members = [

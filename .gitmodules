@@ -1,0 +1,3 @@
+[submodule "src/palsav"]
+	path = src/palsav
+	url = git@github.com:CyrixJD115/PalSav.git

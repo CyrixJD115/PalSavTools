@@ -1,0 +1,42 @@
+"""Resource path resolution.
+
+The backend lives at ``<repo>/app/backend`` but reads game-data, i18n and
+config JSON from the main project tree (``<repo>/src/_resources`` and
+``<repo>/src/data``).
+"""
+
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+
+# app/backend/paths.py -> app/backend -> app -> <repo_root>
+REPO_ROOT: Path = Path(__file__).resolve().parents[2]
+
+RESOURCES_DIR: Path = REPO_ROOT / "src" / "_resources"
+GAME_DATA_DIR: Path = RESOURCES_DIR / "game_data"
+# WebUI string catalog (clean, web.* namespaced). The legacy ``i18n/`` dir
+# remains for the ``src/`` CLI tools' ``from i18n import t`` — do NOT repoint
+# this at it or the WebUI will serve 1,927 desktop-GUI strings.
+I18N_DIR: Path = RESOURCES_DIR / "i18n_web"
+CONFIGS_DIR: Path = REPO_ROOT / "src" / "data" / "configs"
+
+# Built Svelte SPA is served from here in production.
+FRONTEND_DIR: Path = REPO_ROOT / "app" / "frontend"
+FRONTEND_BUILD_DIR: Path = FRONTEND_DIR / "build"
+
+
+@lru_cache(maxsize=1)
+def game_data_files() -> list[str]:
+    """Names of every ``*.json`` (no extension) under resources/game_data."""
+    if not GAME_DATA_DIR.is_dir():
+        return []
+    return sorted(p.stem for p in GAME_DATA_DIR.glob("*.json"))
+
+
+@lru_cache(maxsize=1)
+def i18n_languages() -> list[str]:
+    """Available language codes, e.g. ``['de_DE', 'en_US', ...]``."""
+    if not I18N_DIR.is_dir():
+        return []
+    return sorted(p.stem for p in I18N_DIR.glob("*.json") if p.stem != "config")

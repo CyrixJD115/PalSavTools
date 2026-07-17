@@ -96,6 +96,7 @@ Backups/
 
 # Web Ref
 web/.web_ref
+app/.web_ref
 
 # WebUI frontend
 web/frontend/node_modules/
@@ -103,6 +104,19 @@ web/frontend/build/
 web/frontend/.svelte-kit/
 web/frontend/package-lock.json
 web/frontend/src-tauri/binaries/
+app/frontend/node_modules/
+app/frontend/build/
+app/frontend/.svelte-kit/
+app/frontend/package-lock.json
+app/frontend/src-tauri/binaries/
 
 # WebUI backend
 web/backend/__pycache__/
+app/backend/__pycache__/
+
+# Reference / sample save data (local test fixtures — large, never commit)
+# Includes raw .sav files (also covered by *.sav above) and decoded JSON dumps.
+ref/
+
+# Agent / session metadata
+.zcode/

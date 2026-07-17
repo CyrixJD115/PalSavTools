@@ -1,11 +1,13 @@
 import os
 from palsav import json_tools
-from PySide6.QtWidgets import QApplication, QMessageBox
+import logging
 from i18n import t
 from palworld_aio import constants
 from resource_resolver import resource_path
 from palworld_aio.utils import are_equal_uuids, as_uuid, sav_to_gvasfile, gvasfile_to_sav
 from palworld_aio.managers.data_manager import delete_player
+
+logger = logging.getLogger("pst.player_manager")
 def _load_exp_data():
     base_dir = constants.get_base_path()
     exp_file = resource_path(base_dir, 'game_data', 'pal_exp_table.json')

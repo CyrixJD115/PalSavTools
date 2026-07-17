@@ -23,7 +23,7 @@ import sys
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(_SCRIPT_DIR, "..", ".."))
 
-FRONTEND_DIR = os.path.join(ROOT_DIR, "web", "frontend")
+FRONTEND_DIR = os.path.join(ROOT_DIR, "app", "frontend")
 TAURI_BINARIES_DIR = os.path.join(FRONTEND_DIR, "src-tauri", "binaries")
 NUITKA_WEB_SCRIPT = os.path.join(_SCRIPT_DIR, "build_nuitka_web.py")
 

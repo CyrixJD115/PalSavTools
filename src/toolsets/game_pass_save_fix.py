@@ -1,578 +1,732 @@
+"""
+game_pass_save_fix — XGP / Steam save conversion (headless CLI version).
+
+Removed all PySide6/Qt dependencies.  Business logic preserved as
+module-level functions.  GUI interactions replaced with logging/print/input.
+"""
+
+import logging
+import os
+import random
+import shutil
+import string
+import subprocess
+import sys
+import threading
+import time
+import traceback
+import zipfile
+
 from import_libs import *
 from palworld_aio.utils import sav_to_json, json_to_sav, extract_value
-from toolsets.fix_host_save import ask_string_with_icon
 from common import get_base_directory
-from palworld_aio.ui.chrome.styles import ThemeManager
-from loading_manager import run_with_loading, show_information, show_critical
-import nerdfont as nf
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFrame, QMessageBox, QFileDialog, QStyleFactory, QApplication, QLabel
-from PySide6.QtCore import Qt, Signal, QObject, QTimer, QMetaObject, Q_ARG
-from PySide6.QtGui import QIcon, QFont
-from palworld_aio import constants
+from loading_manager import run_with_loading
+
+logger = logging.getLogger("pst.game_pass_save_fix")
+
 saves = []
 save_info_map = {}
 save_extractor_done = threading.Event()
 save_converter_done = threading.Event()
 base_dir = get_base_directory()
 root_dir = base_dir
-class GamePassSaveFixWidget(QWidget):
-    update_combobox_signal = Signal(list)
-    extraction_complete_signal = Signal()
-    message_signal = Signal(str, str, str)
-    def __init__(self):
-        super().__init__()
-        self.conversion_direction = None
-        self.update_combobox_signal.connect(self.update_combobox_slot)
-        self.extraction_complete_signal.connect(self.start_conversion)
-        self.message_signal.connect(self.handle_message)
-        self.setup_ui()
-        self.load_styles()
-    def setup_ui(self):
-        self.setWindowTitle(t('xgp.title.converter'))
-        self.setMinimumSize(960, 440)
-        self.setObjectName('central')
-        try:
-            if ICON_PATH and os.path.exists(ICON_PATH):
-                self.setWindowIcon(QIcon(ICON_PATH))
-        except Exception as e:
-            print(f'Could not set icon: {e}')
-        main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(14, 14, 14, 14)
-        main_layout.setSpacing(12)
-        glass_frame = QFrame()
-        glass_frame.setObjectName('glass')
-        glass_layout = QVBoxLayout(glass_frame)
-        glass_layout.setContentsMargins(12, 12, 12, 12)
-        title_label = QLabel(t('xgp.title.converter'))
-        title_label.setFont(QFont(constants.FONT_FAMILY, 16, QFont.Bold))
-        title_label.setAlignment(Qt.AlignCenter)
-        glass_layout.addWidget(title_label)
-        desc_label = QLabel(t('xgp.ui.description'))
-        desc_label.setFont(QFont(constants.FONT_FAMILY, 12))
-        desc_label.setAlignment(Qt.AlignCenter)
-        desc_label.setWordWrap(True)
-        glass_layout.addWidget(desc_label)
-        warning_label = QLabel(t('warning.world_id'))
-        warning_label.setFont(QFont(constants.FONT_FAMILY, 9))
-        warning_label.setStyleSheet('color: #ffaa00;')
-        warning_label.setAlignment(Qt.AlignCenter)
-        warning_label.setWordWrap(True)
-        glass_layout.addWidget(warning_label)
-        panels_layout = QHBoxLayout()
-        panels_layout.setSpacing(12)
-        left_frame = QFrame()
-        left_frame.setObjectName('glass')
-        left_layout = QVBoxLayout(left_frame)
-        left_layout.setContentsMargins(10, 10, 10, 10)
-        left_header = QLabel(t('xgp.ui.section_xgp_to_steam'))
-        left_header.setFont(QFont(constants.FONT_FAMILY, 14, QFont.Bold))
-        left_header.setAlignment(Qt.AlignCenter)
-        left_layout.addWidget(left_header)
-        self.xgp_browse_btn = QPushButton(f"{nf.icons['nf-fa-xbox']}  {t('xgp.ui.btn_xgp_folder')}")
-        self.xgp_browse_btn.setFont(QFont(constants.FONT_FAMILY, 12))
-        left_layout.addWidget(self.xgp_browse_btn, alignment=Qt.AlignCenter)
-        self.xgp_save_frame = QFrame()
-        self.xgp_save_frame.setStyleSheet('QFrame { background-color: transparent; }')
-        xgp_save_layout = QVBoxLayout(self.xgp_save_frame)
-        xgp_save_layout.setContentsMargins(0, 0, 0, 0)
-        xgp_save_layout.setSpacing(12)
-        left_layout.addWidget(self.xgp_save_frame)
-        left_layout.addStretch()
-        panels_layout.addWidget(left_frame, 1)
-        right_frame = QFrame()
-        right_frame.setObjectName('glass')
-        right_layout = QVBoxLayout(right_frame)
-        right_layout.setContentsMargins(10, 10, 10, 10)
-        right_header = QLabel(t('xgp.ui.section_steam_to_xgp'))
-        right_header.setFont(QFont(constants.FONT_FAMILY, 14, QFont.Bold))
-        right_header.setAlignment(Qt.AlignCenter)
-        right_layout.addWidget(right_header)
-        self.steam_browse_btn = QPushButton(f"{nf.icons['nf-fa-steam']}  {t('xgp.ui.btn_steam_folder')}")
-        self.steam_browse_btn.setFont(QFont(constants.FONT_FAMILY, 12))
-        right_layout.addWidget(self.steam_browse_btn, alignment=Qt.AlignCenter)
-        self.steam_status_label = QLabel('')
-        self.steam_status_label.setFont(QFont(constants.FONT_FAMILY, 10))
-        self.steam_status_label.setAlignment(Qt.AlignCenter)
-        self.steam_status_label.setWordWrap(True)
-        right_layout.addWidget(self.steam_status_label)
-        right_layout.addStretch()
-        panels_layout.addWidget(right_frame, 1)
-        glass_layout.addLayout(panels_layout)
-        main_layout.addWidget(glass_frame)
-        self.xgp_browse_btn.clicked.connect(self.get_save_game_pass)
-        self.steam_browse_btn.clicked.connect(self.get_save_steam)
-        center_window(self)
-    def showEvent(self, event):
-        super().showEvent(event)
-        if not event.spontaneous():
-            self.activateWindow()
-            self.raise_()
-    def find_valid_saves(self, base_path):
-        valid = []
-        if not os.path.isdir(base_path):
-            return valid
-        for root, dirs, files in os.walk(base_path):
-            if '01.sav' in files:
-                parent_dir = os.path.basename(root)
-                if parent_dir == 'Level':
-                    save_root = os.path.dirname(root)
-                    folder_name = os.path.basename(save_root)
-                    if folder_name.lower().startswith('slot'):
-                        continue
-                    if save_root not in valid:
-                        valid.append(save_root)
+
+
+# ============================================================================
+# Utility / helper functions
+# ============================================================================
+
+def find_valid_saves(base_path):
+    """Walk *base_path* returning a list of save-root directories that
+    contain a ``Level/01.sav`` file."""
+    valid = []
+    if not os.path.isdir(base_path):
         return valid
-    def handle_message(self, message_type: str, title: str, text: str):
-        if message_type == 'info':
-            show_information(self, title, text)
-        elif message_type == 'critical':
-            show_critical(self, title, text)
-    def start_conversion(self):
-        print('Extraction complete.Converting save files...')
-        threading.Thread(target=self.convert_save_files, daemon=True).start()
-    def update_combobox_slot(self, saveList):
-        self.update_combobox(saveList)
-    def closeEvent(self, event):
-        shutil.rmtree(os.path.join(root_dir, 'saves'), ignore_errors=True)
-        event.accept()
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            self.close()
-        else:
-            super().keyPressEvent(event)
-    def get_save_game_pass(self):
-        global save_info_map
-        default = os.path.expandvars('%LOCALAPPDATA%\\Packages\\PocketpairInc.Palworld_ad4psfrxyesvt\\SystemAppData\\wgs')
-        self.raise_()
-        self.activateWindow()
-        folder = QFileDialog.getExistingDirectory(self, t('xgp.ui.select_xgp_folder'), default)
-        if not folder:
-            return
-        self.conversion_direction = 'xgp_to_steam'
-        self.xgp_source_folder = folder
-        def is_xgp_container(path):
-            for root, _, files in os.walk(path):
-                if any((f.lower().startswith('container.') for f in files)):
-                    return True
-            return False
-        if is_xgp_container(folder):
-            run_with_loading(None, self.run_save_extractor)
-            return
-        saves = self.find_valid_saves(folder)
-        if not saves:
-            self.message_signal.emit('critical', t('Error'), t('xgp.err.no_valid_saves'))
-            return
-        save_info_map = {}
-        save_list_display = []
-        for save_path in saves:
-            folder_name = os.path.basename(save_path)
-            info = self.get_save_info(save_path)
-            save_info_map[folder_name] = info
-            display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
-            save_list_display.append(display_name)
-        self.direct_saves_map = {display: s for display, s in zip(save_list_display, saves)}
-        self.update_combobox_signal.emit(save_list_display)
-    def get_save_steam(self):
-        import gc
-        self.raise_()
-        self.activateWindow()
-        folder = QFileDialog.getExistingDirectory(self, t('xgp.ui.select_steam_folder'))
-        if not folder:
-            return
-        self.conversion_direction = 'steam_to_xgp'
-        sav_path = os.path.join(folder, 'Level.sav')
-        if not os.path.exists(sav_path):
-            self.message_signal.emit('critical', t('Error'), 'Selected folder does not contain Level.sav')
-            return
-        meta_path = os.path.join(folder, 'LevelMeta.sav')
+    for root, dirs, files in os.walk(base_path):
+        if "01.sav" in files:
+            parent_dir = os.path.basename(root)
+            if parent_dir == "Level":
+                save_root = os.path.dirname(root)
+                folder_name = os.path.basename(save_root)
+                if folder_name.lower().startswith("slot"):
+                    continue
+                if save_root not in valid:
+                    valid.append(save_root)
+    return valid
+
+
+def list_folders_in_directory(directory):
+    """Return a list of subdirectory names in *directory*."""
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        return [
+            item
+            for item in os.listdir(directory)
+            if os.path.isdir(os.path.join(directory, item))
+        ]
+    except Exception:
+        return []
+
+
+def is_folder_empty(directory):
+    """Return True if *directory* exists and is empty (or doesn't exist)."""
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        return len(os.listdir(directory)) == 0
+    except Exception:
+        return False
+
+
+def unzip_file(zip_file_path, extract_to_folder):
+    """Extract *zip_file_path* into *extract_to_folder*.  Return bool."""
+    os.makedirs(extract_to_folder, exist_ok=True)
+    try:
+        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
+            zip_ref.extractall(extract_to_folder)
+        return True
+    except Exception as e:
+        logger.error("Error extracting zip file %s: %s", zip_file_path, e)
+        return False
+
+
+def generate_random_name(length=32):
+    """Generate a random alphanumeric string of *length* characters."""
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
+
+
+def is_valid_save_id(folder_name):
+    """Return True if *folder_name* looks like a 32-char alnum save ID."""
+    return len(folder_name) == 32 and folder_name.isalnum()
+
+
+def is_admin():
+    """Return True if the current process runs as Administrator (Windows)."""
+    try:
+        import ctypes
+        return ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except Exception:
+        return False
+
+
+def stop_gaming_services():
+    """Stop Windows GamingServices (XGP helper)."""
+    try:
+        subprocess.run(
+            ["cmd", "/c", "net stop GamingServices /y"],
+            check=False, capture_output=True,
+        )
+        subprocess.run(
+            ["cmd", "/c", "net stop GamingServicesNet /y"],
+            check=False, capture_output=True,
+        )
+        subprocess.run(
+            ["taskkill", "/f", "/im", "GamingServices.exe"],
+            check=False, capture_output=True,
+        )
+        subprocess.run(
+            ["taskkill", "/f", "/im", "GamingServicesNet.exe"],
+            check=False, capture_output=True,
+        )
+    except Exception as e:
+        logger.warning("Service stop failed: %s", e)
+
+
+def start_gaming_services():
+    """Start Windows GamingServices (XGP helper)."""
+    try:
+        subprocess.run(
+            ["cmd", "/c", "net start GamingServices"],
+            check=False, capture_output=True,
+        )
+        subprocess.run(
+            ["cmd", "/c", "net start GamingServicesNet"],
+            check=False, capture_output=True,
+        )
+    except Exception as e:
+        logger.warning("Service start failed: %s", e)
+
+
+# ============================================================================
+# Save-info helpers
+# ============================================================================
+
+def get_save_info(save_path):
+    """Return a dict with ``world_name`` and ``player_name`` for the save at
+    *save_path*."""
+    info = {"world_name": "Unknown World", "player_name": "Unknown Player"}
+    try:
+        meta_path = os.path.join(save_path, "LevelMeta.sav")
         if os.path.exists(meta_path):
             try:
                 meta_json = sav_to_json(meta_path)
-                old_name = meta_json['properties']['SaveData']['value'].get('WorldName', {}).get('value', 'Unknown World')
-                QMessageBox.information(self, t('world.rename.title'), t('xgp.msg.world_rename_info', old=old_name))
-                new_name = ask_string_with_icon(t('world.rename.title'), t('world.rename.prompt', old=old_name), ICON_PATH)
-                if new_name:
-                    meta_json['properties']['SaveData']['value']['WorldName']['value'] = new_name
-                    json_to_sav(meta_json, meta_path)
-                del meta_json
+                info["world_name"] = extract_value(
+                    meta_json["properties"]["SaveData"]["value"],
+                    "WorldName",
+                    "Unknown World",
+                )
             except Exception as e:
-                print(f'Metadata processing failed: {e}')
-        gc.collect()
-        if not self.is_admin():
-            self.message_signal.emit('critical', t('xgp.err.admin_required.title'), t('xgp.err.admin_required.msg'))
-            return
-        reply = QMessageBox.warning(self, t('xgp.admin_warning.title'), t('xgp.admin_warning.msg'), QMessageBox.Yes | QMessageBox.No)
-        if reply != QMessageBox.Yes:
-            return
-        run_with_loading(None, lambda: self.transfer_steam_to_gamepass(folder))
-    @staticmethod
-    def list_folders_in_directory(directory):
-        try:
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            return [item for item in os.listdir(directory) if os.path.isdir(os.path.join(directory, item))]
-        except:
-            return []
-    @staticmethod
-    def is_folder_empty(directory):
-        try:
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            return len(os.listdir(directory)) == 0
-        except:
-            return False
-    @staticmethod
-    def unzip_file(zip_file_path, extract_to_folder):
-        os.makedirs(extract_to_folder, exist_ok=True)
-        try:
-            with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-                zip_ref.extractall(extract_to_folder)
-            return True
-        except Exception as e:
-            print(f'Error extracting zip file {zip_file_path}: {e}')
-            return False
-    def convert_save_files(self):
-        saveFolders = self.list_folders_in_directory('./saves')
-        if not saveFolders:
-            print('No save files found')
-            return
-        saveList = []
-        successful = 0
-        for saveName in saveFolders:
-            name = self.convert_sav_JSON(saveName)
-            if name:
-                saveList.append(name)
-                successful += 1
-        global save_info_map
-        save_info_map = {}
-        save_list_display = []
-        for folder_name in saveList:
-            save_path = os.path.join('./saves', folder_name)
-            info = self.get_save_info(save_path)
-            save_info_map[folder_name] = info
-            display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
-            save_list_display.append(display_name)
-        self.direct_saves_map = {display: os.path.join('./saves', folder) for display, folder in zip(save_list_display, saveList)}
-        self.update_combobox_signal.emit(save_list_display)
-        print('Choose a save to convert:')
-        total = len(saveFolders)
-        if successful > 0:
-            if successful == total:
-                message = t('xgp.msg.all_converted_success', total=total)
-            else:
-                message = t('xgp.msg.some_converted_success', successful=successful, total=total)
-            self.message_signal.emit('info', t('xgp.msg.conversion_done.title'), message)
+                logger.warning("Failed to read LevelMeta.sav: %s", e)
+
+        level_sav_path = os.path.join(save_path, "Level.sav")
+        level_01_sav_path = os.path.join(save_path, "Level", "01.sav")
+        if os.path.exists(level_sav_path):
+            actual_level_path = level_sav_path
+        elif os.path.exists(level_01_sav_path):
+            actual_level_path = level_01_sav_path
         else:
-            self.message_signal.emit('critical', t('xgp.msg.conversion_failed.title'), t('xgp.msg.no_saves_converted'))
-    def run_save_extractor(self):
-        import gc
-        global save_info_map
+            return info
+
         try:
-            from toolsets import xgp_save_extract as extractor
-            extractor.main(self.xgp_source_folder)
-            zip_files = [f for f in os.listdir(base_dir) if f.startswith('palworld_') and f.endswith('.zip')]
-            if not zip_files:
-                return
-            valid_zip_path = max([os.path.join(base_dir, f) for f in zip_files], key=os.path.getsize)
-            if os.path.exists('./saves'):
-                shutil.rmtree('./saves')
-            if not self.unzip_file(valid_zip_path, './saves'):
-                return
-            backup_dir = os.path.join(root_dir, 'XGP_converted_saves')
-            os.makedirs(backup_dir, exist_ok=True)
-            for f in zip_files:
-                try:
-                    dest = os.path.join(backup_dir, f)
-                    if os.path.exists(dest):
-                        os.remove(dest)
-                    shutil.move(os.path.join(base_dir, f), dest)
-                except:
-                    pass
-            saves_found = self.find_valid_saves('./saves')
-            if not saves_found:
-                self.message_signal.emit('critical', t('Error'), t('xgp.err.no_valid_saves'))
-                return
-            save_info_map = {}
-            save_list_display = []
-            for save_path in saves_found:
-                folder_name = os.path.basename(save_path)
-                info = self.get_save_info(save_path)
-                save_info_map[folder_name] = info
-                display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
-                save_list_display.append(display_name)
-            self.direct_saves_map = {display: s for display, s in zip(save_list_display, saves_found)}
-            self.update_combobox_signal.emit(save_list_display)
+            level_json = sav_to_json(actual_level_path)
+            world_save_data = level_json["properties"]["worldSaveData"]["value"]
+            group_data = world_save_data.get("GroupSaveDataMap", {}).get("value", {})
+            guilds_to_process = []
+            if isinstance(group_data, dict):
+                guilds_to_process = group_data.items()
+            elif isinstance(group_data, list):
+                guilds_to_process = [(i, g) for i, g in enumerate(group_data)]
+            for guild_id, guild_data in guilds_to_process:
+                raw_data = (
+                    guild_data.get("value", {})
+                    .get("RawData", {})
+                    .get("value", {})
+                )
+                players = raw_data.get("players", [])
+                if players:
+                    player = players[0]
+                    if isinstance(player, dict) and "player_info" in player:
+                        info["player_name"] = player["player_info"].get(
+                            "player_name", "Unknown Player"
+                        )
+                        break
         except Exception as e:
-            self.message_signal.emit('critical', t('Error'), str(e))
+            logger.warning(
+                "Failed to read player name from %s: %s", actual_level_path, e
+            )
+    except Exception as e:
+        logger.error("Error getting save info: %s", e)
+    return info
+
+
+# ============================================================================
+# Conversion helpers
+# ============================================================================
+
+def _ask_string_cli(prompt, default=None):
+    """Simple console-based replacement for ``ask_string_with_icon``."""
+    print(prompt)
+    value = input("> ").strip()
+    return value if value else default
+
+
+def convert_sav_JSON(save_name, direct_saves_map):
+    """Convert a .sav file inside *save_name* (looked up via
+    *direct_saves_map*) to JSON.  Returns *save_name* on success or an error
+    string."""
+    if save_name in direct_saves_map:
+        source_base = direct_saves_map[save_name]
+    else:
+        parts = save_name.split(" - ", 1)
+        folder_id = parts[0] if parts else save_name
+        source_base = os.path.join(root_dir, "saves", folder_id)
+
+    save_path = os.path.join(source_base, "Level", "01.sav")
+    if not os.path.exists(save_path):
+        return None
+
+    def task():
+        try:
+            import logging as _logging
+            _logging.disable(_logging.CRITICAL)
+            from palsav.commands import convert
+            old_argv = sys.argv
+            sys.argv = ["convert", save_path]
+            convert.main()
+            sys.argv = old_argv
+            return save_name
+        except Exception as e:
+            return str(e)
         finally:
-            gc.collect()
-    def convert_sav_JSON(self, saveName):
-        if hasattr(self, 'direct_saves_map') and saveName in self.direct_saves_map:
-            source_base = self.direct_saves_map[saveName]
+            _logging.disable(_logging.NOTSET)
+
+    result_container = [None]
+
+    def _callback(res):
+        result_container[0] = res
+
+    run_with_loading(_callback, task)
+    return result_container[0]
+
+
+def convert_JSON_sav(save_name, direct_saves_map, message_callback=None):
+    """Convert a JSON save back to .sav, producing ``Level.sav`` in the save
+    root.  Calls *message_callback* (type, title, text) for user-facing
+    messages."""
+    if message_callback is None:
+        message_callback = lambda typ, title, text: logger.info(
+            "[%s] %s: %s", typ, title, text
+        )
+
+    if save_name in direct_saves_map:
+        source_base = direct_saves_map[save_name]
+    else:
+        parts = save_name.split(" - ", 1)
+        folder_id = parts[0] if parts else save_name
+        source_base = os.path.join(root_dir, "saves", folder_id)
+
+    json_path = os.path.join(source_base, "Level", "01.sav.json")
+    sav_path = os.path.join(source_base, "Level", "01.sav")
+    out_level = os.path.join(source_base, "Level.sav")
+
+    if os.path.exists(out_level):
+        all_saves = list(direct_saves_map.keys())
+        if len(all_saves) == 1:
+            message_callback("info", "Success", "All saves converted successfully.")
+            return
         else:
-            parts = saveName.split(' - ', 1)
-            folder_id = parts[0] if parts else saveName
-            source_base = os.path.join(root_dir, 'saves', folder_id)
-        save_path = os.path.join(source_base, 'Level', '01.sav')
-        if not os.path.exists(save_path):
-            return None
-        def task():
-            try:
-                import logging
-                logging.disable(logging.CRITICAL)
-                from palsav.commands import convert
-                old_argv = sys.argv
-                sys.argv = ['convert', save_path]
-                convert.main()
-                sys.argv = old_argv
-                return saveName
-            except Exception as e:
-                return str(e)
-            finally:
-                logging.disable(logging.NOTSET)
-        run_with_loading(self.update_combobox_signal.emit, task)
-    def convert_JSON_sav(self, saveName):
-        if hasattr(self, 'direct_saves_map') and saveName in self.direct_saves_map:
-            source_base = self.direct_saves_map[saveName]
-        else:
-            parts = saveName.split(' - ', 1)
-            folder_id = parts[0] if parts else saveName
-            source_base = os.path.join(root_dir, 'saves', folder_id)
-        json_path = os.path.join(source_base, 'Level', '01.sav.json')
-        sav_path = os.path.join(source_base, 'Level', '01.sav')
-        out_level = os.path.join(source_base, 'Level.sav')
-        if os.path.exists(out_level):
-            all_saves = list(getattr(self, 'direct_saves_map', {}).keys())
-            if len(all_saves) == 1:
-                self.message_signal.emit('info', t('Success'), t('xgp.msg.all_converted'))
-                return
-            else:
-                self.message_signal.emit('info', t('Info'), t('xgp.msg.already_converted', save=saveName))
-                return
-        def run_conversion():
-            try:
-                import logging
-                logging.disable(logging.CRITICAL)
-                from palsav.commands import convert
-                if os.path.exists(sav_path) and (not os.path.exists(json_path)):
-                    old = sys.argv
-                    sys.argv = ['convert', sav_path]
-                    convert.main()
-                    sys.argv = old
-                if not os.path.exists(json_path):
-                    return 'err_no_json'
+            message_callback(
+                "info", "Info", f"Save '{save_name}' already converted."
+            )
+            return
+
+    def run_conversion():
+        try:
+            import logging as _logging
+            _logging.disable(_logging.CRITICAL)
+            from palsav.commands import convert
+            if os.path.exists(sav_path) and (not os.path.exists(json_path)):
                 old = sys.argv
-                sys.argv = ['convert', json_path, '--output', out_level]
+                sys.argv = ["convert", sav_path]
                 convert.main()
                 sys.argv = old
-                if os.path.exists(json_path):
-                    os.remove(json_path)
-                return 'success'
-            except Exception as e:
-                error_str = str(e)
-                if 'Cannot log to objects of type' in error_str:
-                    return 'Conversion completed(logging error suppressed)'
-                return error_str
-            finally:
-                logging.disable(logging.NOTSET)
-        def on_conversion_finished(result):
-            if result == 'success' or 'Conversion completed(logging error suppressed)' in result:
-                self.move_save_steam(saveName)
-            elif result == 'err_no_json':
-                self.message_signal.emit('critical', t('Error'), t('xgp.err.no_valid_saves'))
-            else:
-                self.message_signal.emit('critical', t('Error'), f'Conversion failed: {result}')
-        run_with_loading(on_conversion_finished, run_conversion)
-    @staticmethod
-    def generate_random_name(length=32):
-        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-    def move_save_steam(self, saveName):
-        try:
-            steam_default = os.path.expandvars('%localappdata%\\Pal\\Saved\\SaveGames')
-            initial = steam_default if os.path.isdir(steam_default) else root_dir
-            self.raise_()
-            self.activateWindow()
-            destination = QFileDialog.getExistingDirectory(self, t('xgp.ui.select_destination'), initial)
-            if not destination:
-                return
-            if hasattr(self, 'direct_saves_map') and saveName in self.direct_saves_map:
-                source_base = self.direct_saves_map[saveName]
-            else:
-                parts = saveName.split(' - ', 1)
-                folder_id = parts[0] if parts else saveName
-                source_base = os.path.join(root_dir, 'saves', folder_id)
-            if not os.path.isdir(source_base):
-                raise FileNotFoundError(t('xgp.err.source_not_found', src=source_base))
-            if not os.path.isfile(os.path.join(source_base, 'Level.sav')):
-                self.message_signal.emit('critical', t('Error'), t('xgp.err.convert_failed', err='Missing Level.sav in save root'))
-                return
-            def ignore(_, names):
-                return {n for n in names if n in {'Level', 'Slot1', 'Slot2', 'Slot3'}}
-            original_folder_name = os.path.basename(source_base)
-            if self.is_valid_save_id(original_folder_name):
-                destination_path = os.path.join(destination, original_folder_name)
-                if os.path.exists(destination_path):
-                    new_name = self.generate_random_name()
-                else:
-                    new_name = original_folder_name
-            else:
-                new_name = self.generate_random_name()
-            xgp_out = os.path.join(root_dir, 'XGP_converted_saves')
-            os.makedirs(xgp_out, exist_ok=True)
-            shutil.copytree(source_base, os.path.join(xgp_out, new_name), dirs_exist_ok=True, ignore=ignore)
-            shutil.copytree(source_base, os.path.join(destination, new_name), dirs_exist_ok=True, ignore=ignore)
-            self.message_signal.emit('info', t('Success'), t('xgp.msg.convert_copied', dest=destination))
+            if not os.path.exists(json_path):
+                return "err_no_json"
+            old = sys.argv
+            sys.argv = ["convert", json_path, "--output", out_level]
+            convert.main()
+            sys.argv = old
+            if os.path.exists(json_path):
+                os.remove(json_path)
+            return "success"
         except Exception as e:
-            print(t('xgp.err.copy_exception', err=e))
-            traceback.print_exc()
-            self.message_signal.emit('critical', t('Error'), t('xgp.err.copy_failed', err=e))
-    def is_admin(self):
-        try:
-            return ctypes.windll.shell32.IsUserAnAdmin() != 0
-        except:
-            return False
-    @staticmethod
-    def get_save_info(save_path):
-        info = {'world_name': 'Unknown World', 'player_name': 'Unknown Player'}
-        try:
-            meta_path = os.path.join(save_path, 'LevelMeta.sav')
-            if os.path.exists(meta_path):
-                try:
-                    meta_json = sav_to_json(meta_path)
-                    info['world_name'] = extract_value(meta_json['properties']['SaveData']['value'], 'WorldName', 'Unknown World')
-                except Exception as e:
-                    print(f'Failed to read LevelMeta.sav: {e}')
-            level_sav_path = os.path.join(save_path, 'Level.sav')
-            level_01_sav_path = os.path.join(save_path, 'Level', '01.sav')
-            if os.path.exists(level_sav_path):
-                actual_level_path = level_sav_path
-            elif os.path.exists(level_01_sav_path):
-                actual_level_path = level_01_sav_path
+            error_str = str(e)
+            if "Cannot log to objects of type" in error_str:
+                return "Conversion completed(logging error suppressed)"
+            return error_str
+        finally:
+            _logging.disable(_logging.NOTSET)
+
+    def on_conversion_finished(result):
+        if result == "success" or "Conversion completed(logging error suppressed)" in result:
+            move_save_steam(save_name, direct_saves_map, message_callback)
+        elif result == "err_no_json":
+            message_callback("critical", "Error", "No valid saves found.")
+        else:
+            message_callback("critical", "Error", f"Conversion failed: {result}")
+
+    run_with_loading(on_conversion_finished, run_conversion)
+
+
+def move_save_steam(save_name, direct_saves_map, message_callback=None):
+    """Copy converted save to a user-chosen destination (console prompt)."""
+    if message_callback is None:
+        message_callback = lambda typ, title, text: logger.info(
+            "[%s] %s: %s", typ, title, text
+        )
+
+    try:
+        initial = os.path.expandvars("%localappdata%\\Pal\\Saved\\SaveGames")
+        if not os.path.isdir(initial):
+            initial = root_dir
+
+        print(f"Destination folder [{initial}]:")
+        destination = input("> ").strip()
+        if not destination:
+            destination = initial
+        if not os.path.isdir(destination):
+            logger.warning("Destination does not exist, creating: %s", destination)
+            os.makedirs(destination, exist_ok=True)
+
+        if save_name in direct_saves_map:
+            source_base = direct_saves_map[save_name]
+        else:
+            parts = save_name.split(" - ", 1)
+            folder_id = parts[0] if parts else save_name
+            source_base = os.path.join(root_dir, "saves", folder_id)
+
+        if not os.path.isdir(source_base):
+            raise FileNotFoundError(f"Source not found: {source_base}")
+
+        if not os.path.isfile(os.path.join(source_base, "Level.sav")):
+            message_callback(
+                "critical",
+                "Error",
+                "Conversion failed: Missing Level.sav in save root",
+            )
+            return
+
+        def ignore(_, names):
+            return {n for n in names if n in {"Level", "Slot1", "Slot2", "Slot3"}}
+
+        original_folder_name = os.path.basename(source_base)
+        if is_valid_save_id(original_folder_name):
+            destination_path = os.path.join(destination, original_folder_name)
+            if os.path.exists(destination_path):
+                new_name = generate_random_name()
             else:
-                return info
+                new_name = original_folder_name
+        else:
+            new_name = generate_random_name()
+
+        xgp_out = os.path.join(root_dir, "XGP_converted_saves")
+        os.makedirs(xgp_out, exist_ok=True)
+
+        shutil.copytree(
+            source_base,
+            os.path.join(xgp_out, new_name),
+            dirs_exist_ok=True,
+            ignore=ignore,
+        )
+        shutil.copytree(
+            source_base,
+            os.path.join(destination, new_name),
+            dirs_exist_ok=True,
+            ignore=ignore,
+        )
+        message_callback("info", "Success", f"Converted and copied to {destination}")
+    except Exception as e:
+        logger.error("Copy failed: %s", e)
+        traceback.print_exc()
+        message_callback("critical", "Error", f"Copy failed: {e}")
+
+
+# ============================================================================
+# Extraction / scanning flows
+# ============================================================================
+
+def run_save_extractor(xgp_source_folder):
+    """Extract saves from an XGP container zip into ``./saves`` and return a
+    ``direct_saves_map`` (display_name -> path)."""
+    import gc
+
+    global save_info_map
+
+    try:
+        from toolsets import xgp_save_extract as extractor
+
+        extractor.main(xgp_source_folder)
+
+        zip_files = [
+            f
+            for f in os.listdir(base_dir)
+            if f.startswith("palworld_") and f.endswith(".zip")
+        ]
+        if not zip_files:
+            logger.warning("No extracted zip files found.")
+            return {}
+
+        valid_zip_path = max(
+            [os.path.join(base_dir, f) for f in zip_files], key=os.path.getsize
+        )
+
+        saves_dir = os.path.join(root_dir, "saves")
+        if os.path.exists(saves_dir):
+            shutil.rmtree(saves_dir)
+        if not unzip_file(valid_zip_path, saves_dir):
+            return {}
+
+        # Move zip to backup
+        backup_dir = os.path.join(root_dir, "XGP_converted_saves")
+        os.makedirs(backup_dir, exist_ok=True)
+        for f in zip_files:
             try:
-                level_json = sav_to_json(actual_level_path)
-                world_save_data = level_json['properties']['worldSaveData']['value']
-                group_data = world_save_data.get('GroupSaveDataMap', {}).get('value', {})
-                guilds_to_process = []
-                if isinstance(group_data, dict):
-                    guilds_to_process = group_data.items()
-                elif isinstance(group_data, list):
-                    guilds_to_process = [(i, g) for i, g in enumerate(group_data)]
-                for guild_id, guild_data in guilds_to_process:
-                    raw_data = guild_data.get('value', {}).get('RawData', {}).get('value', {})
-                    players = raw_data.get('players', [])
-                    if players:
-                        player = players[0]
-                        if isinstance(player, dict) and 'player_info' in player:
-                            info['player_name'] = player['player_info'].get('player_name', 'Unknown Player')
-                            break
-            except Exception as e:
-                print(f'Failed to read player name from {actual_level_path}: {e}')
-                import traceback
-                traceback.print_exc()
-        except Exception as e:
-            print(f'Error getting save info: {e}')
-        return info
-    @staticmethod
-    def is_valid_save_id(folder_name):
-        return len(folder_name) == 32 and folder_name.isalnum()
-    def stop_gaming_services(self):
+                dest = os.path.join(backup_dir, f)
+                if os.path.exists(dest):
+                    os.remove(dest)
+                shutil.move(os.path.join(base_dir, f), dest)
+            except Exception:
+                pass
+
+        saves_found = find_valid_saves(saves_dir)
+        if not saves_found:
+            logger.error("No valid saves found after extraction.")
+            return {}
+
+        direct_map = {}
+        for save_path in saves_found:
+            folder_name = os.path.basename(save_path)
+            info = get_save_info(save_path)
+            save_info_map[folder_name] = info
+            display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
+            direct_map[display_name] = save_path
+
+        logger.info("Found %d save(s) after extraction.", len(direct_map))
+        return direct_map
+    except Exception as e:
+        logger.error("Save extraction failed: %s", e)
+        traceback.print_exc()
+        return {}
+    finally:
+        gc.collect()
+
+
+def convert_save_files(direct_saves_map):
+    """Convert all .sav files in *direct_saves_map* to JSON and return a new
+    map."""
+    save_folders = list_folders_in_directory(os.path.join(root_dir, "saves"))
+    if not save_folders:
+        logger.warning("No save files found")
+        return {}
+
+    successful = 0
+    save_list = []
+    for save_name in save_folders:
+        result = convert_sav_JSON(save_name, direct_saves_map)
+        if result:
+            save_list.append(result)
+            successful += 1
+
+    global save_info_map
+    save_info_map = {}
+    new_map = {}
+    for folder_name in save_list:
+        save_path = os.path.join(root_dir, "saves", folder_name)
+        info = get_save_info(save_path)
+        save_info_map[folder_name] = info
+        display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
+        new_map[display_name] = save_path
+
+    total = len(save_folders)
+    if successful > 0:
+        if successful == total:
+            logger.info("All %d save(s) converted successfully.", total)
+        else:
+            logger.info(
+                "%d / %d save(s) converted successfully.", successful, total
+            )
+    else:
+        logger.error("No saves were converted.")
+
+    return new_map
+
+
+def transfer_steam_to_gamepass(source_folder, message_callback=None):
+    """Transfer a Steam save to XGP."""
+    if message_callback is None:
+        message_callback = lambda typ, title, text: logger.info(
+            "[%s] %s: %s", typ, title, text
+        )
+
+    try:
+        stop_gaming_services()
+        time.sleep(1)
+
+        from xgp_import import main as xgp_main
+
+        old_argv = sys.argv
         try:
-            subprocess.run(['cmd', '/c', 'net stop GamingServices /y'], check=False, capture_output=True)
-            subprocess.run(['cmd', '/c', 'net stop GamingServicesNet /y'], check=False, capture_output=True)
-            subprocess.run(['taskkill', '/f', '/im', 'GamingServices.exe'], check=False, capture_output=True)
-            subprocess.run(['taskkill', '/f', '/im', 'GamingServicesNet.exe'], check=False, capture_output=True)
-        except Exception as e:
-            print(f'Service stop failed: {e}')
-    def start_gaming_services(self):
-        try:
-            subprocess.run(['cmd', '/c', 'net start GamingServices'], check=False, capture_output=True)
-            subprocess.run(['cmd', '/c', 'net start GamingServicesNet'], check=False, capture_output=True)
-        except Exception as e:
-            print(f'Service start failed: {e}')
-    def transfer_steam_to_gamepass(self, source_folder):
-        try:
-            self.stop_gaming_services()
-            time.sleep(1)
-            from xgp_import import main as xgp_main
-            old_argv = sys.argv
-            try:
-                sys.argv = ['main.py', source_folder]
-                xgp_main.main()
-                time.sleep(2)
-                self.message_signal.emit('info', t('Success'), t('xgp.msg.steam_import_success'))
-            finally:
-                sys.argv = old_argv
-                self.start_gaming_services()
-        except Exception as e:
-            self.message_signal.emit('critical', t('xgp.err.import_failed.title'), str(e))
-    def update_combobox(self, saveList):
-        global saves
-        saves = saveList
-        layout = self.xgp_save_frame.layout()
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.deleteLater()
-        if saves:
-            label_layout = QHBoxLayout()
-            label_layout.addStretch()
-            label = QLabel(t('xgp.ui.available_saves'))
-            label.setFont(QFont(constants.FONT_FAMILY, 10))
-            label_layout.addWidget(label)
-            label_layout.addStretch()
-            layout.addLayout(label_layout)
-            combo_layout = QHBoxLayout()
-            combo_layout.addStretch()
-            combobox = QComboBox()
-            combobox.setFont(QFont(constants.FONT_FAMILY, 10))
-            combobox.setMinimumWidth(350)
-            combobox.setPlaceholderText(t('xgp.ui.select_save_placeholder'))
-            for s in saves:
-                prefix = '[XGP] ' if self.conversion_direction == 'xgp_to_steam' else '[Steam] '
-                combobox.addItem(f'{prefix}{s}', userData=s)
-            combo_layout.addWidget(combobox)
-            combo_layout.addStretch()
-            layout.addLayout(combo_layout)
-            button_layout = QHBoxLayout()
-            button_layout.addStretch()
-            button = QPushButton(t('xgp.ui.convert'))
-            button.setFont(QFont(constants.FONT_FAMILY, 10))
-            button.setFixedWidth(250)
-            button.setEnabled(combobox.currentIndex() >= 0)
-            button.clicked.connect(lambda: self.convert_JSON_sav(combobox.currentData()))
-            combobox.currentIndexChanged.connect(lambda index: button.setEnabled(index >= 0))
-            button_layout.addWidget(button)
-            button_layout.addStretch()
-            layout.addLayout(button_layout)
-        QApplication.processEvents()
-    def load_styles(self):
-        ThemeManager.load_styles(self)
-def center_window(win):
-    screen = QApplication.primaryScreen().availableGeometry()
-    size = win.sizeHint()
-    if not size.isValid():
-        win.adjustSize()
-        size = win.size()
-    win.move((screen.width() - size.width()) // 2, (screen.height() - size.height()) // 2)
-def game_pass_save_fix():
-    if os.name != 'nt':
-        msg = QLabel(t('xgp.err.not_windows'))
-        msg.setAlignment(Qt.AlignCenter)
-        msg.setStyleSheet('font-size: 14px; padding: 40px; color: #888;')
-        return msg
-    saves_folder = os.path.join(root_dir, 'saves')
-    xgp_folder = os.path.join(root_dir, 'XGP_converted_saves')
+            sys.argv = ["main.py", source_folder]
+            xgp_main.main()
+            time.sleep(2)
+            message_callback("info", "Success", "Steam save imported to XGP successfully.")
+        finally:
+            sys.argv = old_argv
+            start_gaming_services()
+    except Exception as e:
+        logger.error("Import to XGP failed: %s", e)
+        message_callback("critical", "Import Failed", str(e))
+
+
+# ============================================================================
+# Entry points (CLI)
+# ============================================================================
+
+def game_pass_save_fix(args=None):
+    """CLI entry point for XGP/Steam save conversion.
+
+    If *args* is ``None``, ``sys.argv[1:]`` is used.  Supported sub-commands
+    via ``argparse``.
+    """
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Convert Palworld saves between XGP and Steam formats."
+    )
+    sub = parser.add_subparsers(dest="mode", help="Conversion mode")
+
+    # --- XGP -> Steam ---
+    xgp_parser = sub.add_parser(
+        "xgp-to-steam", help="Convert an XGP (Game Pass) save to Steam format"
+    )
+    xgp_parser.add_argument("source", help="Path to the XGP save folder / container")
+    xgp_parser.add_argument(
+        "--destination", "-d",
+        default=None,
+        help="Destination folder for the converted save (default: prompt)",
+    )
+
+    # --- Steam -> XGP ---
+    steam_parser = sub.add_parser(
+        "steam-to-xgp", help="Convert a Steam save to XGP (Game Pass) format"
+    )
+    steam_parser.add_argument("source", help="Path to the Steam save folder")
+    steam_parser.add_argument(
+        "--world-name", "-w",
+        default=None,
+        help="New world name (default: prompt if LevelMeta.sav found)",
+    )
+
+    parsed = parser.parse_args(args)
+    if parsed.mode is None:
+        parser.print_help()
+        return
+
+    # Cleanup old temporary data
+    saves_folder = os.path.join(root_dir, "saves")
+    xgp_folder = os.path.join(root_dir, "XGP_converted_saves")
     if os.path.exists(saves_folder):
         shutil.rmtree(saves_folder)
     if os.path.exists(xgp_folder):
         shutil.rmtree(xgp_folder)
-    return GamePassSaveFixWidget()
-if __name__ == '__main__':
-    import sys
-    app = QApplication(sys.argv)
-    widget = game_pass_save_fix()
-    widget.show()
-    sys.exit(app.exec())
+
+    if parsed.mode == "xgp-to-steam":
+        _cli_xgp_to_steam(parsed.source, parsed.destination)
+    elif parsed.mode == "steam-to-xgp":
+        _cli_steam_to_xgp(parsed.source, parsed.world_name)
+
+
+def _cli_xgp_to_steam(source, destination=None):
+    """XGP -> Steam conversion flow."""
+    global save_info_map
+
+    def message(typ, title, text):
+        if typ == "critical":
+            logger.error("[%s] %s", title, text)
+        else:
+            logger.info("[%s] %s", title, text)
+
+    logger.info("Starting XGP -> Steam conversion from: %s", source)
+
+    # Determine if source is a container or regular save folder
+    def _is_xgp_container(path):
+        for root, _, files in os.walk(path):
+            if any(f.lower().startswith("container.") for f in files):
+                return True
+        return False
+
+    if _is_xgp_container(source):
+        logger.info("Detected XGP container. Extracting saves...")
+        direct_map = run_save_extractor(source)
+        if not direct_map:
+            logger.error("No saves could be extracted from container.")
+            return
+    else:
+        saves = find_valid_saves(source)
+        if not saves:
+            logger.error("No valid saves found in the specified folder.")
+            return
+        save_info_map = {}
+        direct_map = {}
+        for save_path in saves:
+            folder_name = os.path.basename(save_path)
+            info = get_save_info(save_path)
+            save_info_map[folder_name] = info
+            display_name = f"{folder_name} - {info['world_name']} ({info['player_name']})"
+            direct_map[display_name] = save_path
+
+    logger.info("Available saves:")
+    display_names = list(direct_map.keys())
+    for i, name in enumerate(display_names, 1):
+        print(f"  {i}. {name}")
+
+    if not display_names:
+        logger.error("No saves to convert.")
+        return
+
+    # Let user pick
+    if len(display_names) == 1:
+        selected = display_names[0]
+        logger.info("Auto-selected the only save: %s", selected)
+    else:
+        print(f"Select a save to convert (1-{len(display_names)}): ")
+        try:
+            choice = int(input("> ").strip())
+            selected = display_names[choice - 1]
+        except (ValueError, IndexError):
+            logger.error("Invalid selection.")
+            return
+
+    # Convert .sav -> .json -> .sav (produces Level.sav)
+    convert_JSON_sav(selected, direct_map, message_callback=message)
+
+    if destination:
+        # Move to specified destination
+        move_save_steam(selected, direct_map, message_callback=message)
+    else:
+        print("Save converted. Destination folder not specified; files remain in ./saves/")
+
+
+def _cli_steam_to_xgp(source, world_name=None):
+    """Steam -> XGP conversion flow."""
+
+    def message(typ, title, text):
+        if typ == "critical":
+            logger.error("[%s] %s", typ, title, text)
+        else:
+            logger.info("[%s] %s", typ, title, text)
+
+    logger.info("Starting Steam -> XGP conversion from: %s", source)
+
+    sav_path = os.path.join(source, "Level.sav")
+    if not os.path.exists(sav_path):
+        logger.error("Selected folder does not contain Level.sav")
+        return
+
+    # Optionally rename world
+    meta_path = os.path.join(source, "LevelMeta.sav")
+    if os.path.exists(meta_path):
+        try:
+            meta_json = sav_to_json(meta_path)
+            old_name = meta_json["properties"]["SaveData"]["value"].get(
+                "WorldName", {}
+            ).get("value", "Unknown World")
+            print(f"Current world name: {old_name}")
+            if world_name is None:
+                new_name = _ask_string_cli(
+                    "Enter new world name (leave blank to keep current): ",
+                    default=None,
+                )
+            else:
+                new_name = world_name
+
+            if new_name:
+                meta_json["properties"]["SaveData"]["value"]["WorldName"][
+                    "value"
+                ] = new_name
+                json_to_sav(meta_json, meta_path)
+                logger.info("World name updated to: %s", new_name)
+            del meta_json
+        except Exception as e:
+            logger.warning("Metadata processing failed: %s", e)
+
+    if not is_admin():
+        logger.error(
+            "Administrator privileges are required for Steam -> XGP transfer."
+        )
+        return
+
+    # Confirm
+    print("WARNING: This operation will modify your system's Gaming Services.")
+    print("Continue? [y/N] ")
+    answer = input("> ").strip().lower()
+    if answer not in ("y", "yes"):
+        logger.info("Operation cancelled by user.")
+        return
+
+    transfer_steam_to_gamepass(source, message_callback=message)
+
+
+if __name__ == "__main__":
+    game_pass_save_fix()

@@ -1,125 +1,267 @@
-from import_libs import *
-from palsav.core import decompress_sav_to_gvas, compress_gvas_to_sav
+"""
+CLI / headless host-save GUID migrator for Palworld save files.
 
+Replaces old-UID/new-UID references in Level.sav and individual player .sav
+files so that a save originally owned by one player can be transferred to
+another player's identity.
+
+Usage (CLI)::
+
+    python -m src.toolsets.fix_host_save <save_folder> <old_guid> <new_guid>
+
+The module is also importable and provides the public business-logic
+functions without any Qt/PySide6 dependency.
+"""
+
+from __future__ import annotations
+
+import argparse
+import io
+import logging
+import os
+import shutil
+import struct
+import sys
+from typing import Any, Callable
+
+from import_libs import backup_whole_directory
+from palsav.core import decompress_sav_to_gvas, compress_gvas_to_sav
 from palsav.gvas import GvasFile, GvasHeader
 from palsav.archive import FArchiveReader, FArchiveWriter
 from palsav.paltypes import PALWORLD_TYPE_HINTS
 from palobject import SKP_PALWORLD_CUSTOM_PROPERTIES
 from loading_manager import show_information, show_warning
-from PySide6.QtWidgets import QHeaderView, QMainWindow, QWidget, QLineEdit, QTreeWidget, QTreeWidgetItem, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QMessageBox, QFrame, QApplication
-from PySide6.QtGui import QIcon, QFont
-from PySide6.QtCore import Qt, QTimer
-from palworld_aio.ui.chrome.styles import ThemeManager
 from palworld_aio.inventory.container_ownership import ContainerOwnership
-from palworld_aio import constants
-import struct
-import io
-player_list_cache = []
-def extract_value(data, key, default_value=''):
+
+logger = logging.getLogger("pst.fix_host_save")
+
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+
+player_list_cache: list[tuple[str, str, str, int, int, str]] = []
+
+
+def extract_value(data: dict, key: str, default_value: Any = "") -> Any:
+    """Safely extract a possibly-nested *value* key from a dict."""
     value = data.get(key, default_value)
     if isinstance(value, dict):
-        value = value.get('value', default_value)
+        value = value.get("value", default_value)
         if isinstance(value, dict):
-            value = value.get('value', default_value)
+            value = value.get("value", default_value)
     return value
+
+
 class MyReader(FArchiveReader):
-    def __init__(self, data, type_hints=None, custom_properties=None, debug=False, allow_nan=True):
-        super().__init__(data, type_hints=type_hints or {}, custom_properties=custom_properties or {}, debug=debug, allow_nan=allow_nan)
+    """Patched archive reader that collects per-property results."""
+
+    def __init__(
+        self,
+        data: bytes,
+        type_hints: dict[str, str] | None = None,
+        custom_properties: dict[str, tuple[Callable, Callable]] | None = None,
+        debug: bool = False,
+        allow_nan: bool = True,
+    ):
+        super().__init__(
+            data,
+            type_hints=type_hints or {},
+            custom_properties=custom_properties or {},
+            debug=debug,
+            allow_nan=allow_nan,
+        )
         self.orig_data = data
         self.data = io.BytesIO(data)
-    def curr_property(self, path=''):
-        properties = {}
+
+    def curr_property(self, path: str = "") -> dict[str, Any]:
+        properties: dict[str, Any] = {}
         name = self.fstring()
         type_name = self.fstring()
         size = self.u64()
-        properties[name] = self.property(type_name, size, f'{path}.{name}')
+        properties[name] = self.property(type_name, size, f"{path}.{name}")
         return properties
+
+
 class SkipGvasFile(GvasFile):
+    """Minimal GvasFile that reads properties until the end (skipping schema)."""
+
     header: GvasHeader
     properties: dict[str, Any]
     trailer: bytes
+
     @staticmethod
-    def read(data: bytes, type_hints: dict[str, str]={}, custom_properties: dict[str, tuple[Callable, Callable]]={}, allow_nan: bool=True) -> 'GvasFile':
+    def read(
+        data: bytes,
+        type_hints: dict[str, str] | None = None,
+        custom_properties: dict[str, tuple[Callable, Callable]] | None = None,
+        allow_nan: bool = True,
+    ) -> SkipGvasFile:
         gvas_file = SkipGvasFile()
-        with MyReader(data, type_hints=type_hints, custom_properties=custom_properties, allow_nan=allow_nan) as reader:
+        with MyReader(
+            data,
+            type_hints=type_hints or {},
+            custom_properties=custom_properties or {},
+            allow_nan=allow_nan,
+        ) as reader:
             gvas_file.header = GvasHeader.read(reader)
             gvas_file.properties = reader.properties_until_end()
             gvas_file.trailer = reader.read_to_end()
-            if gvas_file.trailer != b'\x00\x00\x00\x00':
-                print(f'{len(gvas_file.trailer)} bytes of trailer data,file may not have fully parsed')
+            if gvas_file.trailer != b"\x00\x00\x00\x00":
+                print(
+                    f"{len(gvas_file.trailer)} bytes of trailer data, "
+                    "file may not have fully parsed"
+                )
         return gvas_file
-    def write(self, custom_properties: dict[str, tuple[Callable, Callable]]={}) -> bytes:
-        writer = FArchiveWriter(custom_properties)
+
+    def write(
+        self,
+        custom_properties: dict[str, tuple[Callable, Callable]] | None = None,
+    ) -> bytes:
+        writer = FArchiveWriter(custom_properties or {})
         self.header.write(writer)
         writer.properties(self.properties)
         writer.write(self.trailer)
         return writer.bytes()
-def gvas_to_sav(output_filepath, gvas_bytes):
-    gvas_file = GvasFile.read(gvas_bytes, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES)
-    save_type = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name or 'Pal.PalLocalWorldSaveGame' in gvas_file.header.save_game_class_name else 49
+
+
+# ---------------------------------------------------------------------------
+# Save-format helpers
+# ---------------------------------------------------------------------------
+
+SAVE_TYPE_PALWORLD = 50
+SAVE_TYPE_LEGACY = 49
+
+
+def gvas_to_sav(output_filepath: str, gvas_bytes: bytes) -> None:
+    """Compress GVAS bytes and write a .sav file."""
+    gvas_file = GvasFile.read(
+        gvas_bytes, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES
+    )
+    save_type = (
+        SAVE_TYPE_PALWORLD
+        if "Pal.PalworldSaveGame" in gvas_file.header.save_game_class_name
+        or "Pal.PalLocalWorldSaveGame" in gvas_file.header.save_game_class_name
+        else SAVE_TYPE_LEGACY
+    )
     sav_file = compress_gvas_to_sav(gvas_file.write(SKP_PALWORLD_CUSTOM_PROPERTIES), save_type)
-    with open(output_filepath, 'wb') as f:
+    with open(output_filepath, "wb") as f:
         f.write(sav_file)
-target_save_type = 49
-def format_last_seen(last_online_time, current_tick):
+
+
+def sav_to_json(filepath: str) -> dict:
+    """Read a .sav file and return its JSON (dict) representation."""
+    with open(filepath, "rb") as f:
+        data = f.read()
+    raw_gvas, _ = decompress_sav_to_gvas(data)
+    gvas_file = GvasFile.read(
+        raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES, allow_nan=True
+    )
+    return gvas_file.dump()
+
+
+def json_to_sav(json_data: dict, output_filepath: str) -> None:
+    """Write a JSON (dict) representation back to a .sav file."""
+    gvas_file = GvasFile.load(json_data)
+    save_type = (
+        SAVE_TYPE_PALWORLD
+        if "Pal.PalworldSaveGame" in gvas_file.header.save_game_class_name
+        or "Pal.PalLocalWorldSaveGame" in gvas_file.header.save_game_class_name
+        else SAVE_TYPE_LEGACY
+    )
+    sav_file = compress_gvas_to_sav(
+        gvas_file.write(SKP_PALWORLD_CUSTOM_PROPERTIES), save_type
+    )
+    with open(output_filepath, "wb") as f:
+        f.write(sav_file)
+
+
+# ---------------------------------------------------------------------------
+# Player-list helpers
+# ---------------------------------------------------------------------------
+
+def format_last_seen(last_online_time: int | None, current_tick: int) -> str:
+    """Format tick-difference into a human-readable age string."""
     try:
         if last_online_time is None or last_online_time == 0:
-            return 'Unknown'
-        diff = (current_tick - last_online_time) / 10000000.0
+            return "Unknown"
+        diff = (current_tick - last_online_time) / 10_000_000.0
         days = int(diff // 86400)
         hours = int(diff % 86400 // 3600)
         mins = int(diff % 3600 // 60)
         if days > 0:
-            return f'{days}d {hours}h'
+            return f"{days}d {hours}h"
         elif hours > 0:
-            return f'{hours}h {mins}m'
+            return f"{hours}h {mins}m"
         else:
-            return f'{mins}m'
-    except:
-        return 'Unknown'
-def get_player_level_from_cspm(level_json, player_uid):
+            return f"{mins}m"
+    except Exception:
+        return "Unknown"
+
+
+def get_player_level_from_cspm(level_json: dict, player_uid: str) -> int:
+    """Look up a player's level from the CharacterSaveParameterMap."""
     try:
-        player_uid_clean = str(player_uid).lower().replace('-', '')
-        char_map = level_json.get('properties', {}).get('worldSaveData', {}).get('value', {}).get('CharacterSaveParameterMap', {}).get('value', [])
-        uid_level_map = {}
+        player_uid_clean = str(player_uid).lower().replace("-", "")
+        char_map = (
+            level_json.get("properties", {})
+            .get("worldSaveData", {})
+            .get("value", {})
+            .get("CharacterSaveParameterMap", {})
+            .get("value", [])
+        )
+        uid_level_map: dict[str, int] = {}
         for entry in char_map:
             try:
-                sp = entry['value']['RawData']['value']['object']['SaveParameter']
-                if sp['struct_type'] != 'PalIndividualCharacterSaveParameter':
+                sp = entry["value"]["RawData"]["value"]["object"]["SaveParameter"]
+                if sp["struct_type"] != "PalIndividualCharacterSaveParameter":
                     continue
-                sp_val = sp['value']
-                if not sp_val.get('IsPlayer', {}).get('value', False):
+                sp_val = sp["value"]
+                if not sp_val.get("IsPlayer", {}).get("value", False):
                     continue
-                key = entry.get('key', {})
-                uid_obj = key.get('PlayerUId', {})
-                uid = str(uid_obj.get('value', '') if isinstance(uid_obj, dict) else uid_obj)
+                key = entry.get("key", {})
+                uid_obj = key.get("PlayerUId", {})
+                uid = str(uid_obj.get("value", "") if isinstance(uid_obj, dict) else uid_obj)
                 if uid:
-                    uid_clean = uid.lower().replace('-', '')
-                    level = extract_value(sp_val, 'Level', 1)
+                    uid_clean = uid.lower().replace("-", "")
+                    level = extract_value(sp_val, "Level", 1)
                     uid_level_map[uid_clean] = int(level) if level is not None else 1
             except Exception:
                 continue
         return uid_level_map.get(player_uid_clean, 1)
     except Exception:
         return 1
-def get_player_pals_count_from_cspm(level_json, player_uid):
+
+
+def get_player_pals_count_from_cspm(level_json: dict, player_uid: str) -> int:
+    """Count the number of owned pal entries for a player."""
     try:
-        player_uid_clean = str(player_uid).lower().replace('-', '')
-        level_data = level_json.get('properties', {}).get('worldSaveData', {}).get('value', {})
-        char_map = level_data.get('CharacterSaveParameterMap', {}).get('value', [])
-        ownership = ContainerOwnership.build(char_map, level_data.get('CharacterContainerSaveData', {}).get('value', []))
+        player_uid_clean = str(player_uid).lower().replace("-", "")
+        level_data = (
+            level_json.get("properties", {})
+            .get("worldSaveData", {})
+            .get("value", {})
+        )
+        char_map = level_data.get("CharacterSaveParameterMap", {}).get("value", [])
+        ownership = ContainerOwnership.build(
+            char_map,
+            level_data.get("CharacterContainerSaveData", {}).get("value", []),
+        )
         pal_count = 0
         for entry in char_map:
             try:
-                sp = entry['value']['RawData']['value']['object']['SaveParameter']
-                if sp['struct_type'] != 'PalIndividualCharacterSaveParameter':
+                sp = entry["value"]["RawData"]["value"]["object"]["SaveParameter"]
+                if sp["struct_type"] != "PalIndividualCharacterSaveParameter":
                     continue
-                sp_val = sp['value']
-                if sp_val.get('IsPlayer', {}).get('value', False):
+                sp_val = sp["value"]
+                if sp_val.get("IsPlayer", {}).get("value", False):
                     continue
-                inst_val = entry.get('key', {}).get('InstanceId', {}).get('value')
-                owner_uid_obj = sp_val.get('OwnerPlayerUId', {})
-                owner_uid = str(owner_uid_obj.get('value', '') if isinstance(owner_uid_obj, dict) else owner_uid_obj) if owner_uid_obj else ''
+                inst_val = entry.get("key", {}).get("InstanceId", {}).get("value")
+                owner_uid_obj = sp_val.get("OwnerPlayerUId", {})
+                owner_uid = (
+                    str(owner_uid_obj.get("value", ""))
+                    if isinstance(owner_uid_obj, dict)
+                    else str(owner_uid_obj)
+                ) if owner_uid_obj else ""
                 if ownership.get_effective_owner(inst_val, owner_uid) == player_uid_clean:
                     pal_count += 1
             except Exception:
@@ -127,508 +269,435 @@ def get_player_pals_count_from_cspm(level_json, player_uid):
         return pal_count
     except Exception:
         return 0
-def fix_save(save_path, new_guid, old_guid, guild_fix=True):
-    def task():
-        fmt = lambda g: '{}-{}-{}-{}-{}'.format(g[:8], g[8:12], g[12:16], g[16:20], g[20:]).lower()
-        old_uid, new_uid = (fmt(old_guid), fmt(new_guid))
-        lvl = os.path.join(save_path, 'Level.sav')
-        old_sav = os.path.join(save_path, 'Players', old_guid.upper() + '.sav')
-        new_sav = os.path.join(save_path, 'Players', new_guid.upper() + '.sav')
-        level = sav_to_json(lvl)
-        old_j = sav_to_json(old_sav)
-        new_j = sav_to_json(new_sav)
-        old_player_level = get_player_level_from_cspm(level, old_uid)
-        new_player_level = get_player_level_from_cspm(level, new_uid)
-        if old_player_level < 2 or new_player_level < 2:
-            error_msg = t('fix_host_save.both_players_level_2', old_level=old_player_level, new_level=new_player_level)
-            print(f'Error: {error_msg}')
-            try:
-                parent = QApplication.activeWindow()
-                show_warning(parent, t('Error'), error_msg)
-            except:
-                pass
-            return False
-        old_j['properties']['SaveData']['value']['PlayerUId']['value'] = new_uid
-        old_j['properties']['SaveData']['value']['IndividualId']['value']['PlayerUId']['value'] = new_uid
-        new_j['properties']['SaveData']['value']['PlayerUId']['value'] = old_uid
-        new_j['properties']['SaveData']['value']['IndividualId']['value']['PlayerUId']['value'] = old_uid
-        old_inst = old_j['properties']['SaveData']['value']['IndividualId']['value']['InstanceId']['value']
-        new_inst = new_j['properties']['SaveData']['value']['IndividualId']['value']['InstanceId']['value']
-        try:
-            new_player_pal_storage_id = new_j['properties']['SaveData']['value']['PalStorageContainerId']['value']['ID']['value']
-        except:
-            new_player_pal_storage_id = None
-        cspm = level['properties']['worldSaveData']['value']['CharacterSaveParameterMap']['value']
-        for e in cspm:
-            if e['key']['InstanceId']['value'] == old_inst:
-                e['key']['PlayerUId']['value'] = new_uid
-            elif e['key']['InstanceId']['value'] == new_inst:
-                e['key']['PlayerUId']['value'] = old_uid
-        if guild_fix:
-            for g in level['properties']['worldSaveData']['value']['GroupSaveDataMap']['value']:
-                if g['value']['GroupType']['value']['value'] != 'EPalGroupType::Guild':
-                    continue
-                raw = g['value']['RawData']['value']
-                for h in raw.get('individual_character_handle_ids', []):
-                    if h['instance_id'] == old_inst:
-                        h['guid'] = new_uid
-                    elif h['instance_id'] == new_inst:
-                        h['guid'] = old_uid
-                if raw.get('admin_player_uid') == old_uid:
-                    raw['admin_player_uid'] = new_uid
-                elif raw.get('admin_player_uid') == new_uid:
-                    raw['admin_player_uid'] = old_uid
-                for p in raw.get('players', []):
-                    if p.get('player_uid') == old_uid:
-                        p['player_uid'] = new_uid
-                    elif p.get('player_uid') == new_uid:
-                        p['player_uid'] = old_uid
-        def deep_swap(data):
-            if isinstance(data, dict):
-                for k in ('OwnerPlayerUId', 'owner_player_uid', 'build_player_uid', 'private_lock_player_uid'):
-                    v = data.get(k)
-                    if isinstance(v, dict) and v.get('value') == old_uid:
-                        v['value'] = new_uid
-                    elif isinstance(v, dict) and v.get('value') == new_uid:
-                        v['value'] = old_uid
-                    elif v == old_uid:
-                        data[k] = new_uid
-                    elif v == new_uid:
-                        data[k] = old_uid
-                for x in data.values():
-                    deep_swap(x)
-            elif isinstance(data, list):
-                for i in data:
-                    deep_swap(i)
-        deep_swap(level)
-        players_folder = os.path.join(os.path.dirname(lvl), 'Players')
-        copy_dps_file(players_folder, old_guid, players_folder, new_guid, new_player_pal_storage_id)
-        json_to_sav(level, lvl)
-        json_to_sav(old_j, old_sav)
-        json_to_sav(new_j, new_sav)
-        tmp_path = old_sav + '.tmp_swap'
-        os.rename(old_sav, tmp_path)
-        if os.path.exists(new_sav):
-            os.rename(new_sav, os.path.join(save_path, 'Players', old_guid.upper() + '.sav'))
-        os.rename(tmp_path, os.path.join(save_path, 'Players', new_guid.upper() + '.sav'))
-        return True
-    def on_finished(result):
-        if result:
-            parent = QApplication.activeWindow()
-            show_information(parent, t('Success'), t('Fix has been applied! Have fun!'))
-    run_with_loading(on_finished, task)
-def copy_dps_file(src_folder, src_uid, tgt_folder, tgt_uid, target_pal_storage_id):
-    src_file = os.path.join(src_folder, f"{str(src_uid).replace('-', '').upper()}_dps.sav")
-    tgt_file = os.path.join(tgt_folder, f"{str(tgt_uid).replace('-', '').upper()}_dps.sav")
-    print(f'\n[DPS] Copying {src_uid} -> {tgt_uid}')
-    if not os.path.exists(src_file):
-        print(f'[DPS] Source file missing: {src_file}')
-        return None
-    try:
-        with open(src_file, 'rb') as f:
-            data = f.read()
-        raw_gvas, save_type = decompress_sav_to_gvas(data)
-        dps = SkipGvasFile.read(raw_gvas)
-        update_count = 0
-        if 'SaveParameterArray' in dps.properties:
-            save_param_array = dps.properties['SaveParameterArray']
-            if isinstance(save_param_array, dict) and 'value' in save_param_array:
-                inner_value = save_param_array['value']
-                if isinstance(inner_value, dict) and 'values' in inner_value:
-                    pal_list = inner_value['values']
-                    if isinstance(pal_list, list):
-                        for pal_entry in pal_list:
-                            if isinstance(pal_entry, dict) and 'SaveParameter' in pal_entry:
-                                save_param = pal_entry['SaveParameter']
-                                if isinstance(save_param, dict) and 'value' in save_param:
-                                    pal_data = save_param['value']
-                                    if isinstance(pal_data, dict) and 'SlotId' in pal_data:
-                                        slot_id = pal_data['SlotId']
-                                        if isinstance(slot_id, dict) and 'value' in slot_id:
-                                            slot_id_value = slot_id['value']
-                                            if isinstance(slot_id_value, dict) and 'ContainerId' in slot_id_value:
-                                                container_id = slot_id_value['ContainerId']
-                                                if isinstance(container_id, dict) and 'value' in container_id:
-                                                    container_id_value = container_id['value']
-                                                    if isinstance(container_id_value, dict) and 'ID' in container_id_value:
-                                                        id_obj = container_id_value['ID']
-                                                        if isinstance(id_obj, dict) and 'value' in id_obj:
-                                                            id_obj['value'] = target_pal_storage_id
-                                                            update_count += 1
-        print(f'[DPS] Updated {update_count} container IDs')
-        gvas_to_sav(tgt_file, dps.write())
-        print(f'[DPS] Successfully copied to {tgt_uid}')
-    except Exception as e:
-        print(f'[DPS] Error: {e}')
-        import traceback
-        traceback.print_exc()
-        print(f'[DPS] Falling back to simple copy...')
-        shutil.copy2(src_file, tgt_file)
-        print(f'[DPS] Copied without container ID update')
-def ask_string_with_icon(title, prompt, icon_path):
-    class CustomDialog(QDialog):
-        def __init__(self, parent):
-            super().__init__(parent)
-            ThemeManager.load_styles(self)
-            self.setWindowTitle(title)
-            try:
-                self.setWindowIcon(QIcon(icon_path))
-            except:
-                pass
-            self.setFixedSize(400, 120)
-            layout = QVBoxLayout(self)
-            label = QLabel(prompt)
-            layout.addWidget(label)
-            self.entry = QLineEdit()
-            layout.addWidget(self.entry)
-            button_layout = QHBoxLayout()
-            ok_button = QPushButton(t('OK'))
-            ok_button.clicked.connect(self.accept)
-            cancel_button = QPushButton(t('Cancel'))
-            cancel_button.clicked.connect(self.reject)
-            button_layout.addWidget(ok_button)
-            button_layout.addWidget(cancel_button)
-            layout.addLayout(button_layout)
-            self.entry.setFocus()
-        def showEvent(self, event):
-            super().showEvent(event)
-            if not event.spontaneous():
-                self.activateWindow()
-                self.raise_()
-    dialog = CustomDialog(None)
-    result = dialog.exec()
-    return dialog.entry.text() if result == QDialog.Accepted else None
-def sav_to_json(filepath):
-    with open(filepath, 'rb') as f:
-        data = f.read()
-        raw_gvas, save_type = decompress_sav_to_gvas(data)
-    gvas_file = GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES, allow_nan=True)
-    return gvas_file.dump()
-def json_to_sav(json_data, output_filepath):
-    gvas_file = GvasFile.load(json_data)
-    save_type = 50 if 'Pal.PalworldSaveGame' in gvas_file.header.save_game_class_name or 'Pal.PalLocalWorldSaveGame' in gvas_file.header.save_game_class_name else 49
-    sav_file = compress_gvas_to_sav(gvas_file.write(SKP_PALWORLD_CUSTOM_PROPERTIES), save_type)
-    with open(output_filepath, 'wb') as f:
-        f.write(sav_file)
-def populate_player_lists(folder_path):
+
+
+def populate_player_lists(folder_path: str) -> list[tuple[str, str, str, int, int, str]]:
+    """Parse Level.sav and return a list of player records.
+
+    Each record is ``(uid, name, guild_id, level, pals_count, last_seen)``.
+    Results are cached in ``player_list_cache`` for the lifetime of the
+    process.
+    """
     global player_list_cache
     if player_list_cache:
         return player_list_cache
-    players_folder = os.path.join(folder_path, 'Players')
+
+    players_folder = os.path.join(folder_path, "Players")
     if not os.path.exists(players_folder):
-        parent = QApplication.activeWindow()
-        show_warning(parent, t('Error'), t('fix_host_save.players_folder_not_found'))
+        logger.warning("Players folder not found: %s", players_folder)
         return []
-    level_json = sav_to_json(os.path.join(folder_path, 'Level.sav'))
-    group_data_list = level_json['properties']['worldSaveData']['value']['GroupSaveDataMap']['value']
+
+    level_json = sav_to_json(os.path.join(folder_path, "Level.sav"))
+    group_data_list = (
+        level_json["properties"]["worldSaveData"]["value"]
+        .get("GroupSaveDataMap", {})
+        .get("value", [])
+    )
     world_tick = 0
     try:
-        world_tick = level_json['properties']['worldSaveData']['value']['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
-    except:
+        world_tick = (
+            level_json["properties"]["worldSaveData"]["value"]
+            .get("GameTimeSaveData", {})
+            .get("value", {})
+            .get("RealDateTimeTicks", {})
+            .get("value", 0)
+        )
+    except Exception:
         pass
-    player_files = []
+
+    player_files: list[tuple[str, str, str, int, int, str]] = []
     for group in group_data_list:
-        if group['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild':
-            key = group['key']
-            if isinstance(key, dict) and 'InstanceId' in key:
-                guild_id = key['InstanceId']['value']
-            else:
-                guild_id = str(key)
-            players = group['value']['RawData']['value'].get('players', [])
-            for player in players:
-                uid = str(player.get('player_uid', '')).replace('-', '')
-                name = player.get('player_info', {}).get('player_name', 'Unknown')
-                level = get_player_level_from_cspm(level_json, uid)
-                pals_count = get_player_pals_count_from_cspm(level_json, uid)
-                last_online_time = player.get('player_info', {}).get('last_online_real_time', 0)
-                last_seen = format_last_seen(last_online_time, world_tick)
-                player_files.append((uid, name, guild_id, level, pals_count, last_seen))
+        if group["value"]["GroupType"]["value"]["value"] != "EPalGroupType::Guild":
+            continue
+        key = group["key"]
+        if isinstance(key, dict) and "InstanceId" in key:
+            guild_id = key["InstanceId"]["value"]
+        else:
+            guild_id = str(key)
+        players = group["value"]["RawData"]["value"].get("players", [])
+        for player in players:
+            uid = str(player.get("player_uid", "")).replace("-", "")
+            name = player.get("player_info", {}).get("player_name", "Unknown")
+            level = get_player_level_from_cspm(level_json, uid)
+            pals_count = get_player_pals_count_from_cspm(level_json, uid)
+            last_online_time = player.get("player_info", {}).get("last_online_real_time", 0)
+            last_seen = format_last_seen(last_online_time, world_tick)
+            player_files.append((uid, name, guild_id, level, pals_count, last_seen))
+
     player_list_cache = player_files
     return player_files
-def populate_player_tree(tree, folder_path):
-    tree.clear()
-    player_list = populate_player_lists(folder_path)
-    existing_iids = set()
-    for uid, name, guild, level, pals_count, last_seen in player_list:
-        orig_uid = uid
-        count = 1
-        while uid in existing_iids:
-            uid = f'{orig_uid}_{count}'
-            count += 1
-        item = QTreeWidgetItem([orig_uid, name, guild, str(level), str(pals_count), last_seen])
-        tree.addTopLevelItem(item)
-        existing_iids.add(uid)
-    tree.original_items = [tree.topLevelItem(i) for i in range(tree.topLevelItemCount())]
-def filter_treeview(tree, query):
-    query = query.lower()
-    for item in tree.original_items:
-        tree.addTopLevelItem(item)
-    for item in tree.original_items:
-        values = [item.text(col) for col in range(item.columnCount())]
-        if not any((query in str(value).lower() for value in values)):
-            tree.takeTopLevelItem(tree.indexOfTopLevelItem(item))
-def background_load_task(path):
+
+
+def background_load_task(path: str) -> tuple[list[tuple[str, str, str, int, int, str]], dict]:
+    """Load player data from a Level.sav path without caching (for async use)."""
     level_json = sav_to_json(path)
-    group_data_list = level_json['properties']['worldSaveData']['value']['GroupSaveDataMap']['value']
+    group_data_list = (
+        level_json["properties"]["worldSaveData"]["value"]
+        .get("GroupSaveDataMap", {})
+        .get("value", [])
+    )
     world_tick = 0
     try:
-        world_tick = level_json['properties']['worldSaveData']['value']['GameTimeSaveData']['value']['RealDateTimeTicks']['value']
-    except:
+        world_tick = (
+            level_json["properties"]["worldSaveData"]["value"]
+            .get("GameTimeSaveData", {})
+            .get("value", {})
+            .get("RealDateTimeTicks", {})
+            .get("value", 0)
+        )
+    except Exception:
         pass
-    player_files = []
+
+    player_files: list[tuple[str, str, str, int, int, str]] = []
     for group in group_data_list:
-        if group['value']['GroupType']['value']['value'] == 'EPalGroupType::Guild':
-            guild_id = group['key']['InstanceId']['value'] if isinstance(group['key'], dict) else str(group['key'])
-            players = group['value']['RawData']['value'].get('players', [])
-            for p in players:
-                uid = str(p.get('player_uid', '')).replace('-', '')
-                name = p.get('player_info', {}).get('player_name', 'Unknown')
-                level = get_player_level_from_cspm(level_json, uid)
-                pals_count = get_player_pals_count_from_cspm(level_json, uid)
-                last_online_time = p.get('player_info', {}).get('last_online_real_time', 0)
-                last_seen = format_last_seen(last_online_time, world_tick)
-                player_files.append((uid, name, guild_id, level, pals_count, last_seen))
-    return (player_files, level_json)
-def choose_level_file(window, level_sav_entry, old_tree, new_tree):
-    path, _ = QFileDialog.getOpenFileName(window, t('Select Level.sav file'), '', 'SAV Files(*.sav)')
-    if not path:
-        return
-    players_dir = os.path.join(os.path.dirname(path), 'Players')
-    if not os.path.isdir(players_dir):
-        show_warning(window, t('error.title'), t('character_transfer.no_players_folder'))
-        return
-    def task():
-        return background_load_task(path)
-    def on_task_complete(result):
-        global player_list_cache
-        player_data_list, level_json = result
-        window.level_json = level_json
-        window.level_sav_path = path
-        level_sav_entry.setText(path)
-        backup_whole_directory(os.path.dirname(path), 'Backups/Fix Host Save')
-        old_tree.clear()
-        new_tree.clear()
-        for uid, name, guild, level, pals_count, last_seen in player_data_list:
-            old_tree.addTopLevelItem(QTreeWidgetItem([uid, name, guild, str(level), str(pals_count), last_seen]))
-            new_tree.addTopLevelItem(QTreeWidgetItem([uid, name, guild, str(level), str(pals_count), last_seen]))
-        old_tree.original_items = [old_tree.topLevelItem(i) for i in range(old_tree.topLevelItemCount())]
-        new_tree.original_items = [new_tree.topLevelItem(i) for i in range(new_tree.topLevelItemCount())]
-        player_list_cache = [(u, n, g, l, pc, ls) for u, n, g, l, pc, ls in player_data_list]
-    run_with_loading(on_task_complete, task)
-def extract_guid_from_tree_selection(tree):
-    selected = tree.selectedItems()
-    if not selected:
+        if group["value"]["GroupType"]["value"]["value"] != "EPalGroupType::Guild":
+            continue
+        guild_id = (
+            group["key"]["InstanceId"]["value"]
+            if isinstance(group["key"], dict)
+            else str(group["key"])
+        )
+        players = group["value"]["RawData"]["value"].get("players", [])
+        for p in players:
+            uid = str(p.get("player_uid", "")).replace("-", "")
+            name = p.get("player_info", {}).get("player_name", "Unknown")
+            level = get_player_level_from_cspm(level_json, uid)
+            pals_count = get_player_pals_count_from_cspm(level_json, uid)
+            last_online_time = p.get("player_info", {}).get("last_online_real_time", 0)
+            last_seen = format_last_seen(last_online_time, world_tick)
+            player_files.append((uid, name, guild_id, level, pals_count, last_seen))
+
+    return player_files, level_json
+
+
+# ---------------------------------------------------------------------------
+# DPS (Display-Pal-Storage) file copy
+# ---------------------------------------------------------------------------
+
+def copy_dps_file(
+    src_folder: str,
+    src_uid: str,
+    tgt_folder: str,
+    tgt_uid: str,
+    target_pal_storage_id: Any,
+) -> bool | None:
+    """Copy a player's DPS (display-pal-storage) file, updating container IDs."""
+    src_file = os.path.join(
+        src_folder, f"{str(src_uid).replace('-', '').upper()}_dps.sav"
+    )
+    tgt_file = os.path.join(
+        tgt_folder, f"{str(tgt_uid).replace('-', '').upper()}_dps.sav"
+    )
+    logger.info("[DPS] Copying %s -> %s", src_uid, tgt_uid)
+    if not os.path.exists(src_file):
+        logger.warning("[DPS] Source file missing: %s", src_file)
         return None
-    return selected[0].text(0)
-def fix_save_wrapper(window, level_sav_entry, old_tree, new_tree):
-    old_guid = extract_guid_from_tree_selection(old_tree)
-    new_guid = extract_guid_from_tree_selection(new_tree)
-    file_path = level_sav_entry.text()
-    if not (old_guid and new_guid and file_path):
-        show_warning(window, t('Error'), t('fix_host_save.select_guids_and_file'))
-        return
-    if old_guid == new_guid:
-        show_warning(window, t('Error'), t('fix_host_save.guids_cannot_be_same'))
-        return
-    folder_path = os.path.dirname(file_path)
-    fix_save(folder_path, new_guid, old_guid)
-    for i, entry in enumerate(player_list_cache):
-        uid, name, guild, level, pals_count, last_seen = entry
-        if uid == old_guid:
-            player_list_cache[i] = (new_guid, name, guild, level, pals_count, last_seen)
-        elif uid == new_guid:
-            player_list_cache[i] = (old_guid, name, guild, level, pals_count, last_seen)
-    populate_player_tree(old_tree, folder_path)
-    populate_player_tree(new_tree, folder_path)
-def center_window(win):
-    screen = QApplication.primaryScreen().availableGeometry()
-    geo = win.frameGeometry()
-    geo.moveCenter(screen.center())
-    win.move(geo.topLeft())
-class FixHostSaveWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setObjectName('central')
-        self.setWindowTitle(t('Fix Host Save - GUID Migrator'))
-        self.setFixedSize(1200, 640)
-        try:
-            self.setWindowIcon(QIcon(ICON_PATH))
-        except:
-            pass
-        self.load_styles()
-        main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(14, 14, 14, 14)
-        main_layout.setSpacing(12)
-        glass_frame = QFrame()
-        glass_frame.setObjectName('glass')
-        glass_layout = QVBoxLayout(glass_frame)
-        glass_layout.setContentsMargins(12, 12, 12, 12)
-        glass_layout.setSpacing(12)
-        file_row = QHBoxLayout()
-        file_label = QLabel(t('Select Level.sav file:'))
-        file_label.setFont(QFont(constants.FONT_FAMILY, 10, QFont.Bold))
-        file_row.addWidget(file_label)
-        self.level_sav_entry = QLineEdit()
-        self.level_sav_entry.setPlaceholderText(t('fix_host_save.path_to_level_sav'))
-        file_row.addWidget(self.level_sav_entry, 1)
-        self.browse_button = QPushButton(t('Browse'))
-        self.browse_button.setFixedWidth(100)
-        file_row.addWidget(self.browse_button)
-        self.migrate_button = QPushButton(t('Migrate'))
-        self.migrate_button.setObjectName('MigrateButton')
-        self.migrate_button.setFixedWidth(140)
-        file_row.addWidget(self.migrate_button)
-        glass_layout.addLayout(file_row)
-        trees_layout = QHBoxLayout()
-        trees_layout.setSpacing(14)
-        old_panel = QFrame()
-        old_panel.setObjectName('treePanel')
-        old_panel.setStyleSheet('QFrame { background-color: transparent; }')
-        old_panel_layout = QVBoxLayout(old_panel)
-        old_panel_layout.setContentsMargins(8, 8, 8, 8)
-        old_panel_layout.setSpacing(8)
-        old_header = QLabel(t('fix_host_save.source_player'))
-        old_header.setFont(QFont(constants.FONT_FAMILY, 11, QFont.Bold))
-        old_header.setAlignment(Qt.AlignCenter)
-        old_panel_layout.addWidget(old_header)
-        old_search_row = QHBoxLayout()
-        old_search_label = QLabel(t('Search:'))
-        old_search_row.addWidget(old_search_label)
-        self.old_search_entry = QLineEdit()
-        self.old_search_entry.setPlaceholderText(t('fix_host_save.search_source_player'))
-        old_search_row.addWidget(self.old_search_entry)
-        old_panel_layout.addLayout(old_search_row)
-        self.old_tree = QTreeWidget()
-        self.old_tree.setHeaderLabels([t('GUID'), t('Name'), t('Guild ID'), t('Level'), t('deletion.col.pals'), t('Last Seen')])
-        self.old_tree.setSortingEnabled(True)
-        self.old_tree.setSelectionMode(QTreeWidget.SingleSelection)
-        old_panel_layout.addWidget(self.old_tree, 1)
-        self.source_result_label = QLabel(t('Source Player: N/A'))
-        old_panel_layout.addWidget(self.source_result_label)
-        trees_layout.addWidget(old_panel, 1)
-        new_panel = QFrame()
-        new_panel.setObjectName('treePanel')
-        new_panel.setStyleSheet('QFrame { background-color: transparent; }')
-        new_panel_layout = QVBoxLayout(new_panel)
-        new_panel_layout.setContentsMargins(8, 8, 8, 8)
-        new_panel_layout.setSpacing(8)
-        new_header = QLabel(t('fix_host_save.target_player'))
-        new_header.setFont(QFont(constants.FONT_FAMILY, 11, QFont.Bold))
-        new_header.setAlignment(Qt.AlignCenter)
-        new_panel_layout.addWidget(new_header)
-        new_search_row = QHBoxLayout()
-        new_search_label = QLabel(t('Search:'))
-        new_search_row.addWidget(new_search_label)
-        self.new_search_entry = QLineEdit()
-        self.new_search_entry.setPlaceholderText(t('fix_host_save.search_target_player'))
-        new_search_row.addWidget(self.new_search_entry)
-        new_panel_layout.addLayout(new_search_row)
-        self.new_tree = QTreeWidget()
-        self.new_tree.setHeaderLabels([t('GUID'), t('Name'), t('Guild ID'), t('Level'), t('deletion.col.pals'), t('Last Seen')])
-        self.new_tree.setSortingEnabled(True)
-        self.new_tree.setSelectionMode(QTreeWidget.SingleSelection)
-        new_panel_layout.addWidget(self.new_tree, 1)
-        self.target_result_label = QLabel(t('Target Player: N/A'))
-        new_panel_layout.addWidget(self.target_result_label)
-        trees_layout.addWidget(new_panel, 1)
-        glass_layout.addLayout(trees_layout)
-        bottom_label = QLabel(t('fix_host_save.tip'))
-        bottom_label.setAlignment(Qt.AlignCenter)
-        bottom_label.setFont(QFont(constants.FONT_FAMILY, 9))
-        glass_layout.addWidget(bottom_label)
-        warning_label = QLabel(t('warning.world_id'))
-        warning_label.setFont(QFont(constants.FONT_FAMILY, 9))
-        warning_label.setStyleSheet('color: #ffaa00;')
-        warning_label.setAlignment(Qt.AlignCenter)
-        warning_label.setWordWrap(True)
-        glass_layout.addWidget(warning_label)
-        main_layout.addWidget(glass_frame)
-        old_header_widget = self.old_tree.header()
-        old_header_widget.setSectionResizeMode(0, QHeaderView.Stretch)
-        old_header_widget.setSectionResizeMode(1, QHeaderView.Stretch)
-        old_header_widget.setSectionResizeMode(2, QHeaderView.Stretch)
-        old_header_widget.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        old_header_widget.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        old_header_widget.setSectionResizeMode(5, QHeaderView.ResizeToContents)
-        new_header_widget = self.new_tree.header()
-        new_header_widget.setSectionResizeMode(0, QHeaderView.Stretch)
-        new_header_widget.setSectionResizeMode(1, QHeaderView.Stretch)
-        new_header_widget.setSectionResizeMode(2, QHeaderView.Stretch)
-        new_header_widget.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        new_header_widget.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        new_header_widget.setSectionResizeMode(5, QHeaderView.ResizeToContents)
-        self.browse_button.clicked.connect(lambda: choose_level_file(self, self.level_sav_entry, self.old_tree, self.new_tree))
-        self.migrate_button.clicked.connect(lambda: fix_save_wrapper(self, self.level_sav_entry, self.old_tree, self.new_tree))
-        self.old_search_entry.textChanged.connect(lambda: filter_treeview(self.old_tree, self.old_search_entry.text()))
-        self.new_search_entry.textChanged.connect(lambda: filter_treeview(self.new_tree, self.new_search_entry.text()))
-        self.old_tree.itemSelectionChanged.connect(self.update_source_selection)
-        self.new_tree.itemSelectionChanged.connect(self.update_target_selection)
-        QTimer.singleShot(0, lambda: center_window(self))
-    def showEvent(self, event):
-        super().showEvent(event)
-        if not event.spontaneous():
-            self.activateWindow()
-            self.raise_()
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            self.close()
-        else:
-            super().keyPressEvent(event)
-    def update_source_selection(self):
-        selected = self.old_tree.selectedItems()
-        if selected:
-            values = [selected[0].text(col) for col in range(3)]
-            player_guid = values[0]
-            if hasattr(self, 'level_json') and self.level_json:
-                player_level = get_player_level_from_cspm(self.level_json, player_guid)
-                if player_level < 2:
-                    self.old_tree.clearSelection()
-                    self.source_result_label.setText(t('Source Player: N/A'))
-                    show_warning(self, t('fix_host_save.cannot_select_title'), t('fix_host_save.cannot_select_message', name=values[1], level=player_level))
-                    return
-            self.source_result_label.setText(t('Source Player: {name}({guid})', name=values[1], guid=player_guid))
-        else:
-            self.source_result_label.setText(t('Source Player: N/A'))
-    def update_target_selection(self):
-        selected = self.new_tree.selectedItems()
-        if selected:
-            values = [selected[0].text(col) for col in range(3)]
-            player_guid = values[0]
-            if hasattr(self, 'level_json') and self.level_json:
-                player_level = get_player_level_from_cspm(self.level_json, player_guid)
-                if player_level < 2:
-                    self.new_tree.clearSelection()
-                    self.target_result_label.setText(t('Target Player: N/A'))
-                    show_warning(self, t('fix_host_save.cannot_select_title'), t('fix_host_save.cannot_select_message', name=values[1], level=player_level))
-                    return
-            self.target_result_label.setText(t('Target Player: {name}({guid})', name=values[1], guid=player_guid))
-        else:
-            self.target_result_label.setText(t('Target Player: N/A'))
-    def load_styles(self):
-        ThemeManager.load_styles(self)
-def fix_host_save():
-    window = FixHostSaveWindow()
-    return window
-if __name__ == '__main__':
-    if len(sys.argv) > 3:
-        import shutil
-        save_path = sys.argv[1].strip().strip('"')
-        old_guid = sys.argv[2].strip()
-        new_guid = sys.argv[3].strip()
-        if not os.path.exists(save_path):
-            print(f'Error: Path not found {save_path}')
-            sys.exit(1)
-        QMessageBox.information = lambda *args, **kwargs: None
-        QMessageBox.warning = lambda *args, **kwargs: print(f'Warning: {args}')
-        def run_with_loading_mock(on_finished, task_func):
-            result = task_func()
-            on_finished(result)
-        globals()['run_with_loading'] = run_with_loading_mock
-        print(f'Starting migration: {old_guid} ->{new_guid}')
-        fix_save(os.path.dirname(save_path) if save_path.endswith('Level.sav') else save_path, new_guid, old_guid)
-        print('Migration complete.')
+
+    try:
+        with open(src_file, "rb") as f:
+            data = f.read()
+        raw_gvas, _ = decompress_sav_to_gvas(data)
+        dps = SkipGvasFile.read(raw_gvas)
+        update_count = 0
+
+        if "SaveParameterArray" in dps.properties:
+            save_param_array = dps.properties["SaveParameterArray"]
+            if isinstance(save_param_array, dict) and "value" in save_param_array:
+                inner_value = save_param_array["value"]
+                if isinstance(inner_value, dict) and "values" in inner_value:
+                    pal_list: list = inner_value["values"]
+                    if isinstance(pal_list, list):
+                        for pal_entry in pal_list:
+                            if isinstance(pal_entry, dict) and "SaveParameter" in pal_entry:
+                                save_param = pal_entry["SaveParameter"]
+                                if isinstance(save_param, dict) and "value" in save_param:
+                                    pal_data: dict = save_param["value"]
+                                    if isinstance(pal_data, dict) and "SlotId" in pal_data:
+                                        slot_id = pal_data["SlotId"]
+                                        if isinstance(slot_id, dict) and "value" in slot_id:
+                                            slot_id_value: dict = slot_id["value"]
+                                            if isinstance(slot_id_value, dict) and "ContainerId" in slot_id_value:
+                                                container_id = slot_id_value["ContainerId"]
+                                                if isinstance(container_id, dict) and "value" in container_id:
+                                                    cid_value: dict = container_id["value"]
+                                                    if isinstance(cid_value, dict) and "ID" in cid_value:
+                                                        id_obj = cid_value["ID"]
+                                                        if isinstance(id_obj, dict) and "value" in id_obj:
+                                                            id_obj["value"] = target_pal_storage_id
+                                                            update_count += 1
+
+        logger.info("[DPS] Updated %d container IDs", update_count)
+        gvas_to_sav(tgt_file, dps.write())
+        logger.info("[DPS] Successfully copied to %s", tgt_uid)
+        return True
+    except Exception as e:
+        logger.exception("[DPS] Error: %s", e)
+        logger.info("[DPS] Falling back to simple copy...")
+        shutil.copy2(src_file, tgt_file)
+        logger.info("[DPS] Copied without container ID update")
+        return False
+
+
+# ---------------------------------------------------------------------------
+# Core migration logic
+# ---------------------------------------------------------------------------
+
+def fix_save(
+    save_path: str,
+    new_guid: str,
+    old_guid: str,
+    guild_fix: bool = True,
+) -> bool:
+    """Swap two players' GUIDs in a save folder.
+
+    Parameters
+    ----------
+    save_path : str
+        Path to the save root (containing ``Level.sav`` and ``Players/``).
+    new_guid : str
+        32-character hex GUID (dashes optional) of the *target* player.
+    old_guid : str
+        32-character hex GUID (dashes optional) of the *source* player.
+    guild_fix : bool
+        Whether to also swap guild membership records (default ``True``).
+
+    Returns
+    -------
+    bool
+        ``True`` on success, ``False`` on error.
+    """
+    fmt = lambda g: "{}-{}-{}-{}-{}".format(
+        g[:8], g[8:12], g[12:16], g[16:20], g[20:]
+    ).lower()
+    old_uid, new_uid = fmt(old_guid), fmt(new_guid)
+
+    lvl = os.path.join(save_path, "Level.sav")
+    old_sav = os.path.join(save_path, "Players", old_guid.upper() + ".sav")
+    new_sav = os.path.join(save_path, "Players", new_guid.upper() + ".sav")
+
+    level = sav_to_json(lvl)
+    old_j = sav_to_json(old_sav)
+    new_j = sav_to_json(new_sav)
+
+    old_player_level = get_player_level_from_cspm(level, old_uid)
+    new_player_level = get_player_level_from_cspm(level, new_uid)
+
+    if old_player_level < 2 or new_player_level < 2:
+        error_msg = (
+            f"Both players must be at least level 2. "
+            f"Old level: {old_player_level}, New level: {new_player_level}"
+        )
+        logger.error(error_msg)
+        show_warning(None, "Error", error_msg)
+        return False
+
+    # Swap PlayerUId / IndividualId in both player files
+    old_j["properties"]["SaveData"]["value"]["PlayerUId"]["value"] = new_uid
+    old_j["properties"]["SaveData"]["value"]["IndividualId"]["value"][
+        "PlayerUId"
+    ]["value"] = new_uid
+    new_j["properties"]["SaveData"]["value"]["PlayerUId"]["value"] = old_uid
+    new_j["properties"]["SaveData"]["value"]["IndividualId"]["value"][
+        "PlayerUId"
+    ]["value"] = old_uid
+
+    old_inst = old_j["properties"]["SaveData"]["value"]["IndividualId"]["value"][
+        "InstanceId"
+    ]["value"]
+    new_inst = new_j["properties"]["SaveData"]["value"]["IndividualId"]["value"][
+        "InstanceId"
+    ]["value"]
+
+    try:
+        new_player_pal_storage_id = new_j["properties"]["SaveData"]["value"][
+            "PalStorageContainerId"
+        ]["value"]["ID"]["value"]
+    except Exception:
+        new_player_pal_storage_id = None
+
+    # Swap entries in CharacterSaveParameterMap
+    cspm = level["properties"]["worldSaveData"]["value"][
+        "CharacterSaveParameterMap"
+    ]["value"]
+    for e in cspm:
+        if e["key"]["InstanceId"]["value"] == old_inst:
+            e["key"]["PlayerUId"]["value"] = new_uid
+        elif e["key"]["InstanceId"]["value"] == new_inst:
+            e["key"]["PlayerUId"]["value"] = old_uid
+
+    # Swap guild membership records
+    if guild_fix:
+        for g in level["properties"]["worldSaveData"]["value"][
+            "GroupSaveDataMap"
+        ]["value"]:
+            if g["value"]["GroupType"]["value"]["value"] != "EPalGroupType::Guild":
+                continue
+            raw = g["value"]["RawData"]["value"]
+            for h in raw.get("individual_character_handle_ids", []):
+                if h["instance_id"] == old_inst:
+                    h["guid"] = new_uid
+                elif h["instance_id"] == new_inst:
+                    h["guid"] = old_uid
+            if raw.get("admin_player_uid") == old_uid:
+                raw["admin_player_uid"] = new_uid
+            elif raw.get("admin_player_uid") == new_uid:
+                raw["admin_player_uid"] = old_uid
+            for p in raw.get("players", []):
+                if p.get("player_uid") == old_uid:
+                    p["player_uid"] = new_uid
+                elif p.get("player_uid") == new_uid:
+                    p["player_uid"] = old_uid
+
+    # Deep swap all remaining UID references in level data
+    def deep_swap(data: Any) -> None:
+        if isinstance(data, dict):
+            for k in (
+                "OwnerPlayerUId",
+                "owner_player_uid",
+                "build_player_uid",
+                "private_lock_player_uid",
+            ):
+                v = data.get(k)
+                if isinstance(v, dict) and v.get("value") == old_uid:
+                    v["value"] = new_uid
+                elif isinstance(v, dict) and v.get("value") == new_uid:
+                    v["value"] = old_uid
+                elif v == old_uid:
+                    data[k] = new_uid
+                elif v == new_uid:
+                    data[k] = old_uid
+            for x in data.values():
+                deep_swap(x)
+        elif isinstance(data, list):
+            for i in data:
+                deep_swap(i)
+
+    deep_swap(level)
+
+    # Copy DPS file with container-ID update
+    players_folder = os.path.join(os.path.dirname(lvl), "Players")
+    copy_dps_file(
+        players_folder,
+        old_guid,
+        players_folder,
+        new_guid,
+        new_player_pal_storage_id,
+    )
+
+    # Write modified JSON back to .sav
+    json_to_sav(level, lvl)
+    json_to_sav(old_j, old_sav)
+    json_to_sav(new_j, new_sav)
+
+    # Swap the filenames so old_guid.sav contains the new player's data and
+    # new_guid.sav contains the old player's data
+    tmp_path = old_sav + ".tmp_swap"
+    os.rename(old_sav, tmp_path)
+    if os.path.exists(new_sav):
+        os.rename(new_sav, os.path.join(save_path, "Players", old_guid.upper() + ".sav"))
+    os.rename(tmp_path, os.path.join(save_path, "Players", new_guid.upper() + ".sav"))
+
+    return True
+
+
+# ---------------------------------------------------------------------------
+# String-input helper (headless replacement for the Qt-based dialog)
+# ---------------------------------------------------------------------------
+
+def ask_string_with_icon(
+    title: str,
+    prompt: str,
+    icon_path: str | None = None,
+) -> str | None:
+    """Prompt for a string on the console.
+
+    This is a headless replacement for the original QDialog-based
+    ``ask_string_with_icon``.  It prints *title* and *prompt* to stdout
+    and reads a line from stdin.
+
+    Returns the entered text, or ``None`` if the user entered an empty
+    string.
+    """
+    print(f"\n--- {title} ---")
+    answer = input(f"{prompt}: ").strip()
+    return answer if answer else None
+
+
+# ---------------------------------------------------------------------------
+# CLI entry point
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    """Entry point for the ``fix_host_save`` CLI tool."""
+    parser = argparse.ArgumentParser(
+        description="Migrate a Palworld save between two player GUIDs."
+    )
+    parser.add_argument(
+        "save_path",
+        type=str,
+        help="Path to the save root (containing Level.sav and Players/).",
+    )
+    parser.add_argument(
+        "old_guid",
+        type=str,
+        help="32-character hex GUID of the source player (dashes optional).",
+    )
+    parser.add_argument(
+        "new_guid",
+        type=str,
+        help="32-character hex GUID of the target player (dashes optional).",
+    )
+    parser.add_argument(
+        "--no-guild-fix",
+        action="store_true",
+        help="Skip guild-membership swapping.",
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable debug-level logging.",
+    )
+
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(levelname)s %(name)s: %(message)s",
+    )
+
+    save_path = args.save_path.strip().strip('"')
+    if not os.path.exists(save_path):
+        logger.error("Path not found: %s", save_path)
+        sys.exit(1)
+
+    # If the user passed a Level.sav path, derive the save root from it
+    if save_path.endswith("Level.sav"):
+        save_path = os.path.dirname(save_path)
+
+    logger.info(
+        "Starting migration: %s -> %s",
+        args.old_guid,
+        args.new_guid,
+    )
+
+    # Create a backup before modifying
+    backup_whole_directory(save_path, "Backups/Fix Host Save")
+
+    success = fix_save(
+        save_path,
+        args.new_guid,
+        args.old_guid,
+        guild_fix=not args.no_guild_fix,
+    )
+
+    if success:
+        logger.info("Migration complete.")
+        print("Fix has been applied! Have fun!")
+        sys.exit(0)
     else:
-        app = QApplication([])
-        w = FixHostSaveWindow()
-        w.show()
-        sys.exit(app.exec())
+        logger.error("Migration failed.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

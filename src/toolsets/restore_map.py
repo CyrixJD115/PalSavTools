@@ -1,166 +1,154 @@
+"""
+restore_map — Clear fog of war from Palworld LocalData.sav files (headless CLI).
+
+Removed all PySide6/Qt dependencies.  The core business logic
+(``clear_fog_in_local_data``, ``clear_fog_in_all_subfolders``,
+``backup_local_data``) is preserved unmodified.  The GUI dialog has been
+replaced with a straightforward CLI entry point.
+"""
+
+import logging
+import os
+import shutil
+import sys
+import time
+
 from import_libs import *
 from palsav.core import decompress_sav_to_gvas, compress_gvas_to_sav
 
 from loading_manager import show_critical
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QApplication
-from PySide6.QtGui import QIcon, QFont
-from PySide6.QtCore import Qt, QTimer
-from palworld_aio.ui.chrome.styles import ThemeManager
-from palworld_aio import constants
-import os, time, shutil
-savegames_path = os.path.join(os.environ['LOCALAPPDATA'], 'Pal', 'Saved', 'SaveGames')
-restore_map_path = os.path.join('.', 'Backups', 'Restore Map')
+
+logger = logging.getLogger("pst.restore_map")
+
+savegames_path = os.path.join(
+    os.environ["LOCALAPPDATA"], "Pal", "Saved", "SaveGames"
+)
+restore_map_path = os.path.join(".", "Backups", "Restore Map")
 os.makedirs(restore_map_path, exist_ok=True)
+
+
+# ============================================================================
+# Business logic (unchanged)
+# ============================================================================
+
 def backup_local_data(subfolder_path):
-    timestamp = time.strftime('%Y-%m-%d_%H-%M-%S')
-    backup_folder = os.path.join(restore_map_path, timestamp, os.path.basename(subfolder_path))
+    """Back up ``LocalData.sav`` from *subfolder_path* to the restore-map
+    backup directory."""
+    timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+    backup_folder = os.path.join(
+        restore_map_path, timestamp, os.path.basename(subfolder_path)
+    )
     os.makedirs(backup_folder, exist_ok=True)
-    backup_file = os.path.join(backup_folder, 'LocalData.sav')
-    original_local_data = os.path.join(subfolder_path, 'LocalData.sav')
+    backup_file = os.path.join(backup_folder, "LocalData.sav")
+    original_local_data = os.path.join(subfolder_path, "LocalData.sav")
     if os.path.exists(original_local_data):
         shutil.copy(original_local_data, backup_file)
-        print(t('Backup created at: {backup_file}', backup_file=backup_file))
+        logger.info("Backup created at: %s", backup_file)
+
+
 def clear_fog_in_local_data(path):
-    with open(path, 'rb') as f:
+    """Clear the fog-of-war mask in the ``LocalData.sav`` file at *path*."""
+    with open(path, "rb") as f:
         data = f.read()
     raw_gvas, save_type = decompress_sav_to_gvas(data)
     gvas = GvasFile.read(raw_gvas, PALWORLD_TYPE_HINTS, SKP_PALWORLD_CUSTOM_PROPERTIES)
     d = gvas.dump()
-    sd = d['properties']['SaveData']['value']
-    if 'WorldMapUISaveDataMap' in sd:
-        for entry in sd['WorldMapUISaveDataMap']['value']:
-            mask = entry['value']['MaskTextureData']['value']
-            mask['values'] = b'\x00' * len(mask['values'])
-        print('  WorldMapUISaveDataMap fog cleared')
-    elif 'WorldMapMaskTextureV4' in sd:
-        mask = sd['WorldMapMaskTextureV4']['value']
-        mask['values'] = b'\x00' * len(mask['values'])
-        print('  WorldMapMaskTextureV4 fog cleared')
-    hl = sd.get('Local_HiddenLocationFlagMap', {}).get('value', [])
+    sd = d["properties"]["SaveData"]["value"]
+
+    if "WorldMapUISaveDataMap" in sd:
+        for entry in sd["WorldMapUISaveDataMap"]["value"]:
+            mask = entry["value"]["MaskTextureData"]["value"]
+            mask["values"] = b"\x00" * len(mask["values"])
+        logger.info("  WorldMapUISaveDataMap fog cleared")
+    elif "WorldMapMaskTextureV4" in sd:
+        mask = sd["WorldMapMaskTextureV4"]["value"]
+        mask["values"] = b"\x00" * len(mask["values"])
+        logger.info("  WorldMapMaskTextureV4 fog cleared")
+
+    hl = sd.get("Local_HiddenLocationFlagMap", {}).get("value", [])
     for entry in hl:
-        entry['value'] = False
-    print(f'  Hidden locations set: {len(hl)} entries')
+        entry["value"] = False
+    logger.info("  Hidden locations set: %d entries", len(hl))
+
     ng = GvasFile.load(d)
-    st = 50 if 'Pal.PalWorldSaveGame' in ng.header.save_game_class_name or 'Pal.PalLocalWorldSaveGame' in ng.header.save_game_class_name else 49
+    st = (
+        50
+        if "Pal.PalWorldSaveGame" in ng.header.save_game_class_name
+        or "Pal.PalLocalWorldSaveGame" in ng.header.save_game_class_name
+        else 49
+    )
     sav = compress_gvas_to_sav(ng.write(SKP_PALWORLD_CUSTOM_PROPERTIES), st)
-    with open(path, 'wb') as f:
+    with open(path, "wb") as f:
         f.write(sav)
+
+
 def clear_fog_in_all_subfolders():
+    """Walk all subdirectories under *savegames_path* and clear fog in every
+    ``LocalData.sav`` found."""
     updated_count = 0
     for folder in os.listdir(savegames_path):
         folder_path = os.path.join(savegames_path, folder)
         if os.path.isdir(folder_path):
-            subfolders = [subfolder for subfolder in os.listdir(folder_path) if os.path.isdir(os.path.join(folder_path, subfolder))]
+            subfolders = [
+                subfolder
+                for subfolder in os.listdir(folder_path)
+                if os.path.isdir(os.path.join(folder_path, subfolder))
+            ]
             for subfolder in subfolders:
                 subfolder_path = os.path.join(folder_path, subfolder)
-                target_path = os.path.join(subfolder_path, 'LocalData.sav')
+                target_path = os.path.join(subfolder_path, "LocalData.sav")
                 if os.path.exists(target_path):
                     backup_local_data(subfolder_path)
-                    print(t('Clearing fog in: {path}', path=subfolder_path))
+                    logger.info("Clearing fog in: %s", subfolder_path)
                     clear_fog_in_local_data(target_path)
                     updated_count += 1
-    print('=' * 80)
-    print(t('Total worlds/servers updated: {copied_count}', copied_count=updated_count))
-    print('=' * 80)
-def center_window(win):
-    win_center = win.frameGeometry().center()
-    from PySide6.QtWidgets import QApplication
-    screen = QApplication.screenAt(win_center)
-    if screen is None:
-        screen = QApplication.primaryScreen()
-    screen_geometry = screen.availableGeometry()
-    geo = win.frameGeometry()
-    geo.moveCenter(screen_geometry.center())
-    win.move(geo.topLeft())
-def restore_map():
-    class RestoreMapDialog(QDialog):
-        def __init__(self):
-            super().__init__()
-            self.setWindowTitle(t('tool.restore_map'))
-            self.setFixedSize(640, 320)
-            self.load_styles()
-            try:
-                if ICON_PATH and os.path.exists(ICON_PATH):
-                    self.setWindowIcon(QIcon(ICON_PATH))
-            except Exception:
-                pass
-            main_layout = QVBoxLayout(self)
-            main_layout.setContentsMargins(16, 16, 16, 16)
-            main_layout.setSpacing(12)
-            glass_frame = QFrame()
-            glass_frame.setObjectName('glass')
-            glass_layout = QVBoxLayout(glass_frame)
-            glass_layout.setContentsMargins(14, 14, 14, 14)
-            glass_layout.setSpacing(12)
-            tip_label = QLabel(t('Warning: This will perform the following actions:'))
-            tip_label.setFont(QFont(constants.FONT_FAMILY, 12, QFont.Bold))
-            tip_label.setAlignment(Qt.AlignCenter)
-            tip_label.setStyleSheet('color: #FF6347;')
-            glass_layout.addWidget(tip_label)
-            steps_layout = QVBoxLayout()
-            step_font = QFont(constants.FONT_FAMILY, 10)
-            step1_label = QLabel(t('1.Clear fog from each existing LocalData.sav'))
-            step1_label.setFont(step_font)
-            step1_label.setAlignment(Qt.AlignCenter)
-            steps_layout.addWidget(step1_label)
-            step2_label = QLabel(t('2.Create backups of each LocalData.sav before modifying'))
-            step2_label.setFont(step_font)
-            step2_label.setAlignment(Qt.AlignCenter)
-            steps_layout.addWidget(step2_label)
-            step3_label = QLabel(t('3.Preserve all existing map data (icons, markers, etc.)'))
-            step3_label.setFont(step_font)
-            step3_label.setAlignment(Qt.AlignCenter)
-            steps_layout.addWidget(step3_label)
-            glass_layout.addLayout(steps_layout)
-            self.result_label = QLabel('')
-            self.result_label.setAlignment(Qt.AlignCenter)
-            self.result_label.setFont(QFont(constants.FONT_FAMILY, 10, QFont.Bold))
-            self.result_label.setStyleSheet('color: #7FFF00;')
-            glass_layout.addWidget(self.result_label)
-            button_layout = QHBoxLayout()
-            button_layout.addStretch()
-            self.yes_button = QPushButton(t('Yes'))
-            self.yes_button.setFont(QFont(constants.FONT_FAMILY, 12))
-            self.yes_button.setMinimumSize(120, 40)
-            self.yes_button.clicked.connect(self.on_yes)
-            button_layout.addWidget(self.yes_button)
-            self.no_button = QPushButton(t('No'))
-            self.no_button.setFont(QFont(constants.FONT_FAMILY, 12))
-            self.no_button.setMinimumSize(120, 40)
-            self.no_button.clicked.connect(self.on_no)
-            button_layout.addWidget(self.no_button)
-            button_layout.addStretch()
-            glass_layout.addLayout(button_layout)
-            main_layout.addWidget(glass_frame)
-            center_window(self)
-            self.setModal(True)
-        def showEvent(self, event):
-            super().showEvent(event)
-            if not event.spontaneous():
-                self.activateWindow()
-                self.raise_()
-        def on_yes(self):
-            clear_fog_in_all_subfolders()
-            self.result_label.setText(t('Fog cleared successfully!'))
-            self.yes_button.setEnabled(False)
-            self.no_button.setEnabled(False)
-            QTimer.singleShot(2000, self.accept)
-        def on_no(self):
-            self.reject()
-        def load_styles(self):
-            ThemeManager.load_styles(self)
-    dialog = RestoreMapDialog()
-    return dialog
+
+    logger.info("=" * 80)
+    logger.info("Total worlds/servers updated: %d", updated_count)
+    logger.info("=" * 80)
+    print(f"Done.  {updated_count} world(s)/server(s) updated.")
+
+
+# ============================================================================
+# CLI entry point
+# ============================================================================
+
+def restore_map(confirm=True):
+    """Run the fog-clearing operation for all LocalData.sav files.
+
+    Parameters
+    ----------
+    confirm : bool
+        If ``True`` (default), prompt the user for confirmation before
+        proceeding.
+    """
+    print("Warning: This will perform the following actions:")
+    print("  1. Clear fog from each existing LocalData.sav")
+    print("  2. Create backups of each LocalData.sav before modifying")
+    print("  3. Preserve all existing map data (icons, markers, etc.)")
+    print()
+
+    if confirm:
+        answer = input("Continue? [y/N] ").strip().lower()
+        if answer not in ("y", "yes"):
+            logger.info("Operation cancelled by user.")
+            return
+
+    clear_fog_in_all_subfolders()
+
+
 def main():
-    import sys
-    app = QApplication(sys.argv) if not QApplication.instance() else QApplication.instance()
-    dialog = restore_map()
-    dialog.exec()
-    if not QApplication.instance().closingDown():
-        try:
-            if not app.instance():
-                app.exec()
-        except Exception:
-            pass
-if __name__ == '__main__':
+    """CLI entry point.
+
+    Usage::
+
+        python restore_map.py [--yes]
+
+    Use ``--yes`` to skip the confirmation prompt (useful for scripting).
+    """
+    skip_confirm = "--yes" in sys.argv or "-y" in sys.argv
+    restore_map(confirm=not skip_confirm)
+
+
+if __name__ == "__main__":
     main()

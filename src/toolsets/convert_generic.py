@@ -1,61 +1,120 @@
-import sys, os, gc, threading, time
+"""
+convert_generic — Convert a single .sav <-> .json file (headless CLI).
+
+Removed all PySide6/Qt dependencies.  Uses argparse for input selection and
+logging for status output.  Business logic (convert_sav_to_json,
+convert_json_to_sav) preserved as-is.
+"""
+
+import gc
+import logging
+import os
+import sys
+
 from import_libs import *
 from loading_manager import run_with_loading, show_information
-from palworld_aio.ui.chrome.styles import ThemeManager
-from PySide6.QtCore import QEventLoop
-from PySide6.QtWidgets import QApplication, QFileDialog
 from palsav.commands.convert import main as convert_main
+
+logger = logging.getLogger("pst.convert_generic")
+
+
+# ============================================================================
+# Conversion helpers (unchanged business logic)
+# ============================================================================
+
 def convert_sav_to_json(input_file, output_file):
+    """Convert a .sav file to .json using ``palsav.commands.convert``."""
     old_argv = sys.argv
     try:
-        sys.argv = ['convert', input_file, '--output', output_file, '--force']
+        sys.argv = ["convert", input_file, "--output", output_file, "--force"]
         convert_main()
     finally:
         sys.argv = old_argv
+
+
 def convert_json_to_sav(input_file, output_file):
+    """Convert a .json file to .sav using ``palsav.commands.convert``."""
     old_argv = sys.argv
     try:
-        sys.argv = ['convert', input_file, '--output', output_file, '--force']
+        sys.argv = ["convert", input_file, "--output", output_file, "--force"]
         convert_main()
     finally:
         sys.argv = old_argv
-def file_picker(ext):
-    app = QApplication.instance() or QApplication(sys.argv)
-    if not QApplication.instance():
-        ThemeManager.apply_global()
-    path = None
-    if ext == 'sav':
-        path, _ = QFileDialog.getOpenFileName(None, 'Select JSON File', '', 'JSON Files (*.json)')
-    elif ext == 'json':
-        path, _ = QFileDialog.getOpenFileName(None, 'Select SAV File', '', 'SAV Files (*.sav)')
-    return path
-def convert_generic(ext):
-    input_file = file_picker(ext)
-    if not input_file:
+
+
+# ============================================================================
+# Main conversion function
+# ============================================================================
+
+def convert_generic(ext, input_file=None):
+    """Perform a single conversion.
+
+    Parameters
+    ----------
+    ext : str
+        ``"sav"`` (convert .json -> .sav) or ``"json"`` (convert .sav -> .json).
+    input_file : str or None
+        Path to the input file.  If ``None``, the function prompts via stdin.
+
+    Returns
+    -------
+    bool
+        ``True`` on success, ``False`` otherwise.
+    """
+    if input_file is None:
+        input_file = input(f"Enter path to the input .{ext} file: ").strip()
+        if not input_file:
+            logger.error("No input file provided.")
+            return False
+
+    if not os.path.exists(input_file):
+        logger.error("Input file not found: %s", input_file)
         return False
+
     root, _ = os.path.splitext(input_file)
-    output_path = root + ('.sav' if ext == 'sav' else '.json')
-    loop = QEventLoop()
-    if ext == 'sav':
+    output_path = root + (".sav" if ext == "sav" else ".json")
+
+    if ext == "sav":
+        # JSON -> SAV
         def task():
             convert_json_to_sav(input_file, output_path)
             gc.collect()
     else:
+        # SAV -> JSON
         def task():
             convert_sav_to_json(input_file, output_path)
             gc.collect()
-    run_with_loading(lambda _: loop.quit(), task)
-    loop.exec()
-    time.sleep(0.5)
-    print(f'Converted {input_file} to {output_path}')
-    parent = QApplication.activeWindow()
-    show_information(parent, t('tool.convert.done'), t('tool.convert.level_done', source=input_file, target=output_path))
+
+    # run_with_loading is headless — runs synchronously
+    run_with_loading(None, task)
+
+    logger.info("Converted %s -> %s", input_file, output_path)
     return True
+
+
+# ============================================================================
+# CLI entry point
+# ============================================================================
+
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ['sav', 'json']:
-        print('Usage: script.py <sav|json>')
-        exit(1)
-    if not convert_generic(sys.argv[1]):
-        exit(1)
-if __name__ == '__main__':
+    """CLI entry point.
+
+    Usage::
+
+        python convert_generic.py <sav|json> [input_file]
+
+    If *input_file* is omitted the script prompts for it.
+    """
+    if len(sys.argv) < 2 or sys.argv[1] not in ("sav", "json"):
+        print("Usage: convert_generic.py <sav|json> [input_file]", file=sys.stderr)
+        sys.exit(1)
+
+    ext = sys.argv[1]
+    input_file = sys.argv[2] if len(sys.argv) > 2 else None
+
+    if not convert_generic(ext, input_file):
+        sys.exit(1)
+
+
+if __name__ == "__main__":
     main()

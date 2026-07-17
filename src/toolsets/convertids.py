@@ -1,113 +1,120 @@
+"""
+convertids — Convert Steam IDs to Palworld player UIDs (headless CLI).
+
+Removed all PySide6/Qt dependencies.  Business logic (ID conversion) preserved
+as module-level functions.  GUI dialog replaced with CLI interface.
+"""
+
+import logging
+import os
+import sys
+
 from import_libs import *
-from loading_manager import show_warning, show_critical
-from palworld_aio.ui.chrome.styles import ThemeManager
-import nerdfont as nf
-from palworld_aio import constants
+
+logger = logging.getLogger("pst.convertids")
+
+
+# ============================================================================
+# Business logic
+# ============================================================================
+
 def get_steam_id_from_local():
-    local_app_data_path = os.path.expandvars('%localappdata%\\Pal\\Saved\\SaveGames')
+    """Return the first subdirectory name under the local Palworld save
+    directory, or ``None``."""
+    local_app_data_path = os.path.expandvars(
+        "%localappdata%\\Pal\\Saved\\SaveGames"
+    )
     if os.path.exists(local_app_data_path):
-        subdirs = [d for d in os.listdir(local_app_data_path) if os.path.isdir(os.path.join(local_app_data_path, d))]
+        subdirs = [
+            d
+            for d in os.listdir(local_app_data_path)
+            if os.path.isdir(os.path.join(local_app_data_path, d))
+        ]
         return subdirs[0] if subdirs else None
     return None
-def convert_steam_id():
-    def do_convert(steam_input=None):
-        steam_input = steam_entry.text().strip() if steam_input is None else steam_input
-        if not steam_input:
-            show_warning(dialog, t('Warning'), t('steamid.warn.enter_id'))
-            return
-        if 'steamcommunity.com/profiles/' in steam_input:
-            steam_input = steam_input.split('steamcommunity.com/profiles/')[1].split('/')[0]
-        elif steam_input.startswith('steam_'):
-            steam_input = steam_input[6:]
-        try:
-            steam_id = int(steam_input)
-            palworld_uid = steamIdToPlayerUid(steam_id)
-            nosteam_uid = PlayerUid2NoSteam(int.from_bytes(toUUID(palworld_uid).raw_bytes[0:4], byteorder='little')) + '-0000-0000-0000-000000000000'
-            result_label.setText(t('steamid.result', pal=str(palworld_uid).upper(), nosteam=nosteam_uid.upper()))
-        except ValueError:
-            show_critical(dialog, t('Error'), t('steamid.err.invalid'))
-    steam_id_from_local = get_steam_id_from_local()
-    dialog = QDialog()
-    dialog.setWindowTitle(t('steamid.title'))
+
+
+def convert_steam_id(steam_input=None, *, quiet=False):
+    """Convert a Steam ID / profile URL to a Palworld player UID.
+
+    Parameters
+    ----------
+    steam_input : str or None
+        A Steam ID (numeric), ``steam_`` prefixed ID, or full profile URL.
+        If ``None``, attempts auto-detection from local save folder.
+    quiet : bool
+        If ``True``, returns the result string instead of printing.
+
+    Returns
+    -------
+    str
+        The formatted result (both Palworld UID and no-Steam UID) on success,
+        or an error string on failure.
+    """
+    if steam_input is None:
+        steam_input = get_steam_id_from_local()
+        if steam_input:
+            if not quiet:
+                logger.info("Auto-detected Steam ID from local saves: %s", steam_input)
+        else:
+            return "No Steam ID provided and could not auto-detect."
+
+    steam_input = steam_input.strip()
+
+    # Parse various input formats
+    if "steamcommunity.com/profiles/" in steam_input:
+        steam_input = steam_input.split("steamcommunity.com/profiles/")[1].split("/")[0]
+    elif steam_input.startswith("steam_"):
+        steam_input = steam_input[6:]
+
     try:
-        dialog.setWindowIcon(QIcon(ICON_PATH))
-    except:
-        pass
-    ThemeManager.load_styles(dialog)
-    main_layout = QVBoxLayout(dialog)
-    main_layout.setContentsMargins(14, 14, 14, 14)
-    main_layout.setSpacing(12)
-    glass_frame = QFrame()
-    glass_frame.setObjectName('glass')
-    glass_layout = QVBoxLayout(glass_frame)
-    glass_layout.setContentsMargins(12, 12, 12, 12)
-    glass_layout.setSpacing(12)
-    main_layout.addWidget(glass_frame)
-    glass_layout.addStretch(1)
-    tip_label = QLabel(t('steamid.tip'))
-    tip_label.setFont(QFont(constants.FONT_FAMILY, 10))
-    tip_label.setAlignment(Qt.AlignCenter)
-    glass_layout.addWidget(tip_label)
-    hint_label = QLabel(t('steamid.local_hint'))
-    hint_label.setFont(QFont(constants.FONT_FAMILY, 10))
-    hint_label.setAlignment(Qt.AlignCenter)
-    glass_layout.addWidget(hint_label)
-    entry_layout = QHBoxLayout()
-    entry_layout.addStretch()
-    steam_entry = QLineEdit()
-    steam_entry.setFont(QFont(constants.FONT_FAMILY, 10))
-    steam_entry.setFixedWidth(300)
-    entry_layout.addWidget(steam_entry)
-    entry_layout.addStretch()
-    glass_layout.addLayout(entry_layout)
-    button_layout = QHBoxLayout()
-    button_layout.addStretch()
-    convert_button = QPushButton(t('steamid.btn.convert'))
-    convert_button.setMinimumWidth(120)
-    convert_button.setMaximumWidth(120)
-    button_layout.addWidget(convert_button)
-    button_layout.addStretch()
-    glass_layout.addLayout(button_layout)
-    result_label = QLabel()
-    result_label.setFont(QFont(constants.FONT_FAMILY, 10))
-    result_label.setWordWrap(True)
-    result_label.setAlignment(Qt.AlignCenter)
-    glass_layout.addWidget(result_label)
-    copy_layout = QHBoxLayout()
-    copy_layout.addStretch()
-    copy_button = NerdBtn(f"{nf.icons['nf-cod-copy']}")
-    copy_button.setFont(QFont(constants.FONT_FAMILY_NERD, 13))
-    copy_button.setFixedSize(40, 40)
-    copy_button.setStyleSheet('QPushButton { padding: 0px; border-radius: 6px; }')
-    copy_layout.addWidget(copy_button)
-    copy_layout.addStretch()
-    glass_layout.addLayout(copy_layout)
-    glass_layout.addStretch(1)
-    convert_button.clicked.connect(lambda: do_convert())
-    def copy_result():
-        clipboard = QApplication.clipboard()
-        clipboard.setText(result_label.text())
-        copy_button.setText(f"{nf.icons['nf-md-checkbox_marked_circle']}")
-        QTimer.singleShot(2000, lambda: copy_button.setText(f"{nf.icons['nf-cod-copy']}"))
-    copy_button.clicked.connect(copy_result)
-    if steam_id_from_local:
-        try:
-            steam_entry.setText(steam_id_from_local)
-            do_convert(steam_id_from_local)
-        except Exception as e:
-            print(t('steamid.err.autoconvert'), e)
-    dialog.adjustSize()
-    center_window(dialog)
-    dialog.setModal(True)
-    return dialog
-def center_window(win):
-    screen = QApplication.primaryScreen().availableGeometry()
-    size = win.sizeHint()
-    if not size.isValid():
-        win.adjustSize()
-        size = win.size()
-    win.move((screen.width() - size.width()) // 2, (screen.height() - size.height()) // 2)
+        steam_id = int(steam_input)
+    except ValueError:
+        return "Error: Invalid Steam ID. Provide a numeric ID, a 'steam_' ID, or a profile URL."
+
+    try:
+        palworld_uid = steamIdToPlayerUid(steam_id)
+        nosteam_uid = (
+            PlayerUid2NoSteam(
+                int.from_bytes(
+                    toUUID(palworld_uid).raw_bytes[0:4], byteorder="little"
+                )
+            )
+            + "-0000-0000-0000-000000000000"
+        )
+        result = (
+            f"Palworld UID:      {str(palworld_uid).upper()}\n"
+            f"No-Steam UID:      {nosteam_uid.upper()}"
+        )
+
+        if not quiet:
+            print(result)
+        return result
+    except Exception as e:
+        msg = f"Error during conversion: {e}"
+        logger.error(msg)
+        return msg
+
+
+# ============================================================================
+# CLI entry point
+# ============================================================================
+
 def main():
-    convert_steam_id()
-if __name__ == '__main__':
+    """CLI entry point.
+
+    Usage::
+
+        python convertids.py [steam_id]
+
+    If *steam_id* is omitted, tries auto-detection from local save folder.
+    """
+    steam_input = sys.argv[1] if len(sys.argv) > 1 else None
+    result = convert_steam_id(steam_input)
+    if result and result.startswith("Error"):
+        print(result, file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
     main()

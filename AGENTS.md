@@ -88,3 +88,16 @@ The web layer is **strictly decoupled**: `web/frontend` (Svelte 5 + Tailwind) is
 ## Repo exclusions
 
 `.venv/`, `dist/`, `build/`, `Backups/`, `*.sav`, `*.savc`, `*.7z`, `uv.lock` — all gitignored.
+
+## Reference projects (sibling repos — READ-ONLY inspiration)
+
+These live **outside** PalSavTools and are used only as reference for features, bug fixes, and parsing approaches. They are NOT dependencies and should NOT be imported or copied wholesale — study them, then implement in PalSavTools' own architecture (`src/` first, thin `web/backend/` bridge, `web/frontend/` GUI).
+
+| Project | Stack | Path | Use for |
+|---|---|---|---|
+| PalworldSaveTools (legacy) | Python + PySide6 | `/mnt/dev/Dev/Coding_Projects/PalworldSaveTools/PST/` | The original desktop GUI this project evolved from; Qt-based manager patterns |
+| PalworldSavePals (Python) | Python + Svelte | `/mnt/dev/Dev/Coding_Projects/PalworldSaveTools/PSP/psp_python/` | Alt Python save tool; Python-side parsing/logic reference |
+| PalworldSavePals (Rust) | Rust + Svelte | `/mnt/dev/Dev/Coding_Projects/PalworldSaveTools/PSP/psp_rust/` | Alt Rust save tool; fast parser reference, cross-check struct layouts |
+| PalSav Parser | Python + Rust | `/mnt/dev/Dev/Coding_Projects/PalworldSaveTools/PalSav Parser/` | Standalone save parsers in both langs; ground truth for SAV/GVAS struct decoding |
+
+**When referencing:** confirm struct layouts/offsets against PalSavTools' own `src/palsav/` engine before trusting external parsers — formats drift between projects.

@@ -13,8 +13,10 @@ from palworld_aio.inventory.dynamic_item_manager import get_dynamic_item_manager
 from palworld_aio.inventory.standardized_container import StandardizedContainer
 import threading
 import time
-from PySide6.QtCore import QTimer
+import logging
 from resource_resolver import resource_path
+
+logger = logging.getLogger("pst.base_inventory_manager")
 BOOTH_TYPES = {'PalMapObjectItemBoothModel', 'PalMapObjectPalBoothModel'}
 
 def get_base_containers(base_id):
@@ -364,9 +366,7 @@ class BaseInventoryManager:
         if instance:
             instance._build_item_location_cache()
     def _setup_auto_save(self):
-        self._auto_save_timer = QTimer()
-        self._auto_save_timer.setSingleShot(True)
-        self._auto_save_timer.timeout.connect(self._auto_save)
+        self._auto_save_timer = None
         self._last_save_time = time.time()
         self._has_pending_changes = False
     def _auto_save(self):
@@ -374,9 +374,13 @@ class BaseInventoryManager:
             self.save_changes()
             self._has_pending_changes = False
             self._last_save_time = time.time()
+        self._auto_save_timer = None
     def mark_dirty(self):
         self._has_pending_changes = True
-        self._auto_save_timer.start(2000)
+        if self._auto_save_timer is None:
+            self._auto_save_timer = threading.Timer(2.0, self._auto_save)
+            self._auto_save_timer.daemon = True
+            self._auto_save_timer.start()
     def load_guilds(self):
         if not constants.loaded_level_json:
             return []

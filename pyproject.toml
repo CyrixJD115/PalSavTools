@@ -13,7 +13,6 @@ dependencies = [
     "Pillow",
     "nerdfont",
     "packaging",
-    "PalSav",
     "brotli",
     "cbor2",
     "msgpack",
@@ -26,19 +25,33 @@ dependencies = [
     "python-multipart>=0.0.12",
 ]
 
-[tool.uv.sources]
-PalSav = { workspace = true, editable = true }
+# NOTE: the Python `palsav` submodule has been superseded by `palsav-rs`
+# (Rust). Save serialization now goes through the `uesave` binary via
+# app/backend/services/palsav_rs_wrapper.py. The [tool.uv.workspace] /
+# [tool.uv.sources] entries for PalSav were removed when src/palsav was
+# dropped. See AGENTS.md "palsav-rs integration" notes.
 
-[tool.uv.workspace]
-members = [
-    "src/palsav",
-]
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*"]
+include = ["src*", "app*"]
 
 [tool.pyright]
-extraPaths = ["src/palsav"]
 reportAttributeAccessIssue = false
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+# importlib mode avoids importing parent package __init__.py files during
+# collection — important because src/palworld_aio/__init__.py eagerly imports
+# main.py which pulls Qt/i18n deps unavailable in a headless test env. The
+# breeding engine itself is loaded via importlib in conftest.py (mirroring how
+# the backend loads it), so it stays fully decoupled.
+addopts = "--import-mode=importlib"
+testpaths = ["tests/breeding"]
+pythonpath = ["."]
 
 

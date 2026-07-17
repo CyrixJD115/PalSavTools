@@ -5,9 +5,10 @@ from palsav import json_tools
 import sys
 from resource_resolver import resource_path
 import uuid
-from PySide6.QtGui import QPixmap, QIcon
-from PySide6.QtCore import QSize, Qt
 from typing import Optional, Dict, List, Any
+import logging
+
+logger = logging.getLogger("pst.inventory_manager")
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_gvasfile, gvasfile_to_sav, as_uuid, are_equal_uuids, fast_deepcopy
 from palworld_aio.inventory.dynamic_item_manager import get_dynamic_item_manager, generate_dynamic_item_uuid
@@ -16,7 +17,6 @@ TYPE_A_TO_CATEGORY = {'EPalItemTypeA::Weapon': 'weapon', 'EPalItemTypeA::Monster
 class ItemData:
     _instance = None
     _item_data = None
-    _icon_cache = {}
     _asset_to_item = {}
     _asset_to_item_lower = {}
     _asset_to_typea = {}
@@ -129,28 +129,20 @@ class ItemData:
                             return trial
         return full_path
     @classmethod
-    def get_item_icon(cls, icon_path: str, size: QSize=QSize(48, 48)) -> QPixmap:
-        cache_key = f'{icon_path}_{size.width()}x{size.height()}'
-        if cache_key in cls._icon_cache:
-            return cls._icon_cache[cache_key]
+    def get_item_icon(cls, icon_path: str, size=None):
+        """Return the resolved file path for the icon, or None.
+
+        In headless mode, returns the absolute path to the icon file
+        (or the unknown fallback) instead of a QPixmap.
+        """
         base_path = constants.get_base_path()
         full_path = cls._resolve_icon_path(icon_path)
         if os.path.exists(full_path):
-            pixmap = QPixmap(full_path)
-            if not pixmap.isNull():
-                pixmap = pixmap.scaled(size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                cls._icon_cache[cache_key] = pixmap
-                return pixmap
+            return full_path
         unknown_path = resource_path(base_path, 'game_data', 'icons', 'T_icon_unknown.webp')
         if os.path.exists(unknown_path):
-            pixmap = QPixmap(unknown_path)
-            if not pixmap.isNull():
-                pixmap = pixmap.scaled(size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                cls._icon_cache[cache_key] = pixmap
-                return pixmap
-        empty = QPixmap(size)
-        empty.fill()
-        return empty
+            return unknown_path
+        return None
     @classmethod
     def get_item_rarity(cls, asset_name: str) -> int:
         item = cls.get_item_by_asset(asset_name)
@@ -625,7 +617,7 @@ def get_player_inventory(player_uid: str) -> PlayerInventory:
     inv = PlayerInventory(player_uid)
     inv.load()
     return inv
-def get_item_icon(icon_path: str, size: QSize=QSize(48, 48)) -> QPixmap:
+def get_item_icon(icon_path: str, size=None):
     return ItemData.get_item_icon(icon_path, size)
 def search_items(query: str, limit: int=50) -> list:
     return ItemData.search_items(query, limit)

@@ -1,6 +1,6 @@
 """Nuitka build script for the PST WebUI backend (FastAPI sidecar).
 
-Builds web/backend/main.py into a standalone executable that Tauri bundles
+Builds app/backend/main.py into a standalone executable that Tauri bundles
 as a sidecar process. The binary auto-starts the FastAPI+uvicorn server.
 
 Output goes to the Tauri binaries directory with the correct platform suffix
@@ -21,8 +21,8 @@ ROOT_DIR = os.path.abspath(os.path.join(_SCRIPT_DIR, "..", ".."))
 os.chdir(ROOT_DIR)
 
 VENV_DIR = ".venv"
-TAURI_BINARIES_DIR = os.path.join("web", "frontend", "src-tauri", "binaries")
-MAIN_SCRIPT = os.path.join("web", "backend", "main.py")
+TAURI_BINARIES_DIR = os.path.join("app", "frontend", "src-tauri", "binaries")
+MAIN_SCRIPT = os.path.join("app", "backend", "main.py")
 
 _INCLUDE_PACKAGES = [
     # Web framework
@@ -136,9 +136,9 @@ def build_with_nuitka(onefile: bool = True):
     # Also includes resources (game data, i18n, assets) and configs (runtime.cfg).
     cmd.append("--include-data-dir=src=src")
     # Built frontend SPA (so backend can serve it)
-    frontend_build = os.path.join(ROOT_DIR, "web", "frontend", "build")
+    frontend_build = os.path.join(ROOT_DIR, "app", "frontend", "build")
     if os.path.isdir(frontend_build):
-        cmd.append("--include-data-dir=web/frontend/build=web/frontend/build")
+        cmd.append("--include-data-dir=app/frontend/build=app/frontend/build")
 
     for pkg in _INCLUDE_PACKAGES:
         cmd.append(f"--include-package={pkg}")
@@ -167,7 +167,7 @@ def build_with_nuitka(onefile: bool = True):
     env = os.environ.copy()
     env["PYTHONPATH"] = os.pathsep.join([
         os.path.join(ROOT_DIR, "src"),
-        os.path.join(ROOT_DIR, "web"),
+        os.path.join(ROOT_DIR, "app"),
         env.get("PYTHONPATH", ""),
     ])
     result = subprocess.run(cmd, env=env)

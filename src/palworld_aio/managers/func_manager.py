@@ -6,7 +6,6 @@ import shutil
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from palsav.archive import UUID
-from PySide6.QtWidgets import QMessageBox, QInputDialog
 from i18n import t
 from palworld_aio import constants
 from palworld_aio.utils import sav_to_json, json_to_sav, sav_to_gvasfile, gvasfile_to_sav, are_equal_uuids, as_uuid, is_valid_level, extract_value, format_duration, sanitize_filename
@@ -14,6 +13,9 @@ from palworld_aio.managers.data_manager import delete_base_camp, load_game_data_
 from palworld_aio.editor.dialogs import GameDaysInputDialog
 from palworld_aio.inventory.container_ownership import ContainerOwnership
 from resource_resolver import resource_path
+import logging
+
+logger = logging.getLogger("pst.func_manager")
 def scan_and_protect_death_bags(parent=None):
     if not constants.loaded_level_json:
         return {'dropped_pals': 0, 'death_penalty_chests': 0}
@@ -1452,9 +1454,7 @@ def modify_container_slots(new_slot_num, parent=None, container_id=None):
                     slots = value.get('Slots', {}).get('value', {}).get('values', [])
                     current_items = len([s for s in slots if s.get('RawData', {}).get('value', {})])
                     if new_slot_num < current_items:
-                        if parent:
-                            from PySide6.QtWidgets import QMessageBox
-                            QMessageBox.warning(parent, 'Invalid Operation', f'Cannot reduce container slots below current item count ({current_items})')
+                        logger.warning("Cannot reduce container slots below current item count (%d)", current_items)
                         return 0
                     if current_slot_num == new_slot_num:
                         return 0
@@ -1478,9 +1478,7 @@ def modify_container_slots(new_slot_num, parent=None, container_id=None):
                     print(f'Error modifying container {container_id}: {e}')
                     return 0
             else:
-                if parent:
-                    from PySide6.QtWidgets import QMessageBox
-                    QMessageBox.warning(parent, 'Container Not Found', f'Container with ID {container_id} not found')
+                logger.warning("Container with ID %s not found", container_id)
                 return 0
         else:
             for cont in item_containers:
@@ -1624,21 +1622,22 @@ def check_dynamic_containers_with_reporting(parent=None):
         return False
     try:
         report = gather_update_dynamic_containers_with_reporting()
-        if parent:
-            from PySide6.QtWidgets import QMessageBox
-            import textwrap
-            message = f"\n📊 Dynamic Container Analysis Report\n{'=' * 50}\n\n🔍 Items Found in Containers: {report['total_items_in_containers']}\n📦 Items in Registry: {report['total_items_in_registry']}\n\n❌ Missing Items (referenced but not in registry): {report['total_missing']}\n{(chr(10).join((f'   • {item}' for item in report['missing_items'])) if report['missing_items'] else '   None')}\n\n🗑️  Orphaned Items (in registry but not referenced): {report['total_orphaned']}\n{(chr(10).join((f'   • {item}' for item in report['orphaned_items'])) if report['orphaned_items'] else '   None')}\n\n✅ Status: {('SUCCESS' if report['success'] else 'FAILED')}\n{('All dynamic items are properly synchronized!' if report['success'] else 'Some dynamic items may be missing or orphaned.')}\n"
-            msg_box = QMessageBox(parent)
-            msg_box.setWindowTitle('Dynamic Container Analysis')
-            msg_box.setText(message.strip())
-            msg_box.setIcon(QMessageBox.Information if report['success'] else QMessageBox.Warning)
-            msg_box.setStandardButtons(QMessageBox.Ok)
-            msg_box.exec_()
+        print(f"\n📊 Dynamic Container Analysis Report")
+        print(f"{'=' * 50}")
+        print(f"Items Found in Containers: {report['total_items_in_containers']}")
+        print(f"Items in Registry: {report['total_items_in_registry']}")
+        print(f"Missing Items: {report['total_missing']}")
+        if report['missing_items']:
+            for item in report['missing_items']:
+                print(f"  • {item}")
+        print(f"Orphaned Items: {report['total_orphaned']}")
+        if report['orphaned_items']:
+            for item in report['orphaned_items']:
+                print(f"  • {item}")
+        print(f"Status: {'SUCCESS' if report['success'] else 'FAILED'}")
         return report['success']
     except Exception as e:
-        if parent:
-            from PySide6.QtWidgets import QMessageBox
-            QMessageBox.warning(parent, 'Error', f'Failed to analyze dynamic containers: {str(e)}')
+        logger.error("Failed to analyze dynamic containers: %s", e)
         return False
 def check_is_illegal_pal(raw):
     try:

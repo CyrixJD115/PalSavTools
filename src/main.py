@@ -68,8 +68,8 @@ def free_ports():
 
 def start_webui(vpy: pathlib.Path):
     """Start frontend dev server and backend, return (frontend_proc, backend_proc)."""
-    frontend_dir = PROJECT_DIR / 'web' / 'frontend'
-    backend_py = PROJECT_DIR / 'web' / 'backend' / 'main.py'
+    frontend_dir = PROJECT_DIR / 'app' / 'frontend'
+    backend_py = PROJECT_DIR / 'app' / 'backend' / 'main.py'
 
     _npm = shutil.which('npm')
     if not _npm:
@@ -215,7 +215,7 @@ def main():
                 log(f'  Open {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually instead{RESET}', YELLOW)
                 frontend_proc.wait()
             else:
-                tauri_dir = PROJECT_DIR / 'web' / 'frontend'
+                tauri_dir = PROJECT_DIR / 'app' / 'frontend'
                 log('  Building Tauri app (first run compiles Rust)...', DIM)
                 tauri_proc = subprocess.Popen(
                     [npm, 'run', 'tauri', '--', 'dev'],

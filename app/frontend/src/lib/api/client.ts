@@ -8,12 +8,14 @@ import type {
   DirectPartnersRequest, DirectPartnersResponse, ExpandContainerRequest,
   FixGuildRequest, FixHostSaveRequest, GuildDetail, GuildListResponse,
   HealthResponse, LanguagesResponse, LoadResponse, MapDataResponse,
-  MaxAbilitiesRequest, PalListResponse, PlayerDetail, PlayerListResponse,
-  PlayerMigrateRequest, PlayerStatsResponse, PlayerTechPointsResponse,
-  RenameGuildRequest, RenamePlayerRequest, SaveStateResponse,
-  SetBaseRadiusRequest, SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest,
-  SetStatsRequest, SetTechPointsRequest, SlotInjectorRequest, ToolResponse,
-  ToolsListResponse,
+  MaxAbilitiesRequest, MovePalRequest, PalDetailResponse, PalEditRequest,
+  PalGroupedResponse, PalListResponse, PalPreset, PalSkillCatalogResponse,
+  PlayerDetail, PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
+  PlayerTechPointsResponse, PresetApplyRequest, PresetApplyResponse,
+  PresetListResponse, PresetSaveRequest, RenameGuildRequest, RenamePlayerRequest,
+  SaveStateResponse, SetBaseRadiusRequest, SetGuildLevelRequest, SetLeaderRequest,
+  SetLevelRequest, SetStatsRequest, SetTechPointsRequest, SlotInjectorRequest,
+  ToolResponse, ToolsListResponse,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -135,6 +137,37 @@ export const api = {
   expandContainer: (id: string, body: ExpandContainerRequest) =>
     request<{ status: string }>(`/containers/${id}/expand`, jsonBody(body, 'PUT')),
   pals: (limit = 300) => request<PalListResponse>(`/pals?limit=${limit}`),
+  palGrouped: (ownerUid: string) =>
+    request<PalGroupedResponse>(`/pals/grouped?owner_uid=${encodeURIComponent(ownerUid)}`),
+
+  // ---- pal editor ----
+  palDetail: (instanceId: string) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}`),
+  editPal: (instanceId: string, body: PalEditRequest) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}`, jsonBody(body, 'PUT')),
+  maxOutPal: (instanceId: string, cheatMode = false) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}/max-out`, jsonBody({ cheat_mode: cheatMode })),
+  healPal: (instanceId: string) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}/heal`, jsonBody({}, 'POST')),
+  learnAllPal: (instanceId: string, cheatMode = false) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}/learn-all`, jsonBody({ cheat_mode: cheatMode })),
+  movePal: (instanceId: string, body: MovePalRequest) =>
+    request<PalDetailResponse>(`/pals/${encodeURIComponent(instanceId)}/move`, jsonBody(body)),
+  swapPals: (palA: string, palB: string) =>
+    request<{ status: string; pal_a: string; pal_b: string }>('/pals/swap', jsonBody({ pal_a: palA, pal_b: palB })),
+  deletePal: (instanceId: string) =>
+    request<{ status: string }>(`/pals/${encodeURIComponent(instanceId)}`, { method: 'DELETE' }),
+  palSkillCatalog: () =>
+    request<PalSkillCatalogResponse>('/pals/catalog/skills'),
+  applyPreset: (body: PresetApplyRequest) =>
+    request<PresetApplyResponse>('/pals/apply-preset', jsonBody(body)),
+
+  // ---- pal presets ----
+  listPresets: () => request<PresetListResponse>('/presets'),
+  savePreset: (body: PresetSaveRequest) =>
+    request<PalPreset>('/presets', jsonBody(body)),
+  deletePreset: (id: string) =>
+    request<{ status: string }>(`/presets/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
   mapData: () => request<MapDataResponse>('/map/data'),
 

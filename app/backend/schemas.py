@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 # ---- health / system --------------------------------------------------------
@@ -235,11 +235,176 @@ class PalSummary(BaseModel):
     level: Optional[int] = None
     rank: Optional[int] = None
     is_illegal: bool = False
+    # Container binding (present on grouped reads; omitted on the flat list).
+    container_id: Optional[str] = None
+    slot_index: int = 0
+    # Icon + element join from characters.json (so the grid can render without
+    # a second client-side fetch). None when the species isn't in the catalog.
+    icon: Optional[str] = None
+    elements: dict = {}
+    # Derived flags for at-a-glance tile badges.
+    is_boss: bool = False
+    is_lucky: bool = False
+    is_predator: bool = False
+    is_sick: bool = False
 
 
 class PalListResponse(BaseModel):
     pals: list[PalSummary]
     total: int
+
+
+class PalGroupedResponse(BaseModel):
+    """Pals pre-bucketed into a player's Party and Pal Box zones.
+
+    ``party`` and ``palbox`` are sorted by ``slot_index``. Pals whose
+    ``SlotId.ContainerId`` matches neither container id fall into ``ungrouped``
+    (e.g. base-deployed pals, or pals with a missing slot struct) so nothing
+    vanishes silently.
+    """
+    party_id: Optional[str] = None
+    palbox_id: Optional[str] = None
+    party: list[PalSummary] = []
+    palbox: list[PalSummary] = []
+    ungrouped: list[PalSummary] = []
+
+
+# ---- pal editor: detail / mutation -----------------------------------------
+
+class PalDetail(BaseModel):
+    """Full editable pal detail (mirrors PalService.read_pal_detail output)."""
+    instance_id: str
+    character_id: str = ""
+    display_name: Optional[str] = None
+    icon: Optional[str] = None
+    nickname: Optional[str] = None
+    gender: str = ""
+    level: int = 1
+    exp: int = 0
+    rank: int = 1
+    talent_hp: int = 0
+    talent_shot: int = 0
+    talent_defense: int = 0
+    rank_hp: int = 0
+    rank_attack: int = 0
+    rank_defense: int = 0
+    rank_craftspeed: int = 0
+    passive_skills: list[str] = []
+    active_skills: list[str] = []
+    learned_skills: list[str] = []
+    work_suitability: dict = {}
+    hp: int = 0
+    max_hp: int = 0
+    stomach: float = 0.0
+    sanity: float = 100.0
+    friendship_point: int = 0
+    is_boss: bool = False
+    is_lucky: bool = False
+    is_predator: bool = False
+    is_tower: bool = False
+    is_sick: bool = False
+    owner_uid: Optional[str] = None
+    storage_id: Optional[str] = None
+    storage_slot: int = 0
+    boss_available: bool = False
+
+
+class PalDetailResponse(BaseModel):
+    pal: PalDetail
+
+
+class PalEditRequest(BaseModel):
+    """Granular pal edit. Each field optional; None/absent = don't touch.
+
+    Numeric ranges are byte-width ceilings (0-255); semantic caps (IV 0-100,
+    level 1-80, rank 1-5) are enforced in pal_service based on ``cheat_mode``.
+    """
+    nickname: Optional[str] = None
+    character_id: Optional[str] = None
+    gender: Optional[str] = None
+    is_lucky: Optional[bool] = None
+    is_boss: Optional[bool] = None
+    level: Optional[int] = Field(None, ge=1, le=255)
+    exp: Optional[int] = Field(None, ge=0)
+    rank: Optional[int] = Field(None, ge=1, le=255)
+    talent_hp: Optional[int] = Field(None, ge=0, le=255)
+    talent_shot: Optional[int] = Field(None, ge=0, le=255)
+    talent_defense: Optional[int] = Field(None, ge=0, le=255)
+    rank_hp: Optional[int] = Field(None, ge=0, le=255)
+    rank_attack: Optional[int] = Field(None, ge=0, le=255)
+    rank_defense: Optional[int] = Field(None, ge=0, le=255)
+    rank_craftspeed: Optional[int] = Field(None, ge=0, le=255)
+    passive_skills: Optional[list[str]] = None
+    active_skills: Optional[list[str]] = None
+    learned_skills: Optional[list[str]] = None
+    work_suitability: Optional[dict] = None
+    friendship_point: Optional[int] = Field(None, ge=0, le=200000)
+    cheat_mode: bool = False
+
+
+class MovePalRequest(BaseModel):
+    target_container_id: str
+    player_uid: str
+
+
+class SwapPalRequest(BaseModel):
+    """Drag-and-drop slot swap: drop pal A onto pal B → they exchange places."""
+    pal_a: str
+    pal_b: str
+
+
+class PalSkillCatalogResponse(BaseModel):
+    passives: list[dict]
+    actives: list[dict]
+
+
+# ---- pal presets (JSON-file-backed) ----------------------------------------
+
+class PalPreset(BaseModel):
+    """A saved stat/skill profile. Every field optional; None = 'don't touch'."""
+    id: Optional[str] = None
+    name: str
+    nickname: Optional[str] = None
+    character_id: Optional[str] = None
+    gender: Optional[str] = None
+    is_lucky: Optional[bool] = None
+    is_boss: Optional[bool] = None
+    level: Optional[int] = None
+    exp: Optional[int] = None
+    rank: Optional[int] = None
+    talent_hp: Optional[int] = None
+    talent_shot: Optional[int] = None
+    talent_defense: Optional[int] = None
+    rank_hp: Optional[int] = None
+    rank_attack: Optional[int] = None
+    rank_defense: Optional[int] = None
+    rank_craftspeed: Optional[int] = None
+    passive_skills: Optional[list[str]] = None
+    active_skills: Optional[list[str]] = None
+    learned_skills: Optional[list[str]] = None
+    work_suitability: Optional[dict] = None
+    friendship_point: Optional[int] = None
+
+
+class PresetListResponse(BaseModel):
+    presets: list[PalPreset]
+
+
+class PresetSaveRequest(BaseModel):
+    name: str
+    preset: PalPreset
+
+
+class PresetApplyRequest(BaseModel):
+    instance_ids: list[str]
+    preset_id: str
+    cheat_mode: bool = False
+
+
+class PresetApplyResponse(BaseModel):
+    applied: int
+    failed: list[str]
+    errors: dict = {}
 
 
 # ---- player detail / mutation ------------------------------------------------
@@ -255,6 +420,11 @@ class PlayerDetail(BaseModel):
     is_leader: bool = False
     last_seen_seconds: Optional[float] = None
     last_seen_text: Optional[str] = None
+    # Container IDs read from the player's .sav (OtomoCharacterContainerId =
+    # party, PalStorageContainerId = palbox). Used by the pal-editor grid to
+    # bucket pals into zones. None when the .sav isn't available/decoded.
+    party_id: Optional[str] = None
+    palbox_id: Optional[str] = None
 
 
 class RenamePlayerRequest(BaseModel):

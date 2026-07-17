@@ -51,7 +51,7 @@ dev = [
 # breeding engine itself is loaded via importlib in conftest.py (mirroring how
 # the backend loads it), so it stays fully decoupled.
 addopts = "--import-mode=importlib"
-testpaths = ["tests/breeding"]
+testpaths = ["tests/breeding", "tests/roundtrip"]
 pythonpath = ["."]
 
 

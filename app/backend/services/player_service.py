@@ -28,6 +28,7 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+from typing import Optional
 
 from app.backend.services import world_service
 from app.backend.services.save_service import (
@@ -203,6 +204,7 @@ def get_player_detail(
     uid: str,
     player_pal_counts: dict[str, int],
     player_levels: dict[str, int],
+    players_dir: str = "",
 ) -> dict | None:
     uid_clean = _uid_clean(uid)
     wsd = world_service.get_world_save_data(level_dict)
@@ -231,7 +233,7 @@ def get_player_detail(
             elapsed = None
             if isinstance(last, (int, float)) and tick:
                 elapsed = (tick - last) / 10_000_000.0
-            return {
+            detail = {
                 "uid": puid,
                 "name": name,
                 "level": player_levels.get(uid_clean, 0),
@@ -242,8 +244,37 @@ def get_player_detail(
                 "is_leader": _uid_clean(puid) == _uid_clean(admin_uid),
                 "last_seen_seconds": elapsed,
                 "last_seen_text": world_service._fmt_last_seen(elapsed),
+                "party_id": None,
+                "palbox_id": None,
             }
+            # Read party (OtomoCharacterContainerId) + palbox (PalStorageContainerId)
+            # from the player's .sav (cache-first). Used by the pal-editor grid.
+            if players_dir:
+                party_id, palbox_id = _read_container_ids(players_dir, puid)
+                detail["party_id"] = party_id
+                detail["palbox_id"] = palbox_id
+            return detail
     return None
+
+
+def _read_container_ids(players_dir: str, uid: str) -> tuple[Optional[str], Optional[str]]:
+    """Return ``(party_id, palbox_id)`` from the player's .sav, or ``(None, None)``.
+
+    Ports ``tool_service``'s proven read of ``SaveData.PalStorageContainerId``
+    and ``SaveData.OtomoCharacterContainerId``. Uses the cache-first
+    ``_read_player_sav`` so repeated detail reads don't re-decode.
+    """
+    cached = _read_player_sav(players_dir, uid)
+    if cached is None:
+        return None, None
+    pdict, _ = cached
+    psd = world_service._g(pdict, "root", "properties", "SaveData") or {}
+    palbox = world_service._g(psd, "PalStorageContainerId", "ID")
+    party = world_service._g(psd, "OtomoCharacterContainerId", "ID")
+    return (
+        world_service._norm_uid(party) if party else None,
+        world_service._norm_uid(palbox) if palbox else None,
+    )
 
 
 def rename_player(level_dict: dict, uid: str, new_name: str) -> bool:

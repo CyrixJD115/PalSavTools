@@ -180,9 +180,24 @@ def _build_source(req: ChainRequest, level_dict: dict | None, warnings: list[str
             name_map=data_service.character_name_map(),
             limit=5000,
         )
+        logger.debug("_build_source: list_pals returned %d pals", len(pals))
         if req.owner_uid:
             wanted = req.owner_uid.replace("-", "").lower()
-            pals = [p for p in pals if (p.get("owner_uid") or "").replace("-", "").lower() == wanted]
+            logger.debug("_build_source: filtering by owner_uid=%s (normalized=%s)", req.owner_uid, wanted)
+            before_pals = list(pals)
+            pals = [p for p in before_pals if (p.get("owner_uid") or "").replace("-", "").lower() == wanted]
+            logger.debug("_build_source: filter kept %d / %d pals", len(pals), len(before_pals))
+            if not pals and before_pals:
+                # Log a few sample owner_uid values for debugging.
+                sample_owners = set()
+                for p in before_pals[:200]:
+                    o = p.get("owner_uid")
+                    if o:
+                        sample_owners.add(o)
+                logger.warning(
+                    "_build_source: 0 pals matched owner=%s; sample owner_uid values in save: %s",
+                    wanted, list(sample_owners)[:5],
+                )
         if not pals:
             warnings.append("No owned pals match the filter; returning no chains")
             return None

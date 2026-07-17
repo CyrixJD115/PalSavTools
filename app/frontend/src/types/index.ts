@@ -79,6 +79,8 @@ export interface PlayerDetail {
   is_leader: boolean;
   last_seen_seconds: number | null;
   last_seen_text: string | null;
+  party_id?: string | null;
+  palbox_id?: string | null;
 }
 
 export interface RenamePlayerRequest {
@@ -269,11 +271,164 @@ export interface PalSummary {
   active_skills: string[];
   learned_skills: string[];
   is_illegal: boolean;
+  // Container binding + icon join (present on grouped reads).
+  container_id?: string | null;
+  slot_index?: number;
+  icon?: string | null;
+  elements?: Record<string, { name: string; icon: string; icon_large?: string }>;
+  is_boss?: boolean;
+  is_lucky?: boolean;
+  is_predator?: boolean;
+  is_sick?: boolean;
+}
+
+export interface PalGroupedResponse {
+  party_id: string | null;
+  palbox_id: string | null;
+  party: PalSummary[];
+  palbox: PalSummary[];
+  ungrouped: PalSummary[];
 }
 
 export interface PalListResponse {
   pals: PalSummary[];
   total: number;
+}
+
+// ---- pal editor: detail / mutation ----------------------------------------
+
+export interface PalDetail {
+  instance_id: string;
+  character_id: string;
+  display_name: string | null;
+  icon: string | null;
+  nickname: string | null;
+  gender: string;
+  level: number;
+  exp: number;
+  rank: number;
+  talent_hp: number;
+  talent_shot: number;
+  talent_defense: number;
+  rank_hp: number;
+  rank_attack: number;
+  rank_defense: number;
+  rank_craftspeed: number;
+  passive_skills: string[];
+  active_skills: string[];
+  learned_skills: string[];
+  work_suitability: Record<string, number>;
+  hp: number;
+  max_hp: number;
+  stomach: number;
+  sanity: number;
+  friendship_point: number;
+  is_boss: boolean;
+  is_lucky: boolean;
+  is_predator: boolean;
+  is_tower: boolean;
+  is_sick: boolean;
+  owner_uid: string | null;
+  storage_id: string | null;
+  storage_slot: number;
+  boss_available: boolean;
+}
+
+export interface PalDetailResponse {
+  pal: PalDetail;
+}
+
+export interface PalEditRequest {
+  nickname?: string | null;
+  character_id?: string | null;
+  gender?: string | null;
+  is_lucky?: boolean | null;
+  is_boss?: boolean | null;
+  level?: number | null;
+  exp?: number | null;
+  rank?: number | null;
+  talent_hp?: number | null;
+  talent_shot?: number | null;
+  talent_defense?: number | null;
+  rank_hp?: number | null;
+  rank_attack?: number | null;
+  rank_defense?: number | null;
+  rank_craftspeed?: number | null;
+  passive_skills?: string[] | null;
+  active_skills?: string[] | null;
+  learned_skills?: string[] | null;
+  work_suitability?: Record<string, number> | null;
+  friendship_point?: number | null;
+  cheat_mode?: boolean;
+}
+
+export interface MovePalRequest {
+  target_container_id: string;
+  player_uid: string;
+}
+
+export interface SkillCatalogEntry {
+  name: string;
+  asset: string;
+  icon?: string;
+  rank?: number;
+  element?: string;
+  power?: number;
+  description?: string;
+  [key: string]: unknown;
+}
+
+export interface PalSkillCatalogResponse {
+  passives: SkillCatalogEntry[];
+  actives: SkillCatalogEntry[];
+}
+
+// ---- pal presets -----------------------------------------------------------
+
+export interface PalPreset {
+  id?: string | null;
+  name: string;
+  nickname?: string | null;
+  character_id?: string | null;
+  gender?: string | null;
+  is_lucky?: boolean | null;
+  is_boss?: boolean | null;
+  level?: number | null;
+  exp?: number | null;
+  rank?: number | null;
+  talent_hp?: number | null;
+  talent_shot?: number | null;
+  talent_defense?: number | null;
+  rank_hp?: number | null;
+  rank_attack?: number | null;
+  rank_defense?: number | null;
+  rank_craftspeed?: number | null;
+  passive_skills?: string[] | null;
+  active_skills?: string[] | null;
+  learned_skills?: string[] | null;
+  work_suitability?: Record<string, number> | null;
+  friendship_point?: number | null;
+}
+
+export interface PresetListResponse {
+  presets: PalPreset[];
+}
+
+export interface PresetSaveRequest {
+  name: string;
+  preset: PalPreset;
+}
+
+export interface PresetApplyRequest {
+  instance_ids: string[];
+  preset_id: string;
+  cheat_mode?: boolean;
+}
+
+export interface PresetApplyResponse {
+  applied: number;
+  failed: string[];
+  errors: Record<string, string>;
 }
 
 // ---- map -------------------------------------------------------------------

@@ -365,9 +365,17 @@ def list_pals(
         if not _is_pal_entry(ch):
             continue
         key = _g(ch, "key") or {}
-        owner = _norm_uid(_k(key, "PlayerUId"))
-        inst = str(_k(key, "InstanceId") or "")
         sp = _pal_entry_raw(ch)
+
+        # Ownership: prefer key.PlayerUId, fall back to sp.OwnerPlayerUId.
+        # Base-assigned workers may have a nil key.PlayerUId even though the
+        # SaveParameter still carries the original owner UID.  This mirrors
+        # the dual-check pattern in player_service._char_belongs_to_player.
+        owner = _norm_uid(_k(key, "PlayerUId"))
+        if not owner:
+            owner = _norm_uid(_k(sp, "OwnerPlayerUId"))
+
+        inst = str(_k(key, "InstanceId") or "")
         cid = _pal_field(sp, "CharacterID")
         cid_str = str(cid) if cid is not None else ""
         display = nm.get(cid_str.lower(), cid_str) if cid_str else None

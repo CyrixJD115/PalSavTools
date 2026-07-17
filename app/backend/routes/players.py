@@ -34,7 +34,9 @@ def _require() -> tuple[dict, str, dict[str, int], dict[str, int]]:
 @router.get("/{uid}", response_model=PlayerDetail)
 async def get_player_detail(uid: str) -> PlayerDetail:
     level_dict, players_dir, pal_counts, levels = _require()
-    detail = player_service.get_player_detail(level_dict, uid, pal_counts, levels)
+    detail = player_service.get_player_detail(
+        level_dict, uid, pal_counts, levels, players_dir=players_dir
+    )
     if detail is None:
         raise HTTPException(404, f"Player not found: {uid}")
     return PlayerDetail(**detail)

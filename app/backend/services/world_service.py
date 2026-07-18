@@ -94,7 +94,11 @@ def count_world(level_dict: dict) -> dict:
               if _group_type(g) == "EPalGroupType::Guild"]
     players = sum(len(_gplayers(g)) for g in guilds)
     total_chars = _map_entries(wsd, "CharacterSaveParameterMap")
-    pals = sum(1 for c in total_chars if _is_pal_entry(c))
+
+    # Use lazy cache for pal count.
+    pal_counts = ensure_pal_owner_counts(level_dict)
+    pals = sum(pal_counts.values())
+
     return {
         "guilds": len(guilds),
         "players": players,
@@ -457,3 +461,311 @@ def get_current_stats(level_dict: dict) -> dict:
         sorted(stats["common_active"].items(), key=lambda x: -x[1])[:10]
     )
     return stats
+
+
+# ---------------------------------------------------------------------------
+# Lazy performance caches (PSP Rust WorldCaches pattern)
+# ---------------------------------------------------------------------------
+
+def ensure_pal_owner_counts(level_dict: dict) -> dict[str, int]:
+    """Get pal owner counts from the lazy cache, building it if needed."""
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None and loaded.caches.pal_owner_counts is not None:
+        return loaded.caches.pal_owner_counts
+    counts = _build_pal_owner_counts(level_dict)
+    if loaded is not None:
+        loaded.caches.pal_owner_counts = counts
+    return counts
+
+
+def _build_pal_owner_counts(level_dict: dict) -> dict[str, int]:
+    """Count pals per owner from CharacterSaveParameterMap."""
+    wsd = get_world_save_data(level_dict)
+    counts: dict[str, int] = {}
+    for entry in _map_entries(wsd, "CharacterSaveParameterMap"):
+        sp = _pal_entry_raw(entry)
+        if not sp or _k(sp, "IsPlayer"):
+            continue
+        owner = _s(_k(sp, "OwnerPlayerUId"))
+        if owner:
+            counts[owner] = counts.get(owner, 0) + 1
+    return counts
+
+
+def ensure_player_guild_map(level_dict: dict) -> dict[str, str]:
+    """Get player→guild map from the lazy cache, building it if needed."""
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None and loaded.caches.player_guild_map is not None:
+        return loaded.caches.player_guild_map
+    guild_map = _build_player_guild_map(level_dict)
+    if loaded is not None:
+        loaded.caches.player_guild_map = guild_map
+    return guild_map
+
+
+def _build_player_guild_map(level_dict: dict) -> dict[str, str]:
+    """Build player-UID → guild-ID map from GroupSaveDataMap."""
+    wsd = get_world_save_data(level_dict)
+    guild_map: dict[str, str] = {}
+    for g in _map_entries(wsd, "GroupSaveDataMap"):
+        if _group_type(g) != "EPalGroupType::Guild":
+            continue
+        guild_data = _g(_g(g, "value", "RawData", "data", "Guild") or {},
+                        "tail", "PreUpdate")
+        if not guild_data:
+            continue
+        gid = _s(g.get("key", ""))
+        if not gid:
+            continue
+        for p in (guild_data.get("players") or []):
+            puid = _s(p.get("player_uid", ""))
+            if puid:
+                guild_map[puid] = gid
+    return guild_map
+
+
+# ---------------------------------------------------------------------------
+# Index building + indexed lookups (PSP Rust philosophy)
+# ---------------------------------------------------------------------------
+
+def build_index(entries: list, key_field: str | None) -> dict[str, int]:
+    """Build a UUID→position index from a Rust-shape map entry list.
+
+    * If ``key_field`` is ``None``, entries are keyed by bare UUID strings
+      (e.g. ``GroupSaveDataMap``, where ``entry["key"]`` is a bare GUID).
+    * If ``key_field`` is set (e.g. ``"InstanceId"``), entries are keyed by
+      that field within the key dict (e.g. ``entry.key.InstanceId``).
+    """
+    idx: dict[str, int] = {}
+    for pos, entry in enumerate(entries):
+        key = entry.get("key") if isinstance(entry, dict) else None
+        if key is None:
+            continue
+        if key_field is None and isinstance(key, str):
+            uid = key.replace("-", "").lower()
+        elif key_field and isinstance(key, dict):
+            uid_raw = _k(key, key_field)
+            if uid_raw:
+                uid = str(uid_raw).replace("-", "").lower()
+            else:
+                continue
+        else:
+            continue
+        idx[uid] = pos
+    return idx
+
+def _loaded_index(index_name: str) -> dict[str, int] | None:
+    """Retrieve a position index from the current ``LoadedSave``, or ``None``."""
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is None:
+        return None
+    return getattr(loaded, index_name, None)
+
+
+def find_character_entry(level_dict: dict, instance_id: str) -> dict | None:
+    """Find a ``CharacterSaveParameterMap`` entry by ``InstanceId``.
+
+    Uses the pre-built ``character_index`` for O(1) lookup when available;
+    falls back to linear scan.
+    """
+    uid_clean = instance_id.replace("-", "").lower()
+    idx = _loaded_index("character_index")
+    if idx is not None:
+        pos = idx.get(uid_clean)
+        if pos is None:
+            return None
+        wsd = get_world_save_data(level_dict)
+        entries = _map_entries(wsd, "CharacterSaveParameterMap")
+        if 0 <= pos < len(entries):
+            return entries[pos]
+        return None
+    # Fallback: linear scan.
+    wsd = get_world_save_data(level_dict)
+    for entry in _map_entries(wsd, "CharacterSaveParameterMap"):
+        key = _g(entry, "key") or {}
+        iid = _k(key, "InstanceId")
+        if iid and str(iid).replace("-", "").lower() == uid_clean:
+            return entry
+    return None
+
+
+def find_item_container_entry(level_dict: dict, container_id: str) -> dict | None:
+    """Find an ``ItemContainerSaveData`` entry by container ID.
+
+    Uses ``item_container_index`` for O(1) lookup when available.
+    """
+    cid_clean = container_id.replace("-", "").lower()
+    idx = _loaded_index("item_container_index")
+    if idx is not None:
+        pos = idx.get(cid_clean)
+        if pos is None:
+            return None
+        wsd = get_world_save_data(level_dict)
+        entries = _map_entries(wsd, "ItemContainerSaveData")
+        if 0 <= pos < len(entries):
+            return entries[pos]
+        return None
+    wsd = get_world_save_data(level_dict)
+    for entry in _map_entries(wsd, "ItemContainerSaveData"):
+        key = _g(entry, "key") or {}
+        cid = _k(key, "ID")
+        if cid and str(cid).replace("-", "").lower() == cid_clean:
+            return entry
+    return None
+
+
+def find_character_container_entry(level_dict: dict, container_id: str) -> dict | None:
+    """Find a ``CharacterContainerSaveData`` entry by container ID.
+
+    Uses ``char_container_index`` for O(1) lookup when available.
+    """
+    cid_clean = container_id.replace("-", "").lower()
+    idx = _loaded_index("char_container_index")
+    if idx is not None:
+        pos = idx.get(cid_clean)
+        if pos is None:
+            return None
+        wsd = get_world_save_data(level_dict)
+        entries = _map_entries(wsd, "CharacterContainerSaveData")
+        if 0 <= pos < len(entries):
+            return entries[pos]
+        return None
+    wsd = get_world_save_data(level_dict)
+    for entry in _map_entries(wsd, "CharacterContainerSaveData"):
+        key = _g(entry, "key") or {}
+        cid = _k(key, "ID")
+        if cid and str(cid).replace("-", "").lower() == cid_clean:
+            return entry
+    return None
+
+
+def find_group_entry(level_dict: dict, group_id: str) -> dict | None:
+    """Find a ``GroupSaveDataMap`` entry by group ID.
+
+    Uses ``group_index`` for O(1) lookup when available.
+    """
+    gid_clean = group_id.replace("-", "").lower()
+    idx = _loaded_index("group_index")
+    if idx is not None:
+        pos = idx.get(gid_clean)
+        if pos is None:
+            return None
+        wsd = get_world_save_data(level_dict)
+        entries = _map_entries(wsd, "GroupSaveDataMap")
+        if 0 <= pos < len(entries):
+            return entries[pos]
+        return None
+    wsd = get_world_save_data(level_dict)
+    for entry in _map_entries(wsd, "GroupSaveDataMap"):
+        gid = entry.get("key")
+        if gid and str(gid).replace("-", "").lower() == gid_clean:
+            return entry
+    return None
+
+
+# ---------------------------------------------------------------------------
+# SaveHandle-aware lookups (avoid materializing the full Python dict)
+# ---------------------------------------------------------------------------
+
+def _get_save_handle():
+    """Get the current ``SaveHandle`` from ``LoadedSave``, or ``None``."""
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is None:
+        return None
+    return loaded.save_handle
+
+
+def get_character_dict(instance_id: str) -> dict | None:
+    """Get a single character entry as a Python dict via SaveHandle.
+
+    When ``SaveHandle`` is available, this extracts only the requested entry
+    from Rust memory — no full dict materialization. Falls back to scanning
+    ``level_dict``.
+    """
+    handle = _get_save_handle()
+    if handle is not None:
+        char_json = handle.get_character(instance_id)
+        if char_json:
+            import json
+            return json.loads(char_json)
+        return None
+    # Fallback: use the indexed lookup (which may still need level_dict)
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None:
+        return find_character_entry(loaded.level_dict, instance_id)
+    return None
+
+
+def get_container_dict(container_id: str) -> dict | None:
+    """Get a single container entry via SaveHandle."""
+    handle = _get_save_handle()
+    if handle is not None:
+        con_json = handle.get_container(container_id)
+        if con_json:
+            import json
+            return json.loads(con_json)
+        return None
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None:
+        return find_item_container_entry(loaded.level_dict, container_id)
+    return None
+
+
+def get_group_dict(group_id: str) -> dict | None:
+    """Get a single guild/group entry via SaveHandle."""
+    handle = _get_save_handle()
+    if handle is not None:
+        g_json = handle.get_group(group_id)
+        if g_json:
+            import json
+            return json.loads(g_json)
+        return None
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None:
+        return find_group_entry(loaded.level_dict, group_id)
+    return None
+
+
+def get_base_dict(base_id: str) -> dict | None:
+    """Get a single base entry via SaveHandle."""
+    handle = _get_save_handle()
+    if handle is not None:
+        b_json = handle.get_base(base_id)
+        if b_json:
+            import json
+            return json.loads(b_json)
+        return None
+    from app.backend.state import save_state
+    loaded = save_state.get()
+    if loaded is not None:
+        return find_group_entry(loaded.level_dict, base_id)  # bases are keyed by group-like IDs
+    return None
+
+
+def delete_character_via_handle(instance_id: str) -> bool:
+    """Delete a character entry via SaveHandle (no Python dict needed).
+
+    Returns ``True`` if the character was found and removed.
+    """
+    handle = _get_save_handle()
+    if handle is not None:
+        import threading
+        from app.backend.state import save_state
+        with save_state.lock:
+            ok = handle.delete_character(instance_id)
+            if ok:
+                # Invalidate the Python-side cache so the next read comes
+                # from the updated Rust save.
+                loaded = save_state.get()
+                if loaded is not None:
+                    loaded._level_dict = None
+                    loaded.invalidate_caches()
+            return ok
+    return False

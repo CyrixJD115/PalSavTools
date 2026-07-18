@@ -8,6 +8,7 @@ from app.backend.schemas import (
     GuildDetail, RenameGuildRequest, SetGuildLevelRequest, SetLeaderRequest,
 )
 from app.backend.services import guild_service
+from app.backend.services.cache_invalidation import invalidate_caches
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/guilds")
@@ -34,6 +35,7 @@ async def rename_guild(guild_id: str, body: RenameGuildRequest) -> dict:
         raise HTTPException(400, "Name cannot be empty")
     if not guild_service.rename_guild(_require(), guild_id, body.name.strip()):
         raise HTTPException(404, f"Guild not found: {guild_id}")
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -43,6 +45,7 @@ async def set_guild_level(guild_id: str, body: SetGuildLevelRequest) -> dict:
         raise HTTPException(400, "Level must be between 1 and 35")
     if not guild_service.set_guild_level(_require(), guild_id, body.level):
         raise HTTPException(404, f"Guild not found: {guild_id}")
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -50,6 +53,7 @@ async def set_guild_level(guild_id: str, body: SetGuildLevelRequest) -> dict:
 async def set_leader(guild_id: str, body: SetLeaderRequest) -> dict:
     if not guild_service.make_member_leader(_require(), guild_id, body.player_uid):
         raise HTTPException(404, "Guild or player not found")
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -57,6 +61,7 @@ async def set_leader(guild_id: str, body: SetLeaderRequest) -> dict:
 async def remove_member(guild_id: str, player_uid: str) -> dict:
     if not guild_service.remove_member(_require(), guild_id, player_uid):
         raise HTTPException(404, "Guild not found or cannot remove leader")
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -64,4 +69,5 @@ async def remove_member(guild_id: str, player_uid: str) -> dict:
 async def delete_guild(guild_id: str) -> dict:
     if not guild_service.delete_guild(_require(), guild_id):
         raise HTTPException(404, f"Guild not found: {guild_id}")
+    invalidate_caches()
     return {"status": "ok"}

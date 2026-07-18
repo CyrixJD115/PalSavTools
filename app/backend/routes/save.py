@@ -36,16 +36,50 @@ def _build_loaded(
     save_dir: str,
     players_dir: str,
     file_size: int,
-    player_savs: dict[str, dict[str, Any]] | None = None,
+    player_raw: dict[str, bytes] | None = None,
     player_save_types: dict[str, int] | None = None,
+    raw_sav_bytes: bytes | None = None,
 ) -> LoadedSave:
     """Shared constructor for ``LoadedSave`` across all load paths.
 
-    Centralizes the ``precompute_player_data`` + summary-field wiring so the
-    path-load, single-file upload, and bundle-upload flows stay consistent.
+    Centralizes ``precompute_player_data``, position-index building, and
+    summary-field wiring so the path-load, single-file upload, and bundle-
+    upload flows stay consistent.
+
+    When ``raw_sav_bytes`` is provided, a ``SaveHandle`` is created to keep
+    the save in Rust memory (selective dynamic loading — PSP Rust philosophy).
+    The Python ``level_dict`` is then lazily extracted from the handle on first
+    access.
     """
+    from app.backend.state import LazyPlayerSavs
     from app.backend.services.map_service import precompute_player_data
+
     pal_counts, levels, positions = precompute_player_data(level_dict)
+
+    # Lazy player savs.
+    lazy_savs = LazyPlayerSavs()
+    if player_raw:
+        st_map = player_save_types or {}
+        for uid, raw_bytes in player_raw.items():
+            lazy_savs.put_raw(uid, raw_bytes, st_map.get(uid, 49))
+
+    # Position indexes.
+    wsd = world_service.get_world_save_data(level_dict)
+    char_entries = world_service._map_entries(wsd, "CharacterSaveParameterMap")
+    ic_entries = world_service._map_entries(wsd, "ItemContainerSaveData")
+    cc_entries = world_service._map_entries(wsd, "CharacterContainerSaveData")
+    g_entries = world_service._map_entries(wsd, "GroupSaveDataMap")
+
+    # Create Rust SaveHandle if raw bytes available (native module only).
+    save_handle = None
+    if raw_sav_bytes is not None:
+        try:
+            from app.backend.services.palsav_rs_wrapper import _native
+            if hasattr(_native, "SaveHandle"):
+                save_handle = _native.SaveHandle(raw_sav_bytes)
+        except Exception:
+            pass  # Fall back to pure-Python dict path
+
     return LoadedSave(
         filename=filename,
         save_dir=save_dir,
@@ -54,28 +88,34 @@ def _build_loaded(
         class_name=save_service.class_name_of(level_dict),
         file_size=file_size,
         loaded_at=time.time(),
-        level_dict=level_dict,
+        save_handle=save_handle,
+        _level_dict=level_dict,  # Initially populated from decode; invalidate_caches clears it
         player_pal_counts=pal_counts,
         player_levels=levels,
         player_positions=positions,
-        player_savs=player_savs or {},
+        player_savs=lazy_savs,
         player_save_types=player_save_types or {},
+        character_index=world_service.build_index(char_entries, "InstanceId"),
+        item_container_index=world_service.build_index(ic_entries, "ID"),
+        char_container_index=world_service.build_index(cc_entries, "ID"),
+        group_index=world_service.build_index(g_entries, None),
     )
 
 
 def _summarize(level_dict: dict[str, Any], save_type: int, path: Path) -> LoadedSave:
-    # Batch-decode every Players/*.sav through the Rust uesave engine so the
-    # per-player .sav dicts are resident for tech-points / relic / viewing-cage
-    # reads. Rust remains the single source of truth for parsing — this only
-    # holds the decoded dicts in memory (mirrors palworld-save-pal's eager
-    # extract_summaries pass).
+    # Read every Players/*.sav as raw bytes (no decode). The LazyPlayerSavs
+    # will decode on first access — mirrors PSP Rust's PlayerFileData::Bytes
+    # pattern, avoiding the cost of decoding N players at load time.
     players_dir = path.parent / "Players"
-    player_savs, player_save_types = save_service.decode_player_savs(players_dir)
+    player_raw, player_save_types = save_service.decode_player_savs(players_dir)
+    # Read the raw Level.sav bytes for the Rust SaveHandle.
+    raw_sav_bytes = path.read_bytes()
     return _build_loaded(
         level_dict, save_type,
         filename=path.name, save_dir=str(path.parent),
         players_dir=str(players_dir), file_size=path.stat().st_size,
-        player_savs=player_savs, player_save_types=player_save_types,
+        player_raw=player_raw, player_save_types=player_save_types,
+        raw_sav_bytes=raw_sav_bytes,
     )
 
 
@@ -187,7 +227,7 @@ def _load_bundle(data: bytes, filename: str) -> LoadedSave:
     except save_service.SaveDecodeError as exc:
         raise HTTPException(422, str(exc))
 
-    player_savs, player_save_types = save_service.decode_player_savs_from_bytes(
+    player_raw, player_save_types = save_service.decode_player_savs_from_bytes(
         bundle.player_files
     )
     return _build_loaded(
@@ -196,7 +236,8 @@ def _load_bundle(data: bytes, filename: str) -> LoadedSave:
         save_dir=f"(bundle: {filename})",
         players_dir=f"(bundle: {filename})",
         file_size=len(data),
-        player_savs=player_savs, player_save_types=player_save_types,
+        player_raw=player_raw, player_save_types=player_save_types,
+        raw_sav_bytes=bundle.level_bytes,
     )
 
 
@@ -205,9 +246,15 @@ async def export_save() -> StreamingResponse:
     loaded = save_state.require()
     with save_state.lock:
         try:
-            stream = save_service.encode_to_stream(
-                loaded.level_dict, loaded.save_type,
-            )
+            # Use SaveHandle encode when available (avoids Python dict round-trip).
+            if loaded.save_handle is not None:
+                stream = save_service.encode_from_save_handle(
+                    loaded.save_handle, loaded.save_type,
+                )
+            else:
+                stream = save_service.encode_to_stream(
+                    loaded.level_dict, loaded.save_type,
+                )
         except save_service.SaveDecodeError as exc:
             raise HTTPException(500, str(exc))
     size = len(stream.getvalue())

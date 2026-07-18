@@ -14,6 +14,7 @@ from app.backend.schemas import (
     SetLevelRequest, SetStatsRequest, SetTechPointsRequest,
 )
 from app.backend.services import player_service
+from app.backend.services.cache_invalidation import invalidate_caches
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/players")
@@ -48,6 +49,7 @@ async def rename_player(uid: str, body: RenamePlayerRequest) -> dict:
     if not body.name.strip():
         raise HTTPException(400, "Name cannot be empty")
     player_service.rename_player(level_dict, uid, body.name.strip())
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -55,6 +57,7 @@ async def rename_player(uid: str, body: RenamePlayerRequest) -> dict:
 async def delete_player(uid: str) -> dict:
     level_dict, players_dir, _, _ = _require()
     player_service.delete_player(level_dict, uid)
+    invalidate_caches()
     return {"status": "ok"}
 
 
@@ -68,6 +71,7 @@ async def set_player_level(uid: str, body: SetLevelRequest) -> dict:
         # Update the cached player_levels so the players list reflects the change.
         if loaded is not None:
             loaded.player_levels[player_service.normalize_uid(uid)] = body.level
+    invalidate_caches()
     return {"status": "ok"}
 
 

@@ -53,12 +53,73 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 _HAS_NATIVE = False
-try:
-    import uesave_pyo3 as _native
+_native = None  # module-level reference set by _try_load_native()
 
-    _HAS_NATIVE = True
-    logger.info("Using native PyO3 uesave module (%s)", _native.__file__)
-except ImportError:
+# Paths for auto-discovery / auto-build.
+_PYO3_REPO_DIR = Path(__file__).resolve().parents[3] / "src" / "palsav-rs"
+_PYO3_CRATE_DIR = _PYO3_REPO_DIR / "uesave_pyo3"
+_PYO3_TARGET_DIR = _PYO3_REPO_DIR / "target" / "release"
+
+
+def _try_load_native():
+    """Try to import (or build then import) the ``uesave_pyo3`` native module.
+    
+    Returns the module on success, ``None`` on failure. The caller stores the
+    result in the module-level ``_native`` variable.
+    """
+    # 1. Direct import (module is in site-packages or on sys.path).
+    try:
+        import uesave_pyo3 as _native_mod
+        logger.info("Using native PyO3 uesave module (%s)", _native_mod.__file__)
+        return _native_mod
+    except ImportError:
+        pass
+
+    # 2. Look for the compiled .so in the cargo release directory.
+    if _PYO3_TARGET_DIR.is_dir():
+        so_candidates = list(_PYO3_TARGET_DIR.glob("uesave_pyo3*.so")) or list(_PYO3_TARGET_DIR.glob("libuesave_pyo3*.so"))
+        if so_candidates:
+            _so_path = so_candidates[0]
+            logger.info("Found pre-built PyO3 module at %s", _so_path)
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("uesave_pyo3", _so_path)
+            if spec and spec.loader:
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                return mod
+
+    # 3. Try building with maturin.
+    maturin = shutil.which("maturin")
+    if maturin and _PYO3_CRATE_DIR.is_dir():
+        try:
+            logger.info("Building uesave_pyo3 with maturin (first use)…")
+            subprocess.run(
+                [maturin, "build", "--release", "--out", str(_PYO3_TARGET_DIR)],
+                cwd=str(_PYO3_CRATE_DIR),
+                capture_output=True,
+                text=True,
+                timeout=600,
+                check=True,
+            )
+            so_candidates = list(_PYO3_TARGET_DIR.glob("uesave_pyo3*.so")) or list(_PYO3_TARGET_DIR.glob("libuesave_pyo3*.so"))
+            if so_candidates:
+                import importlib.util
+                spec = importlib.util.spec_from_file_location(
+                    "uesave_pyo3", so_candidates[0]
+                )
+                if spec and spec.loader:
+                    mod = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(mod)
+                    return mod
+        except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+            logger.warning("maturin build failed: %s", exc)
+
+    return None
+
+
+_native = _try_load_native()
+_HAS_NATIVE = _native is not None
+if not _HAS_NATIVE:
     logger.info("Native PyO3 module not available, falling back to subprocess CLI")
 
 # ---------------------------------------------------------------------------
@@ -260,10 +321,9 @@ def encode_sav(level_dict: dict[str, Any], save_type: int) -> bytes:
     """
     if _HAS_NATIVE:
         json_str = json.dumps(level_dict)
-        raw = _native.encode_sav(json_str, save_type)
-        if save_type == SAVE_TYPE_PLZ:
-            return _plz_compress(raw)
-        return raw
+        # ``_native.encode_sav`` returns fully compressed bytes:
+        # Oodle for PLM (49), double-zlib for PLZ (50), uncompressed for others.
+        return _native.encode_sav(json_str, save_type)
 
     return _encode_subprocess(level_dict, save_type)
 

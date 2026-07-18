@@ -119,25 +119,24 @@ def _player_sav_path(players_dir: str, uid: str) -> Path:
 def _read_player_sav(players_dir: str, uid: str) -> tuple[dict, int] | None:
     """Return ``(player_dict, save_type)`` for a player, or ``None``.
 
-    Cache-first: if the player's ``.sav`` was batch-decoded at load time and is
-    resident in ``LoadedSave.player_savs``, return that dict directly (no disk
-    read, no re-decode). Otherwise fall back to a one-off disk decode through
-    the Rust ``decode_sav`` engine. Decode errors are logged (not silently
-    swallowed) so parser mismatches surface during migration.
+    Lazy-loading via ``LazyPlayerSavs`` (PSP Rust philosophy): raw bytes were
+    stored at load time; the first access triggers a Rust uesave decode. The
+    decoded dict is then cached for subsequent reads.
+
+    When the player is not in the lazy cache (e.g. loaded by a different
+    session), falls back to a one-off disk decode. Bundle/upload loads have no
+    disk path, so a miss there is terminal.
     """
     uid_clean = _uid_clean(uid)
 
-    # Cache hit — the common path now that load pre-decodes Players/.
+    # Lazy cache path: ``LazyPlayerSavs.get()`` decodes on first access.
     loaded = _loaded()
     if loaded is not None:
-        cached = loaded.player_savs.get(uid_clean)
-        if cached is not None:
-            save_type = loaded.player_save_types.get(uid_clean, SAVE_TYPE_PLM)
-            return cached, save_type
+        result = loaded.player_savs.get(uid_clean)
+        if result is not None:
+            return result
 
-    # Cache miss — fall back to disk (e.g. save loaded before this feature,
-    # or a UID whose file failed to decode at load). Bundle/upload loads have
-    # no disk path, so a cache miss there is terminal.
+    # Fallback — disk decode for on-disk players not in the lazy cache.
     if not _is_disk_players_dir(players_dir):
         return None
     sav_path = _player_sav_path(players_dir, uid)
@@ -148,10 +147,9 @@ def _read_player_sav(players_dir: str, uid: str) -> tuple[dict, int] | None:
     except Exception as exc:
         logger.warning("Failed to decode player save %s: %s", sav_path.name, exc)
         return None
-    # Populate the cache so subsequent reads of this UID stay in-memory.
+    # Prime the lazy cache so subsequent reads skip disk+decode.
     if loaded is not None:
-        loaded.player_savs[uid_clean] = player_dict
-        loaded.player_save_types[uid_clean] = save_type
+        loaded.player_savs.set(uid_clean, player_dict, save_type)
     return player_dict, save_type
 
 
@@ -187,8 +185,7 @@ def _write_player_sav(player_dict: dict, save_type: int, players_dir: str, uid: 
     if written:
         loaded = _loaded()
         if loaded is not None:
-            loaded.player_savs[uid_clean] = player_dict
-            loaded.player_save_types[uid_clean] = save_type
+            loaded.player_savs.set(uid_clean, player_dict, save_type)
     return written
 
 

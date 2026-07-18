@@ -1,12 +1,14 @@
 """SAV <-> dict round-trip via the palsav-rs (Rust uesave) engine.
 
 This is the sole serialization chokepoint for the WebUI backend. It delegates
-to ``app/backend/services/palsav_rs_wrapper`` (a subprocess bridge to the
-``uesave`` binary) and returns plain ``dict`` values in the Rust uesave JSON shape.
+to ``app/backend/services/palsav_rs_wrapper`` and returns plain ``dict`` values
+in the Rust uesave JSON shape (for ``Level.sav``) or raw bytes (for per-player
+``.sav`` files — lazy decoding happens on first access).
 
-The dict is the source of truth: callers read it (``world_service`` etc.),
-mutate it in place (``guild_service`` etc.), then hand it back here for
-re-encoding. There is no live object that can drift from the dict.
+The Level.sav dict is the source of truth: callers read it (``world_service``
+etc.), mutate it in place (``guild_service`` etc.), then hand it back here for
+re-encoding. Player ``.sav`` files follow PSP Rust's lazy-loading philosophy:
+raw bytes are stored at load time, decoded on first access.
 """
 
 from __future__ import annotations
@@ -32,7 +34,7 @@ class SaveDecodeError(Exception):
 
 
 # ---------------------------------------------------------------------------
-# Decode
+# Level.sav decode
 # ---------------------------------------------------------------------------
 
 def decode_bytes(data: bytes) -> tuple[dict[str, Any], int]:
@@ -61,117 +63,86 @@ def decode_file(path: str | Path) -> tuple[dict[str, Any], int, int]:
     return level_dict, save_type, len(data)
 
 
+# ---------------------------------------------------------------------------
+# Player .sav — raw bytes only (lazy decode via LazyPlayerSavs)
+# ---------------------------------------------------------------------------
+
 def decode_player_savs(
     players_dir: str | Path,
-) -> tuple[dict[str, dict[str, Any]], dict[str, int]]:
-    """Batch-decode every player ``.sav`` in ``Players/`` via the Rust engine.
+) -> tuple[dict[str, bytes], dict[str, int]]:
+    """Read every player ``.sav`` from ``Players/`` and return **raw bytes**.
 
-    Walks ``players_dir`` for ``<UID>.sav`` files (skipping ``_dps.sav``
-    companions, which are a separate stream), decodes each through
-    ``decode_sav`` (Rust uesave — PlM/Oodle decompression is transparent),
-    and returns two dicts keyed by cleaned UID (lowercase, no hyphens):
+    .. admonition:: Lazy-loading design
 
-    * ``player_savs`` — ``{uid_clean: decoded_dict}``
-    * ``player_save_types`` — ``{uid_clean: save_type}``
+       Unlike the old code which batch-decoded every player through the Rust
+       engine, this function only **reads** the raw bytes. Decoding is deferred
+       until the first access via ``LazyPlayerSavs.get()``. This mirrors PSP
+       Rust's ``PlayerFileData::Bytes`` pattern and avoids the cost of
+       decoding *N* player files at load time.
 
-    Decode failures are logged and skipped (the player remains absent from
-    the cache rather than aborting the whole load). Mirrors the proven
-    pattern in both reference tools (``palworld-save-pal``'s
-    ``extract_summaries`` and the Python tool's ``_count_pals_found``
-    ThreadPoolExecutor scan).
+    Returns ``(raw_bytes_by_uid, save_types_by_uid)`` keyed by cleaned UID
+    (lowercase, no hyphens). ``_dps.sav`` companions are skipped — they are a
+    separate data stream handled elsewhere.
     """
     players_path = Path(players_dir)
-    player_savs: dict[str, dict[str, Any]] = {}
-    player_save_types: dict[str, int] = {}
+    raw: dict[str, bytes] = {}
+    save_types: dict[str, int] = {}
 
     if not players_path.is_dir():
-        return player_savs, player_save_types
+        return raw, save_types
 
-    # Collect candidate files first so the decode work can fan out to threads.
-    # Stem is the raw UID (uppercase, no dashes) — normalized to cleaned form.
-    candidates: list[tuple[str, Path]] = []
+    # Collect and read every .sav (skipping _dps).
     for entry in players_path.iterdir():
         if not entry.is_file() or entry.suffix.lower() != ".sav":
             continue
         stem = entry.stem
-        if stem.endswith("_dps"):  # dedicated player storage — separate stream
+        if stem.endswith("_dps"):
             continue
         uid_clean = stem.replace("-", "").lower()
         if not uid_clean:
             continue
-        candidates.append((uid_clean, entry))
-
-    if not candidates:
-        return player_savs, player_save_types
-
-    def _decode_one(item: tuple[str, Path]) -> tuple[str, dict[str, Any], int] | None:
-        uid_clean, path = item
         try:
-            data = path.read_bytes()
-            decoded, save_type = _decode_sav(data)
-            return uid_clean, decoded, save_type
-        except (PalsavRsError, OSError) as exc:
-            logger.warning("Failed to decode player save %s: %s", path.name, exc)
-            return None
-
-    workers = min(32, (len(candidates) or 1))
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        for result in pool.map(_decode_one, candidates):
-            if result is None:
-                continue
-            uid_clean, decoded, save_type = result
-            player_savs[uid_clean] = decoded
-            player_save_types[uid_clean] = save_type
+            data = entry.read_bytes()
+            st = detect_save_type(data)
+            raw[uid_clean] = data
+            save_types[uid_clean] = st
+        except OSError as exc:
+            logger.warning("Failed to read player save %s: %s", entry.name, exc)
 
     logger.info(
-        "Decoded %d/%d player .sav files from %s",
-        len(player_savs), len(candidates), players_path,
+        "Read %d player .sav files (raw bytes, not decoded) from %s",
+        len(raw), players_path,
     )
-    return player_savs, player_save_types
+    return raw, save_types
 
 
 def decode_player_savs_from_bytes(
     player_files: dict[str, bytes],
-) -> tuple[dict[str, dict[str, Any]], dict[str, int]]:
-    """Batch-decode player ``.sav`` bytes via the Rust engine (no disk access).
+) -> tuple[dict[str, bytes], dict[str, int]]:
+    """Pass-through for bundle upload — returns raw bytes as-is.
 
-    Sibling of :func:`decode_player_savs` for the in-memory bundle-upload
-    path: ``player_files`` is ``{uid_clean: raw_sav_bytes}`` (as produced by
-    ``archive_service.extract_save_bundle``). Every byte still goes through
-    the Rust ``decode_sav`` engine — this only holds the decoded dicts.
+    The bytes have already been read from the archive; no decoding occurs here.
+    The ``LazyPlayerSavs`` will decode on first access.
 
-    Returns ``(player_savs, player_save_types)`` keyed by cleaned UID, matching
-    the on-disk variant so the rest of the pipeline is identical.
+    Returns ``(raw_bytes_by_uid, save_types_by_uid)`` matching the on-disk
+    variant so the rest of the pipeline is identical.
     """
-    player_savs: dict[str, dict[str, Any]] = {}
-    player_save_types: dict[str, int] = {}
+    raw: dict[str, bytes] = {}
+    save_types: dict[str, int] = {}
 
-    items = list(player_files.items())
-    if not items:
-        return player_savs, player_save_types
-
-    def _decode_one(item: tuple[str, bytes]) -> tuple[str, dict[str, Any], int] | None:
-        uid_clean, raw = item
+    for uid_clean, data in player_files.items():
         try:
-            decoded, save_type = _decode_sav(raw)
-            return uid_clean, decoded, save_type
-        except PalsavRsError as exc:
-            logger.warning("Failed to decode bundled player save %s: %s", uid_clean, exc)
-            return None
-
-    workers = min(32, len(items))
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        for result in pool.map(_decode_one, items):
-            if result is None:
-                continue
-            uid_clean, decoded, save_type = result
-            player_savs[uid_clean] = decoded
-            player_save_types[uid_clean] = save_type
+            st = detect_save_type(data)
+            raw[uid_clean] = data
+            save_types[uid_clean] = st
+        except Exception as exc:
+            logger.warning("Failed to detect save type for player %s: %s", uid_clean, exc)
 
     logger.info(
-        "Decoded %d/%d bundled player .sav files", len(player_savs), len(items),
+        "Staged %d bundled player .sav files (raw bytes, not decoded)",
+        len(raw),
     )
-    return player_savs, player_save_types
+    return raw, save_types
 
 
 # ---------------------------------------------------------------------------
@@ -189,6 +160,20 @@ def encode_bytes(level_dict: dict[str, Any], save_type: int) -> bytes:
 def encode_to_stream(level_dict: dict[str, Any], save_type: int) -> io.BytesIO:
     """Encode and wrap in a seekable stream (for FastAPI StreamingResponse)."""
     return io.BytesIO(encode_bytes(level_dict, save_type))
+
+
+def encode_from_save_handle(save_handle: Any, save_type: int) -> io.BytesIO:
+    """Encode from a Rust ``SaveHandle`` (avoids round-tripping through Python dict).
+
+    When the native module is available, this encodes directly from the Rust
+    ``uesave::Save``, skipping the Python dict entirely. This is both faster
+    and more memory-efficient.
+    """
+    try:
+        raw = save_handle.encode(save_type)
+    except Exception as exc:
+        raise SaveDecodeError(str(exc)) from exc
+    return io.BytesIO(raw)
 
 
 # ---------------------------------------------------------------------------
@@ -210,7 +195,6 @@ def class_name_of(level_dict: dict[str, Any]) -> str:
     short class (e.g. ``Pal.PalWorldSaveGame``) or ``""`` if absent.
     """
     sgt = _save_game_type(level_dict)
-    # root.save_game_type is "/Script/Pal.PalWorldSaveGame" -> "Pal.PalWorldSaveGame"
     if sgt.startswith("/Script/"):
         return sgt[len("/Script/"):]
     return sgt

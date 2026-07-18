@@ -32,6 +32,7 @@ from app.backend.schemas import (
     SwapPalRequest,
 )
 from app.backend.services import data_service, pal_service, player_service, preset_service
+from app.backend.services.cache_invalidation import invalidate_caches
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/pals")
@@ -151,6 +152,7 @@ async def delete_pal(instance_id: str) -> dict:
     ok = pal_service.delete_pal(_level_dict(), instance_id)
     if not ok:
         raise HTTPException(404, "Pal not found")
+    invalidate_caches()
     return {"status": "deleted"}
 
 

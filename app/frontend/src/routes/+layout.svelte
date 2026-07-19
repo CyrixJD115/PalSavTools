@@ -10,8 +10,9 @@
   import { api } from '$lib/api/client';
   import { getStoredLang } from '$lib/i18n.svelte';
   import {
-    health, wsConnected, languages, currentLang, i18n, saveState, loadingSave,
+    health, wsConnected, languages, currentLang, i18n, saveState, loadingSave, loadProgress,
   } from '$stores/index';
+  import { syncFromHealth } from '$stores/settings';
 
   let { children }: { children: Snippet } = $props();
   let ws: WebSocket | null = null;
@@ -24,9 +25,14 @@
 
   async function bootstrap() {
     try {
-      health.set(await api.health());
+      const h = await api.health();
+      health.set(h);
+      // Mirror the server's default storage threshold into the user-settings
+      // store so the warning fires at the same cutoff on both sides (unless
+      // the user has locally overridden it).
+      syncFromHealth(h);
     } catch {
-      health.set({ status: 'error', version: '?', app_version: '?', game_version: '?', save_loaded: false });
+      health.set({ status: 'error', version: '?', app_version: '?', game_version: '?', save_loaded: false, storage_mode: 'memory', large_save_threshold_mb: 50 });
     }
     try {
       saveState.set(await api.saveState());
@@ -61,6 +67,14 @@
           const data = JSON.parse(event.data);
           if (data.type === 'save_state' || data.type === 'save_update') {
             saveState.set(await api.saveState());
+          } else if (data.type === 'load_progress') {
+            const payload = data.payload as { stage: string; current: number; total: number; section: string | null };
+            loadProgress.set(payload);
+            // On the terminal stage, clear progress after a short beat so the
+            // overlay can fade back to its resting state.
+            if (payload.stage === 'done') {
+              setTimeout(() => loadProgress.set(null), 400);
+            }
           }
         } catch { /* ignore malformed */ }
       };

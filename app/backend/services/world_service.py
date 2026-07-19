@@ -43,6 +43,85 @@ def _k(node: dict, name: str) -> Any:
     return node.get(name)
 
 
+# Schema templates for SaveParameter fields that mutators may introduce.
+# When _k_set inserts a NEW field (one that wasn't in the original save),
+# uesave requires a matching entry in the top-level ``schemas`` map to
+# re-encode — otherwise export fails with "No schema for property: ...".
+# These templates are keyed by the bare property name and hold the exact
+# ``data`` payload uesave expects (sampled from real Palworld saves).
+_SAVE_PARAMETER_SCHEMAS: dict[str, dict] = {
+    # Soul / rank fields (Byte properties)
+    "Rank_HP":            {"Byte": None},
+    "Rank_Attack":        {"Byte": None},
+    "Rank_Defence":       {"Byte": None},
+    "Rank_CraftSpeed":    {"Byte": None},
+    # Core scalar fields
+    "Level":              {"Other": "IntProperty"},
+    "Exp":                {"Other": "Int64Property"},
+    "NickName":           {"Other": "StrProperty"},
+    "FilteredNickName":   {"Other": "StrProperty"},
+    "Talent_HP":          {"Other": "IntProperty"},
+    "Talent_Shot":        {"Other": "IntProperty"},
+    "Talent_Defense":     {"Other": "IntProperty"},
+    "GotStatusPoint":     {"Other": "IntProperty"},
+    "GotExStatusPoint":   {"Other": "IntProperty"},
+    "UnusedStatusPoint":  {"Other": "IntProperty"},
+    "CharacterID":        {"Other": "NameProperty"},
+    "IsPlayer":           {"Other": "BoolProperty"},
+    "IsRarePal":          {"Other": "BoolProperty"},
+    "SanityValue":        {"Other": "FloatProperty"},
+    "FullStomach":        {"Other": "FloatProperty"},
+    "FriendshipPoint":    {"Other": "IntProperty"},
+    # HP is a FixedPoint64 struct
+    "Hp":                 {"Struct": {"struct_type": {"Struct": "FixedPoint64"}, "id": "00000000-0000-0000-0000-000000000000"}},
+    "MaxHP":              {"Struct": {"struct_type": {"Struct": "FixedPoint64"}, "id": "00000000-0000-0000-0000-000000000000"}},
+    # Gender is an enum
+    "Gender":             {"Enum": ["EPalGenderType", None]},
+    # Skill lists
+    "PassiveSkillList":   {"Array": {"Enum": ["", None]}},
+    "EquipWaza":          {"Array": {"Enum": ["", None]}},
+    "MasteredWaza":       {"Array": {"Enum": ["", None]}},
+    # Owner ref
+    "OwnerPlayerUId":     {"Struct": {"struct_type": "Guid", "id": "00000000-0000-0000-0000-000000000000"}},
+    "SlotId":             {"Struct": {"struct_type": {"Struct": "PalCharacterSlotId"}, "id": "00000000-0000-0000-0000-000000000000"}},
+}
+
+
+def _register_save_parameter_schema(level_dict: dict, name: str) -> None:
+    """Ensure the top-level ``schemas`` map has an entry for ``name``.
+
+    Call this before inserting a NEW SaveParameter field that wasn't present
+    in the original save. No-op for fields that don't have a known schema
+    template (the caller is on their own for genuinely unknown types).
+    """
+    template = _SAVE_PARAMETER_SCHEMAS.get(name)
+    if template is None:
+        return
+    try:
+        schemas_inner = level_dict["schemas"]["schemas"]
+    except (KeyError, TypeError):
+        return
+    schema_path = f"worldSaveData.CharacterSaveParameterMap.RawData.SaveParameter.{name}"
+    if schema_path not in schemas_inner:
+        schemas_inner[schema_path] = {"data": template}
+
+
+def set_save_parameter_field(level_dict: dict, sp: dict, name: str, value: Any) -> None:
+    """Set ``sp[name_0] = value``, registering the schema for new fields.
+
+    Drop-in replacement for ``_k_set(sp, name, value)`` in pal mutators.
+    When the field doesn't already exist on ``sp``, this also writes a
+    matching entry into the top-level schemas map so uesave can re-encode
+    the save on export. (Existing fields don't need re-registration.)
+    """
+    if not isinstance(sp, dict):
+        return
+    suffixed = name + _IDX
+    if suffixed not in sp and name not in sp:
+        _register_save_parameter_schema(level_dict, name)
+    sp[suffixed] = value
+
+
 def _g(node: Any, *names: str, default: Any = None) -> Any:
     """Walk a chain of ``_k`` accesses, never raising.
 
@@ -143,6 +222,11 @@ def _gadmin(g: dict) -> str | None:
 
 def list_guilds(level_dict: dict) -> list[dict]:
     wsd = get_world_save_data(level_dict)
+    return list_guilds_from_wsd(wsd)
+
+
+def list_guilds_from_wsd(wsd: dict) -> list[dict]:
+    """Guilds list from a wsd slice (lazy-friendly; no full level_dict needed)."""
     out = []
     for g in _map_entries(wsd, "GroupSaveDataMap"):
         if _group_type(g) != "EPalGroupType::Guild":
@@ -180,6 +264,11 @@ def _fmt_last_seen(elapsed_s: float | None) -> str | None:
 
 def list_players(level_dict: dict) -> list[dict]:
     wsd = get_world_save_data(level_dict)
+    return list_players_from_wsd(wsd)
+
+
+def list_players_from_wsd(wsd: dict) -> list[dict]:
+    """Players list from a wsd slice (lazy-friendly; no full level_dict needed)."""
     tick = get_tick(wsd)
     out = []
     seen: set[str] = set()
@@ -220,6 +309,35 @@ def list_players(level_dict: dict) -> list[dict]:
                 "last_seen_seconds": elapsed,
                 "last_seen_text": _fmt_last_seen(elapsed),
             })
+
+    # Fallback: players tracked as IsPlayer entries in CharacterSaveParameterMap
+    # but not present in any guild (e.g. host-only saves, single-player worlds
+    # with no Guild records, or saves that pre-date the guild system). Without
+    # this branch the Players page and the Pal Editor dropdown would be empty
+    # even though player .sav files exist on disk.
+    if not out:
+        for ch in _map_entries(wsd, "CharacterSaveParameterMap"):
+            sp = _pal_entry_raw(ch)
+            if not sp or not _k(sp, "IsPlayer"):
+                continue
+            key = _g(ch, "key") or {}
+            uid = _norm_uid(_k(key, "PlayerUId")) or ""
+            if not uid or uid in seen:
+                continue
+            seen.add(uid)
+            name = _k(sp, "NickName") or "Unknown"
+            out.append({
+                "uid": uid,
+                "name": str(name),
+                "level": 0,
+                "pal_count": 0,
+                "guild_id": "",
+                "guild_name": None,
+                "guild_level": 0,
+                "is_leader": False,
+                "last_seen_seconds": None,
+                "last_seen_text": None,
+            })
     return out
 
 
@@ -237,6 +355,11 @@ def _translation(raw: dict) -> tuple[float, float, float] | None:
 
 def list_bases(level_dict: dict) -> list[dict]:
     wsd = get_world_save_data(level_dict)
+    return list_bases_from_wsd(wsd)
+
+
+def list_bases_from_wsd(wsd: dict) -> list[dict]:
+    """Bases list from a wsd slice (lazy-friendly)."""
     out = []
     for b in _map_entries(wsd, "BaseCampSaveData"):
         raw = _g(b, "value", "RawData") or {}
@@ -359,6 +482,15 @@ def list_pals(
     limit: int = 500,
 ) -> list[dict]:
     wsd = get_world_save_data(level_dict)
+    return list_pals_from_wsd(wsd, name_map=name_map, limit=limit)
+
+
+def list_pals_from_wsd(
+    wsd: dict,
+    name_map: CharacterNameMap | None = None,
+    limit: int = 500,
+) -> list[dict]:
+    """Pals list from a wsd slice (lazy-friendly)."""
     nm = name_map or {}
     out = []
     for ch in _map_entries(wsd, "CharacterSaveParameterMap"):
@@ -405,9 +537,110 @@ def list_pals(
     return out
 
 
+def _pal_search_match(pal: dict, search: str) -> bool:
+    """True if ``pal`` matches the (already-lowercased) ``search`` string."""
+    if not search:
+        return True
+    haystack = " ".join(str(pal.get(f, "")) for f in (
+        "character_id", "display_name", "nickname", "owner_uid",
+    )).lower()
+    return search in haystack
+
+
+def list_pals_stream(
+    wsd: dict,
+    name_map: CharacterNameMap | None = None,
+    limit: int = 50,
+    offset: int = 0,
+    search: str = "",
+) -> tuple[list[dict], int]:
+    """Streaming pal list with pagination + search — bounded memory.
+
+    Scans ``CharacterSaveParameterMap`` entry-by-entry, building pal dicts
+    on the fly. ``page`` holds at most ``limit`` items (the requested
+    slice); the total returned is the count of pals matching the filter.
+
+    Without ``search`` the total is computed via a cheap ``sum()`` (no dict
+    materialization) and the scan short-circuits once the page is filled.
+    With ``search`` the scan walks the whole map (unavoidable — total is
+    unknown until everything is checked), but each non-matching entry is
+    dropped immediately rather than retained.
+    """
+    nm = name_map or {}
+    needle = search.lower() if search else ""
+
+    csp = _map_entries(wsd, "CharacterSaveParameterMap")
+
+    # Cheap total when there's no filter — no need to materialize dicts.
+    if not needle:
+        total = sum(1 for ch in csp if _is_pal_entry(ch))
+    else:
+        total = -1  # computed lazily below
+
+    page: list[dict] = []
+    matched = 0
+    taken = 0
+    for ch in csp:
+        if not _is_pal_entry(ch):
+            continue
+        # Build the pal dict only when we might include or filter on it.
+        key = _g(ch, "key") or {}
+        sp = _pal_entry_raw(ch)
+        owner = _norm_uid(_k(key, "PlayerUId"))
+        if not owner:
+            owner = _norm_uid(_k(sp, "OwnerPlayerUId"))
+        inst = str(_k(key, "InstanceId") or "")
+        cid = _pal_field(sp, "CharacterID")
+        cid_str = str(cid) if cid is not None else ""
+        display = nm.get(cid_str.lower(), cid_str) if cid_str else None
+
+        pal = {
+            "instance_id": inst,
+            "character_id": cid_str,
+            "display_name": display,
+            "owner_uid": owner,
+            "nickname": _str_field(sp, "NickName"),
+            "level": _int_field(sp, "Level", 1),
+            "rank": _int_field(sp, "Rank", 1),
+            "gender": _gender_str(sp),
+            "talent_hp": _int_field(sp, "Talent_HP"),
+            "talent_shot": _int_field(sp, "Talent_Shot"),
+            "talent_defense": _int_field(sp, "Talent_Defense"),
+            "rank_hp": _int_field(sp, "Rank_HP"),
+            "rank_attack": _int_field(sp, "Rank_Attack"),
+            "rank_defense": _int_field(sp, "Rank_Defence"),
+            "rank_craftspeed": _int_field(sp, "Rank_CraftSpeed"),
+            "passive_skills": _skill_list(sp, "PassiveSkillList"),
+            "active_skills": _skill_list(sp, "EquipWaza"),
+            "learned_skills": _skill_list(sp, "MasteredWaza"),
+            "is_illegal": False,
+        }
+
+        if needle and not _pal_search_match(pal, needle):
+            continue
+        matched += 1
+        if matched <= offset:
+            continue
+        page.append(pal)
+        taken += 1
+        # Without search: short-circuit once the page is full (total is known).
+        # With search: must keep walking to count total matches.
+        if not needle and taken >= limit:
+            break
+
+    if needle:
+        total = matched
+    return page, total
+
+
 def get_current_stats(level_dict: dict) -> dict:
     """Aggregate stats: level distribution, gender ratio, top skills, etc."""
     wsd = get_world_save_data(level_dict)
+    return get_current_stats_from_wsd(wsd)
+
+
+def get_current_stats_from_wsd(wsd: dict) -> dict:
+    """Aggregate stats from a wsd slice (lazy-friendly)."""
     stats = {
         "total": 0,
         "avg_level": 0.0,

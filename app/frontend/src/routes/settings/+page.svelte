@@ -3,7 +3,9 @@
   import { api } from '$lib/api/client';
   import { setStoredLang } from '$lib/i18n.svelte';
   import { health, languages, currentLang, i18n, isHealthy, t } from '$stores/index';
+  import { settings, setStorageMode, setPrewarm } from '$stores/settings';
   import { toast } from '$stores/toast';
+  import type { StorageMode } from '$types/index';
   import Card from '$components/ui/Card.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
@@ -26,12 +28,28 @@
     }
   }
 
+  function pickStorageMode(mode: StorageMode) {
+    setStorageMode(mode);
+    toast.success($t(`web.settings.storage_mode_${mode}`));
+  }
+
+  function togglePrewarm(on: boolean) {
+    setPrewarm(on);
+  }
+
   onMount(async () => {
     if (!$languages) {
       try { languages.set(await api.languages()); } catch { /* ignore */ }
     }
     if (!$health) {
-      try { health.set(await api.health()); } catch { /* ignore */ }
+      try {
+        const h = await api.health();
+        health.set(h);
+        // Adopt the server-side large-save threshold if the user hasn't
+        // overridden it locally.
+        const { syncFromHealth } = await import('$stores/settings');
+        syncFromHealth(h);
+      } catch { /* ignore */ }
     }
   });
 </script>
@@ -41,6 +59,67 @@
     <h1 class="text-xl font-bold heading-gradient">{$t('web.settings.title')}</h1>
     <p class="text-xs text-ink-muted">{$t('web.settings.subtitle')}</p>
   </div>
+
+  <Card title={$t('web.settings.storage')}>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <button
+        type="button"
+        class="relative p-3 rounded-6 border text-left transition-fast disabled:opacity-50
+               {$settings.storageMode === 'memory'
+                 ? 'border-accent bg-accent/10 text-ink-primary shadow-glow'
+                 : 'border-line bg-bg-deep text-ink-secondary hover:border-accent/40 hover:bg-bg-hover'}"
+        onclick={() => pickStorageMode('memory')}
+      >
+        {#if $settings.storageMode === 'memory'}
+          <Icon icon="lucide:check" width={14} class="absolute top-2 right-2 text-accent" />
+        {/if}
+        <div class="flex items-center gap-2">
+          <Icon icon="lucide:memory-stick" width={16} class="text-accent" />
+          <p class="text-sm font-medium">{$t('web.settings.storage_mode_memory')}</p>
+        </div>
+        <p class="text-[10px] text-ink-muted mt-1.5 leading-relaxed">{$t('web.settings.storage_mode_memory_desc')}</p>
+      </button>
+      <button
+        type="button"
+        class="relative p-3 rounded-6 border text-left transition-fast disabled:opacity-50
+               {$settings.storageMode === 'disk'
+                 ? 'border-accent bg-accent/10 text-ink-primary shadow-glow'
+                 : 'border-line bg-bg-deep text-ink-secondary hover:border-accent/40 hover:bg-bg-hover'}"
+        onclick={() => pickStorageMode('disk')}
+      >
+        {#if $settings.storageMode === 'disk'}
+          <Icon icon="lucide:check" width={14} class="absolute top-2 right-2 text-accent" />
+        {/if}
+        <div class="flex items-center gap-2">
+          <Icon icon="lucide:hard-drive" width={16} class="text-accent" />
+          <p class="text-sm font-medium">{$t('web.settings.storage_mode_disk')}</p>
+        </div>
+        <p class="text-[10px] text-ink-muted mt-1.5 leading-relaxed">{$t('web.settings.storage_mode_disk_desc')}</p>
+      </button>
+    </div>
+
+    <label class="mt-4 flex items-start gap-2.5 cursor-pointer group">
+      <input
+        type="checkbox"
+        class="mt-0.5 accent-accent"
+        checked={$settings.prewarm}
+        onchange={(e) => togglePrewarm((e.currentTarget as HTMLInputElement).checked)}
+      />
+      <span>
+        <span class="text-sm font-medium text-ink-secondary group-hover:text-ink-primary transition-fast">
+          {$t('web.settings.prewarm_label')}
+        </span>
+        <span class="block text-[10px] text-ink-muted mt-0.5 leading-relaxed">
+          {$t('web.settings.prewarm_desc')}
+        </span>
+      </span>
+    </label>
+
+    <p class="mt-3 text-xs text-ink-muted flex items-center gap-1.5">
+      <Icon icon="lucide:info" width={12} />
+      {$t('web.settings.large_threshold_hint', { mb: String($settings.largeThresholdMb) })}
+    </p>
+  </Card>
 
   <Card title={$t('web.settings.language')}>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">

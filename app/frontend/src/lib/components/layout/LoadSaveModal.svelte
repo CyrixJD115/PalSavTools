@@ -1,10 +1,12 @@
 <script lang="ts">
   import { api } from '$lib/api/client';
   import { saveState, loadingSave, loadError, t } from '$stores/index';
+  import { settings } from '$stores/settings';
   import { toast } from '$stores/toast';
   import Button from '$components/ui/Button.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
   import Icon from '@iconify/svelte';
+  import { get } from 'svelte/store';
 
   let { open = $bindable(false) }: { open: boolean } = $props();
 
@@ -26,7 +28,14 @@
     loadingSave.set(true);
     loadError.set(null);
     try {
-      const res = await api.loadFromPath(p);
+      // Path-load: no pre-flight file size, so honor the persisted preference
+      // instead of popping the size-based warning (which only fires on the
+      // browser upload path where bytes are already in hand).
+      const s = get(settings);
+      const res = await api.loadFromPath(p, {
+        storageMode: s.storageMode,
+        prewarm: s.prewarm,
+      });
       saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
       toast.success($t('web.toast.loaded', { filename: res.summary.filename, guilds: res.counts.guilds, players: res.counts.players }));
       open = false;

@@ -20,6 +20,11 @@ class HealthResponse(BaseModel):
     app_version: str
     game_version: str
     save_loaded: bool
+    # Server-side defaults mirrored to the frontend so both sides share the
+    # same storage-mode threshold and default. The client may still override
+    # per-request via the load endpoints' params.
+    storage_mode: str = "memory"
+    large_save_threshold_mb: int = 50
 
 
 class LanguageInfo(BaseModel):

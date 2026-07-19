@@ -9,30 +9,65 @@
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
   import GuildDetailModal from '$components/guilds/GuildDetailModal.svelte';
+  import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
+  const PAGE_SIZE = 20;
   let guilds = $state<GuildSummary[]>([]);
+  let total = $state(0);
   let loading = $state(true);
+  let loadingMore = $state(false);
   let error = $state<string | null>(null);
   let selectedGuild = $state<GuildSummary | null>(null);
   let viewMode = $state<'grid' | 'list'>('grid');
   let sortCol = $state<'name' | 'members' | 'bases'>('name');
   let sortDir = $state<'asc' | 'desc'>('asc');
+  let query = $state('');
+  let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
-  async function load() {
-    loading = true; error = null;
-    try { guilds = (await api.guilds()).guilds; }
-    catch (e) { error = e instanceof Error ? e.message : String(e); }
-    finally { loading = false; }
+  const hasMore = $derived(guilds.length < total);
+
+  async function fetchPage(reset = false) {
+    if (reset) {
+      loading = true;
+      guilds = [];
+    } else {
+      if (loadingMore || !hasMore) return;
+      loadingMore = true;
+    }
+    error = null;
+    try {
+      const offset = reset ? 0 : guilds.length;
+      const res = await api.guilds({ limit: PAGE_SIZE, offset, search: query.trim() });
+      total = res.total;
+      const seen = new Set(guilds.map((g) => g.id));
+      guilds = reset
+        ? res.guilds
+        : [...guilds, ...res.guilds.filter((g) => !seen.has(g.id))];
+    } catch (e) {
+      error = e instanceof Error ? e.message : String(e);
+    } finally {
+      loading = false;
+      loadingMore = false;
+    }
   }
-  onMount(() => { if ($saveLoaded) load(); });
+
+  async function loadMore() { await fetchPage(false); }
+
+  function onSearchInput() {
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => fetchPage(true), 300);
+  }
+
+  onMount(() => { if ($saveLoaded) fetchPage(true); });
 
   type SortCol = 'name' | 'members' | 'bases';
-
   function toggleSort(col: SortCol) {
     if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
     else { sortCol = col; sortDir = 'asc'; }
   }
 
+  // Local sort over the loaded window (server is the source of truth for
+  // pagination order; reorder visible items only).
   let sorted = $derived([...guilds].sort((a, b) => {
     let cmp = 0;
     if (sortCol === 'name') cmp = a.name.localeCompare(b.name);
@@ -41,29 +76,33 @@
     return sortDir === 'asc' ? cmp : -cmp;
   }));
 
-  function onDetailSaved() { load(); selectedGuild = null; }
+  function onDetailSaved() { fetchPage(true); selectedGuild = null; }
 </script>
 
 <SaveGate icon="lucide:building-2">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between gap-4">
       <div>
         <h1 class="text-xl font-bold heading-gradient">{$t('web.guilds.title')}</h1>
-        <p class="text-xs text-ink-muted">{$t('web.guilds.count', { count: guilds.length })}</p>
+        <p class="text-xs text-ink-muted">{$t('web.guilds.count', { count: total })}</p>
       </div>
-      <div class="flex items-center gap-1 bg-bg-surface border border-line/30 rounded-lg p-0.5">
-        <button
-          class="px-2.5 py-1.5 text-xs rounded-md transition-fast {viewMode === 'grid' ? 'bg-bg-hover text-ink-primary shadow-sm' : 'text-ink-muted hover:text-ink-primary'}"
-          onclick={() => viewMode = 'grid'}
-        >
-          <Icon icon="lucide:grid-3x3" width={14} />
-        </button>
-        <button
-          class="px-2.5 py-1.5 text-xs rounded-md transition-fast {viewMode === 'list' ? 'bg-bg-hover text-ink-primary shadow-sm' : 'text-ink-muted hover:text-ink-primary'}"
-          onclick={() => viewMode = 'list'}
-        >
-          <Icon icon="lucide:list" width={14} />
-        </button>
+      <div class="flex items-center gap-2">
+        <input
+          class="input max-w-xs"
+          placeholder={$t('web.guilds.filter_placeholder', { default: 'Search guilds…' })}
+          bind:value={query}
+          oninput={onSearchInput}
+        />
+        <div class="flex items-center gap-1 bg-bg-surface border border-line/30 rounded-lg p-0.5">
+          <button
+            class="px-2.5 py-1.5 text-xs rounded-md transition-fast {viewMode === 'grid' ? 'bg-bg-hover text-ink-primary shadow-sm' : 'text-ink-muted hover:text-ink-primary'}"
+            onclick={() => viewMode = 'grid'}
+          ><Icon icon="lucide:grid-3x3" width={14} /></button>
+          <button
+            class="px-2.5 py-1.5 text-xs rounded-md transition-fast {viewMode === 'list' ? 'bg-bg-hover text-ink-primary shadow-sm' : 'text-ink-muted hover:text-ink-primary'}"
+            onclick={() => viewMode = 'list'}
+          ><Icon icon="lucide:list" width={14} /></button>
+        </div>
       </div>
     </div>
 
@@ -72,7 +111,10 @@
     {:else if error}
       <Card><p class="text-sm text-status-error p-4">{error}</p></Card>
     {:else if viewMode === 'grid'}
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+        use:infiniteScroll={{ onloadmore: loadMore, hasMore, loading: loadingMore }}
+      >
         {#each sorted as g (g.id)}
           <Card hover>
             <button class="w-full text-left" onclick={() => selectedGuild = g}>
@@ -100,6 +142,11 @@
             </button>
           </Card>
         {/each}
+        {#if hasMore}
+          <div class="sentinel col-span-full flex justify-center py-6 text-xs text-ink-muted">
+            {#if loadingMore}<Spinner size={14} />{:else}{$t('web.guilds.count', { count: total })}{/if}
+          </div>
+        {/if}
       </div>
     {:else}
       <Card>
@@ -146,7 +193,7 @@
                 <th class="py-2 pr-4 font-medium">{$t('web.guilds.col_leader')}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody use:infiniteScroll={{ onloadmore: loadMore, hasMore, loading: loadingMore }}>
               {#each sorted as g (g.id)}
                 <tr
                   class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer"
@@ -163,6 +210,13 @@
                   <td class="py-2.5 pr-4 font-mono text-xs text-ink-secondary">{g.leader_uid ? g.leader_uid.slice(0, 13) + '…' : '—'}</td>
                 </tr>
               {/each}
+              {#if hasMore}
+                <tr class="sentinel">
+                  <td colspan="4" class="py-3 text-center text-xs text-ink-muted">
+                    {#if loadingMore}<Spinner size={14} />{:else}{$t('web.guilds.count', { count: total })}{/if}
+                  </td>
+                </tr>
+              {/if}
             </tbody>
           </table>
         </div>

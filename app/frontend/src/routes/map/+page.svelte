@@ -11,7 +11,7 @@
    * pixel↔screen transforms for cursor display and zone drawing.
    */
 
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { api } from '$lib/api/client';
   import { saveLoaded, t } from '$stores/index';
   import { toast } from '$stores/toast';
@@ -88,6 +88,16 @@
 
   onMount(() => {
     if ($saveLoaded) loadData();
+  });
+
+  // Clean up references on tab switch so GC can collect promptly.
+  onDestroy(() => {
+    bases = [];
+    players = [];
+    engine = null;
+    canvasRef = null;
+    mapLoading.set(false);
+    mapError.set(null);
   });
 
   // React to save loaded changes

@@ -42,6 +42,23 @@ import struct
 import subprocess
 import tempfile
 import zlib
+
+# Prefer orjson for hot paths (3-5x faster than stdlib json on large payloads).
+# Falls back silently if unavailable.
+try:
+    import orjson as _orjson
+
+    def _loads(s: bytes | str):
+        return _orjson.loads(s)
+
+    def _dumps(obj) -> bytes:
+        return _orjson.dumps(obj)
+except ImportError:  # pragma: no cover — orjson is in pyproject
+    def _loads(s: bytes | str):
+        return json.loads(s)
+
+    def _dumps(obj) -> bytes:
+        return json.dumps(obj).encode("utf-8")
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -242,15 +259,130 @@ def decode_sav(data: bytes | str | Path) -> tuple[dict[str, Any], int]:
 
     When the native PyO3 module is available, this runs entirely in-process
     — no subprocess, no temp files, no JSON disk round-trip.
+
+    .. note::
+        For large world saves (≥5 MB), prefer :func:`parse_save` followed by
+        :meth:`SaveHandle.to_dict` / :meth:`SaveHandle.section_json` to avoid
+        materializing the full ~1M-object Python dict at once. This legacy
+        entry point is retained because the service layer still mutates the
+        full dict in place.
     """
     data_bytes, save_type = _as_bytes(data)
 
     if _HAS_NATIVE:
-        json_str, save_type = _native.decode_sav(data_bytes)
-        level_dict = json.loads(json_str)
-        return level_dict, save_type
+        handle = _native.parse_save(data_bytes)
+        return handle_to_dict(handle), handle.save_type
 
     return _decode_subprocess(data_bytes)
+
+
+def _section_to_dict(handle, name: str):
+    """Lazily materialize one worldSaveData section as a Python dict.
+
+    Uses orjson for the parse (3-5x faster than stdlib). Returns ``None``
+    if the section is absent. The result is a *slice* — small and
+    discardable, unlike the full ~200 MB ``level_dict``.
+    """
+    if isinstance(handle, _PySaveHandle):
+        sj = handle.section_json(name)
+        return _loads(sj) if sj is not None else None
+    sj = handle.section_json(name)
+    return _loads(sj) if sj is not None else None
+
+
+def parse_save(data: bytes | str | Path):
+    """Parse a ``.sav`` into a native ``SaveHandle`` (Rust-side, cheap).
+
+    Returns a handle that holds the parsed save in Rust memory. Use
+    ``handle.section_json(name)`` to lazily materialize individual
+    ``worldSaveData`` sections as Python dicts (≈99% memory savings versus
+    decoding the full save), or ``handle.to_dict()`` for the full shape
+    (legacy compatibility).
+
+    Falls back to a pure-Python shim (parse via :func:`decode_sav`) when the
+    native module is unavailable — the shim's ``section_json`` is a dict
+    walk, so it has no memory advantage, but the API contract is identical.
+    """
+    data_bytes, _ = _as_bytes(data)
+
+    if _HAS_NATIVE:
+        return _native.parse_save(data_bytes)
+
+    # Subprocess fallback — wrap the legacy full decode in a shim with the
+    # same API so callers don't need to branch on backend.
+    level_dict, save_type = _decode_subprocess(data_bytes)
+    return _PySaveHandle(level_dict, save_type)
+
+
+def handle_to_dict(handle) -> dict[str, Any]:
+    """Materialize a ``SaveHandle`` (native or shim) into a full Python dict."""
+    if isinstance(handle, _PySaveHandle):
+        return handle._level_dict
+    return _loads(handle.to_json())
+
+
+def encode_from_handle(handle) -> bytes:
+    """Encode a native ``SaveHandle`` back into ``.sav`` bytes (no JSON roundtrip)."""
+    if isinstance(handle, _PySaveHandle):
+        return encode_sav(handle._level_dict, handle.save_type)
+    return handle.encode()
+
+
+def section_to_dict(handle, name: str):
+    """Lazily materialize one ``worldSaveData`` section as a Python dict.
+
+    Public entry point used by list endpoints to avoid touching the full
+    ``level_dict``. Uses orjson for the parse. Returns ``None`` if the
+    section is absent.
+    """
+    return _section_to_dict(handle, name)
+
+
+class _PySaveHandle:
+    """Subprocess-fallback shim mirroring the native ``SaveHandle`` API.
+
+    Holds the full decoded dict (no memory advantage) but exposes the same
+    ``section_json`` / ``sections`` / ``to_json`` / ``encode`` surface so the
+    rest of the backend doesn't need to branch on which backend is active.
+    """
+
+    def __init__(self, level_dict: dict[str, Any], save_type: int) -> None:
+        self._level_dict = level_dict
+        self.save_type = save_type
+
+    @property
+    def save_game_type(self) -> str:
+        try:
+            return str(self._level_dict["root"]["save_game_type"])
+        except Exception:
+            return ""
+
+    def to_json(self) -> str:
+        return _dumps(self._level_dict).decode("utf-8")
+
+    def sections(self) -> list[str]:
+        try:
+            wsd = self._level_dict["root"]["properties"]["worldSaveData_0"]
+        except KeyError:
+            return []
+        out = []
+        for key in wsd:
+            out.append(key.rsplit("_", 1)[0] if "_" in key else key)
+        return out
+
+    def section_json(self, section: str) -> str | None:
+        try:
+            wsd = self._level_dict["root"]["properties"]["worldSaveData_0"]
+        except KeyError:
+            return None
+        for key, value in wsd.items():
+            bare = key.rsplit("_", 1)[0] if "_" in key else key
+            if bare == section:
+                return _dumps(value).decode("utf-8")
+        return None
+
+    def encode(self) -> bytes:
+        return encode_sav(self._level_dict, self.save_type)
 
 
 def encode_sav(level_dict: dict[str, Any], save_type: int) -> bytes:
@@ -259,7 +391,7 @@ def encode_sav(level_dict: dict[str, Any], save_type: int) -> bytes:
     When the native PyO3 module is available, this runs entirely in-process.
     """
     if _HAS_NATIVE:
-        json_str = json.dumps(level_dict)
+        json_str = _dumps(level_dict).decode("utf-8")
         raw = _native.encode_sav(json_str, save_type)
         if save_type == SAVE_TYPE_PLZ:
             return _plz_compress(raw)
@@ -325,6 +457,7 @@ __all__ = [
     "SAVE_TYPE_PLM", "SAVE_TYPE_PLZ", "SAVE_TYPE_CNK", "SAVE_TYPE_GVAS",
     "detect_save_type",
     "decode_sav", "encode_sav",
+    "parse_save", "handle_to_dict", "encode_from_handle", "section_to_dict",
     "decode_player_sav", "encode_player_sav",
     "roundtrip_sav", "roundtrip_json_stable",
 ]

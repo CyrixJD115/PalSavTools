@@ -7,6 +7,31 @@ export interface HealthResponse {
   app_version: string;
   game_version: string;
   save_loaded: boolean;
+  /** Server default for where the decoded save lives ("memory" | "disk"). */
+  storage_mode: StorageMode;
+  /** Files above this size (MB) trigger the storage-mode warning on upload. */
+  large_save_threshold_mb: number;
+}
+
+/** Where the decoded save lives after load. Mirrors backend StorageMode. */
+export type StorageMode = 'memory' | 'disk';
+
+/** Load-stage progress pushed over /ws during save load. */
+export interface LoadProgressPayload {
+  /** "parse" | "precompute" | "prewarm" | "done" */
+  stage: string;
+  /** 1-indexed section position when stage === "prewarm". */
+  current: number;
+  /** Total sections when stage === "prewarm". */
+  total: number;
+  /** Section name being materialized when stage === "prewarm". */
+  section: string | null;
+}
+
+/** Options forwarded to /save/load and /save/upload. */
+export interface LoadOptions {
+  storageMode?: StorageMode;
+  prewarm?: boolean;
 }
 
 export interface LanguageInfo {

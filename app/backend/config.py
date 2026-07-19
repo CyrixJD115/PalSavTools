@@ -36,5 +36,23 @@ class Settings:
     # CORS: open in local-single-user mode; tighten for a real deployment.
     cors_origins: list[str] = ["*"]
 
+    # Default storage mode for a loaded save. ``"memory"`` keeps the decoded
+    # save in RAM (current behavior); ``"disk"`` spills the full decoded JSON
+    # to a temp file so RAM stays low on huge saves. Per-request overrides
+    # come from the load endpoints' ``storage_mode`` param.
+    storage_mode: str = os.environ.get("PST_WEB_STORAGE_MODE", "memory")
+
+    # Files above this size (in MB) trigger the frontend's storage-mode
+    # warning modal on upload. Mirrored to the client via /api/health so both
+    # sides share the same threshold.
+    large_save_threshold_mb: int = int(
+        os.environ.get("PST_WEB_LARGE_SAVE_MB", "50")
+    )
+
 
 settings = Settings()
+
+
+def is_valid_storage_mode(mode: str) -> bool:
+    """True if ``mode`` is one of the supported storage modes."""
+    return mode in {"memory", "disk"}

@@ -11,7 +11,13 @@
   let {
     chain,
     palMap,
-  }: { chain: Chain; palMap: Map<string, BreedablePal> } = $props();
+    passiveName = (asset: string) => asset,
+  }: {
+    chain: Chain;
+    palMap: Map<string, BreedablePal>;
+    /** Resolve a passive asset ID ("CraftSpeed_up1") to a display name ("Serious"). */
+    passiveName?: (asset: string) => string;
+  } = $props();
 
   const palFor = (tribe: string) => palMap.get(tribe);
 
@@ -47,7 +53,7 @@
     {#if chain.matched_passives.length}
       <div class="flex flex-wrap gap-1">
         {#each chain.matched_passives as passive}
-          <span class="chip chip-green text-[9px] px-1.5 py-0">{passive}</span>
+          <span class="chip chip-green text-[9px] px-1.5 py-0">{passiveName(passive)}</span>
         {/each}
       </div>
     {/if}
@@ -82,7 +88,7 @@
           {#if step.inherited_passives.length}
             <div class="flex flex-wrap gap-0.5 ml-auto shrink-0">
               {#each step.inherited_passives as p}
-                <span class="chip text-[8px] px-1 py-0 {matchedSet.has(p) ? 'chip-green' : ''}">{p}</span>
+                <span class="chip text-[8px] px-1 py-0 {matchedSet.has(p) ? 'chip-green' : ''}">{passiveName(p)}</span>
               {/each}
             </div>
           {/if}

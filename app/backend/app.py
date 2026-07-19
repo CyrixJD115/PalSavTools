@@ -18,6 +18,7 @@ from app.backend import __version__
 from app.backend.config import settings
 from app.backend.paths import RESOURCES_DIR
 from app.backend.routes import bases, breeding, containers, data, guilds, health, map, pals, players, save, tools, world
+from app.backend.state import _sweep_stale_cache_files
 from app.backend.ws_manager import manager
 
 
@@ -47,6 +48,9 @@ def _resolve_frontend_build() -> Path | None:
 def create_app(serve_frontend: bool | None = None) -> FastAPI:
     if serve_frontend is None:
         serve_frontend = settings.serve_frontend
+
+    # One-shot sweep of stale disk-cache temp files from prior sessions.
+    _sweep_stale_cache_files()
 
     app = FastAPI(
         title="PalworldSaveTools WebUI",

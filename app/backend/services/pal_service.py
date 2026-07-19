@@ -76,7 +76,13 @@ _SICKNESS_KEYS = (
 
 # ── Write helper (copied from player_service:693-703) ────────────────────────
 def _k_set(node: dict, name: str, value: Any) -> None:
-    """Set ``node[name_0]`` (or ``node[name]``) preserving the existing form."""
+    """Set ``node[name_0]`` (or ``node[name]``) preserving the existing form.
+
+    Note: when inserting a *new* SaveParameter field via this helper, the
+    caller is responsible for ensuring the schema is registered — otherwise
+    uesave will refuse to re-encode the save on export. For SaveParameter
+    writes prefer :func:`world_service.set_save_parameter_field` instead.
+    """
     if not isinstance(node, dict):
         return
     suffixed = name + "_0"
@@ -86,6 +92,17 @@ def _k_set(node: dict, name: str, value: Any) -> None:
         node[name] = value
     else:
         node[suffixed] = value
+
+
+def _sp_set(level_dict: dict, sp: dict, name: str, value: Any) -> None:
+    """Schema-aware SaveParameter setter — drop-in for ``_k_set`` on pal sp.
+
+    When the field is new (not already in ``sp``), this also registers a
+    matching entry in the top-level schemas map so uesave can re-encode the
+    save on export. Use this instead of ``_k_set`` for any property under
+    ``worldSaveData.CharacterSaveParameterMap.RawData.SaveParameter``.
+    """
+    world_service.set_save_parameter_field(level_dict, sp, name, value)
 
 
 def _k_del(node: dict, name: str) -> None:
@@ -109,6 +126,15 @@ def find_pal_entry(level_dict: dict, instance_id: str) -> tuple[dict, dict] | No
     not found or the id resolves to a player.
     """
     wsd = world_service.get_world_save_data(level_dict)
+    return find_pal_entry_from_wsd(wsd, instance_id)
+
+
+def find_pal_entry_from_wsd(wsd: dict, instance_id: str) -> tuple[dict, dict] | None:
+    """Same as :func:`find_pal_entry` but takes a ``wsd`` slice directly.
+
+    Useful for read-only endpoints that build a mini-wsd with only
+    ``CharacterSaveParameterMap`` instead of the full ``level_dict``.
+    """
     target = str(instance_id).strip().lower()
     for entry in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
         sp = world_service._pal_entry_raw(entry)
@@ -133,6 +159,7 @@ def list_pals_grouped(
     party_id: Optional[str],
     palbox_id: Optional[str],
     name_map: Optional[dict] = None,
+    owner_uid: Optional[str] = None,
 ) -> dict:
     """Bucket all pals by their ``SlotId.ContainerId.ID`` into Party / Palbox /
     Ungrouped. Returns a ``PalGroupedResponse``-shaped dict.
@@ -147,7 +174,103 @@ def list_pals_grouped(
     Pure read-path over ``level_dict``; no mutation, no ``palsav`` involvement.
     """
     wsd = world_service.get_world_save_data(level_dict)
+    return list_pals_grouped_from_wsd(wsd, party_id, palbox_id, name_map, owner_uid=owner_uid)
+
+
+def _derive_container_ids(wsd: dict, owner_uid: str) -> tuple[Optional[str], Optional[str]]:
+    """Infer ``(party_id, palbox_id)`` from the pal data when the player's
+    ``.sav`` is unavailable.
+
+    Strategy: walk every pal owned by ``owner_uid``, tally their
+    ``SlotId.ContainerId.ID`` values. The container holding the most pals
+    (typically ~100-300) is the palbox; the smallest non-trivial container
+    (typically exactly 5) is the party. This matches how Palworld actually
+    stores pals — every player has exactly one party container (5 slots)
+    and one palbox container (100+ slots).
+
+    Returns ``(None, None)`` if no pals are found or the containers can't
+    be distinguished (e.g. only one container exists with >5 pals).
+    """
+    from collections import Counter
+
+    owner_clean = owner_uid.replace("-", "").lower()
+    containers: Counter = Counter()
+
+    for ch in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
+        if not world_service._is_pal_entry(ch):
+            continue
+        key = world_service._g(ch, "key") or {}
+        sp = world_service._pal_entry_raw(ch)
+        # Match the ownership logic in list_pals (key.PlayerUId first,
+        # then sp.OwnerPlayerUId as a fallback for base-deployed pals).
+        owner = world_service._norm_uid(world_service._k(key, "PlayerUId"))
+        if not owner:
+            owner = world_service._norm_uid(world_service._k(sp, "OwnerPlayerUId"))
+        if not owner or owner.replace("-", "").lower() != owner_clean:
+            continue
+        slot = world_service._g(sp, "SlotId") or {}
+        cid = world_service._norm_uid(world_service._g(slot, "ContainerId", "ID"))
+        if cid:
+            containers[cid] += 1
+
+    if not containers:
+        return None, None
+
+    # Sort by count descending: largest = palbox, next = party.
+    ranked = containers.most_common()
+    if len(ranked) == 1:
+        # Only one container — can't safely split. Caller will bucket
+        # everything as "palbox" or fall through to ungrouped.
+        return None, ranked[0][0]
+
+    palbox_cid = ranked[0][0]
+    # The party is typically the smallest *non-singleton* container (a party
+    # is usually 5; rarely 0-4 if the player has fewer active pals). Walk
+    # the ranked list from smallest up, skipping 1-pal containers (which are
+    # usually base-deployed pals with their own slot).
+    party_cid = None
+    for cid, n in reversed(ranked):
+        if cid == palbox_cid:
+            continue
+        # Accept containers with 1-5 pals as the party. If only larger
+        # containers remain, pick the smallest of them.
+        if 1 <= n <= 5:
+            party_cid = cid
+            break
+    if party_cid is None:
+        # Fallback: just take the second-largest container.
+        party_cid = ranked[1][0]
+    return party_cid, palbox_cid
+
+
+def list_pals_grouped_from_wsd(
+    wsd: dict,
+    party_id: Optional[str],
+    palbox_id: Optional[str],
+    name_map: Optional[dict] = None,
+    owner_uid: Optional[str] = None,
+) -> dict:
+    """Same as :func:`list_pals_grouped` but takes a wsd slice directly.
+
+    Used by the lazy pal-editor path, which pulls only
+    ``CharacterSaveParameterMap`` (~30 MB) instead of the full ~200 MB
+    ``level_dict``.
+
+    When ``party_id`` / ``palbox_id`` are both ``None`` (typically because the
+    player has no ``.sav`` file — e.g. an uploaded zip without Players/, or a
+    multiplayer save where this player's local file is missing) and
+    ``owner_uid`` is provided, this falls back to *deriving* the two container
+    IDs from the pal data itself: the player's pals are tallied by container,
+    the 5-or-fewer-pal container is treated as the party and the largest
+    container as the palbox. Without this fallback every pal lands in
+    ``ungrouped`` and the editor appears empty.
+    """
     nm = name_map or {}
+
+    # Derive party/palbox IDs from the pal data if both were missing.
+    if not party_id and not palbox_id and owner_uid:
+        party_id, palbox_id = _derive_container_ids(wsd, owner_uid)
+
     party_norm = (party_id or "").replace("-", "").lower()
     palbox_norm = (palbox_id or "").replace("-", "").lower()
 
@@ -240,9 +363,20 @@ def _pal_summary_with_container(sp: dict, key: dict, inst: str, name_map: dict) 
 
 
 # ── Read: PalDetail ──────────────────────────────────────────────────────────
-def read_pal_detail(level_dict: dict, instance_id: str) -> Optional[dict]:
+def read_pal_detail(level_dict: dict, instance_id: str) -> dict | None:
     """Build the full editable-detail dict for one pal. ``None`` if not found."""
-    found = find_pal_entry(level_dict, instance_id)
+    wsd = world_service.get_world_save_data(level_dict)
+    return read_pal_detail_from_wsd(wsd, instance_id)
+
+
+def read_pal_detail_from_wsd(wsd: dict, instance_id: str) -> dict | None:
+    """Same as :func:`read_pal_detail` but takes a ``wsd`` slice directly.
+
+    Use when the caller already has a mini-wsd (e.g. from
+    ``build_mini_wsd("CharacterSaveParameterMap")``) to avoid materializing
+    the full ~200 MB ``level_dict``.
+    """
+    found = find_pal_entry_from_wsd(wsd, instance_id)
     if not found:
         return None
     entry, sp = found
@@ -561,7 +695,7 @@ def rename_pal(level_dict: dict, instance_id: str, nickname: str) -> Optional[di
     if sp is None:
         return None
     nick = (nickname or "").strip()[:31]  # game NickName cap is short
-    _k_set(sp, "NickName", nick)
+    _sp_set(level_dict, sp, "NickName", nick)
     return read_pal_detail(level_dict, instance_id)
 
 
@@ -573,7 +707,7 @@ def set_gender(level_dict: dict, instance_id: str, gender: str) -> Optional[dict
     value = {"male": "EPalGenderType::Male", "female": "EPalGenderType::Female"}.get(g)
     if value is None:
         raise ValueError(f"invalid gender {gender!r}")
-    _k_set(sp, "Gender", value)
+    _sp_set(level_dict, sp, "Gender", value)
     return read_pal_detail(level_dict, instance_id)
 
 
@@ -612,10 +746,10 @@ def set_identity(
     final_cid = base_cid
     if boss or lucky:
         final_cid = "BOSS_" + base_cid
-    _k_set(sp, "CharacterID", final_cid)
+    _sp_set(level_dict, sp, "CharacterID", final_cid)
 
     if lucky:
-        _k_set(sp, "IsRarePal", True)
+        _sp_set(level_dict, sp, "IsRarePal", True)
     elif is_lucky is False:
         _k_del(sp, "IsRarePal")
 
@@ -629,9 +763,9 @@ def set_level(level_dict: dict, instance_id: str, level: int, cheat: bool = Fals
         return None
     lo, hi = caps(cheat)["level"]
     lvl = _clamp(level, lo, hi)
-    _k_set(sp, "Level", lvl)
+    _sp_set(level_dict, sp, "Level", lvl)
     # Derive Exp from the pal exp table.
-    _k_set(sp, "Exp", _exp_for_level(lvl))
+    _sp_set(level_dict, sp, "Exp", _exp_for_level(lvl))
     cid = str(world_service._k(sp, "CharacterID") or "")
     _recompute_hp(sp, cid)
     return read_pal_detail(level_dict, instance_id)
@@ -648,11 +782,11 @@ def set_talents(
     lo, hi = caps(cheat)["iv"]
     cid = str(world_service._k(sp, "CharacterID") or "")
     if talent_hp is not None:
-        _k_set(sp, "Talent_HP", _clamp(talent_hp, lo, hi))
+        _sp_set(level_dict, sp, "Talent_HP", _clamp(talent_hp, lo, hi))
     if talent_shot is not None:
-        _k_set(sp, "Talent_Shot", _clamp(talent_shot, lo, hi))
+        _sp_set(level_dict, sp, "Talent_Shot", _clamp(talent_shot, lo, hi))
     if talent_defense is not None:
-        _k_set(sp, "Talent_Defense", _clamp(talent_defense, lo, hi))
+        _sp_set(level_dict, sp, "Talent_Defense", _clamp(talent_defense, lo, hi))
     _recompute_hp(sp, cid)
     return read_pal_detail(level_dict, instance_id)
 
@@ -669,14 +803,16 @@ def set_ranks(
     lo, hi = caps(cheat)["soul"]
     cid = str(world_service._k(sp, "CharacterID") or "")
     # NOTE: British spelling "Rank_Defence" is the actual save field name.
+    # _sp_set registers the schema for fields not already on this pal —
+    # otherwise export fails with "No schema for property: …Rank_HP".
     if rank_hp is not None:
-        _k_set(sp, "Rank_HP", _clamp(rank_hp, lo, hi))
+        _sp_set(level_dict, sp, "Rank_HP", _clamp(rank_hp, lo, hi))
     if rank_attack is not None:
-        _k_set(sp, "Rank_Attack", _clamp(rank_attack, lo, hi))
+        _sp_set(level_dict, sp, "Rank_Attack", _clamp(rank_attack, lo, hi))
     if rank_defense is not None:
-        _k_set(sp, "Rank_Defence", _clamp(rank_defense, lo, hi))
+        _sp_set(level_dict, sp, "Rank_Defence", _clamp(rank_defense, lo, hi))
     if rank_craftspeed is not None:
-        _k_set(sp, "Rank_CraftSpeed", _clamp(rank_craftspeed, lo, hi))
+        _sp_set(level_dict, sp, "Rank_CraftSpeed", _clamp(rank_craftspeed, lo, hi))
     _recompute_hp(sp, cid)
     return read_pal_detail(level_dict, instance_id)
 
@@ -687,7 +823,7 @@ def set_condenser_rank(level_dict: dict, instance_id: str, rank: int, cheat: boo
         return None
     lo, hi = caps(cheat)["rank"]
     r = _clamp(rank, lo, hi)
-    _k_set(sp, "Rank", r)
+    _sp_set(level_dict, sp, "Rank", r)
     cid = str(world_service._k(sp, "CharacterID") or "")
     _recompute_hp(sp, cid)
     return read_pal_detail(level_dict, instance_id)
@@ -707,15 +843,15 @@ def set_skills(
 
     if passive_skills is not None:
         cleaned = _validate_passives(passive_skills, c["passive_slots"])
-        _k_set(sp, "PassiveSkillList", cleaned)
+        _sp_set(level_dict, sp, "PassiveSkillList", cleaned)
 
     if active_skills is not None:
         cleaned = _validate_actives(active_skills, c["active_slots"])
-        _k_set(sp, "EquipWaza", cleaned)
+        _sp_set(level_dict, sp, "EquipWaza", cleaned)
 
     if learned_skills is not None:
         cleaned = _validate_actives(learned_skills, None)  # no slot cap on mastered
-        _k_set(sp, "MasteredWaza", cleaned)
+        _sp_set(level_dict, sp, "MasteredWaza", cleaned)
 
     return read_pal_detail(level_dict, instance_id)
 
@@ -734,7 +870,7 @@ def learn_all_skills(level_dict: dict, instance_id: str, cheat: bool = False) ->
     mastered = [a.split("EPalWazaID::")[-1] for a in world_service._skill_list(sp, "MasteredWaza")]
     combined = list(dict.fromkeys(mastered + catalog))  # dedupe, preserve order
     wrapped = [f"EPalWazaID::{a}" for a in combined]
-    _k_set(sp, "MasteredWaza", wrapped)
+    _sp_set(level_dict, sp, "MasteredWaza", wrapped)
     return read_pal_detail(level_dict, instance_id)
 
 
@@ -742,7 +878,7 @@ def set_friendship(level_dict: dict, instance_id: str, friendship_point: int) ->
     sp = find_pal_sp(level_dict, instance_id)
     if sp is None:
         return None
-    _k_set(sp, "FriendshipPoint", max(0, int(friendship_point)))
+    _sp_set(level_dict, sp, "FriendshipPoint", max(0, int(friendship_point)))
     return read_pal_detail(level_dict, instance_id)
 
 
@@ -754,9 +890,9 @@ def set_vitals(
     if sp is None:
         return None
     if stomach is not None:
-        _k_set(sp, "FullStomach", float(stomach))
+        _sp_set(level_dict, sp, "FullStomach", float(stomach))
     if sanity is not None:
-        _k_set(sp, "SanityValue", max(0.0, min(100.0, float(sanity))))
+        _sp_set(level_dict, sp, "SanityValue", max(0.0, min(100.0, float(sanity))))
     return read_pal_detail(level_dict, instance_id)
 
 
@@ -769,8 +905,8 @@ def heal_pal(level_dict: dict, instance_id: str) -> Optional[dict]:
     char_data = _char_data(_strip_boss_prefix(cid)) or {}
     _recompute_hp(sp, cid)  # sets Hp = MaxHP
     max_stomach = float((char_data.get("stats") or {}).get("max_full_stomach", 150))
-    _k_set(sp, "FullStomach", max_stomach)
-    _k_set(sp, "SanityValue", 100.0)
+    _sp_set(level_dict, sp, "FullStomach", max_stomach)
+    _sp_set(level_dict, sp, "SanityValue", 100.0)
     for k in _SICKNESS_KEYS:
         _k_del(sp, k)
     return read_pal_detail(level_dict, instance_id)
@@ -788,17 +924,17 @@ def max_out_pal(level_dict: dict, instance_id: str, cheat: bool = False) -> Opti
     _, rank_max = c["rank"]
     _, lvl_max = c["level"]
 
-    _k_set(sp, "Talent_HP", iv_max)
-    _k_set(sp, "Talent_Shot", iv_max)
-    _k_set(sp, "Talent_Defense", iv_max)
-    _k_set(sp, "Rank_HP", soul_max)
-    _k_set(sp, "Rank_Attack", soul_max)
-    _k_set(sp, "Rank_Defence", soul_max)
-    _k_set(sp, "Rank_CraftSpeed", soul_max)
-    _k_set(sp, "Rank", rank_max)
-    _k_set(sp, "FriendshipPoint", 200000)
-    _k_set(sp, "Level", lvl_max)
-    _k_set(sp, "Exp", _exp_for_level(lvl_max))
+    _sp_set(level_dict, sp, "Talent_HP", iv_max)
+    _sp_set(level_dict, sp, "Talent_Shot", iv_max)
+    _sp_set(level_dict, sp, "Talent_Defense", iv_max)
+    _sp_set(level_dict, sp, "Rank_HP", soul_max)
+    _sp_set(level_dict, sp, "Rank_Attack", soul_max)
+    _sp_set(level_dict, sp, "Rank_Defence", soul_max)
+    _sp_set(level_dict, sp, "Rank_CraftSpeed", soul_max)
+    _sp_set(level_dict, sp, "Rank", rank_max)
+    _sp_set(level_dict, sp, "FriendshipPoint", 200000)
+    _sp_set(level_dict, sp, "Level", lvl_max)
+    _sp_set(level_dict, sp, "Exp", _exp_for_level(lvl_max))
     for key in WORK_SUITABILITY_KEYS:
         _set_work_suitability(sp, key, SAFE_WORK_MAX, cid)
     _recompute_hp(sp, cid)

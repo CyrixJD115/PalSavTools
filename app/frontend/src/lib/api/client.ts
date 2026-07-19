@@ -7,7 +7,7 @@ import type {
   DeleteBaseRequest, DirectChildRequest, DirectChildResponse,
   DirectPartnersRequest, DirectPartnersResponse, ExpandContainerRequest,
   FixGuildRequest, FixHostSaveRequest, GuildDetail, GuildListResponse,
-  HealthResponse, LanguagesResponse, LoadResponse, MapDataResponse,
+  HealthResponse, LanguagesResponse, LoadOptions, LoadResponse, MapDataResponse,
   MaxAbilitiesRequest, MovePalRequest, PalDetailResponse, PalEditRequest,
   PalGroupedResponse, PalListResponse, PalPreset, PalSkillCatalogResponse,
   PlayerDetail, PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
@@ -52,13 +52,20 @@ export const api = {
     request<{ lang: string; keys: Record<string, string> }>(`/data/i18n/${lang}`),
 
   saveState: () => request<SaveStateResponse>('/save/state'),
-  loadFromPath: (path: string) =>
-    request<LoadResponse>('/save/load', jsonBody({ path })),
+  loadFromPath: (path: string, opts?: LoadOptions) =>
+    request<LoadResponse>('/save/load', jsonBody({
+      path,
+      storage_mode: opts?.storageMode ?? 'memory',
+      prewarm: opts?.prewarm ?? false,
+    })),
   unload: () => request<SaveStateResponse>('/save', { method: 'DELETE' }),
 
-  uploadSave: async (file: File): Promise<LoadResponse> => {
+  uploadSave: async (file: File, opts?: LoadOptions): Promise<LoadResponse> => {
     const form = new FormData();
     form.append('file', file);
+    // storage_mode / prewarm travel as multipart form fields alongside file.
+    form.append('storage_mode', opts?.storageMode ?? 'memory');
+    form.append('prewarm', String(opts?.prewarm ?? false));
     const res = await fetch(`${API_BASE}/save/upload`, { method: 'POST', body: form });
     const text = await res.text();
     if (!res.ok) {
@@ -82,7 +89,14 @@ export const api = {
     return { blob, filename, size: Number(res.headers.get('X-Export-Size') ?? blob.size) };
   },
 
-  players: () => request<PlayerListResponse>('/players'),
+  players: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
+    const params = new URLSearchParams();
+    if (opts.limit != null) params.set('limit', String(opts.limit));
+    if (opts.offset != null) params.set('offset', String(opts.offset));
+    if (opts.search) params.set('search', opts.search);
+    const qs = params.toString();
+    return request<PlayerListResponse>(`/players${qs ? `?${qs}` : ''}`);
+  },
 
   playerDetail: (uid: string) => request<PlayerDetail>(`/players/${uid}`),
   playerStats: (uid: string) =>
@@ -107,7 +121,14 @@ export const api = {
     request<{ status: string }>(`/players/${uid}/unlock-technologies`, { method: 'PUT' }),
   maxPlayerAbilities: (body: MaxAbilitiesRequest) =>
     request<{ status: string }>('/players/max-abilities', jsonBody(body)),
-  guilds: () => request<GuildListResponse>('/guilds'),
+  guilds: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
+    const params = new URLSearchParams();
+    if (opts.limit != null) params.set('limit', String(opts.limit));
+    if (opts.offset != null) params.set('offset', String(opts.offset));
+    if (opts.search) params.set('search', opts.search);
+    const qs = params.toString();
+    return request<GuildListResponse>(`/guilds${qs ? `?${qs}` : ''}`);
+  },
   guildDetail: (id: string) => request<GuildDetail>(`/guilds/${id}`),
   renameGuild: (gid: string, body: RenameGuildRequest) =>
     request<{ status: string }>(`/guilds/${gid}/name`, jsonBody(body, 'PUT')),
@@ -119,7 +140,14 @@ export const api = {
     request<{ status: string }>(`/guilds/${gid}/members/${uid}`, { method: 'DELETE' }),
   deleteGuild: (gid: string) =>
     request<{ status: string }>(`/guilds/${gid}`, { method: 'DELETE' }),
-  bases: () => request<BaseListResponse>('/bases'),
+  bases: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
+    const params = new URLSearchParams();
+    if (opts.limit != null) params.set('limit', String(opts.limit));
+    if (opts.offset != null) params.set('offset', String(opts.offset));
+    if (opts.search) params.set('search', opts.search);
+    const qs = params.toString();
+    return request<BaseListResponse>(`/bases${qs ? `?${qs}` : ''}`);
+  },
   baseDetail: (id: string) => request<BaseDetail>(`/bases/${id}`),
   deleteBase: (id: string, body?: DeleteBaseRequest) =>
     request<{ status: string }>(`/bases/${id}`, jsonBody(body ?? {}, 'DELETE')),
@@ -136,7 +164,14 @@ export const api = {
     request<{ status: string }>(`/containers/${id}/clear`, { method: 'POST' }),
   expandContainer: (id: string, body: ExpandContainerRequest) =>
     request<{ status: string }>(`/containers/${id}/expand`, jsonBody(body, 'PUT')),
-  pals: (limit = 300) => request<PalListResponse>(`/pals?limit=${limit}`),
+  pals: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
+    const params = new URLSearchParams();
+    if (opts.limit != null) params.set('limit', String(opts.limit));
+    if (opts.offset != null) params.set('offset', String(opts.offset));
+    if (opts.search) params.set('search', opts.search);
+    const qs = params.toString();
+    return request<PalListResponse>(`/pals${qs ? `?${qs}` : ''}`);
+  },
   palGrouped: (ownerUid: string) =>
     request<PalGroupedResponse>(`/pals/grouped?owner_uid=${encodeURIComponent(ownerUid)}`),
 

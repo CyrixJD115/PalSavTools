@@ -5,6 +5,7 @@ from pathlib import Path
 
 from fastapi import APIRouter
 
+from app.backend.config import settings
 from app.backend.schemas import HealthResponse
 from app.backend.state import save_state
 
@@ -34,4 +35,6 @@ async def health() -> HealthResponse:
         app_version=_APP_VERSION,
         game_version=_GAME_VERSION,
         save_loaded=save_state.is_loaded(),
+        storage_mode=settings.storage_mode,
+        large_save_threshold_mb=settings.large_save_threshold_mb,
     )

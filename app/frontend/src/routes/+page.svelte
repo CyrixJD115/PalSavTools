@@ -1,20 +1,26 @@
 <script lang="ts">
   import { saveLoaded, saveSummary, saveCounts, loadingSave, saveState, t } from '$stores/index';
+  import { settings } from '$stores/settings';
   import { api } from '$lib/api/client';
   import { toast } from '$stores/toast';
-  import type { ToolInfo } from '$types/index';
+  import type { LoadOptions, StorageMode, ToolInfo } from '$types/index';
   import Card from '$components/ui/Card.svelte';
   import Button from '$components/ui/Button.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import EmptyState from '$components/ui/EmptyState.svelte';
   import LoadSaveModal from '$components/layout/LoadSaveModal.svelte';
+  import StorageModeWarning from '$components/load/StorageModeWarning.svelte';
   import ToolModal from '$components/tools/ToolModal.svelte';
   import Icon from '@iconify/svelte';
   import TauriDropZone from '$components/drop/TauriDropZone.svelte'
   import { isTauri } from '$lib/tauri'
+  import { get } from 'svelte/store';
 
   let loadOpen = $state(false);
   let exporting = $state(false);
+  // Storage-mode warning modal state. When non-null, the modal is open and
+  // holds the upload file awaiting the user's choice.
+  let warnState: { file: File; resolve: (mode: StorageMode | null) => void } | null = $state(null);
   let dragOver = $state(false);
   let winW = $state(0);
   let winH = $state(0);
@@ -110,6 +116,27 @@
     if (dragOver) e.preventDefault();
   }
 
+  /**
+   * Resolve the storage mode for an upload. If the file exceeds the
+   * configured threshold, surface the warning modal and await the user's
+   * explicit choice; otherwise fall back to the persisted preference.
+   * Returns null if the user cancels.
+   */
+  function resolveStorageMode(fileSize: number): Promise<StorageMode | null> {
+    const s = get(settings);
+    const isLarge = fileSize > s.largeThresholdMb * 1024 * 1024;
+    if (!isLarge) return Promise.resolve(s.storageMode);
+    return new Promise<StorageMode | null>((resolve) => {
+      warnState = { file: { size: fileSize } as File, resolve };
+    });
+  }
+
+  function onWarningChoose(mode: StorageMode | null) {
+    const ws = warnState;
+    warnState = null;
+    ws?.resolve(mode);
+  }
+
   async function onDrop(e: DragEvent) {
     e.preventDefault();
     dragOver = false;
@@ -129,9 +156,18 @@
       return;
     }
     if (!lower.endsWith('.zip') && !lower.endsWith('.7z')) return;
+
+    // Large-save path: ask the user where to load before uploading.
+    const mode = await resolveStorageMode(file.size);
+    if (mode === null) return;  // user cancelled the warning
+    const opts: LoadOptions = {
+      storageMode: mode,
+      prewarm: get(settings).prewarm,
+    };
+
     loadingSave.set(true);
     try {
-      const res = await api.uploadSave(file);
+      const res = await api.uploadSave(file, opts);
       saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
       toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }));
     } catch (e) {
@@ -150,9 +186,16 @@
       return
     }
     if (!lower.endsWith('.sav')) return
+    // Path-load: size unknown pre-flight, so use the persisted preference
+    // silently. The warning only fires for browser uploads where the file
+    // bytes (and thus size) are already in hand.
+    const opts: LoadOptions = {
+      storageMode: get(settings).storageMode,
+      prewarm: get(settings).prewarm,
+    };
     loadingSave.set(true)
     try {
-      const res = await api.loadFromPath(file)
+      const res = await api.loadFromPath(file, opts)
       saveState.set({ loaded: true, summary: res.summary, counts: res.counts })
       toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }))
     } catch (e) {
@@ -348,3 +391,10 @@
 />
 
 <LoadSaveModal bind:open={loadOpen} />
+
+<StorageModeWarning
+  open={warnState !== null}
+  fileSize={warnState?.file.size ?? 0}
+  threshold={$settings.largeThresholdMb}
+  onchoose={onWarningChoose}
+/>

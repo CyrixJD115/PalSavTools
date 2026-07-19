@@ -9,21 +9,53 @@
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
   import BaseDetailModal from '$components/bases/BaseDetailModal.svelte';
+  import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
+  const PAGE_SIZE = 20;
   let bases = $state<BaseSummary[]>([]);
+  let total = $state(0);
   let loading = $state(true);
+  let loadingMore = $state(false);
   let error = $state<string | null>(null);
   let selectedBase = $state<BaseSummary | null>(null);
   let sortCol = $state<'name' | 'level' | 'members' | 'bases' | 'area'>('name');
   let sortDir = $state<'asc' | 'desc'>('asc');
+  let query = $state('');
+  let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
-  async function load() {
-    loading = true; error = null;
-    try { bases = (await api.bases()).bases; }
-    catch (e) { error = e instanceof Error ? e.message : String(e); }
-    finally { loading = false; }
+  const hasMore = $derived(bases.length < total);
+
+  async function fetchPage(reset = false) {
+    if (reset) {
+      loading = true;
+      bases = [];
+    } else {
+      if (loadingMore || !hasMore) return;
+      loadingMore = true;
+    }
+    error = null;
+    try {
+      const offset = reset ? 0 : bases.length;
+      const res = await api.bases({ limit: PAGE_SIZE, offset, search: query.trim() });
+      total = res.total;
+      const seen = new Set(bases.map((b) => b.id));
+      bases = reset ? res.bases : [...bases, ...res.bases.filter((b) => !seen.has(b.id))];
+    } catch (e) {
+      error = e instanceof Error ? e.message : String(e);
+    } finally {
+      loading = false;
+      loadingMore = false;
+    }
   }
-  onMount(() => { if ($saveLoaded) load(); });
+
+  async function loadMore() { await fetchPage(false); }
+
+  function onSearchInput() {
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => fetchPage(true), 300);
+  }
+
+  onMount(() => { if ($saveLoaded) fetchPage(true); });
 
   function fmtCoord(loc: [number, number, number] | null): string {
     if (!loc) return '—';
@@ -31,7 +63,6 @@
   }
 
   type SortCol = 'name' | 'level' | 'members' | 'bases' | 'area';
-
   let sortConfigs: { col: SortCol; labelKey: string; icon: string; css: string }[] = [
     { col: 'name', labelKey: 'web.bases.col_guild', icon: 'lucide:building-2', css: '' },
     { col: 'level', labelKey: 'web.bases.col_guild_lv', icon: 'lucide:arrow-up', css: 'text-right' },
@@ -55,14 +86,22 @@
     return sortDir === 'asc' ? cmp : -cmp;
   }));
 
-  function onDetailSaved() { load(); selectedBase = null; }
+  function onDetailSaved() { fetchPage(true); selectedBase = null; }
 </script>
 
 <SaveGate icon="lucide:map-pin">
   <div class="p-6 max-w-5xl mx-auto space-y-4 animate-fade-in">
-    <div>
-      <h1 class="text-xl font-bold heading-gradient">{$t('web.bases.title')}</h1>
-      <p class="text-xs text-ink-muted">{$t('web.bases.count', { count: bases.length })}</p>
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-xl font-bold heading-gradient">{$t('web.bases.title')}</h1>
+        <p class="text-xs text-ink-muted">{$t('web.bases.count', { count: total })}</p>
+      </div>
+      <input
+        class="input max-w-xs"
+        placeholder={$t('web.bases.filter_placeholder', { default: 'Search bases…' })}
+        bind:value={query}
+        oninput={onSearchInput}
+      />
     </div>
 
     <Card>
@@ -96,7 +135,7 @@
                 <th class="py-2 pr-4 font-medium font-mono">{$t('web.bases.col_base_id')}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody use:infiniteScroll={{ onloadmore: loadMore, hasMore, loading: loadingMore }}>
               {#each sorted as b (b.id)}
                 <tr
                   class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer"
@@ -123,6 +162,13 @@
                   <td class="py-2.5 pr-4 font-mono text-xs text-ink-muted">{b.id.slice(0, 13)}…</td>
                 </tr>
               {/each}
+              {#if hasMore}
+                <tr class="sentinel">
+                  <td colspan="7" class="py-3 text-center text-xs text-ink-muted">
+                    {#if loadingMore}<Spinner size={14} />{:else}{$t('web.bases.count', { count: total })}{/if}
+                  </td>
+                </tr>
+              {/if}
             </tbody>
           </table>
         </div>

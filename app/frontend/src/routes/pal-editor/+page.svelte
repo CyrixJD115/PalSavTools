@@ -3,7 +3,6 @@
   // Player selector + zone context (Party column always visible on the left,
   // Palbox grid as the main pane). Multi-select via Ctrl/Cmd-click; bulk
   // actions reuse the already-verified pal_service mutators.
-  import { onMount } from 'svelte';
   import { saveLoaded, t } from '$stores/index';
   import { api } from '$lib/api/client';
   import EmptyState from '$components/ui/EmptyState.svelte';
@@ -19,7 +18,11 @@
   let selectedUid = $state<string | null>(null);
   let selectedPlayerLevel = $state(0);
   let grouped = $state<PalGroupedResponse | null>(null);
+  // loading starts true when a save is already loaded on mount — the first
+  // thing we do is fetch players + grouped pals, and we want the spinner to
+  // show immediately rather than flash an empty pane.
   let loading = $state(false);
+  let playersLoading = $state(false);
   let error = $state<string | null>(null);
   let search = $state('');
   let sort = $state<'slot' | 'name' | 'level'>('slot');
@@ -29,21 +32,47 @@
   let detailName = $state('');
   let showPresets = $state(false);
   let bulkLoading = $state(false);
+  // Track the most recent loadGrouped() request so a stale slow response
+  // can't overwrite a fresh one when the user switches players quickly.
+  let groupedRequestId = 0;
 
-  onMount(async () => {
-    if (!$saveLoaded) return;
-    await loadPlayers();
+  // Reactive load trigger — fires whenever the save-load state flips to
+  // "loaded" (covers fresh mount with a save already open AND the user
+  // loading a save while sitting on this page). Replaces the old onMount
+  // snapshot of $saveLoaded, which missed late-arriving state updates.
+  $effect(() => {
+    if ($saveLoaded) {
+      // Avoid re-fetching if we already have data for this save.
+      if (players.length === 0 && !playersLoading) {
+        void loadPlayers();
+      }
+    } else {
+      // Save unloaded — reset everything so a stale view never lingers.
+      players = [];
+      grouped = null;
+      selectedUid = null;
+      selectedPalIds = [];
+    }
   });
 
   async function loadPlayers() {
+    playersLoading = true;
+    error = null;
     try {
-      const res = await api.players();
+      const res = await api.players({ limit: 200 });
       players = res.players;
-      // auto-select first player with pals
+      // auto-select first player with pals (fall back to first player)
       const first = players.find((p) => p.pal_count > 0) ?? players[0];
-      if (first) await selectPlayer(first.uid);
+      if (first) {
+        await selectPlayer(first.uid);
+      } else {
+        loading = false;
+      }
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
+      loading = false;
+    } finally {
+      playersLoading = false;
     }
   }
 
@@ -56,14 +85,19 @@
 
   async function loadGrouped() {
     if (!selectedUid) return;
+    const reqId = ++groupedRequestId;
     loading = true;
     error = null;
     try {
-      grouped = await api.palGrouped(selectedUid);
+      const result = await api.palGrouped(selectedUid);
+      // Drop the result if a newer request superseded us.
+      if (reqId !== groupedRequestId) return;
+      grouped = result;
     } catch (e) {
+      if (reqId !== groupedRequestId) return;
       error = e instanceof Error ? e.message : String(e);
     } finally {
-      loading = false;
+      if (reqId === groupedRequestId) loading = false;
     }
   }
 
@@ -149,8 +183,9 @@
   {:else}
     <!-- player selector -->
     <div class="flex items-center gap-2 flex-wrap">
-      <label class="text-[10px] font-semibold text-ink-dim uppercase tracking-wider">{$t('web.pal_editor.player')}</label>
+      <label for="pal-editor-player" class="text-[10px] font-semibold text-ink-dim uppercase tracking-wider">{$t('web.pal_editor.player')}</label>
       <select
+        id="pal-editor-player"
         class="input text-sm w-auto min-w-48"
         value={selectedUid ?? ''}
         onchange={(e) => selectPlayer((e.currentTarget as HTMLSelectElement).value)}
@@ -165,8 +200,12 @@
       <p class="text-xs text-rose-400">{error}</p>
     {/if}
 
-    {#if loading}
+    {#if loading || playersLoading}
       <div class="flex justify-center py-16"><Spinner /></div>
+    {:else if players.length === 0}
+      <EmptyState icon="lucide:users" title={$t('web.pal_editor.no_players_title', { default: 'No players found' })}>
+        <p class="text-xs">{$t('web.pal_editor.no_players_body', { default: 'This save has no players. Load a save with player .sav files to use the Pal Editor.' })}</p>
+      </EmptyState>
     {:else if grouped}
       <!-- multi-select bulk action bar -->
       {#if selectedPalIds.length > 0}
@@ -238,16 +277,26 @@
         </div>
       </div>
 
-      <!-- ungrouped (base-deployed / other) — collapsed summary -->
+      <!-- ungrouped (base-deployed / other) — pal grid inside a collapsible -->
       {#if grouped.ungrouped.length > 0}
         <details class="card p-3">
           <summary class="text-xs font-semibold text-ink-dim cursor-pointer flex items-center gap-1">
             <Icon icon="lucide:info" width={12} />
             {$t('web.pal_editor.ungrouped_count', { count: grouped.ungrouped.length })}
+            <span class="text-[10px] text-ink-muted ml-1">{$t('web.pal_editor.ungrouped_hint', { default: '(base-deployed & other pals)' })}</span>
           </summary>
-          <p class="text-[11px] text-ink-muted mt-2">
-            {$t('web.pal_editor.ungrouped_hint')}
-          </p>
+          <div class="mt-3">
+            <PalboxGrid
+              pals={grouped.ungrouped}
+              selectedIds={selectedPalIds}
+              playerLevel={selectedPlayerLevel}
+              {search}
+              {sort}
+              onclick={openDetail}
+              onselect={toggleSelect}
+              onswap={handleSwap}
+            />
+          </div>
         </details>
       {/if}
     {/if}

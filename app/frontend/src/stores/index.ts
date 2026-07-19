@@ -1,6 +1,6 @@
 import { writable, derived, get } from 'svelte/store';
 import type {
-  HealthResponse, LanguagesResponse, SaveStateResponse, WorldCounts,
+  HealthResponse, LanguagesResponse, LoadProgressPayload, SaveStateResponse, WorldCounts,
 } from '$types/index';
 import { interpolate } from '$lib/i18n.svelte';
 // Inline the default English catalog at build time. This is the critical
@@ -48,6 +48,10 @@ export const saveCounts = derived(saveState, ($s) => $s?.counts ?? null);
 export const loadingSave = writable(false);
 export const loadError = writable<string | null>(null);
 
+// Live load-stage progress pushed over /ws during save load. Null when no
+// load is in progress or when the backend isn't broadcasting stages.
+export const loadProgress = writable<LoadProgressPayload | null>(null);
+
 // ---- i18n helper ----
 // ``t`` is a derived store whose value is a translator function. The function
 // supports {placeholder} interpolation: t('web.players.count', { count: 5 }).
@@ -78,6 +82,7 @@ export function resetSaveData(): void {
   saveState.set(null);
   loadError.set(null);
   loadingSave.set(false);
+  loadProgress.set(null);
 }
 
 // convenience: read current loaded flag without subscribing

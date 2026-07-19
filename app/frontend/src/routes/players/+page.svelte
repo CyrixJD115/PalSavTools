@@ -8,36 +8,73 @@
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import PlayerDetailModal from '$components/players/PlayerDetailModal.svelte';
+  import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
+  // Infinite-scroll state. Items accumulate as the user scrolls; the backend
+  // returns 20 at a time and we trigger another fetch when the sentinel
+  // approaches the viewport.
+  const PAGE_SIZE = 20;
   let players = $state<PlayerSummary[]>([]);
+  let total = $state(0);
   let loading = $state(true);
+  let loadingMore = $state(false);
   let error = $state<string | null>(null);
+
+  // Debounced search — server-side filter. Resetting the list + scrolling
+  // back to top happens whenever the query changes.
   let query = $state('');
+  let searchTimer: ReturnType<typeof setTimeout> | null = null;
+
   let sortKey = $state<'name' | 'level' | 'pal_count' | 'last_seen' | 'guild_name'>('name');
   let sortAsc = $state(true);
   let selectedUid = $state<string | null>(null);
-  let selectedName = $state<string>('');
+  let selectedName = $state('');
 
-  async function load() {
-    loading = true; error = null;
+  const hasMore = $derived(players.length < total);
+
+  async function fetchPage(reset = false) {
+    if (reset) {
+      loading = true;
+      players = [];
+    } else {
+      if (loadingMore || !hasMore) return;
+      loadingMore = true;
+    }
+    error = null;
     try {
-      const res = await api.players();
-      players = res.players;
-    } catch (e) { error = e instanceof Error ? e.message : String(e); }
-    finally { loading = false; }
+      const offset = reset ? 0 : players.length;
+      const res = await api.players({ limit: PAGE_SIZE, offset, search: query.trim() });
+      total = res.total;
+      // Dedup by UID (defensive — backend should already be unique).
+      const seen = new Set(players.map((p) => p.uid));
+      const next = reset ? res.players : [...players, ...res.players.filter((p) => !seen.has(p.uid))];
+      players = next;
+    } catch (e) {
+      error = e instanceof Error ? e.message : String(e);
+    } finally {
+      loading = false;
+      loadingMore = false;
+    }
   }
-  onMount(() => { if ($saveLoaded) load(); });
 
-  const filtered = $derived(
-    players.filter((p) =>
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.uid.toLowerCase().includes(query.toLowerCase()) ||
-      (p.guild_name ?? '').toLowerCase().includes(query.toLowerCase()),
-    ),
-  );
+  async function loadMore() {
+    await fetchPage(false);
+  }
 
+  function onSearchInput() {
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => fetchPage(true), 300);
+  }
+
+  onMount(() => {
+    if ($saveLoaded) fetchPage(true);
+  });
+
+  // The server does the filtering now, so `sorted` just reorders the loaded
+  // page locally. (Server can't sort without a sort param — local reorder
+  // of the visible window is good enough for a typical page of 20.)
   const sorted = $derived(
-    [...filtered].sort((a, b) => {
+    [...players].sort((a, b) => {
       let cmp = 0;
       if (sortKey === 'name') cmp = a.name.localeCompare(b.name);
       else if (sortKey === 'level') cmp = a.level - b.level;
@@ -65,15 +102,13 @@
     selectedUid = p.uid;
     selectedName = p.name;
   }
-
   function closeDetail() {
     selectedUid = null;
     selectedName = '';
   }
-
   function handleUpdated() {
     closeDetail();
-    load();
+    fetchPage(true);
   }
 </script>
 
@@ -82,9 +117,14 @@
     <div class="flex items-center justify-between gap-4">
       <div>
         <h1 class="text-xl font-bold heading-gradient">{$t('web.players.title')}</h1>
-        <p class="text-xs text-ink-muted">{$t('web.players.count', { count: players.length })}</p>
+        <p class="text-xs text-ink-muted">{$t('web.players.count', { count: total })}</p>
       </div>
-      <input class="input max-w-xs" placeholder={$t('web.players.filter_placeholder')} bind:value={query} />
+      <input
+        class="input max-w-xs"
+        placeholder={$t('web.players.filter_placeholder')}
+        bind:value={query}
+        oninput={onSearchInput}
+      />
     </div>
 
     <Card>
@@ -116,7 +156,7 @@
                 <th class="py-2 pr-4 font-medium font-mono select-none">{$t('web.players.col_uid')}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody use:infiniteScroll={{ onloadmore: loadMore, hasMore, loading: loadingMore }}>
               {#each sorted as p (p.uid)}
                 <tr class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer" onclick={() => openDetail(p)}>
                   <td class="py-2.5 pr-4 text-ink-primary font-medium">
@@ -131,6 +171,14 @@
                   <td class="py-2.5 pr-4 font-mono text-xs text-ink-muted max-w-[160px] truncate" title={p.uid}>{p.uid}</td>
                 </tr>
               {/each}
+              <!-- sentinel: IntersectionObserver target for infinite scroll -->
+              {#if hasMore}
+                <tr class="sentinel">
+                  <td colspan="7" class="py-3 text-center text-xs text-ink-muted">
+                    {#if loadingMore}<Spinner size={14} />{:else}{$t('web.players.count', { count: total })}{/if}
+                  </td>
+                </tr>
+              {/if}
             </tbody>
           </table>
         </div>

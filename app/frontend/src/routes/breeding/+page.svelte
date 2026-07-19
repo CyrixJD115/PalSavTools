@@ -34,6 +34,10 @@
   let pals = $state<BreedablePal[]>([]);
   let palMap = $state<Map<string, BreedablePal>>(new Map());
   let palsLoading = $state(true);
+  // Passive-skill catalog (asset → display name). Loaded once so ChainCard
+  // can resolve passive IDs ("CraftSpeed_up1" → "Serious") instead of
+  // showing the raw asset string.
+  let passiveMap = $state<Map<string, string>>(new Map());
 
   // direct mode inputs
   let parentA = $state<string | null>(null);
@@ -54,6 +58,9 @@
   // save-specific
   let players = $state<PlayerSummary[]>([]);
   let ownerUid = $state<string | null>(null);
+  let ownerSearch = $state('');
+  let ownerFocus = $state(false);
+  let ownerBlurTimer: ReturnType<typeof setTimeout> | undefined;
   let includeWild = $state(false);
 
   // results
@@ -66,20 +73,34 @@
 
   onMount(async () => {
     try {
-      const res = await api.breedingPals();
+      const [res, catalog] = await Promise.all([
+        api.breedingPals(),
+        api.palSkillCatalog().catch(() => ({ passives: [], actives: [] })),
+      ]);
       pals = res.pals;
       palMap = new Map(res.pals.map((p) => [p.tribe, p]));
+      // Build a passive asset→name lookup for ChainCard rendering.
+      passiveMap = new Map(
+        catalog.passives.map((p) => [String(p.asset).toLowerCase(), p.name]),
+      );
     } finally {
       palsLoading = false;
     }
   });
+
+  /** Resolve a passive asset ID to its display name (falls back to the raw id). */
+  function passiveName(asset: string): string {
+    return passiveMap.get(String(asset).toLowerCase()) ?? asset;
+  }
 
   // Load the player list when entering save mode (needs a save).
   let playersLoaded = $state(false);
   async function ensurePlayers() {
     if (playersLoaded || !$saveLoaded) return;
     try {
-      const res = await api.players();
+      // Fetch all players (up to 500, covers any realistic server) instead
+      // of the default 20, so the owner dropdown shows every player.
+      const res = await api.players({ limit: 500 });
       players = res.players;
       playersLoaded = true;
     } catch (e) {
@@ -190,6 +211,19 @@
   const canRunChain = $derived(
     !!chainTarget && (mode === 'save' || selectedPool.length > 0) && (mode !== 'save' || $saveLoaded)
   );
+  // Client-side fuzzy filter for the owner search.
+  const filteredPlayers = $derived(
+    ownerSearch
+      ? players.filter((pl) => {
+          const q = ownerSearch.toLowerCase();
+          return (
+            pl.name.toLowerCase().includes(q) ||
+            pl.uid.toLowerCase().includes(q) ||
+            (pl.guild_name ?? '').toLowerCase().includes(q)
+          );
+        })
+      : players,
+  );
 </script>
 
 <div class="p-6 max-w-5xl mx-auto space-y-5 animate-fade-in">
@@ -242,23 +276,23 @@
         <div class="card space-y-3">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+              <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                 {$t('web.breeding.parent_a')}
-              </label>
+              </span>
               <PalPicker value={parentA} onselect={(t) => (parentA = t)} />
             </div>
             {#if directSub === 'forward'}
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.parent_b')}
-                </label>
+                </span>
                 <PalPicker value={parentB} onselect={(t) => (parentB = t)} exclude={parentA ? [parentA] : []} />
               </div>
             {:else}
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.target_child')}
-                </label>
+                </span>
                 <PalPicker value={directTarget} onselect={(t) => (directTarget = t)} />
               </div>
             {/if}
@@ -310,15 +344,15 @@
           <div class="card space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.target')}
-                </label>
+                </span>
                 <PalPicker value={chainTarget} onselect={(t) => (chainTarget = t)} />
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.gender')}
-                </label>
+                </span>
                 <select bind:value={chainGender} class="input text-xs">
                   <option value={null}>{$t('web.breeding.any_gender')}</option>
                   <option value="Male">{$t('web.breeding.male')}</option>
@@ -329,24 +363,24 @@
 
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.max_generations')}
-                </label>
+                </span>
                 <input type="number" min="1" max="6" bind:value={chainGens} class="input text-xs" />
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.max_results')}
-                </label>
+                </span>
                 <input type="number" min="1" max="10" bind:value={chainMaxResults} class="input text-xs" />
               </div>
             </div>
 
             {#if mode === 'selection'}
               <div>
-                <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                   {$t('web.breeding.pool')} ({selectedPool.length})
-                </label>
+                </span>
                 <PalPicker
                   placeholder={$t('web.breeding.add_to_pool')}
                   onselect={(t) => addToPool(t)}
@@ -377,15 +411,59 @@
             {:else}
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
+                  <span class="block text-[11px] font-semibold text-ink-dim uppercase tracking-wider mb-1">
                     {$t('web.breeding.owner')}
-                  </label>
-                  <select bind:value={ownerUid} class="input text-xs">
-                    <option value={null}>{$t('web.breeding.all_players')}</option>
-                    {#each players as pl}
-                      <option value={pl.uid}>{pl.name} ({pl.pal_count} pals)</option>
-                    {/each}
-                  </select>
+                  </span>
+                  <!-- Searchable owner selector with real-time fuzzy filtering -->
+                  <div class="relative">
+                    <input
+                      type="text"
+                      class="input text-xs"
+                      value={ownerUid
+                        ? players.find((p) => p.uid === ownerUid)?.name ?? ownerUid
+                        : ownerSearch}
+                      placeholder={$t('web.breeding.owner_search')}
+                      oninput={(e) => {
+                        ownerSearch = (e.currentTarget as HTMLInputElement).value;
+                        // Clear the owner when the user starts typing — they want to search.
+                        if (ownerUid) ownerUid = null;
+                      }}
+                      onfocus={() => {
+                        if (ownerBlurTimer) clearTimeout(ownerBlurTimer);
+                        ownerFocus = true;
+                      }}
+                      onblur={() => {
+                        ownerBlurTimer = setTimeout(() => {
+                          ownerFocus = false;
+                        }, 200);
+                      }}
+                    />
+                    {#if ownerFocus}
+                      <div
+                        class="absolute left-0 right-0 z-20 mt-1 max-h-48 overflow-y-auto rounded-6 border border-line/40 bg-bg-deep shadow-card-lg"
+                        role="listbox"
+                      >
+                        <button
+                          class="w-full text-left px-3 py-1.5 text-xs text-ink-muted hover:bg-bg-hover transition-fast border-b border-line/20 last:border-b-0 {ownerUid === null ? 'bg-accent/10' : ''}"
+                          onmousedown={() => { ownerUid = null; ownerSearch = ''; ownerFocus = false; }}
+                        >
+                          {$t('web.breeding.all_players')}
+                        </button>
+                        {#each filteredPlayers as pl}
+                          <button
+                            class="w-full text-left px-3 py-1.5 text-xs text-ink-primary hover:bg-bg-hover transition-fast border-b border-line/20 last:border-b-0 {ownerUid === pl.uid ? 'bg-accent/10' : ''}"
+                            onmousedown={() => { ownerUid = pl.uid; ownerSearch = ''; ownerFocus = false; }}
+                          >
+                            {pl.name}
+                            <span class="text-ink-dim ml-1">({pl.pal_count} pals{pl.guild_name ? `, ${pl.guild_name}` : ''})</span>
+                          </button>
+                        {/each}
+                        {#if filteredPlayers.length === 0 && ownerSearch}
+                          <div class="px-3 py-2 text-xs text-ink-dim">{$t('web.breeding.owner_no_match')}</div>
+                        {/if}
+                      </div>
+                    {/if}
+                  </div>
                 </div>
                 <div class="flex items-end">
                   <label class="flex items-center gap-2 text-xs text-ink-secondary cursor-pointer">
@@ -415,7 +493,7 @@
                 {$t('web.breeding.chains')} ({chains.length})
               </h3>
               {#each chains as chain (chains.indexOf(chain))}
-                <ChainCard {chain} {palMap} />
+                <ChainCard {chain} {palMap} {passiveName} />
               {/each}
             </div>
           {:else if !computing && chainElapsedMs !== null}

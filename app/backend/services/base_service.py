@@ -286,6 +286,14 @@ def update_base_radius(level_dict: dict, base_id: str, new_radius: float) -> boo
 def get_enriched_base_list(level_dict: dict) -> list[dict]:
     """Build enriched base list with guild info, position, radius, leader."""
     wsd = get_world_save_data(level_dict)
+    return get_enriched_base_list_from_wsd(wsd)
+
+
+def get_enriched_base_list_from_wsd(wsd: dict) -> list[dict]:
+    """Build enriched base list from a wsd slice (lazy-friendly).
+
+    Reads only ``BaseCampSaveData`` + ``GroupSaveDataMap`` — both cheap.
+    """
     base_map = {
         _s(b.get("key")): _base_raw(b)
         for b in _map_entries(wsd, "BaseCampSaveData")

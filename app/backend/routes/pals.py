@@ -72,22 +72,31 @@ async def get_pals_grouped(owner_uid: str = Query(..., description="Player UID")
     Reads the player's container IDs from their .sav, then buckets every pal
     by its ``SlotId.ContainerId.ID``. Pals matching neither container fall into
     ``ungrouped`` (base-deployed pals, etc.) so nothing is silently dropped.
+
+    Pulls only ``GroupSaveDataMap`` + ``GameTimeSaveData`` + ``CharacterSaveParameterMap``
+    sections (~30 MB total) instead of materializing the full ~200 MB
+    ``level_dict``. This is the path the Pal Editor uses on every player
+    switch, so keeping it lazy is critical for responsiveness.
     """
     loaded = save_state.get()
     if loaded is None:
         raise HTTPException(409, "No save loaded")
-    detail = player_service.get_player_detail(
-        loaded.level_dict, owner_uid,
+    wsd = loaded.build_mini_wsd(
+        "GroupSaveDataMap", "GameTimeSaveData", "CharacterSaveParameterMap",
+    )
+    detail = player_service.get_player_detail_from_wsd(
+        wsd, owner_uid,
         loaded.player_pal_counts, loaded.player_levels,
         players_dir=loaded.players_dir,
     )
     if detail is None:
         raise HTTPException(404, f"Player not found: {owner_uid}")
-    grouped = pal_service.list_pals_grouped(
-        loaded.level_dict,
+    grouped = pal_service.list_pals_grouped_from_wsd(
+        wsd,
         detail.get("party_id"),
         detail.get("palbox_id"),
         name_map=data_service.character_name_map(),
+        owner_uid=owner_uid,
     )
     return PalGroupedResponse(**grouped)
 
@@ -105,7 +114,14 @@ async def swap_pals(req: SwapPalRequest) -> dict:
 # ── per-instance ─────────────────────────────────────────────────────────────
 @router.get("/{instance_id}", response_model=PalDetailResponse)
 async def get_pal(instance_id: str) -> PalDetailResponse:
-    detail = pal_service.read_pal_detail(_level_dict(), instance_id)
+    loaded = save_state.get()
+    if loaded is None:
+        raise HTTPException(409, "No save loaded")
+    # Build a mini-wsd with only CharacterSaveParameterMap (~30 MB) instead
+    # of materializing the full ~200 MB level_dict. This endpoint is read-only
+    # and only needs the pal's own entry from that one section.
+    wsd = loaded.build_mini_wsd("CharacterSaveParameterMap")
+    detail = pal_service.read_pal_detail_from_wsd(wsd, instance_id)
     return PalDetailResponse(pal=_require_pal(detail))
 
 

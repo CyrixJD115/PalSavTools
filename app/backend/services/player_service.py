@@ -116,14 +116,25 @@ def _player_sav_path(players_dir: str, uid: str) -> Path:
     return Path(players_dir) / f"{_uid_upper(uid)}.sav"
 
 
-def _read_player_sav(players_dir: str, uid: str) -> tuple[dict, int] | None:
+def _read_player_sav(
+    players_dir: str,
+    uid: str,
+    *,
+    _raw_bytes: bytes | None = None,
+) -> tuple[dict, int] | None:
     """Return ``(player_dict, save_type)`` for a player, or ``None``.
 
-    Cache-first: if the player's ``.sav`` was batch-decoded at load time and is
-    resident in ``LoadedSave.player_savs``, return that dict directly (no disk
-    read, no re-decode). Otherwise fall back to a one-off disk decode through
-    the Rust ``decode_sav`` engine. Decode errors are logged (not silently
-    swallowed) so parser mismatches surface during migration.
+    Cache-first: if the player's ``.sav`` was already decoded and is resident
+    in ``LoadedSave.player_savs`` (lazy LRU), return that dict directly. On a
+    cache miss, decode on demand from one of three sources, in priority order:
+
+    1. ``_raw_bytes`` — for the bundle-upload path (no disk access; bytes
+       held in ``LoadedSave.player_raw_bytes``).
+    2. The ``Players/`` directory on disk — for the path-load flow.
+    3. Give up (return ``None``).
+
+    Decode errors are logged (not silently swallowed) so parser mismatches
+    surface during migration. Successful decodes back-fill the LRU.
     """
     uid_clean = _uid_clean(uid)
 
@@ -135,19 +146,25 @@ def _read_player_sav(players_dir: str, uid: str) -> tuple[dict, int] | None:
             save_type = loaded.player_save_types.get(uid_clean, SAVE_TYPE_PLM)
             return cached, save_type
 
-    # Cache miss — fall back to disk (e.g. save loaded before this feature,
-    # or a UID whose file failed to decode at load). Bundle/upload loads have
-    # no disk path, so a cache miss there is terminal.
-    if not _is_disk_players_dir(players_dir):
+    # Cache miss — try in-memory bundle bytes first (upload path), then disk.
+    if _raw_bytes is not None:
+        try:
+            player_dict, save_type = decode_sav(_raw_bytes)
+        except Exception as exc:
+            logger.warning("Failed to decode bundled player save %s: %s", uid_clean, exc)
+            return None
+    elif _is_disk_players_dir(players_dir):
+        sav_path = _player_sav_path(players_dir, uid)
+        if not sav_path.exists():
+            return None
+        try:
+            player_dict, save_type = decode_sav(sav_path)
+        except Exception as exc:
+            logger.warning("Failed to decode player save %s: %s", sav_path.name, exc)
+            return None
+    else:
         return None
-    sav_path = _player_sav_path(players_dir, uid)
-    if not sav_path.exists():
-        return None
-    try:
-        player_dict, save_type = decode_sav(sav_path)
-    except Exception as exc:
-        logger.warning("Failed to decode player save %s: %s", sav_path.name, exc)
-        return None
+
     # Populate the cache so subsequent reads of this UID stay in-memory.
     if loaded is not None:
         loaded.player_savs[uid_clean] = player_dict
@@ -208,6 +225,25 @@ def get_player_detail(
 ) -> dict | None:
     uid_clean = _uid_clean(uid)
     wsd = world_service.get_world_save_data(level_dict)
+    return get_player_detail_from_wsd(
+        wsd, uid, player_pal_counts, player_levels, players_dir=players_dir,
+    )
+
+
+def get_player_detail_from_wsd(
+    wsd: dict,
+    uid: str,
+    player_pal_counts: dict[str, int],
+    player_levels: dict[str, int],
+    players_dir: str = "",
+) -> dict | None:
+    """Same as :func:`get_player_detail` but takes a wsd slice directly.
+
+    Used by the lazy pal-editor path so we don't materialize the full
+    ~200 MB ``level_dict``. Falls back to non-guilded IsPlayer entries when
+    no guild tracks the requested UID (mirrors ``list_players_from_wsd``).
+    """
+    uid_clean = _uid_clean(uid)
     tick = world_service.get_tick(wsd)
 
     for g in world_service._map_entries(wsd, "GroupSaveDataMap"):
@@ -254,6 +290,39 @@ def get_player_detail(
                 detail["party_id"] = party_id
                 detail["palbox_id"] = palbox_id
             return detail
+
+    # Fallback: player not tracked in any guild, but exists as an IsPlayer
+    # entry in CharacterSaveParameterMap (host-only saves, single-player
+    # worlds, or saves that pre-date guilds). The Pal Editor relies on this
+    # path so the dropdown isn't empty when GroupSaveDataMap has no Guilds.
+    for ch in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
+        sp = world_service._pal_entry_raw(ch)
+        if not sp or not world_service._k(sp, "IsPlayer"):
+            continue
+        key = world_service._g(ch, "key") or {}
+        entry_uid = world_service._norm_uid(world_service._k(key, "PlayerUId")) or ""
+        if not entry_uid or _uid_clean(entry_uid) != uid_clean:
+            continue
+        name = world_service._k(sp, "NickName") or "Unknown"
+        detail = {
+            "uid": entry_uid,
+            "name": str(name),
+            "level": player_levels.get(uid_clean, 0),
+            "pal_count": player_pal_counts.get(uid_clean, 0),
+            "guild_id": "",
+            "guild_name": None,
+            "guild_level": 0,
+            "is_leader": False,
+            "last_seen_seconds": None,
+            "last_seen_text": None,
+            "party_id": None,
+            "palbox_id": None,
+        }
+        if players_dir:
+            party_id, palbox_id = _read_container_ids(players_dir, entry_uid)
+            detail["party_id"] = party_id
+            detail["palbox_id"] = palbox_id
+        return detail
     return None
 
 

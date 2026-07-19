@@ -62,10 +62,28 @@ async def post_chain(req: ChainRequest) -> ChainResponse:
     loaded. Both share one solver — the only difference is the source adapter.
     """
     _require_engine()
-    level_dict = None
+    wsd = None
+    pal_counts = None
     if req.mode == "save":
         loaded = save_state.get()
         if loaded is None:
             raise HTTPException(409, "No save loaded — Save Mode requires a loaded save")
-        level_dict = loaded.level_dict
-    return breeding_service.solve_chain(req, level_dict=level_dict)
+        # Build a mini-wsd with only CharacterSaveParameterMap (~30 MB)
+        # instead of materializing the full ~200 MB level_dict.
+        wsd = loaded.build_mini_wsd("CharacterSaveParameterMap")
+        # Pass the pre-computed pal counts (keyed by sp.OwnerPlayerUId, dash-
+        # stripped lowercase) so the owner filter can resolve host-player
+        # ambiguity where guild.player_uid differs from pal.OwnerPlayerUId.
+        pal_counts = loaded.player_pal_counts
+        # Diagnostic: surface when the wsd is missing the CSP section, which
+        # would cause every owner filter to silently return zero pals.
+        import logging as _lg
+        _log = _lg.getLogger(__name__)
+        from app.backend.services import world_service as _ws
+        _csp = _ws._map_entries(wsd, "CharacterSaveParameterMap")
+        _log.debug(
+            "post_chain(save): mini_wsd CSP entries=%d, pal_counts owners=%d, "
+            "materialized_level_dict=%s",
+            len(_csp), len(pal_counts), loaded.has_materialized_level_dict,
+        )
+    return breeding_service.solve_chain(req, wsd=wsd, pal_counts=pal_counts)

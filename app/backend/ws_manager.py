@@ -41,5 +41,30 @@ class WsManager:
         for ws in dead:
             await self.disconnect(ws)
 
+    async def broadcast_load_progress(
+        self,
+        stage: str,
+        current: int = 0,
+        total: int = 0,
+        section: str | None = None,
+    ) -> None:
+        """Broadcast a ``load_progress`` event to all connected clients.
+
+        Used by the load route to surface staged progress (parse →
+        precompute → optional pre-warm of each section → done) so the
+        frontend can render a real progress bar instead of the default
+        indeterminate spinner.
+
+        ``stage`` is one of ``"parse"``, ``"precompute"``, ``"prewarm"``,
+        ``"done"``. ``current``/``total`` describe the section-by-section
+        position when ``stage == "prewarm"`` (1-indexed current).
+        """
+        await self.broadcast("load_progress", {
+            "stage": stage,
+            "current": current,
+            "total": total,
+            "section": section,
+        })
+
 
 manager = WsManager()

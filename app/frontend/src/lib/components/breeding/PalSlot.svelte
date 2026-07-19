@@ -19,9 +19,9 @@
     gender?: string | null;
   } = $props();
 
-  const dims = { sm: 'w-5 h-5', md: 'w-8 h-8', lg: 'w-12 h-12' }[size];
-  const textSize = { sm: 'text-[10px]', md: 'text-xs', lg: 'text-sm' }[size];
-  const shown = display || tribe;
+  const dims = $derived({ sm: 'w-5 h-5', md: 'w-8 h-8', lg: 'w-12 h-12' }[size]);
+  const textSize = $derived({ sm: 'text-[10px]', md: 'text-xs', lg: 'text-sm' }[size]);
+  const shown = $derived(display || tribe);
   const genderIcon = $derived(
     gender === 'Male' ? 'lucide:mars' : gender === 'Female' ? 'lucide:venus' : null
   );

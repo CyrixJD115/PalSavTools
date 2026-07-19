@@ -57,9 +57,15 @@ def _project(loc, projector):
 # ── Public API ───────────────────────────────────────────────────────────────
 
 def list_map_bases(level_dict: dict) -> list[dict]:
-    """Enriched base list with world/tree pixel coordinates."""
+    """Enriched base list with world/tree pixel coordinates (legacy; prefer ``_from_wsd``)."""
+    wsd = world_service.get_world_save_data(level_dict)
+    return list_map_bases_from_wsd(wsd)
+
+
+def list_map_bases_from_wsd(wsd: dict) -> list[dict]:
+    """Enriched base list with world/tree pixel coordinates (wsd slice)."""
     out = []
-    for b in base_service.get_enriched_base_list(level_dict):
+    for b in base_service.get_enriched_base_list_from_wsd(wsd):
         loc = b.get("location")  # [x, y, z] or None
         entry = dict(b)
         entry["world_img"] = _project(loc, _project_world)
@@ -81,11 +87,25 @@ def precompute_player_data(
     are derivable from Level.sav alone — no per-player .sav files needed.
     """
     wsd = world_service.get_world_save_data(level_dict)
+    csp = world_service._map_entries(wsd, "CharacterSaveParameterMap")
+    return precompute_player_data_from_section(csp)
+
+
+def precompute_player_data_from_section(
+    character_save_parameter_map: list,
+) -> tuple[dict[str, int], dict[str, int], dict[str, tuple[float, float, float]]]:
+    """Same as :func:`precompute_player_data` but takes the CSP slice directly.
+
+    Used by the lazy load path, which materializes only the
+    ``CharacterSaveParameterMap`` section (~30 MB) instead of the full
+    ~200 MB ``level_dict``. ``character_save_parameter_map`` is the flat
+    ``[{key, value}, ...]`` list as returned by ``world_service._map_entries``.
+    """
     pal_counts: dict[str, int] = {}
     levels: dict[str, int] = {}
     positions: dict[str, tuple[float, float, float]] = {}
 
-    for ch in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
+    for ch in character_save_parameter_map or []:
         sp = world_service._pal_entry_raw(ch)
         if not sp:
             continue
@@ -120,17 +140,35 @@ def precompute_player_data(
 
 def list_map_players(
     level_dict: dict,
-    players_dir: str | None,
+    players_dir: str | None = None,
     pal_counts: dict[str, int] | None = None,
     levels: dict[str, int] | None = None,
     positions: dict[str, tuple[float, float, float]] | None = None,
 ) -> list[dict]:
-    """Enriched player list with projected map coordinates."""
+    """Enriched player list with projected map coordinates (legacy; prefer ``_from_wsd``)."""
+    wsd = world_service.get_world_save_data(level_dict)
+    return list_map_players_from_wsd(
+        wsd, pal_counts=pal_counts, levels=levels, positions=positions,
+    )
+
+
+def list_map_players_from_wsd(
+    wsd: dict,
+    pal_counts: dict[str, int] | None = None,
+    levels: dict[str, int] | None = None,
+    positions: dict[str, tuple[float, float, float]] | None = None,
+) -> list[dict]:
+    """Enriched player list with projected map coordinates (wsd slice).
+
+    ``pal_counts``, ``levels``, and ``positions`` come from the pre-computed
+    ``LoadedSave`` fields (populated from ``CharacterSaveParameterMap`` at
+    load time) — not re-decoded here.
+    """
     pc = pal_counts or {}
     lv = levels or {}
     pos = positions or {}
     out = []
-    for p in world_service.list_players(level_dict):
+    for p in world_service.list_players_from_wsd(wsd):
         uid = p["uid"]
         uid_clean = world_service._s(uid)
         loc = pos.get(uid_clean) or pos.get(uid)
@@ -152,16 +190,39 @@ def list_map_players(
 
 def get_map_data(
     level_dict: dict,
-    players_dir: str | None,
+    players_dir: str | None = None,
     pal_counts: dict[str, int] | None = None,
     levels: dict[str, int] | None = None,
     positions: dict[str, tuple[float, float, float]] | None = None,
 ) -> dict:
-    """Full map data payload for ``GET /api/map/data``."""
+    """Full map data payload for ``GET /api/map/data``.
+
+    .. note::
+        Prefer :func:`get_map_data_from_wsd` when the caller already has a
+        mini-wsd (e.g. from ``LoadedSave.build_mini_wsd``). The legacy path
+        via ``level_dict`` materializes the full ~200 MB tree — the wsd path
+        only touches ``BaseCampSaveData`` + ``GroupSaveDataMap`` (~3 MB total).
+    """
+    wsd = world_service.get_world_save_data(level_dict) if level_dict is not None else {}
+    return get_map_data_from_wsd(wsd, players_dir, pal_counts, levels, positions)
+
+
+def get_map_data_from_wsd(
+    wsd: dict,
+    players_dir: str | None = None,
+    pal_counts: dict[str, int] | None = None,
+    levels: dict[str, int] | None = None,
+    positions: dict[str, tuple[float, float, float]] | None = None,
+) -> dict:
+    """Full map data payload from a wsd slice (lazy-friendly).
+
+    Reads only ``BaseCampSaveData`` + ``GroupSaveDataMap`` — both cheap
+    sections that total ~3 MB (vs ~200 MB for the full ``level_dict``).
+    """
     return {
-        "bases": list_map_bases(level_dict),
-        "players": list_map_players(
-            level_dict, players_dir, pal_counts, levels, positions,
+        "bases": list_map_bases_from_wsd(wsd),
+        "players": list_map_players_from_wsd(
+            wsd, pal_counts=pal_counts, levels=levels, positions=positions,
         ),
         "map_size": MAP_SIZE,
         "world_coord_range": WORLD_COORD_RANGE,

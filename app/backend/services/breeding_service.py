@@ -130,10 +130,26 @@ def _direct_item(db, r) -> DirectResultItem:
 # ----------------------------------------------------------------------
 # Chain Mode (Selection + Save share one solver)
 # ----------------------------------------------------------------------
-def solve_chain(req: ChainRequest, level_dict: dict | None = None) -> ChainResponse:
-    """Run the solver. ``level_dict`` is required for ``mode="save"``."""
+def solve_chain(
+    req: ChainRequest,
+    wsd: dict | None = None,
+    pal_counts: dict[str, int] | None = None,
+) -> ChainResponse:
+    """Run the solver. ``wsd`` (a mini-wsd with ``CharacterSaveParameterMap``)
+    is required for ``mode="save"``. ``pal_counts`` is the pre-computed
+    ``LoadedSave.player_pal_counts`` (keyed by ``sp.OwnerPlayerUId``,
+    dash-stripped lowercase) — used to resolve host-player ambiguity in the
+    owner filter."""
     db = _db()
     warnings: list[str] = []
+
+    # Diagnostic: confirm the wsd actually has CSP entries before we filter.
+    if req.mode == "save" and wsd is not None:
+        csp_count = len(world_service._map_entries(wsd, "CharacterSaveParameterMap"))
+        logger.debug(
+            "solve_chain: wsd has %d CSP entries; pal_counts has %d owners",
+            csp_count, len(pal_counts or {}),
+        )
 
     # Build the spec (engine-side dataclass).
     target_gender = _coerce_gender(req.target_gender)
@@ -146,7 +162,7 @@ def solve_chain(req: ChainRequest, level_dict: dict | None = None) -> ChainRespo
     )
 
     # Build the source adapter from the request mode.
-    source = _build_source(req, level_dict, warnings)
+    source = _build_source(req, wsd, warnings, pal_counts=pal_counts)
     if source is None:
         return ChainResponse(chains=[], total=0, elapsed_ms=0, warnings=warnings)
 
@@ -163,29 +179,66 @@ def solve_chain(req: ChainRequest, level_dict: dict | None = None) -> ChainRespo
     )
 
 
-def _build_source(req: ChainRequest, level_dict: dict | None, warnings: list[str]):
+def _build_source(
+    req: ChainRequest,
+    wsd: dict | None,
+    warnings: list[str],
+    pal_counts: dict[str, int] | None = None,
+):
     """Construct the SourceAdapter for the request mode.
 
     This is the palcalc unification point: Save Mode and Selection Mode differ
     only in which adapter feeds the solver.
+
+    ``wsd`` is a mini-wsd containing ``CharacterSaveParameterMap`` passed by
+    the route (built via ``build_mini_wsd``, ~30 MB) instead of the full
+    ~200 MB ``level_dict``.
+
+    ``pal_counts`` is the pre-computed ``LoadedSave.player_pal_counts`` map
+    (keyed by ``sp.OwnerPlayerUId``, dash-stripped lowercase). It's used as
+    a tiebreaker: when the requested ``owner_uid`` (from the players
+    dropdown, which uses guild ``player_uid``) doesn't directly match any
+    pal's ``owner_uid`` (which can be ``key.PlayerUId`` or
+    ``sp.OwnerPlayerUId``), we check whether the requested UID is a known
+    owner key in ``pal_counts`` and broaden the filter accordingly.
     """
     adapters: list = []
 
     if req.mode == "save":
-        if level_dict is None:
+        if wsd is None:
             warnings.append("Save Mode requires a loaded save; returning no chains")
             return None
-        pals = world_service.list_pals(
-            level_dict,
+        # NOTE: limit=0 means "no cap". The previous default of 5000 silently
+        # truncated saves with >5000 pals, causing some players' pals to be
+        # missed entirely (the precompute that populates player_pal_counts
+        # has no cap, so the dropdown showed a non-zero count but the filter
+        # found nothing). Breeding needs the full pal list.
+        pals = world_service.list_pals_from_wsd(
+            wsd,
             name_map=data_service.character_name_map(),
-            limit=5000,
+            limit=0,
         )
         logger.debug("_build_source: list_pals returned %d pals", len(pals))
         if req.owner_uid:
-            wanted = req.owner_uid.replace("-", "").lower()
+            wanted = world_service._s(req.owner_uid)
             logger.debug("_build_source: filtering by owner_uid=%s (normalized=%s)", req.owner_uid, wanted)
             before_pals = list(pals)
-            pals = [p for p in before_pals if (p.get("owner_uid") or "").replace("-", "").lower() == wanted]
+
+            # A pal's "owner" can be recorded two ways in the save:
+            #   - key.PlayerUId      — the current container holder (often the host)
+            #   - sp.OwnerPlayerUId  — the true original owner
+            # For breeding we want the TRUE owner. list_pals_from_wsd sets
+            # `owner_uid` preferring key.PlayerUId, which can mismatch the
+            # player's guild UID on host-merged saves. So when the direct
+            # match fails, re-walk the wsd and rebuild the filtered list
+            # using sp.OwnerPlayerUId directly.
+            pals = [p for p in before_pals if world_service._s(p.get("owner_uid") or "") == wanted]
+            if not pals:
+                # Fallback: filter by walking the raw CSP entries and matching
+                # on sp.OwnerPlayerUId. This catches the host-player case where
+                # key.PlayerUId != guild.player_uid but sp.OwnerPlayerUId does.
+                pals = _filter_pals_by_true_owner(wsd, wanted, before_pals)
+
             logger.debug("_build_source: filter kept %d / %d pals", len(pals), len(before_pals))
             if not pals and before_pals:
                 # Log a few sample owner_uid values for debugging.
@@ -194,9 +247,22 @@ def _build_source(req: ChainRequest, level_dict: dict | None, warnings: list[str
                     o = p.get("owner_uid")
                     if o:
                         sample_owners.add(o)
+                # Also dump the raw sp.OwnerPlayerUId values seen during the
+                # fallback walk, so we can tell whether the wanted UID is
+                # present under that field at all.
+                raw_owner_sample: set[str] = set()
+                for ch in world_service._map_entries(wsd, "CharacterSaveParameterMap")[:200]:
+                    if not world_service._is_pal_entry(ch):
+                        continue
+                    sp = world_service._pal_entry_raw(ch)
+                    owner = world_service._k(sp, "OwnerPlayerUId")
+                    if owner:
+                        raw_owner_sample.add(str(owner))
                 logger.warning(
-                    "_build_source: 0 pals matched owner=%s; sample owner_uid values in save: %s",
-                    wanted, list(sample_owners)[:5],
+                    "_build_source: 0 pals matched owner=%s; "
+                    "sample key.PlayerUId-derived owner_uid: %s; "
+                    "sample sp.OwnerPlayerUId: %s",
+                    wanted, list(sample_owners)[:5], list(raw_owner_sample)[:5],
                 )
         if not pals:
             warnings.append("No owned pals match the filter; returning no chains")
@@ -220,6 +286,43 @@ def _build_source(req: ChainRequest, level_dict: dict | None, warnings: list[str
     if len(adapters) == 1:
         return adapters[0]
     return breeding.CompositeSource(*adapters)
+
+
+def _filter_pals_by_true_owner(
+    wsd: dict, wanted_uid: str, before_pals: list[dict],
+) -> list[dict]:
+    """Fallback ownership filter using ``sp.OwnerPlayerUId`` directly.
+
+    The primary filter in :func:`_build_source` matches on
+    ``list_pals_from_wsd``'s resolved ``owner_uid`` field, which prefers
+    ``key.PlayerUId`` (the current container holder). On host-merged saves
+    that field can carry the host's UID while the player's own pals still
+    record the player as ``sp.OwnerPlayerUId`` — so the primary match
+    returns nothing.
+
+    This helper re-walks the raw ``CharacterSaveParameterMap`` entries,
+    collects the ``InstanceId`` of every pal whose
+    ``SaveParameter.OwnerPlayerUId`` normalizes to ``wanted_uid``, and
+    returns the matching pal dicts from ``before_pals`` (so we reuse the
+    already-built display fields instead of re-decoding).
+    """
+    if not wanted_uid:
+        return []
+    # Build a set of instance_ids whose true owner matches.
+    wanted_ids: set[str] = set()
+    for ch in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
+        if not world_service._is_pal_entry(ch):
+            continue
+        sp = world_service._pal_entry_raw(ch)
+        owner = world_service._k(sp, "OwnerPlayerUId")
+        if owner and world_service._s(owner) == wanted_uid:
+            key = world_service._g(ch, "key") or {}
+            inst = str(world_service._k(key, "InstanceId") or "")
+            if inst:
+                wanted_ids.add(inst.lower())
+    if not wanted_ids:
+        return []
+    return [p for p in before_pals if (p.get("instance_id") or "").lower() in wanted_ids]
 
 
 def _coerce_gender(raw: str | None):

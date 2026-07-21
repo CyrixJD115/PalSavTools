@@ -1,0 +1,4551 @@
+{
+  "_README": "Type registry: MapObjectId.value -> display info + gray-box dimensions in Unreal units (cm), full extents [x, y, z]. Only types personally observed in fixtures/ may appear here (CLAUDE.md C4). null dimension = not yet measured; renderer falls back to magenta unknown-box sizing. Sources: grid math in docs/CALIBRATION.md; furniture dims from works[].workable_bounds.box_extent (half-extents doubled).",
+  "gridPitch": 400,
+  "verticalPitch": 325,
+  "types": {
+    "Wooden_foundation": {
+      "name": "Wooden Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "footprint = derived grid pitch; thickness eyeballed, origin at top surface — refine later",
+      "originAtTop": true
+    },
+    "Wooden_wall": {
+      "name": "Wooden Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "width = grid pitch, height = derived vertical pitch (pillar-derived, wall assumed equal), thickness eyeballed; origin at bottom edge midpoint"
+    },
+    "Wooden_pillar": {
+      "name": "Wooden Pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "height = derived vertical pitch (measured from stacked pair); cross-section eyeballed"
+    },
+    "Wooden_roof": {
+      "name": "Wooden Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        20
+      ],
+      "sizeSource": "footprint assumed = grid pitch; thickness eyeballed"
+    },
+    "PalBoxV2": {
+      "name": "Palbox",
+      "category": "structure",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "not measured; its works entry lacks usable bounds in fixture"
+    },
+    "ItemChest": {
+      "name": "Wooden Chest",
+      "category": "storage",
+      "size": [
+        160,
+        200,
+        74
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent (80,100,37) doubled"
+    },
+    "Workbench": {
+      "name": "Primitive Workbench",
+      "category": "production",
+      "size": [
+        220,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent (110,150,47.5) doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_02": {
+      "name": "Pal Bed (Medical 02)",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent (180,180,50) doubled — interaction volume, likely padded"
+    },
+    "CommonDropItem3D": {
+      "name": "Dropped Item Bag",
+      "category": "world",
+      "size": [
+        50,
+        50,
+        50
+      ],
+      "sizeSource": "nominal marker size — not a buildable; preserve verbatim, render distinctly"
+    },
+    "DamagableRock0012": {
+      "name": "Rock (world object)",
+      "category": "world",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "not a buildable; preserve verbatim, render distinctly"
+    },
+    "JapaneseStyle_SlantedRoof": {
+      "name": "Japanese Style Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_Pillars": {
+      "name": "Ancient Pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlantedRoof": {
+      "name": "Ancient Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleFoundation": {
+      "name": "Stone Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Ancient_TriangleStairsCorner": {
+      "name": "Ancient Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleFoundation": {
+      "name": "Wooden Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Ancient_stair": {
+      "name": "Ancient stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleRoof_01": {
+      "name": "Japanese Style Triangle Roof 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlopedRoofCornerReverse": {
+      "name": "Ancient Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_WallGate": {
+      "name": "Ancient Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_SlopedRoofCorner": {
+      "name": "Ancient Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_PyramidRoof": {
+      "name": "Iron Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleRoof": {
+      "name": "Ancient Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleWall": {
+      "name": "Stone Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_DoorWall": {
+      "name": "Ancient Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_SlantedRoof": {
+      "name": "Stone Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleWall": {
+      "name": "Ancient Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_roof": {
+      "name": "Ancient roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleStairsCorner": {
+      "name": "Iron Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_DiagonalWall": {
+      "name": "Ancient Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_wall": {
+      "name": "SF wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Roof": {
+      "name": "Stone Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Pillars": {
+      "name": "SF Pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleWallReverse": {
+      "name": "Ancient Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_WindowWall": {
+      "name": "Ancient Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_DoorWall": {
+      "name": "Stone Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleStairsCorner": {
+      "name": "Wooden Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_wall": {
+      "name": "Ancient wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_WallGate": {
+      "name": "Japanese Style Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_Fence": {
+      "name": "Wood Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Pillar": {
+      "name": "Japanese Style Pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleFoundation": {
+      "name": "Glass Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Iron_DiagonalWall": {
+      "name": "Iron Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_stair": {
+      "name": "Japanese Style stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_TriangleWallReverse": {
+      "name": "Stone Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_foundation": {
+      "name": "Glass foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_foundation": {
+      "name": "Japanese Style foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Stone_TriangleStairsCorner": {
+      "name": "Stone Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_SlopedRoofCorner": {
+      "name": "Japanese Style Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_WindowWall": {
+      "name": "SF Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_SlopedRoofCorner": {
+      "name": "Iron Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Fence": {
+      "name": "Stone Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Stair": {
+      "name": "Stone Stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_wall_01": {
+      "name": "Japanese Style wall 01",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleFoundation": {
+      "name": "SF Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_DiagonalWall": {
+      "name": "Japanese Style Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_pillar": {
+      "name": "Stone pillar",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_foundation": {
+      "name": "SF foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Stone_WallGate": {
+      "name": "Stone Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWallReverse": {
+      "name": "SF Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "MedicineFacility_03": {
+      "name": "Medicine Facility 03",
+      "category": "production",
+      "size": [
+        180,
+        260,
+        149.595272
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_Foundation": {
+      "name": "Metal Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_SlopedRoofCornerReverse": {
+      "name": "Japanese Style Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_TriangleFoundation": {
+      "name": "Ancient Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Wooden_ladder": {
+      "name": "Wooden ladder",
+      "category": "structure",
+      "size": [
+        40,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_DiagonalWall": {
+      "name": "SF Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_DoorWall": {
+      "name": "SF Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleWall": {
+      "name": "SF Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_DiagonalWall": {
+      "name": "Wooden Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ancient_foundation": {
+      "name": "Ancient foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "Metal_WindowWall": {
+      "name": "Metal Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleRoof_02": {
+      "name": "Japanese Style Triangle Roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Factory_Hard_03": {
+      "name": "Factory Hard 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_wall": {
+      "name": "Metal wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_PyramidRoof": {
+      "name": "Japanese Style Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_Foundation": {
+      "name": "Stone Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "SF_WallGate": {
+      "name": "SF Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Stair": {
+      "name": "Metal Stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "MedicalPalBed_05": {
+      "name": "Pal Pod",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleStairsCorner_01": {
+      "name": "Japanese Style Triangle Stairs Corner 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace2": {
+      "name": "Blast Furnace2",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "StonePit": {
+      "name": "Stone Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_roof": {
+      "name": "Glass roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_pillars": {
+      "name": "Glass pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_DiagonalWall": {
+      "name": "Stone Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace": {
+      "name": "Blast Furnace",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_SlopedRoofCorner": {
+      "name": "Glass Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "StationDeforest3": {
+      "name": "Logging Site II",
+      "category": "production",
+      "size": [
+        820,
+        640,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicineFacility_01": {
+      "name": "Medicine Facility 01",
+      "category": "production",
+      "size": [
+        146.388942,
+        162.559554,
+        101.890262
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Iron_SlopedRoofCornerReverse": {
+      "name": "Iron Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientMultiProduct": {
+      "name": "Ancient Material Synthesizer",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "WeaponFactory_Dirty_03": {
+      "name": "Weapon Factory Dirty 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_stair": {
+      "name": "Glass stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_TriangleWallReverse": {
+      "name": "Wood Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_SlantedRoof": {
+      "name": "Glass Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_SlantedRoof": {
+      "name": "Metal Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_PyramidRoof": {
+      "name": "Glass Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Crusher": {
+      "name": "Crusher",
+      "category": "production",
+      "size": [
+        400,
+        460,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_04": {
+      "name": "Large Pal Bed",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_02": {
+      "name": "Sphere Factory Black 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wood_TriangleWall": {
+      "name": "Wood Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CompositeDesk": {
+      "name": "Drafting Table",
+      "category": "production",
+      "size": [
+        220,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "SphereFactory_Black_03": {
+      "name": "Sphere Factory Black 03",
+      "category": "production",
+      "size": [
+        400,
+        1800,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_WindowWall": {
+      "name": "Japanese Style Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_roof_02": {
+      "name": "Japanese Style roof 02",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CopperPit": {
+      "name": "Copper Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Money": {
+      "name": "Gold Coin Assembly Line",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Stone_TriangleRoof": {
+      "name": "Stone Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_04": {
+      "name": "Sphere Factory Black 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "CrystalPit": {
+      "name": "Crystal Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "OilPump02": {
+      "name": "Oil Pump02",
+      "category": "production",
+      "size": [
+        800,
+        800,
+        500
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_SlopedRoofCornerReverse": {
+      "name": "Glass Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleRoof": {
+      "name": "Iron Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientRelicRecycler": {
+      "name": "Ancient Relic Recycler",
+      "category": "decor",
+      "size": [
+        300,
+        411.941834,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_TriangleWall": {
+      "name": "Japanese Style Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WorkBench_SkillUnlock": {
+      "name": "Pal Gear Workbench",
+      "category": "production",
+      "size": [
+        200,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wooden_WallGate": {
+      "name": "Wooden Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WeaponFactory_Dirty_04": {
+      "name": "Weapon Factory Dirty 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_04": {
+      "name": "Factory Hard 04",
+      "category": "production",
+      "size": [
+        400,
+        1400,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_pillars": {
+      "name": "Metal pillars",
+      "category": "structure",
+      "size": [
+        40,
+        40,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleRoof": {
+      "name": "Glass Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_SlantedRoof": {
+      "name": "Wood Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_TriangleRoof": {
+      "name": "Wooden Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Roof": {
+      "name": "Metal Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientWorkBench": {
+      "name": "Ancient Work Bench",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stone_WindowWall": {
+      "name": "Stone Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWallReverse": {
+      "name": "Glass Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "FlourMill": {
+      "name": "Flour Mill",
+      "category": "production",
+      "size": [
+        400,
+        460,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wood_WindowWall": {
+      "name": "Wood Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SkyIslandOrePit": {
+      "name": "Sky Island Ore Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "JapaneseStyle_roof_01": {
+      "name": "Japanese Style roof 01",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_DoorWall": {
+      "name": "Glass Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace3": {
+      "name": "Blast Furnace3",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Metal_DoorWall": {
+      "name": "Metal Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleWall": {
+      "name": "Glass Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "IceCrusher": {
+      "name": "Cryogenic Crusher",
+      "category": "production",
+      "size": [
+        400,
+        480,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Stone_wall": {
+      "name": "Stone wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "BlastFurnace4": {
+      "name": "Blast Furnace4",
+      "category": "production",
+      "size": [
+        400,
+        400,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Wooden_DoorWall": {
+      "name": "Wooden Door Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "StationDeforest2": {
+      "name": "Logging Site",
+      "category": "production",
+      "size": [
+        820,
+        640,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Glass_DiagonalWall": {
+      "name": "Glass Diagonal Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_stair": {
+      "name": "Wooden stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WindowWall": {
+      "name": "Glass Window Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_wall": {
+      "name": "Glass wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_WallGate": {
+      "name": "Iron Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_TriangleWall": {
+      "name": "Metal Triangle Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "AncientBlastFurnace": {
+      "name": "Ancient Blast Furnace",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stone_SlopedRoofCornerReverse": {
+      "name": "Stone Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleWallReverse": {
+      "name": "Iron Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CoalPit": {
+      "name": "Coal Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "QuartzPit": {
+      "name": "Quartz Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Ancient_MedicalPalBed": {
+      "name": "Ancient Pal Bed",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "WeaponFactory_Dirty_02": {
+      "name": "Weapon Factory Dirty 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "WeaponFactory_Dirty_01": {
+      "name": "Weapon Factory Dirty 01",
+      "category": "production",
+      "size": [
+        171.026106,
+        259.342584,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MedicalPalBed_03": {
+      "name": "Fluffy Pal Bed",
+      "category": "decor",
+      "size": [
+        360,
+        360,
+        100
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SulfurPit": {
+      "name": "Sulfur Pit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PlayerBed_03": {
+      "name": "Fine Bed",
+      "category": "decor",
+      "size": [
+        200,
+        120,
+        60
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "MedicineFacility_02": {
+      "name": "Medicine Facility 02",
+      "category": "production",
+      "size": [
+        180,
+        200,
+        149.595272
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FishingPond1": {
+      "name": "Fishing Pond1",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CampFire": {
+      "name": "Camp Fire",
+      "category": "production",
+      "size": [
+        200,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Factory_Hard_02": {
+      "name": "Factory Hard 02",
+      "category": "production",
+      "size": [
+        400,
+        1200,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PlayerBed_02": {
+      "name": "Shoddy Bed",
+      "category": "decor",
+      "size": [
+        200,
+        120,
+        60
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_Fence": {
+      "name": "SF Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "RepairBench": {
+      "name": "Repair Bench",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Ancient_Fence": {
+      "name": "Ancient Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_Fence": {
+      "name": "Japanese Style Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleFoundation": {
+      "name": "Japanese Style Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "JapaneseStyle_DoorWall_01": {
+      "name": "Japanese Style Door Wall 01",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_DoorWall_03": {
+      "name": "Japanese Style Door Wall 03",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_DoorWall_02": {
+      "name": "Japanese Style Door Wall 02",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlopedRoofCorner": {
+      "name": "SF Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_Fence": {
+      "name": "Glass Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_WallGate": {
+      "name": "Glass Wall Gate",
+      "category": "structure",
+      "size": [
+        400,
+        30,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_stair": {
+      "name": "SF stair",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_PyramidRoof": {
+      "name": "Wooden Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_SlopedRoofCornerReverse": {
+      "name": "Wooden Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_TriangleFoundation": {
+      "name": "Iron Triangle Foundation",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        40
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually",
+      "originAtTop": true
+    },
+    "SF_TriangleRoof": {
+      "name": "SF Triangle Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Iron_Fence": {
+      "name": "Iron Fence",
+      "category": "defense",
+      "size": [
+        400,
+        20,
+        110
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wooden_SlopedRoofCorner": {
+      "name": "Wooden Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_PyramidRoof": {
+      "name": "Stone Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Stone_SlopedRoofCorner": {
+      "name": "Stone Sloped Roof Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Factory_Hard_01": {
+      "name": "Factory Hard 01",
+      "category": "production",
+      "size": [
+        260,
+        360,
+        140
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Carrot": {
+      "name": "Farm Block V2 Carrot",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "CoolerPalFoodBox": {
+      "name": "Cold Food Box",
+      "category": "storage",
+      "size": [
+        200,
+        200,
+        45
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Shelf07_Stone": {
+      "name": "Shelf07 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf06_Stone": {
+      "name": "Shelf06 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "FarmBlockV2_Onion": {
+      "name": "Farm Block V2 Onion",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Shelf02_Iron": {
+      "name": "Shelf02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "HugeKitchen": {
+      "name": "Large-Scale Stone Oven",
+      "category": "decor",
+      "size": [
+        260,
+        260,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Box02_Iron": {
+      "name": "Box02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "FishingPond2": {
+      "name": "Fishing Pond2",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_tomato": {
+      "name": "Farm Block V2 tomato",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientFarmBlock": {
+      "name": "Ancient Farm",
+      "category": "decor",
+      "size": [
+        360,
+        320,
+        60
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DismantlingConveyor": {
+      "name": "Pal Disassembly Conveyor",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_Potato": {
+      "name": "Farm Block V2 Potato",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Farm_SkillFruits": {
+      "name": "Skillfruit Orchard",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Berries": {
+      "name": "Farm Block V2 Berries",
+      "category": "decor",
+      "size": [
+        500,
+        500,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "FarmBlockV2_Lettuce": {
+      "name": "Farm Block V2 Lettuce",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientCookingStove": {
+      "name": "Ancient Kitchen",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard02": {
+      "name": "Base Camp Work Hard02",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard": {
+      "name": "Monitoring Stand",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FarmBlockV2_wheet": {
+      "name": "Farm Block V2 wheet",
+      "category": "decor",
+      "size": [
+        700,
+        700,
+        24
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "PalFoodBox": {
+      "name": "Feed Box",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "ElectricKitchen": {
+      "name": "Electric Kitchen",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Tansu": {
+      "name": "Chest of Drawers (Tansu)",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GlobalPalStorage": {
+      "name": "Global Palbox",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "CookingStove": {
+      "name": "Cooking Pot",
+      "category": "production",
+      "size": [
+        150,
+        120,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "SkinChange": {
+      "name": "Pal Dressing Facility",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BaseCampWorkHard03": {
+      "name": "Base Camp Work Hard03",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "DimensionPalStorage": {
+      "name": "Dimension Pal Storage",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampWorkerExtraStation": {
+      "name": "Pal Pod Rack",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Lab": {
+      "name": "Pal Labor Research Lab",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "MultiElectricHatchingPalEggWithBreed": {
+      "name": "Breeding Farm",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "OperatingTable": {
+      "name": "Pal Surgery Table",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Shelf05_Stone": {
+      "name": "Shelf05 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GuildChest": {
+      "name": "Guild Chest",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampItemDispenser": {
+      "name": "Base Camp Item Dispenser",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "BuildableGoddessStatue": {
+      "name": "Statue of Power",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Expedition": {
+      "name": "Expedition Cage",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CharacterRankUp": {
+      "name": "Essence Condenser",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "MonsterFarm": {
+      "name": "Ranch",
+      "category": "decor",
+      "size": [
+        1100,
+        1100,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DisplayCharacter": {
+      "name": "Viewing Cage",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Shelf_Wood": {
+      "name": "Shelf Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Altar": {
+      "name": "Summoning Altar",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CoolerBox": {
+      "name": "Cooler Box",
+      "category": "storage",
+      "size": [
+        246.34243,
+        235.355402,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ItemChest_02": {
+      "name": "Item Chest 02",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf04_Iron": {
+      "name": "Shelf04 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "ItemChest_03": {
+      "name": "Item Chest 03",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf03_Iron": {
+      "name": "Shelf03 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Container01_Iron": {
+      "name": "Container01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf04_Stone": {
+      "name": "Shelf04 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf03_Stone": {
+      "name": "Shelf03 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Refrigerator": {
+      "name": "Refrigerator",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        100
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ItemChest_04": {
+      "name": "Item Chest 04",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf02_Stone": {
+      "name": "Shelf02 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box01_Iron": {
+      "name": "Box01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf01_Stone": {
+      "name": "Shelf01 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf01_Iron": {
+      "name": "Shelf01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box_Wood": {
+      "name": "Box Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Shelf_Cask_Wood": {
+      "name": "Shelf Cask Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Barrel_Wood": {
+      "name": "Barrel Wood",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "BaseCampBattleDirector": {
+      "name": "Base Camp Battle Director",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        200
+      ],
+      "sizeSource": "generic station estimate — display only"
+    },
+    "Light_LightPole02": {
+      "name": "Light Light Pole02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Bench_Wood": {
+      "name": "Bench Wood",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "FurnitureTree02_Cherry": {
+      "name": "Furniture Tree02 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa01_Stone": {
+      "name": "Sofa01 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Tropical": {
+      "name": "Furniture Tree02 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug03_Stone": {
+      "name": "Rug03 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_LegHold": {
+      "name": "Trap Leg Hold",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Cherry": {
+      "name": "Furniture Tree03 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Tropical": {
+      "name": "Furniture Tree03 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Yellow": {
+      "name": "Furniture Tree03 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FirePlace01": {
+      "name": "Light Fire Place01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Desk01_Iron": {
+      "name": "Desk01 Iron",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Seika": {
+      "name": "Seika",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Green": {
+      "name": "Furniture Tree01 Green",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool_High_Wood": {
+      "name": "Stool High Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant01_Plant": {
+      "name": "Plant01 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FloorLamp01": {
+      "name": "Light Floor Lamp01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseBowGun": {
+      "name": "Defense Bow Gun",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "LargeLamp": {
+      "name": "Large Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Flower": {
+      "name": "Furniture Bush01 Flower",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "ManualElectricGenerator": {
+      "name": "Human-Powered Generator",
+      "category": "decor",
+      "size": [
+        340,
+        640,
+        240
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricGenerator": {
+      "name": "Power Generator",
+      "category": "decor",
+      "size": [
+        340,
+        340,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "AncientElectricGenerator": {
+      "name": "Ancient Power Generator",
+      "category": "decor",
+      "size": [
+        300,
+        300,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "OilPump": {
+      "name": "Oil Pump",
+      "category": "production",
+      "size": [
+        800,
+        800,
+        500
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "EnergyStorage_Electric": {
+      "name": "Accumulator",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Heater": {
+      "name": "Heater",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Cooler": {
+      "name": "Cooler",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Rug02_Stone": {
+      "name": "Rug02 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_FirePlace02": {
+      "name": "Light Fire Place02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Spa": {
+      "name": "Hot Spring",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular01_Iron": {
+      "name": "Table Circular01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole01": {
+      "name": "Light Light Pole01",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseMissile": {
+      "name": "Defense Missile",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Light_FloorLamp02": {
+      "name": "Light Floor Lamp02",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "PalMedicineBox": {
+      "name": "Medicine Rack",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Torch": {
+      "name": "Torch",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Lamp": {
+      "name": "Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole03": {
+      "name": "Light Light Pole03",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_LightPole04": {
+      "name": "Light Light Pole04",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Andon": {
+      "name": "Andon",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare02_Iron": {
+      "name": "Table Square02 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare_Wood": {
+      "name": "Table Square Wood",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular01_Stone": {
+      "name": "Table Circular01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Stone": {
+      "name": "Chair01 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular_Wood": {
+      "name": "Table Circular Wood",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Fudukue": {
+      "name": "Fudukue",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair02_Iron": {
+      "name": "Chair02 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa01_Iron": {
+      "name": "Sofa01 Iron",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Iron": {
+      "name": "Chair01 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare01_Iron": {
+      "name": "Table Square01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa02_Iron": {
+      "name": "Sofa02 Iron",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Desk01_Stone": {
+      "name": "Desk01 Stone",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Stool01_Iron": {
+      "name": "Stool01 Iron",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Zabuton": {
+      "name": "Zabuton",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Snow": {
+      "name": "Furniture Tree01 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug04_Stone": {
+      "name": "Rug04 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Tropical": {
+      "name": "Furniture Tree01 Tropical",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Zaisu": {
+      "name": "Zaisu",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool_Wood": {
+      "name": "Stool Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Rug01_Stone": {
+      "name": "Rug01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        5
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Counter_Wood": {
+      "name": "Counter Wood",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stool01_Stone": {
+      "name": "Stool01 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Bonsai": {
+      "name": "Bonsai",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant03_Plant": {
+      "name": "Plant03 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa03_Stone": {
+      "name": "Sofa03 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair02_Stone": {
+      "name": "Chair02 Stone",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableCircular_Wood_None": {
+      "name": "Table Circular Wood None",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Red": {
+      "name": "Furniture Tree01 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant02_Plant": {
+      "name": "Plant02 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_MineAttack": {
+      "name": "Trap Mine Attack",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Chair01_Pal": {
+      "name": "Chair01 Pal",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSide01_Iron": {
+      "name": "Table Side01 Iron",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Sofa02_Stone": {
+      "name": "Sofa02 Stone",
+      "category": "decor",
+      "size": [
+        220,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Plant04_Plant": {
+      "name": "Plant04 Plant",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_Noose": {
+      "name": "Trap Noose",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_LegHold_Big": {
+      "name": "Trap Leg Hold Big",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Trap_MineElecShock": {
+      "name": "Trap Mine Elec Shock",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseWait": {
+      "name": "Alarm Bell",
+      "category": "decor",
+      "size": [
+        260,
+        260,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DefenseMachinegun": {
+      "name": "Defense Machinegun",
+      "category": "decor",
+      "size": [
+        440,
+        440,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "DefenseWall_Wood": {
+      "name": "Defense Wall Wood",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "DefenseWall": {
+      "name": "Defense Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Wood_Gate": {
+      "name": "Wood Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DefenseWall_Metal": {
+      "name": "Defense Wall Metal",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Metal_Gate": {
+      "name": "Metal Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Green": {
+      "name": "Furniture Tree03 Green",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stone_Gate": {
+      "name": "Stone Gate",
+      "category": "defense",
+      "size": [
+        800,
+        60,
+        500
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "TableSquare_Wood_None": {
+      "name": "Table Square Wood None",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Snow": {
+      "name": "Furniture Tree02 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Red": {
+      "name": "Furniture Tree02 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Red": {
+      "name": "Furniture Tree03 Red",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Yellow": {
+      "name": "Furniture Tree01 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Yellow": {
+      "name": "Furniture Tree02 Yellow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Cherry": {
+      "name": "Furniture Tree01 Cherry",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Snow": {
+      "name": "Furniture Tree03 Snow",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Desert": {
+      "name": "Furniture Tree01 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Desert": {
+      "name": "Furniture Tree02 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Desert": {
+      "name": "Furniture Tree03 Desert",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree01_Bamboo": {
+      "name": "Furniture Tree01 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree02_Bamboo": {
+      "name": "Furniture Tree02 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureTree03_Bamboo": {
+      "name": "Furniture Tree03 Bamboo",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        300
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Green": {
+      "name": "Furniture Bush01 Green",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Yellow": {
+      "name": "Furniture Bush01 Yellow",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush02_Flower": {
+      "name": "Furniture Bush02 Flower",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Tropical": {
+      "name": "Furniture Bush01 Tropical",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "FurnitureBush01_Snow": {
+      "name": "Furniture Bush01 Snow",
+      "category": "decor",
+      "size": [
+        120,
+        120,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "SanityDecrease1": {
+      "name": "Beta Wave Generator",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        300
+      ],
+      "sizeSource": "generic station estimate — display only"
+    },
+    "WorkSpeedIncrease1": {
+      "name": "Alpha Wave Generator",
+      "category": "production",
+      "size": [
+        200,
+        200,
+        300
+      ],
+      "sizeSource": "generic station estimate — display only"
+    },
+    "DamagedScarecrow": {
+      "name": "Damaged Scarecrow",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Signboard": {
+      "name": "Signboard",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Headstone": {
+      "name": "Tombstone",
+      "category": "decor",
+      "size": [
+        100,
+        40,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "SF_roof": {
+      "name": "SF roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_TriangleStairsCorner": {
+      "name": "SF Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlopedRoofCornerReverse": {
+      "name": "SF Sloped Roof Corner Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_SlantedRoof": {
+      "name": "SF Slanted Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SF_PyramidRoof": {
+      "name": "SF Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SphereFactory_Black_01": {
+      "name": "Sphere Factory Black 01",
+      "category": "production",
+      "size": [
+        171.026106,
+        259.342584,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricCooler": {
+      "name": "Electric Cooler",
+      "category": "decor",
+      "size": [
+        540,
+        540,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricGenerator_Large": {
+      "name": "Large Power Generator",
+      "category": "decor",
+      "size": [
+        500,
+        500,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Clinic": {
+      "name": "Clinic",
+      "category": "decor",
+      "size": [
+        254.992382,
+        297.344696,
+        138.996086
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "ElectricHeater": {
+      "name": "Electric Heater",
+      "category": "decor",
+      "size": [
+        540,
+        540,
+        95
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Ancient_Spa": {
+      "name": "Ancient Hot Spring",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Ancient_Clinic": {
+      "name": "Ancient Clinic",
+      "category": "decor",
+      "size": [
+        254.992382,
+        297.344696,
+        138.996086
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "Spa2": {
+      "name": "High Quality Hot Spring",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Spa3": {
+      "name": "Japanese-Style Hot Spring",
+      "category": "production",
+      "size": [
+        300,
+        300,
+        150
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Stonepit": {
+      "name": "Stonepit",
+      "category": "production",
+      "size": [
+        640,
+        820,
+        200
+      ],
+      "sizeSource": "works[].workable_bounds.box_extent doubled — interaction volume, slightly padded"
+    },
+    "MiningTool": {
+      "name": "Pickaxe and Helmet",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Police_Banner": {
+      "name": "Police Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Trap_MineFreeze": {
+      "name": "Ice Mine",
+      "category": "defense",
+      "size": [
+        150,
+        150,
+        40
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Light_CandleSticks_Wall": {
+      "name": "Light Candle Sticks Wall",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Snowman": {
+      "name": "Snowman",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "LargeCeilingLamp": {
+      "name": "Large Ceiling Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Shelf01_Wall_Iron": {
+      "name": "Shelf01 Wall Iron",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "CeilingLamp": {
+      "name": "Ceiling Lamp",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "WallTorch": {
+      "name": "Mounted Torch",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "SkyIsland_Banner": {
+      "name": "Sky Island Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "OlympicCauldron": {
+      "name": "Flame Cauldron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TransmissionTower": {
+      "name": "Electric Pylon",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Believer_Banner": {
+      "name": "Believer Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ninja_Banner": {
+      "name": "Ninja Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Chair01_Wood": {
+      "name": "Chair01 Wood",
+      "category": "decor",
+      "size": [
+        100,
+        100,
+        100
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "DarkIsland_Banner": {
+      "name": "Dark Island Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Believer_Flag": {
+      "name": "Believer Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FireCult_Banner": {
+      "name": "Fire Cult Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FireCult_Flag": {
+      "name": "Fire Cult Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Police_Flag": {
+      "name": "Police Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Hunter_Banner": {
+      "name": "Hunter Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Scientist_Flag": {
+      "name": "Scientist Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ninja_Flag": {
+      "name": "Ninja Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "DarkIsland_Flag": {
+      "name": "Dark Island Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "SkyIsland_Flag": {
+      "name": "Sky Island Flag",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ToolBoxV1": {
+      "name": "Large Toolbox",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Ivy02": {
+      "name": "Wall Ivy 2",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Stump": {
+      "name": "Stump and Axe",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Cauldron": {
+      "name": "Witch Cauldron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "WallSignboard": {
+      "name": "Wall-Mounted Sign",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Ivy01": {
+      "name": "Wall Ivy 1",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Light_CandleSticks_Top": {
+      "name": "Light Candle Sticks Top",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Scientist_Banner": {
+      "name": "Scientist Banner",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ivy03": {
+      "name": "Wall Ivy 3",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Shelf01_Wall_Stone": {
+      "name": "Shelf01 Wall Stone",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "PipeClay01_Iron": {
+      "name": "Pipe Clay01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ArcadeVideoGame": {
+      "name": "Arcade Video Game",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TableDresser01_Stone": {
+      "name": "Table Dresser01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Barrel03_Iron": {
+      "name": "Barrel03 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Barrel02_Iron": {
+      "name": "Barrel02 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "GarbageBag_Iron": {
+      "name": "Garbage Bag Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Mirror02_Stone": {
+      "name": "Mirror02 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Partition_Stone": {
+      "name": "Partition Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone03_Iron": {
+      "name": "Traffic Cone03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Stove01_Stone": {
+      "name": "Stove01 Stone",
+      "category": "production",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Piano01_Stone": {
+      "name": "Piano01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "BathTub_Stone": {
+      "name": "Bath Tub Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Barrel01_Iron": {
+      "name": "Barrel01 Iron",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "Box01_Stone": {
+      "name": "Box01 Stone",
+      "category": "storage",
+      "size": [
+        200,
+        100,
+        180
+      ],
+      "sizeSource": "rough storage-furniture estimate — display only"
+    },
+    "TrafficLight01_Iron": {
+      "name": "Traffic Light01 Iron",
+      "category": "decor",
+      "size": [
+        60,
+        60,
+        220
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "Piano02_Stone": {
+      "name": "Piano02 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Mirror01_Stone": {
+      "name": "Mirror01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TowlRack01_Stone": {
+      "name": "Towl Rack01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone02_Iron": {
+      "name": "Traffic Cone02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "GoalSoccer_Iron": {
+      "name": "Goal Soccer Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Tire01_Iron": {
+      "name": "Tire01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TableSink01_Stone": {
+      "name": "Table Sink01 Stone",
+      "category": "decor",
+      "size": [
+        200,
+        200,
+        90
+      ],
+      "sizeSource": "rough furniture estimate — display only"
+    },
+    "IceHorseStatue": {
+      "name": "Ice Horse Statue",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "Toilet01_Stone": {
+      "name": "Toilet01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "ToiletHolder01_Stone": {
+      "name": "Toilet Holder01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Globe01_Stone": {
+      "name": "Globe01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign04_Iron": {
+      "name": "Traffic Sign04 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "MachineGame01_Iron": {
+      "name": "Machine Game01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "JetDragonStatue": {
+      "name": "Jet Dragon Statue",
+      "category": "decor",
+      "size": [
+        null,
+        null,
+        null
+      ],
+      "sizeSource": "no rule matched and no works bounds — magenta until measured"
+    },
+    "CableCoil01_Iron": {
+      "name": "Cable Coil01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Television01_Iron": {
+      "name": "Television01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficCone01_Iron": {
+      "name": "Traffic Cone01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign01_Iron": {
+      "name": "Traffic Sign01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Clock01_Stone": {
+      "name": "Clock01 Stone",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade05_Iron": {
+      "name": "Traffic Barricade05 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign02_Iron": {
+      "name": "Traffic Sign02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade04_Iron": {
+      "name": "Traffic Barricade04 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade02_Iron": {
+      "name": "Traffic Barricade02 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficSign03_Iron": {
+      "name": "Traffic Sign03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade03_Iron": {
+      "name": "Traffic Barricade03 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "TrafficBarricade01_Iron": {
+      "name": "Traffic Barricade01 Iron",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Byobu": {
+      "name": "Folding Screen (Byobu)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Irori": {
+      "name": "Sunken Hearth (Irori)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Toro": {
+      "name": "Stone Lantern (Toro)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Shishiodoshi": {
+      "name": "Bamboo Fountain (Shishiodoshi)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Koro": {
+      "name": "Incense Burner (Koro)",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "FurnitureStone01": {
+      "name": "Furniture Stone01",
+      "category": "decor",
+      "size": [
+        150,
+        150,
+        150
+      ],
+      "sizeSource": "generic decor estimate — display only"
+    },
+    "Ancient_PyramidRoof": {
+      "name": "Ancient Pyramid Roof",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        30
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "JapaneseStyle_TriangleWallReverse": {
+      "name": "Japanese Style Triangle Wall Reverse",
+      "category": "structure",
+      "size": [
+        400,
+        20,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    },
+    "Glass_TriangleStairsCorner": {
+      "name": "Glass Triangle Stairs Corner",
+      "category": "structure",
+      "size": [
+        400,
+        400,
+        325
+      ],
+      "sizeSource": "estimated from naming convention + measured grid (docs/CALIBRATION.md) — display only, refine visually"
+    }
+  }
+}

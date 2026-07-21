@@ -33,8 +33,17 @@ def _count_items(slots: list | None) -> int:
     return sum(1 for e in slots if _k(_slot_raw(e), "count"))
 
 
-def _get_slots(slots: list | None) -> list[dict]:
-    """Extract non-empty item slots for display."""
+def _get_slots(
+    slots: list | None,
+    dyn_index: dict | None = None,
+) -> list[dict]:
+    """Extract non-empty item slots for display.
+
+    ``dyn_index`` is the optional ``{local_id -> detail}`` map produced by
+    :func:`dynamic_item_service.build_dynamic_index`. When supplied, each slot
+    whose ``dynamic_id`` resolves gets a ``"dynamic"`` payload attached
+    (weapon durability / passives, armor durability, egg character + talents).
+    """
     if not isinstance(slots, list):
         return []
     out: list[dict] = []
@@ -51,12 +60,19 @@ def _get_slots(slots: list | None) -> list[dict]:
         if lid and _s(lid) != _s(_NIL):
             dyn_id = str(lid)
         si = _k(raw, "slot_index")
-        out.append({
+        slot_dict = {
             "slot_index": int(si) if si is not None else 0,
             "count": int(count),
             "static_id": str(static_id) if static_id else "",
             "dynamic_id": dyn_id,
-        })
+        }
+        # Attach decoded weapon/armor/egg payload when the slot references a
+        # DynamicItemSaveData entry and the caller supplied an index.
+        if dyn_id and dyn_index is not None:
+            detail = dyn_index.get(dyn_id)
+            if detail is not None:
+                slot_dict["dynamic"] = detail
+        out.append(slot_dict)
     return out
 
 
@@ -233,16 +249,15 @@ def _enrich_container(
 
 # ---- Public API -------------------------------------------------------------
 
-def list_containers(
-    level_dict: dict, offset: int = 0, limit: int = 500,
+def list_containers_from_wsd(
+    wsd: dict, offset: int = 0, limit: int = 500,
 ) -> tuple[list[dict], int]:
-    """Enriched container list with item count, type, and location.
+    """Lazy variant of :func:`list_containers` — takes a ``wsd`` slice directly.
 
-    Returns ``(containers_slice, total)``. The map-object index + guild names
-    are built in parallel threads, then only the requested page is enriched.
+    Lets the route layer pull only the sections it needs via
+    ``loaded.build_mini_wsd(...)`` instead of materializing the full
+    ~200 MB ``level_dict``.
     """
-    wsd = get_world_save_data(level_dict)
-
     with ThreadPoolExecutor(max_workers=2) as pool:
         fut_index = pool.submit(_build_map_object_index, wsd)
         fut_names = pool.submit(_build_guild_names, wsd)
@@ -261,10 +276,35 @@ def list_containers(
     return out, total
 
 
-def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
-    """Get full container detail including item slots."""
+def list_containers(
+    level_dict: dict, offset: int = 0, limit: int = 500,
+) -> tuple[list[dict], int]:
+    """Enriched container list with item count, type, and location.
+
+    Returns ``(containers_slice, total)``. The map-object index + guild names
+    are built in parallel threads, then only the requested page is enriched.
+
+    .. note::
+       Prefer :func:`list_containers_from_wsd` from a route — pass it a
+       ``build_mini_wsd`` slice. This wrapper forces full ``level_dict``
+       materialization and is kept for compatibility.
+    """
+    return list_containers_from_wsd(get_world_save_data(level_dict), offset, limit)
+
+
+def get_container_detail_from_wsd(
+    wsd: dict, container_id: str, dyn_index: dict | None = None,
+) -> dict | None:
+    """Lazy variant of :func:`get_container_detail` — takes a ``wsd`` slice.
+
+    ``dyn_index`` optionally provides the decoded ``DynamicItemSaveData`` map
+    (see :func:`dynamic_item_service.build_dynamic_index`); pass ``None`` to
+    skip dynamic-item attachment. When ``None`` but the container has slots
+    with dynamic_ids, the index is built on-demand from the same ``wsd`` slice
+    so callers don't have to wire it themselves.
+    """
     cid_clean = _s(container_id)
-    for c in _map_entries(get_world_save_data(level_dict), "ItemContainerSaveData"):
+    for c in _map_entries(wsd, "ItemContainerSaveData"):
         if _s(c.get("key")) != cid_clean:
             continue
         belong = _g(c, "value", "BelongInfo") or {}
@@ -273,7 +313,15 @@ def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
             slot_count = int(slot_num) if slot_num is not None else 0
         except (TypeError, ValueError):
             slot_count = 0
-        items = _get_slots(_g(c, "value", "Slots"))
+        slots = _g(c, "value", "Slots")
+        # Build the dynamic-item index lazily — only if this container has at
+        # least one slot referencing a dynamic_id. Plain stackable containers
+        # (the common case) pay nothing.
+        idx = dyn_index
+        if idx is None and isinstance(slots, list) and _has_dynamic_slot(slots):
+            from app.backend.services.dynamic_item_service import build_dynamic_index
+            idx = build_dynamic_index(wsd)
+        items = _get_slots(slots, idx)
         return {
             "id": _extract_id(c.get("key")) or container_id,
             "owner_player_uid": _norm_uid(_k(belong, "PlayerUId")),
@@ -282,6 +330,38 @@ def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
             "item_count": len(items),
             "items": items,
         }
+    return None
+
+
+def _has_dynamic_slot(slots: list) -> bool:
+    """True if any slot in the list references a non-nil dynamic_id."""
+    for entry in slots:
+        raw = _slot_raw(entry)
+        if not _k(raw, "count"):
+            continue
+        item = _k(raw, "item") or {}
+        dyn = _k(item, "dynamic_id") or {}
+        lid = _k(dyn, "local_id_in_created_world")
+        if lid and _s(lid) != _s(_NIL):
+            return True
+    return False
+
+
+def get_container_detail(level_dict: dict, container_id: str) -> dict | None:
+    """Get full container detail including item slots."""
+    return get_container_detail_from_wsd(get_world_save_data(level_dict), container_id)
+
+
+def _find_container_entry(level_dict: dict, container_id: str) -> dict | None:
+    """The raw ``ItemContainerSaveData`` entry dict, or ``None``.
+
+    Used by the per-slot mutators below. Walks the live ``level_dict`` so
+    in-place mutations persist to disk on the next encode.
+    """
+    cid_clean = _s(container_id)
+    for c in _map_entries(get_world_save_data(level_dict), "ItemContainerSaveData"):
+        if _s(c.get("key")) == cid_clean:
+            return c
     return None
 
 
@@ -323,6 +403,65 @@ def expand_container(level_dict: dict, container_id: str, new_slot_count: int) -
             while len(slots) < new_slot_count:
                 slots.append(_empty_slot(len(slots)))
         return True
+    return False
+
+
+def set_slot_count(
+    level_dict: dict, container_id: str, slot_index: int, new_count: int,
+) -> bool:
+    """Change a single item slot's stack count.
+
+    Setting ``new_count`` to ``0`` effectively clears the slot (the slot
+    remains present in the array, just empty). The ``static_id`` is left
+    untouched — the caller is editing the stack, not swapping the item.
+
+    Returns ``False`` if the container or slot index isn't found.
+    """
+    if new_count < 0 or new_count > 9999:
+        return False
+    entry = _find_container_entry(level_dict, container_id)
+    if entry is None:
+        return False
+    slots = _g(entry, "value", "Slots")
+    if not isinstance(slots, list):
+        return False
+    for slot in slots:
+        raw = _slot_raw(slot)
+        if _k(raw, "slot_index") == slot_index:
+            _set_key(raw, "count", int(new_count))
+            return True
+    return False
+
+
+def delete_slot(
+    level_dict: dict, container_id: str, slot_index: int,
+) -> bool:
+    """Remove an item from a slot (zero it out, keep the slot itself).
+
+    Item removal in Palworld is "set the slot to empty" — slots are
+    positional, so we never splice them out of the ``Slots`` array. This
+    mirrors how the game itself clears a slot on drop/consume.
+    """
+    entry = _find_container_entry(level_dict, container_id)
+    if entry is None:
+        return False
+    slots = _g(entry, "value", "Slots")
+    if not isinstance(slots, list):
+        return False
+    for slot in slots:
+        raw = _slot_raw(slot)
+        if _k(raw, "slot_index") == slot_index:
+            # Zero the count and wipe the item id — equivalent to the game's
+            # own "drop item" action.
+            _set_key(raw, "count", 0)
+            item = _k(raw, "item")
+            if isinstance(item, dict):
+                _set_key(item, "static_id", "")
+                dyn = _k(item, "dynamic_id")
+                if isinstance(dyn, dict):
+                    _set_key(dyn, "created_world_id", _NIL)
+                    _set_key(dyn, "local_id_in_created_world", _NIL)
+            return True
     return False
 
 

@@ -205,6 +205,32 @@ class ContainerItemSlot(BaseModel):
     count: int = 0
     static_id: str = ""
     dynamic_id: Optional[str] = None
+    # Decoded weapon/armor/egg payload — present only when dynamic_id resolves
+    # to a DynamicItemSaveData entry. None for plain stackable items.
+    dynamic: Optional["DynamicItemDetail"] = None
+
+
+class DynamicItemDetail(BaseModel):
+    """Decoded payload of a ``DynamicItemSaveData`` entry (weapon/armor/egg).
+
+    Populated only for slots whose ``dynamic_id.local_id_in_created_world``
+    resolves to a dynamic-item entry. Plain stackable items (nil GUID) omit it.
+    The ``type`` field discriminates which optional fields are meaningful.
+    """
+    local_id: str
+    static_id: str = ""
+    type: str = "unknown"            # "weapon" | "armor" | "egg" | "unknown"
+    # Weapon fields:
+    durability: Optional[float] = None           # Weapon + Armor
+    remaining_bullets: Optional[int] = None      # Weapon only
+    passive_skills: list[str] = []               # Weapon only
+    # Egg fields:
+    character_id: Optional[str] = None
+    egg_gender: Optional[str] = None
+    egg_passive_skills: list[str] = []
+    egg_talent_hp: Optional[int] = None
+    egg_talent_shot: Optional[int] = None
+    egg_talent_defense: Optional[int] = None
 
 
 class ContainerDetail(BaseModel):
@@ -218,6 +244,12 @@ class ContainerDetail(BaseModel):
 
 class ExpandContainerRequest(BaseModel):
     new_slot_count: int
+
+
+class SetSlotCountRequest(BaseModel):
+    """Change one item slot's stack count (0 effectively clears the slot)."""
+    slot_index: int = Field(ge=0)
+    new_count: int = Field(ge=0, le=9999)
 
 
 class PalSummary(BaseModel):
@@ -446,13 +478,15 @@ class SetTechPointsRequest(BaseModel):
 
 
 class SetStatsRequest(BaseModel):
-    max_hp: Optional[int] = None
-    max_sp: Optional[int] = None
-    attack: Optional[int] = None
-    weight: Optional[int] = None
-    capture_rate: Optional[int] = None
-    work_speed: Optional[int] = None
-    unused_stat_points: Optional[int] = None
+    """Stat-point allocation. Each stat is a 0-100 rank value (the game translates
+    to in-game HP/Stamina/etc. via base+mult formulas). ``None`` = don't touch."""
+    max_hp: Optional[int] = Field(None, ge=0, le=100)
+    max_sp: Optional[int] = Field(None, ge=0, le=100)
+    attack: Optional[int] = Field(None, ge=0, le=100)
+    weight: Optional[int] = Field(None, ge=0, le=100)
+    capture_rate: Optional[int] = Field(None, ge=0, le=100)
+    work_speed: Optional[int] = Field(None, ge=0, le=100)
+    unused_stat_points: Optional[int] = Field(None, ge=0, le=10000)
 
 
 class PlayerStatsResponse(BaseModel):
@@ -470,8 +504,66 @@ class PlayerTechPointsResponse(BaseModel):
     boss_tech_points: int = 0
 
 
+class PlayerTechnologiesResponse(BaseModel):
+    """The player's currently-unlocked recipe list + tech-point pools."""
+    technologies: list[str] = []
+    tech_points: int = 0
+    boss_tech_points: int = 0
+
+
+class SetTechnologiesRequest(BaseModel):
+    """Replace the player's entire unlock list. Idempotent; unknowns dropped."""
+    technologies: list[str]
+
+
 class MaxAbilitiesRequest(BaseModel):
     uids: list[str]
+
+
+# ---- inventory (player bags + base chests) ----------------------------------
+
+class InventoryBag(BaseModel):
+    """One of the six player inventory bags (Common/Key/Weapon/Armor/Food/Drop).
+
+    The bag's actual slots live in a world-level ``ItemContainerSaveData``
+    entry; ``container_id`` is the link from the player's ``.sav``
+    ``InventoryInfo``. ``None`` means the bag isn't allocated for this player.
+    """
+    bag_type: str        # "common"|"essential"|"weapon"|"armor"|"food"|"drop"
+    label: str
+    container_id: Optional[str] = None
+    slot_count: int = 0
+    item_count: int = 0
+    items: list[ContainerItemSlot] = []
+
+
+class PlayerInventoryResponse(BaseModel):
+    """A player's full inventory snapshot: bags + party/palbox ids + stats."""
+    uid: str
+    name: str = "Unknown"
+    bags: list[InventoryBag] = []
+    party_id: Optional[str] = None
+    palbox_id: Optional[str] = None
+    stats: Optional[PlayerStatsResponse] = None
+
+
+class BaseInventoryContainer(BaseModel):
+    """A storage chest that belongs to a specific base camp."""
+    id: str
+    container_type: str = "Unknown"
+    slot_count: int = 0
+    item_count: int = 0
+    items: list[ContainerItemSlot] = []
+    location: Optional[tuple[float, float, float]] = None
+
+
+class BaseInventoryResponse(BaseModel):
+    """A base camp's inventory snapshot: its chests + its working pals."""
+    base_id: str
+    guild_name: Optional[str] = None
+    containers: list[BaseInventoryContainer] = []
+    worker_container_id: Optional[str] = None
+    workers: list[PalSummary] = []
 
 
 # ---- map -------------------------------------------------------------------
@@ -708,3 +800,7 @@ class ChainResponse(BaseModel):
     total: int
     elapsed_ms: int
     warnings: list[str] = []
+
+
+# Resolve the ContainerItemSlot -> DynamicItemDetail forward reference.
+ContainerItemSlot.model_rebuild()

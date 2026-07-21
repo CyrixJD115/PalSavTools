@@ -27,6 +27,10 @@
   "dependencies": {
     "@iconify/svelte": "^5.2.2",
     "clsx": "^2.1.0",
-    "tailwind-merge": "^2.5.0"
+    "tailwind-merge": "^2.5.0",
+    "three": "^0.169.0"
+  },
+  "optionalDependencies": {
+    "@types/three": "^0.169.0"
   }
 }

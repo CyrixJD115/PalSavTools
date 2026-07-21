@@ -1,21 +1,23 @@
 // Typed API client. Uses relative /api paths so it works both through the Vite
 // dev proxy (:5173 -> :8000) and the production single-origin FastAPI serve.
 import type {
-  BaseDetail, BaseListResponse, BreedablePalsResponse, CharacterTransferRequest,
-  ChainRequest, ChainResponse, ContainerDetail, ContainerListResponse,
-  ConvertExportRequest, ConvertIdsRequest, ConvertIdsResponse, ConvertRequest,
-  DeleteBaseRequest, DirectChildRequest, DirectChildResponse,
-  DirectPartnersRequest, DirectPartnersResponse, ExpandContainerRequest,
-  FixGuildRequest, FixHostSaveRequest, GuildDetail, GuildListResponse,
-  HealthResponse, LanguagesResponse, LoadOptions, LoadResponse, MapDataResponse,
-  MaxAbilitiesRequest, MovePalRequest, PalDetailResponse, PalEditRequest,
-  PalGroupedResponse, PalListResponse, PalPreset, PalSkillCatalogResponse,
-  PlayerDetail, PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
-  PlayerTechPointsResponse, PresetApplyRequest, PresetApplyResponse,
-  PresetListResponse, PresetSaveRequest, RenameGuildRequest, RenamePlayerRequest,
-  SaveStateResponse, SetBaseRadiusRequest, SetGuildLevelRequest, SetLeaderRequest,
-  SetLevelRequest, SetStatsRequest, SetTechPointsRequest, SlotInjectorRequest,
-  ToolResponse, ToolsListResponse,
+  BaseDetail, BaseInventoryResponse, BaseListResponse, BreedablePalsResponse,
+  CharacterTransferRequest, ChainRequest, ChainResponse, ContainerDetail,
+  ContainerListResponse, ConvertExportRequest, ConvertIdsRequest,
+  ConvertIdsResponse, ConvertRequest, DeleteBaseRequest, DirectChildRequest,
+  DirectChildResponse, DirectPartnersRequest, DirectPartnersResponse,
+  ExpandContainerRequest, FixGuildRequest, FixHostSaveRequest, GuildDetail,
+  GuildListResponse, HealthResponse, LanguagesResponse, LoadOptions,
+  LoadResponse, MapDataResponse, MaxAbilitiesRequest, MovePalRequest,
+  PalDetailResponse, PalEditRequest, PalGroupedResponse, PalListResponse,
+  PalPreset, PalSkillCatalogResponse, PlayerDetail, PlayerInventoryResponse,
+  PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
+  PlayerTechPointsResponse, PlayerTechnologiesResponse, PresetApplyRequest,
+  PresetApplyResponse, PresetListResponse, PresetSaveRequest,
+  RenameGuildRequest, RenamePlayerRequest, SaveStateResponse,
+  SetBaseRadiusRequest, SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest,
+  SetSlotCountRequest, SetStatsRequest, SetTechnologiesRequest,
+  SetTechPointsRequest, SlotInjectorRequest, ToolResponse, ToolsListResponse,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -99,6 +101,8 @@ export const api = {
   },
 
   playerDetail: (uid: string) => request<PlayerDetail>(`/players/${uid}`),
+  playerInventory: (uid: string) =>
+    request<PlayerInventoryResponse>(`/players/${uid}/inventory`),
   playerStats: (uid: string) =>
     request<PlayerStatsResponse>(`/players/${uid}/stats`),
   playerTechPoints: (uid: string) =>
@@ -113,6 +117,14 @@ export const api = {
     request<{ status: string }>(`/players/${uid}/tech-points`, jsonBody(body, 'PUT')),
   setPlayerStats: (uid: string, body: SetStatsRequest) =>
     request<{ status: string }>(`/players/${uid}/stats`, jsonBody(body, 'PUT')),
+  maxPlayerStats: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}/stats/max`, { method: 'POST' }),
+  resetPlayerStats: (uid: string) =>
+    request<{ status: string }>(`/players/${uid}/stats/reset`, { method: 'POST' }),
+  playerTechnologies: (uid: string) =>
+    request<PlayerTechnologiesResponse>(`/players/${uid}/technologies`),
+  setPlayerTechnologies: (uid: string, body: SetTechnologiesRequest) =>
+    request<{ status: string }>(`/players/${uid}/technologies`, jsonBody(body, 'PUT')),
   resetPlayerTimestamp: (uid: string) =>
     request<{ status: string }>(`/players/${uid}/reset-timestamp`, { method: 'PUT' }),
   unlockViewingCage: (uid: string) =>
@@ -149,6 +161,8 @@ export const api = {
     return request<BaseListResponse>(`/bases${qs ? `?${qs}` : ''}`);
   },
   baseDetail: (id: string) => request<BaseDetail>(`/bases/${id}`),
+  baseInventory: (id: string) =>
+    request<BaseInventoryResponse>(`/bases/${id}/inventory`),
   deleteBase: (id: string, body?: DeleteBaseRequest) =>
     request<{ status: string }>(`/bases/${id}`, jsonBody(body ?? {}, 'DELETE')),
   setBaseRadius: (id: string, body: SetBaseRadiusRequest) =>
@@ -164,6 +178,12 @@ export const api = {
     request<{ status: string }>(`/containers/${id}/clear`, { method: 'POST' }),
   expandContainer: (id: string, body: ExpandContainerRequest) =>
     request<{ status: string }>(`/containers/${id}/expand`, jsonBody(body, 'PUT')),
+  /** Change one item slot's stack count (0 = clear the slot, keep the slot). */
+  setSlotCount: (id: string, body: SetSlotCountRequest) =>
+    request<{ status: string }>(`/containers/${id}/slots`, jsonBody(body, 'PUT')),
+  /** Remove the item from a slot (zero it out, keep the slot itself). */
+  deleteSlot: (id: string, slotIndex: number) =>
+    request<{ status: string }>(`/containers/${id}/slots/${slotIndex}`, { method: 'DELETE' }),
   pals: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
     const params = new URLSearchParams();
     if (opts.limit != null) params.set('limit', String(opts.limit));

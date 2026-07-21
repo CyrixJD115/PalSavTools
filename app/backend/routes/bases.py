@@ -5,10 +5,10 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 
 from app.backend.schemas import (
-    BaseDetail, DeleteBaseRequest, RenameGuildRequest,
+    BaseDetail, BaseInventoryResponse, DeleteBaseRequest, RenameGuildRequest,
     SetBaseRadiusRequest, SetGuildLevelRequest,
 )
-from app.backend.services import base_service
+from app.backend.services import base_inventory_service, base_service
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/bases")
@@ -21,12 +21,37 @@ def _require() -> dict:
     return loaded.level_dict
 
 
+def _require_loaded():
+    loaded = save_state.get()
+    if loaded is None:
+        raise HTTPException(409, "No save loaded")
+    return loaded
+
+
 @router.get("/{base_id}", response_model=BaseDetail)
 async def get_base_detail(base_id: str) -> BaseDetail:
     detail = base_service.get_base_detail(_require(), base_id)
     if detail is None:
         raise HTTPException(404, f"Base not found: {base_id}")
     return BaseDetail(**detail)
+
+
+@router.get("/{base_id}/inventory", response_model=BaseInventoryResponse)
+async def get_base_inventory(base_id: str) -> BaseInventoryResponse:
+    """A base camp's inventory: its storage chests + its working pals.
+
+    Lazy: pulls only the world sections the view touches via
+    ``build_mini_wsd`` (avoids materializing the full ~200 MB ``level_dict``).
+    """
+    loaded = _require_loaded()
+    wsd = loaded.build_mini_wsd(
+        "ItemContainerSaveData", "MapObjectSaveData", "BaseCampSaveData",
+        "CharacterSaveParameterMap", "DynamicItemSaveData", "GroupSaveDataMap",
+    )
+    detail = base_inventory_service.get_base_inventory(wsd, base_id)
+    if detail is None:
+        raise HTTPException(404, f"Base not found: {base_id}")
+    return BaseInventoryResponse(**detail)
 
 
 @router.delete("/{base_id}")

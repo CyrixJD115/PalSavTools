@@ -146,6 +146,35 @@ export interface PlayerTechPointsResponse {
   boss_tech_points: number;
 }
 
+/** The player's currently-unlocked recipe list + tech-point pools. */
+export interface PlayerTechnologiesResponse {
+  technologies: string[];
+  tech_points: number;
+  boss_tech_points: number;
+}
+
+/** Replace the player's entire unlock list. Idempotent; unknowns dropped. */
+export interface SetTechnologiesRequest {
+  technologies: string[];
+}
+
+/** One entry in the game-data technology catalog (world.json#technology[]).
+ *  Used by TechTreeModal to render the 588-recipe grid. */
+export interface Technology {
+  asset: string;                 // unlock key (what's stored in the save)
+  name: string;
+  icon: string | null;
+  description: string | null;
+  cost: number;                  // tech-point cost
+  level_cap: number;             // player level required (1-80)
+  type: 'standard' | 'boss';     // standard vs ancient
+  is_boss_tech: boolean;
+  require_technology: string;    // prerequisite asset name (or "")
+  require_tower_boss: string;    // "None" | "ForestBoss" | ...
+  unlock_build_objects: string[];
+  unlock_item_recipes: string[];
+}
+
 export interface MaxAbilitiesRequest {
   uids: string[];
 }
@@ -261,6 +290,29 @@ export interface ContainerItemSlot {
   count: number;
   static_id: string;
   dynamic_id: string | null;
+  /** Decoded weapon/armor/egg payload — present only when dynamic_id resolves
+   *  to a DynamicItemSaveData entry. Undefined for plain stackable items. */
+  dynamic?: DynamicItemDetail;
+}
+
+/** Decoded payload of a DynamicItemSaveData entry (weapon/armor/egg).
+ *  `type` discriminates which optional fields are meaningful. */
+export interface DynamicItemDetail {
+  local_id: string;
+  static_id: string;
+  type: 'weapon' | 'armor' | 'egg' | 'unknown';
+  // Weapon + Armor:
+  durability?: number | null;
+  // Weapon only:
+  remaining_bullets?: number | null;
+  passive_skills?: string[];
+  // Egg only:
+  character_id?: string | null;
+  egg_gender?: string | null;
+  egg_passive_skills?: string[];
+  egg_talent_hp?: number | null;
+  egg_talent_shot?: number | null;
+  egg_talent_defense?: number | null;
 }
 
 export interface ContainerDetail {
@@ -274,6 +326,53 @@ export interface ContainerDetail {
 
 export interface ExpandContainerRequest {
   new_slot_count: number;
+}
+
+/** Change one item slot's stack count (0 = clear the slot, keep the slot). */
+export interface SetSlotCountRequest {
+  slot_index: number;
+  new_count: number;
+}
+
+/** One of the six player inventory bags. Slots live in a world-level
+ *  ItemContainerSaveData entry; `container_id` is the link from the player's
+ *  .sav InventoryInfo. `null` = bag not allocated for this player. */
+export interface InventoryBag {
+  bag_type: string;            // "common"|"essential"|"weapon"|"armor"|"food"|"drop"
+  label: string;
+  container_id: string | null;
+  slot_count: number;
+  item_count: number;
+  items: ContainerItemSlot[];
+}
+
+/** A player's full inventory snapshot: bags + party/palbox ids + stats. */
+export interface PlayerInventoryResponse {
+  uid: string;
+  name: string;
+  bags: InventoryBag[];
+  party_id: string | null;
+  palbox_id: string | null;
+  stats: PlayerStatsResponse | null;
+}
+
+/** A storage chest that belongs to a specific base camp. */
+export interface BaseInventoryContainer {
+  id: string;
+  container_type: string;
+  slot_count: number;
+  item_count: number;
+  items: ContainerItemSlot[];
+  location: Vec3;
+}
+
+/** A base camp's inventory snapshot: its chests + its working pals. */
+export interface BaseInventoryResponse {
+  base_id: string;
+  guild_name: string | null;
+  containers: BaseInventoryContainer[];
+  worker_container_id: string | null;
+  workers: PalSummary[];
 }
 
 export interface PalSummary {

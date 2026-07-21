@@ -85,6 +85,16 @@ def _find_player_sp(level_dict: dict, uid: str) -> dict | None:
     """A player's ``SaveParameter`` struct (the Rust shape), or ``None``."""
     uid_clean = _uid_clean(uid)
     wsd = world_service.get_world_save_data(level_dict)
+    return _find_player_sp_from_wsd(wsd, uid)
+
+
+def _find_player_sp_from_wsd(wsd: dict, uid: str) -> dict | None:
+    """Lazy variant of :func:`_find_player_sp` — takes a ``wsd`` slice.
+
+    Used by the inventory read path so we don't materialize the full
+    ``level_dict`` just to look up one player's ``SaveParameter``.
+    """
+    uid_clean = _uid_clean(uid)
     for entry in world_service._map_entries(wsd, "CharacterSaveParameterMap"):
         sp = world_service._pal_entry_raw(entry)
         if not world_service._k(sp, "IsPlayer"):
@@ -153,15 +163,26 @@ def _read_player_sav(
         except Exception as exc:
             logger.warning("Failed to decode bundled player save %s: %s", uid_clean, exc)
             return None
-    elif _is_disk_players_dir(players_dir):
-        sav_path = _player_sav_path(players_dir, uid)
-        if not sav_path.exists():
-            return None
-        try:
-            player_dict, save_type = decode_sav(sav_path)
-        except Exception as exc:
-            logger.warning("Failed to decode player save %s: %s", sav_path.name, exc)
-            return None
+    elif loaded is not None:
+        # Check LoadedSave.player_raw_bytes (bundle-upload path) before falling
+        # back to disk. This ensures the function works for ALL callers without
+        # needing _raw_bytes passed explicitly.
+        bundle_raw = loaded.player_raw_bytes.get(uid_clean)
+        if bundle_raw is not None:
+            try:
+                player_dict, save_type = decode_sav(bundle_raw)
+            except Exception as exc:
+                logger.warning("Failed to decode bundled player save %s: %s", uid_clean, exc)
+                return None
+        elif _is_disk_players_dir(players_dir):
+            sav_path = _player_sav_path(players_dir, uid)
+            if not sav_path.exists():
+                return None
+            try:
+                player_dict, save_type = decode_sav(sav_path)
+            except Exception as exc:
+                logger.warning("Failed to decode player save %s: %s", sav_path.name, exc)
+                return None
     else:
         return None
 
@@ -524,7 +545,13 @@ def get_player_stats(level_dict: dict, uid: str) -> dict | None:
     with values taken from GotStatusPointList / GotExStatusPointList, or ``None`` if
     the player is not found.
     """
-    sp = _find_player_sp(level_dict, uid)
+    wsd = world_service.get_world_save_data(level_dict)
+    return get_player_stats_from_wsd(wsd, uid)
+
+
+def get_player_stats_from_wsd(wsd: dict, uid: str) -> dict | None:
+    """Lazy variant of :func:`get_player_stats` — takes a ``wsd`` slice."""
+    sp = _find_player_sp_from_wsd(wsd, uid)
     if sp is None:
         return None
 
@@ -582,10 +609,16 @@ def set_player_stats(
     stat_changes: dict[str, int],
     unused_stat_points: int | None = None,
 ) -> bool:
-    """Modify GotStatusPointList / GotExStatusPointList in CharacterSaveParameterMap.
+    """Modify ``GotStatusPointList`` in CharacterSaveParameterMap.
 
     ``stat_changes`` uses English keys (``MaxHP``, ``MaxSP``, …) and the function
     maps them to the Japanese names stored internally by the game.
+
+    Only writes to ``GotStatusPointList`` (the primary list the game reads from
+    for stat rank display). The legacy code also wrote ``GotExStatusPointList``,
+    but that list carries stale lower values and the read path ignores it —
+    writing both created a read/write asymmetry. Stats whose Japanese name
+    isn't already in the list are appended (insert-missing path).
     """
     sp = _find_player_sp(level_dict, uid)
     if sp is None:
@@ -599,14 +632,29 @@ def set_player_stats(
     if not jp_changes and unused_stat_points is None:
         return False
 
-    for list_key in ("GotStatusPointList", "GotExStatusPointList"):
-        items = world_service._k(sp, list_key)
-        if not isinstance(items, list):
+    items = world_service._k(sp, "GotStatusPointList")
+    if not isinstance(items, list):
+        # List missing entirely — create it so we can append below.
+        items = []
+        _k_set(sp, "GotStatusPointList", items)
+
+    # Update existing entries in place; track which names we touched so we can
+    # append any that were missing (insert-missing path — the old code silently
+    # dropped stats whose JP name wasn't already present).
+    touched: set[str] = set()
+    for item in items:
+        name = world_service._k(item, "StatusName")
+        if name and str(name) in jp_changes:
+            _k_set(item, "StatusPoint", jp_changes[str(name)])
+            touched.add(str(name))
+
+    for jp_name, value in jp_changes.items():
+        if jp_name in touched:
             continue
-        for item in items:
-            name = world_service._k(item, "StatusName")
-            if name and str(name) in jp_changes:
-                _k_set(item, "StatusPoint", jp_changes[str(name)])
+        items.append({
+            "StatusName_0": jp_name,
+            "StatusPoint_0": int(value),
+        })
 
     if unused_stat_points is not None:
         _k_set(sp, "UnusedStatusPoint", int(unused_stat_points))
@@ -662,30 +710,113 @@ def unlock_viewing_cage(players_dir: str, uid: str) -> bool:
     return _write_player_sav(player_dict, save_type, players_dir, uid)
 
 
-def unlock_all_technologies(players_dir: str, uid: str) -> bool:
-    """Inject all technology recipe names into ``UnlockedRecipeTechnologyNames``."""
+def _load_technology_assets() -> set[str]:
+    """The set of valid technology asset names from ``world.json``.
+
+    Used to validate incoming unlock lists (drops unknowns so we never write
+    garbage into ``UnlockedRecipeTechnologyNames``). Returns an empty set on
+    any failure — callers should treat that as "no validation".
+    """
     from app.backend.services.data_service import load_game_data
     try:
-        world_data = load_game_data("world")
-        technologies = world_data.get("technology", [])
+        technologies = load_game_data("world").get("technology", [])
     except Exception:
-        return False
+        return set()
+    return {str(t.get("asset", "")) for t in technologies if t.get("asset")}
+
+
+def get_player_technologies(players_dir: str, uid: str) -> dict:
+    """Read the player's unlocked recipe list + tech points.
+
+    Returns ``{technologies: list[str], tech_points: int, boss_tech_points: int}``.
+    Never returns ``None`` — when the player ``.sav`` can't be found/decoded,
+    returns empty defaults so the Tech Tree UI can still render (showing all
+    recipes as locked) instead of surfacing a 404 to the user. Many saves have
+    ``IsPlayer`` entries in ``CharacterSaveParameterMap`` without a corresponding
+    ``.sav`` file (Xbox Game Pass players, host saves, etc.).
+    """
+    decoded = _read_player_sav(players_dir, uid)
+    if decoded is None:
+        return {"technologies": [], "tech_points": 0, "boss_tech_points": 0}
+    player_dict, _ = decoded
+    sd = _save_data(player_dict)
+    unlocked = world_service._k(sd, "UnlockedRecipeTechnologyNames")
+    tech_list = [str(v) for v in unlocked] if isinstance(unlocked, list) else []
+    tp_raw = world_service._k(sd, "TechnologyPoint")
+    btp_raw = world_service._k(sd, "bossTechnologyPoint")
+    return {
+        "technologies": tech_list,
+        "tech_points": int(tp_raw) if tp_raw is not None else 0,
+        "boss_tech_points": int(btp_raw) if btp_raw is not None else 0,
+    }
+
+
+def set_player_technologies(players_dir: str, uid: str, tech_ids: list[str]) -> bool:
+    """Replace the player's unlocked recipe list with ``tech_ids``.
+
+    Idempotent: writes exactly the given list (deduped, order-preserved).
+    Unknown asset names (not in ``world.json#technology[].asset``) are silently
+    dropped so we can't corrupt the save with typo'd IDs. Returns ``False`` if
+    the player ``.sav`` can't be decoded.
+    """
+    valid = _load_technology_assets()
+    seen: set[str] = set()
+    cleaned: list[str] = []
+    for tid in tech_ids:
+        tid_str = str(tid)
+        if valid and tid_str not in valid:
+            continue  # drop unknowns when validation is available
+        if tid_str in seen:
+            continue  # dedupe
+        seen.add(tid_str)
+        cleaned.append(tid_str)
 
     decoded = _read_player_sav(players_dir, uid)
     if decoded is None:
         return False
     player_dict, save_type = decoded
     sd = _save_data(player_dict)
-    unlocked = world_service._k(sd, "UnlockedRecipeTechnologyNames")
-    existing = set(str(v) for v in unlocked) if isinstance(unlocked, list) else set()
-    if not isinstance(unlocked, list):
-        unlocked = []
-        _k_set(sd, "UnlockedRecipeTechnologyNames", unlocked)
-    for tech in technologies:
-        tid = tech.get("id", "")
-        if tid and tid not in existing:
-            unlocked.append(tid)
+    _k_set(sd, "UnlockedRecipeTechnologyNames", cleaned)
     return _write_player_sav(player_dict, save_type, players_dir, uid)
+
+
+def unlock_all_technologies(players_dir: str, uid: str) -> bool:
+    """Inject every technology recipe name into ``UnlockedRecipeTechnologyNames``.
+
+    Uses the ``asset`` field (the actual unlock key), NOT ``id`` — the data file
+    has no ``id`` field; an earlier version of this function used ``tech.get("id")``
+    which silently matched zero entries (the function was a no-op).
+    """
+    from app.backend.services.data_service import load_game_data
+    try:
+        technologies = load_game_data("world").get("technology", [])
+    except Exception:
+        return False
+    all_assets = [str(t.get("asset", "")) for t in technologies if t.get("asset")]
+    return set_player_technologies(players_dir, uid, all_assets)
+
+
+def max_player_stats(level_dict: dict, uid: str) -> bool:
+    """Set all six core stats to 100 and clear UnusedStatusPoint."""
+    return set_player_stats(
+        level_dict, uid,
+        {
+            "MaxHP": 100, "MaxSP": 100, "Attack": 100,
+            "Weight": 100, "CaptureRate": 100, "WorkSpeed": 100,
+        },
+        unused_stat_points=0,
+    )
+
+
+def reset_player_stats(level_dict: dict, uid: str) -> bool:
+    """Zero all six core stats (keeps UnusedStatusPoint untouched)."""
+    return set_player_stats(
+        level_dict, uid,
+        {
+            "MaxHP": 0, "MaxSP": 0, "Attack": 0,
+            "Weight": 0, "CaptureRate": 0, "WorkSpeed": 0,
+        },
+    )
 
 
 def max_all_abilities(level_dict: dict, players_dir: str, uids: list[str]) -> dict:

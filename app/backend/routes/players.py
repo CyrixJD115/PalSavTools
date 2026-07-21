@@ -9,11 +9,12 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 
 from app.backend.schemas import (
-    MaxAbilitiesRequest, PlayerDetail, PlayerStatsResponse,
-    PlayerTechPointsResponse, RenamePlayerRequest,
-    SetLevelRequest, SetStatsRequest, SetTechPointsRequest,
+    MaxAbilitiesRequest, PlayerDetail, PlayerInventoryResponse,
+    PlayerStatsResponse, PlayerTechPointsResponse, PlayerTechnologiesResponse,
+    RenamePlayerRequest, SetLevelRequest, SetStatsRequest,
+    SetTechnologiesRequest, SetTechPointsRequest,
 )
-from app.backend.services import player_service
+from app.backend.services import inventory_service, player_service
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/players")
@@ -40,6 +41,31 @@ async def get_player_detail(uid: str) -> PlayerDetail:
     if detail is None:
         raise HTTPException(404, f"Player not found: {uid}")
     return PlayerDetail(**detail)
+
+
+@router.get("/{uid}/inventory", response_model=PlayerInventoryResponse)
+async def get_player_inventory(uid: str) -> PlayerInventoryResponse:
+    """A player's full inventory snapshot: bags + party/palbox ids + stats.
+
+    Bags are world-level ``ItemContainerSaveData`` entries; the player ``.sav``
+    only carries the IDs (read cache-first). Uses ``build_mini_wsd`` so we
+    don't materialize the full ``level_dict``.
+    """
+    loaded = save_state.get()
+    if loaded is None:
+        raise HTTPException(409, "No save loaded")
+    # ItemContainerSaveData = the bag slot contents; DynamicItemSaveData =
+    # weapon/armor/egg payloads (linked by slot.dynamic_id); CharacterSaveParameterMap
+    # = the player record (name + stats).
+    wsd = loaded.build_mini_wsd(
+        "ItemContainerSaveData", "DynamicItemSaveData", "CharacterSaveParameterMap",
+    )
+    detail = inventory_service.get_player_inventory(
+        wsd, loaded.players_dir, uid,
+    )
+    if detail is None:
+        raise HTTPException(404, f"Player not found: {uid}")
+    return PlayerInventoryResponse(**detail)
 
 
 @router.put("/{uid}/name")
@@ -115,6 +141,43 @@ async def set_player_stats(uid: str, body: SetStatsRequest) -> dict:
     if not stat_changes and body.unused_stat_points is None:
         raise HTTPException(400, "No stats to change")
     player_service.set_player_stats(level_dict, uid, stat_changes, body.unused_stat_points)
+    return {"status": "ok"}
+
+
+@router.post("/{uid}/stats/max")
+async def max_player_stats(uid: str) -> dict:
+    """Convenience: set all six core stats to 100 and clear unused points."""
+    level_dict, _, _, _ = _require()
+    if not player_service.max_player_stats(level_dict, uid):
+        raise HTTPException(404, f"Player not found in save data: {uid}")
+    return {"status": "ok"}
+
+
+@router.post("/{uid}/stats/reset")
+async def reset_player_stats(uid: str) -> dict:
+    """Convenience: zero all six core stats (keeps UnusedStatusPoint)."""
+    level_dict, _, _, _ = _require()
+    if not player_service.reset_player_stats(level_dict, uid):
+        raise HTTPException(404, f"Player not found in save data: {uid}")
+    return {"status": "ok"}
+
+
+@router.get("/{uid}/technologies", response_model=PlayerTechnologiesResponse)
+async def get_player_technologies(uid: str) -> PlayerTechnologiesResponse:
+    """The player's currently-unlocked recipe list + tech-point pools."""
+    _, players_dir, _, _ = _require()
+    result = player_service.get_player_technologies(players_dir, uid)
+    if result is None:
+        raise HTTPException(404, f"Player .sav not found for: {uid}")
+    return PlayerTechnologiesResponse(**result)
+
+
+@router.put("/{uid}/technologies")
+async def set_player_technologies(uid: str, body: SetTechnologiesRequest) -> dict:
+    """Replace the player's entire unlocked-recipe list (idempotent)."""
+    _, players_dir, _, _ = _require()
+    if not player_service.set_player_technologies(players_dir, uid, body.technologies):
+        raise HTTPException(404, f"Player .sav not found for: {uid}")
     return {"status": "ok"}
 
 

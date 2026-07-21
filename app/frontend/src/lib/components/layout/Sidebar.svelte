@@ -25,6 +25,7 @@
         { href: '/inventory', labelKey: 'web.nav.player_inventory', icon: 'lucide:package', needsSave: true },
         { href: '/base-inventory', labelKey: 'web.nav.base_inventory', icon: 'lucide:warehouse', needsSave: true },
         { href: '/pal-editor', labelKey: 'web.nav.pal_editor', icon: 'lucide:pencil', needsSave: true },
+        { href: '/base-editor', labelKey: 'web.nav.base_editor', icon: 'lucide:boxes' },
       ],
     },
     {
@@ -80,6 +81,6 @@
   </nav>
 
   <div class="px-3 py-3 border-t border-line/40 text-[10px] text-ink-dim">
-    {$t('web.nav.footer')}
+    <div>{$t('web.nav.footer')}</div>
   </div>
 </aside>

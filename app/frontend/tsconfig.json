@@ -10,5 +10,9 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "bundler"
-  }
+  },
+  "exclude": [
+    "src/lib/base-editor/**/*.test.*",
+    "src/lib/base-editor/test-utils/"
+  ]
 }

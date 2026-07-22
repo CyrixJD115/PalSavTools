@@ -216,6 +216,32 @@ def main():
                 frontend_proc.wait()
             else:
                 tauri_dir = PROJECT_DIR / 'app' / 'frontend'
+                binaries_dir = tauri_dir / 'src-tauri' / 'binaries'
+
+                # Auto-create launcher script if missing
+                sidecar_path = None
+                if binaries_dir.is_dir():
+                    for p in binaries_dir.iterdir():
+                        if p.name.startswith('pst-backend-') and p.is_file() and os.access(p, os.X_OK):
+                            sidecar_path = p
+                            break
+                if not sidecar_path:
+                    log('  Sidecar missing — creating launcher script...', YELLOW)
+                    binaries_dir.mkdir(parents=True, exist_ok=True)
+                    import platform as _plat
+                    machine = _plat.machine().lower()
+                    triple = f"{'x86_64' if machine in ('x86_64','amd64') else machine}-unknown-linux-gnu"
+                    script_path = binaries_dir / f"pst-backend-{triple}"
+                    script_path.write_text(
+                        "#!/bin/sh\n"
+                        'SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"\n'
+                        'PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../" && pwd)"\n'
+                        'cd "$PROJECT_ROOT"\n'
+                        'exec uv run python app/backend/main.py\n'
+                    )
+                    script_path.chmod(0o755)
+                    log('  Launcher script created, starting Tauri...', GREEN)
+
                 log('  Attempting Tauri window...', DIM)
                 tauri_proc = subprocess.Popen(
                     [npm, 'run', 'tauri', '--', 'dev'],
@@ -226,9 +252,7 @@ def main():
                     bufsize=1,
                 )
 
-                sidecar_missing = False
                 def log_tauri():
-                    nonlocal sidecar_missing
                     out = tauri_proc.stdout
                     if out:
                         try:
@@ -236,8 +260,6 @@ def main():
                                 stripped = line.rstrip()
                                 if stripped:
                                     print(f'{DIM}[tauri] {stripped}{RESET}')
-                                    if 'resource path' in stripped and 'doesn\'t exist' in stripped:
-                                        sidecar_missing = True
                         except Exception:
                             pass
                 t3 = threading.Thread(target=log_tauri, daemon=True)
@@ -254,10 +276,9 @@ def main():
                     if tauri_proc.poll() is None:
                         cleanup_procs(tauri_proc)
 
-                if tauri_proc.returncode != 0 and sidecar_missing:
-                    log('Tauri sidecar binary not found — falling back to browser mode.', YELLOW)
+                if tauri_proc.returncode != 0:
+                    log('Tauri window failed — falling back to browser mode.', YELLOW)
                     log(f'  Open {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} in your browser{RESET}', YELLOW)
-                    log(f'  Build the sidecar with: python build/tauri/build_tauri.py', DIM)
                     try:
                         frontend_proc.wait()
                     except KeyboardInterrupt:

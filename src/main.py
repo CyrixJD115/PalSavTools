@@ -216,7 +216,7 @@ def main():
                 frontend_proc.wait()
             else:
                 tauri_dir = PROJECT_DIR / 'app' / 'frontend'
-                log('  Building Tauri app (first run compiles Rust)...', DIM)
+                log('  Attempting Tauri window...', DIM)
                 tauri_proc = subprocess.Popen(
                     [npm, 'run', 'tauri', '--', 'dev'],
                     cwd=str(tauri_dir),
@@ -226,7 +226,9 @@ def main():
                     bufsize=1,
                 )
 
+                sidecar_missing = False
                 def log_tauri():
+                    nonlocal sidecar_missing
                     out = tauri_proc.stdout
                     if out:
                         try:
@@ -234,18 +236,32 @@ def main():
                                 stripped = line.rstrip()
                                 if stripped:
                                     print(f'{DIM}[tauri] {stripped}{RESET}')
+                                    if 'resource path' in stripped and 'doesn\'t exist' in stripped:
+                                        sidecar_missing = True
                         except Exception:
                             pass
                 t3 = threading.Thread(target=log_tauri, daemon=True)
                 t3.start()
 
                 try:
+                    tauri_proc.wait(timeout=120)
+                except subprocess.TimeoutExpired:
+                    log('Tauri build still running — waiting indefinitely...', DIM)
                     tauri_proc.wait()
                 except KeyboardInterrupt:
                     pass
                 finally:
                     if tauri_proc.poll() is None:
                         cleanup_procs(tauri_proc)
+
+                if tauri_proc.returncode != 0 and sidecar_missing:
+                    log('Tauri sidecar binary not found — falling back to browser mode.', YELLOW)
+                    log(f'  Open {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} in your browser{RESET}', YELLOW)
+                    log(f'  Build the sidecar with: python build/tauri/build_tauri.py', DIM)
+                    try:
+                        frontend_proc.wait()
+                    except KeyboardInterrupt:
+                        pass
         else:
             log(f'  Frontend server did not start within 60s', YELLOW)
             log(f'  Try opening {CYAN}http://127.0.0.1:16920{RESET}{YELLOW} manually{RESET}', YELLOW)

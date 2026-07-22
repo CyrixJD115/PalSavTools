@@ -155,8 +155,7 @@ def _binary_path() -> Path:
 
     logger.info("Building uesave (release, oodle) — first use only…")
     proc = subprocess.run(
-        ["cargo", "build", "--release", "-p", "uesave_cli",
-         "--features", "uesave/oodle"],
+        ["cargo", "build", "--release", "-p", "uesave_cli"],
         cwd=str(_PALSAV_RS_DIR),
         capture_output=True, text=True, timeout=600,
     )

@@ -4,6 +4,7 @@ Three modes behind a single router:
   * ``GET  /breeding/pals``            — breedable-pal list for pickers
   * ``POST /breeding/direct/child``    — Direct Mode: A + B → child
   * ``POST /breeding/direct/partners`` — Direct Mode: A + target → B options
+  * ``POST /breeding/direct/parents``  — Direct Mode: target → ALL parent pairs
   * ``POST /breeding/chain``           — Selection Mode + Save Mode (one solver)
 
 Direct + Selection work without a loaded save. Save Mode (``mode="save"`` on
@@ -21,6 +22,8 @@ from app.backend.schemas import (
     ChainResponse,
     DirectChildRequest,
     DirectChildResponse,
+    DirectParentsRequest,
+    DirectParentsResponse,
     DirectPartnersRequest,
     DirectPartnersResponse,
 )
@@ -51,6 +54,13 @@ async def post_direct_child(req: DirectChildRequest) -> DirectChildResponse:
 async def post_direct_partners(req: DirectPartnersRequest) -> DirectPartnersResponse:
     _require_engine()
     return breeding_service.direct_partners(req)
+
+
+@router.post("/direct/parents", response_model=DirectParentsResponse)
+async def post_direct_parents(req: DirectParentsRequest) -> DirectParentsResponse:
+    """Return ALL parent pairs for a target child (no fixed parent)."""
+    _require_engine()
+    return breeding_service.direct_parents(req)
 
 
 @router.post("/chain", response_model=ChainResponse)

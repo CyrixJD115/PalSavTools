@@ -5,7 +5,8 @@ import type {
   CharacterTransferRequest, ChainRequest, ChainResponse, ContainerDetail,
   ContainerListResponse, ConvertExportRequest, ConvertIdsRequest,
   ConvertIdsResponse, ConvertRequest, DeleteBaseRequest, DirectChildRequest,
-  DirectChildResponse, DirectPartnersRequest, DirectPartnersResponse,
+	  DirectChildResponse, DirectParentsRequest, DirectParentsResponse,
+	  DirectPartnersRequest, DirectPartnersResponse,
   ExpandContainerRequest, FixGuildRequest, FixHostSaveRequest, GuildDetail,
   GuildListResponse, HealthResponse, LanguagesResponse, LoadOptions,
   LoadResponse, MapDataResponse, MaxAbilitiesRequest, MovePalRequest,
@@ -253,6 +254,8 @@ export const api = {
     request<DirectChildResponse>('/breeding/direct/child', jsonBody(params)),
   breedingDirectPartners: (params: DirectPartnersRequest) =>
     request<DirectPartnersResponse>('/breeding/direct/partners', jsonBody(params)),
+  breedingDirectParents: (params: DirectParentsRequest) =>
+    request<DirectParentsResponse>('/breeding/direct/parents', jsonBody(params)),
   breedingChain: (params: ChainRequest) =>
     request<ChainResponse>('/breeding/chain', jsonBody(params)),
 };

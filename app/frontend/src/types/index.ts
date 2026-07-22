@@ -714,6 +714,10 @@ export interface DirectPartnersRequest {
   target_child: string;
 }
 
+export interface DirectParentsRequest {
+  target_child: string;
+}
+
 export interface DirectResultItem {
   parent_a: string;
   parent_b: string;
@@ -730,6 +734,10 @@ export interface DirectChildResponse {
 
 export interface DirectPartnersResponse {
   partners: DirectResultItem[];
+}
+
+export interface DirectParentsResponse {
+  parents: DirectResultItem[];
 }
 
 export interface SelectedPal {

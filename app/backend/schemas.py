@@ -738,6 +738,12 @@ class DirectPartnersRequest(BaseModel):
     target_child: str
 
 
+class DirectParentsRequest(BaseModel):
+    """Find ALL parent pairs for a target child — no fixed parent."""
+
+    target_child: str
+
+
 class DirectResultItem(BaseModel):
     parent_a: str
     parent_b: str
@@ -754,6 +760,12 @@ class DirectChildResponse(BaseModel):
 
 class DirectPartnersResponse(BaseModel):
     partners: list[DirectResultItem]
+
+
+class DirectParentsResponse(BaseModel):
+    """All parent pairs for a target child — reuses the same item shape."""
+
+    parents: list[DirectResultItem]
 
 
 class SelectedPal(BaseModel):

@@ -33,6 +33,8 @@ from app.backend.schemas import (
     BreedingStepSchema,
     DirectChildRequest,
     DirectChildResponse,
+    DirectParentsRequest,
+    DirectParentsResponse,
     DirectPartnersRequest,
     DirectPartnersResponse,
     DirectResultItem,
@@ -113,6 +115,13 @@ def direct_partners(req: DirectPartnersRequest) -> DirectPartnersResponse:
     db = _db()
     rows = breeding.direct_partners(db, req.parent_a, req.target_child)
     return DirectPartnersResponse(partners=[_direct_item(db, r) for r in rows])
+
+
+def direct_parents(req: DirectParentsRequest) -> DirectParentsResponse:
+    """target → ALL parent pairs (no Parent A pinned)."""
+    db = _db()
+    rows = breeding.direct_parents(db, req.target_child)
+    return DirectParentsResponse(parents=[_direct_item(db, r) for r in rows])
 
 
 def _direct_item(db, r) -> DirectResultItem:

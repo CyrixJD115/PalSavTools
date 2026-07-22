@@ -5,11 +5,11 @@ import type {
   CharacterTransferRequest, ChainRequest, ChainResponse, ContainerDetail,
   ContainerListResponse, ConvertExportRequest, ConvertIdsRequest,
   ConvertIdsResponse, ConvertRequest, DeleteBaseRequest, DirectChildRequest,
-	  DirectChildResponse, DirectParentsRequest, DirectParentsResponse,
-	  DirectPartnersRequest, DirectPartnersResponse,
+		  DirectChildResponse, DirectParentsRequest, DirectParentsResponse,
+		  DirectPartnersRequest, DirectPartnersResponse,
   ExpandContainerRequest, FixGuildRequest, FixHostSaveRequest, GuildDetail,
   GuildListResponse, HealthResponse, LanguagesResponse, LoadOptions,
-  LoadResponse, MapDataResponse, MaxAbilitiesRequest, MovePalRequest,
+  LoadResponse, MapDataResponse, MapPoiResponse, MaxAbilitiesRequest, MovePalRequest,
   PalDetailResponse, PalEditRequest, PalGroupedResponse, PalListResponse,
   PalPreset, PalSkillCatalogResponse, PlayerDetail, PlayerInventoryResponse,
   PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
@@ -226,6 +226,7 @@ export const api = {
     request<{ status: string }>(`/presets/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
   mapData: () => request<MapDataResponse>('/map/data'),
+  mapPois: () => request<MapPoiResponse>('/map/pois'),
 
   // ---- tools ----
   tools: () => request<ToolsListResponse>('/tools'),

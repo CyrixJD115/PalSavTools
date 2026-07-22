@@ -17,6 +17,8 @@
   import { toast } from '$stores/toast';
   import {
     showBases, showPlayers, showRings, showZones, mapType, zoom,
+    showFastTravel, showDungeons, showBosses, showPredatorPals, showRelics,
+    showPalIcons,
     sidebarOpen, zoneDrawingMode, zoneShapeType, mapLoading, mapError,
   } from '$stores/mapStore';
   import {
@@ -32,6 +34,7 @@
   import MapSidebar from '$components/map/MapSidebar.svelte';
   import MapTooltip from '$components/map/MapTooltip.svelte';
   import MapContextMenu from '$components/map/MapContextMenu.svelte';
+  import AdjustRadiusModal from '$components/map/AdjustRadiusModal.svelte';
   import type { MenuItem } from '$components/map/MapContextMenu.svelte';
   import Icon from '@iconify/svelte';
   import SaveGate from '$components/ui/SaveGate.svelte';
@@ -39,8 +42,16 @@
   let canvasRef = $state<MapCanvas | null>(null);
   let engine = $state.raw<import('$lib/components/map/MapEngine').MapEngine | null>(null);
 
+  /** Extract the stable ID string from any marker type. */
+  function markerId(m: RuntimeMarker): string {
+    if (m.kind === 'base') return m.data.id;
+    if (m.kind === 'player') return m.data.uid;
+    return (m.data as any).id;
+  }
+
   let bases = $state<MapBase[]>([]);
   let players = $state<MapPlayer[]>([]);
+  let poiData = $state<MapPoiResponse | null>(null);
   let mapSize = $state(2048);
   let worldRange = $state(1000);
   let treeRange = $state(2500);
@@ -65,18 +76,27 @@
   // Zone drawing prompts
   let zonePromptText = $state('');
 
+  // Adjust Radius modal state
+  let radiusModalOpen = $state(false);
+  let radiusModalBase = $state<MapBase | null>(null);
+
   async function loadData() {
     mapLoading.set(true);
     mapError.set(null);
     try {
-      const data: MapDataResponse = await api.mapData();
+      const [data, pois]: [MapDataResponse, MapPoiResponse] = await Promise.all([
+        api.mapData(),
+        api.mapPois(),
+      ]);
       bases = data.bases;
       players = data.players;
+      poiData = pois;
       mapSize = data.map_size;
       worldRange = data.world_coord_range;
       treeRange = data.tree_coord_range;
       if (engine) {
         engine.setMapData(bases, players, mapSize, worldRange, treeRange);
+        engine.setPoiData(pois);
         engine.zones = $zones;
       }
     } catch (e) {
@@ -86,8 +106,21 @@
     }
   }
 
+  // Reload POIs independently (doesn't need the save)
+  async function loadPois() {
+    try {
+      const pois = await api.mapPois();
+      poiData = pois;
+      if (engine) engine.setPoiData(pois);
+    } catch {
+      // POI data is optional — non-fatal if it fails
+    }
+  }
+
   onMount(() => {
     if ($saveLoaded) loadData();
+    // Always load POIs — they don't need a save
+    loadPois();
   });
 
   // Clean up references on tab switch so GC can collect promptly.
@@ -115,6 +148,10 @@
         engine.setMapData(bases, players, mapSize, worldRange, treeRange);
         engine.zones = $zones;
       }
+      // Set POI data unconditionally (static, doesn't need a save)
+      if (poiData) {
+        engine.setPoiData(poiData);
+      }
     }
   });
 
@@ -125,6 +162,12 @@
       engine.showPlayers = $showPlayers;
       engine.showRings = $showRings;
       engine.showZones = $showZones;
+      engine.showFastTravel = $showFastTravel;
+      engine.showDungeons = $showDungeons;
+      engine.showBosses = $showBosses;
+      engine.showPredatorPals = $showPredatorPals;
+      engine.showRelics = $showRelics;
+      engine.showPalIcons = $showPalIcons;
     }
   });
 
@@ -147,19 +190,19 @@
   function handleMarkerClick(m: RuntimeMarker) {
     if (!engine) return;
     selectedMarker = m;
-    engine.selectMarker(m.kind, m.kind === 'base' ? m.data.id : m.data.uid);
+    engine.selectMarker(m.kind, markerId(m));
   }
 
   function handleMarkerDoubleClick(m: RuntimeMarker) {
     if (!engine) return;
     selectedMarker = m;
-    engine.selectMarker(m.kind, m.kind === 'base' ? m.data.id : m.data.uid);
+    engine.selectMarker(m.kind, markerId(m));
   }
 
   function handleMarkerRightClick(m: RuntimeMarker, sx: number, sy: number) {
     if (!engine) return;
     selectedMarker = m;
-    engine.selectMarker(m.kind, m.kind === 'base' ? m.data.id : m.data.uid);
+    engine.selectMarker(m.kind, markerId(m));
 
     if (m.kind === 'base') {
       contextMenuItems = [
@@ -167,12 +210,17 @@
         { label: $t('web.map.ctx_export_base'), icon: 'lucide:download', action: () => exportBase(m) },
         { label: $t('web.map.ctx_adjust_radius'), icon: 'lucide:circle-dashed', action: () => adjustRadius(m) },
       ];
-    } else {
+    } else if (m.kind === 'player') {
       contextMenuItems = [
         { label: $t('web.map.ctx_delete_player'), icon: 'lucide:trash-2', danger: true, action: () => deletePlayer(m) },
         { label: $t('web.map.ctx_rename_player'), icon: 'lucide:pencil', action: () => renamePlayer(m) },
         { label: $t('web.map.ctx_unlock_cage'), icon: 'lucide:unlock', action: () => unlockCage(m) },
         { label: $t('web.map.ctx_unlock_techs'), icon: 'lucide:sparkles', action: () => unlockTech(m) },
+      ];
+    } else {
+      // POI marker — just show the name
+      contextMenuItems = [
+        { label: (m.data as any).name || m.kind, icon: 'lucide:info', action: () => {} },
       ];
     }
     contextMenuX = sx;
@@ -371,7 +419,20 @@
 
   async function adjustRadius(m: RuntimeMarker) {
     if (m.kind !== 'base') return;
-    toast.info($t('web.toast.feature_coming_soon', { feature: $t('web.toast.feature_adjust_radius') }));
+    radiusModalBase = m.data;
+    radiusModalOpen = true;
+  }
+
+  function handleRadiusPreview(radius: number) {
+    if (!engine || !radiusModalBase) return;
+    // Update the live marker's area_range so the engine re-renders the ring.
+    const marker = engine.baseMarkers.find((b) => b.data.id === radiusModalBase!.id);
+    if (marker) marker.data.area_range = radius;
+  }
+
+  async function handleRadiusCommitted() {
+    // Refetch to get the persisted value
+    await loadData();
   }
 
   async function deletePlayer(m: RuntimeMarker) {
@@ -433,11 +494,33 @@
     <MapSidebar
       {bases}
       {players}
+      poiData={poiData}
       {selectedMarker}
+      relicTypeVisibility={engine?.relicTypeVisibility ?? {}}
+      setRelicTypeVisibility={(type, visible) => {
+        if (engine) engine.relicTypeVisibility[type] = visible;
+      }}
       onSelectBase={handleSelectBase}
       onSelectPlayer={handleSelectPlayer}
+      onSelectPoi={(kind, id) => {
+        if (!engine) return;
+        const marker = engine.poiMarkers.find((m) => m.kind === kind && (m.data as any).id === id);
+        if (marker) {
+          selectedMarker = marker;
+          engine.selectMarker(kind, id);
+        }
+      }}
       onZoomBase={handleZoomBase}
       onZoomPlayer={handleZoomPlayer}
+      onZoomPoi={(kind, id) => {
+        if (!engine) return;
+        const marker = engine.poiMarkers.find((m) => m.kind === kind && (m.data as any).id === id);
+        if (marker) {
+          selectedMarker = marker;
+          engine.selectMarker(kind, id);
+          engine.animateTo(marker.img_x, marker.img_y, MAP_CONFIG.zoom.double_click_target);
+        }
+      }}
     />
 
     <!-- Tooltip -->
@@ -514,6 +597,15 @@
         </div>
       </div>
     {/if}
+
+    <!-- Adjust Radius modal -->
+    <AdjustRadiusModal
+      open={radiusModalOpen}
+      base={radiusModalBase}
+      onclose={() => (radiusModalOpen = false)}
+      onpreview={handleRadiusPreview}
+      oncommitted={handleRadiusCommitted}
+    />
   </div>
 </SaveGate>
 

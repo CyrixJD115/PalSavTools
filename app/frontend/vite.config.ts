@@ -25,6 +25,7 @@ export default defineConfig({
     proxy: {
       '/api': { target: BACKEND, changeOrigin: true },
       '/assets': { target: BACKEND, changeOrigin: true },
+      '/game-icons': { target: BACKEND, changeOrigin: true },
       '/ws': { target: BACKEND.replace('http', 'ws'), ws: true },
     },
   },

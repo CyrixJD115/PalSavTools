@@ -1,40 +1,50 @@
 <script lang="ts">
   /**
-   * MapSidebar — collapsible right-side panel with search, base/player lists,
+   * MapSidebar — collapsible right-side panel with search, base/player/POI lists,
    * and an info panel for the selected marker.
-   *
-   * Mirrors the PySide6 _sidebar_widget: search + QStackedWidget[base_tree |
-   * player_tree] + info_label.
    */
 
   import Icon from '@iconify/svelte';
-  import type { MapBase, MapPlayer } from '$types/index';
-  import type { RuntimeMarker } from '$lib/map/types';
+  import type { MapBase, MapPlayer, MapPoiResponse } from '$types/index';
+  import type { RuntimeMarker, PoiKind } from '$lib/map/types';
   import { t } from '$stores/index';
-  import { sidebarOpen, mapSearch } from '$stores/mapStore';
+  import { sidebarOpen, mapSearch, showRelics } from '$stores/mapStore';
 
   interface Props {
     bases: MapBase[];
     players: MapPlayer[];
+    poiData: MapPoiResponse | null;
     selectedMarker: RuntimeMarker | null;
+    /** Per-relic-type visibility toggle callback. */
+    setRelicTypeVisibility?: (type: string, visible: boolean) => void;
+    relicTypeVisibility?: Record<string, boolean>;
+
     onSelectBase?: (b: MapBase) => void;
     onSelectPlayer?: (p: MapPlayer) => void;
+    onSelectPoi?: (kind: PoiKind, id: string) => void;
     onZoomBase?: (b: MapBase) => void;
     onZoomPlayer?: (p: MapPlayer) => void;
+    onZoomPoi?: (kind: PoiKind, id: string) => void;
   }
 
   let {
     bases,
     players,
+    poiData = null,
     selectedMarker,
+    setRelicTypeVisibility,
+    relicTypeVisibility = {},
     onSelectBase,
     onSelectPlayer,
+    onSelectPoi,
     onZoomBase,
     onZoomPlayer,
+    onZoomPoi,
   }: Props = $props();
 
-  let activeTab = $state<'bases' | 'players'>('bases');
+  let activeTab = $state<'bases' | 'players' | 'pois'>('bases');
   let expandedGuilds = $state<Set<string>>(new Set());
+  let expandedPoiTypes = $state<Set<PoiKind>>(new Set(['boss', 'dungeon', 'fast_travel']));
 
   // Group bases by guild
   let guildGroups = $derived.by(() => {
@@ -45,15 +55,14 @@
     for (const b of bases) {
       const gid = b.guild_id ?? 'unknown';
       if (!map.has(gid)) {
-        const g = {
+        map.set(gid, {
           guildId: gid,
           guildName: b.guild_name,
           leaderName: b.leader_name,
           lastSeen: '',
           bases: [] as MapBase[],
-        };
-        map.set(gid, g);
-        groups.push(g);
+        });
+        groups.push(map.get(gid)!);
       }
       map.get(gid)!.bases.push(b);
     }
@@ -99,6 +108,35 @@
     );
   });
 
+  // POI data derived — groups with items for the sidebar
+  const poiGroups = $derived.by(() => {
+    const d = poiData;
+    if (!d) return [];
+    interface PoiGroup { kind: PoiKind; items: any[]; label: string }
+    const groups: PoiGroup[] = [];
+    // Boss + alpha (merged under "Bosses")
+    const bossItems = d.entities.filter((e: any) => e.subtype === 'boss' || e.subtype === 'alpha');
+    if (bossItems.length > 0) groups.push({ kind: 'boss', items: bossItems, label: 'Bosses' });
+    // Predators
+    const predItems = d.entities.filter((e: any) => e.subtype === 'predator');
+    if (predItems.length > 0) groups.push({ kind: 'predator', items: predItems, label: 'Predators' });
+    if (d.dungeons.length > 0) groups.push({ kind: 'dungeon', items: d.dungeons, label: 'Dungeons' });
+    if (d.fast_travel.length > 0) groups.push({ kind: 'fast_travel', items: d.fast_travel, label: 'Fast Travel' });
+    if (d.relics.length > 0) groups.push({ kind: 'relic', items: d.relics, label: 'Relics' });
+    return groups;
+  });
+
+  const relicTypeData = $derived(
+    poiData?.relic_data ? Object.entries(poiData.relic_data) as [string, any][] : []
+  );
+
+  function togglePoiType(kind: PoiKind) {
+    const next = new Set(expandedPoiTypes);
+    if (next.has(kind)) next.delete(kind);
+    else next.add(kind);
+    expandedPoiTypes = next;
+  }
+
   function toggleGuild(gid: string) {
     const next = new Set(expandedGuilds);
     if (next.has(gid)) next.delete(gid);
@@ -106,20 +144,40 @@
     expandedGuilds = next;
   }
 
-  function handleBaseClick(b: MapBase) {
-    onSelectBase?.(b);
+  function handleBaseClick(b: MapBase) { onSelectBase?.(b); }
+  function handlePlayerClick(p: MapPlayer) { onSelectPlayer?.(p); }
+  function handleBaseDblClick(b: MapBase) { onZoomBase?.(b); }
+  function handlePlayerDblClick(p: MapPlayer) { onZoomPlayer?.(p); }
+
+  /** Icons for each POI type. */
+  function poiIcon(kind: PoiKind): string {
+    switch (kind) {
+      case 'boss': return 'lucide:skull';
+      case 'predator': return 'lucide:bug';
+      case 'dungeon': return 'lucide:landmark';
+      case 'fast_travel': return 'lucide:zap';
+      case 'relic': return 'lucide:gem';
+    }
   }
 
-  function handlePlayerClick(p: MapPlayer) {
-    onSelectPlayer?.(p);
+  function poiColor(kind: PoiKind): string {
+    switch (kind) {
+      case 'boss': return 'text-red-400';
+      case 'predator': return 'text-red-400';
+      case 'dungeon': return 'text-purple-400';
+      case 'fast_travel': return 'text-cyan-400';
+      case 'relic': return 'text-emerald-400';
+    }
   }
 
-  function handleBaseDblClick(b: MapBase) {
-    onZoomBase?.(b);
-  }
-
-  function handlePlayerDblClick(p: MapPlayer) {
-    onZoomPlayer?.(p);
+  function poiLabel(kind: PoiKind): string {
+    switch (kind) {
+      case 'boss': return 'Bosses';
+      case 'predator': return $t('web.map.poi_predator');
+      case 'dungeon': return $t('web.map.poi_dungeon');
+      case 'fast_travel': return $t('web.map.poi_ft');
+      case 'relic': return $t('web.map.poi_relic');
+    }
   }
 
   const tabBtnBase =
@@ -147,21 +205,22 @@
       <button
         class={tabBtnBase + ' ' + (activeTab === 'bases' ? tabBtnActive : tabBtnInactive)}
         onclick={() => (activeTab = 'bases')}
-      >
-        {$t('web.map.tab_bases')}
-      </button>
+      >{$t('web.map.tab_bases')}</button>
       <button
         class={tabBtnBase + ' ' + (activeTab === 'players' ? tabBtnActive : tabBtnInactive)}
         onclick={() => (activeTab = 'players')}
-      >
-        {$t('web.map.tab_players')}
-      </button>
+      >{$t('web.map.tab_players')}</button>
+      {#if poiData}
+        <button
+          class={tabBtnBase + ' ' + (activeTab === 'pois' ? tabBtnActive : tabBtnInactive)}
+          onclick={() => (activeTab = 'pois')}
+        >POIs</button>
+      {/if}
     </div>
 
     <!-- List area -->
     <div class="flex-1 overflow-y-auto overflow-x-hidden">
       {#if activeTab === 'bases'}
-        <!-- Bases tree -->
         {#each guildGroups as g (g.guildId)}
           <div class="border-b border-line/5">
             <button
@@ -170,8 +229,7 @@
             >
               <Icon
                 icon={expandedGuilds.has(g.guildId) ? 'lucide:chevron-down' : 'lucide:chevron-right'}
-                width="14"
-                class="text-ink-dim shrink-0"
+                width="14" class="text-ink-dim shrink-0"
               />
               <span class="text-xs font-bold text-accent-cyan truncate flex-1">{g.guildName}</span>
               <span class="text-[10px] text-ink-dim">{g.bases.length}</span>
@@ -199,8 +257,7 @@
         {:else}
           <div class="px-3 py-8 text-center text-xs text-ink-dim">{$t('web.map.no_bases')}</div>
         {/each}
-      {:else}
-        <!-- Players list -->
+      {:else if activeTab === 'players'}
         {#each filteredPlayers as p (p.uid)}
           <button
             class="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-bg-elevated/40 transition-colors
@@ -223,6 +280,61 @@
         {:else}
           <div class="px-3 py-8 text-center text-xs text-ink-dim">{$t('web.map.no_players')}</div>
         {/each}
+      {:else if activeTab === 'pois' && poiData}
+        {#each poiGroups as group (group.kind)}
+          {#if group.items.length > 0}
+            <div class="border-b border-line/5">
+              <button
+                class="flex items-center gap-1.5 w-full px-3 py-2 text-left hover:bg-bg-elevated/40 transition-colors"
+                onclick={() => togglePoiType(group.kind)}
+              >
+                <Icon
+                  icon={expandedPoiTypes.has(group.kind) ? 'lucide:chevron-down' : 'lucide:chevron-right'}
+                  width="14" class="text-ink-dim shrink-0"
+                />
+                <Icon icon={poiIcon(group.kind)} width="12" class={poiColor(group.kind) + ' shrink-0'} />
+                <span class="text-xs font-bold text-ink-primary truncate flex-1">{poiLabel(group.kind)}</span>
+                <span class="text-[10px] text-ink-dim">{group.items.length}</span>
+              </button>
+              {#if expandedPoiTypes.has(group.kind)}
+                <div class="pb-1">
+                  {#each group.items as poi, i}
+                    <button
+                      class="flex items-center gap-2 w-full pl-8 pr-3 py-1.5 text-left hover:bg-bg-elevated/40
+                             transition-colors text-[11px] text-ink-secondary truncate"
+                      onclick={() => onSelectPoi?.(group.kind, poi.id)}
+                      ondblclick={() => onZoomPoi?.(group.kind, poi.id)}
+                    >
+                      {poi.name || poi.pal || poi.relic_type || `${group.kind} ${i + 1}`}
+                    </button>
+                  {/each}
+
+                  <!-- Relic sub-type checkboxes -->
+                  {#if group.kind === 'relic' && relicTypeData.length > 0}
+                    <div class="pl-8 pr-3 pt-2 pb-1 space-y-1 border-t border-line/10 mt-1">
+                      <div class="text-[10px] text-ink-dim mb-1">Filter by type:</div>
+                      {#each relicTypeData as [type, info]}
+                        <label class="flex items-center gap-1.5 py-0.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={relicTypeVisibility[type] !== false}
+                            onchange={(e) => {
+                              const v = (e.target as HTMLInputElement).checked;
+                              setRelicTypeVisibility?.(type, v);
+                            }}
+                            class="accent-accent-cyan w-3 h-3"
+                          />
+                          <span class="text-[10px] text-ink-muted">{info?.localized_name || type}</span>
+                          <span class="text-[9px] text-ink-dim ml-auto">{(info?.ranks?.length ?? 0)} ranks</span>
+                        </label>
+                      {/each}
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+            </div>
+          {/if}
+        {/each}
       {/if}
     </div>
 
@@ -232,19 +344,19 @@
         {#if selectedMarker.kind === 'base'}
           {@const b = selectedMarker.data}
           <div class="space-y-1 text-[11px]">
-            <div class="font-bold text-sm text-accent-cyan">{b.guild_name}</div>
+            <div class="font-bold text-sm text-accent-cyan truncate">{b.guild_name}</div>
             <div class="text-ink-muted">{$t('web.players.detail_level')} <span class="text-ink-secondary">{b.guild_level}</span></div>
             <div class="text-ink-muted">{$t('web.map.detail_admin')} <span class="text-ink-secondary">{b.leader_name}</span></div>
             <div class="text-ink-muted">{$t('web.common.members')}: <span class="text-ink-secondary">{b.member_count}</span></div>
             <div class="text-ink-muted">{$t('web.map.detail_base_camps')} <span class="text-ink-secondary">{b.base_position}/{b.total_bases}</span></div>
-            <div class="text-ink-muted">{$t('web.bases.detail_base_id')} <span class="text-ink-secondary font-mono text-[10px]">{b.id}</span></div>
+            <div class="text-ink-muted">{$t('web.bases.detail_base_id')} <span class="text-ink-secondary font-mono text-[10px]">{b.id.slice(0, 12)}...</span></div>
             <div class="text-ink-muted">{$t('web.common.location')}: <span class="text-ink-secondary font-mono">X:{Math.round(selectedMarker.world_x)},Y:{Math.round(selectedMarker.world_y)}</span></div>
           </div>
-        {:else}
+        {:else if selectedMarker.kind === 'player'}
           {@const p = selectedMarker.data}
           <div class="space-y-1 text-[11px]">
-            <div class="font-bold text-sm text-emerald-400">{p.name}</div>
-            <div class="text-ink-muted">{$t('web.players.detail_uid')} <span class="text-ink-secondary font-mono text-[10px]">{p.uid}</span></div>
+            <div class="font-bold text-sm text-emerald-400 truncate">{p.name}</div>
+            <div class="text-ink-muted">{$t('web.players.detail_uid')} <span class="text-ink-secondary font-mono text-[10px]">{p.uid.slice(0, 12)}...</span></div>
             {#if p.level > 0}
               <div class="text-ink-muted">{$t('web.players.detail_level')} <span class="text-ink-secondary">{p.level}</span></div>
             {/if}
@@ -254,6 +366,20 @@
             <div class="text-ink-muted">{$t('web.map.detail_pals')} <span class="text-ink-secondary">{p.pal_count}</span></div>
             {#if p.last_seen_text}
               <div class="text-ink-muted">{$t('web.map.detail_last_seen')} <span class="text-ink-secondary">{p.last_seen_text}</span></div>
+            {/if}
+            <div class="text-ink-muted">{$t('web.common.location')}: <span class="text-ink-secondary font-mono">X:{Math.round(selectedMarker.world_x)},Y:{Math.round(selectedMarker.world_y)}</span></div>
+          </div>
+        {:else}
+          <!-- POI info -->
+          {@const d = selectedMarker.data as any}
+          <div class="space-y-1 text-[11px]">
+            <div class="font-bold text-sm truncate" style="color: {selectedMarker.kind === 'boss' ? '#f87171' : selectedMarker.kind === 'dungeon' ? '#a78bfa' : selectedMarker.kind === 'fast_travel' ? '#22d3ee' : selectedMarker.kind === 'alpha_pal' ? '#fbbf24' : selectedMarker.kind === 'predator_pal' ? '#f87171' : '#34d399'}">
+              {d.name || d.pal || selectedMarker.kind}
+            </div>
+            {#if selectedMarker.kind === 'boss'}
+              <div class="text-ink-muted">{$t('web.players.detail_level')} <span class="text-ink-secondary">{d.level}</span></div>
+            {:else if selectedMarker.kind === 'relic'}
+              <div class="text-ink-muted">Type: <span class="text-ink-secondary">{d.relic_type}</span></div>
             {/if}
             <div class="text-ink-muted">{$t('web.common.location')}: <span class="text-ink-secondary font-mono">X:{Math.round(selectedMarker.world_x)},Y:{Math.round(selectedMarker.world_y)}</span></div>
           </div>

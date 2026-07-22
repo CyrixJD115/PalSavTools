@@ -100,6 +100,17 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
             name="assets",
         )
 
+    # Serve game data icons (pals, items, elements) from src/_resources/game_data/icons/
+    # NOTE: mounted at /game-icons NOT /assets/game-icons — the broader /assets mount
+    # would shadow it otherwise.
+    game_icons_dir = RESOURCES_DIR / "game_data" / "icons"
+    if game_icons_dir.is_dir():
+        app.mount(
+            "/game-icons",
+            StaticFiles(directory=str(game_icons_dir)),
+            name="game-icons",
+        )
+
     if serve_frontend:
         frontend_dir = _resolve_frontend_build()
         if frontend_dir is not None:

@@ -150,14 +150,35 @@ export const PLAYER_MARKER = {
 export const MAP_BG_COLOR = '#0e1014';
 
 /**
- * Convert a base `area_range` (save-space) to a scene-pixel radius.
- * Exact port of `BaseRadiusRing._save_radius_to_scene_pixels`.
+ * ``sav_to_map`` scale: raw-cm per world-coord unit.
+ * World map: ``__scale_new = 725``, Tree map: ``__treemap_scale = 724``.
  */
-export function save_radius_to_scene_pixels(saveRadius: number): number {
-  const display_radius = (saveRadius / 3500.0) * 7.9;
-  let scene_radius = display_radius * (2048 / 2000);
-  scene_radius = scene_radius + 5;
-  return Math.max(scene_radius, 15);
+export const MAP_SCALE: Record<'world' | 'tree', number> = { world: 725, tree: 724 };
+
+
+/**
+ * Convert a base `area_range` (save-space cm) to image-space pixel radius.
+ *
+ * ``area_range`` is in cm.  ``sav_to_map`` divides by ``scale`` (725 world,
+ * 724 tree) to produce world coords.  ``worldToImage`` stretches the
+ * ``±coordRange`` world extent across ``mapSize`` image pixels.
+ *
+ *    radius_image_px = (area_range_cm / scale) * (mapSize / (2 * coordRange))
+ *
+ * Mirrors PSP Rust's ``areaRange / cmPerPx(area)`` — the same screen-space
+ * result at fit-zoom because the PSP 8192² texture has 4× the pixels at the
+ * same cm extent, cancelling the 4× difference in raw image-px.
+ *
+ * Was ``save_radius_to_scene_pixels`` — a 3×-too-big approximation clamped
+ * to min 15px (the true default is ~4.95px on the world map).
+ */
+export function area_range_to_image_px(
+  area_range_cm: number,
+  scale: number,
+  mapSize: number,
+  coordRange: number,
+): number {
+  return (area_range_cm / scale) * (mapSize / (2 * coordRange));
 }
 
 /** Asset paths. */
@@ -169,4 +190,19 @@ export const MAP_ASSETS = {
   ringIcon: '/assets/icons/game/ring.webp',
   zonesIcon: '/assets/icons/game/zones.webp',
   calibrateIcon: '/assets/icons/game/calibrate.webp',
+
+  // POI icons (ported from PSP Rust → src/_resources/assets/icons/map/)
+  bossIcon: '/assets/icons/map/t_icon_compass_06.webp',
+  dungeonIcon: '/assets/icons/map/t_icon_compass_08.webp',
+  fastTravelIcon: '/assets/icons/map/t_icon_compass_fttower.webp',
+  baseCampIcon: '/assets/icons/map/t_icon_compass_camp.webp',
+  relicGenericIcon: '/assets/icons/map/t_icon_compass_relic.webp',
+
+  /** Pal portrait: uses existing game_data/icons/pals/ with PascalCase names. */
+  palPortrait: (palId: string) =>
+    `/game-icons/pals/T_${palId}_icon_normal.webp`,
+
+  /** Relic per-type icon: ``/assets/icons/map/relic_<relic_type>.webp``. */
+  relicTypeIcon: (relicType: string) =>
+    `/assets/icons/map/relic_${relicType}.webp`,
 } as const;

@@ -17,14 +17,14 @@
  */
 
 import {
-  MAP_CONFIG, PLAYER_MARKER, MAP_BG_COLOR, MAP_ASSETS,
-  save_radius_to_scene_pixels,
+  MAP_CONFIG, PLAYER_MARKER, MAP_BG_COLOR, MAP_ASSETS, MAP_SCALE,
+  area_range_to_image_px,
 } from '$lib/map/constants';
 import type {
-  RuntimeBaseMarker, RuntimePlayerMarker, RuntimeMarker,
-  Zone, MapEffect,
+  RuntimeBaseMarker, RuntimePlayerMarker, RuntimePoiMarker, RuntimeMarker,
+  Zone, MapEffect, PoiKind,
 } from '$lib/map/types';
-import type { MapBase, MapPlayer, MapType } from '$types/index';
+import type { MapBase, MapPlayer, MapType, MapPoiResponse } from '$types/index';
 
 // ---- view state -----------------------------------------------------------
 
@@ -72,10 +72,19 @@ export class MapEngine {
   private bgTree: HTMLImageElement | null = null;
   private baseIcon: HTMLImageElement | null = null;
   private playerIcon: HTMLImageElement | null = null;
+  private bossIcon: HTMLImageElement | null = null;
+  private dungeonIcon: HTMLImageElement | null = null;
+  private fastTravelIcon: HTMLImageElement | null = null;
+  private relicGenericIcon: HTMLImageElement | null = null;
+  /** Lazy-loaded pal portrait cache (alpha/predator pals). Null = failed load. */
+  private palPortraitCache = new Map<string, HTMLImageElement | null>();
+  /** Lazy-loaded relic per-type icon cache. */
+  private relicIconCache = new Map<string, HTMLImageElement>();
   private imagesLoaded = false;
 
   baseMarkers: RuntimeBaseMarker[] = [];
   playerMarkers: RuntimePlayerMarker[] = [];
+  poiMarkers: RuntimePoiMarker[] = [];
   zones: Zone[] = [];
   effects: MapEffect[] = [];
 
@@ -84,8 +93,21 @@ export class MapEngine {
   showRings = true;
   showZones = false;
 
+  // POI layer visibility
+  showFastTravel = true;
+  showDungeons = true;
+  /** Shows boss + alpha entities. */
+  showBosses = false;
+  /** Shows predator entities (red-border portrait). */
+  showPredatorPals = false;
+  showRelics = true;
+  /** Per-relic-type visibility; a missing key means visible. */
+  relicTypeVisibility: Record<string, boolean> = {};
+  /** When true, boss/alpha/predator entities render their pal portrait instead of generic icon. */
+  showPalIcons = false;
+
   selectedId: string | null = null;
-  selectedKind: 'base' | 'player' | null = null;
+  selectedKind: 'base' | 'player' | PoiKind | null = null;
   hoveredId: string | null = null;
   hoveredKind: 'base' | 'player' | null = null;
   hoveredZoneId: string | null = null;
@@ -121,16 +143,24 @@ export class MapEngine {
   }
 
   async loadImages(): Promise<void> {
-    const [bgWorld, bgTree, baseIcon, playerIcon] = await Promise.all([
+    const [bgWorld, bgTree, baseIcon, playerIcon, bossIcon, dungeonIcon, fastTravelIcon, relicGenericIcon] = await Promise.all([
       loadImage(MAP_ASSETS.worldMap),
       loadImage(MAP_ASSETS.treeMap),
       loadImage(MAP_ASSETS.baseIcon),
       loadImage(MAP_ASSETS.playerIcon),
+      loadImage(MAP_ASSETS.bossIcon),
+      loadImage(MAP_ASSETS.dungeonIcon),
+      loadImage(MAP_ASSETS.fastTravelIcon),
+      loadImage(MAP_ASSETS.relicGenericIcon),
     ]);
     this.bgWorld = bgWorld;
     this.bgTree = bgTree;
     this.baseIcon = baseIcon;
     this.playerIcon = playerIcon;
+    this.bossIcon = bossIcon;
+    this.dungeonIcon = dungeonIcon;
+    this.fastTravelIcon = fastTravelIcon;
+    this.relicGenericIcon = relicGenericIcon;
     this.imagesLoaded = true;
   }
 
@@ -273,6 +303,64 @@ export class MapEngine {
       .filter((m): m is RuntimePlayerMarker => m !== null);
   }
 
+  setPoiData(poiResponse: MapPoiResponse): void {
+    const markers: RuntimePoiMarker[] = [];
+
+    // -- Entities: merged boss / alpha / predator list --
+    const eSubtypeToKind: Record<string, PoiKind> = { boss: 'boss', alpha: 'boss', predator: 'predator' };
+    for (const e of poiResponse.entities) {
+      const entKind = eSubtypeToKind[e.subtype] || 'boss';
+      const proj = this.mapType === 'tree' ? e.tree_img : e.world_img;
+      if (!proj) continue;
+      markers.push({
+        kind: entKind,
+        data: e,
+        img_x: proj.x, img_y: proj.y,
+        world_x: proj.world_x, world_y: proj.world_y,
+        is_hovered: false, is_selected: false,
+        current_size: e.subtype === 'predator' ? 40 : 36,
+      });
+    }
+
+    // -- Dungeons --
+    for (const d of poiResponse.dungeons) {
+      const proj = this.mapType === 'tree' ? d.tree_img : d.world_img;
+      if (!proj) continue;
+      markers.push({
+        kind: 'dungeon', data: d,
+        img_x: proj.x, img_y: proj.y,
+        world_x: proj.world_x, world_y: proj.world_y,
+        is_hovered: false, is_selected: false, current_size: 36,
+      });
+    }
+
+    // -- Fast travel --
+    for (const ft of poiResponse.fast_travel) {
+      const proj = this.mapType === 'tree' ? ft.tree_img : ft.world_img;
+      if (!proj) continue;
+      markers.push({
+        kind: 'fast_travel', data: ft,
+        img_x: proj.x, img_y: proj.y,
+        world_x: proj.world_x, world_y: proj.world_y,
+        is_hovered: false, is_selected: false, current_size: 36,
+      });
+    }
+
+    // -- Relics --
+    for (const r of poiResponse.relics) {
+      const proj = this.mapType === 'tree' ? r.tree_img : r.world_img;
+      if (!proj) continue;
+      markers.push({
+        kind: 'relic', data: r,
+        img_x: proj.x, img_y: proj.y,
+        world_x: proj.world_x, world_y: proj.world_y,
+        is_hovered: false, is_selected: false, current_size: 28,
+      });
+    }
+
+    this.poiMarkers = markers;
+  }
+
   private makeBaseMarker(b: MapBase): RuntimeBaseMarker | null {
     const proj = this.mapType === 'tree' ? b.tree_img : b.world_img;
     if (!proj) return null;
@@ -332,14 +420,57 @@ export class MapEngine {
         m.world_y = proj.world_y;
       }
     }
+    // Re-project POI markers — filter out those without a valid proj for the new map.
+    this.poiMarkers = this.poiMarkers.filter((m) => {
+      const proj = type === 'tree'
+        ? (m.data as any).tree_img
+        : (m.data as any).world_img;
+      if (!proj) return false;
+      m.img_x = proj.x;
+      m.img_y = proj.y;
+      m.world_x = proj.world_x;
+      m.world_y = proj.world_y;
+      return true;
+    });
   }
 
   // ---- hit testing ---------------------------------------------------------
 
   /** Find the topmost visible marker at screen coords. */
   hitTestMarker(sx: number, sy: number): RuntimeMarker | null {
-    // Only test markers whose layer is visible — hidden markers shouldn't
-    // respond to clicks, hovers, or context menus.
+    // POI markers
+    if (this.showRelics) {
+      for (const m of [...this.poiMarkers].reverse()) {
+        if (m.kind !== 'relic') continue;
+        if (!this.isRelicTypeVisible(m)) continue;
+        if (this.isInMarkerSimple(m, sx, sy)) return m;
+      }
+    }
+    if (this.showFastTravel) {
+      for (const m of [...this.poiMarkers].reverse()) {
+        if (m.kind !== 'fast_travel') continue;
+        if (this.isInMarkerSimple(m, sx, sy)) return m;
+      }
+    }
+    if (this.showDungeons) {
+      for (const m of [...this.poiMarkers].reverse()) {
+        if (m.kind !== 'dungeon') continue;
+        if (this.isInMarkerSimple(m, sx, sy)) return m;
+      }
+    }
+    if (this.showBosses) {
+      for (const m of [...this.poiMarkers].reverse()) {
+        if (m.kind !== 'boss') continue;
+        if (this.isInMarkerSimple(m, sx, sy)) return m;
+      }
+    }
+    if (this.showPredatorPals) {
+      for (const m of [...this.poiMarkers].reverse()) {
+        if (m.kind !== 'predator') continue;
+        if (this.isInMarkerSimple(m, sx, sy)) return m;
+      }
+    }
+    // Base/player markers
     if (this.showPlayers) {
       for (const m of [...this.playerMarkers].reverse()) {
         if (this.isInMarker(m, sx, sy)) return m;
@@ -357,6 +488,20 @@ export class MapEngine {
     const [msx, msy] = this.imageToScreen(m.img_x, m.img_y);
     const half = m.current_size / 2 + 4;
     return Math.abs(sx - msx) <= half && Math.abs(sy - msy) <= half;
+  }
+
+  /** Simplified AABB hit test for POI markers (no glow offset). */
+  private isInMarkerSimple(m: RuntimePoiMarker, sx: number, sy: number): boolean {
+    const [msx, msy] = this.imageToScreen(m.img_x, m.img_y);
+    const half = m.current_size / 2 + 4;
+    return Math.abs(sx - msx) <= half && Math.abs(sy - msy) <= half;
+  }
+
+  /** Check if a relic marker's type is visible. */
+  private isRelicTypeVisible(m: RuntimePoiMarker): boolean {
+    if (m.kind !== 'relic') return false;
+    const relicType = (m.data as any).relic_type as string;
+    return this.relicTypeVisibility[relicType] !== false;
   }
 
   /** Find the zone at screen coords. */
@@ -396,16 +541,21 @@ export class MapEngine {
 
   // ---- selection -----------------------------------------------------------
 
-  selectMarker(kind: 'base' | 'player' | null, id: string | null): void {
+  selectMarker(kind: 'base' | 'player' | PoiKind | null, id: string | null): void {
     this.selectedKind = kind;
     this.selectedId = id;
+    const isBase = kind === 'base';
+    const isPlayer = kind === 'player';
     for (const m of this.baseMarkers) {
-      m.is_selected = kind === 'base' && m.data.id === id;
+      m.is_selected = isBase && m.data.id === id;
       if (m.is_selected) m.glow_alpha = 180;
     }
     for (const m of this.playerMarkers) {
-      m.is_selected = kind === 'player' && m.data.uid === id;
+      m.is_selected = isPlayer && m.data.uid === id;
       if (m.is_selected) m.glow_alpha = 180;
+    }
+    for (const m of this.poiMarkers) {
+      m.is_selected = !isBase && !isPlayer && kind === m.kind && (m.data as any).id === id;
     }
   }
 
@@ -597,8 +747,12 @@ export class MapEngine {
 
   private renderRings(ctx: CanvasRenderingContext2D): void {
     if (!this.showBases) return;
+    const scale = MAP_SCALE[this.mapType];
+    const range = this.mapType === 'tree' ? this.treeCoordRange : this.worldCoordRange;
     for (const m of this.baseMarkers) {
-      const radius = save_radius_to_scene_pixels(m.data.area_range);
+      // Using the corrected area_range to image-px formula:
+      // radius_px = (area_range_cm / scale) * (mapSize / (2 * coordRange))
+      const radius = area_range_to_image_px(m.data.area_range, scale, this.mapSize, range);
       ctx.beginPath();
       ctx.arc(m.img_x, m.img_y, radius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0,255,200,0.04)';
@@ -699,9 +853,167 @@ export class MapEngine {
     if (this.showPlayers) {
       for (const m of this.playerMarkers) this.drawMarker(ctx, m);
     }
+    // POI markers: render in order
+    if (this.showRelics) {
+      for (const m of this.poiMarkers) {
+        if (m.kind !== 'relic') continue;
+        if (!this.isRelicTypeVisible(m)) continue;
+        this.drawPoiMarker(ctx, m);
+      }
+    }
+    if (this.showFastTravel) {
+      for (const m of this.poiMarkers) {
+        if (m.kind !== 'fast_travel') continue;
+        this.drawPoiMarker(ctx, m);
+      }
+    }
+    if (this.showDungeons) {
+      for (const m of this.poiMarkers) {
+        if (m.kind !== 'dungeon') continue;
+        this.drawPoiMarker(ctx, m);
+      }
+    }
+    // Bosses + alphas merged under showBosses
+    if (this.showBosses) {
+      for (const m of this.poiMarkers) {
+        if (m.kind !== 'boss') continue;
+        this.drawPoiMarker(ctx, m);
+      }
+    }
+    // Predators separate
+    if (this.showPredatorPals) {
+      for (const m of this.poiMarkers) {
+        if (m.kind !== 'predator') continue;
+        this.drawPoiMarker(ctx, m);
+      }
+    }
   }
 
-  private drawMarker(ctx: CanvasRenderingContext2D, m: RuntimeMarker): void {
+  private getOrLoadPalPortrait(palId: string): HTMLImageElement | null {
+    const key = palId.toLowerCase();
+    const cached = this.palPortraitCache.get(key);
+    if (cached !== undefined) return cached; // cache hit: img or null (failed/pending)
+    const img = new Image();
+    img.onload = () => { this.palPortraitCache.set(key, img); };
+    img.onerror = () => { this.palPortraitCache.set(key, null); };
+    img.src = MAP_ASSETS.palPortrait(palId);
+    // Mark as pending so we don't create duplicate requests.
+    this.palPortraitCache.set(key, null);
+    return null;
+  }
+
+  private getOrLoadRelicIcon(relicType: string): HTMLImageElement | null {
+    let cached = this.relicIconCache.get(relicType);
+    if (cached) return cached;
+    const img = new Image();
+    img.onload = () => { this.relicIconCache.set(relicType, img); };
+    img.src = MAP_ASSETS.relicTypeIcon(relicType);
+    this.relicIconCache.set(relicType, img);
+    return img;
+  }
+
+  private drawPoiMarker(ctx: CanvasRenderingContext2D, m: RuntimePoiMarker): void {
+    const [sx, sy] = this.imageToScreen(m.img_x, m.img_y);
+    const size = m.current_size;
+    const half = size / 2;
+
+    // Selection glow (simple circle, no pulse)
+    if (m.is_selected) {
+      ctx.beginPath();
+      ctx.arc(sx, sy, half + 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.fill();
+    }
+
+    // Draw the appropriate icon
+    switch (m.kind) {
+      case 'boss': {
+        const ent = m.data as any;
+        const palId = ent.pal || (ent.character_id || '').replace(/^BOSS_/i, '');
+        const hasPortrait = palId && palId !== 'None';
+        // Pal Icon toggle controls ALL entity portraits (boss, alpha, predator)
+        if (this.showPalIcons && hasPortrait) {
+          this.drawPalPortrait(ctx, sx, sy, size, palId, false);
+        } else {
+          const img = this.bossIcon;
+          if (img) ctx.drawImage(img, sx - half, sy - half, size, size);
+        }
+        break;
+      }
+      case 'predator': {
+        const predPalId = (m.data as any).pal as string;
+        if (this.showPalIcons && predPalId) {
+          this.drawPalPortrait(ctx, sx, sy, size, predPalId, true);
+        } else {
+          const img = this.bossIcon;
+          if (img) ctx.drawImage(img, sx - half, sy - half, size, size);
+        }
+        break;
+      }
+      case 'relic': {
+        const relicType = (m.data as any).relic_type as string;
+        this.drawRelicMarker(ctx, sx, sy, size, relicType);
+        break;
+      }
+    }
+  }
+
+  /** Circular-clipped pal portrait, mirroring PSP Rust's ``createPalIconStyle``. */
+  private drawPalPortrait(
+    ctx: CanvasRenderingContext2D, sx: number, sy: number, size: number,
+    palId: string, isPredator: boolean,
+  ): void {
+    const img = this.getOrLoadPalPortrait(palId);
+    const half = size / 2;
+    const borderColor = isPredator ? '#ef4444' : '#ffffff';
+    const borderWidth = 2;
+
+    ctx.save();
+
+    // Clip to circle (slightly inset for the border)
+    ctx.beginPath();
+    ctx.arc(sx, sy, half - borderWidth, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    if (img && img.complete && img.naturalWidth > 0) {
+      // Scale+center to cover the circle
+      const scale = Math.max(size / img.width, size / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      ctx.drawImage(img, sx - w / 2, sy - h / 2, w, h);
+    } else {
+      // Fallback: filled circle with no image
+      ctx.fillStyle = isPredator ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.2)';
+      ctx.fill();
+    }
+
+    ctx.restore();
+
+    // Border circle
+    ctx.beginPath();
+    ctx.arc(sx, sy, half - borderWidth / 2, 0, Math.PI * 2);
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = borderWidth;
+    ctx.stroke();
+  }
+
+  /** Relic icon with per-type sprite. */
+  private drawRelicMarker(
+    ctx: CanvasRenderingContext2D, sx: number, sy: number, size: number, relicType: string,
+  ): void {
+    const img = this.getOrLoadRelicIcon(relicType);
+    const half = size / 2;
+    if (img && img.complete && img.naturalWidth > 0) {
+      ctx.drawImage(img, sx - half, sy - half, size, size);
+    } else {
+      // Fallback: use the generic relic icon
+      const generic = this.relicGenericIcon;
+      if (generic) ctx.drawImage(generic, sx - half, sy - half, size, size);
+    }
+  }
+
+  private drawMarker(ctx: CanvasRenderingContext2D, m: RuntimeBaseMarker | RuntimePlayerMarker): void {
     const [sx, sy] = this.imageToScreen(m.img_x, m.img_y);
     const size = m.current_size;
     const half = size / 2;

@@ -4,11 +4,19 @@
  * they mirror the backend schemas.
  */
 
-export type { MapType, MapBase, MapPlayer, MapDataResponse, MapProjection } from '$types/index';
+export type { MapType, MapBase, MapPlayer, MapDataResponse, MapProjection,
+  PoiEntity, PoiSubtype, PoiDungeon, PoiFastTravel, PoiRelic,
+  MapPoiResponse,
+} from '$types/index';
 
-import type { MapBase, MapPlayer } from '$types/index';
+import type { MapBase, MapPlayer,
+  PoiEntity, PoiSubtype, PoiDungeon, PoiFastTravel, PoiRelic,
+} from '$types/index';
 
 export type MarkerKind = 'base' | 'player';
+
+/** POI marker sub-types (backed by PoiEntity.subtype). */
+export type PoiKind = 'boss' | 'alpha' | 'predator' | 'fast_travel' | 'dungeon' | 'relic';
 
 /** Runtime base marker with animation state. */
 export interface RuntimeBaseMarker {
@@ -42,7 +50,20 @@ export interface RuntimePlayerMarker {
   current_size: number;
 }
 
-export type RuntimeMarker = RuntimeBaseMarker | RuntimePlayerMarker;
+/** Runtime POI marker — no glow/shine, just an icon. */
+export interface RuntimePoiMarker {
+  kind: PoiKind;
+  data: PoiEntity | PoiDungeon | PoiFastTravel | PoiRelic;
+  img_x: number;
+  img_y: number;
+  world_x: number;
+  world_y: number;
+  is_hovered: boolean;
+  is_selected: boolean;
+  current_size: number;
+}
+
+export type RuntimeMarker = RuntimeBaseMarker | RuntimePlayerMarker | RuntimePoiMarker;
 
 // ---- zones (per-browser, localStorage) ------------------------------------
 

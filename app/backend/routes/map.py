@@ -1,17 +1,16 @@
-"""Map data endpoints.
+"""Map data endpoints — save-based data + static POIs.
 
-``GET /api/map/data`` returns bases and players with pre-computed pixel
-coordinates for both world and tree maps. Uses ``build_mini_wsd`` to
-materialise only ``BaseCampSaveData`` + ``GroupSaveDataMap`` (~3 MB total)
-instead of the full ``level_dict`` (~200 MB).
+``GET /api/map/data`` returns bases and players (save-dependent, projected).
+``GET /api/map/pois`` returns static POI datasets (bosses, dungeons, …)
+ported from PSP Rust — no save access required.
 """
 
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
 
-from app.backend.schemas import MapDataResponse
-from app.backend.services import map_service
+from app.backend.schemas import MapDataResponse, MapPoiResponse
+from app.backend.services import map_service, poi_service
 from app.backend.state import save_state
 
 router = APIRouter(prefix="/map")
@@ -40,3 +39,14 @@ async def get_map_data() -> MapDataResponse:
         positions=loaded.player_positions,
     )
     return MapDataResponse(**data)
+
+
+@router.get("/pois", response_model=MapPoiResponse)
+async def get_map_pois() -> MapPoiResponse:
+    """Return all static POI datasets with pre-computed map projections.
+
+    Unlike ``/api/map/data`` this endpoint does **not** touch the loaded
+    save — the data is static from PSP Rust's JSON files and projected at
+    import time.  It works even when no save is loaded.
+    """
+    return MapPoiResponse(**poi_service.get_all_pois())

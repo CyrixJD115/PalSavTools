@@ -604,6 +604,70 @@ export interface MapDataResponse {
   tree_coord_range: number;
 }
 
+// ---- POIs (Points of Interest, ported from PSP Rust) ----------------------
+
+export interface PoiProjection {
+  x: number;
+  y: number;
+  world_x: number;
+  world_y: number;
+}
+
+export type PoiSubtype = 'boss' | 'alpha' | 'predator';
+
+export interface PoiEntity {
+  id: string;
+  name: string;
+  subtype: PoiSubtype;
+  x: number;
+  y: number;
+  character_id: string;
+  spawner_id: string;
+  level: number;
+  pal: string;
+  world_img: PoiProjection | null;
+  tree_img: PoiProjection | null;
+}
+
+export interface PoiDungeon {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  world_img: PoiProjection | null;
+  tree_img: PoiProjection | null;
+}
+
+export interface PoiFastTravel {
+  id: string;
+  class: string;
+  name: string;
+  x: number;
+  y: number;
+  z: number;
+  world_img: PoiProjection | null;
+  tree_img: PoiProjection | null;
+}
+
+export interface PoiRelic {
+  id: string;
+  class: string;
+  relic_type: string;
+  x: number;
+  y: number;
+  z: number;
+  world_img: PoiProjection | null;
+  tree_img: PoiProjection | null;
+}
+
+export interface MapPoiResponse {
+  entities: PoiEntity[];
+  dungeons: PoiDungeon[];
+  fast_travel: PoiFastTravel[];
+  relics: PoiRelic[];
+  relic_data: Record<string, any>;
+}
+
 // ---- tools ----------------------------------------------------------------
 
 export interface ToolInfo {

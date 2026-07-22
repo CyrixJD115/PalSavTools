@@ -613,6 +613,77 @@ class MapDataResponse(BaseModel):
     tree_coord_range: int = 2500
 
 
+# ---- POIs (Points of Interest, ported from PSP Rust) -----------------------
+
+class PoiProjection(BaseModel):
+    """Pre-computed pixel + world coords for a POI on one map (world or tree)."""
+    x: float
+    y: float
+    world_x: float
+    world_y: float
+
+
+class PoiEntity(BaseModel):
+    """A combined boss / alpha-pal / predator-pal POI.
+
+    ``subtype`` distinguishes the source:
+      - ``"boss"``     — from ``bosses.json`` (tower / field / human NPC)
+      - ``"alpha"``    — open-world alpha-spawn (pal portrait, white border)
+      - ``"predator"`` — lucky/red-eyed variant (pal portrait, red border)
+    """
+    id: str
+    name: str = ""
+    subtype: str = "boss"  # "boss" | "alpha" | "predator"
+    x: float = 0.0
+    y: float = 0.0
+    character_id: str = ""
+    spawner_id: str = ""
+    level: int = 0
+    pal: str = ""
+    world_img: Optional[PoiProjection] = None
+    tree_img: Optional[PoiProjection] = None
+
+
+class PoiDungeon(BaseModel):
+    id: str
+    name: str = ""
+    x: float = 0.0
+    y: float = 0.0
+    world_img: Optional[PoiProjection] = None
+    tree_img: Optional[PoiProjection] = None
+
+
+class PoiFastTravel(BaseModel):
+    id: str
+    class_: str = Field(default="", alias="class")
+    name: str = ""
+    x: float = 0.0
+    y: float = 0.0
+    z: float = 0.0
+    world_img: Optional[PoiProjection] = None
+    tree_img: Optional[PoiProjection] = None
+
+
+class PoiRelic(BaseModel):
+    id: str
+    class_: str = Field(default="", alias="class")
+    relic_type: str = "capture_power"
+    x: float = 0.0
+    y: float = 0.0
+    z: float = 0.0
+    world_img: Optional[PoiProjection] = None
+    tree_img: Optional[PoiProjection] = None
+
+
+class MapPoiResponse(BaseModel):
+    """All POI datasets, each with pre-computed world/tree projections."""
+    entities: list[PoiEntity] = []
+    dungeons: list[PoiDungeon] = []
+    fast_travel: list[PoiFastTravel] = []
+    relics: list[PoiRelic] = []
+    relic_data: dict[str, Any] = {}
+
+
 # ---- static data -----------------------------------------------------------
 
 class GameDataResponse(BaseModel):

@@ -10,6 +10,15 @@ export const showBases = writable(true);
 export const showPlayers = writable(true);
 export const showRings = writable(true);
 export const showZones = writable(false);
+export const showFastTravel = writable(true);
+export const showDungeons = writable(true);
+/** Shows merged boss + alpha entities. */
+export const showBosses = writable(false);
+/** Predator pals (red-border portrait). */
+export const showPredatorPals = writable(false);
+export const showRelics = writable(true);
+/** When true, boss/alpha/predator entities render with pal portrait instead of generic icon. */
+export const showPalIcons = writable(false);
 export const mapType = writable<MapType>('world');
 
 // Sidebar open/closed

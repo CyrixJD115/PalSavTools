@@ -12,6 +12,13 @@
   import { MAP_CONFIG } from '$lib/map/constants';
   import type { RuntimeMarker, Zone } from '$lib/map/types';
 
+/** Extract the stable ID string from any marker type. */
+function markerId(m: RuntimeMarker): string {
+  if (m.kind === 'base') return m.data.id;
+  if (m.kind === 'player') return m.data.uid;
+  return (m.data as any).id;
+}
+
   interface Props {
     onMarkerClick?: (m: RuntimeMarker) => void;
     onMarkerDoubleClick?: (m: RuntimeMarker) => void;
@@ -105,12 +112,12 @@
       const prevKind = engine.hoveredKind;
 
       // Clear old hover
-      for (const m of [...engine.baseMarkers, ...engine.playerMarkers]) {
+      for (const m of [...engine.baseMarkers, ...engine.playerMarkers, ...engine.poiMarkers]) {
         m.is_hovered = false;
       }
 
       if (hit) {
-        engine.hoveredId = hit.kind === 'base' ? hit.data.id : hit.data.uid;
+        engine.hoveredId = hit.kind === 'base' ? hit.data.id : hit.kind === 'player' ? hit.data.uid : (hit.data as any).id;
         engine.hoveredKind = hit.kind;
         hit.is_hovered = true;
         canvasEl.style.cursor = 'pointer';
@@ -177,8 +184,8 @@
         if (!engine.zonePointA) {
           engine.zonePointA = { x: ix, y: iy };
         } else {
-          // Zone created — dispatch to parent
-          onEmptyRightClick?.(sx, sy, 0, 0); // close enough signal
+          // Zone rect complete — pass real coords, not (0,0)
+          onEmptyRightClick?.(sx, sy, ix, iy);
           engine.zonePointA = null;
         }
       } else {
@@ -186,8 +193,8 @@
         if (engine.polygonPoints.length === 0) {
           engine.polygonPoints.push({ x: ix, y: iy });
         } else if (engine.polygonPoints.length >= 3) {
-          // Close polygon
-          onEmptyRightClick?.(sx, sy, 0, 0);
+          // Polygon complete — pass real coords
+          onEmptyRightClick?.(sx, sy, ix, iy);
         } else {
           engine.polygonPoints.push({ x: ix, y: iy });
         }
@@ -197,7 +204,7 @@
 
     if (hit) {
       // Zoom to marker
-      engine.selectMarker(hit.kind, hit.kind === 'base' ? hit.data.id : hit.data.uid);
+      engine.selectMarker(hit.kind, markerId(hit));
       engine.animateTo(hit.img_x, hit.img_y, MAP_CONFIG.zoom.double_click_target, 500);
       onMarkerDoubleClick?.(hit);
     }

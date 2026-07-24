@@ -113,6 +113,7 @@ def _build_loaded(
     durable on-disk copy instead of staying in RAM.
     """
     from app.backend.services.map_service import precompute_player_data_from_section
+    from app.backend.services.world_service import detect_guild_tail_shape
 
     # Slice just CharacterSaveParameterMap (~30 MB) for the precompute pass.
     # Avoids touching the heavy MapObjectSaveData / ItemContainerSaveData /
@@ -120,6 +121,13 @@ def _build_loaded(
     csp_json = handle.section_json("CharacterSaveParameterMap")
     csp_section = Any if csp_json is None else _loads(csp_json)
     pal_counts, levels, positions = precompute_player_data_from_section(csp_section)
+
+    # Detect guild-tail shape from GroupSaveDataMap (one cheap section access
+    # at load). Newer saves (PlM1 / V1) use PostUpdate; older saves use PreUpdate.
+    import json as _json
+    gsm_raw = handle.section_json("GroupSaveDataMap")
+    gsm_section = _json.loads(gsm_raw) if gsm_raw is not None else []
+    tail_shape = detect_guild_tail_shape({"GroupSaveDataMap_0": gsm_section})
 
     loaded = LoadedSave(
         filename=filename,
@@ -135,6 +143,7 @@ def _build_loaded(
         player_positions=positions,
         player_raw_bytes=player_raw_bytes or {},
         storage_mode=storage_mode,
+        guild_tail_shape=tail_shape,
     )
 
     # Disk mode: spill the full decoded JSON to a temp file now so the
@@ -199,6 +208,7 @@ async def get_state() -> SaveStateResponse:
         save_type=loaded.save_type,
         file_size=loaded.file_size,
         loaded_at=loaded.loaded_at,
+        guild_tail_shape=loaded.guild_tail_shape,
     )
     # Use lazy counts — only materialize the four cheap count sections
     # instead of the full ~200 MB level_dict.
@@ -242,6 +252,7 @@ async def load_from_path(body: LoadPathRequest) -> LoadResponse:
             filename=p.name, save_dir=str(p.parent), players_dir=str(players),
             class_name=loaded.class_name, save_type=handle.save_type,
             file_size=len(data), loaded_at=time.time(),
+            guild_tail_shape=loaded.guild_tail_shape,
         ),
         counts=WorldCounts(**counts),
     )
@@ -302,6 +313,7 @@ async def upload_save(
             players_dir=loaded.players_dir, class_name=loaded.class_name,
             save_type=loaded.save_type, file_size=loaded.file_size,
             loaded_at=loaded.loaded_at,
+            guild_tail_shape=loaded.guild_tail_shape,
         ),
         counts=WorldCounts(**counts),
     )

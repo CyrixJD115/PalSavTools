@@ -7,6 +7,7 @@
   import Header from '$components/layout/Header.svelte';
   import ToastContainer from '$components/ui/ToastContainer.svelte';
   import LoadingOverlay from '$components/ui/LoadingOverlay.svelte';
+  import SaveVersionModal from '$components/load/SaveVersionModal.svelte';
   import { api } from '$lib/api/client';
   import { getStoredLang } from '$lib/i18n.svelte';
   import {
@@ -16,12 +17,33 @@
 
   let { children }: { children: Snippet } = $props();
   let ws: WebSocket | null = null;
+  let showSaveVersionModal = $state(false);
+  let pendingContinue = $state<(() => void) | null>(null);
 
   onMount(() => {
     bootstrap();
     connectWs();
     return () => ws?.close();
   });
+
+  // Watch save state: show version modal when PreUpdate is detected.
+  // The user must explicitly acknowledge before the save stays loaded.
+  $effect(() => {
+    const state = $saveState;
+    if (state?.loaded && state.summary?.guild_tail_shape === 'PreUpdate' && !showSaveVersionModal) {
+      // Pause — the modal will either continue or unload.
+      showSaveVersionModal = true;
+    }
+  });
+
+  function onSaveVersionChoice(continue_: boolean) {
+    showSaveVersionModal = false;
+    if (!continue_) {
+      // User declined — unload the save.
+      api.unload();
+      saveState.set({ loaded: false, summary: null, counts: null });
+    }
+  }
 
   async function bootstrap() {
     try {
@@ -100,5 +122,7 @@
 </div>
 
 <LoadingOverlay open={$loadingSave} />
+
+<SaveVersionModal open={showSaveVersionModal} onchoose={onSaveVersionChoice} />
 
 <ToastContainer />

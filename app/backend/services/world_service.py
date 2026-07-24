@@ -169,6 +169,22 @@ def _map_entries(wsd: dict, key: str) -> list[dict]:
 
 # ---- counts -----------------------------------------------------------------
 
+def detect_guild_tail_shape(wsd: dict) -> str:
+    """Detect the guild-tail format: ``"PostUpdate"`` (latest) or ``"PreUpdate"`` (legacy).
+
+    Examinates all ``GroupSaveDataMap`` guild entries. If any guild uses
+    ``PreUpdate`` the save is in the older format. Returns ``"PostUpdate"``
+    when no guilds are present (conservative — latest default).
+    """
+    for g in _map_entries(wsd, "GroupSaveDataMap"):
+        if _group_type(g) != "EPalGroupType::Guild":
+            continue
+        tail = _g(_guild_data(g), "tail") or {}
+        if isinstance(tail, dict) and "PreUpdate" in tail:
+            return "PreUpdate"
+    return "PostUpdate"
+
+
 def count_world(level_dict: dict) -> dict:
     wsd = get_world_save_data(level_dict)
     guilds = [g for g in _map_entries(wsd, "GroupSaveDataMap")

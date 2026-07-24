@@ -134,6 +134,7 @@ class LoadedSave:
     class_name: str         # derived from root.save_game_type (informational)
     file_size: int
     loaded_at: float
+    guild_tail_shape: str = "PostUpdate"  # "PreUpdate" (legacy) or "PostUpdate" (latest)
     # Storage mode for this load. "memory" (default) keeps the existing
     # lazy-Rust-handle model; "disk" spills the full decoded JSON to a temp
     # file so RAM stays low on huge saves. Set by the load route from the

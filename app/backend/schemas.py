@@ -48,6 +48,7 @@ class SaveSummary(BaseModel):
     save_type: int
     file_size: int
     loaded_at: float
+    guild_tail_shape: str = "PostUpdate"
 
 
 class WorldCounts(BaseModel):

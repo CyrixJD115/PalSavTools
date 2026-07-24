@@ -55,8 +55,8 @@
       <p class="text-xs text-ink-dim mb-5">{$t('web.save_version.hint_strong')}</p>
 
       <div class="flex justify-end gap-2">
-        <Button variant="ghost" onclick={() => close(false)}>{$t('web.save_version.cancel')}</Button>
-        <Button variant="primary" onclick={() => close(true)}>{$t('web.save_version.continue')}</Button>
+        <Button variant="ghost" onclick={() => close(true)}>{$t('web.save_version.continue')}</Button>
+        <Button variant="primary" onclick={() => close(false)}>{$t('web.save_version.cancel')}</Button>
       </div>
     </div>
   </div>

@@ -75,7 +75,7 @@
   "web.overview.no_save_loaded": "No Save Loaded",
   "web.overview.load_save": "Load Save",
   "web.overview.load_another": "Load Another",
-  "web.overview.export_sav": "Export .sav",
+  "web.overview.export_sav": "Download Save (ZIP)",
   "web.overview.unload": "Unload",
   "web.overview.drop_sav_desktop": "or drag & drop Level.sav here",
   "web.overview.drop_bundle_browser": "or drag & drop a .zip / .7z bundle here",

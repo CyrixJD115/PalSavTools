@@ -351,24 +351,65 @@ def _load_bundle(
 
 @router.post("/export", response_class=StreamingResponse)
 async def export_save() -> StreamingResponse:
+    """Export the full save folder as a ZIP archive.
+
+    Includes ``Level.sav``, every ``Players/<uid>.sav`` (plus ``_dps.sav``
+    companions), and ``WorldOption.sav`` if present — matching the standard
+    Palworld save folder layout. This replaces the old single-file export so
+    the download is a drop-in replacement for the on-disk save folder.
+    """
+    import io
+    import zipfile
+    from pathlib import Path
+
+    from app.backend.services.player_service import _is_disk_players_dir, _player_sav_path
+
     loaded = save_state.require()
     with save_state.lock:
         try:
-            # If services mutated the full level_dict, encode from it.
-            # Otherwise encode straight from the Rust handle — zero Python
-            # allocation, fastest path for load-then-export workflows.
-            raw = loaded.encode_bytes()
+            level_bytes = loaded.encode_bytes()
         except save_service.SaveDecodeError as exc:
             raise HTTPException(500, str(exc))
-    import io
-    stream = io.BytesIO(raw)
-    size = len(raw)
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        # Level.sav at root.
+        zf.writestr("Level.sav", level_bytes)
+
+        # Players/ — iterate known UIDs from the handle's CharacterSaveParameterMap.
+        player_paths: dict[str, bytes] = {}
+        if _is_disk_players_dir(loaded.players_dir):
+            # Path-load flow: read *.sav files directly from disk.
+            pdir = Path(loaded.players_dir)
+            if pdir.is_dir():
+                for f in sorted(pdir.iterdir()):
+                    if f.suffix.lower() == ".sav" and f.stem:
+                        player_paths[f.stem] = f.read_bytes()
+        else:
+            # Bundle-upload flow: use the raw bytes kept in memory.
+            for uid_clean, raw in (loaded.player_raw_bytes or {}).items():
+                player_paths[uid_clean.upper()] = raw
+
+        for stem, raw_bytes in sorted(player_paths.items()):
+            zf.writestr(f"Players/{stem}.sav", raw_bytes)
+
+        # WorldOption.sav — present in dedicated-server saves.
+        if _is_disk_players_dir(loaded.players_dir):
+            wo_path = Path(loaded.save_dir) / "WorldOption.sav"
+            if wo_path.is_file():
+                zf.writestr("WorldOption.sav", wo_path.read_bytes())
+
+    zip_bytes = buf.getvalue()
+    # Use the original filename stem for a meaningful archive name.
+    base = Path(loaded.filename).stem
+    zip_filename = f"{base}_{int(time.time())}.zip"
+
     return StreamingResponse(
-        stream,
-        media_type="application/octet-stream",
+        io.BytesIO(zip_bytes),
+        media_type="application/zip",
         headers={
-            "Content-Disposition": f'attachment; filename="{loaded.filename}"',
-            "X-Export-Size": str(size),
+            "Content-Disposition": f'attachment; filename="{zip_filename}"',
+            "X-Export-Size": str(len(zip_bytes)),
         },
     )
 

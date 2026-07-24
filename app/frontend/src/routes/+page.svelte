@@ -21,6 +21,7 @@
   // Storage-mode warning modal state. When non-null, the modal is open and
   // holds the upload file awaiting the user's choice.
   let warnState: { file: File; resolve: (mode: StorageMode | null) => void } | null = $state(null);
+  let fileInput: HTMLInputElement;
   let dragOver = $state(false);
   let winW = $state(0);
   let winH = $state(0);
@@ -137,16 +138,8 @@
     ws?.resolve(mode);
   }
 
-  async function onDrop(e: DragEvent) {
-    e.preventDefault();
-    dragOver = false;
-    const file = e.dataTransfer?.files?.[0];
-    if (!file) return;
+  async function handleUploadFile(file: File) {
     const lower = file.name.toLowerCase();
-    // Browser drag-drop can only send file bytes (never the sibling Players/
-    // folder), so a lone Level.sav would silently omit every player save and
-    // break all player-.sav endpoints. Mirror the PSP contract: the browser
-    // path requires a .zip/.7z bundle of the whole save directory.
     if (lower.endsWith('.sav')) {
       toast.error(
         $t('web.toast.browser_needs_bundle', {
@@ -157,9 +150,8 @@
     }
     if (!lower.endsWith('.zip') && !lower.endsWith('.7z')) return;
 
-    // Large-save path: ask the user where to load before uploading.
     const mode = await resolveStorageMode(file.size);
-    if (mode === null) return;  // user cancelled the warning
+    if (mode === null) return;
     const opts: LoadOptions = {
       storageMode: mode,
       prewarm: get(settings).prewarm,
@@ -174,6 +166,23 @@
       toast.error(e instanceof Error ? e.message : $t('web.toast.upload_failed'));
     } finally {
       loadingSave.set(false);
+    }
+  }
+
+  async function onDrop(e: DragEvent) {
+    e.preventDefault();
+    dragOver = false;
+    const file = e.dataTransfer?.files?.[0];
+    if (!file) return;
+    await handleUploadFile(file);
+  }
+
+  function onFileSelect(e: Event) {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      handleUploadFile(target.files[0]);
+      // Reset so the same file can be selected again
+      target.value = '';
     }
   }
 
@@ -267,13 +276,20 @@
   </div>
 
   <Card>
+    <input type="file" accept=".zip,.7z" class="hidden" bind:this={fileInput} onchange={onFileSelect} />
+    
     {#if !$saveLoaded}
       <div class="flex flex-col items-center gap-2 py-3">
         <Icon icon="lucide:folder-open" width={28} class="text-accent" />
         <span class="text-sm font-semibold text-ink-secondary">{$t('web.overview.no_save_loaded')}</span>
-        <Button variant="primary" onclick={() => (loadOpen = true)} disabled={$loadingSave}>
-          <Icon icon="lucide:folder-open" width={16} /> {$t('web.overview.load_save')}
-        </Button>
+        <div class="flex gap-2">
+          <Button variant="primary" onclick={() => fileInput.click()} disabled={$loadingSave}>
+            <Icon icon="lucide:folder-open" width={16} /> {$t('web.overview.load_save')}
+          </Button>
+          <Button variant="ghost" onclick={() => (loadOpen = true)} disabled={$loadingSave} class="text-xs">
+            Enter Path...
+          </Button>
+        </div>
         <span class="text-xs text-ink-dim">
           {isTauri()
             ? $t('web.overview.drop_sav_desktop')
@@ -282,9 +298,13 @@
       </div>
     {:else}
       <div class="flex flex-wrap items-center gap-2">
-        <Button variant="primary" onclick={() => (loadOpen = true)} disabled={$loadingSave}>
+        <Button variant="primary" onclick={() => fileInput.click()} disabled={$loadingSave}>
           <Icon icon="lucide:folder-open" width={16} /> {$t('web.overview.load_another')}
         </Button>
+        <Button variant="ghost" onclick={() => (loadOpen = true)} disabled={$loadingSave} class="text-xs px-2">
+          Path...
+        </Button>
+
         <Button variant="secondary" onclick={doExport} disabled={exporting}>
           <Icon icon="lucide:download" width={16} /> {$t('web.overview.export_sav')}
         </Button>

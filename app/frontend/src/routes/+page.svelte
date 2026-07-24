@@ -1,6 +1,7 @@
 <script lang="ts">
   import { saveLoaded, saveSummary, saveCounts, loadingSave, saveState, t } from '$stores/index';
   import { settings } from '$stores/settings';
+  import { recentSaves, addRecentSave, removeRecentSave } from '$stores/recentSaves';
   import { api } from '$lib/api/client';
   import { toast } from '$stores/toast';
   import type { LoadOptions, StorageMode, ToolInfo } from '$types/index';
@@ -197,6 +198,7 @@
     try {
       const res = await api.loadFromPath(file, opts)
       saveState.set({ loaded: true, summary: res.summary, counts: res.counts })
+      addRecentSave(file, res.summary.filename)
       toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }))
     } catch (e) {
       toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'))
@@ -210,6 +212,43 @@
     const u = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(n) / Math.log(1024));
     return `${(n / Math.pow(1024, i)).toFixed(i ? 1 : 0)} ${u[i]}`;
+  }
+
+  function formatTimeAgo(ts: number): string {
+    const diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    return `${Math.floor(diff / 86400)}d ago`;
+  }
+
+  function getRecentSaveTitle(rs: { path: string, filename: string }): string {
+    const parts = rs.path.split(/[/\\]/);
+    if (parts.length >= 2) {
+      const parent = parts[parts.length - 2];
+      if (/^[0-9a-fA-F]{32}$/.test(parent)) {
+        return parent;
+      }
+    }
+    return rs.filename;
+  }
+
+  async function loadRecent(path: string) {
+    const opts: LoadOptions = {
+      storageMode: get(settings).storageMode,
+      prewarm: get(settings).prewarm,
+    };
+    loadingSave.set(true);
+    try {
+      const res = await api.loadFromPath(path, opts);
+      saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
+      addRecentSave(path, res.summary.filename);
+      toast.success($t('web.toast.loaded', { filename: res.summary.filename, guilds: res.counts.guilds, players: res.counts.players }));
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'));
+    } finally {
+      loadingSave.set(false);
+    }
   }
 
   const stats = $derived([
@@ -347,6 +386,27 @@
         {/if}
       </EmptyState>
     </Card>
+    
+    {#if $recentSaves.length > 0}
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <h2 class="text-xs font-semibold text-ink-secondary uppercase tracking-wider">Recent Saves</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {#each $recentSaves as rs}
+            <div class="card card-hover flex items-center justify-between group">
+              <button class="flex-1 flex flex-col items-start px-3 py-2.5 text-left overflow-hidden" onclick={() => loadRecent(rs.path)} disabled={$loadingSave}>
+                <span class="text-xs font-semibold text-ink-emphasis truncate w-full group-hover:text-accent transition-colors" title={rs.filename}>{getRecentSaveTitle(rs)}</span>
+                <span class="text-[10px] text-ink-muted mt-0.5 break-all" title={rs.path}>{rs.path}</span>
+              </button>
+              <button class="px-2 py-2.5 text-ink-dim hover:text-status-error transition-colors" onclick={() => removeRecentSave(rs.path)} aria-label="Remove">
+                <Icon icon="lucide:x" width={14} />
+              </button>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
   {/if}
 
   <!-- Quick Tools -->

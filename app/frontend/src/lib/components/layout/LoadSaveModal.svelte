@@ -2,6 +2,7 @@
   import { api } from '$lib/api/client';
   import { saveState, loadingSave, loadError, t } from '$stores/index';
   import { settings } from '$stores/settings';
+  import { addRecentSave } from '$stores/recentSaves';
   import { toast } from '$stores/toast';
   import Button from '$components/ui/Button.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
@@ -37,6 +38,7 @@
         prewarm: s.prewarm,
       });
       saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
+      addRecentSave(p, res.summary.filename);
       toast.success($t('web.toast.loaded', { filename: res.summary.filename, guilds: res.counts.guilds, players: res.counts.players }));
       open = false;
     } catch (e) {

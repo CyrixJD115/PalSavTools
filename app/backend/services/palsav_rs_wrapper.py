@@ -84,7 +84,8 @@ except ImportError:
 
 _REPO_ROOT: Path = Path(__file__).resolve().parents[3]
 _PALSAV_RS_DIR: Path = _REPO_ROOT / "src" / "palsav-rs"
-_BINARY_PATH: Path = _PALSAV_RS_DIR / "target" / "release" / "uesave"
+_BINARY_SUFFIX = ".exe" if os.name == "nt" else ""
+_BINARY_PATH: Path = _PALSAV_RS_DIR / "target" / "release" / f"uesave{_BINARY_SUFFIX}"
 
 # Compression save-type constants.
 SAVE_TYPE_PLM = 49   # Oodle (PlM magic) — player saves

@@ -1,6 +1,7 @@
 use std::sync::Mutex;
 
 use tauri::Manager;
+#[cfg(not(debug_assertions))]
 use tauri_plugin_shell::ShellExt;
 
 struct BackendState {
@@ -12,38 +13,47 @@ pub fn run() {
     let app = tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .manage(Mutex::new(BackendState { child: None }))
-        .setup(|app| {
-            let sidecar = app
-                .shell()
-                .sidecar("pst-backend")
-                .expect("failed to create sidecar command");
+        .setup(|_app| {
+            #[cfg(not(debug_assertions))]
+            {
+                let app = _app;
+                let sidecar = app
+                    .shell()
+                    .sidecar("pst-backend")
+                    .expect("failed to create sidecar command");
 
-            let (mut rx, child) = sidecar.spawn().expect("failed to spawn sidecar");
+                let (mut rx, child) = sidecar.spawn().expect("failed to spawn sidecar");
 
-            let state = app.state::<Mutex<BackendState>>();
-            state.lock().unwrap().child = Some(child);
+                let state = app.state::<Mutex<BackendState>>();
+                state.lock().unwrap().child = Some(child);
 
-            tauri::async_runtime::spawn(async move {
-                use tauri_plugin_shell::process::CommandEvent;
-                while let Some(event) = rx.recv().await {
-                    match event {
-                        CommandEvent::Stdout(line) => {
-                            println!("[backend] {}", String::from_utf8_lossy(&line));
+                tauri::async_runtime::spawn(async move {
+                    use tauri_plugin_shell::process::CommandEvent;
+                    while let Some(event) = rx.recv().await {
+                        match event {
+                            CommandEvent::Stdout(line) => {
+                                println!("[backend] {}", String::from_utf8_lossy(&line));
+                            }
+                            CommandEvent::Stderr(line) => {
+                                eprintln!("[backend] {}", String::from_utf8_lossy(&line));
+                            }
+                            CommandEvent::Terminated(payload) => {
+                                eprintln!(
+                                    "[backend] exited (code={:?}, signal={:?})",
+                                    payload.code, payload.signal
+                                );
+                                break;
+                            }
+                            _ => {}
                         }
-                        CommandEvent::Stderr(line) => {
-                            eprintln!("[backend] {}", String::from_utf8_lossy(&line));
-                        }
-                        CommandEvent::Terminated(payload) => {
-                            eprintln!(
-                                "[backend] exited (code={:?}, signal={:?})",
-                                payload.code, payload.signal
-                            );
-                            break;
-                        }
-                        _ => {}
                     }
-                }
-            });
+                });
+            }
+
+            #[cfg(debug_assertions)]
+            {
+                println!("[backend] dev mode — backend managed externally");
+            }
 
             // Poll health endpoint until backend is ready
             let client = reqwest::blocking::Client::builder()

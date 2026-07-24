@@ -146,8 +146,8 @@ def start_webui(vpy: pathlib.Path):
     t2 = threading.Thread(target=log_backend, daemon=True)
     t2.start()
 
-    log(f'  Frontend → http://127.0.0.1:16920', GREEN)
-    log(f'  Backend  → http://127.0.0.1:16921', GREEN)
+    log(f'  Frontend -> http://127.0.0.1:16920', GREEN)
+    log(f'  Backend  -> http://127.0.0.1:16921', GREEN)
 
     return frontend_proc, backend_proc, frontend_ready
 
@@ -163,6 +163,43 @@ def cleanup_procs(*procs: subprocess.Popen):
                 except Exception:
                     pass
 
+def ensure_submodules():
+    gitmodules = PROJECT_DIR / '.gitmodules'
+    if not gitmodules.exists():
+        return
+    palsav_dir = PROJECT_DIR / 'src' / 'palsav-rs'
+    if (palsav_dir / 'Cargo.toml').exists():
+        return
+    git = shutil.which('git')
+    if not git:
+        log('Git not found — cannot initialize submodules', YELLOW)
+        log('  Run: git submodule update --init --recursive', YELLOW)
+        return
+    log('Initializing git submodules...', CYAN)
+    r = subprocess.run([git, 'submodule', 'update', '--init', '--recursive'],
+                       cwd=str(PROJECT_DIR))
+    if r.returncode == 0:
+        log('Submodules initialized', GREEN)
+    else:
+        log('Failed to initialize submodules', RED)
+
+def _build_uesave():
+    palsav_dir = PROJECT_DIR / 'src' / 'palsav-rs'
+    if not (palsav_dir / 'Cargo.toml').exists():
+        return
+    suffix = '.exe' if os.name == 'nt' else ''
+    binary = palsav_dir / 'target' / 'release' / f'uesave{suffix}'
+    if binary.exists():
+        return
+    cargo = shutil.which('cargo')
+    if not cargo:
+        return
+    log('Pre-building uesave (Rust save parser) in background…', DIM)
+    subprocess.run(
+        [cargo, 'build', '--release', '-p', 'uesave_cli'],
+        cwd=str(palsav_dir), capture_output=True,
+    )
+
 def main():
     parser = argparse.ArgumentParser(description='PalworldSaveTools')
     parser.add_argument('--web', action='store_true', help='Launch WebUI in browser instead of native window')
@@ -174,9 +211,13 @@ def main():
         input('Press Enter to exit...')
         sys.exit(1)
 
+    ensure_submodules()
     free_ports()
     vpy = venv_python()
     frontend_proc, backend_proc, frontend_ready = start_webui(vpy)
+
+    t = threading.Thread(target=_build_uesave, daemon=True)
+    t.start()
 
     if args.web:
         log(f'  Press Ctrl+C to stop', DIM)
@@ -230,16 +271,26 @@ def main():
                     binaries_dir.mkdir(parents=True, exist_ok=True)
                     import platform as _plat
                     machine = _plat.machine().lower()
-                    triple = f"{'x86_64' if machine in ('x86_64','amd64') else machine}-unknown-linux-gnu"
-                    script_path = binaries_dir / f"pst-backend-{triple}"
-                    script_path.write_text(
-                        "#!/bin/sh\n"
-                        'SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"\n'
-                        'PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../" && pwd)"\n'
-                        'cd "$PROJECT_ROOT"\n'
-                        'exec uv run python app/backend/main.py\n'
-                    )
-                    script_path.chmod(0o755)
+                    arch = 'x86_64' if machine in ('x86_64', 'amd64') else machine
+                    if os.name == 'nt':
+                        triple = f"{arch}-pc-windows-msvc"
+                        script_path = binaries_dir / f"pst-backend-{triple}.cmd"
+                        script_path.write_text(
+                            f"@echo off\r\n"
+                            f"cd /d \"{PROJECT_DIR}\"\r\n"
+                            f"uv run python app/backend/main.py\r\n"
+                        )
+                    else:
+                        triple = f"{arch}-unknown-linux-gnu"
+                        script_path = binaries_dir / f"pst-backend-{triple}"
+                        script_path.write_text(
+                            "#!/bin/sh\n"
+                            'SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"\n'
+                            'PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../" && pwd)"\n'
+                            'cd "$PROJECT_ROOT"\n'
+                            'exec uv run python app/backend/main.py\n'
+                        )
+                        script_path.chmod(0o755)
                     log('  Launcher script created, starting Tauri...', GREEN)
 
                 log('  Attempting Tauri window...', DIM)

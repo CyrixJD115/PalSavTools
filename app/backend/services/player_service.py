@@ -113,7 +113,7 @@ def _find_player_in_guilds(level_dict: dict, uid: str) -> tuple[dict, list, dict
         if world_service._group_type(g) != "EPalGroupType::Guild":
             continue
         g_raw = world_service._g(g, "value", "RawData", "data", "Guild") or {}
-        players = world_service._g(g_raw, "tail", "PreUpdate", "players") or []
+        players = world_service._gplayers(g)
         for p in players:
             if _uid_clean(str(world_service._k(p, "player_uid") or "")) == uid_clean:
                 return g_raw, players, p
@@ -278,7 +278,7 @@ def get_player_detail_from_wsd(
         except (TypeError, ValueError):
             guild_level = 1
         admin_uid = world_service._norm_uid(
-            world_service._g(g_raw, "tail", "PreUpdate", "admin_player_uid")
+            world_service._k(world_service._guild_tail(g), "admin_player_uid")
         ) or ""
         for p in world_service._gplayers(g):
             puid = str(world_service._k(p, "player_uid") or "")
@@ -404,7 +404,8 @@ def delete_player(level_dict: dict, uid: str) -> bool:
         if world_service._group_type(g) != "EPalGroupType::Guild":
             continue
         g_raw = world_service._g(g, "value", "RawData", "data", "Guild") or {}
-        pre = world_service._g(g_raw, "tail", "PreUpdate") or {}
+        tail_key = world_service._guild_tail_key(g)
+        pre = world_service._g(g_raw, "tail", tail_key) or {}
         players = world_service._k(pre, "players") or []
         new_players = [
             p for p in players

@@ -89,7 +89,7 @@ def _guild_top_raw(g: dict) -> dict:
 
 
 def _guild_players(g: dict) -> list:
-    return _g(_guild_struct(g), "tail", "PreUpdate", "players") or []
+    return world_service._gplayers(g) or []
 
 
 # ---------------------------------------------------------------------------
@@ -775,7 +775,7 @@ def _apply_fix_host_save_to_gvas(
                 continue
             top = _guild_top_raw(g)
             gstruct = _guild_struct(g)
-            pre = _g(gstruct, "tail", "PreUpdate") or {}
+            pre = _g(gstruct, "tail", world_service._guild_tail_key(g)) or {}
             # Swap handles.
             for h in (_k(top, "individual_character_handle_ids") or []):
                 inst_id = _k(h, "instance_id")
@@ -895,7 +895,7 @@ def _apply_fix_guild_to_gvas(
         return {"success": True, "message": "Player already in target guild"}
 
     # Remove player from origin.
-    origin_pre = _g(_guild_struct(origin_group), "tail", "PreUpdate") or {}
+    origin_pre = _g(_guild_struct(origin_group), "tail", world_service._guild_tail_key(origin_group)) or {}
     origin_players = _k(origin_pre, "players") or []
     new_players = [p for p in origin_players if _nu(_k(p, "player_uid")) != player_key]
     _k_set(origin_pre, "players", new_players)
@@ -915,7 +915,7 @@ def _apply_fix_guild_to_gvas(
 
     # Add player to target.
     target_struct = _guild_struct(target_group)
-    target_pre = _g(target_struct, "tail", "PreUpdate") or {}
+    target_pre = _g(target_struct, "tail", world_service._guild_tail_key(target_group)) or {}
     tplayers = _k(target_pre, "players") or []
     tplayer_set = {_nu(_k(p, "player_uid")) for p in tplayers}
 
@@ -1405,7 +1405,7 @@ def _transfer_guild_to_target(
 
     if target_guild:
         tstruct = _guild_struct(target_guild)
-        tpre = _g(tstruct, "tail", "PreUpdate") or {}
+        tpre = _g(tstruct, "tail", world_service._guild_tail_key(target_guild)) or {}
         players = _k(tpre, "players") or []
         kept = [p for p in players if _nu(_k(p, "player_uid")) != _nu(target_player_uid)]
         if source_player:
@@ -1427,7 +1427,7 @@ def _transfer_guild_to_target(
     new_gid = str(UUID(bytes=os.urandom(16)))
     _k_set(ctop, "group_id", new_gid)
     _k_set(cstruct, "guild_name", "Transferred Guild")
-    cpre = _g(cstruct, "tail", "PreUpdate") or {}
+    cpre = _g(cstruct, "tail", world_service._guild_tail_key(cloned)) or {}
     _k_set(cpre, "players", [source_player] if source_player else [{
         "player_uid_0": target_player_uid,
         "player_info_0": {"last_online_real_time_0": 0, "player_name_0": "Player"},
@@ -1509,7 +1509,7 @@ def _sync_player_timestamps(target_wsd: dict, target_player_uid: str, world_tick
             if _k(sp, "LastOnlineRealTime") is not None:
                 _k_set(sp, "LastOnlineRealTime", world_tick)
     for gdata in _map_entries(target_wsd, "GroupSaveDataMap"):
-        pre = _g(_guild_struct(gdata), "tail", "PreUpdate") or {}
+        pre = _g(_guild_struct(gdata), "tail", world_service._guild_tail_key(gdata)) or {}
         for p_info in (_k(pre, "players") or []):
             if _nu(_k(p_info, "player_uid")) == t_uid:
                 info = _k(p_info, "player_info")

@@ -2,15 +2,16 @@
 
 Operates on ``level_dict`` (the Rust uesave shape). Guild data lives at
 ``value.RawData_0.data.Guild.{guild_name, base_camp_level, base_ids,
-tail.PreUpdate.{admin_player_uid, players}}`` (the typed ``PalGuildGroup``
+tail.{PostUpdate,PreUpdate}.{admin_player_uid, players}}``
+(the typed ``PalGuildGroup``
 struct decoded by palsav-rs).
 """
 
 from __future__ import annotations
 
 from app.backend.services.world_service import (
-    _g, _gplayers, _group_type, _k, _map_entries, _norm_uid,
-    get_tick, get_world_save_data,
+    _g, _guild_tail, _guild_tail_key, _gplayers, _group_type, _k,
+    _map_entries, _norm_uid, get_tick, get_world_save_data,
 )
 from app.backend.services.base_service import (
     _guild_raw, _k_set, _set_nested, _s, delete_base as _delete_base,
@@ -42,7 +43,7 @@ def get_guild_detail(level_dict: dict, guild_id: str) -> dict | None:
     except (TypeError, ValueError):
         guild_level = 1
     admin_uid = _norm_uid(
-        _g(g_raw, "tail", "PreUpdate", "admin_player_uid")
+        _k(_guild_tail(g), "admin_player_uid")
     ) or ""
     admin_clean = _s(admin_uid)
     base_ids = _k(g_raw, "base_ids") or []
@@ -99,7 +100,7 @@ def make_member_leader(level_dict: dict, guild_id: str, player_uid: str) -> bool
     if g is None:
         return False
     g_raw = _guild_raw(g)
-    _g_set(g_raw, ["tail", "PreUpdate", "admin_player_uid"], player_uid)
+    _g_set(g_raw, ["tail", _guild_tail_key(g), "admin_player_uid"], player_uid)
     return True
 
 
@@ -112,7 +113,7 @@ def remove_member(level_dict: dict, guild_id: str, player_uid: str) -> bool:
     pu_clean = _s(player_uid)
     players = _gplayers(g)
     admin_uid = _norm_uid(
-        _g(g_raw, "tail", "PreUpdate", "admin_player_uid")
+        _k(_guild_tail(g), "admin_player_uid")
     ) or ""
 
     if pu_clean == _s(admin_uid):
@@ -120,7 +121,7 @@ def remove_member(level_dict: dict, guild_id: str, player_uid: str) -> bool:
 
     # Drop the member from players list.
     new_players = [p for p in players if _s(_k(p, "player_uid")) != pu_clean]
-    _g_set(g_raw, ["tail", "PreUpdate", "players"], new_players)
+    _g_set(g_raw, ["tail", _guild_tail_key(g), "players"], new_players)
 
     # Also drop their character handles.
     raw_top = _g(g, "value", "RawData") or {}

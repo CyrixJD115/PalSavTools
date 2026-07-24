@@ -10,8 +10,8 @@ from __future__ import annotations
 from typing import Any
 
 from app.backend.services.world_service import (
-    _fmt_last_seen, _g, _gplayers, _group_type, _k, _map_entries, _norm_uid,
-    get_tick, get_world_save_data,
+    _fmt_last_seen, _g, _guild_tail, _guild_tail_key, _gplayers, _group_type,
+    _k, _map_entries, _norm_uid, get_tick, get_world_save_data,
 )
 
 _NIL_UID = "00000000-0000-0000-0000-000000000000"
@@ -113,7 +113,7 @@ def get_base_detail(level_dict: dict, base_id: str) -> dict | None:
         total_bases = len(base_ids)
 
         admin_uid = _norm_uid(
-            _g(g_raw, "tail", "PreUpdate", "admin_player_uid")
+            _k(_guild_tail(guild_entry), "admin_player_uid")
         ) or ""
         for p in players:
             if _s(_k(p, "player_uid")) == _s(admin_uid):
@@ -307,7 +307,7 @@ def get_enriched_base_list_from_wsd(wsd: dict) -> list[dict]:
 
         g_raw = _guild_raw(entry)
         admin_uid = _norm_uid(
-            _g(g_raw, "tail", "PreUpdate", "admin_player_uid")
+            _k(_guild_tail(entry), "admin_player_uid")
         ) or ""
         guild_name = _k(g_raw, "guild_name") or "Unnamed Guild"
         try:

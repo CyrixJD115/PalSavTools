@@ -17,7 +17,9 @@ Rust uesave shape notes
   the property name (no nested ``{"value": [...]}``).
 - Decoded RawData blobs are structured: e.g. a guild's data lives at
   ``value.RawData_0.data.Guild.{base_camp_level, base_ids, guild_name,
-  tail.PreUpdate.{admin_player_uid, players}}``.
+  tail.{PostUpdate,PreUpdate}.{admin_player_uid, players}}``.
+  Newer saves use ``PostUpdate`` (with guild-chest roles/permissions);
+  older saves use ``PreUpdate``.
 """
 
 from __future__ import annotations
@@ -199,9 +201,45 @@ def _guild_data(g: dict) -> dict:
     return _g(g, "value", "RawData", "data", "Guild") or {}
 
 
+def _guild_tail(g: dict) -> dict:
+    """Active guild tail dict (``PostUpdate`` or ``PreUpdate``), preferring PostUpdate.
+
+    The Rust parser (palsav-rs) emits the guild tail as a serde-tagged enum:
+    newer saves (with guild-chest roles) use ``tail.PostUpdate``; older saves
+    use ``tail.PreUpdate``. ``g`` is the GroupSaveDataMap entry. Returns ``{}``
+    if the tail is absent or malformed.
+    """
+    tail = _g(_guild_data(g), "tail") or {}
+    if not isinstance(tail, dict):
+        return {}
+    if "PostUpdate" in tail:
+        node = tail.get("PostUpdate")
+        return node if isinstance(node, dict) else {}
+    if "PreUpdate" in tail:
+        node = tail.get("PreUpdate")
+        return node if isinstance(node, dict) else {}
+    return {}
+
+
+def _guild_tail_key(g: dict) -> str:
+    """The serde tag of the guild's active tail (``"PostUpdate"`` / ``"PreUpdate"``).
+
+    Used by mutators to build the correct nested-write path. Falls back to
+    ``"PreUpdate"`` for a guild whose tail is absent (e.g. a brand-new guild
+    built in-memory) so inserts land in a consistent place.
+    """
+    tail = _g(_guild_data(g), "tail") or {}
+    if isinstance(tail, dict):
+        if "PostUpdate" in tail:
+            return "PostUpdate"
+        if "PreUpdate" in tail:
+            return "PreUpdate"
+    return "PreUpdate"
+
+
 def _gplayers(g: dict) -> list[dict]:
-    """Guild members at ``RawData.data.Guild.tail.PreUpdate.players``."""
-    players = _g(_guild_data(g), "tail", "PreUpdate", "players")
+    """Guild members (works for both PreUpdate and PostUpdate tail shapes)."""
+    players = _k(_guild_tail(g), "players")
     return players if isinstance(players, list) else []
 
 
@@ -216,7 +254,7 @@ def _gbase_ids(g: dict) -> list[str]:
 
 
 def _gadmin(g: dict) -> str | None:
-    admin = _g(_guild_data(g), "tail", "PreUpdate", "admin_player_uid")
+    admin = _k(_guild_tail(g), "admin_player_uid")
     return str(admin) if admin else None
 
 
@@ -283,7 +321,7 @@ def list_players_from_wsd(wsd: dict) -> list[dict]:
             guild_level = int(guild_level)
         except (TypeError, ValueError):
             guild_level = 1
-        admin_uid = _norm_uid(_g(guild_data, "tail", "PreUpdate", "admin_player_uid")) or ""
+        admin_uid = _norm_uid(_k(_guild_tail(g), "admin_player_uid")) or ""
         admin_clean = _s(admin_uid)
         for p in _gplayers(g):
             uid = str(_k(p, "player_uid") or "") or ""

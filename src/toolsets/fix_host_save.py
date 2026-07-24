@@ -35,9 +35,9 @@ from palworld_aio.inventory.container_ownership import ContainerOwnership
 
 logger = logging.getLogger("pst.fix_host_save")
 
-# ---------------------------------------------------------------------------
+
 # Internal helpers
-# ---------------------------------------------------------------------------
+
 
 player_list_cache: list[tuple[str, str, str, int, int, str]] = []
 
@@ -124,9 +124,9 @@ class SkipGvasFile(GvasFile):
         return writer.bytes()
 
 
-# ---------------------------------------------------------------------------
+
 # Save-format helpers
-# ---------------------------------------------------------------------------
+
 
 SAVE_TYPE_PALWORLD = 50
 SAVE_TYPE_LEGACY = 49
@@ -175,9 +175,9 @@ def json_to_sav(json_data: dict, output_filepath: str) -> None:
         f.write(sav_file)
 
 
-# ---------------------------------------------------------------------------
+
 # Player-list helpers
-# ---------------------------------------------------------------------------
+
 
 def format_last_seen(last_online_time: int | None, current_tick: int) -> str:
     """Format tick-difference into a human-readable age string."""
@@ -370,9 +370,9 @@ def background_load_task(path: str) -> tuple[list[tuple[str, str, str, int, int,
     return player_files, level_json
 
 
-# ---------------------------------------------------------------------------
+
 # DPS (Display-Pal-Storage) file copy
-# ---------------------------------------------------------------------------
+
 
 def copy_dps_file(
     src_folder: str,
@@ -438,9 +438,9 @@ def copy_dps_file(
         return False
 
 
-# ---------------------------------------------------------------------------
+
 # Core migration logic
-# ---------------------------------------------------------------------------
+
 
 def fix_save(
     save_path: str,
@@ -600,9 +600,9 @@ def fix_save(
     return True
 
 
-# ---------------------------------------------------------------------------
+
 # String-input helper (headless replacement for the Qt-based dialog)
-# ---------------------------------------------------------------------------
+
 
 def ask_string_with_icon(
     title: str,
@@ -623,9 +623,9 @@ def ask_string_with_icon(
     return answer if answer else None
 
 
-# ---------------------------------------------------------------------------
+
 # CLI entry point
-# ---------------------------------------------------------------------------
+
 
 def main() -> None:
     """Entry point for the ``fix_host_save`` CLI tool."""

@@ -74,9 +74,9 @@ class Result:
         )
 
 
-# ---------------------------------------------------------------------------
+
 # Individual checks (pytest-callable: ``assert``-based, no Result object)
-# ---------------------------------------------------------------------------
+
 
 def _have_corpus() -> bool:
     return LEVEL_SAV.is_file() and LEVEL_JSON.is_file()
@@ -130,9 +130,9 @@ def test_save_type_detection() -> None:
     )
 
 
-# ---------------------------------------------------------------------------
+
 # Standalone runner
-# ---------------------------------------------------------------------------
+
 
 def run_all() -> Result:
     r = Result()

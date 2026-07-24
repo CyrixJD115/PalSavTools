@@ -61,9 +61,9 @@ class SaveBundle:
         return len(self.player_files)
 
 
-# ---------------------------------------------------------------------------
+
 # Public entry point
-# ---------------------------------------------------------------------------
+
 
 def extract_save_bundle(data: bytes, filename: str) -> SaveBundle:
     """Extract a ``.zip``/``.7z`` save bundle entirely into memory.
@@ -125,9 +125,9 @@ def extract_save_bundle(data: bytes, filename: str) -> SaveBundle:
     return bundle
 
 
-# ---------------------------------------------------------------------------
+
 # Readers — one per supported format
-# ---------------------------------------------------------------------------
+
 
 def _read_zip(data: bytes) -> dict[str, bytes]:
     """Read a Deflate zip into ``{member_path: bytes}`` (in memory)."""
@@ -192,9 +192,9 @@ def _read_7z(data: bytes) -> dict[str, bytes]:
     return out
 
 
-# ---------------------------------------------------------------------------
+
 # Layout resolution + player collection
-# ---------------------------------------------------------------------------
+
 
 def _find_level(entries: dict[str, bytes]) -> str | None:
     """Locate the ``Level.sav`` member, supporting flat and nested layouts.
@@ -258,9 +258,9 @@ def _collect_players(entries: dict[str, bytes], level_path: str) -> dict[str, by
     return players
 
 
-# ---------------------------------------------------------------------------
+
 # Safety helpers
-# ---------------------------------------------------------------------------
+
 
 def _validate_member_name(name: str) -> None:
     """Reject path-traversal / absolute member names before reading bytes.

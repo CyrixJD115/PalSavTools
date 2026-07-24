@@ -292,10 +292,6 @@
           <Icon icon="lucide:log-out" width={16} /> {$t('web.overview.unload')}
         </Button>
         <div class="flex-1"></div>
-        {#if $saveSummary}
-          <Badge tone="accent">{$t('web.overview.type_n', { save_type: $saveSummary.save_type })}</Badge>
-          <Badge tone="neutral">{$saveSummary.class_name}</Badge>
-        {/if}
       </div>
     {/if}
   </Card>

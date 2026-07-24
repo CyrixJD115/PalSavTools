@@ -18,7 +18,8 @@
   let { children }: { children: Snippet } = $props();
   let ws: WebSocket | null = null;
   let showSaveVersionModal = $state(false);
-  let pendingContinue = $state<(() => void) | null>(null);
+  /** Identity of the save the user already acknowledged the PreUpdate warning for. */
+  let acknowledgedSaveKey = $state('');
 
   onMount(() => {
     bootstrap();
@@ -26,22 +27,32 @@
     return () => ws?.close();
   });
 
-  // Watch save state: show version modal when PreUpdate is detected.
-  // The user must explicitly acknowledge before the save stays loaded.
+  // Watch save state: show version modal when PreUpdate is detected but not yet
+  // acknowledged. Once the user clicks "Load anyway" we remember the save identity
+  // so the modal doesn't re-spam on every reactive flush.
   $effect(() => {
     const state = $saveState;
-    if (state?.loaded && state.summary?.guild_tail_shape === 'PreUpdate' && !showSaveVersionModal) {
-      // Pause — the modal will either continue or unload.
-      showSaveVersionModal = true;
+    if (state?.loaded && state.summary?.guild_tail_shape === 'PreUpdate') {
+      const saveKey = `${state.summary.filename}@${state.summary.loaded_at}`;
+      if (saveKey !== acknowledgedSaveKey && !showSaveVersionModal) {
+        showSaveVersionModal = true;
+      }
     }
   });
 
   function onSaveVersionChoice(continue_: boolean) {
     showSaveVersionModal = false;
-    if (!continue_) {
+    if (continue_) {
+      // User acknowledged — remember this save so the modal stays gone.
+      const state = $saveState;
+      if (state?.summary) {
+        acknowledgedSaveKey = `${state.summary.filename}@${state.summary.loaded_at}`;
+      }
+    } else {
       // User declined — unload the save.
       api.unload();
       saveState.set({ loaded: false, summary: null, counts: null });
+      acknowledgedSaveKey = '';
     }
   }
 

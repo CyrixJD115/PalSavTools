@@ -59,9 +59,9 @@ BOLD = lambda s: _c('\033[1m', s)
 DIM = lambda s: _c('\033[2m', s)
 
 
-# --------------------------------------------------------------------------- #
+ #
 # Host detection
-# --------------------------------------------------------------------------- #
+ #
 def detect_host() -> dict:
     """Single source of truth for platform/arch/Python-env specifics."""
     sysname = platform.system().lower()
@@ -99,9 +99,9 @@ def have(cmd: str) -> bool:
     return shutil.which(cmd) is not None
 
 
-# --------------------------------------------------------------------------- #
+ #
 # Runner
-# --------------------------------------------------------------------------- #
+ #
 def _run(cmd: list[str], *, cwd: Path | None = None, env: dict | None = None,
          label: str = '') -> int:
     print(f'\n  {BOLD("─" * 60)}')
@@ -184,9 +184,9 @@ def build_tauri(host: dict, clean: bool) -> int:
                 label=f'Tauri desktop app ({host["triple"]})')
 
 
-# --------------------------------------------------------------------------- #
+ #
 # Main
-# --------------------------------------------------------------------------- #
+ #
 def main() -> int:
     args = sys.argv[1:]
     clean = '--clean' in args

@@ -208,11 +208,35 @@ def _find_level(entries: dict[str, bytes]) -> str | None:
     candidates = [p for p in entries if PurePosixPath(p).name == _LEVEL_NAME]
     if not candidates:
         return None
-    if len(candidates) > 1:
+
+    # Heuristic 1: exclude macOS resource forks and obvious backup directories.
+    filtered = [p for p in candidates if "__MACOSX" not in p and "backup" not in p.lower()]
+    if not filtered:
+        filtered = candidates  # fallback if all matched
+
+    # Heuristic 2: prefer candidates that have a sibling 'Players/' folder.
+    if len(filtered) > 1:
+        def has_players(level_path: str) -> bool:
+            parent = PurePosixPath(level_path).parent
+            prefix = f"{parent}/Players/" if str(parent) != "." else "Players/"
+            return any(p.startswith(prefix) for p in entries)
+
+        with_players = [p for p in filtered if has_players(p)]
+        if with_players:
+            filtered = with_players
+
+    # Heuristic 3: pick the shallowest path if still ambiguous.
+    if len(filtered) > 1:
+        filtered.sort(key=lambda p: len(PurePosixPath(p).parts))
+        if len(PurePosixPath(filtered[0]).parts) < len(PurePosixPath(filtered[1]).parts):
+            filtered = [filtered[0]]
+
+    if len(filtered) > 1:
         raise BundleError(
-            "Archive contains multiple 'Level.sav' entries — expected exactly one."
+            f"Archive contains multiple 'Level.sav' entries — expected exactly one. Found: {', '.join(filtered)}"
         )
-    path = candidates[0]
+    
+    path = filtered[0]
     parts = PurePosixPath(path).parts
     # Allowed: "Level.sav" (flat) or "<folder>/Level.sav" (nested, depth 2).
     if len(parts) <= 2:

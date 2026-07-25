@@ -151,7 +151,7 @@ async def list_tools():
 async def convert_sav_json(body: ConvertRequest):
     """Convert a .sav file to/from .json on the server filesystem."""
     try:
-        result = await tool_service.convert_sav_json(
+        result = tool_service.convert_sav_json(
             body.input_path, body.output_path, body.direction,
         )
         return ToolResponse(success=True, message="Conversion complete.", details=result)

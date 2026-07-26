@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST.png" alt="PalworldSaveTools" width="140" />
+<img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST_Blue.png" alt="PalworldSaveTools" width="140" />
 
 # PalworldSaveTools
 
@@ -65,21 +65,7 @@ Single-purpose operations, each with its own form: **Convert** (SAV↔JSON), **C
 
 ## Installation
 
-### Standalone Builds (Recommended)
-
-Pre-built binaries for all three platforms are on [GitHub Releases](https://github.com/CyrixJD115/PalSavTools/releases/latest) and [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190).
-
-| Platform | Download | Requirements |
-|---|---|---|
-| **Windows** | `PalworldSaveTools-*.exe` | Windows 10/11, [VC++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (2015–2022) |
-| **Linux** | `PalworldSaveTools-*-linux` | Any modern distro — run `chmod +x` first |
-| **macOS** | `PalworldSaveTools-*-macos.dmg` | macOS 12+ (Monterey or later) |
-
-1. Download the build for your platform.
-2. Extract (if archived) and run the executable.
-3. That's it — no Python or dependencies needed.
-
-> **macOS:** if Gatekeeper blocks the app, right-click → **Open** the first time, or run `xattr -d com.apple.quarantine /path/to/app`.
+> **Prebuilt binaries aren't published yet** — PST currently ships as a **run-from-source** app. It's a one-time setup: a single command installs every dependency, then `./start.sh` boots the app. Pick your platform below.
 
 ### From Source (All Platforms)
 

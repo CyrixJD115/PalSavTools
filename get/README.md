@@ -1,0 +1,95 @@
+# One-shot installer
+
+The fastest way to get PalworldSaveTools running from source. Each one-liner
+clones the repo, installs every system dependency, and prints the exact launch
+command — no manual steps in between.
+
+> Prefer a pre-built binary? Grab one from
+> [GitHub Releases](https://github.com/CyrixJD115/PalSavTools/releases/latest)
+> instead — no setup needed.
+
+---
+
+## Linux / macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash
+```
+
+That's it. It will:
+
+1. **Clone** PalworldSaveTools (with submodules) into `./PalSavTools`.
+2. **Detect your OS + distro** and run the matching [`setup/`](../setup/) installer
+   — installs Rust, Node.js, uv, and (on Linux) the GTK/WebKit headers Tauri needs.
+3. **Print the launch command** to run next.
+
+### Options
+
+Pass them after `bash -s --`:
+
+```bash
+curl -fsSL .../get/get.sh | bash -s -- --dest ~/projects/pst --branch dev
+```
+
+| Flag | Default | Purpose |
+|---|---|---|
+| `--dest <dir>` | `./PalSavTools` | Where to clone |
+| `--branch <name>` | `master` | Branch/tag to check out |
+| `--repo <url>` | public GitHub | Override the git remote (useful for forks) |
+| `--no-clone` | — | Skip cloning; run `setup/` against the current directory |
+
+---
+
+## Windows (PowerShell)
+
+```powershell
+irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex
+```
+
+Same flow: clone → install Git/Node/Rust/uv/VC++ Redist → print next steps.
+
+### Options (download the file first)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File get.ps1 -Dest C:\projects\pst -Branch dev -IncludeBuildTools
+```
+
+| Flag | Default | Purpose |
+|---|---|---|
+| `-Dest <dir>` | `.\PalSavTools` | Where to clone |
+| `-Branch <name>` | `master` | Branch/tag to check out |
+| `-Repo <url>` | public GitHub | Override the git remote |
+| `-NoClone` | — | Skip cloning; run `setup\` against `$PWD` |
+
+(`-IncludeBuildTools` is passed through to `setup/windows.ps1` to add the
+Visual Studio Build Tools for the Nuitka standalone-build path.)
+
+---
+
+## After it finishes
+
+**Open a new terminal** (so your shell picks up the freshly-installed tools),
+then from the cloned dir:
+
+```bash
+./start.sh            # macOS / Linux — native Tauri window
+./start.sh --web      #               — browser mode
+.\start.cmd           # Windows       — native Tauri window
+.\start.cmd --web     #               — browser mode
+```
+
+You can verify the environment any time with the standalone checker:
+
+```bash
+python3 setup/check_env.py
+```
+
+---
+
+## What if it fails?
+
+- **Cloning failed** → check your network, or pass `--repo` / `-Repo` to point at a fork.
+- **A package install failed** → the error message names the tool. Re-run the matching `setup/*.sh` (or `setup\windows.ps1`) directly — they're idempotent.
+- **`./start.sh` says `uv not found` after setup** → you didn't open a new terminal. Close the current one and open a fresh terminal, then retry. (The launchers also probe `~/.local/bin` and `~/.cargo/bin` as a fallback, but a fresh shell is the reliable fix.)
+
+See [`setup/README.md`](../setup/README.md) for the full troubleshooting table.

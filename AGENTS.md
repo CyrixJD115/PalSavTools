@@ -3,6 +3,10 @@
 ## Quick start
 
 ```bash
+# First-touch one-shot installer (clones + installs everything):
+curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash
+
+# Once cloned + set up:
 start.cmd | start.sh                     # thin wrappers → start.py (the real launcher)
 uv run python start.py                   # native Tauri window
 uv run python start.py --web             # browser mode (frontend + backend only)
@@ -15,7 +19,12 @@ python3 setup/check_env.py               # standalone preflight (no venv needed)
 ports, then orchestrates frontend + backend (+ optional Tauri window).
 `src/main.py` is now a **compatibility shim** that forwards to `start.py` —
 existing `uv run src/main.py --web` invocations still work, but prefer
-`start.py` for new docs/scripts. First-time system-dependency installers live
+`start.py` for new docs/scripts. `get/` holds the one-shot curl/iex installer
+(clone + setup in one command); `setup/` holds the per-platform installers and
+the env checker (see `setup/README.md`).
+
+If a freshly-installed tool isn't on PATH yet, the launchers probe `~/.local/bin`
+and `~/.cargo/bin` as a fallback — but the reliable fix is a new terminal.
 in `setup/` (see `setup/README.md`).
 
 ## Architecture

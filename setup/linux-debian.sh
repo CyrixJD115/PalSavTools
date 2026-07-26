@@ -4,7 +4,8 @@
 #
 # Installs every system dependency needed to *build and launch* PST from source:
 # Python venv, Rust (cargo), Node.js, uv, plus the GTK/WebKit dev headers Tauri
-# needs on Linux. Safe to re-run — every step is idempotent.
+# needs on Linux. Safe to re-run — every step is idempotent and verifies the
+# tool actually works before moving on.
 #
 # See setup/README.md for what each package is for and troubleshooting.
 set -euo pipefail
@@ -18,12 +19,49 @@ command -v sudo >/dev/null || { echo "sudo is required." >&2; exit 1; }
 HERE="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$HERE/.." && pwd)"
 
+# --- output helpers --------------------------------------------------------
 c_ok()   { printf '\033[92m✓\033[0m %s\n' "$*"; }
 c_warn() { printf '\033[93m⚠\033[0m %s\n' "$*"; }
+c_crit() { printf '\033[91m✗\033[0m %s\n' "$*"; }
+c_hint() { printf '    \033[2m→ %s\033[0m\n' "$*"; }
 c_info() { printf '\033[96m›\033[0m %s\n' "$*"; }
 c_step() { printf '\n\033[1m=== %s ===\033[0m\n' "$*"; }
 
 have() { command -v "$1" >/dev/null 2>&1; }
+
+# Verify a tool is on PATH after installing it. Hard-aborts on failure so the
+# user knows exactly which step broke instead of seeing a cryptic downstream
+# error. Prints the version on success.
+verify() {
+    local tool="$1" label="$2"
+    if have "$tool"; then
+        c_ok "$label ($("$tool" --version 2>&1 | head -1))"
+        return 0
+    fi
+    c_crit "$label FAILED — '$tool' still not found on PATH"
+    c_hint "Re-run this script, or install $tool manually and re-run."
+    c_hint "If you just installed it in this terminal, OPEN A NEW TERMINAL so your PATH refreshes."
+    exit 1
+}
+
+# Add uv's install dir to PATH (uv installs to ~/.local/bin). Also helps a
+# just-finished installer be visible in this same shell.
+add_local_bin_to_path() {
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+}
+
+banner_new_terminal() {
+    cat <<EOF
+
+\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
+\033[1m  IMPORTANT: open a NEW terminal before running ./start.sh\033[0m
+\033[2m  (so your shell picks up the tools we just installed)\033[0m
+\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
+EOF
+}
 
 c_step "1/5  apt system packages"
 sudo apt-get update -qq
@@ -52,11 +90,14 @@ if have cargo; then
     c_ok "cargo already present ($(cargo --version))"
 else
     c_info "installing rustup (rustup.rs)"
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-        | sh -s -- -y --profile minimal
-    # shellcheck disable=SC1091
-    source "$HOME/.cargo/env"
-    have cargo && c_ok "cargo installed" || { c_warn "cargo install failed — see output"; }
+    if ! curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --profile minimal; then
+        c_crit "rustup installer failed to download or run"
+        c_hint "Check your network, then re-run this script."
+        exit 1
+    fi
+    [[ -r "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+    verify cargo "Rust install"
 fi
 
 c_step "3/5  Node.js LTS + npm"
@@ -70,7 +111,8 @@ else
         wget -qO- https://deb.nodesource.com/setup_lts.x | sudo -E bash -
     fi
     sudo apt-get install -y nodejs
-    have node && c_ok "node installed ($(node --version))" || c_warn "node install failed"
+    verify node "Node.js install"
+    verify npm "npm install"
 fi
 
 c_step "4/5  uv (Python package manager)"
@@ -78,25 +120,32 @@ if have uv; then
     c_ok "uv already present ($(uv --version))"
 else
     c_info "installing uv from astral.sh"
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    # uv installs to ~/.local/bin; make sure it's on PATH for this shell.
-    case ":$PATH:" in
-        *":$HOME/.local/bin:"*) ;;
-        *) export PATH="$HOME/.local/bin:$PATH" ;;
-    esac
-    have uv && c_ok "uv installed ($(uv --version))" || c_warn "uv install failed — open a new terminal"
+    if ! curl -LsSf https://astral.sh/uv/install.sh | sh; then
+        c_crit "uv installer failed to download or run"
+        c_hint "Check your network, then re-run this script."
+        exit 1
+    fi
+    add_local_bin_to_path
+    verify uv "uv install"
 fi
 
 c_step "5/5  Verify"
 cd "$ROOT"
-python3 "$HERE/check_env.py" --mode=launch || true
+if python3 "$HERE/check_env.py" --mode=launch; then
+    c_ok "environment check passed"
+else
+    rc=$?
+    c_warn "check_env.py reported issues (exit $rc) — review the report above."
+    c_hint "Critical issues must be fixed before ./start.sh will boot."
+fi
 
+banner_new_terminal
 cat <<EOF
 
-Done. From $ROOT, launch PST with:
+Done. From $ROOT, **in a new terminal**, launch PST with:
     ./start.sh            # native Tauri window
     ./start.sh --web      # browser mode (no native window)
 
-If check_env reported warnings, re-run it any time:
+Re-run the environment check any time:
     python3 setup/check_env.py
 EOF

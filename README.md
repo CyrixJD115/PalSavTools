@@ -224,7 +224,14 @@ Also available on [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190).
 
 PST uses [`uv`](https://docs.astral.sh/uv/) for dependency management. The launcher automatically creates a virtual environment, runs a preflight environment check, installs everything, and boots the app.
 
-**First-time setup (system dependencies):** a one-time installer per platform lives in [`setup/`](setup/README.md). It installs Rust, Node.js, uv, and the GTK/WebKit headers the native build needs:
+**One-liner (easiest):** clone + install all system deps + print next steps — see [`get/README.md`](get/README.md):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash        # macOS / Linux
+irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex               # Windows (PowerShell)
+```
+
+**Manual setup (if you already cloned):** a one-time installer per platform lives in [`setup/`](setup/README.md). It installs Rust, Node.js, uv, and the GTK/WebKit headers the native build needs:
 
 ```bash
 bash setup/linux.sh        # Linux — auto-detects Arch / Debian / Fedora
@@ -255,6 +262,8 @@ start.cmd --web           browser mode (no native window)
 ```
 
 The launcher creates a `.venv`, installs dependencies via `uv sync`, runs the preflight check, and boots the app. It cleans up the lockfile on exit so each run is reproducible. Pass `--check` to run *only* the preflight, or `--skip-check` to bypass it.
+
+> **Tip:** if you just ran a setup script and `./start.sh` says `uv not found`, **open a new terminal** so your shell refreshes its PATH (the launchers also probe `~/.local/bin` and `~/.cargo/bin` as a fallback).
 
 
 

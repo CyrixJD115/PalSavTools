@@ -7,6 +7,9 @@ that the launcher also runs before booting the app.
 > [GitHub Releases](https://github.com/CyrixJD115/PalSavTools/releases/latest) —
 > no setup needed. The scripts here are only for **building from source**.
 
+> **Want the one-liner?** See [`get/README.md`](../get/README.md) —
+> `curl -fsSL .../get/get.sh | bash` clones + sets up everything in one shot.
+
 ---
 
 ## Which script do I run?

@@ -27,11 +27,18 @@ Windows  (PowerShell)              powershell -ExecutionPolicy Bypass -File setu
 
 Then launch from the repo root:
 
+**Linux / macOS:**
+
 ```bash
-./start.sh            # macOS / Linux — native Tauri window
-./start.sh --web      #               — browser mode (no native window)
-.\start.cmd           # Windows       — native Tauri window
-.\start.cmd --web     #               — browser mode
+./start.sh            # native Tauri window
+./start.sh --web      # browser mode (no native window)
+```
+
+**Windows:**
+
+```powershell
+.\start.cmd           # native Tauri window
+.\start.cmd --web     # browser mode (no native window)
 ```
 
 Every script is **idempotent** — safe to re-run any time. They end by invoking

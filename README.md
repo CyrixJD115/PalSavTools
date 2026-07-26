@@ -67,30 +67,21 @@ Single-purpose operations, each with its own form: **Convert** (SAV↔JSON), **C
 
 > **Prebuilt binaries aren't published yet** — PST currently ships as a **run-from-source** app. It's a one-time setup: a single command installs every dependency, then `./start.sh` boots the app. Pick your platform below.
 
-### From Source (All Platforms)
+> **Where does it install?** Into a new `PalSavTools/` folder **inside whatever directory your terminal is currently in**. So first `cd` to where you want it (e.g. `cd ~/projects`), then run the command. The installer prints the full path before it starts — no surprises. To override, pass `--dest <path>` (Linux/macOS) or `-Dest <path>` (Windows).
+
+### Linux & macOS
 
 **One-liner (easiest)** — clones, installs every system dependency, prints next steps. See [`get/README.md`](get/README.md):
 
-> **First:** open your terminal to the folder where you want PST installed (e.g. `cd ~/projects` or `cd ~/Documents`). The one-liner creates a `PalSavTools/` folder **inside whatever directory your terminal is currently in** and prints the full path before it starts, so you know exactly where it's going. To install elsewhere, pass `--dest <path>` (Linux/macOS) or `-Dest <path>` (Windows).
-
 ```bash
-curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash        # macOS / Linux
-irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex               # Windows (PowerShell)
+curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash
 ```
 
-**Manual setup** — per-platform installers live in [`setup/`](setup/README.md) (Rust, Node.js, uv, and the GTK/WebKit headers the native Linux build needs):
+**Manual setup** — if you already cloned, per-platform installers live in [`setup/`](setup/README.md):
 
 ```bash
-bash setup/linux.sh                                                                  # Linux (auto-detects distro)
-bash setup/macos.sh                                                                  # macOS
-powershell -ExecutionPolicy Bypass -File setup\windows.ps1                           # Windows
-```
-
-Verify the environment any time:
-
-```bash
-python3 setup/check_env.py              # colored report
-python3 setup/check_env.py --mode=tauri # stricter gates for native builds
+bash setup/linux.sh        # Linux (auto-detects Arch / Debian / Fedora)
+bash setup/macos.sh        # macOS
 ```
 
 **Clone and run:**
@@ -98,11 +89,40 @@ python3 setup/check_env.py --mode=tauri # stricter gates for native builds
 ```bash
 git clone https://github.com/CyrixJD115/PalSavTools.git
 cd PalworldSaveTools
-./start.sh                # macOS / Linux — native Tauri window
-./start.sh --web          #               — browser mode (no native window)
-# Windows:
-.\start.cmd               # native Tauri window
-.\start.cmd --web         # browser mode
+./start.sh                 # native Tauri window
+./start.sh --web           # browser mode (no native window)
+```
+
+### Windows
+
+**One-liner (easiest)** — in PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex
+```
+
+**Manual setup** — if you already cloned:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File setup\windows.ps1
+```
+
+**Clone and run:**
+
+```powershell
+git clone https://github.com/CyrixJD115/PalSavTools.git
+cd PalworldSaveTools
+.\start.cmd                # native Tauri window
+.\start.cmd --web          # browser mode (no native window)
+```
+
+### All Platforms
+
+Verify the environment any time:
+
+```bash
+python3 setup/check_env.py              # colored report
+python3 setup/check_env.py --mode=tauri # stricter gates for native builds
 ```
 
 The launcher creates a `.venv`, runs a preflight check, installs Python deps via `uv sync`, and boots the app. Pass `--check` to run *only* the preflight, or `--skip-check` to bypass it.

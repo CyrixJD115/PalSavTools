@@ -75,11 +75,18 @@ Visual Studio Build Tools for the Nuitka standalone-build path.)
 **Open a new terminal** (so your shell picks up the freshly-installed tools),
 then from the cloned dir:
 
+**Linux / macOS:**
+
 ```bash
-./start.sh            # macOS / Linux — native Tauri window
-./start.sh --web      #               — browser mode
-.\start.cmd           # Windows       — native Tauri window
-.\start.cmd --web     #               — browser mode
+./start.sh            # native Tauri window
+./start.sh --web      # browser mode (no native window)
+```
+
+**Windows:**
+
+```powershell
+.\start.cmd           # native Tauri window
+.\start.cmd --web     # browser mode (no native window)
 ```
 
 You can verify the environment any time with the standalone checker:

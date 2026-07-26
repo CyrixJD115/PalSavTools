@@ -54,7 +54,10 @@ Same flow: print install path → clone → install Git/Node/Rust/uv/VC++ Redist
 
 ### Options (download the file first)
 
+The `irm | iex` one-liner above can't take arguments (PowerShell's `Invoke-Expression` doesn't forward them). To pass any of the flags below, download the script and run it with `-File`:
+
 ```powershell
+irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 -OutFile get.ps1
 powershell -ExecutionPolicy Bypass -File get.ps1 -Dest C:\projects\pst -Branch dev -IncludeBuildTools
 ```
 

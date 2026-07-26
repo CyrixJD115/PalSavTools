@@ -222,22 +222,39 @@ Also available on [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190).
 
 ### From Source (All Platforms)
 
-PST uses [`uv`](https://docs.astral.sh/uv/) for dependency management. The start script automatically creates a virtual environment and installs everything.
+PST uses [`uv`](https://docs.astral.sh/uv/) for dependency management. The launcher automatically creates a virtual environment, runs a preflight environment check, installs everything, and boots the app.
 
-**Prerequisites:** [Python 3.11+](https://www.python.org/) and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+**First-time setup (system dependencies):** a one-time installer per platform lives in [`setup/`](setup/README.md). It installs Rust, Node.js, uv, and the GTK/WebKit headers the native build needs:
 
 ```bash
-git clone https://github.com/deafdudecomputers/PalworldSaveTools.git
+bash setup/linux.sh        # Linux — auto-detects Arch / Debian / Fedora
+bash setup/macos.sh        # macOS
+powershell -ExecutionPolicy Bypass -File setup\windows.ps1   # Windows
+```
+
+You can verify the environment any time with the standalone checker:
+
+```bash
+python3 setup/check_env.py            # colored report
+python3 setup/check_env.py --mode=tauri   # stricter gates for native builds
+```
+
+**Clone and run:**
+
+```bash
+git clone https://github.com/CyrixJD115/PalworldSaveTools.git
 cd PalworldSaveTools
-uv run start.py
+./start.sh                # macOS / Linux — native Tauri window
+./start.sh --web          #               — browser mode (no native window)
 ```
 
-**Windows** (double-click launcher):
+**Windows** (double-click launcher or in a terminal):
 ```
-start.cmd
+start.cmd                 native Tauri window
+start.cmd --web           browser mode (no native window)
 ```
 
-The launcher creates a `.venv`, installs dependencies via `uv sync`, and boots the app. It cleans up the lockfile on exit so each run is reproducible.
+The launcher creates a `.venv`, installs dependencies via `uv sync`, runs the preflight check, and boots the app. It cleans up the lockfile on exit so each run is reproducible. Pass `--check` to run *only* the preflight, or `--skip-check` to bypass it.
 
 
 

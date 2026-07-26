@@ -3,9 +3,20 @@
 ## Quick start
 
 ```bash
-start.cmd | start.sh | start.py          # root launchers → src/main.py
-uv run src/main.py --web                 # launch WebUI (frontend + backend)
+start.cmd | start.sh                     # thin wrappers → start.py (the real launcher)
+uv run python start.py                   # native Tauri window
+uv run python start.py --web             # browser mode (frontend + backend only)
+uv run python start.py --check           # run only the preflight env check
+python3 setup/check_env.py               # standalone preflight (no venv needed)
 ```
+
+`start.py` (repo root) is the canonical launcher: it runs the preflight check
+(`setup/check_env.py`), creates the venv, inits submodules, frees the dev
+ports, then orchestrates frontend + backend (+ optional Tauri window).
+`src/main.py` is now a **compatibility shim** that forwards to `start.py` —
+existing `uv run src/main.py --web` invocations still work, but prefer
+`start.py` for new docs/scripts. First-time system-dependency installers live
+in `setup/` (see `setup/README.md`).
 
 ## Architecture
 

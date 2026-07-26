@@ -9,10 +9,11 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException
 
 from app.backend.schemas import (
-    MaxAbilitiesRequest, PlayerDetail, PlayerInventoryResponse,
-    PlayerStatsResponse, PlayerTechPointsResponse, PlayerTechnologiesResponse,
-    RenamePlayerRequest, SetLevelRequest, SetStatsRequest,
-    SetTechnologiesRequest, SetTechPointsRequest,
+    MaxAbilitiesRequest, PlayerAbilitiesResponse, PlayerDetail,
+    PlayerInventoryResponse, PlayerQuestsResponse, PlayerStatsResponse,
+    PlayerTechPointsResponse, PlayerTechnologiesResponse, RenamePlayerRequest,
+    SetLevelRequest, SetPlayerAbilitiesRequest, SetPlayerQuestsRequest,
+    SetStatsRequest, SetTechnologiesRequest, SetTechPointsRequest,
 )
 from app.backend.services import inventory_service, player_service
 from app.backend.state import save_state
@@ -216,3 +217,43 @@ async def max_player_abilities(body: MaxAbilitiesRequest) -> dict:
         resp["failed_uids"] = result["failed"]
         resp["status"] = "partial" if result["processed"] > 0 else "failed"
     return resp
+
+
+@router.get("/{uid}/quests", response_model=PlayerQuestsResponse)
+async def get_player_quests(uid: str) -> PlayerQuestsResponse:
+    """All known quests tagged with the player's status (completed/active/not_started)."""
+    _, players_dir, _, _ = _require()
+    return PlayerQuestsResponse(
+        **player_service.get_player_quests(players_dir, uid)
+    )
+
+
+@router.put("/{uid}/quests")
+async def set_player_quests(uid: str, body: SetPlayerQuestsRequest) -> dict:
+    """Mark quests complete or reset completed quests (idempotent)."""
+    _, players_dir, _, _ = _require()
+    if not player_service.set_player_quests(
+        players_dir, uid, body.complete, body.reset,
+    ):
+        raise HTTPException(404, f"Player .sav not found for: {uid}")
+    return {"status": "ok"}
+
+
+@router.get("/{uid}/abilities", response_model=PlayerAbilitiesResponse)
+async def get_player_abilities(uid: str) -> PlayerAbilitiesResponse:
+    """All 13 relic types (Lifmunk Effigies + stat boosts) with counts/ranks."""
+    level_dict, players_dir, _, _ = _require()
+    return PlayerAbilitiesResponse(
+        **player_service.get_player_abilities(players_dir, uid)
+    )
+
+
+@router.put("/{uid}/abilities")
+async def set_player_abilities(uid: str, body: SetPlayerAbilitiesRequest) -> dict:
+    """Set per-relic-type effigy counts; derives matching stat ranks."""
+    level_dict, players_dir, _, _ = _require()
+    if not player_service.set_player_abilities(
+        level_dict, players_dir, uid, body.values,
+    ):
+        raise HTTPException(404, f"Player .sav not found for: {uid}")
+    return {"status": "ok"}

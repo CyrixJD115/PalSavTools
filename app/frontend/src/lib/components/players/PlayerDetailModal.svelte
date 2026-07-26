@@ -4,7 +4,7 @@
   import Icon from '@iconify/svelte';
   import { api } from '$lib/api/client';
   import { t } from '$stores/index';
-  import type { PlayerDetail, PlayerStatsResponse, PlayerTechPointsResponse } from '$types/index';
+  import type { PlayerDetail, PlayerQuestsResponse, PlayerAbilitiesResponse, PlayerStatsResponse, PlayerTechPointsResponse, QuestEntry, RelicEntry } from '$types/index';
   import Button from '$components/ui/Button.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import Spinner from '$components/ui/Spinner.svelte';
@@ -109,6 +109,121 @@
       stats = { max_hp: 0, max_sp: 0, attack: 0, weight: 0, capture_rate: 0, work_speed: 0, unused_stat_points: 0 };
     }
     editingStats = true;
+  }
+
+  // ---- Effigies (Lifmunk / relic stat boosts) ----
+  let relics = $state<RelicEntry[]>([]);
+  let relicValues = $state<Record<string, number>>({});
+  let abilitiesSupported = $state(true);
+  let editingEffigies = $state(false);
+
+  async function startEffigies() {
+    editingStats = false;
+    editingMissions = false;
+    try {
+      const resp = await api.playerAbilities(uid);
+      relics = resp.relics;
+      abilitiesSupported = resp.supported;
+      relicValues = Object.fromEntries(resp.relics.map((r) => [r.type, r.count]));
+    } catch {
+      relics = [];
+      abilitiesSupported = false;
+      relicValues = {};
+    }
+    editingEffigies = true;
+  }
+
+  async function doEffigies() {
+    await doAction('effigies', () => api.setPlayerAbilities(uid, { values: relicValues }));
+    editingEffigies = false;
+  }
+
+  function setAllRelicsToMax() {
+    for (const r of relics) relicValues[r.type] = r.cumulative_max;
+  }
+
+  // ---- Missions (quests) ----
+  let questEntries = $state<QuestEntry[]>([]);
+  let questsSupported = $state(true);
+  let editingMissions = $state(false);
+  let questSearch = $state('');
+  let selectedQuests = $state<Set<string>>(new Set());
+
+  const QUEST_GROUP_ORDER = ['Main', 'Sub', 'Hidden', 'Other'] as const;
+
+  const filteredQuests = $derived(
+    questEntries.filter((q) => {
+      const term = questSearch.trim().toLowerCase();
+      if (!term) return true;
+      return q.name.toLowerCase().includes(term) || q.id.toLowerCase().includes(term);
+    }),
+  );
+
+  const questsByGroup = $derived.by(() => {
+    const groups: Record<string, QuestEntry[]> = {};
+    for (const q of filteredQuests) {
+      const g = QUEST_GROUP_ORDER.includes(q.type as typeof QUEST_GROUP_ORDER[number])
+        ? q.type : 'Other';
+      (groups[g] ??= []).push(q);
+    }
+    return groups;
+  });
+
+  async function startMissions() {
+    editingStats = false;
+    editingEffigies = false;
+    try {
+      const resp = await api.playerQuests(uid);
+      questEntries = resp.quests;
+      questsSupported = resp.supported;
+    } catch {
+      questEntries = [];
+      questsSupported = false;
+    }
+    selectedQuests = new Set();
+    questSearch = '';
+    editingMissions = true;
+  }
+
+  function toggleQuest(id: string) {
+    const next = new Set(selectedQuests);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    selectedQuests = next;
+  }
+
+  function toggleGroupAll(entries: QuestEntry[], checked: boolean) {
+    const next = new Set(selectedQuests);
+    for (const q of entries) {
+      if (checked) next.add(q.id); else next.delete(q.id);
+    }
+    selectedQuests = next;
+  }
+
+  async function completeSelectedMissions() {
+    const ids = [...selectedQuests];
+    if (!ids.length) { actionError = $t('web.players.missions_none_selected'); return; }
+    await doAction('missions-complete', () => api.setPlayerQuests(uid, { complete: ids }));
+    // Refresh local state from the response-free write.
+    const map = new Map(questEntries.map((q) => [q.id, q]));
+    for (const id of ids) {
+      const q = map.get(id);
+      if (q) q.status = 'completed';
+    }
+    questEntries = [...questEntries];
+    selectedQuests = new Set();
+  }
+
+  async function resetSelectedMissions() {
+    const ids = [...selectedQuests];
+    if (!ids.length) { actionError = $t('web.players.missions_none_selected'); return; }
+    await doAction('missions-reset', () => api.setPlayerQuests(uid, { reset: ids }));
+    const map = new Map(questEntries.map((q) => [q.id, q]));
+    for (const id of ids) {
+      const q = map.get(id);
+      if (q && q.status === 'completed') q.status = 'not_started';
+    }
+    questEntries = [...questEntries];
+    selectedQuests = new Set();
   }
 
   function handleDelete() {
@@ -261,6 +376,100 @@
         {:else}
           <Button variant="secondary" onclick={startStats} disabled={actionLoading !== null}>
             <Icon icon="lucide:activity" width={14} class="mr-1" /> {$t('web.players.edit_stats')}
+          </Button>
+        {/if}
+
+        <!-- Effigies (Lifmunk / relic stat boosts) -->
+        {#if editingEffigies}
+          {#if !abilitiesSupported}
+            <p class="text-xs text-status-warning">{$t('web.players.effigies_unsupported')}</p>
+          {/if}
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            {#each relics as r (r.type)}
+              <label class="text-xs text-ink-muted block">
+                {r.label}
+                <input
+                  class="input w-full text-sm mt-0.5"
+                  type="number"
+                  min="0"
+                  max={r.cumulative_max}
+                  bind:value={relicValues[r.type]}
+                />
+                <span class="block text-[10px] text-ink-dim mt-0.5">
+                  {$t('web.players.effigies_rank_hint', { rank: r.rank, max: r.max_rank })} · max {r.cumulative_max}
+                </span>
+              </label>
+            {/each}
+          </div>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <Button variant="primary" onclick={doEffigies} disabled={actionLoading !== null}>{$t('web.players.effigies_apply')}</Button>
+            <Button variant="ghost" onclick={setAllRelicsToMax} disabled={actionLoading !== null}>{$t('web.players.max_all_abilities')}</Button>
+            <Button variant="ghost" onclick={() => editingEffigies = false}>{$t('web.common.cancel')}</Button>
+          </div>
+        {:else}
+          <Button variant="secondary" onclick={startEffigies} disabled={actionLoading !== null}>
+            <Icon icon="lucide:gem" width={14} class="mr-1" /> {$t('web.players.edit_effigies')}
+          </Button>
+        {/if}
+
+        <!-- Missions (quests) -->
+        {#if editingMissions}
+          {#if !questsSupported}
+            <p class="text-xs text-status-warning">{$t('web.players.missions_unsupported')}</p>
+          {/if}
+          <input
+            class="input w-full text-sm"
+            placeholder={$t('web.players.missions_search')}
+            bind:value={questSearch}
+          />
+          <div class="max-h-64 overflow-y-auto border border-line/20 rounded-2 p-1">
+            {#if filteredQuests.length === 0}
+              <p class="text-xs text-ink-muted p-2">{$t('web.players.missions_no_results')}</p>
+            {/if}
+            {#each QUEST_GROUP_ORDER as groupKey}
+              {@const entries = questsByGroup[groupKey] ?? []}
+              {#if entries.length}
+                <div class="flex items-center gap-2 px-1 py-1 sticky top-0 bg-bg-surface">
+                  <input
+                    type="checkbox"
+                    checked={entries.every((q) => selectedQuests.has(q.id))}
+                    onchange={(e) => toggleGroupAll(entries, (e.target as HTMLInputElement).checked)}
+                  />
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-ink-muted">
+                    {$t(`web.players.missions_group_${groupKey.toLowerCase()}`)} ({entries.length})
+                  </span>
+                </div>
+                {#each entries as q (q.id)}
+                  <!-- svelte-ignore a11y_click_events_have_key_events -->
+                  <div
+                    class="flex items-center gap-2 px-1 py-0.5 rounded-1 hover:bg-white/5 cursor-pointer"
+                    role="button"
+                    tabindex="0"
+                    onclick={() => toggleQuest(q.id)}
+                    onkeydown={(e) => e.key === 'Enter' && toggleQuest(q.id)}
+                  >
+                    <input type="checkbox" checked={selectedQuests.has(q.id)} />
+                    <span class="flex-1 text-xs text-ink-primary truncate">{q.name}</span>
+                    {#if q.status === 'completed'}
+                      <span class="text-[9px] px-1 rounded bg-status-success/20 text-status-success">{$t('web.players.missions_status_completed')}</span>
+                    {:else if q.status === 'active'}
+                      <span class="text-[9px] px-1 rounded bg-accent/20 text-accent">{$t('web.players.missions_status_active')}</span>
+                    {:else}
+                      <span class="text-[9px] px-1 rounded bg-white/5 text-ink-dim">{$t('web.players.missions_status_not_started')}</span>
+                    {/if}
+                  </div>
+                {/each}
+              {/if}
+            {/each}
+          </div>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <Button variant="primary" onclick={completeSelectedMissions} disabled={actionLoading !== null}>{$t('web.players.missions_complete')}</Button>
+            <Button variant="secondary" onclick={resetSelectedMissions} disabled={actionLoading !== null}>{$t('web.players.missions_reset')}</Button>
+            <Button variant="ghost" onclick={() => editingMissions = false}>{$t('web.common.cancel')}</Button>
+          </div>
+        {:else}
+          <Button variant="secondary" onclick={startMissions} disabled={actionLoading !== null}>
+            <Icon icon="lucide:scroll-text" width={14} class="mr-1" /> {$t('web.players.edit_missions')}
           </Button>
         {/if}
 

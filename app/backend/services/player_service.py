@@ -838,23 +838,9 @@ def max_all_abilities(level_dict: dict, players_dir: str, uids: list[str]) -> di
         cumax = {k: v["cumulative_max"] for k, v in relic_data.items()}
         maxrank = {k: v["max_rank"] for k, v in relic_data.items()}
     except Exception:
-        cumax, maxrank = {}, {}
+        cumax, maxrank = {}
 
-    relic_to_status = {
-        "EPalRelicType::CapturePower": "捕獲率",
-        "EPalRelicType::HungerReduction": "空腹率低減",
-        "EPalRelicType::SwimSpeed": "泳ぎ速度",
-        "EPalRelicType::FoodDecayReduction": "食料腐敗低減",
-        "EPalRelicType::JumpPower": "ジャンプ力",
-        "EPalRelicType::GliderSpeed": "滑空速度",
-        "EPalRelicType::ClimbSpeed": "崖登り速度",
-        "EPalRelicType::StatusAilmentResist": "状態異常耐性",
-        "EPalRelicType::ExpBonus": "経験値ボーナス",
-        "EPalRelicType::RainbowPassiveRate": "虹パッシブ率",
-        "EPalRelicType::MoveSpeed": "移動速度アップ",
-        "EPalRelicType::SphereHoming": "パルスフィアホーミング",
-        "EPalRelicType::StaminaReduction": "スタミナ消費軽減",
-    }
+    relic_to_status = RELIC_TO_STATUS
 
     failed: list[str] = []
 
@@ -933,3 +919,458 @@ def _k_set(node: dict, name: str, value) -> None:
         node[name] = value
     else:
         node[suffixed] = value
+
+
+# ---- relic (Lifmunk Effigy / stat boost) shared tables ----------------------
+# Relic enum -> the Japanese StatusName its rank is written under in
+# GotStatusPointList. Kept in sync with the inline copy in max_all_abilities.
+
+RELIC_TO_STATUS: dict[str, str] = {
+    "EPalRelicType::CapturePower": "捕獲率",
+    "EPalRelicType::HungerReduction": "空腹率低減",
+    "EPalRelicType::SwimSpeed": "泳ぎ速度",
+    "EPalRelicType::FoodDecayReduction": "食料腐敗低減",
+    "EPalRelicType::JumpPower": "ジャンプ力",
+    "EPalRelicType::GliderSpeed": "滑空速度",
+    "EPalRelicType::ClimbSpeed": "崖登り速度",
+    "EPalRelicType::StatusAilmentResist": "状態異常耐性",
+    "EPalRelicType::ExpBonus": "経験値ボーナス",
+    "EPalRelicType::RainbowPassiveRate": "虹パッシブ率",
+    "EPalRelicType::MoveSpeed": "移動速度アップ",
+    "EPalRelicType::SphereHoming": "パルスフィアホーミング",
+    "EPalRelicType::StaminaReduction": "スタミナ消費軽減",
+}
+
+# English UI label per relic type (derived from the enum suffix).
+RELIC_LABELS: dict[str, str] = {
+    "EPalRelicType::CapturePower": "Capture Power (Lifmunk Effigy)",
+    "EPalRelicType::HungerReduction": "Hunger Reduction",
+    "EPalRelicType::SwimSpeed": "Swim Speed",
+    "EPalRelicType::FoodDecayReduction": "Food Decay Reduction",
+    "EPalRelicType::JumpPower": "Jump Power",
+    "EPalRelicType::GliderSpeed": "Glider Speed",
+    "EPalRelicType::ClimbSpeed": "Climb Speed",
+    "EPalRelicType::StatusAilmentResist": "Status Ailment Resist",
+    "EPalRelicType::ExpBonus": "EXP Bonus",
+    "EPalRelicType::RainbowPassiveRate": "Rainbow Passive Rate",
+    "EPalRelicType::MoveSpeed": "Move Speed",
+    "EPalRelicType::SphereHoming": "Sphere Homing",
+    "EPalRelicType::StaminaReduction": "Stamina Reduction",
+}
+
+
+def _relic_meta() -> tuple[dict[str, dict], dict[str, int]]:
+    """Return ``(relic_data, cumulative_max)`` from game_data/relic_data.json.
+
+    ``relic_data`` is the raw map (with cumulative_max/max_rank/per_rank);
+    ``cumulative_max`` is a flat {enum: int} for convenience. Empty on failure.
+    """
+    try:
+        from app.backend.services.data_service import load_game_data
+        data = load_game_data("relic_data")
+        return data, {k: int(v["cumulative_max"]) for k, v in data.items()}
+    except Exception:
+        return {}, {}
+
+
+def relic_rank_for_count(per_rank: list[int], count: int) -> int:
+    """Rank a given effigy ``count`` grants, walking the cumulative ``per_rank``.
+
+    ``per_rank[i]`` is the ADDITIONAL effigies needed to go from rank i to i+1,
+    so the threshold for rank R is ``sum(per_rank[0:R])``. Returns 0 for 0.
+    """
+    count = max(0, int(count))
+    rank = 0
+    threshold = 0
+    for need in per_rank or []:
+        if count >= threshold + need:
+            threshold += need
+            rank += 1
+        else:
+            break
+    return rank
+
+
+# ---- player quests (missions) ----------------------------------------------
+# Ported from PST inventory_tab.py MissionPanelWidget (read: load_player,
+# write: _complete_selected / _reset_selected). Adapted to the web layer's
+# _read_player_sav / _write_player_sav cache + schema-gating pattern.
+
+_QUEST_ARRAY_COMPLETED = "CompletedQuestArray_FullRelease"
+_QUEST_ARRAY_ORDERED = "OrderedQuestArray_FullRelease"
+
+# Older Palworld saves (pre-FullRelease) used the bare key names. We probe
+# ``_FullRelease`` first (modern) then fall back to the bare form so both work.
+_QUEST_COMPLETED_KEYS = [_QUEST_ARRAY_COMPLETED, "CompletedQuestArray"]
+_QUEST_ORDERED_KEYS = [_QUEST_ARRAY_ORDERED, "OrderedQuestArray"]
+
+
+def _quest_completed_list(sd: dict) -> list | None:
+    """The bare completed-quests list on ``sd`` (modern ``_FullRelease`` first,
+    then the bare older key), or ``None`` if absent.
+
+    In the Rust uesave shape, array properties are stored as bare lists under
+    the suffixed key — NOT wrapped in ``{value: {values: [...]}}``.
+    """
+    for k in _QUEST_COMPLETED_KEYS:
+        node = world_service._k(sd, k)
+        if isinstance(node, list):
+            return node
+    return None
+
+
+def _quest_ordered_list(sd: dict) -> list | None:
+    """The bare ordered/active-quests list on ``sd``, or ``None`` if absent."""
+    for k in _QUEST_ORDERED_KEYS:
+        node = world_service._k(sd, k)
+        if isinstance(node, list):
+            return node
+    return None
+
+
+def _quest_definitions() -> dict[str, dict]:
+    """``{id: {id, type, name}}`` from game_data/questdata.json (empty on miss)."""
+    try:
+        from app.backend.services.data_service import load_game_data
+        quests = load_game_data("questdata").get("quests", [])
+        return {q["id"]: q for q in quests if isinstance(q, dict) and q.get("id")}
+    except Exception:
+        return {}
+
+
+def _derive_quest_type(qid: str) -> str:
+    if qid.startswith("Main_"):
+        return "Main"
+    if qid.startswith("Sub_"):
+        return "Sub"
+    if qid.startswith("Hidden_"):
+        return "Hidden"
+    return "Sub"
+
+
+def _read_quest_arrays(sd: dict) -> tuple[set, set]:
+    """``(completed_set, active_set)`` from a player .sav SaveData struct.
+
+    The Rust uesave shape stores these as bare lists under the suffixed key.
+    """
+    completed: set = set()
+    active: set = set()
+    clist = _quest_completed_list(sd)
+    if isinstance(clist, list):
+        completed = {str(v) for v in clist}
+    olist = _quest_ordered_list(sd)
+    if isinstance(olist, list):
+        for entry in olist:
+            if isinstance(entry, dict):
+                qn = world_service._k(entry, "QuestName")
+                if qn:
+                    active.add(str(qn))
+    return completed, active
+
+
+def get_player_quests(players_dir: str, uid: str) -> dict:
+    """All known quests tagged with the player's status.
+
+    Returns ``{"quests": [...], "supported": bool}``. When the player .sav
+    can't be read, returns the full catalog as ``not_started`` (``supported=False``).
+    """
+    defs = _quest_definitions()
+    decoded = _read_player_sav(players_dir, uid)
+    if decoded is None:
+        entries = [
+            {"id": qid, "type": d.get("type", _derive_quest_type(qid)),
+             "name": d.get("name", qid), "status": "not_started"}
+            for qid, d in sorted(defs.items())
+        ]
+        return {"quests": entries, "supported": False}
+
+    player_dict, _ = decoded
+    sd = _save_data(player_dict)
+    completed, active = _read_quest_arrays(sd)
+
+    entries: list[dict] = []
+    for qid, d in sorted(defs.items()):
+        if qid in completed:
+            status = "completed"
+        elif qid in active:
+            status = "active"
+        else:
+            status = "not_started"
+        entries.append({
+            "id": qid,
+            "type": d.get("type", _derive_quest_type(qid)),
+            "name": d.get("name", qid),
+            "status": status,
+        })
+    # Quests present in the save but absent from the catalog are surfaced too.
+    for qid in sorted((completed | active) - set(defs)):
+        status = "completed" if qid in completed else "active"
+        entries.append({"id": qid, "type": _derive_quest_type(qid),
+                        "name": qid.replace("_", " "), "status": status})
+    return {"quests": entries, "supported": True}
+
+
+def _schema_known(player_dict: dict, path: str) -> bool:
+    """Whether the save's schema map declares ``path`` (e.g. a property name).
+
+    uesave refuses to encode unknown properties, so new-field creation must be
+    gated on this. ``path`` is a dotted path like ``SaveData.CompletedQuestArray``.
+    """
+    schemas = player_dict.get("schemas", {})
+    schema_props = schemas.get("schemas", {}) if isinstance(schemas, dict) else {}
+    return path in schema_props
+
+
+def set_player_quests(
+    players_dir: str, uid: str,
+    complete_ids: list[str], reset_ids: list[str],
+) -> bool:
+    """Apply quest status changes to the player .sav.
+
+    - ``complete_ids``: remove from the ordered (active) array, append to the
+      completed array (idempotent, deduped).
+    - ``reset_ids``: remove from the completed array.
+
+    Operates on whichever array form the save uses — ``*_FullRelease``
+    (modern) or the bare ``CompletedQuestArray``/``OrderedQuestArray``
+    (older saves). The Rust uesave shape stores these as bare lists; in-place
+    mutation needs no schema work, new-array creation is schema-gated.
+
+    Returns ``False`` if the player .sav can't be read or written.
+    """
+    complete_set = {str(q) for q in complete_ids}
+    reset_set = {str(q) for q in reset_ids}
+    if not complete_set and not reset_set:
+        return True
+
+    decoded = _read_player_sav(players_dir, uid)
+    if decoded is None:
+        return False
+    player_dict, save_type = decoded
+    sd = _save_data(player_dict)
+
+    def _ordered_key() -> str | None:
+        for k in _QUEST_ORDERED_KEYS:
+            if isinstance(world_service._k(sd, k), list):
+                return k
+        return None
+
+    def _completed_key(create: bool = False) -> str | None:
+        for k in _QUEST_COMPLETED_KEYS:
+            if isinstance(world_service._k(sd, k), list):
+                return k
+        if create:
+            for k in _QUEST_COMPLETED_KEYS:
+                if _schema_known(player_dict, f"SaveData.{k}"):
+                    sd[k + "_0"] = []
+                    return k + "_0"
+        return None
+
+    # --- handle "complete" ---
+    if complete_set:
+        # Remove from ordered (active) array (in-place filter).
+        ok = _ordered_key()
+        if ok is not None:
+            olist = world_service._k(sd, ok)
+            olist[:] = [
+                e for e in olist
+                if not (isinstance(e, dict)
+                        and str(world_service._k(e, "QuestName") or "") in complete_set)
+            ]
+        # Append to completed array (get-or-create, schema-gated).
+        ck = _completed_key(create=True)
+        if ck is not None:
+            clist = world_service._k(sd, ck)
+            existing = {str(v) for v in clist}
+            for qid in complete_set:
+                if qid not in existing:
+                    clist.append(qid)
+
+    # --- handle "reset" (remove from completed) ---
+    if reset_set:
+        ck = _completed_key()
+        if ck is not None:
+            clist = world_service._k(sd, ck)
+            clist[:] = [v for v in clist if str(v) not in reset_set]
+
+    return _write_player_sav(player_dict, save_type, players_dir, uid)
+
+
+# ---- player abilities (granular relic editor) ------------------------------
+# Ported from PST player_manager.set_ability_values, reusing the
+# max_all_abilities GotStatusPointList write pattern. Count -> rank derivation
+# uses the per_rank walk from relic_data.json (more accurate than PST's ratio).
+
+def get_player_abilities(players_dir: str, uid: str) -> dict:
+    """All 13 relic types with the player's current counts/ranks.
+
+    Returns ``{"relics": [...], "supported": bool}``. ``supported=False`` when
+    the player .sav can't be read; counts/ranks default to 0.
+    """
+    relic_data, _ = _relic_meta()
+    decoded = _read_player_sav(players_dir, uid)
+
+    counts: dict[str, int] = {}
+    if decoded is not None:
+        player_dict, _ = decoded
+        rd = world_service._k(_save_data(player_dict), "RecordData") or {}
+        rmap = world_service._k(rd, "RelicPossessNumMap")
+        if isinstance(rmap, dict):
+            entries = world_service._k(rmap, "value")
+            if isinstance(entries, list):
+                for e in entries:
+                    if isinstance(e, dict):
+                        rk = world_service._k(e, "key")
+                        rv = world_service._k(e, "value")
+                        if rk is not None:
+                            try:
+                                counts[str(rk)] = int(rv)
+                            except (TypeError, ValueError):
+                                pass
+
+    # Also surface the rank the player currently holds in GotStatusPointList,
+    # so the UI can show both. Requires the world save; safe to skip if absent.
+    world_ranks = _world_relic_ranks(uid)
+
+    relics: list[dict] = []
+    for rk, meta in (relic_data or {}).items():
+        count = counts.get(rk, 0)
+        per_rank = meta.get("per_rank", [])
+        # If the save has a stored rank but no count, prefer the stored rank so
+        # the UI reflects what's actually applied.
+        rank = world_ranks.get(rk, relic_rank_for_count(per_rank, count))
+        relics.append({
+            "type": rk,
+            "label": RELIC_LABELS.get(rk, rk.replace("EPalRelicType::", "")),
+            "count": count,
+            "cumulative_max": int(meta.get("cumulative_max", 0)),
+            "max_rank": int(meta.get("max_rank", 0)),
+            "rank": int(rank),
+        })
+    return {"relics": relics, "supported": decoded is not None}
+
+
+def _world_relic_ranks(uid: str) -> dict[str, int]:
+    """Current relic-stat ranks from the world save's GotStatusPointList.
+
+    Returns ``{relic_enum: rank}`` for relic-backed stats present on the player.
+    Reads lazily via build_mini_wsd so we never materialize the full level_dict.
+    Returns ``{}`` if the save isn't loaded or the player isn't found.
+    """
+    loaded = _loaded()
+    if loaded is None:
+        return {}
+    try:
+        wsd = loaded.build_mini_wsd("CharacterSaveParameterMap")
+    except Exception:
+        return {}
+    sp = _find_player_sp_from_wsd(wsd, uid)
+    if sp is None:
+        return {}
+    items = world_service._k(sp, "GotStatusPointList")
+    if not isinstance(items, list):
+        return {}
+    # Reverse map: Japanese StatusName -> relic enum.
+    jp_to_relic = {jp: rk for rk, jp in RELIC_TO_STATUS.items()}
+    out: dict[str, int] = {}
+    for item in items:
+        name = world_service._k(item, "StatusName")
+        point = world_service._k(item, "StatusPoint")
+        if name and str(name) in jp_to_relic and point is not None:
+            try:
+                out[jp_to_relic[str(name)]] = int(point)
+            except (TypeError, ValueError):
+                pass
+    return out
+
+
+def set_player_abilities(
+    level_dict: dict, players_dir: str, uid: str,
+    values: dict[str, int],
+) -> bool:
+    """Set per-relic-type effigy counts and derive the matching stat ranks.
+
+    Straddles both stores (Pattern C):
+      (a) player .sav RecordData: RelicPossessNumMap[type] = count (clamped to
+          [0, cumulative_max]); scalar RelicPossessNum = sum of map values.
+      (b) world save CharacterSaveParameterMap.GotStatusPointList: the Japanese
+          StatusName row's StatusPoint = rank derived via per_rank walk.
+
+    Returns ``False`` if the player .sav can't be read/written. The world-side
+    write is best-effort (no-op if the player isn't in CharacterSaveParameterMap).
+    """
+    relic_data, cumax = _relic_meta()
+    if not relic_data:
+        return False
+
+    # Clamp + filter to known relic types only.
+    clamped: dict[str, int] = {}
+    for rk, raw in values.items():
+        if rk not in relic_data:
+            continue
+        try:
+            val = int(raw)
+        except (TypeError, ValueError):
+            continue
+        hi = cumax.get(rk, 0)
+        clamped[rk] = max(0, min(val, hi))
+
+    decoded = _read_player_sav(players_dir, uid)
+    if decoded is None:
+        return False
+    player_dict, save_type = decoded
+
+    schemas = player_dict.get("schemas", {})
+    schema_props = schemas.get("schemas", {}) if isinstance(schemas, dict) else {}
+    rd = world_service._k(_save_data(player_dict), "RecordData") or {}
+
+    # ponytail: RelicPossessNum scalar is technically a CapturePower-only mirror
+    # in the 1.0 format (not the sum of all types). We sum to stay consistent
+    # with the existing max_all_abilities path. Upgrade: mirror only the
+    # CapturePower map entry when capture-power leveling edge cases surface.
+    if "SaveData.RecordData.RelicPossessNumMap" in schema_props:
+        rmap = world_service._k(rd, "RelicPossessNumMap")
+        if not isinstance(rmap, dict):
+            rmap = {
+                "key_type": "EnumProperty", "value_type": "IntProperty",
+                "key_struct_type": None, "value_struct_type": None,
+                "id": None, "value": [], "type": "MapProperty",
+            }
+            _k_set(rd, "RelicPossessNumMap", rmap)
+        inner = world_service._k(rmap, "value")
+        if not isinstance(inner, list):
+            inner = []
+            _k_set(rmap, "value", inner)
+        existing = {e["key"]: e for e in inner if isinstance(e, dict) and "key" in e}
+        for rk, val in clamped.items():
+            if rk in existing:
+                existing[rk]["value"] = val
+            else:
+                inner.append({"key": rk, "value": val})
+        total = sum(int(e.get("value", 0)) for e in inner)
+
+        if "SaveData.RecordData.RelicPossessNum" in schema_props:
+            _k_set(rd, "RelicPossessNum", total)
+
+    ok = _write_player_sav(player_dict, save_type, players_dir, uid)
+
+    # (b) world-side rank write (best effort).
+    sp = _find_player_sp(level_dict, uid)
+    if sp is not None:
+        sl = world_service._k(sp, "GotStatusPointList")
+        if not isinstance(sl, list):
+            sl = []
+            _k_set(sp, "GotStatusPointList", sl)
+        seen = {world_service._k(s, "StatusName"): s for s in sl}
+        for rk, count in clamped.items():
+            stat_name = RELIC_TO_STATUS.get(rk)
+            if not stat_name:
+                continue
+            per_rank = relic_data.get(rk, {}).get("per_rank", [])
+            rank = relic_rank_for_count(per_rank, count)
+            if stat_name in seen:
+                _k_set(seen[stat_name], "StatusPoint", rank)
+            else:
+                sl.append({"StatusName_0": stat_name, "StatusPoint_0": rank})
+
+    return ok

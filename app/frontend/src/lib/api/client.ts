@@ -11,14 +11,16 @@ import type {
   GuildListResponse, HealthResponse, LanguagesResponse, LoadOptions,
   LoadResponse, MapDataResponse, MapPoiResponse, MaxAbilitiesRequest, MovePalRequest,
   PalDetailResponse, PalEditRequest, PalGroupedResponse, PalListResponse,
-  PalPreset, PalSkillCatalogResponse, PlayerDetail, PlayerInventoryResponse,
-  PlayerListResponse, PlayerMigrateRequest, PlayerStatsResponse,
-  PlayerTechPointsResponse, PlayerTechnologiesResponse, PresetApplyRequest,
-  PresetApplyResponse, PresetListResponse, PresetSaveRequest,
-  RenameGuildRequest, RenamePlayerRequest, SaveStateResponse,
-  SetBaseRadiusRequest, SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest,
-  SetSlotCountRequest, SetStatsRequest, SetTechnologiesRequest,
-  SetTechPointsRequest, SlotInjectorRequest, ToolResponse, ToolsListResponse,
+  PalPreset, PalSkillCatalogResponse, PlayerAbilitiesResponse, PlayerDetail,
+  PlayerInventoryResponse, PlayerListResponse, PlayerMigrateRequest,
+  PlayerQuestsResponse, PlayerStatsResponse, PlayerTechPointsResponse,
+  PlayerTechnologiesResponse, PresetApplyRequest, PresetApplyResponse,
+  PresetListResponse, PresetSaveRequest, RenameGuildRequest,
+  RenamePlayerRequest, SaveStateResponse, SetBaseRadiusRequest,
+  SetGuildLevelRequest, SetLeaderRequest, SetLevelRequest,
+  SetPlayerAbilitiesRequest, SetPlayerQuestsRequest, SetSlotCountRequest,
+  SetStatsRequest, SetTechnologiesRequest, SetTechPointsRequest,
+  SlotInjectorRequest, ToolResponse, ToolsListResponse,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -134,6 +136,14 @@ export const api = {
     request<{ status: string }>(`/players/${uid}/unlock-technologies`, { method: 'PUT' }),
   maxPlayerAbilities: (body: MaxAbilitiesRequest) =>
     request<{ status: string }>('/players/max-abilities', jsonBody(body)),
+  playerQuests: (uid: string) =>
+    request<PlayerQuestsResponse>(`/players/${uid}/quests`),
+  setPlayerQuests: (uid: string, body: SetPlayerQuestsRequest) =>
+    request<{ status: string }>(`/players/${uid}/quests`, jsonBody(body, 'PUT')),
+  playerAbilities: (uid: string) =>
+    request<PlayerAbilitiesResponse>(`/players/${uid}/abilities`),
+  setPlayerAbilities: (uid: string, body: SetPlayerAbilitiesRequest) =>
+    request<{ status: string }>(`/players/${uid}/abilities`, jsonBody(body, 'PUT')),
   guilds: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
     const params = new URLSearchParams();
     if (opts.limit != null) params.set('limit', String(opts.limit));

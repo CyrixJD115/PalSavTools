@@ -180,6 +180,49 @@ export interface MaxAbilitiesRequest {
   uids: string[];
 }
 
+/** A quest definition from game_data/questdata.json. */
+export interface QuestDef {
+  id: string;
+  type: 'Main' | 'Sub' | 'Hidden' | string;
+  name: string;
+}
+
+/** A QuestDef + the player's current derived status. */
+export interface QuestEntry extends QuestDef {
+  status: 'completed' | 'active' | 'not_started';
+}
+
+export interface PlayerQuestsResponse {
+  quests: QuestEntry[];
+  supported: boolean;   // false => player .sav unreadable; list shown read-only
+}
+
+/** Apply quest status changes. Idempotent; unknown ids ignored. */
+export interface SetPlayerQuestsRequest {
+  complete?: string[];   // move to CompletedQuestArray_FullRelease
+  reset?: string[];      // remove from CompletedQuestArray_FullRelease
+}
+
+/** One relic type (Lifmunk Effigy / stat boost) with count + rank. */
+export interface RelicEntry {
+  type: string;            // "EPalRelicType::CapturePower", ...
+  label: string;           // English UI label
+  count: number;           // unspent effigies held of this type
+  cumulative_max: number;  // max effigies of this type
+  max_rank: number;        // max rank this type grants
+  rank: number;            // current derived rank (0..max_rank)
+}
+
+export interface PlayerAbilitiesResponse {
+  relics: RelicEntry[];
+  supported: boolean;
+}
+
+/** Per-type effigy counts. Keys are full EPalRelicType::X enums. */
+export interface SetPlayerAbilitiesRequest {
+  values: Record<string, number>;
+}
+
 export interface GuildSummary {
   id: string;
   name: string;

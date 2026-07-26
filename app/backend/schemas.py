@@ -521,6 +521,61 @@ class MaxAbilitiesRequest(BaseModel):
     uids: list[str]
 
 
+# ---- player quests (a.k.a. "missions") --------------------------------------
+# Quests live on the player .sav as two arrays: CompletedQuestArray_FullRelease
+# (Array<Name> of completed quest ids) and OrderedQuestArray_FullRelease
+# (Array<Struct PalOrderedQuestSaveData{QuestName}> of active quest ids). Status
+# is derived: a quest is "completed" if in the completed array, "active" if in
+# the ordered array, else "not_started". There is no enum value.
+
+class QuestDef(BaseModel):
+    """A quest definition from game_data/questdata.json."""
+    id: str
+    type: str          # "Main" | "Sub" | "Hidden"
+    name: str
+
+class QuestEntry(QuestDef):
+    """A QuestDef + the player's current derived status."""
+    status: str        # "completed" | "active" | "not_started"
+
+class PlayerQuestsResponse(BaseModel):
+    """All known quests tagged with the player's status. ``supported=False``
+    means the player .sav could not be read (frontend shows the list read-only)."""
+    quests: list[QuestEntry]
+    supported: bool
+
+class SetPlayerQuestsRequest(BaseModel):
+    """Apply quest status changes. Idempotent; unknown ids are ignored."""
+    complete: list[str] = []     # move to CompletedQuestArray_FullRelease
+    reset: list[str] = []        # remove from CompletedQuestArray_FullRelease
+
+
+# ---- player abilities (Lifmunk Effigies / relic stat boosts) ----------------
+# Relic counts live on the player .sav RecordData as RelicPossessNumMap
+# (Map<EPalRelicType, int>). The rank a count grants is written back into the
+# world-level CharacterSaveParameterMap.GotStatusPointList (StatusName in
+# Japanese). CapturePower == the classic Lifmunk Effigy capture power; the other
+# 12 are the 1.0 relic boosts (hunger, swim/climb/move/glide speed, etc.).
+
+class RelicEntry(BaseModel):
+    """One relic type with the player's current count and derived rank."""
+    type: str            # "EPalRelicType::CapturePower", ...
+    label: str           # English UI label
+    count: int           # unspent effigies the player holds of this type
+    cumulative_max: int  # max effigies of this type (from relic_data.json)
+    max_rank: int        # max rank this type grants
+    rank: int            # current derived rank (0..max_rank)
+
+class PlayerAbilitiesResponse(BaseModel):
+    """All 13 relic types with the player's current counts/ranks."""
+    relics: list[RelicEntry]
+    supported: bool
+
+class SetPlayerAbilitiesRequest(BaseModel):
+    """Per-type effigy counts. Keys are full EPalRelicType::X enums."""
+    values: dict[str, int]
+
+
 # ---- inventory (player bags + base chests) ----------------------------------
 
 class InventoryBag(BaseModel):

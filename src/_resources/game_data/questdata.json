@@ -1,0 +1,604 @@
+{
+    "quests": [
+        {
+            "id": "Hidden_ChangeWeaponBulletTutorialTrigger",
+            "type": "Hidden",
+            "name": "Hidden ChangeWeaponBulletTutorialTrigger"
+        },
+        {
+            "id": "Hidden_WhaleWhistlePickUpTrigger",
+            "type": "Hidden",
+            "name": "Hidden WhaleWhistlePickUpTrigger"
+        },
+        {
+            "id": "Hidden_WhaleWhistleTrigger",
+            "type": "Hidden",
+            "name": "Hidden WhaleWhistleTrigger"
+        },
+        {
+            "id": "Main_BaseCampLevel",
+            "type": "Main",
+            "name": "Main BaseCampLevel"
+        },
+        {
+            "id": "Main_BeginAdventure",
+            "type": "Main",
+            "name": "Main BeginAdventure"
+        },
+        {
+            "id": "Main_BuildHatchingMachine",
+            "type": "Main",
+            "name": "Main BuildHatchingMachine"
+        },
+        {
+            "id": "Main_BuildPalBox",
+            "type": "Main",
+            "name": "Main BuildPalBox"
+        },
+        {
+            "id": "Main_BuildWorkBench_Old",
+            "type": "Main",
+            "name": "Main BuildWorkBench Old"
+        },
+        {
+            "id": "Main_BuildWorkbench",
+            "type": "Main",
+            "name": "Main BuildWorkbench"
+        },
+        {
+            "id": "Main_Capture30Pal",
+            "type": "Main",
+            "name": "Main Capture30Pal"
+        },
+        {
+            "id": "Main_CaptureDeerGround",
+            "type": "Main",
+            "name": "Main CaptureDeerGround"
+        },
+        {
+            "id": "Main_CapturePal",
+            "type": "Main",
+            "name": "Main CapturePal"
+        },
+        {
+            "id": "Main_CaptureSheepBall",
+            "type": "Main",
+            "name": "Main CaptureSheepBall"
+        },
+        {
+            "id": "Main_CaptureSheepBall_Old",
+            "type": "Main",
+            "name": "Main CaptureSheepBall Old"
+        },
+        {
+            "id": "Main_CatchPal",
+            "type": "Main",
+            "name": "Main CatchPal"
+        },
+        {
+            "id": "Main_CollectCrystal",
+            "type": "Main",
+            "name": "Main CollectCrystal"
+        },
+        {
+            "id": "Main_CollectKeySpheres",
+            "type": "Main",
+            "name": "Main CollectKeySpheres"
+        },
+        {
+            "id": "Main_CraftMealPouch",
+            "type": "Main",
+            "name": "Main CraftMealPouch"
+        },
+        {
+            "id": "Main_CraftPalGear",
+            "type": "Main",
+            "name": "Main CraftPalGear"
+        },
+        {
+            "id": "Main_CraftPalSphere",
+            "type": "Main",
+            "name": "Main CraftPalSphere"
+        },
+        {
+            "id": "Main_CraftShield",
+            "type": "Main",
+            "name": "Main CraftShield"
+        },
+        {
+            "id": "Main_CraftTools",
+            "type": "Main",
+            "name": "Main CraftTools"
+        },
+        {
+            "id": "Main_Craft_PalGear",
+            "type": "Main",
+            "name": "Main Craft PalGear"
+        },
+        {
+            "id": "Main_DefeatDesertBoss",
+            "type": "Main",
+            "name": "Main DefeatDesertBoss"
+        },
+        {
+            "id": "Main_DefeatDungeonBoss",
+            "type": "Main",
+            "name": "Main DefeatDungeonBoss"
+        },
+        {
+            "id": "Main_DefeatForestBoss",
+            "type": "Main",
+            "name": "Main DefeatForestBoss"
+        },
+        {
+            "id": "Main_DefeatGrassBoss",
+            "type": "Main",
+            "name": "Main DefeatGrassBoss"
+        },
+        {
+            "id": "Main_DefeatKingWhale",
+            "type": "Main",
+            "name": "Main DefeatKingWhale"
+        },
+        {
+            "id": "Main_DefeatSakurajimaBoss",
+            "type": "Main",
+            "name": "Main DefeatSakurajimaBoss"
+        },
+        {
+            "id": "Main_DefeatSkyIslandBoss",
+            "type": "Main",
+            "name": "Main DefeatSkyIslandBoss"
+        },
+        {
+            "id": "Main_DefeatSnowyMountainBoss",
+            "type": "Main",
+            "name": "Main DefeatSnowyMountainBoss"
+        },
+        {
+            "id": "Main_DefeatVikingBoss",
+            "type": "Main",
+            "name": "Main DefeatVikingBoss"
+        },
+        {
+            "id": "Main_DefeatVolcanoBoss",
+            "type": "Main",
+            "name": "Main DefeatVolcanoBoss"
+        },
+        {
+            "id": "Main_DefeatWildBoss",
+            "type": "Main",
+            "name": "Main DefeatWildBoss"
+        },
+        {
+            "id": "Main_DefeatWorldTreeDragon",
+            "type": "Main",
+            "name": "Main DefeatWorldTreeDragon"
+        },
+        {
+            "id": "Main_DefeatWorldTreeMiddleBoss",
+            "type": "Main",
+            "name": "Main DefeatWorldTreeMiddleBoss"
+        },
+        {
+            "id": "Main_EatFood",
+            "type": "Main",
+            "name": "Main EatFood"
+        },
+        {
+            "id": "Main_EquipClothArmor",
+            "type": "Main",
+            "name": "Main EquipClothArmor"
+        },
+        {
+            "id": "Main_GainStatus",
+            "type": "Main",
+            "name": "Main GainStatus"
+        },
+        {
+            "id": "Main_Meal",
+            "type": "Main",
+            "name": "Main Meal"
+        },
+        {
+            "id": "Main_OpenSurvivalGuide",
+            "type": "Main",
+            "name": "Main OpenSurvivalGuide"
+        },
+        {
+            "id": "Main_PickupWood",
+            "type": "Main",
+            "name": "Main PickupWood"
+        },
+        {
+            "id": "Main_PrepareEquipment",
+            "type": "Main",
+            "name": "Main PrepareEquipment"
+        },
+        {
+            "id": "Main_RayneSyndicate",
+            "type": "Main",
+            "name": "Main RayneSyndicate"
+        },
+        {
+            "id": "Main_ReachWorldTree",
+            "type": "Main",
+            "name": "Main ReachWorldTree"
+        },
+        {
+            "id": "Main_ReturnSmallVillage",
+            "type": "Main",
+            "name": "Main ReturnSmallVillage"
+        },
+        {
+            "id": "Main_SmallVillage",
+            "type": "Main",
+            "name": "Main SmallVillage"
+        },
+        {
+            "id": "Main_StatusUp",
+            "type": "Main",
+            "name": "Main StatusUp"
+        },
+        {
+            "id": "Main_TalkGrassBoss",
+            "type": "Main",
+            "name": "Main TalkGrassBoss"
+        },
+        {
+            "id": "Main_TalkSkyBoss",
+            "type": "Main",
+            "name": "Main TalkSkyBoss"
+        },
+        {
+            "id": "Main_TalkSkyBossAgain",
+            "type": "Main",
+            "name": "Main TalkSkyBossAgain"
+        },
+        {
+            "id": "Main_TalkWorldTreeNPC",
+            "type": "Main",
+            "name": "Main TalkWorldTreeNPC"
+        },
+        {
+            "id": "Main_TutorialStart",
+            "type": "Main",
+            "name": "Main TutorialStart"
+        },
+        {
+            "id": "Main_UnlockFastTravel",
+            "type": "Main",
+            "name": "Main UnlockFastTravel"
+        },
+        {
+            "id": "Main_UnlockPalBox",
+            "type": "Main",
+            "name": "Main UnlockPalBox"
+        },
+        {
+            "id": "Main_UnlockPalSphere",
+            "type": "Main",
+            "name": "Main UnlockPalSphere"
+        },
+        {
+            "id": "Main_UseGlider",
+            "type": "Main",
+            "name": "Main UseGlider"
+        },
+        {
+            "id": "Main_WorkPal",
+            "type": "Main",
+            "name": "Main WorkPal"
+        },
+        {
+            "id": "Main_WorkerPal",
+            "type": "Main",
+            "name": "Main WorkerPal"
+        },
+        {
+            "id": "Main_WorldTreeAbyss",
+            "type": "Main",
+            "name": "Main WorldTreeAbyss"
+        },
+        {
+            "id": "Sub_Angler01",
+            "type": "Sub",
+            "name": "Sub Angler01"
+        },
+        {
+            "id": "Sub_BossDefeatReward",
+            "type": "Sub",
+            "name": "Sub BossDefeatReward"
+        },
+        {
+            "id": "Sub_Breeder01",
+            "type": "Sub",
+            "name": "Sub Breeder01"
+        },
+        {
+            "id": "Sub_Breeder02",
+            "type": "Sub",
+            "name": "Sub Breeder02"
+        },
+        {
+            "id": "Sub_Breeder03",
+            "type": "Sub",
+            "name": "Sub Breeder03"
+        },
+        {
+            "id": "Sub_Breeder04",
+            "type": "Sub",
+            "name": "Sub Breeder04"
+        },
+        {
+            "id": "Sub_DeliveryQuartz",
+            "type": "Sub",
+            "name": "Sub DeliveryQuartz"
+        },
+        {
+            "id": "Sub_DeliveryRainbowCrystal",
+            "type": "Sub",
+            "name": "Sub DeliveryRainbowCrystal"
+        },
+        {
+            "id": "Sub_DeliverySkyIslandOre",
+            "type": "Sub",
+            "name": "Sub DeliverySkyIslandOre"
+        },
+        {
+            "id": "Sub_DeliverySulfur",
+            "type": "Sub",
+            "name": "Sub DeliverySulfur"
+        },
+        {
+            "id": "Sub_DeliveryWood_Fine",
+            "type": "Sub",
+            "name": "Sub DeliveryWood Fine"
+        },
+        {
+            "id": "Sub_Farmer01",
+            "type": "Sub",
+            "name": "Sub Farmer01"
+        },
+        {
+            "id": "Sub_Farmer02",
+            "type": "Sub",
+            "name": "Sub Farmer02"
+        },
+        {
+            "id": "Sub_Farmer03",
+            "type": "Sub",
+            "name": "Sub Farmer03"
+        },
+        {
+            "id": "Sub_Farmer04",
+            "type": "Sub",
+            "name": "Sub Farmer04"
+        },
+        {
+            "id": "Sub_FoodReward",
+            "type": "Sub",
+            "name": "Sub FoodReward"
+        },
+        {
+            "id": "Sub_HowSurviveWorldTree",
+            "type": "Sub",
+            "name": "Sub HowSurviveWorldTree"
+        },
+        {
+            "id": "Sub_Kigurumi01",
+            "type": "Sub",
+            "name": "Sub Kigurumi01"
+        },
+        {
+            "id": "Sub_Kigurumi01_Replay",
+            "type": "Sub",
+            "name": "Sub Kigurumi01 Replay"
+        },
+        {
+            "id": "Sub_LoneWolf01",
+            "type": "Sub",
+            "name": "Sub LoneWolf01"
+        },
+        {
+            "id": "Sub_LoneWolf02",
+            "type": "Sub",
+            "name": "Sub LoneWolf02"
+        },
+        {
+            "id": "Sub_LoneWolf03",
+            "type": "Sub",
+            "name": "Sub LoneWolf03"
+        },
+        {
+            "id": "Sub_Nomad01",
+            "type": "Sub",
+            "name": "Sub Nomad01"
+        },
+        {
+            "id": "Sub_Nomad02",
+            "type": "Sub",
+            "name": "Sub Nomad02"
+        },
+        {
+            "id": "Sub_Nomad03",
+            "type": "Sub",
+            "name": "Sub Nomad03"
+        },
+        {
+            "id": "Sub_Nomad04",
+            "type": "Sub",
+            "name": "Sub Nomad04"
+        },
+        {
+            "id": "Sub_PalCaptureCountReward",
+            "type": "Sub",
+            "name": "Sub PalCaptureCountReward"
+        },
+        {
+            "id": "Sub_PalDisplay_A_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay A 01"
+        },
+        {
+            "id": "Sub_PalDisplay_B_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay B 01"
+        },
+        {
+            "id": "Sub_PalDisplay_C_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay C 01"
+        },
+        {
+            "id": "Sub_PalDisplay_D_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay D 01"
+        },
+        {
+            "id": "Sub_PalDisplay_E_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay E 01"
+        },
+        {
+            "id": "Sub_PalDisplay_F_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay F 01"
+        },
+        {
+            "id": "Sub_PalDisplay_G_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay G 01"
+        },
+        {
+            "id": "Sub_PalDisplay_H_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay H 01"
+        },
+        {
+            "id": "Sub_PalDisplay_I_01",
+            "type": "Sub",
+            "name": "Sub PalDisplay I 01"
+        },
+        {
+            "id": "Sub_PaldexReward",
+            "type": "Sub",
+            "name": "Sub PaldexReward"
+        },
+        {
+            "id": "Sub_Ranger01",
+            "type": "Sub",
+            "name": "Sub Ranger01"
+        },
+        {
+            "id": "Sub_Ranger02",
+            "type": "Sub",
+            "name": "Sub Ranger02"
+        },
+        {
+            "id": "Sub_Ranger03",
+            "type": "Sub",
+            "name": "Sub Ranger03"
+        },
+        {
+            "id": "Sub_Ranger04",
+            "type": "Sub",
+            "name": "Sub Ranger04"
+        },
+        {
+            "id": "Sub_RookieExpeditionTeam01",
+            "type": "Sub",
+            "name": "Sub RookieExpeditionTeam01"
+        },
+        {
+            "id": "Sub_RookieExpeditionTeam02",
+            "type": "Sub",
+            "name": "Sub RookieExpeditionTeam02"
+        },
+        {
+            "id": "Sub_RookieExpeditionTeam03",
+            "type": "Sub",
+            "name": "Sub RookieExpeditionTeam03"
+        },
+        {
+            "id": "Sub_RookieExpeditionTeam04",
+            "type": "Sub",
+            "name": "Sub RookieExpeditionTeam04"
+        },
+        {
+            "id": "Sub_Scholar01",
+            "type": "Sub",
+            "name": "Sub Scholar01"
+        },
+        {
+            "id": "Sub_Scholar02",
+            "type": "Sub",
+            "name": "Sub Scholar02"
+        },
+        {
+            "id": "Sub_Scholar03",
+            "type": "Sub",
+            "name": "Sub Scholar03"
+        },
+        {
+            "id": "Sub_Scholar04",
+            "type": "Sub",
+            "name": "Sub Scholar04"
+        },
+        {
+            "id": "Sub_StrongOldMan01",
+            "type": "Sub",
+            "name": "Sub StrongOldMan01"
+        },
+        {
+            "id": "Sub_StrongOldMan02",
+            "type": "Sub",
+            "name": "Sub StrongOldMan02"
+        },
+        {
+            "id": "Sub_StrongOldMan03",
+            "type": "Sub",
+            "name": "Sub StrongOldMan03"
+        },
+        {
+            "id": "Sub_StrongOldMan04",
+            "type": "Sub",
+            "name": "Sub StrongOldMan04"
+        },
+        {
+            "id": "Sub_StrongOldMan05",
+            "type": "Sub",
+            "name": "Sub StrongOldMan05"
+        },
+        {
+            "id": "Sub_Zoe01",
+            "type": "Sub",
+            "name": "Sub Zoe01"
+        },
+        {
+            "id": "Sub_Zoe02",
+            "type": "Sub",
+            "name": "Sub Zoe02"
+        },
+        {
+            "id": "Sub_Zoe03",
+            "type": "Sub",
+            "name": "Sub Zoe03"
+        },
+        {
+            "id": "Sub_Zoe04",
+            "type": "Sub",
+            "name": "Sub Zoe04"
+        },
+        {
+            "id": "Sub_Zoe_Halloween",
+            "type": "Sub",
+            "name": "Sub Zoe Halloween"
+        },
+        {
+            "id": "Test_UnlockAreaBarriers",
+            "type": "Main",
+            "name": "Test UnlockAreaBarriers"
+        }
+    ]
+}

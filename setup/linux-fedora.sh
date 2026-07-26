@@ -50,17 +50,23 @@ c_step "2/5  Rust toolchain (cargo)"
 if have cargo; then
     c_ok "cargo already present ($(cargo --version))"
 else
-    c_info "installing rustup via dnf (or rustup.rs)"
-    if sudo dnf install -y rustup; then
-        rustup default stable
-    else
-        c_warn "rustup not packaged — falling back to rustup.rs"
+    c_info "installing Rust toolchain"
+    # Fedora's `rustup` package ships ONLY `rustup-init`, not `rustup` — run
+    # that to download the real toolchain. Fall back to rustup.rs if the
+    # package is unavailable or the init fails.
+    sudo dnf install -y rustup
+    if have rustup-init; then
+        rustup-init -y --profile minimal --default-toolchain stable
+    elif ! have rustup; then
+        c_warn "dnf rustup unavailable — falling back to rustup.rs"
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-            | sh -s -- -y --profile minimal
+            | sh -s -- -y --profile minimal --default-toolchain stable
     fi
     # shellcheck disable=SC1091
-    source "$HOME/.cargo/env"
-    have cargo && c_ok "cargo installed" || c_warn "cargo install failed"
+    # The installer writes ~/.cargo/env; source it so `cargo` is on PATH now.
+    [[ -r "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+    have cargo && c_ok "cargo installed ($(cargo --version))" \
+        || c_warn "cargo install failed — open a new terminal or run rustup-init manually"
 fi
 
 c_step "3/5  Node.js LTS + npm"

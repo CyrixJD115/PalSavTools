@@ -1,320 +1,140 @@
 <div align="center">
 
-![PalworldSaveTools Logo](resources/assets/branding/PalworldSaveTools_Blue.png)
+<img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST.png" alt="PalworldSaveTools" width="140" />
 
-<a href="https://readme-typing-svg.demolab.com?lines=Edit+Everything;Fast+%26+Cross-Platform;Manage+Players%2C+Pals%2C+Guilds+%26+Bases;Deep+Pal+Editing+%E2%80%94+IVs%2C+Skills%2C+Souls;Interactive+Map+Viewer;Save+Conversion+%26+Transfer;Character+Migration+%26+Host+Swap;Automatic+Backups;8+Languages;Fix+Corrupted+Saves;Transfer+Worlds;World+Map+Navigation&center=true&width=680&height=90&font=monospace&size=26&color=4A90E2&vCenter=true"><img src="https://readme-typing-svg.demolab.com?lines=Edit+Everything;Fast+%26+Cross-Platform;Manage+Players%2C+Pals%2C+Guilds+%26+Bases;Deep+Pal+Editing+%E2%80%94+IVs%2C+Skills%2C+Souls;Interactive+Map+Viewer;Save+Conversion+%26+Transfer;Character+Migration+%26+Host+Swap;Automatic+Backups;8+Languages;Fix+Corrupted+Saves;Transfer+Worlds;World+Map+Navigation&center=true&width=680&height=90&font=monospace&size=26&color=4A90E2&vCenter=true" alt="" /></a>
+# PalworldSaveTools
 
-**A complete solution for managing, editing, converting, and optimizing Palworld save files.**
+**All-in-one save editor for Palworld — now a web app.**
 
-[![Downloads](https://img.shields.io/github/downloads/deafdudecomputers/PalworldSaveTools/total)](https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest)
-[![Latest Release](https://img.shields.io/github/v/release/deafdudecomputers/PalworldSaveTools?label=Latest%20Release)](https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest)
-[![License](https://img.shields.io/github/license/deafdudecomputers/PalworldSaveTools)](license)
-[![Python](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org/)
-[![NexusMods](https://img.shields.io/badge/NexusMods-Download-orange)](https://www.nexusmods.com/palworld/mods/3190)
-[![Discord](https://img.shields.io/badge/Discord-Join_for_support-blue)](https://discord.gg/sYcZwcT4cT)
+A Rust-backed save engine, a thin FastAPI API layer, and a Svelte 5 + Tailwind UI. Load any Palworld save, edit it visually, and write it back byte-faithful — all from your browser or a native desktop window.
 
-**Download:** [GitHub Releases](https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest) · [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](#installation)
+[![Languages](https://img.shields.io/badge/UI%20languages-8-7DD3FC.svg)](#features)
 
-[English](README.md) | [简体中文](resources/readme/README.zh_CN.md) | [Deutsch](resources/readme/README.de_DE.md) | [Español](resources/readme/README.es_ES.md) | [Français](resources/readme/README.fr_FR.md) | [Русский](resources/readme/README.ru_RU.md) | [日本語](resources/readme/README.ja_JP.md) | [한국어](resources/readme/README.ko_KR.md)
-
----
+[Installation](#installation) · [Features](#features) · [From Source](#from-source-all-platforms) · [Guides](#guides) · [Troubleshooting](#troubleshooting)
 
 </div>
 
-<div align="center">
+---
 
 ## Overview
 
-<img src="https://readme-typing-svg.demolab.com?lines=What+exactly+is+this+thing%3F;Your+save%2C+your+way;One+tool+to+rule+them+all&center=true&width=490&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+PalworldSaveTools (PST) is a cross-platform save editor for Palworld. v2.0 is a complete rewrite of the original PySide6 desktop app as a **local-first web app**: a Rust parser does the byte-level work, FastAPI exposes it over a small REST + WebSocket surface, and a Svelte SPA is the UI. You run it on your machine; nothing leaves your computer.
 
-</div>
-
-Palworld Save Tools (PST) is a fast, all-in-one desktop application for inspecting and editing Palworld save files. Built with Python and PySide6, it reads and writes the game's compressed save format directly — no game mods required.
-
-Whether you need to manage a dedicated server, migrate between co-op and dedicated servers, clean up abandoned data, or fine-tune individual Pals, PST provides a single unified interface for all of it.
+**Why a web app?** The old Qt desktop app was hard to ship cross-platform and slow to iterate on. The new stack keeps the proven save logic, moves the heavy parsing into Rust (so even pre-V1 saves load cleanly without the old 4-byte header crashes), and puts a fast modern UI in front of it.
 
 ### Highlights
 
-- **Cross-platform** — Pre-built binaries for **Windows**, **Linux**, and **macOS**.
-- **Fast native parsing** — One of the quickest save file readers available, powered by the [`palsav`](src/palsav) engine.
-- **Visual map** — Interactive world map with base/player markers, exclusion zones, and coordinate calibration.
-- **Deep Pal editing** — Full control over stats, IVs, souls, skills, passives, work suitabilities, rank, and appearance flags.
-- **Server-grade tooling** — Bulk deletion, cleanup, conversion, and character transfer built for administrators.
-- **Automatic backups** — Every save operation creates a backup before writing.
-- **8 languages** — Localized UI, in-app guides, and documentation.
-
-
-
-
+- **Rust save engine** — the parser lives in [`src/palsav-rs/`](src/palsav-rs/) via PyO3; decoded saves stay in Rust memory for cheap reads.
+- **Byte-faithful round-trip** — re-encoding reuses the original compression and structure, so edited saves load back into the game cleanly.
+- **Local-first** — runs on `127.0.0.1`; your save data never touches a third-party server.
+- **Two UI modes** — native desktop window (Tauri) or plain browser mode (faster startup, no compile).
+- **8 UI languages** — English, Deutsch, Español, Français, 日本語, 한국어, Русский, 简体中文.
+- **Cross-platform** — Windows, Linux (Debian/Arch/Fedora), macOS.
 
 ---
-
-
-
-
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Guides](#guides)
-- [Troubleshooting](#troubleshooting)
-- [Building from Source](#building-from-source)
-- [Contributing](#contributing)
-- [The Palworld Team](#the-palworld-team)
-
-- [Support](#support)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-
-
-
-
-
----
-
-
-
-
-<div align="center">
 
 ## Features
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+good+stuff;Check+it+out;Packed+with+tools&center=true&width=290&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+The WebUI is organized into tabs. Each has in-app help — hover any control for detailed tooltips.
 
-</div>
+| Area | What you can do |
+|---|---|
+| **Players** | Browse/search players by name, level, pal count, UID, guild, last-seen. Edit stats, technology, quests/missions, abilities (effigies). |
+| **Pal Editor** | View and edit every Pal's species, level, IVs, traits, skills, workspeed, gender, and more. |
+| **Guilds** | Inspect guilds and members; rename, reassign players between guilds. |
+| **Bases** | List all base camps with owner, pal count, location. **Right-click** to export / import / clone / adjust radius. |
+| **Base Editor** | Detailed per-base property editing. |
+| **Map** | Interactive world map with players, bases, fast-travel points, and pals plotted. Click to inspect; unlock all map/fast-travel. |
+| **Inventory** | Player inventory viewer and editor. |
+| **Base Inventory** | Per-base container contents. |
+| **Containers** | Browse all `ItemContainerSaveData` entries (player boxes, base storage, dropped items). |
+| **Breeding** | Calculate child from two parents, find partner pairs for a target child, compute parent trees, and chain planner. Works standalone or against your loaded save. |
+| **Exclusions** | Manage breeding/list exclusions. |
+| **Tools** | 12 utilities — see [Tools](#tools) below. |
+| **Wiki** | Browse bundled game data (pals, items, breeding tree). |
+| **Backups** | Create and restore timestamped backups of the save folder. |
+| **Settings** | Storage mode (memory vs disk for large saves), pre-warm toggle, large-save threshold, language. |
 
-### Player Management
+### Tools
 
-- View and search all players by name, level, pal count, UID, guild, and last-seen time.
-- Edit player names, levels, stats, and technology points.
-- **Bulk operations** across multiple players: item management, pal management, and technology unlocks.
-- Delete inactive players by time threshold; remove duplicates.
-
-### Pal Editor
-
-A deep editing interface for any Pal owned by any player. Pals are organized by **Party** (active squad) and **Palbox** (storage).
-
-- **Stats & IVs** — HP, Attack, Defense (IV 0–100), Level (1–80), Trust Rank (0–10).
-- **Souls** — HP, Attack, Defense, Craft Speed (0–20).
-- **Skills** — Active skill picker; learn all moves; bulk-sync skills across Pals.
-- **Passive Traits** — Passive picker with full game data.
-- **Work Suitability** — Set individual work-suitability levels (0–10).
-- **Appearance Flags** — Toggle Boss/Alpha, Lucky/Shiny, Awakened, and Imported/DNA.
-- **Rank & Lock** — Set rank and favorite lock level (0–3).
-- Add new Pals or quick-delete with double-click.
-
-### Guild Management
-
-Two-panel view: guild list on top, member roster below.
-
-- Rename guilds, change leaders, set guild level, max guild level.
-- Unlock all lab research; rebuild all guilds.
-- Move players between guilds; delete empty or inactive guilds.
-
-### Base Camp Tools
-
-- View all base camps with guild association.
-- **Export** base blueprints to `.json`; **import** (single or multi-file) into any guild.
-- **Clone** bases to other guilds with offset positioning.
-- **Adjust base radius** (50%–1000%).
-- Delete inactive bases and non-base map objects.
-
-### Map Viewer
-
-Interactive visualization of your entire world.
-
-- Base markers (house icon) and player markers (person icon) with detail panels.
-- Toggle overlays: Bases, Players, Radius Rings, Exclusion Zones.
-- **Zone drawing** — Draw rectangular or polygonal exclusion zones directly on the map.
-- **Calibration mode** — Precisely align the map with game coordinates.
-- World Map and Tree Map views; filter by guild or player name.
-- Zoom (1.0x–30.0x), pan, double-click to fly to a marker.
-- Right-click markers and empty space for management actions.
-
-### Inventory Management
-
-**Player Inventory** — Three sub-tabs:
-- *Inventory* — All items and equipment in the main bag; edit quantity, add, remove.
-- *Key Items* — Quest items, effigies, and technology; bulk-add all effigies/key items.
-- *Stats* — Level, HP, Stamina, Attack, Defense, Work Speed, Weight.
-- Equipment panel for weapon, accessory, food, armor, shield, glider, and module slots.
-- Unlock all map + fast-travel points in one click.
-
-**Base Inventory** — Browse and manage items and working Pals across all bases:
-- View/edit items in containers; clear containers; modify container slots.
-- Cross-guild item operations (find/remove items across all guilds).
-- Cross-guild structure deletion.
-- **Base Pals** sub-tab — Manage working Pals assigned to each base with full pal-editor context menus.
-
-### Exclusions
-
-Protection lists that safeguard players, guilds, and bases from cleanup operations.
-
-- Three side-by-side panels: excluded Player UIDs, Guild IDs, and Base IDs.
-- Add entries via right-click context menus in the Players, Guilds, or Bases tabs.
-- Save and load exclusion lists persistently.
-- Build your list **before** running bulk cleanup.
-
-### Save Tools
-
-Accessible from the **Tools** tab as clickable cards:
-
-| Tool | Description |
-|------|-------------|
-| **Convert Saves** | Convert between SAV and JSON formats |
-| **Convert GamePass → Steam** | Convert Xbox/GamePass saves to Steam format |
-| **Convert SteamID** | Convert Steam IDs to Palworld UIDs |
-| **Restore Map** | Apply fully unlocked map progress to all worlds/servers |
-| **Slot Injector** | Increase palbox slots per player |
-| **Modify Save** | Open and modify raw save data |
-| **Character Transfer** | Transfer characters between different worlds/servers (cross-save) |
-| **Fix Host Save** | Swap UIDs between two players (host swap, platform migration) |
-
-### Cleanup & Utility Functions
-
-Accessible via **Menu → Functions**, these server-grade operations include:
-
-- **Deletion** — Delete empty guilds, inactive bases/players, duplicate players, unreferenced data.
-- **Cleanup** — Remove invalid/modded items, invalid pals & passives, invalid structures; fix illegal pals (cap to legal max); reset anti-air turrets; unlock private chests; repair all structures.
-- **Resets** — Reset missions, dungeons, oil rig, invader, supply drops.
-- **Timestamps** — Fix negative timestamps; reset player times.
-- **PalDefender** — Generate `killnearestbase` commands.
-
-
-
-
+Single-purpose operations, each with its own form: **Convert** (SAV↔JSON), **Convert IDs** (Steam/NoSteam/UID), **Restore Map** (unlock map across all worlds at once), **Slot Injector**, **Fix Host Save** (host swap / migration), **Fix Guild**, **Character Transfer** (cross-save), **Player Migrate**, **Convert Export**, **Game Pass Fix**, and **XGP Extract**. Open the **Tools** tab for the live list with per-tool guidance.
 
 ---
 
-
-
-
-<div align="center">
-
 ## Installation
-
-<img src="https://readme-typing-svg.demolab.com?lines=Get+it+running+in+minutes;Download+and+go;No+setup+required&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
 
 ### Standalone Builds (Recommended)
 
-Pre-built binaries are available for all three major platforms from [GitHub Releases](https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest):
+Pre-built binaries for all three platforms are on [GitHub Releases](https://github.com/CyrixJD115/PalSavTools/releases/latest) and [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190).
 
 | Platform | Download | Requirements |
-|----------|----------|--------------|
+|---|---|---|
 | **Windows** | `PalworldSaveTools-*.exe` | Windows 10/11, [VC++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (2015–2022) |
-| **Linux** | `PalworldSaveTools-*-linux` | Any modern distro |
+| **Linux** | `PalworldSaveTools-*-linux` | Any modern distro — run `chmod +x` first |
 | **macOS** | `PalworldSaveTools-*-macos.dmg` | macOS 12+ (Monterey or later) |
 
-Also available on [Nexus Mods](https://www.nexusmods.com/palworld/mods/3190).
-
-1. Download the appropriate build for your platform.
+1. Download the build for your platform.
 2. Extract (if archived) and run the executable.
 3. That's it — no Python or dependencies needed.
 
-> **Windows:** If you see "VCRUNTIME140.dll was not found," install the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
-
-> **Linux:** You may need to mark the file executable: `chmod +x PalworldSaveTools-*-linux`
-
-> **macOS:** If Gatekeeper blocks the app, right-click → **Open** the first time, or run `xattr -d com.apple.quarantine /path/to/app`.
+> **macOS:** if Gatekeeper blocks the app, right-click → **Open** the first time, or run `xattr -d com.apple.quarantine /path/to/app`.
 
 ### From Source (All Platforms)
 
-PST uses [`uv`](https://docs.astral.sh/uv/) for dependency management. The launcher automatically creates a virtual environment, runs a preflight environment check, installs everything, and boots the app.
-
-**One-liner (easiest):** clone + install all system deps + print next steps — see [`get/README.md`](get/README.md):
+**One-liner (easiest)** — clones, installs every system dependency, prints next steps. See [`get/README.md`](get/README.md):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash        # macOS / Linux
 irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex               # Windows (PowerShell)
 ```
 
-**Manual setup (if you already cloned):** a one-time installer per platform lives in [`setup/`](setup/README.md). It installs Rust, Node.js, uv, and the GTK/WebKit headers the native build needs:
+**Manual setup** — per-platform installers live in [`setup/`](setup/README.md) (Rust, Node.js, uv, and the GTK/WebKit headers the native Linux build needs):
 
 ```bash
-bash setup/linux.sh        # Linux — auto-detects Arch / Debian / Fedora
-bash setup/macos.sh        # macOS
-powershell -ExecutionPolicy Bypass -File setup\windows.ps1   # Windows
+bash setup/linux.sh                                                                  # Linux (auto-detects distro)
+bash setup/macos.sh                                                                  # macOS
+powershell -ExecutionPolicy Bypass -File setup\windows.ps1                           # Windows
 ```
 
-You can verify the environment any time with the standalone checker:
+Verify the environment any time:
 
 ```bash
-python3 setup/check_env.py            # colored report
-python3 setup/check_env.py --mode=tauri   # stricter gates for native builds
+python3 setup/check_env.py              # colored report
+python3 setup/check_env.py --mode=tauri # stricter gates for native builds
 ```
 
 **Clone and run:**
 
 ```bash
-git clone https://github.com/CyrixJD115/PalworldSaveTools.git
+git clone https://github.com/CyrixJD115/PalSavTools.git
 cd PalworldSaveTools
 ./start.sh                # macOS / Linux — native Tauri window
 ./start.sh --web          #               — browser mode (no native window)
+# Windows:
+.\start.cmd               # native Tauri window
+.\start.cmd --web         # browser mode
 ```
 
-**Windows** (double-click launcher or in a terminal):
-```
-start.cmd                 native Tauri window
-start.cmd --web           browser mode (no native window)
-```
-
-The launcher creates a `.venv`, installs dependencies via `uv sync`, runs the preflight check, and boots the app. It cleans up the lockfile on exit so each run is reproducible. Pass `--check` to run *only* the preflight, or `--skip-check` to bypass it.
+The launcher creates a `.venv`, runs a preflight check, installs Python deps via `uv sync`, and boots the app. Pass `--check` to run *only* the preflight, or `--skip-check` to bypass it.
 
 > **Tip:** if you just ran a setup script and `./start.sh` says `uv not found`, **open a new terminal** so your shell refreshes its PATH (the launchers also probe `~/.local/bin` and `~/.cargo/bin` as a fallback).
 
-
-
-
-
 ---
-
-
-
-
-<div align="center">
 
 ## Quick Start
 
-<img src="https://readme-typing-svg.demolab.com?lines=Load.+Edit.+Save.+That+simple.;Three+steps+to+glory;It%27s+that+easy&center=true&width=450&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+1. **Load Your Save** — click **Menu → Load Save** (or drag-and-drop a `.zip`/`.7z` bundle in browser mode, or pick a `Level.sav` in desktop mode). Navigate to your Palworld save folder and select `Level.sav`.
+2. **Explore** — use the tabs (Map, Players, Pals, Guilds, Bases, Inventory, Breeding, Tools…) to inspect your data. The stats bar shows live counts.
+3. **Edit** — left-click to select; right-click almost anything for contextual actions; double-click for quick-edit/delete.
+4. **Save** — click **Menu → Save Changes**. Backups are created automatically.
 
-</div>
-
-1. **Load Your Save**
-   - Click **Menu → Load Save**, or drag-and-drop a `.sav` file onto the window.
-   - Navigate to your Palworld save folder and select `Level.sav`.
-
-2. **Explore Your Data**
-   - Use the tabs — **Map**, **Tools**, **Players**, **Guilds**, **Bases**, **Player Inventory**, **Base Inventory**, **Pal Editor**, **Exclusions** — to explore your save.
-   - The stats bar shows live counts; quick-nav icons jump to each section.
-
-3. **Make Changes**
-   - Left-click to select; right-click almost anything for contextual actions.
-   - Double-click to quick-edit or quick-delete (see the in-app guides for details).
-
-4. **Save Your Changes**
-   - Click **Menu → Save Changes**. Backups are created automatically.
-
-> **Tip:** Each tab has a built-in guide — click the help icon in any tab to see exactly what it can do. For deeper knowledge, **hover over any button, field, or control** to reveal detailed tooltips at the header. The in-app tooltip help system is your best reference for understanding exactly what every feature does and how to use it.
-
-
-
-
+> Each tab has a built-in help icon, and hovering any control reveals detailed tooltips. The in-app help is the most accurate reference for what every feature does.
 
 ---
 
-
-
-
-<div align="center">
-
 ## Guides
-
-<img src="https://readme-typing-svg.demolab.com?lines=Step-by-step+walkthroughs;Follow+the+guide;We%27ll+show+you+how&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
 
 ### Save File Locations
 
@@ -322,7 +142,6 @@ The launcher creates a `.venv`, installs dependencies via `uv sync`, runs the pr
 ```
 %localappdata%\Pal\Saved\SaveGames\YOURID\RANDOMID\
 ```
-
 **Dedicated Server:**
 ```
 steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
@@ -330,329 +149,155 @@ steamapps\common\Palworld\Pal\Saved\SaveGames\0\RANDOMSERVERID\
 
 ### Map Unlock
 
-PST can unlock the full map (all fast-travel points) for your save:
-
-1. Load your save in PST.
-2. Open the **Player Inventory** tab and click **Unlock All Map + Fast Travel** for a single player, **or**
-3. Use the **Restore Map** tool in the Tools tab to apply unlocked map progress across **all** your worlds/servers at once.
-4. Save changes. Automatic backups are created.
+1. Load your save.
+2. **Player Inventory** tab → **Unlock All Map + Fast Travel** (single player), **or**
+3. **Tools** tab → **Restore Map** to apply unlocked map progress across *all* your worlds/servers at once.
+4. Save. Automatic backups are created.
 
 ### Host → Server Transfer
 
-<details>
-<summary>Click to expand</summary>
+<details><summary>Click to expand</summary>
 
 1. Copy `Level.sav` and the `Players` folder from your host save.
 2. Paste them into the dedicated server save folder.
 3. Start the server, create a new character, and wait for an auto-save.
 4. Close the server.
-5. Use **Fix Host Save** in PST to migrate the old character's GUID to the new one.
+5. Use **Fix Host Save** to migrate the old character's GUID to the new one.
 6. Copy files back and launch the server.
 
 </details>
 
 ### Host Swap (Changing Host)
 
-<details>
-<summary>Click to expand</summary>
+<details><summary>Click to expand</summary>
 
-**Background:** The host always uses the `0001.sav` slot — the same UID for whoever hosts. Each client gets a unique regular save (e.g., `123xxx.sav`).
+The host always uses the `0001.sav` slot. Each client gets a unique save (e.g. `123xxx.sav`). Both the old and new host must already have a regular save from joining + creating a character.
 
-**Prerequisite:** Both the old and new host must have a regular save generated by joining and creating a character.
+1. **Fix Host Save** → swap the old host's `0001.sav` to their regular save (moves their progress out of the host slot).
+2. **Fix Host Save** → swap the new host's regular save into `0001.sav`.
 
-**Steps:**
-
-1. Use **Fix Host Save** to swap the old host's `0001.sav` → their regular save (e.g., `123xxx.sav`). This moves their progress out of the host slot.
-2. Use **Fix Host Save** to swap the new host's regular save (e.g., `987xxx.sav`) → `0001.sav`. This moves their progress into the host slot.
-
-**Result:** The new host now occupies `0001.sav` with their own character and Pals; the old host becomes a client with their original progress intact.
+The new host now occupies `0001.sav` with their own character and Pals; the old host becomes a client.
 
 </details>
 
 ### Character Transfer (Cross-Save)
 
-<details>
-<summary>Click to expand</summary>
+<details><summary>Click to expand</summary>
 
-Transfer characters between different worlds or servers while preserving characters, Pals, inventory, and technology:
+Transfer characters between worlds/servers preserving characters, Pals, inventory, and technology:
 
-1. Open the **Character Transfer** tool from the Tools tab.
-2. Select the source save and target save.
+1. **Tools** tab → **Character Transfer**.
+2. Select source save and target save.
 3. Transfer a single player or all players.
-4. Useful for migrating between co-op and dedicated servers.
 
 </details>
 
 ### Base Export / Import / Clone
 
-<details>
-<summary>Click to expand</summary>
+<details><summary>Click to expand</summary>
 
-**Exporting a Base:**
-1. Go to the **Bases** tab (or use the Map Viewer).
-2. Right-click a base → **Export Base**.
-3. Save as a `.json` blueprint file.
-
-**Importing a Base:**
-1. Right-click on the target guild (in the Bases tab, Map Viewer, or Guilds tab).
-2. Select **Import Base** (single file) or **Import Bases (Multi-File)**.
-3. Select your exported `.json` file(s).
-
-**Cloning a Base:**
-1. Right-click a base → **Clone Base**.
-2. Select the target guild.
-3. The base is cloned with offset positioning.
-
-**Adjusting Base Radius:**
-1. Right-click a base → **Adjust Radius**.
-2. Enter a new radius (50%–1000%).
-3. Save and reload the save in-game for structures to be reassigned.
+- **Export:** Bases tab (or Map) → right-click a base → **Export Base** → `.json` blueprint.
+- **Import:** Right-click a target guild → **Import Base** (single) or **Import Bases (Multi-File)** → pick the `.json`.
+- **Clone:** Right-click a base → **Clone Base** → pick target guild (clones with offset positioning).
+- **Adjust radius:** Right-click a base → **Adjust Radius** (50%–1000%). Save and reload in-game for structures to reassign.
 
 </details>
 
-
-
-
-
 ---
-
-
-
-
-<div align="center">
 
 ## Troubleshooting
 
-<img src="https://readme-typing-svg.demolab.com?lines=When+things+go+sideways;Don%27t+panic;We%27ve+seen+it+all&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+| Problem | Fix |
+|---|---|
+| `VCRUNTIME140.dll was not found` (Windows) | Install the [VC++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (2015–2022). |
+| `struct.error` when parsing a save | The save format is outdated. Load it in-game once (Solo/Co-op/Dedicated) to trigger an auto structure update, then retry. |
+| GamePass converter not working | Fully close the GamePass Palworld, wait a few minutes for file handles to release, run the converter, then relaunch GamePass to verify. |
+| Linux binary won't launch | `chmod +x PalworldSaveTools-*-linux`. |
+| macOS binary blocked by Gatekeeper | Right-click → **Open**, or `xattr -d com.apple.quarantine /path/to/app`. |
+| `uv not found` after `setup/*.sh` | **Open a new terminal** so PATH refreshes (the launchers also probe `~/.local/bin` and `~/.cargo/bin`). |
+| `gio-2.0` / `webkit2gtk-4.1 not found` (Linux build) | Missing GTK/WebKit headers — re-run `setup/linux.sh`. Full table in [`setup/README.md`](setup/README.md). |
+| Out of memory on huge saves | Settings → Storage → **Disk** mode (or lower the large-save threshold). See `AGENTS.md` for the memory model. |
 
-</div>
-
-### "VCRUNTIME140.dll was not found" (Windows)
-
-Install the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (2015–2022).
-
-### `struct.error` when parsing a save
-
-The save file format is outdated. Load the save in-game (Solo, Co-op, or Dedicated Server) once to trigger an automatic structure update, then try again. Ensure the save was updated on or after the latest game patch.
-
-### GamePass converter not working
-
-1. Fully close the GamePass version of Palworld.
-2. Wait a few minutes for file handles to release.
-3. Run the GamePass → Steam converter.
-4. Launch Palworld on GamePass to verify.
-
-### Linux / macOS binary won't launch
-
-- **Linux:** `chmod +x PalworldSaveTools-*-linux` to mark it executable.
-- **macOS:** If blocked by Gatekeeper, right-click → **Open**, or run `xattr -d com.apple.quarantine /path/to/app`.
-
-
-
-
+> For from-source build issues, run `python3 setup/check_env.py` — it pinpoints what's missing.
 
 ---
 
+## Architecture
 
+```
+src/palsav-rs/        Rust save engine (PyO3) — the actual parser, holds saves in Rust memory
+app/backend/          FastAPI (:16921) — thin bridge: validate → service → serialize
+  routes/             REST handlers (save, players, pals, guilds, bases, map, breeding, tools, …)
+  services/           Pure-function domain logic (no per-instance state)
+  state.py            LoadedSave singleton + lazy section cache (bounds memory on big saves)
+app/frontend/         Svelte 5 + Tailwind SPA (:16920) — the main GUI
+  routes/             One per tab (players, pals, bases, map, breeding, tools, …)
+  lib/                api client, components, map engine, utils
+setup/                Per-platform installers + check_env.py preflight
+get/                  One-shot curl/iex installer
+build/                Nuitka + Tauri build orchestrators
+```
 
+The frontend talks to the backend over `/api` (REST) and `/ws` (WebSocket push). Pydantic schemas mirror the TS types — change both together. See [`AGENTS.md`](AGENTS.md) for the full contract, the memory model (why we never touch `loaded.level_dict` unless mutating), and the critical gotchas.
 
-<div align="center">
+---
 
 ## Building from Source
 
-<img src="https://readme-typing-svg.demolab.com?lines=Compile+it+yourself;Build+your+own;From+source+to+binary&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+PST ships two build paths. Both need Python 3.11+ and `uv`; Nuitka standalone additionally needs `patchelf` (Linux) / VS Build Tools (Windows).
 
-</div>
-
-PST supports two build paths: Nuitka for standalone desktop binaries and Tauri for the WebUI desktop app.
-
-### Nuitka (Standalone Desktop Binary)
-
-Requires Python 3.11+ and `uv`. Nuitka is installed automatically.
+**Nuitka (standalone desktop binary)** — produces a single self-contained executable:
 
 ```bash
-# One-file build (Windows / Linux)
-uv run python build/nuitka/build_nuitka.py --onefile
-
-# One-directory build (macOS .app)
-uv run python build/nuitka/build_nuitka.py --onedir
+uv run python build/nuitka/build_nuitka.py --onefile   # Windows / Linux
+uv run python build/nuitka/build_nuitka.py --onedir    # macOS (.app → .dmg)
 ```
 
-Outputs go to `dist/`:
-- Windows → `dist/PalworldSaveTools-*.exe`
-- Linux → `dist/PalworldSaveTools-*-linux`
-- macOS → `dist/PalworldSaveTools.app` → packaged as `.dmg`
+Output → `dist/` (`PalworldSaveTools-*.exe` / `*-linux` / `.app`).
 
-### Tauri (WebUI Desktop App)
-
-Builds the Svelte frontend + Python FastAPI backend into a Tauri desktop application.
+**Tauri (WebUI desktop app)** — bundles the Svelte frontend + FastAPI backend into a native window:
 
 ```bash
-# Full build (frontend → Nuitka sidecar → Tauri)
 python build/tauri/build_tauri.py
 ```
 
-See `build/tauri/` for the build scripts and `web/frontend/src-tauri/` for the Tauri configuration.
-
-### Interactive Builder
-
-An interactive menu to pick a build mode:
-
-```bash
-uv run python build/build_interactively.py
-```
-
-
-
-
+CI (in `.github/workflows/`) builds the Nuitka binaries on every release.
 
 ---
-
-
-
-
-<div align="center">
 
 ## Contributing
 
-<img src="https://readme-typing-svg.demolab.com?lines=Want+to+help%3F+Here%27s+how;Join+the+team;Every+contribution+counts&center=true&width=440&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
+Contributions are welcome — open a Pull Request.
 
-</div>
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
-
-
-
-
+1. Fork → branch (`git checkout -b feature/AmazingFeature`).
+2. For new capabilities, add logic under `src/` first, then expose it via one thin endpoint in `app/backend/`, then the UI in `app/frontend/`. (See the "WebUI build contract" in [`AGENTS.md`](AGENTS.md).)
+3. Commit → push → open a PR.
 
 ---
-
-
-
-
-<div align="center">
-
-## Disclaimer
-
-<img src="https://readme-typing-svg.demolab.com?lines=Read+this+before+you+break+something;You%27ve+been+warned;Backup+first%21;With+great+power...&center=true&width=520&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
-
-**Use this tool at your own risk. Always back up your save files before making any modifications.**
-
-The developers are not responsible for any loss of save data or issues that may arise from using this tool.
-
-
-
-
-
----
-
-
-
-
-<div align="center">
-
-## Support
-
-<img src="https://readme-typing-svg.demolab.com?lines=We%27ve+got+your+back;Need+help%3F;We%27re+here+for+you&center=true&width=340&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
-
-- **Discord:** [Join us for support, base builds, and more!](https://discord.gg/sYcZwcT4cT)
-- **GitHub Issues:** [Report a bug](https://github.com/deafdudecomputers/PalworldSaveTools/issues)
-- **Nexus Mods:** [Download & discuss](https://www.nexusmods.com/palworld/mods/3190)
-
-
-
-
-
----
-
-
-
-
-<div align="center">
-
-## License
-
-<img src="https://readme-typing-svg.demolab.com?lines=MIT+%E2%80%94+do+whatever+you+want;Free+as+in+beer;Open+source%2C+open+mind&center=true&width=430&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
-
-This project is licensed under the MIT License — see the [license](license) file for details.
-
-
-
-
-
----
-
-
-
-
-<div align="center">
 
 ## The Palworld Team
 
-<img src="https://readme-typing-svg.demolab.com?lines=The+people+behind+the+magic;Meet+the+team;Built+with+passion&center=true&width=420&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
-
-This project wouldn't exist without the people behind it.
-
 ### Active Maintainers
 
-**[Pylar](https://github.com/deafdudecomputers)** — The man who started it all. Every line of this tool traces back to his vision and relentless work on the save engine, the GUI, and the features you use every day.
-
-**[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Focused on code quality, simplification, and structural improvements — keeping the codebase clean, smaller, and easier to maintain as the project grows.
+- **[Pylar](https://github.com/deafdudecomputers)** — Original author. Save engine, GUI, and the features you use every day.
+- **[cyrix](https://github.com/CyrixJD115)** — Refactorer and sub-maintainer. Code quality, simplification, and the WebUI rewrite.
 
 ### Contributors
 
-**[dkoz](https://github.com/dkoz)** — The man behind the IDs. Provides game data IDs, structural insight on the ID codes, and the deep knowledge of how Palworld's data is wired together that keeps the tool accurate with every game update.
-
-**[oMaN-Rod](https://github.com/oMaN-Rod)** — Provided the original save parser that this project forked from. Without his foundational work on cracking the Palworld save format, none of this would exist. The fork streamlined and simplified his parser into what PST is today.
-
-**[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible. His understanding of how Palworld structures base data from the modding side bridged the gap between modding and save editing, making this feature a reality.
-
-
-
-
+- **[dkoz](https://github.com/dkoz)** — Game-data IDs and the structural insight that keeps the tool accurate with every game update.
+- **[oMaN-Rod](https://github.com/oMaN-Rod)** — Original save parser this project forked from; cracked the Palworld save format.
+- **[Okaetsu](https://github.com/Okaetsu)** — Modding insights that made base import/export possible.
 
 ---
 
+## Disclaimer
 
+PalworldSaveTools is an unofficial, fan-made tool. It is not affiliated with, endorsed by, or connected to Pocketpair or any Palworld rights holder. "Palworld" is a trademark of its respective owner. Always back up your saves before editing — the tool creates automatic backups, but you are responsible for your data.
 
+## License
 
-<div align="center">
+[GNU General Public License v3.0](LICENSE) — © PalworldSaveTools contributors.
 
 ## Acknowledgments
 
-<img src="https://readme-typing-svg.demolab.com?lines=Where+credit+is+due;Thank+you+all;We+stand+on+shoulders&center=true&width=390&height=28&font=monospace&size=22&color=7DD3FC&vCenter=true" alt="" />
-
-</div>
-
-A huge thank you to:
-
-- **Palworld** developed by Pocketpair, Inc. — for the game that brought us all together.
-- **The bug reporters** — every issue filed, every edge case found, every log pasted in Discord. You make this tool more robust with each report.
-- **The Palworld modding community** — fellow modders, tool developers, and tinkerers who share knowledge, reverse-engineer formats, and push the ecosystem forward. This project stands on the shoulders of that collective effort.
-- **All contributors and community members** — whether you've submitted a PR, answered a question in Discord, or simply told a friend about PST — thank you.
-
----
-
-<div align="center">
-
-![Divider](resources/assets/branding/PalworldSaveTools_readme_divider.png)
-
-**Made with ❤️ for the Palworld community**
-
-[⬆ Back to Top](#palworld-save-tools)
-
-</div>
+Built on the shoulders of the Palworld save-editing community. Special thanks to everyone who contributes save-format research, reports bugs, and shares their saves for testing.

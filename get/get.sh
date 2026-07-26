@@ -119,6 +119,10 @@ if [[ ! -d "$SETUP_DIR" ]]; then
     exit 1
 fi
 
+# Tell the setup script it's being called by get.sh, so it skips its own
+# final summary (get.sh prints the clearer one below).
+export PST_GET_INVOKED=1
+
 case "$(uname -s)" in
     Darwin)
         c_info "macOS detected -> setup/macos.sh"
@@ -141,12 +145,20 @@ c_step "3/3  Next steps"
 # heredoc. Heredocs emit literal '\033' (no escape interpretation), which shows
 # up as raw "\033[1m..." garbage in the terminal.
 local_bar=$'\033[1m\033[96m''═══════════════════════════════════════════════════════════'$'\033[0m'
-printf '\n\033[1mDone!\033[0m The project is set up at:\n\n'
-printf '    %s\n\n' "$CLONE_DIR"
-printf '%s\n' "$local_bar"
-printf '\033[1m  IMPORTANT: open a NEW terminal, then run:\033[0m\n\n'
-printf '    cd %s\n' "$CLONE_DIR"
-printf '    ./start.sh            # native Tauri window\n'
-printf '    ./start.sh --web      # browser mode (no native window)\n'
+printf '\n%s\n' "$local_bar"
+printf '\033[1m  Setup complete — one step left to launch PST.\033[0m\n'
 printf '%s\n\n' "$local_bar"
-printf 'A new terminal is needed so your shell picks up the tools we just installed.\n'
+printf 'The project is installed at:\n'
+printf '    \033[96m%s\033[0m\n\n' "$CLONE_DIR"
+printf '\033[1m1. Open a NEW terminal\033[0m (so your shell picks up the tools we just installed).\n'
+printf '\n'
+printf '\033[1m2. Change into the project folder:\033[0m\n'
+printf '    \033[96mcd %s\033[0m\n\n' "$CLONE_DIR"
+printf '\033[1m3. Launch PST\033[0m — pick ONE of:\n\n'
+printf '    \033[92m./start.sh --web\033[0m     browser mode  \033[2m(fastest — opens http://127.0.0.1:16920,\n'
+printf '                                  no compile; recommended for your first run)\033[0m\n'
+printf '    \033[92m./start.sh\033[0m            native window \033[2m(slower first launch: compiles ~487 Rust\n'
+printf '                                  crates for the Tauri desktop window, needs ~3 GB disk)\033[0m\n\n'
+printf '%s\n' "$local_bar"
+printf '\033[2mTip: re-check the environment any time with:  python3 setup/check_env.py\033[0m\n'
+printf '%s\n' "$local_bar"

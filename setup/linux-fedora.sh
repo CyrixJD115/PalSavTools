@@ -139,12 +139,21 @@ else
 fi
 
 banner_new_terminal
-cat <<EOF
 
-Done. From $ROOT, **in a new terminal**, launch PST with:
-    ./start.sh            # native Tauri window
-    ./start.sh --web      # browser mode (no native window)
+# When invoked by get.sh (one-shot installer), skip this summary — get.sh
+# prints its own, clearer final instructions. This block only runs when the
+# user called setup/linux-*.sh directly.
+if [[ -z "${PST_GET_INVOKED:-}" ]]; then
+    cat <<EOF
+
+Setup complete. To launch PST (in a NEW terminal so your PATH is refreshed):
+
+    cd $ROOT
+    ./start.sh --web      # browser mode — fastest, no compile (recommended first run)
+    ./start.sh            # native Tauri desktop window (slower first launch:
+                          #   compiles ~487 Rust crates, needs ~3 GB disk)
 
 Re-run the environment check any time:
     python3 setup/check_env.py
 EOF
+fi

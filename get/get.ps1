@@ -110,6 +110,9 @@ try {
         Write-Hint "The clone may be incomplete or from a very old branch."
         exit 1
     }
+    # Tell setup\windows.ps1 it's being called by get.ps1, so it skips its own
+    # final summary (get.ps1 prints the clearer one below).
+    $env:PST_GET_INVOKED = '1'
     # Forward -IncludeBuildTools if the user passed it.
     $setupArgs = @('-ExecutionPolicy', 'Bypass', '-File', $SetupScript)
     if (Has-Arg $args '-IncludeBuildTools') { $setupArgs += '-IncludeBuildTools' }
@@ -118,18 +121,33 @@ try {
 
     # --- step 3: next steps -----------------------------------------------
     Write-Step "3/3  Next steps"
+    $bar = "==========================================================="
     Write-Host ""
-    Write-Host ("Done! The project is set up at: " + $CloneDir) -ForegroundColor White
+    Write-Host $bar -ForegroundColor Cyan
+    Write-Host "  Setup complete - one step left to launch PST." -ForegroundColor White
+    Write-Host $bar -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "===========================================================" -ForegroundColor Cyan
-    Write-Host "  IMPORTANT: open a NEW terminal, then run:" -ForegroundColor White
+    Write-Host "The project is installed at:" -ForegroundColor White
+    Write-Host "    $CloneDir" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host ("    cd " + $CloneDir) -ForegroundColor White
-    Write-Host "    .\start.cmd            # native Tauri window" -ForegroundColor Cyan
-    Write-Host "    .\start.cmd --web      # browser mode (no native window)" -ForegroundColor Cyan
-    Write-Host "===========================================================" -ForegroundColor Cyan
+    Write-Host "1. Open a NEW terminal " -NoNewline -ForegroundColor White
+    Write-Host "(so your shell picks up the tools we just installed)." -ForegroundColor DarkGray
     Write-Host ""
-    Write-Host "A new terminal is needed so your shell picks up the tools we just installed." -ForegroundColor DarkGray
+    Write-Host "2. Change into the project folder:" -ForegroundColor White
+    Write-Host "    cd $CloneDir" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "3. Launch PST - pick ONE of:" -ForegroundColor White
+    Write-Host ""
+    Write-Host "    .\start.cmd --web     browser mode " -NoNewline -ForegroundColor Green
+    Write-Host "(fastest - opens http://127.0.0.1:16920," -ForegroundColor DarkGray
+    Write-Host "                                   no compile; recommended for your first run)" -ForegroundColor DarkGray
+    Write-Host "    .\start.cmd           native window " -NoNewline -ForegroundColor Green
+    Write-Host "(slower first launch: compiles ~487 Rust" -ForegroundColor DarkGray
+    Write-Host "                                   crates for the Tauri desktop window, needs ~3 GB disk)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host $bar -ForegroundColor Cyan
+    Write-Host "Tip: re-check the environment any time with:  python setup\check_env.py" -ForegroundColor DarkGray
+    Write-Host $bar -ForegroundColor Cyan
 }
 catch {
     Write-Crit "Install failed: $_"

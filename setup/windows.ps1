@@ -253,8 +253,16 @@ if ($py) {
 Pop-Location
 
 New-Terminal-Banner
-Write-Host "`nDone. From $Root, **in a new terminal**, launch PST with:`n" -ForegroundColor White
-Write-Host "    .\start.cmd            # native Tauri window" -ForegroundColor Cyan
-Write-Host "    .\start.cmd --web      # browser mode (no native window)`n" -ForegroundColor Cyan
-Write-Host "Re-run the environment check any time:" -ForegroundColor DarkGray
-Write-Host "    python setup\check_env.py" -ForegroundColor DarkGray
+
+# When invoked by get.ps1 (one-shot installer), skip this summary — get.ps1
+# prints its own, clearer final instructions. This block only runs when the
+# user called setup\windows.ps1 directly.
+if (-not $env:PST_GET_INVOKED) {
+    Write-Host "`nSetup complete. To launch PST (in a NEW terminal so your PATH is refreshed):`n" -ForegroundColor White
+    Write-Host "    cd $Root" -ForegroundColor White
+    Write-Host "    .\start.cmd --web      # browser mode - fastest, no compile (recommended first run)" -ForegroundColor Cyan
+    Write-Host "    .\start.cmd            # native Tauri desktop window (slower first launch:" -ForegroundColor Cyan
+    Write-Host "                          #   compiles ~487 Rust crates, needs ~3 GB disk)`n" -ForegroundColor Cyan
+    Write-Host "Re-run the environment check any time:" -ForegroundColor DarkGray
+    Write-Host "    python setup\check_env.py" -ForegroundColor DarkGray
+}

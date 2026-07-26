@@ -71,6 +71,8 @@ Single-purpose operations, each with its own form: **Convert** (SAV↔JSON), **C
 
 **One-liner (easiest)** — clones, installs every system dependency, prints next steps. See [`get/README.md`](get/README.md):
 
+> **First:** open your terminal to the folder where you want PST installed (e.g. `cd ~/projects` or `cd ~/Documents`). The one-liner creates a `PalSavTools/` folder **inside whatever directory your terminal is currently in** and prints the full path before it starts, so you know exactly where it's going. To install elsewhere, pass `--dest <path>` (Linux/macOS) or `-Dest <path>` (Windows).
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash        # macOS / Linux
 irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex               # Windows (PowerShell)

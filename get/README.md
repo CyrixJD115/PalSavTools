@@ -12,13 +12,15 @@ command — no manual steps in between.
 
 ## Linux / macOS
 
+> **Where does it install?** Into a new `PalSavTools/` folder **inside whatever directory your terminal is currently in**. So first `cd` to where you want it (e.g. `cd ~/projects`), then run the command. The script prints the full install path (e.g. `/home/you/projects/PalSavTools`) before it starts cloning — no surprises. To install elsewhere without `cd`-ing, pass `--dest <path>`.
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.sh | bash
 ```
 
 That's it. It will:
 
-1. **Clone** PalworldSaveTools (with submodules) into `./PalSavTools`.
+1. **Print the install path**, then **clone** PalworldSaveTools (with submodules) into `<current dir>/PalSavTools`.
 2. **Detect your OS + distro** and run the matching [`setup/`](../setup/) installer
    — installs Rust, Node.js, uv, and (on Linux) the GTK/WebKit headers Tauri needs.
 3. **Print the launch command** to run next.
@@ -42,11 +44,13 @@ curl -fsSL .../get/get.sh | bash -s -- --dest ~/projects/pst --branch dev
 
 ## Windows (PowerShell)
 
+> **Where does it install?** Into a new `PalSavTools\` folder **inside whatever directory your PowerShell prompt is currently in**. So first `cd` to where you want it (e.g. `cd C:\projects`), then run the command. The script prints the full install path (e.g. `C:\projects\PalSavTools`) before it starts cloning — no surprises. To install elsewhere without `cd`-ing, pass `-Dest <path>`.
+
 ```powershell
 irm https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/get/get.ps1 | iex
 ```
 
-Same flow: clone → install Git/Node/Rust/uv/VC++ Redist → print next steps.
+Same flow: print install path → clone → install Git/Node/Rust/uv/VC++ Redist → print next steps.
 
 ### Options (download the file first)
 

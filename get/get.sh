@@ -86,7 +86,15 @@ if [[ "$NO_CLONE" -eq 1 ]]; then
     c_ok "$CLONE_DIR"
 else
     CLONE_DIR="$DEST"
-    c_step "1/3  Clone PalSavTools"
+    # Announce the install destination loudly and FIRST, so there's no surprise
+    # about where the project is going. The default is $PWD/PalSavTools — i.e.
+    # whatever folder the terminal is in when the command runs.
+    printf '\n\033[1mInstalling to:\033[0m \033[96m%s\033[0m\n' "$CLONE_DIR"
+    if [[ "$CLONE_DIR" == "$PWD/PalSavTools" ]]; then
+        c_hint "That's a new 'PalSavTools' folder inside your current directory ($PWD)."
+        c_hint "To install somewhere else, cancel now and re-run with: --dest /your/path"
+    fi
+    c_step "1/3  Clone PalworldSaveTools"
     if ! command -v git >/dev/null 2>&1; then
         c_crit "git is required to clone the repo but isn't installed."
         c_hint "Install git first, then re-run this command."

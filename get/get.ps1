@@ -52,6 +52,20 @@ try {
 
 "@ -ForegroundColor Cyan
 
+    # Announce the install destination loudly and FIRST, so there's no surprise
+    # about where the project is going. The default is $PWD\PalSavTools — i.e.
+    # whatever folder the terminal is in when the command runs.
+    if (-not $NoClone) {
+        Write-Host ""
+        Write-Host "Installing to: " -NoNewline -ForegroundColor White
+        Write-Host "$CloneDir" -ForegroundColor Cyan
+        $defaultPath = Join-Path $PWD 'PalSavTools'
+        if ($CloneDir -eq $defaultPath) {
+            Write-Hint "That's a new 'PalSavTools' folder inside your current directory ($PWD)."
+            Write-Hint "To install somewhere else, cancel now and re-run with: -Dest C:\your\path"
+        }
+    }
+
     # --- step 1: clone ----------------------------------------------------
     if ($NoClone) {
         Write-Step "1/3  Using current directory (skipping clone)"

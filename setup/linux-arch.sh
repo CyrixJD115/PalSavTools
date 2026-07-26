@@ -52,13 +52,14 @@ add_local_bin_to_path() {
 }
 
 banner_new_terminal() {
-    cat <<EOF
-
-\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
-\033[1m  IMPORTANT: open a NEW terminal before running ./start.sh\033[0m
-\033[2m  (so your shell picks up the tools we just installed)\033[0m
-\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
-EOF
+    # NOTE: use printf with $'...' ANSI-C quoting, NOT a cat<<EOF heredoc.
+    # Heredocs emit literal '\033' characters (no escape interpretation), which
+    # shows up as raw "\033[1m..." garbage in the terminal.
+    local bar=$'\033[1m\033[96m''═══════════════════════════════════════════════════════════'$'\033[0m'
+    printf '\n%s\n' "$bar"
+    printf '\033[1m  IMPORTANT: open a NEW terminal before running ./start.sh\033[0m\n'
+    printf '\033[2m  (so your shell picks up the tools we just installed)\033[0m\n'
+    printf '%s\n' "$bar"
 }
 
 c_step "1/5  pacman system packages"

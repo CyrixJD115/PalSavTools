@@ -49,15 +49,15 @@ c_hint() { printf '    \033[2m→ %s\033[0m\n' "$*"; }
 c_step() { printf '\n\033[1m=== %s ===\033[0m\n' "$*"; }
 
 banner() {
-    cat <<EOF
-
-\033[1m\033[96m
-  ___      _                _    _ ___              _____         _
- | _ \\__ _| |_ __ _____ _ _| |__| / __| __ ___ ____|_   _|__  ___| |___
- |  _/ _\` | \\ V  V / _ \\ '_| / _\` \\__ \\/ _\` \\ V / -_)| |/ _ \\/ _ \\(_-<
- |_| \\__,_|_|\\_/\\_/\\___/_| |_\\__,_|___/\\__,_|\\_/\\___||_|\\___/\\___/_/__/
-\033[0m
-EOF
+    # NOTE: use printf with $'...' ANSI-C quoting, NOT a cat<<EOF heredoc.
+    # Heredocs emit literal '\033' characters (no escape interpretation), which
+    # shows up as raw "\033[1m..." garbage in the terminal.
+    printf '\n\033[1m\033[96m\n'
+    printf '  ___      _                _    _ ___              _____         _    \n'
+    printf ' | _ \\__ _| |_ __ _____ _ _| |__| / __| __ ___ ____|_   _|__  ___| |___\n'
+    printf " |  _/ _\` | \\ V  V / _ \\ '_| / _\` \\__ \\/ _\` \\ V / -_)| |/ _ \\/ _ \\(_-<\n"
+    printf ' |_| \\__,_|_|\\_/\\_/\\___/_| |_\\__,_|___/\\__,_|\\_/\\___||_|\\___/\\___/_/__/\n'
+    printf '\033[0m\n'
 }
 
 # Trap errors so the user sees a clear message instead of a bare exit code.
@@ -137,19 +137,16 @@ esac
 
 # --- step 3: next steps ----------------------------------------------------
 c_step "3/3  Next steps"
-cat <<EOF
-
-\033[1mDone!\033[0m The project is set up at:
-
-    $CLONE_DIR
-
-\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
-\033[1m  IMPORTANT: open a NEW terminal, then run:\033[0m
-
-    cd $CLONE_DIR
-    ./start.sh            # native Tauri window
-    ./start.sh --web      # browser mode (no native window)
-\033[1m\033[96m═══════════════════════════════════════════════════════════\033[0m
-
-A new terminal is needed so your shell picks up the tools we just installed.
-EOF
+# NOTE: use printf with %s for the interpolated $CLONE_DIR, NOT a cat<<EOF
+# heredoc. Heredocs emit literal '\033' (no escape interpretation), which shows
+# up as raw "\033[1m..." garbage in the terminal.
+local_bar=$'\033[1m\033[96m''═══════════════════════════════════════════════════════════'$'\033[0m'
+printf '\n\033[1mDone!\033[0m The project is set up at:\n\n'
+printf '    %s\n\n' "$CLONE_DIR"
+printf '%s\n' "$local_bar"
+printf '\033[1m  IMPORTANT: open a NEW terminal, then run:\033[0m\n\n'
+printf '    cd %s\n' "$CLONE_DIR"
+printf '    ./start.sh            # native Tauri window\n'
+printf '    ./start.sh --web      # browser mode (no native window)\n'
+printf '%s\n\n' "$local_bar"
+printf 'A new terminal is needed so your shell picks up the tools we just installed.\n'

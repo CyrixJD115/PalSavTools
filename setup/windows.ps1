@@ -34,6 +34,26 @@ function Test-Command($n) {
     $null -ne (Get-Command $n -ErrorAction SilentlyContinue)
 }
 
+# Distinguish a REAL Python interpreter from the Windows Store stub.
+# Windows ships a 0-byte `python.exe` in WindowsApps that, when run, opens the
+# Microsoft Store instead of executing Python (exit 9009). Test-Command finds
+# the stub and returns true, which misleads the rest of the script.
+function Test-RealPython {
+    foreach ($candidate in 'python', 'python3', 'py') {
+        if (-not (Test-Command $candidate)) { continue }
+        # Skip the WindowsApps stub by path — that's the Store redirector.
+        $cmd = Get-Command $candidate -ErrorAction SilentlyContinue
+        if ($cmd.Source -and ($cmd.Source -like '*\WindowsApps\*')) { continue }
+        # Try to actually run it. A real Python prints its version; the stub
+        # exits non-zero (9009) and may print the Store nag.
+        $out = & $candidate --version 2>&1
+        if ($LASTEXITCODE -eq 0 -and "$out" -match '^Python 3\.(\d+)') {
+            return $candidate
+        }
+    }
+    return $null
+}
+
 # Invoke a native command and abort with a clear message if it fails.
 # $ErrorActionPreference='Stop' does NOT catch non-zero $LASTEXITCODE from
 # native exes (winget, choco, rustup-init, python), so we must check it
@@ -101,7 +121,28 @@ function Install-Pkg([string]$pm, [string]$wingetId, [string]$chocoId, [string]$
 
 $pm = Ensure-PackageManager
 
-Write-Step "1 - Git"
+Write-Step "1 - Python 3.12 (runtime)"
+# PST requires Python >=3.11. On a clean Windows box Python is almost never
+# present, and the `python` stub in WindowsApps opens the Store instead of
+# running — so we install the real thing via winget/choco.
+$pyExe = Test-RealPython
+if ($pyExe) {
+    Write-Ok "python already present ($(& $pyExe --version 2>&1))"
+} else {
+    Install-Pkg $pm 'Python.Python.3.12' 'python --version=3.12.7' "Python 3.12 install"
+    Refresh-Path
+    $pyExe = Test-RealPython
+    if (-not $pyExe) {
+        Write-Crit "Python install failed or only the Windows Store stub is on PATH."
+        Write-Hint "Disable the 'App Installer' python alias at:"
+        Write-Hint "  Settings -> Apps -> Advanced app settings -> App execution aliases"
+        Write-Hint "Or install Python 3.11+ manually from https://python.org, then re-run."
+        exit 1
+    }
+    Write-Ok "python installed ($(& $pyExe --version 2>&1))"
+}
+
+Write-Step "2 - Git"
 if (Test-Command git) {
     Write-Ok "git already present ($(git --version))"
 } else {
@@ -110,7 +151,7 @@ if (Test-Command git) {
     Verify-Tool git "Git install"
 }
 
-Write-Step "2 - Node.js LTS + npm"
+Write-Step "3 - Node.js LTS + npm"
 if ((Test-Command node) -and (Test-Command npm)) {
     Write-Ok "node already present ($(node --version))"
 } else {
@@ -120,7 +161,7 @@ if ((Test-Command node) -and (Test-Command npm)) {
     Verify-Tool npm "npm install"
 }
 
-Write-Step "3 - Rust toolchain (cargo)"
+Write-Step "4 - Rust toolchain (cargo)"
 if (Test-Command cargo) {
     Write-Ok "cargo already present ($(cargo --version))"
 } else {
@@ -133,7 +174,7 @@ if (Test-Command cargo) {
     Verify-Tool cargo "Rust install"
 }
 
-Write-Step "4 - uv (Python package manager)"
+Write-Step "5 - uv (Python package manager)"
 if (Test-Command uv) {
     Write-Ok "uv already present ($(uv --version))"
 } else {
@@ -148,17 +189,37 @@ if (Test-Command uv) {
     Verify-Tool uv "uv install"
 }
 
-Write-Step "5 - Visual C++ Redistributable (runtime)"
+Write-Step "6 - Visual C++ Redistributable (runtime)"
 # Needed by the Nuitka-built standalone exe and by PyO3 extensions on Windows.
-$vc = Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X64' -ErrorAction SilentlyContinue
-if ($vc) {
+# Probe multiple known registry locations — winget/choco installs land in
+# different keys depending on version, bitness, and WOW64 redirection.
+function Test-VCRedist {
+    $keys = @(
+        'HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X64',
+        'HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64',
+        'HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\X64'
+    )
+    foreach ($k in $keys) {
+        if (Get-ItemProperty $k -ErrorAction SilentlyContinue) { return $true }
+    }
+    # Fall back to the Uninstall key by display-name match.
+    $uninst = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+              'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+    foreach ($root in $uninst) {
+        Get-ChildItem $root -ErrorAction SilentlyContinue | ForEach-Object {
+            $name = (Get-ItemProperty $_.PSPath -Name DisplayName -ErrorAction SilentlyContinue).DisplayName
+            if ($name -like '*Visual C++*Redistributable*x64*') { return $true }
+        }
+        if ($?) { }  # no-op to suppress pipeline errors
+    }
+    return $false
+}
+if (Test-VCRedist) {
     Write-Ok "VC++ Redistributable already installed"
 } else {
     Install-Pkg $pm 'Microsoft.VCRedist.2015+.x64' 'vcredist140' "VC++ Redistributable install"
     Refresh-Path
-    # Re-probe the registry to confirm it actually landed.
-    $vc = Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X64' -ErrorAction SilentlyContinue
-    if ($vc) {
+    if (Test-VCRedist) {
         Write-Ok "VC++ Redistributable installed"
     } else {
         Write-Warn "VC++ Redistributable install was attempted but registry probe failed - verify manually."
@@ -166,7 +227,7 @@ if ($vc) {
 }
 
 if ($IncludeBuildTools) {
-    Write-Step "5b - Visual Studio Build Tools (C++ workload)"
+    Write-Step "6b - Visual Studio Build Tools (C++ workload)"
     Write-Info "Needed for the native Nuitka standalone build path."
     Install-Pkg $pm 'Microsoft.VisualStudio.2022.BuildTools' 'visualstudio2022buildtools' "VS Build Tools install"
     Write-Ok "VS Build Tools install attempted (verify the 'Desktop development with C++' workload is checked)"
@@ -175,15 +236,18 @@ if ($IncludeBuildTools) {
     Write-Host "build a standalone .exe with Nuitka.`n" -ForegroundColor DarkGray
 }
 
-Write-Step "6 - Verify"
+Write-Step "7 - Verify"
 Push-Location $Root
-$py = if (Test-Command python) { 'python' } elseif (Test-Command python3) { 'python3' } else { $null }
+# Use the stub-aware resolver — Test-Command python would find the WindowsApps
+# stub and trigger the Microsoft Store redirect (exit 9009).
+$py = Test-RealPython
 if ($py) {
     Invoke-Native { & $py "$Here\check_env.py" --mode=launch } "Environment check"
     Write-Ok "environment check passed"
 } else {
-    Write-Crit "python not on PATH - cannot run check_env.py."
-    Write-Hint "Install Python 3.11+ from https://python.org, then re-run this script."
+    Write-Crit "python not on PATH (or only the Windows Store stub is present)."
+    Write-Hint "Install Python 3.11+ from https://python.org, or disable the python"
+    Write-Hint "alias under Settings -> Apps -> Advanced app settings -> App execution aliases."
     exit 1
 }
 Pop-Location

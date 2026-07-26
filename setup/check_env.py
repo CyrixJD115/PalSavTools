@@ -200,7 +200,12 @@ def check_cargo(strict: bool = False) -> Result:
 
 
 def check_submodule() -> Result:
-    """Verify the palsav-rs submodule is checked out."""
+    """Verify the palsav-rs submodule is checked out.
+
+    The launcher (start.py) auto-initializes submodules on boot, so a missing
+    checkout is only a WARN — never a hard gate. We still report it so a bare
+    `check_env.py` run surfaces the state honestly.
+    """
     cargo_toml = PROJECT_ROOT / "src" / "palsav-rs" / "Cargo.toml"
     gitmodules = PROJECT_ROOT / ".gitmodules"
     if not gitmodules.exists():
@@ -208,9 +213,10 @@ def check_submodule() -> Result:
     if cargo_toml.exists():
         return Result("git submodule (palsav-rs)", OK, "checked out")
     return Result(
-        "git submodule (palsav-rs)", CRIT,
+        "git submodule (palsav-rs)", WARN,
         "submodule not initialized — src/palsav-rs/Cargo.toml missing",
-        "git submodule update --init --recursive",
+        "git submodule update --init --recursive  "
+        "(the launcher also does this automatically on first boot)",
     )
 
 

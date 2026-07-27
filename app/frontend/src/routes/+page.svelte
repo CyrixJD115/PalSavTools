@@ -189,13 +189,21 @@
    */
   async function pickSave() {
     if (isTauri()) {
-      const { open } = await import('@tauri-apps/plugin-dialog');
-      const selected = await open({
-        multiple: false,
-        filters: [{ name: 'Palworld Save', extensions: ['zip', '7z', 'sav'] }],
-      });
-      const path = Array.isArray(selected) ? selected[0] : selected;
-      if (path) await loadByPath(path);
+      try {
+        const { open } = await import('@tauri-apps/plugin-dialog');
+        const selected = await open({
+          multiple: false,
+          filters: [{ name: 'Palworld Save', extensions: ['zip', '7z', 'sav'] }],
+        });
+        const path = Array.isArray(selected) ? selected[0] : selected;
+        if (path) await loadByPath(path);
+      } catch {
+        // Dialog plugin not available (app not yet rebuilt). Fall back to the
+        // HTML input — which also opens the OS native dialog, but only for
+        // archives (the web contract). Rebuild with `tauri build` to get the
+        // full native picker that handles Level.sav + archives.
+        fileInput.click();
+      }
     } else {
       fileInput.click();
     }

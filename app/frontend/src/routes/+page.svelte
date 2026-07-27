@@ -178,6 +178,29 @@
     await handleUploadFile(file);
   }
 
+  /**
+   * Open the platform-appropriate file picker and load the selected save.
+   *
+   * - **Desktop (Tauri):** native dialog via ``@tauri-apps/plugin-dialog``,
+   *   returning a path that works for ``Level.sav``, ``.zip``, or ``.7z``.
+   * - **Browser:** HTML ``<input type="file">`` (archives-only — browser
+   *   ``File`` objects carry no OS path, so a lone ``Level.sav`` can't carry
+   *   the sibling ``Players/`` folder).
+   */
+  async function pickSave() {
+    if (isTauri()) {
+      const { open } = await import('@tauri-apps/plugin-dialog');
+      const selected = await open({
+        multiple: false,
+        filters: [{ name: 'Palworld Save', extensions: ['zip', '7z', 'sav'] }],
+      });
+      const path = Array.isArray(selected) ? selected[0] : selected;
+      if (path) await loadByPath(path);
+    } else {
+      fileInput.click();
+    }
+  }
+
   function onFileSelect(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
@@ -187,33 +210,37 @@
     }
   }
 
-  async function onTauriDrop(paths: string[]) {
-    const file = paths[0]
-    if (!file) return
-    const lower = file.toLowerCase()
-    if (lower.endsWith('.zip') || lower.endsWith('.7z')) {
-      toast.error($t('web.toast.desktop_no_archive'))
-      return
-    }
-    if (!lower.endsWith('.sav')) return
-    // Path-load: size unknown pre-flight, so use the persisted preference
-    // silently. The warning only fires for browser uploads where the file
-    // bytes (and thus size) are already in hand.
+  /**
+   * Load a save by OS path. Shared by the Tauri picker, Tauri drag-drop, and
+   * the "Enter Path…" modal. Size is unknown pre-flight, so the persisted
+   * storage-mode preference is used silently (consistent with the existing
+   * path-load flow).
+   */
+  async function loadByPath(path: string) {
     const opts: LoadOptions = {
       storageMode: get(settings).storageMode,
       prewarm: get(settings).prewarm,
     };
-    loadingSave.set(true)
+    loadingSave.set(true);
     try {
-      const res = await api.loadFromPath(file, opts)
-      saveState.set({ loaded: true, summary: res.summary, counts: res.counts })
-      addRecentSave(file, res.summary.filename)
-      toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }))
+      const res = await api.loadFromPath(path, opts);
+      saveState.set({ loaded: true, summary: res.summary, counts: res.counts });
+      addRecentSave(path, res.summary.filename);
+      toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'))
+      toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'));
     } finally {
-      loadingSave.set(false)
+      loadingSave.set(false);
     }
+  }
+
+  async function onTauriDrop(paths: string[]) {
+    const file = paths[0]
+    if (!file) return
+    const lower = file.toLowerCase()
+    // Desktop now accepts both Level.sav and archive bundles.
+    if (!lower.endsWith('.sav') && !lower.endsWith('.zip') && !lower.endsWith('.7z')) return
+    await loadByPath(file)
   }
 
   function fmtBytes(n: number): string {
@@ -322,7 +349,7 @@
         <Icon icon="lucide:folder-open" width={28} class="text-accent" />
         <span class="text-sm font-semibold text-ink-secondary">{$t('web.overview.no_save_loaded')}</span>
         <div class="flex gap-2">
-          <Button variant="primary" onclick={() => fileInput.click()} disabled={$loadingSave}>
+          <Button variant="primary" onclick={pickSave} disabled={$loadingSave}>
             <Icon icon="lucide:folder-open" width={16} /> {$t('web.overview.load_save')}
           </Button>
           <Button variant="ghost" onclick={() => (loadOpen = true)} disabled={$loadingSave} class="text-xs">
@@ -337,7 +364,7 @@
       </div>
     {:else}
       <div class="flex flex-wrap items-center gap-2">
-        <Button variant="primary" onclick={() => fileInput.click()} disabled={$loadingSave}>
+        <Button variant="primary" onclick={pickSave} disabled={$loadingSave}>
           <Icon icon="lucide:folder-open" width={16} /> {$t('web.overview.load_another')}
         </Button>
         <Button variant="ghost" onclick={() => (loadOpen = true)} disabled={$loadingSave} class="text-xs px-2">

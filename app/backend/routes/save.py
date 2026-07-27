@@ -219,40 +219,55 @@ async def get_state() -> SaveStateResponse:
 
 @router.post("/load", response_model=LoadResponse)
 async def load_from_path(body: LoadPathRequest) -> LoadResponse:
+    """Load by OS path — the desktop/Tauri entry point.
+
+    Accepts either a ``Level.sav`` (with a sibling ``Players/`` folder, read
+    from disk) **or** a ``.zip``/``.7z`` bundle (extracted in memory via
+    :func:`_load_bundle`, same path the browser upload uses). The desktop
+    picker and drag-drop both hand us OS paths, so archives are read
+    server-side rather than round-tripping bytes through the webview.
+    """
     storage_mode = _normalize_storage_mode(body.storage_mode)
     p = Path(body.path).expanduser()
-    if not p.name.endswith(_LEVEL_SUFFIX):
-        raise HTTPException(400, f"Path must point to a {_LEVEL_SUFFIX} file")
     if not p.is_file():
         raise HTTPException(404, f"File not found: {p}")
-    players = p.parent / "Players"
-    if not players.is_dir():
-        raise HTTPException(400, "Expected a 'Players' folder next to Level.sav")
+    name_lower = p.name.lower()
     await ws_manager.broadcast_load_progress("parse")
     with save_state.lock:
-        try:
-            data = p.read_bytes()
-            handle = parse_save(data)
-        except save_service.SaveDecodeError as exc:
-            raise HTTPException(422, str(exc))
-        await ws_manager.broadcast_load_progress("precompute")
-        loaded = _build_loaded(
-            handle,
-            filename=p.name, save_dir=str(p.parent),
-            players_dir=str(players), file_size=len(data),
-            storage_mode=storage_mode,
-        )
+        if name_lower.endswith(_ARCHIVE_SUFFIXES):
+            # Desktop drop/picker handed us an archive path — extract + parse.
+            loaded = _load_bundle(p.read_bytes(), p.name, storage_mode=storage_mode)
+        elif p.name.endswith(_LEVEL_SUFFIX):
+            players = p.parent / "Players"
+            if not players.is_dir():
+                raise HTTPException(400, "Expected a 'Players' folder next to Level.sav")
+            try:
+                data = p.read_bytes()
+                handle = parse_save(data)
+            except save_service.SaveDecodeError as exc:
+                raise HTTPException(422, str(exc))
+            await ws_manager.broadcast_load_progress("precompute")
+            loaded = _build_loaded(
+                handle,
+                filename=p.name, save_dir=str(p.parent),
+                players_dir=str(players), file_size=len(data),
+                storage_mode=storage_mode,
+            )
+        else:
+            raise HTTPException(
+                400, f"Path must point to a {_LEVEL_SUFFIX} file or a .zip/.7z bundle"
+            )
         if body.prewarm:
             await _run_prewarm(loaded)
         save_state.set(loaded)
     await ws_manager.broadcast_load_progress("done")
-    counts = _counts_from_handle(handle)
+    counts = _counts_from_handle(loaded.handle)
     return LoadResponse(
         summary=SaveSummary(
-            filename=p.name, save_dir=str(p.parent), players_dir=str(players),
-            class_name=loaded.class_name, save_type=handle.save_type,
-            file_size=len(data), loaded_at=time.time(),
-            guild_tail_shape=loaded.guild_tail_shape,
+            filename=loaded.filename, save_dir=loaded.save_dir,
+            players_dir=loaded.players_dir, class_name=loaded.class_name,
+            save_type=loaded.save_type, file_size=loaded.file_size,
+            loaded_at=loaded.loaded_at, guild_tail_shape=loaded.guild_tail_shape,
         ),
         counts=WorldCounts(**counts),
     )

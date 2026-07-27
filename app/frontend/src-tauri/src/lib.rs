@@ -12,6 +12,7 @@ struct BackendState {
 pub fn run() {
     let app = tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_dialog::init())
         .manage(Mutex::new(BackendState { child: None }))
         .setup(|_app| {
             #[cfg(not(debug_assertions))]

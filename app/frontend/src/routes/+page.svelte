@@ -79,6 +79,23 @@
     }
   }
 
+  let saving = $state(false);
+
+  async function doPersist() {
+    saving = true;
+    try {
+      const res = await api.persistSave();
+      const msg = res.backup_path
+        ? $t('web.toast.save_backup', { path: res.backup_path })
+        : $t('web.toast.saved');
+      toast.success(msg);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : $t('web.toast.save_failed'));
+    } finally {
+      saving = false;
+    }
+  }
+
   async function doUnload() {
     try {
       const res = await api.unload();
@@ -379,6 +396,11 @@
           Path...
         </Button>
 
+        {#if isTauri() && $saveSummary?.can_persist}
+          <Button variant="primary" onclick={doPersist} disabled={saving}>
+            <Icon icon="lucide:save" width={16} /> {$t('web.overview.save')}
+          </Button>
+        {/if}
         <Button variant="secondary" onclick={doExport} disabled={exporting}>
           <Icon icon="lucide:download" width={16} /> {$t('web.overview.export_sav')}
         </Button>

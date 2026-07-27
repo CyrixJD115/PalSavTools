@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
+import tempfile
 import time
 from pathlib import Path
 from typing import Any, Literal
@@ -12,7 +14,7 @@ from pydantic import BaseModel
 
 from app.backend.config import is_valid_storage_mode, settings
 from app.backend.schemas import (
-    LoadResponse, SaveStateResponse, SaveSummary, WorldCounts,
+    LoadResponse, PersistResponse, SaveStateResponse, SaveSummary, WorldCounts,
 )
 from app.backend.services import save_service, world_service
 from app.backend.services.archive_service import BundleError, extract_save_bundle
@@ -20,6 +22,7 @@ from app.backend.services.load_progress import prewarm_sections
 from app.backend.services.palsav_rs_wrapper import (
     parse_save, handle_to_dict, encode_from_handle,
 )
+from app.backend.services.player_service import _is_disk_players_dir
 from app.backend.state import LoadedSave, StorageMode, save_state
 from app.backend.ws_manager import manager as ws_manager
 
@@ -84,6 +87,16 @@ async def _run_prewarm(loaded: LoadedSave) -> None:
     cb = _make_progress_callback("prewarm")
     loop = asyncio.get_event_loop()
     await loop.run_in_executor(None, prewarm_sections, loaded, cb)
+
+
+def _can_persist(loaded: LoadedSave | None) -> bool:
+    """Whether the loaded save can be written back to disk in-place.
+
+    Only path-loaded saves (desktop ``Level.sav`` with a ``Players/`` sibling)
+    have a real filesystem path to write back to. Archive-bundle loads use
+    synthetic sentinel strings and must export via ZIP instead.
+    """
+    return loaded is not None and _is_disk_players_dir(loaded.players_dir)
 
 
 def _build_loaded(
@@ -209,6 +222,7 @@ async def get_state() -> SaveStateResponse:
         file_size=loaded.file_size,
         loaded_at=loaded.loaded_at,
         guild_tail_shape=loaded.guild_tail_shape,
+        can_persist=_can_persist(loaded),
     )
     # Use lazy counts — only materialize the four cheap count sections
     # instead of the full ~200 MB level_dict.
@@ -268,6 +282,7 @@ async def load_from_path(body: LoadPathRequest) -> LoadResponse:
             players_dir=loaded.players_dir, class_name=loaded.class_name,
             save_type=loaded.save_type, file_size=loaded.file_size,
             loaded_at=loaded.loaded_at, guild_tail_shape=loaded.guild_tail_shape,
+            can_persist=_can_persist(loaded),
         ),
         counts=WorldCounts(**counts),
     )
@@ -362,6 +377,59 @@ def _load_bundle(
         player_raw_bytes=bundle.player_files,
         storage_mode=storage_mode,
     )
+
+
+@router.post("/persist", response_model=PersistResponse)
+async def persist_save() -> PersistResponse:
+    """Write the loaded save back to disk in-place (desktop path-load only).
+
+    Only available when ``can_persist`` is ``True`` — i.e., when the save was
+    loaded from a real filesystem path (desktop ``Level.sav`` with a sibling
+    ``Players/`` folder). The original ``Level.sav`` is backed up to
+    ``Backups/Level_<timestamp>.sav`` before overwriting.
+
+    Player saves are *not* written here — each mutation endpoint
+    (``PUT /players/<uid>/...``) already persists individual player ``.sav``
+    files immediately when the save is path-backed.
+    """
+    loaded = save_state.require()
+    if not _can_persist(loaded):
+        raise HTTPException(
+            400,
+            "Save cannot be persisted — it was loaded from an archive bundle. "
+            "Use the download/export feature instead.",
+        )
+
+    save_dir = Path(loaded.save_dir)
+    level_sav_path = save_dir / "Level.sav"
+
+    # Backup the current Level.sav before overwriting.
+    backup_dir = save_dir / "Backups"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    ts = int(time.time())
+    backup_path = backup_dir / f"Level_{ts}.sav"
+    backup_path.write_bytes(level_sav_path.read_bytes())
+
+    # Encode and atomically write the new Level.sav.
+    new_bytes = loaded.encode_bytes()
+    fd, tmp = tempfile.mkstemp(dir=str(save_dir), suffix=".sav")
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(new_bytes)
+        os.replace(tmp, level_sav_path)
+    except Exception:
+        # Clean up the temp file on failure.
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+    logger.info(
+        "Persisted Level.sav (%d bytes, backup at %s)",
+        len(new_bytes), backup_path,
+    )
+    return PersistResponse(status="saved", backup_path=str(backup_path))
 
 
 @router.post("/export", response_class=StreamingResponse)

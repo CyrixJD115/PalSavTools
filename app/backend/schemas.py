@@ -49,6 +49,10 @@ class SaveSummary(BaseModel):
     file_size: int
     loaded_at: float
     guild_tail_shape: str = "PostUpdate"
+    # True when the save was loaded from a real filesystem path (Level.sav with
+    # a Players/ sibling), so the backend can write edits in-place. False for
+    # archive-bundle loads (browser upload or desktop archive drop).
+    can_persist: bool = False
 
 
 class WorldCounts(BaseModel):
@@ -75,6 +79,11 @@ class ExportResponse(BaseModel):
     status: str
     filename: str
     size_bytes: int
+
+
+class PersistResponse(BaseModel):
+    status: str
+    backup_path: str | None = None
 
 
 # ---- world viewers (read-only) ---------------------------------------------

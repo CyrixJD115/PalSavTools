@@ -94,6 +94,9 @@ export const api = {
     return { blob, filename, size: Number(res.headers.get('X-Export-Size') ?? blob.size) };
   },
 
+  persistSave: () =>
+    request<{ status: string; backup_path: string | null }>('/save/persist', { method: 'POST' }),
+
   players: (opts: { limit?: number; offset?: number; search?: string } = {}) => {
     const params = new URLSearchParams();
     if (opts.limit != null) params.set('limit', String(opts.limit));

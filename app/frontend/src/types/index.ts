@@ -54,6 +54,7 @@ export interface SaveSummary {
   file_size: number;
   loaded_at: number;
   guild_tail_shape: 'PreUpdate' | 'PostUpdate';
+  can_persist?: boolean;
 }
 
 export interface WorldCounts {

@@ -286,9 +286,7 @@
 
 	      <!-- ───── INFO TAB ───── -->
 	      {#if activeTab === 'info' && selectedUid}
-	        <div class="card p-0">
-	          <InfoPanel uid={selectedUid} />
-	        </div>
+	        <InfoPanel uid={selectedUid} />
 	      {/if}
 
 	      <!-- ───── INVENTORY TAB ───── -->

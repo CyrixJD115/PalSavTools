@@ -70,7 +70,7 @@
 {:else if error}
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else if detail}
-  <div class="p-5 max-w-lg mx-auto space-y-5">
+  <div class="p-5 max-w-xl mx-auto space-y-5">
     <!-- summary card -->
     <div class="bg-bg-surface border border-line/30 rounded-4 p-4 space-y-2.5">
       <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">

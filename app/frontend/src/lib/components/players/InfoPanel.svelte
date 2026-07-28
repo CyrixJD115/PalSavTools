@@ -68,7 +68,7 @@
 {:else if error}
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else if detail}
-  <div class="p-5 max-w-xl mx-auto">
+  <div class="space-y-5">
     <!-- summary grid — no card, just clean data -->
     <div class="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
       <div class="flex items-center gap-2">

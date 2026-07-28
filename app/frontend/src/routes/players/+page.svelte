@@ -8,6 +8,8 @@
   import Spinner from '$components/ui/Spinner.svelte';
   import Badge from '$components/ui/Badge.svelte';
   import PlayerDetailModal from '$components/players/PlayerDetailModal.svelte';
+  import ProtectionContextMenu from '$components/protection/ProtectionContextMenu.svelte';
+  import ProtectedBadge from '$components/protection/ProtectedBadge.svelte';
   import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
   // Infinite-scroll state. Items accumulate as the user scrolls; the backend
@@ -110,6 +112,14 @@
     closeDetail();
     fetchPage(true);
   }
+
+  // Right-click context menu for protection.
+  type MenuCtx = { id: string; name: string; x: number; y: number };
+  let menuCtx = $state<MenuCtx | null>(null);
+  function onRowContextmenu(p: PlayerSummary, e: MouseEvent) {
+    e.preventDefault();
+    menuCtx = { id: p.uid, name: p.name, x: e.clientX, y: e.clientY };
+  }
 </script>
 
 <SaveGate icon="lucide:users">
@@ -158,9 +168,14 @@
             </thead>
             <tbody use:infiniteScroll={{ onloadmore: loadMore, hasMore, loading: loadingMore }}>
               {#each sorted as p (p.uid)}
-                <tr class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer" onclick={() => openDetail(p)}>
+                <tr
+                  class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer"
+                  onclick={() => openDetail(p)}
+                  oncontextmenu={(e: MouseEvent) => onRowContextmenu(p, e)}
+                >
                   <td class="py-2.5 pr-4 text-ink-primary font-medium">
                     {p.name}
+                    <ProtectedBadge targetType="player" targetId={p.uid} />
                     {#if p.is_leader}<Badge tone="amber" class="ml-1.5 text-[10px] px-1.5 py-0.5">{$t('web.players.leader_badge')}</Badge>{/if}
                   </td>
                   <td class="py-2.5 pr-4 tabular-nums">{p.level || '?'}</td>
@@ -193,5 +208,16 @@
     name={selectedName}
     onclose={closeDetail}
     onupdated={handleUpdated}
+  />
+{/if}
+
+{#if menuCtx}
+  <ProtectionContextMenu
+    targetType="player"
+    targetId={menuCtx.id}
+    targetName={menuCtx.name}
+    x={menuCtx.x}
+    y={menuCtx.y}
+    onclose={() => (menuCtx = null)}
   />
 {/if}

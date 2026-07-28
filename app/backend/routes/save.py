@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import logging
 import os
 import tempfile
@@ -108,6 +109,7 @@ def _build_loaded(
     file_size: int,
     player_raw_bytes: dict[str, bytes] | None = None,
     storage_mode: StorageMode = "memory",
+    fingerprint: str = "",
 ) -> LoadedSave:
     """Shared constructor for ``LoadedSave`` across all load paths.
 
@@ -157,6 +159,7 @@ def _build_loaded(
         player_raw_bytes=player_raw_bytes or {},
         storage_mode=storage_mode,
         guild_tail_shape=tail_shape,
+        fingerprint=fingerprint,
     )
 
     # Disk mode: spill the full decoded JSON to a temp file now so the
@@ -223,6 +226,7 @@ async def get_state() -> SaveStateResponse:
         loaded_at=loaded.loaded_at,
         guild_tail_shape=loaded.guild_tail_shape,
         can_persist=_can_persist(loaded),
+        fingerprint=loaded.fingerprint,
     )
     # Use lazy counts — only materialize the four cheap count sections
     # instead of the full ~200 MB level_dict.
@@ -266,6 +270,7 @@ async def load_from_path(body: LoadPathRequest) -> LoadResponse:
                 filename=p.name, save_dir=str(p.parent),
                 players_dir=str(players), file_size=len(data),
                 storage_mode=storage_mode,
+                fingerprint=hashlib.sha256(data).hexdigest(),
             )
         else:
             raise HTTPException(
@@ -283,6 +288,7 @@ async def load_from_path(body: LoadPathRequest) -> LoadResponse:
             save_type=loaded.save_type, file_size=loaded.file_size,
             loaded_at=loaded.loaded_at, guild_tail_shape=loaded.guild_tail_shape,
             can_persist=_can_persist(loaded),
+            fingerprint=loaded.fingerprint,
         ),
         counts=WorldCounts(**counts),
     )
@@ -344,6 +350,7 @@ async def upload_save(
             save_type=loaded.save_type, file_size=loaded.file_size,
             loaded_at=loaded.loaded_at,
             guild_tail_shape=loaded.guild_tail_shape,
+            fingerprint=loaded.fingerprint,
         ),
         counts=WorldCounts(**counts),
     )
@@ -376,6 +383,7 @@ def _load_bundle(
         file_size=len(data),
         player_raw_bytes=bundle.player_files,
         storage_mode=storage_mode,
+        fingerprint=hashlib.sha256(bundle.level_bytes).hexdigest(),
     )
 
 

@@ -9,6 +9,8 @@
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
   import BaseDetailModal from '$components/bases/BaseDetailModal.svelte';
+  import ProtectionContextMenu from '$components/protection/ProtectionContextMenu.svelte';
+  import ProtectedBadge from '$components/protection/ProtectedBadge.svelte';
   import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
   const PAGE_SIZE = 20;
@@ -87,6 +89,14 @@
   }));
 
   function onDetailSaved() { fetchPage(true); selectedBase = null; }
+
+  // Right-click context menu for protection.
+  type MenuCtx = { id: string; name: string; x: number; y: number };
+  let menuCtx = $state<MenuCtx | null>(null);
+  function onRowContextmenu(b: BaseSummary, e: MouseEvent) {
+    e.preventDefault();
+    menuCtx = { id: b.id, name: b.guild_name ?? '', x: e.clientX, y: e.clientY };
+  }
 </script>
 
 <SaveGate icon="lucide:map-pin">
@@ -140,6 +150,7 @@
                 <tr
                   class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer"
                   onclick={() => selectedBase = b}
+                  oncontextmenu={(e: MouseEvent) => onRowContextmenu(b, e)}
                 >
                   <td class="py-2.5 pr-4">
                     <span class="inline-flex items-center gap-1.5">
@@ -149,6 +160,7 @@
                       {:else}
                         <span class="text-ink-dim">—</span>
                       {/if}
+                      <ProtectedBadge targetType="base" targetId={b.id} />
                       {#if b.base_position === 1}
                         <Badge tone="amber">{$t('web.bases.main_badge')}</Badge>
                       {/if}
@@ -182,5 +194,16 @@
     base={selectedBase}
     onclose={() => selectedBase = null}
     onsaved={onDetailSaved}
+  />
+{/if}
+
+{#if menuCtx}
+  <ProtectionContextMenu
+    targetType="base"
+    targetId={menuCtx.id}
+    targetName={menuCtx.name}
+    x={menuCtx.x}
+    y={menuCtx.y}
+    onclose={() => (menuCtx = null)}
   />
 {/if}

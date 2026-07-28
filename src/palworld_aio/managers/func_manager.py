@@ -86,6 +86,11 @@ def get_entity_location(entity_data):
     except Exception as e:
         logging.warning(f'Failed to extract entity location: {e}')
     return (None, None)
+# ponytail: legacy CLI zone-exclusion gate. The WebUI rule engine
+# (app/backend/services/protection_service.py) unifies zone + entity + edit
+# protection; the 6 scattered checks in this file (guilds:177, players:221,
+# bases:292, zone:504/510/631/674) should migrate to is_blocked() when the
+# CLI is next touched. Frozen for now — WebUI is the primary GUI.
 def is_entity_in_exclusion_zones(entity_data):
     world_x, world_y = get_entity_location(entity_data)
     if world_x is None or world_y is None:

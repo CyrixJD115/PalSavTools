@@ -166,6 +166,18 @@ class LoadedSave:
     # path-load flow (which reads from ``players_dir`` on demand).
     # Keyed by cleaned UID.
     player_raw_bytes: dict[str, bytes] = field(default_factory=dict, repr=False)
+    # Identity fingerprint (SHA-256 of the raw Level.sav bytes). Stable across
+    # sessions and both load paths; keys per-save protection rules in the
+    # frontend's localStorage. Empty until set at load.
+    fingerprint: str = ""
+    # Protection rules for this save (rule-based; see ProtectionRule schema).
+    # Held in-memory — the frontend is the source of truth and re-pushes its
+    # persisted rules on every load via PUT /api/protection/rules.
+    protection_rules: list[dict[str, Any]] = field(default_factory=list)
+    # Whole-save edit lock (the master "I'm done" switch). When True the
+    # protection gate blocks ALL mutation endpoints regardless of per-entity
+    # rules. Per-entity rules layer on top.
+    edit_locked: bool = False
 
     # -- world save access -------------------------------------------------
 

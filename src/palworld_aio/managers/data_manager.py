@@ -348,6 +348,13 @@ def delete_player(uid, delete_files=True):
         constants.files_to_delete.add(uid_clean)
     return True
 def load_exclusions():
+    # ponytail: legacy CLI exclusion model (flat {guilds,players,bases} lists).
+    # The WebUI now uses the rule-based engine at
+    # app/backend/services/protection_service.py (per-action locks, cascade,
+    # per-save fingerprint). This CLI path is frozen — migrate these scattered
+    # checks to call the new engine when the CLI is next touched. Upgrade path:
+    # import protection_service.is_blocked() and replace the 3 .get() checks
+    # in delete_guild/delete_player below.
     try:
         data = json_tools.load(constants.EXCLUSIONS_FILE)
         constants.exclusions = {'guilds': data.get('guilds', []), 'players': data.get('players', []), 'bases': data.get('bases', [])}

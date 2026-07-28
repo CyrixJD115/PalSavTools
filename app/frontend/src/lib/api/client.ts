@@ -21,6 +21,7 @@ import type {
   SetPlayerAbilitiesRequest, SetPlayerQuestsRequest, SetSlotCountRequest,
   SetStatsRequest, SetTechnologiesRequest, SetTechPointsRequest,
   SlotInjectorRequest, ToolResponse, ToolsListResponse,
+  ProtectionState, EditLockRequest,
 } from '$types/index';
 
 const API_BASE = '/api';
@@ -272,4 +273,11 @@ export const api = {
     request<DirectParentsResponse>('/breeding/direct/parents', jsonBody(params)),
   breedingChain: (params: ChainRequest) =>
     request<ChainResponse>('/breeding/chain', jsonBody(params)),
+
+  // ---- protection & locking ----
+  getProtection: () => request<ProtectionState>('/protection'),
+  putProtectionState: (state: ProtectionState) =>
+    request<ProtectionState>('/protection/state', jsonBody(state, 'PUT')),
+  putEditLock: (body: EditLockRequest) =>
+    request<ProtectionState>('/protection/lock', jsonBody(body, 'PUT')),
 };

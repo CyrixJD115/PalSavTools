@@ -17,7 +17,7 @@ from fastapi.staticfiles import StaticFiles
 from app.backend import __version__
 from app.backend.config import settings
 from app.backend.paths import RESOURCES_DIR
-from app.backend.routes import bases, breeding, containers, data, guilds, health, map, pals, players, save, tools, world
+from app.backend.routes import bases, breeding, containers, data, guilds, health, map, pals, players, protection, save, tools, world
 from app.backend.state import _sweep_stale_cache_files
 from app.backend.ws_manager import manager
 
@@ -66,6 +66,12 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
         allow_headers=["*"],
     )
 
+    # Protection gate: enforces per-entity rules + whole-save edit lock on
+    # all /api/ mutation endpoints. Installed AFTER CORS so preflight still
+    # works; one middleware covers ~40 endpoints (see protection_gate.py).
+    from app.backend.protection_gate import install_protection_gate
+    install_protection_gate(app)
+
     app.include_router(health.router, prefix="/api")
     app.include_router(save.router, prefix="/api")
     app.include_router(world.router, prefix="/api")
@@ -79,6 +85,7 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
     app.include_router(breeding.router, prefix="/api")
     app.include_router(pals.router, prefix="/api")
     app.include_router(pals.preset_router, prefix="/api")
+    app.include_router(protection.router, prefix="/api")
 
     @app.websocket("/ws")
     async def _ws_endpoint(websocket: WebSocket) -> None:

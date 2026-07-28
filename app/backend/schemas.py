@@ -54,6 +54,34 @@ class SaveSummary(BaseModel):
     # a Players/ sibling), so the backend can write edits in-place. False for
     # archive-bundle loads (browser upload or desktop archive drop).
     can_persist: bool = False
+    # SHA-256 of the raw Level.sav bytes — keys per-save protection rules.
+    fingerprint: str = ""
+
+
+# ---- protection / locking ---------------------------------------------------
+
+class ProtectionRule(BaseModel):
+    """One protection rule: blocks one or more actions on one target entity.
+
+    ``cascade`` only applies to guild targets (guild → its bases + member
+    players). ``source`` tracks origin for UI badges (cascade-derived rules
+    can't be hand-edited, only removed via their parent).
+    """
+    id: str
+    target_type: Literal["player", "guild", "base"]
+    target_id: str  # normalized UID (lowercase, no hyphens)
+    actions: list[Literal["delete", "edit"]] = Field(default_factory=lambda: ["delete"])
+    cascade: bool = True
+    source: str = "manual"  # "manual" | "cascade" | "imported"
+    note: str = ""
+
+
+class ProtectionState(BaseModel):
+    """Full protection state for the loaded save. The frontend pushes this
+    whole object on load and on any change (localStorage is source of truth)."""
+    fingerprint: str
+    rules: list[ProtectionRule] = Field(default_factory=list)
+    edit_locked: bool = False
 
 
 class WorldCounts(BaseModel):

@@ -57,6 +57,7 @@ export interface SaveSummary {
   loaded_at: number;
   guild_tail_shape: 'PreUpdate' | 'PostUpdate';
   can_persist?: boolean;
+  fingerprint?: string;
 }
 
 export interface WorldCounts {
@@ -77,6 +78,31 @@ export interface SaveStateResponse {
 export interface LoadResponse {
   summary: SaveSummary;
   counts: WorldCounts;
+}
+
+// ---- protection / locking --------------------------------------------------
+
+export type ProtectionTargetType = 'player' | 'guild' | 'base';
+export type ProtectionAction = 'delete' | 'edit';
+
+export interface ProtectionRule {
+  id: string;
+  target_type: ProtectionTargetType;
+  target_id: string; // normalized UID (lowercase, no hyphens)
+  actions: ProtectionAction[];
+  cascade: boolean;
+  source: string; // "manual" | "cascade" | "imported"
+  note: string;
+}
+
+export interface ProtectionState {
+  fingerprint: string;
+  rules: ProtectionRule[];
+  edit_locked: boolean;
+}
+
+export interface EditLockRequest {
+  edit_locked: boolean;
 }
 
 export interface PlayerSummary {

@@ -9,6 +9,8 @@
   import Badge from '$components/ui/Badge.svelte';
   import Icon from '@iconify/svelte';
   import GuildDetailModal from '$components/guilds/GuildDetailModal.svelte';
+  import ProtectionContextMenu from '$components/protection/ProtectionContextMenu.svelte';
+  import ProtectedBadge from '$components/protection/ProtectedBadge.svelte';
   import { infiniteScroll } from '$lib/utils/infiniteScroll';
 
   const PAGE_SIZE = 20;
@@ -77,6 +79,14 @@
   }));
 
   function onDetailSaved() { fetchPage(true); selectedGuild = null; }
+
+  // Right-click context menu for protection.
+  type MenuCtx = { id: string; name: string; x: number; y: number };
+  let menuCtx = $state<MenuCtx | null>(null);
+  function onRowContextmenu(g: GuildSummary, e: MouseEvent) {
+    e.preventDefault();
+    menuCtx = { id: g.id, name: g.name, x: e.clientX, y: e.clientY };
+  }
 </script>
 
 <SaveGate icon="lucide:building-2">
@@ -117,11 +127,12 @@
       >
         {#each sorted as g (g.id)}
           <Card hover>
-            <button class="w-full text-left" onclick={() => selectedGuild = g}>
+            <button class="w-full text-left" onclick={() => selectedGuild = g} oncontextmenu={(e: MouseEvent) => onRowContextmenu(g, e)}>
               <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center gap-2">
                   <Icon icon="lucide:building-2" width={18} class="text-accent" />
                   <h3 class="text-base font-semibold text-ink-emphasis">{g.name}</h3>
+                  <ProtectedBadge targetType="guild" targetId={g.id} />
                 </div>
                 <Badge tone="neutral">{$t('web.guilds.n_players', { count: g.player_count })}</Badge>
               </div>
@@ -198,11 +209,13 @@
                 <tr
                   class="border-b border-line/20 hover:bg-bg-hover/50 transition-fast cursor-pointer"
                   onclick={() => selectedGuild = g}
+                  oncontextmenu={(e: MouseEvent) => onRowContextmenu(g, e)}
                 >
                   <td class="py-2.5 pr-4">
                     <span class="inline-flex items-center gap-1.5">
                       <Icon icon="lucide:building-2" width={13} class="text-ink-dim shrink-0" />
                       {g.name}
+                      <ProtectedBadge targetType="guild" targetId={g.id} />
                     </span>
                   </td>
                   <td class="py-2.5 pr-4 text-right tabular-nums">{g.player_count}</td>
@@ -230,5 +243,16 @@
     guild={selectedGuild}
     onclose={() => selectedGuild = null}
     onsaved={onDetailSaved}
+  />
+{/if}
+
+{#if menuCtx}
+  <ProtectionContextMenu
+    targetType="guild"
+    targetId={menuCtx.id}
+    targetName={menuCtx.name}
+    x={menuCtx.x}
+    y={menuCtx.y}
+    onclose={() => (menuCtx = null)}
   />
 {/if}

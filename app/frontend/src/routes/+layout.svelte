@@ -14,6 +14,7 @@
     health, wsConnected, languages, currentLang, i18n, saveState, loadingSave, loadProgress,
   } from '$stores/index';
   import { syncFromHealth } from '$stores/settings';
+  import { syncToFingerprint as syncProtection } from '$stores/protection';
 
   let { children }: { children: Snippet } = $props();
   let ws: WebSocket | null = null;
@@ -38,6 +39,14 @@
         showSaveVersionModal = true;
       }
     }
+  });
+
+  // Sync protection rules when the loaded save's fingerprint changes (load,
+  // unload, or swap). Loads persisted rules from localStorage and pushes them
+  // to the backend so the HTTP gate enforces them.
+  $effect(() => {
+    const fp = $saveState?.summary?.fingerprint ?? '';
+    if (fp) void syncProtection(fp);
   });
 
   function onSaveVersionChoice(continue_: boolean) {

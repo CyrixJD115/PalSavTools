@@ -11,6 +11,7 @@
     onclick,
     class: klass = '',
     type = 'button',
+    title = '',
     children,
   }: {
     variant?: Variant;
@@ -19,6 +20,7 @@
     onclick?: (e: MouseEvent) => void;
     class?: string;
     type?: 'button' | 'submit';
+    title?: string;
     children: Snippet;
   } = $props();
 
@@ -34,6 +36,7 @@
   {type}
   class={clsx(variantClass[variant], klass)}
   disabled={disabled || loading}
+  {title}
   {onclick}
 >
   {#if loading}

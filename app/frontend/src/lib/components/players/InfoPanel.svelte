@@ -1,6 +1,9 @@
 <script lang="ts">
   // Player Info panel — summary readout + all quick actions.
   // Renders as the default sub-tab in Player Editor.
+  // Matches the app's design language: card groupings, consistent spacing,
+  // accent icons, bordered containers, the same section-header pattern
+  // used by StatsEditor and other inventory panels.
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import { api } from '$lib/api/client';
@@ -32,7 +35,7 @@
     finally { loading = false; }
   }
 
-  async function save(label: string, fn: () => Promise<unknown>) {
+  async function act(label: string, fn: () => Promise<unknown>) {
     saving = true;
     try {
       await fn();
@@ -46,18 +49,19 @@
     }
   }
 
-  function handleRename() {
-    if (!renameValue.trim()) return;
-    save('rename', () => api.renamePlayer(uid, { name: renameValue.trim() }));
+  function startRename() {
+    renameValue = detail?.name ?? '';
+    editingName = true; editingLevel = false;
   }
 
-  function handleLevel() {
-    save('level', () => api.setPlayerLevel(uid, { level: levelValue }));
+  function startLevel() {
+    levelValue = detail?.level ?? 1;
+    editingLevel = true; editingName = false;
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!confirm($t('web.players.delete_confirm', { name: detail?.name ?? uid }))) return;
-    save('delete', () => api.deletePlayer(uid));
+    await act('delete', () => api.deletePlayer(uid));
   }
 </script>
 
@@ -66,71 +70,117 @@
 {:else if error}
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else if detail}
-  <div class="p-5 max-w-2xl mx-auto space-y-6">
-    <!-- summary readout -->
-    <div class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-      <div><span class="text-ink-muted">{$t('web.players.detail_level')}</span> <span class="tabular-nums text-ink-primary font-medium ml-1">{detail.level}</span></div>
-      <div><span class="text-ink-muted">{$t('web.players.detail_pals_owned')}</span> <span class="tabular-nums text-ink-primary font-medium ml-1">{detail.pal_count}</span></div>
-      <div><span class="text-ink-muted">{$t('web.players.detail_guild')}</span> <Badge tone="accent" class="ml-1">{detail.guild_name ?? '—'}</Badge></div>
-      <div><span class="text-ink-muted">{$t('web.players.detail_guild_level')}</span> <span class="tabular-nums ml-1">{detail.guild_level}</span></div>
-      <div class="col-span-2"><span class="text-ink-muted">{$t('web.players.detail_last_seen')}</span> <span class="tabular-nums ml-1">{detail.last_seen_text ?? 'Unknown'}</span></div>
-      <div class="col-span-2">
-        <span class="text-ink-muted">{$t('web.players.detail_uid')}</span>
-        <code class="text-xs font-mono text-ink-muted ml-2 break-all">{detail.uid}</code>
+  <div class="p-5 max-w-lg mx-auto space-y-5">
+    <!-- summary card -->
+    <div class="bg-bg-surface border border-line/30 rounded-4 p-4 space-y-2.5">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">
+        <Icon icon="lucide:info" width={12} class="inline mr-1 text-accent" />
+        {$t('web.player_editor.player_info', 'Player Info')}
+      </p>
+      <div class="grid grid-cols-2 gap-x-5 gap-y-2 text-sm">
+        <div class="flex items-baseline gap-1.5">
+          <Icon icon="lucide:chevrons-up" width={12} class="text-accent shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_level')}</span>
+          <span class="tabular-nums text-ink-primary font-medium">{detail.level}</span>
+        </div>
+        <div class="flex items-baseline gap-1.5">
+          <Icon icon="lucide:paw-print" width={12} class="text-accent shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_pals_owned')}</span>
+          <span class="tabular-nums text-ink-primary font-medium">{detail.pal_count}</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <Icon icon="lucide:building-2" width={12} class="text-accent shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_guild')}</span>
+          <Badge tone="accent" class="!text-[10px]">{detail.guild_name ?? '—'}</Badge>
+        </div>
+        <div class="flex items-baseline gap-1.5">
+          <Icon icon="lucide:layers" width={12} class="text-accent shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_guild_level')}</span>
+          <span class="tabular-nums">{detail.guild_level}</span>
+        </div>
+        <div class="col-span-2 flex items-center gap-1.5">
+          <Icon icon="lucide:clock" width={12} class="text-ink-dim shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_last_seen')}</span>
+          <span class="tabular-nums text-ink-secondary">{detail.last_seen_text ?? 'Unknown'}</span>
+        </div>
+        <div class="col-span-2 flex items-center gap-1.5">
+          <Icon icon="lucide:hash" width={12} class="text-ink-dim shrink-0" />
+          <span class="text-ink-muted text-[10px] uppercase tracking-wider">{$t('web.players.detail_uid')}</span>
+          <code class="text-[10px] font-mono text-ink-muted truncate select-all">{detail.uid}</code>
+        </div>
       </div>
     </div>
 
-    <!-- inline editors -->
-    <div class="border-t border-line/20 pt-4 space-y-3">
+    <!-- identity editors card -->
+    <div class="bg-bg-surface border border-line/30 rounded-4 p-4 space-y-3">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">
+        <Icon icon="lucide:user" width={12} class="inline mr-1 text-accent" />
+        {$t('web.player_editor.identity', 'Identity')}
+      </p>
+
       <!-- Rename -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-xs font-medium text-ink-muted">{$t('web.common.rename')}</span>
+      <div class="flex items-center gap-2">
+        <Icon icon="lucide:pencil" width={13} class="text-accent shrink-0" />
         {#if editingName}
-          <input class="input text-sm flex-1 max-w-xs" bind:value={renameValue} disabled={saving} />
-          <Button variant="primary" onclick={handleRename} disabled={saving} class="!text-xs">{$t('web.common.save')}</Button>
-          <Button variant="ghost" onclick={() => editingName = false} class="!text-xs">{$t('web.common.cancel')}</Button>
+          <div class="flex items-center gap-1.5 flex-1">
+            <input class="input text-sm flex-1" bind:value={renameValue} disabled={saving} />
+            <Button variant="primary" onclick={() => act('rename', () => api.renamePlayer(uid, { name: renameValue.trim() }))} disabled={saving} class="!text-xs !py-1 !px-2.5">{$t('web.common.save')}</Button>
+            <Button variant="ghost" onclick={() => editingName = false} class="!text-xs !py-1 !px-2">{$t('web.common.cancel')}</Button>
+          </div>
         {:else}
-          <Button variant="secondary" onclick={() => { renameValue = detail.name; editingName = true; editingLevel = false; }} disabled={saving} class="!text-xs">
-            <Icon icon="lucide:pencil" width={12} class="mr-1" />
-            {detail.name}
-          </Button>
+          <button type="button" onclick={startRename} disabled={saving} class="flex-1 flex items-center gap-1.5 px-2 py-1 rounded-2 bg-bg-deep border border-line/40 text-ink-primary text-sm hover:bg-bg-hover transition-fast" aria-label={$t('web.common.rename')}>
+            <span class="truncate">{detail.name}</span>
+            <Icon icon="lucide:pen-line" width={11} class="text-ink-dim shrink-0 ml-auto" />
+          </button>
         {/if}
       </div>
+
       <!-- Set Level -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-xs font-medium text-ink-muted">{$t('web.players.set_level')}</span>
+      <div class="flex items-center gap-2">
+        <Icon icon="lucide:trending-up" width={13} class="text-accent shrink-0" />
         {#if editingLevel}
-          <input class="input w-20 text-sm" type="number" min="1" max="80" bind:value={levelValue} disabled={saving} />
-          <Button variant="primary" onclick={handleLevel} disabled={saving} class="!text-xs">{$t('web.common.save')}</Button>
-          <Button variant="ghost" onclick={() => editingLevel = false} class="!text-xs">{$t('web.common.cancel')}</Button>
+          <div class="flex items-center gap-1.5">
+            <input class="input w-20 text-sm text-center" type="number" min="1" max="80" bind:value={levelValue} disabled={saving} />
+            <Button variant="primary" onclick={() => act('level', () => api.setPlayerLevel(uid, { level: levelValue }))} disabled={saving} class="!text-xs !py-1 !px-2.5">{$t('web.common.set')}</Button>
+            <Button variant="ghost" onclick={() => editingLevel = false} class="!text-xs !py-1 !px-2">{$t('web.common.cancel')}</Button>
+          </div>
         {:else}
-          <Button variant="secondary" onclick={() => { levelValue = detail.level; editingLevel = true; editingName = false; }} disabled={saving} class="!text-xs">
-            <Icon icon="lucide:trending-up" width={12} class="mr-1" />
-            {detail.level}
-          </Button>
+          <button type="button" onclick={startLevel} disabled={saving} class="flex items-center gap-1.5 px-2 py-1 rounded-2 bg-bg-deep border border-line/40 text-ink-primary text-sm hover:bg-bg-hover transition-fast" aria-label={$t('web.players.set_level')}>
+            <Icon icon="lucide:chevrons-up" width={11} class="text-ink-dim" />
+            <span class="tabular-nums">{detail.level}</span>
+            <Icon icon="lucide:pen-line" width={11} class="text-ink-dim shrink-0 ml-0.5" />
+          </button>
         {/if}
       </div>
     </div>
 
-    <!-- one-click actions -->
-    <div class="border-t border-line/20 pt-4">
-      <p class="text-xs uppercase tracking-wider text-ink-muted font-semibold mb-3">{$t('web.common.actions')}</p>
+    <!-- actions card -->
+    <div class="bg-bg-surface border border-line/30 rounded-4 p-4 space-y-3">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">
+        <Icon icon="lucide:zap" width={12} class="inline mr-1 text-accent" />
+        {$t('web.common.actions')}
+      </p>
       <div class="flex flex-wrap gap-2">
-        <Button variant="secondary" onclick={async () => { try { await api.resetPlayerTimestamp(uid); await load(); toast.success($t('web.players.reset_timestamp')); } catch(e) { toast.error(e instanceof Error ? e.message : String(e)); }}} disabled={saving} class="!text-xs">
-          <Icon icon="lucide:clock" width={13} class="mr-1" /> {$t('web.players.reset_timestamp')}
-        </Button>
-        <Button variant="secondary" onclick={async () => { try { await api.unlockViewingCage(uid); await load(); toast.success($t('web.players.unlock_viewing_cage')); } catch(e) { toast.error(e instanceof Error ? e.message : String(e)); }}} disabled={saving} class="!text-xs">
-          <Icon icon="lucide:unlock" width={13} class="mr-1" /> {$t('web.players.unlock_viewing_cage')}
-        </Button>
-        <Button variant="secondary" onclick={async () => { try { await api.unlockPlayerTechnologies(uid); await load(); toast.success($t('web.players.unlock_all_techs')); } catch(e) { toast.error(e instanceof Error ? e.message : String(e)); }}} disabled={saving} class="!text-xs">
-          <Icon icon="lucide:graduation-cap" width={13} class="mr-1" /> {$t('web.players.unlock_all_techs')}
-        </Button>
-        <Button variant="secondary" onclick={async () => { try { await api.maxPlayerAbilities({ uids: [uid] }); await load(); toast.success($t('web.players.max_all_abilities')); } catch(e) { toast.error(e instanceof Error ? e.message : String(e)); }}} disabled={saving} class="!text-xs">
-          <Icon icon="lucide:zap" width={13} class="mr-1" /> {$t('web.players.max_all_abilities')}
-        </Button>
-        <Button variant="danger" onclick={handleDelete} disabled={saving} class="!text-xs">
-          <Icon icon="lucide:trash-2" width={13} class="mr-1" /> {$t('web.players.delete_player')}
-        </Button>
+        <button type="button" onclick={() => act('reset-ts', () => api.resetPlayerTimestamp(uid))} disabled={saving} class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2 bg-bg-deep border border-line/40 text-xs text-ink-secondary hover:bg-bg-hover hover:text-ink-primary transition-fast disabled:opacity-40">
+          <Icon icon="lucide:clock" width={12} class="text-ink-dim" />
+          {$t('web.players.reset_timestamp')}
+        </button>
+        <button type="button" onclick={() => act('cage', () => api.unlockViewingCage(uid))} disabled={saving} class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2 bg-bg-deep border border-line/40 text-xs text-ink-secondary hover:bg-bg-hover hover:text-ink-primary transition-fast disabled:opacity-40">
+          <Icon icon="lucide:unlock" width={12} class="text-ink-dim" />
+          {$t('web.players.unlock_viewing_cage')}
+        </button>
+        <button type="button" onclick={() => act('unlock-techs', () => api.unlockPlayerTechnologies(uid))} disabled={saving} class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2 bg-bg-deep border border-line/40 text-xs text-ink-secondary hover:bg-bg-hover hover:text-ink-primary transition-fast disabled:opacity-40">
+          <Icon icon="lucide:graduation-cap" width={12} class="text-ink-dim" />
+          {$t('web.players.unlock_all_techs')}
+        </button>
+        <button type="button" onclick={() => act('max-abs', () => api.maxPlayerAbilities({ uids: [uid] }))} disabled={saving} class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2 bg-bg-deep border border-line/40 text-xs text-ink-secondary hover:bg-bg-hover hover:text-ink-primary transition-fast disabled:opacity-40">
+          <Icon icon="lucide:zap" width={12} class="text-ink-dim" />
+          {$t('web.players.max_all_abilities')}
+        </button>
+        <button type="button" onclick={handleDelete} disabled={saving} class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-2 bg-bg-deep border border-status-error/40 text-xs text-status-error hover:bg-status-error/10 hover:border-status-error transition-fast disabled:opacity-40">
+          <Icon icon="lucide:trash-2" width={12} />
+          {$t('web.players.delete_player')}
+        </button>
       </div>
     </div>
   </div>

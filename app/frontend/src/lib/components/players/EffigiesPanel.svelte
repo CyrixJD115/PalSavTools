@@ -111,7 +111,7 @@
 {:else if error}
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else}
-  <div class="p-5 max-w-2xl mx-auto space-y-4">
+  <div class="p-5 space-y-4">
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">
         <Icon icon="lucide:gem" width={12} class="inline mr-1.5 text-accent" />
@@ -181,7 +181,7 @@
       </div>
     {:else}
       <!-- ─── GRID VIEW ─── -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
         {#each sortedRelics as r (r.type)}
           {@const val = relicValues[r.type] ?? 0}
           {@const pct = r.cumulative_max > 0 ? (val / r.cumulative_max) * 100 : 0}

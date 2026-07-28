@@ -162,7 +162,7 @@
               onclick={() => bump(r.type, -1)} disabled={!supported || saving || val <= 0}
             >−</button>
             <!-- clickable progress bar -->
-            <div class="relative w-24 h-6 bg-bg-deep rounded-2 border border-line/40 cursor-pointer overflow-hidden shrink-0"
+            <div class="relative flex-1 h-6 bg-bg-deep rounded-2 border border-line/40 cursor-pointer overflow-hidden"
               role="slider" aria-label={r.label} aria-valuemin="0" aria-valuemax={r.cumulative_max} aria-valuenow={val}
               onclick={(e) => barClick(r.type, e)}
             >

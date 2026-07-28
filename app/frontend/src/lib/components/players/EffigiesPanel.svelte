@@ -167,9 +167,7 @@
               onclick={(e) => barClick(r.type, e)}
             >
               <div class="h-full rounded-2 transition-all duration-200 {val >= r.cumulative_max ? 'bg-status-success' : 'bg-accent'}" style="width: {pct}%"></div>
-              <!-- value text — splits at the fill boundary so each pixel inverts cleanly -->
-              <span class="absolute inset-0 flex items-center justify-center text-[10px] tabular-nums font-semibold text-ink-dim pointer-events-none">{val}</span>
-              <span class="absolute inset-0 flex items-center justify-center text-[10px] tabular-nums font-semibold text-white pointer-events-none overflow-hidden" style="width: {pct}%">{val}</span>
+              <span class="absolute inset-0 flex items-center justify-center text-[10px] tabular-nums font-semibold text-white pointer-events-none">{val}</span>
             </div>
             <button type="button"
               class="w-5 h-5 rounded-2 bg-bg-deep border border-line/40 text-ink-secondary hover:bg-bg-hover disabled:opacity-30 text-xs leading-none shrink-0 flex items-center justify-center transition-fast"
@@ -210,8 +208,7 @@
                 onclick={(e) => barClick(r.type, e)}
               >
                 <div class="h-full rounded-2 transition-all duration-200 {val >= r.cumulative_max ? 'bg-status-success' : 'bg-accent'}" style="width: {pct}%"></div>
-                <span class="absolute inset-0 flex items-center justify-center text-[11px] tabular-nums font-semibold text-ink-dim pointer-events-none">{val}</span>
-                <span class="absolute inset-0 flex items-center justify-center text-[11px] tabular-nums font-semibold text-white pointer-events-none overflow-hidden" style="width: {pct}%">{val}</span>
+                <span class="absolute inset-0 flex items-center justify-center text-[11px] tabular-nums font-semibold text-white pointer-events-none">{val}</span>
               </div>
               <button type="button"
                 class="w-6 h-6 rounded-2 bg-bg-deep border border-line/40 text-ink-secondary hover:bg-bg-hover disabled:opacity-30 text-sm leading-none shrink-0 flex items-center justify-center transition-fast"

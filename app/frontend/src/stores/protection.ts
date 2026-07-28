@@ -88,6 +88,18 @@ export function rulesForTargetType(targetType: ProtectionTargetType): Protection
   return get(protection).rules.filter((r) => r.target_type === targetType);
 }
 
+/**
+ * Reactive rules-by-target-type store for UI panels. Unlike
+ * :func:`rulesForTargetType` (a one-time ``get()`` snapshot), this is a real
+ * derived store that recomputes whenever ``protection`` changes — so pages
+ * stay in sync after add/remove/toggle without manual refetch.
+ */
+export function rulesByType(targetType: ProtectionTargetType) {
+  return derived(protection, ($p) =>
+    $p.rules.filter((r) => r.target_type === targetType),
+  );
+}
+
 /** Find a direct rule for a specific entity (no cascade). */
 export function findRule(
   targetType: ProtectionTargetType,
@@ -123,15 +135,35 @@ export async function syncToFingerprint(fp: string): Promise<void> {
 }
 
 /**
- * Push the current state to the backend (call after any local mutation).
- * Best-effort: if the push fails, local state + localStorage still hold.
+ * Push the current store state to the backend, debounced.
+ *
+ * Rapid mutations (add/remove/toggle in quick succession) each used to fire
+ * their own async PUT. Network reordering could land an older state last,
+ * losing the most recent edit. This coalesces bursts into a single trailing
+ * push that always reads the latest store value, so last-write-wins is
+ * guaranteed to be the *actual* latest write.
  */
-async function pushToBackend(state: ProtectionState): Promise<void> {
-  try {
-    await api.putProtectionState(state);
-  } catch {
-    /* stale fingerprint or network — local state is still authoritative */
-  }
+let _pushTimer: ReturnType<typeof setTimeout> | null = null;
+let _pushInFlight: Promise<void> | null = null;
+const PUSH_DEBOUNCE_MS = 200;
+
+function pushToBackend(): void {
+  // Debounce: reset the timer on every call; only the last in a burst fires.
+  if (_pushTimer) clearTimeout(_pushTimer);
+  _pushTimer = setTimeout(() => {
+    _pushTimer = null;
+    // Always read the LIVE store state at fire time, not the stale snapshot
+    // passed in — this is what guarantees last-write-wins.
+    const state = get(protection);
+    // Chain after any in-flight push so we don't interleave requests.
+    _pushInFlight = (_pushInFlight ?? Promise.resolve()).then(async () => {
+      try {
+        await api.putProtectionState(state);
+      } catch {
+        /* stale fingerprint or network — local state is still authoritative */
+      }
+    }).catch(() => { /* swallow to keep the chain alive */ });
+  }, PUSH_DEBOUNCE_MS);
 }
 
 // ---- mutators ----------------------------------------------------------
@@ -149,7 +181,7 @@ export function addRule(
     id, target_type: targetType, target_id: tid,
     actions: actions.slice(), cascade, source: 'manual', note,
   };
-  let pushed: ProtectionState | null = null;
+  let changed = false;
   protection.update((s) => {
     // Don't duplicate an identical direct rule.
     const exists = s.rules.some(
@@ -158,28 +190,21 @@ export function addRule(
              r.actions.join(',') === actions.join(','),
     );
     if (exists) return s;
-    const next = { ...s, rules: [...s.rules, rule] };
-    pushed = next;
-    return next;
+    changed = true;
+    return { ...s, rules: [...s.rules, rule] };
   });
-  if (pushed) void pushToBackend(pushed);
+  if (changed) pushToBackend();
 }
 
 export function removeRule(ruleId: string): void {
-  let pushed: ProtectionState | null = null;
-  protection.update((s) => {
-    const next = { ...s, rules: s.rules.filter((r) => r.id !== ruleId) };
-    pushed = next;
-    return next;
-  });
-  if (pushed) void pushToBackend(pushed);
+  protection.update((s) => ({ ...s, rules: s.rules.filter((r) => r.id !== ruleId) }));
+  pushToBackend();
 }
 
 export function toggleAction(
   ruleId: string,
   action: ProtectionAction,
 ): void {
-  let pushed: ProtectionState | null = null;
   protection.update((s) => {
     const rules = s.rules.map((r) => {
       if (r.id !== ruleId) return r;
@@ -189,26 +214,121 @@ export function toggleAction(
       const fallback: ProtectionAction[] = ['delete'];
       return { ...r, actions: actions.length ? actions : fallback };
     });
-    const next = { ...s, rules };
-    pushed = next;
-    return next;
+    return { ...s, rules };
   });
-  if (pushed) void pushToBackend(pushed);
+  pushToBackend();
 }
 
 export async function setEditLocked(locked: boolean): Promise<void> {
-  let pushed: ProtectionState | null = null;
-  protection.update((s) => {
-    const next = { ...s, edit_locked: locked };
-    pushed = next;
-    return next;
-  });
-  if (pushed) {
-    // Use the dedicated lock endpoint (lighter than full-state push).
-    try {
-      await api.putEditLock({ edit_locked: locked });
-    } catch {
-      void pushToBackend(pushed);
-    }
+  protection.update((s) => ({ ...s, edit_locked: locked }));
+  // Use the dedicated lock endpoint (lighter than full-state push).
+  try {
+    await api.putEditLock({ edit_locked: locked });
+  } catch {
+    // Fallback: the debounced full-state push will sync it.
+    pushToBackend();
   }
+}
+
+// ---- entity name resolution -------------------------------------------
+// Rules store normalized UIDs (lowercase, no hyphens) as target_id, but
+// humans need names. This store holds a normalized-uid → display-label map
+// per target type, fetched lazily from the list endpoints. Kept here so the
+// exclusions page AND ProtectedBadge (in list rows) share one fetch.
+
+export interface EntityLabels {
+  player: Record<string, string>;  // normalized uid → "PlayerName"
+  guild: Record<string, string>;   // normalized id  → "GuildName"
+  base: Record<string, string>;    // normalized id  → "GuildName #2"
+  pal: Record<string, string>;     // normalized instance_id → "PalName"
+  loaded: boolean;
+}
+
+const EMPTY_LABELS: EntityLabels = {
+  player: {}, guild: {}, base: {}, pal: {}, loaded: false,
+};
+
+export const entityLabels = writable<EntityLabels>({ ...EMPTY_LABELS });
+
+function norm(id: string): string {
+  return id.replace(/-/g, '').toLowerCase();
+}
+
+/**
+ * Fetch all players/guilds/bases and build normalized-id → label maps.
+ * Safe to call repeatedly; it replaces the maps wholesale. Called by the
+ * exclusions page on mount and after any rule mutation (so newly-added
+ * rules resolve immediately).
+ */
+export async function refreshEntityLabels(): Promise<void> {
+  try {
+    // Backend caps `limit` at 500 per request (422 above that), so paginate
+    // each entity type until we've collected `total` records. Most saves have
+    // <500 of each, so this is usually a single round-trip per type.
+    const PAGE = 500;
+    // Paginate a list endpoint that returns { [key]: T[], total: number }.
+    // The response type R is inferred from fetchPage; extract pulls the array.
+    async function fetchAll<R, T>(
+      fetchPage: (limit: number, offset: number) => Promise<R>,
+      extract: (res: R) => T[],
+    ): Promise<T[]> {
+      const first = await fetchPage(PAGE, 0);
+      const total = (first as { total: number }).total;
+      const items: T[] = [...extract(first)];
+      let offset = items.length;
+      while (offset < total && offset < 10000) {
+        const page = await fetchPage(PAGE, offset);
+        const pageItems = extract(page);
+        items.push(...pageItems);
+        offset += pageItems.length;
+        if (pageItems.length === 0) break;
+      }
+      return items;
+    }
+
+    const [players, guilds, bases, pals] = await Promise.all([
+      fetchAll((lim, off) => api.players({ limit: lim, offset: off }), (r) => r.players),
+      fetchAll((lim, off) => api.guilds({ limit: lim, offset: off }), (r) => r.guilds),
+      fetchAll((lim, off) => api.bases({ limit: lim, offset: off }), (r) => r.bases),
+      fetchAll((lim, off) => api.pals({ limit: lim, offset: off }), (r) => r.pals),
+    ]);
+
+    const player: Record<string, string> = {};
+    for (const p of players) {
+      player[norm(p.uid)] = p.name || p.uid;
+    }
+    const guild: Record<string, string> = {};
+    for (const g of guilds) {
+      guild[norm(g.id)] = g.name || g.id;
+    }
+    const base: Record<string, string> = {};
+    for (const b of bases) {
+      // Bases have no name field; synthesize from guild + position.
+      const label = b.guild_name
+        ? `${b.guild_name} #${b.base_position ?? '?'}`
+        : `Base #${b.base_position ?? '?'}`;
+      base[norm(b.id)] = label;
+    }
+    const pal: Record<string, string> = {};
+    for (const p of pals) {
+      // Pals: prefer display_name, then nickname, then the species character_id.
+      pal[norm(p.instance_id)] = p.display_name || p.nickname || p.character_id || p.instance_id;
+    }
+    entityLabels.set({ player, guild, base, pal, loaded: true });
+  } catch {
+    // Non-fatal — the UI falls back to showing the raw ID.
+  }
+}
+
+/** Look up a display label for a rule target. Falls back to a shortened ID. */
+export function labelFor(
+  targetType: ProtectionTargetType,
+  targetId: string,
+): string {
+  const labels = get(entityLabels);
+  const map = labels[targetType];
+  const hit = map?.[norm(targetId)];
+  if (hit) return hit;
+  // Fallback: shortened raw id.
+  return targetId.length > 12 ? `${targetId.slice(0, 8)}…` : targetId;
 }

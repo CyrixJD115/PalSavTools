@@ -26,18 +26,60 @@ import type {
 
 const API_BASE = '/api';
 
+/**
+ * Extract a human-readable message from a backend error body.
+ *
+ * The backend uses several shapes:
+ *  - `{"detail": "string"}`           — FastAPI HTTPException(str)
+ *  - `{"detail": {obj}}`              — protection gate / structured errors
+ *  - `{"detail": [{msg: "..."}]}`     — FastAPI validation errors
+ *  - plain text                        — fallback
+ *
+ * Returns the most useful string we can find, never an object (avoids the
+ * `[object Object]` toast bug).
+ */
+function extractDetail(text: string): string {
+  try {
+    const j = JSON.parse(text);
+    const d = j?.detail;
+    if (typeof d === 'string') return d;
+    if (Array.isArray(d) && d.length) {
+      // Pydantic v2 validation errors: [{msg: "...", ...}]
+      const first = d[0];
+      if (first?.msg) return String(first.msg);
+      return JSON.stringify(d[0]) ?? text;
+    }
+    if (d && typeof d === 'object') {
+      // Structured detail — protection gate returns {reason, target_type, ...}.
+      // Build a readable sentence from the known keys; fall back to JSON.
+      if (typeof d.reason === 'string') {
+        if (d.reason === 'save_edit_locked') {
+          return 'The save is edit-locked. Turn off the Edit Lock in the Protection tab to make changes.';
+        }
+        if (d.reason === 'rule_match') {
+          const tgt = d.target_type ? `${d.target_type} ` : '';
+          const id = d.target_id ? ` ${String(d.target_id).slice(0, 8)}` : '';
+          const act = d.action ? d.action : 'modify';
+          return `This ${tgt}${id ? id.trim() : ''}is protected from ${act}. Remove the rule in the Protection tab first.`;
+        }
+        return String(d.reason);
+      }
+      if (typeof d.message === 'string') return d.message;
+      if (typeof d.error === 'string') return d.error;
+      return JSON.stringify(d);
+    }
+    if (typeof j?.message === 'string') return j.message;
+    return text;
+  } catch {
+    return text || 'Unknown error';
+  }
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, init);
   const text = await res.text();
   if (!res.ok) {
-    let detail = text;
-    try {
-      const j = JSON.parse(text);
-      detail = j.detail ?? text;
-    } catch {
-      /* keep raw text */
-    }
-    throw new Error(`API ${res.status}: ${detail}`);
+    throw new Error(`API ${res.status}: ${extractDetail(text)}`);
   }
   return text ? (JSON.parse(text) as T) : (undefined as unknown as T);
 }
@@ -75,9 +117,7 @@ export const api = {
     const res = await fetch(`${API_BASE}/save/upload`, { method: 'POST', body: form });
     const text = await res.text();
     if (!res.ok) {
-      let detail = text;
-      try { const j = JSON.parse(text); detail = j.detail ?? text; } catch { /* keep raw */ }
-      throw new Error(`API ${res.status}: ${detail}`);
+      throw new Error(`API ${res.status}: ${extractDetail(text)}`);
     }
     return JSON.parse(text) as LoadResponse;
   },

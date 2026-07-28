@@ -72,6 +72,17 @@
     if ($saveLoaded) fetchPage(true);
   });
 
+  // Direct navigation (deep link / hard refresh) races the layout's bootstrap:
+  // saveLoaded is false at mount, so the onMount fetch never fires and the
+  // page spins forever. React to saveLoaded becoming true to cover that case.
+  let _fetchedForSave = false;
+  $effect(() => {
+    if ($saveLoaded && !_fetchedForSave) {
+      _fetchedForSave = true;
+      fetchPage(true);
+    }
+  });
+
   // The server does the filtering now, so `sorted` just reorders the loaded
   // page locally. (Server can't sort without a sort param — local reorder
   // of the visible window is good enough for a typical page of 20.)

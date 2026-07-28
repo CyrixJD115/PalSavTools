@@ -68,7 +68,7 @@ class ProtectionRule(BaseModel):
     can't be hand-edited, only removed via their parent).
     """
     id: str
-    target_type: Literal["player", "guild", "base"]
+    target_type: Literal["player", "guild", "base", "pal"]
     target_id: str  # normalized UID (lowercase, no hyphens)
     actions: list[Literal["delete", "edit"]] = Field(default_factory=lambda: ["delete"])
     cascade: bool = True

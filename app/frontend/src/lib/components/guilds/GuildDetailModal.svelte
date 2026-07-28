@@ -32,8 +32,12 @@
   async function load() {
     loading = true; error = null;
     try { detail = await api.guildDetail(guild.id); }
-    catch (e) { error = e instanceof Error ? e.message : String(e); }
-    finally { loading = false; }
+    catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      error = msg.startsWith('API 404')
+        ? $t('web.protection.guild_not_found')
+        : msg;
+    } finally { loading = false; }
   }
   onMount(load);
 
@@ -42,8 +46,13 @@
     actionLoading = name;
     try {
       await fn();
+      // Delete removes the entity — skip the re-GET (would 404) and hand
+      // control to the parent, which closes the modal and refetches.
+      if (name === 'delete') {
+        onsaved();
+        return;
+      }
       if (name !== 'close') await load();
-      if (name === 'delete') onsaved();
     } catch (e) {
       actionError = e instanceof Error ? e.message : String(e);
     } finally {

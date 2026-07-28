@@ -82,7 +82,7 @@ export interface LoadResponse {
 
 // ---- protection / locking --------------------------------------------------
 
-export type ProtectionTargetType = 'player' | 'guild' | 'base';
+export type ProtectionTargetType = 'player' | 'guild' | 'base' | 'pal';
 export type ProtectionAction = 'delete' | 'edit';
 
 export interface ProtectionRule {

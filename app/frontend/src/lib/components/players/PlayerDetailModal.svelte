@@ -41,8 +41,15 @@
   async function load() {
     loading = true; error = null;
     try { detail = await api.playerDetail(uid); }
-    catch (e) { error = e instanceof Error ? e.message : String(e); }
-    finally { loading = false; }
+    catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      // A 404 here means the player was deleted elsewhere (e.g. another tab,
+      // or a stale modal after a prior delete). Show a friendly explanation
+      // instead of the raw "Player not found: <uid>" string.
+      error = msg.startsWith('API 404')
+        ? $t('web.protection.player_not_found')
+        : msg;
+    } finally { loading = false; }
   }
   onMount(load);
 
@@ -51,6 +58,13 @@
     actionLoading = name;
     try {
       await fn();
+      // Delete removes the entity entirely — re-GETting the uid would 404 and
+      // leave the modal stuck on a stale error. Hand control back to the parent
+      // (which closes the modal and refetches the list) instead of reloading.
+      if (name === 'delete') {
+        onupdated();
+        return;
+      }
       if (name !== 'close') await load();
     } catch (e) {
       actionError = e instanceof Error ? e.message : String(e);

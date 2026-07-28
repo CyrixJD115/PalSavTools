@@ -58,6 +58,14 @@
   }
 
   onMount(() => { if ($saveLoaded) load(); });
+  // Cover direct-navigation race (saveLoaded false at mount). See players page.
+  let _loadedForSave = false;
+  $effect(() => {
+    if ($saveLoaded && !_loadedForSave) {
+      _loadedForSave = true;
+      load();
+    }
+  });
 
   type SortCol = 'type' | 'slots' | 'items' | 'guild';
   function toggleSort(col: SortCol) {

@@ -207,10 +207,10 @@ _PREFIX_TABLE = (
     ("players/", "player", 0),
     ("guilds/", "guild", 0),
     ("bases/", "base", 0),
-    # pals & containers are gated as their own target types only if rules
-    # exist for them; for now the engine doesn't define pal/container rules,
-    # so they fall through (unblocked). Add when pal/container protection is
-    # surfaced in the UI.
+    ("pals/", "pal", 0),
+    # containers are NOT gated as a target type — container slots are
+    # per-item mutations, not entity-level protection. Leave them to
+    # per-save edit_lock only.
 )
 
 

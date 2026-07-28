@@ -61,6 +61,14 @@
   }
 
   onMount(() => { if ($saveLoaded) fetchPage(true); });
+  // Cover direct-navigation race (saveLoaded false at mount). See players page.
+  let _fetchedForSave = false;
+  $effect(() => {
+    if ($saveLoaded && !_fetchedForSave) {
+      _fetchedForSave = true;
+      fetchPage(true);
+    }
+  });
 
   type SortCol = 'name' | 'members' | 'bases';
   function toggleSort(col: SortCol) {

@@ -1,8 +1,9 @@
 <script lang="ts">
-  // Missions / quests bulk editor — reusable sub-tab panel.
+  // Missions / quests bulk editor — collapsible accordion groups.
   // Renders inline in the Player Editor's Missions tab. Self-loads the quest
   // catalog + the player's status on mount, and writes back via setPlayerQuests.
   import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
   import Icon from '@iconify/svelte';
   import { api } from '$lib/api/client';
   import { t } from '$stores/index';
@@ -22,8 +23,12 @@
   let saving = $state(false);
   let questSearch = $state('');
   let selectedQuests = $state<Set<string>>(new Set());
+  let collapsedGroups = $state<Set<string>>(new Set());
 
   const QUEST_GROUP_ORDER = ['Main', 'Sub', 'Hidden', 'Other'] as const;
+  const GROUP_ICONS: Record<string, string> = {
+    Main: 'lucide:sword', Sub: 'lucide:layers', Hidden: 'lucide:eye-off', Other: 'lucide:more-horizontal',
+  };
 
   onMount(() => { void load(); });
 
@@ -40,6 +45,7 @@
     }
     selectedQuests = new Set();
     questSearch = '';
+    collapsedGroups = new Set();
   }
 
   const filteredQuests = $derived(
@@ -59,6 +65,12 @@
     }
     return groups;
   });
+
+  function toggleGroup(groupKey: string) {
+    const next = new Set(collapsedGroups);
+    if (next.has(groupKey)) next.delete(groupKey); else next.add(groupKey);
+    collapsedGroups = next;
+  }
 
   function toggleQuest(id: string) {
     const next = new Set(selectedQuests);
@@ -120,19 +132,21 @@
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else}
   <div class="p-5 space-y-4 max-w-3xl mx-auto">
+    <!-- header -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <div class="flex items-center gap-2">
-        <Icon icon="lucide:scroll-text" width={16} class="text-accent" />
+        <Icon icon="lucide:scroll-text" width={18} class="text-accent" />
         <h3 class="text-sm font-semibold text-ink-emphasis">{$t('web.players.edit_missions', 'Missions')}</h3>
         {#if questEntries.length}
-          <Badge tone="accent">{questEntries.length}</Badge>
+          <Badge tone="accent">{questEntries.length} total</Badge>
         {/if}
+        <span class="text-[10px] text-ink-dim">
+          {questEntries.filter(q => q.status === 'completed').length}/{questEntries.length} completed
+        </span>
       </div>
-      <div class="flex items-center gap-2">
-        {#if selectedQuests.size > 0}
-          <span class="text-[10px] text-ink-dim">{selectedQuests.size} selected</span>
-        {/if}
-      </div>
+      {#if selectedQuests.size > 0}
+        <span class="text-xs text-accent font-medium">{selectedQuests.size} selected</span>
+      {/if}
     </div>
 
     {#if !supported}
@@ -146,15 +160,9 @@
     {:else}
       <!-- toolbar -->
       <div class="flex items-center gap-2 flex-wrap">
-        <div class="relative flex-1 min-w-48">
+        <div class="relative flex-1 min-w-40">
           <Icon icon="lucide:search" width={12} class="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-dim" />
-          <input
-            type="text"
-            class="input text-xs pl-7 w-full"
-            placeholder={$t('web.players.missions_search', 'Search missions...')}
-            bind:value={questSearch}
-            disabled={saving}
-          />
+          <input type="text" class="input text-xs pl-7 w-full" placeholder={$t('web.players.missions_search', 'Search missions...')} bind:value={questSearch} disabled={saving} />
         </div>
         <Button variant="primary" onclick={completeSelected} disabled={saving || !supported} class="!text-xs">
           <Icon icon="lucide:check-check" width={13} class="mr-1" />
@@ -166,48 +174,94 @@
         </Button>
       </div>
 
-      <!-- grouped list -->
-      <div class="border border-line/30 rounded-4 overflow-hidden">
-        {#if filteredQuests.length === 0}
-          <p class="text-xs text-ink-muted p-3">{$t('web.players.missions_no_results', 'No missions match your search.')}</p>
-        {/if}
+      <!-- accordion groups -->
+      <div class="space-y-3">
         {#each QUEST_GROUP_ORDER as groupKey (groupKey)}
           {@const entries = questsByGroup[groupKey] ?? []}
           {#if entries.length}
-            <div class="flex items-center gap-2 px-3 py-2 bg-bg-deep/40 border-b border-line/20 sticky top-0">
-              <input
-                type="checkbox"
-                checked={entries.every((q) => selectedQuests.has(q.id))}
-                onchange={(e) => toggleGroupAll(entries, (e.target as HTMLInputElement).checked)}
-                disabled={saving}
-              />
-              <span class="text-[10px] font-bold uppercase tracking-wider text-ink-muted">
-                {$t(`web.players.missions_group_${groupKey.toLowerCase()}`)}
-              </span>
-              <Badge tone="neutral" class="!text-[9px]">{entries.length}</Badge>
-            </div>
-            {#each entries as q (q.id)}
+            {@const completedCount = entries.filter(q => q.status === 'completed').length}
+            {@const allSelected = entries.every(q => selectedQuests.has(q.id))}
+            <div class="border border-line/30 rounded-4 overflow-hidden bg-bg-surface">
+              <!-- group header — clickable accordion trigger -->
               <!-- svelte-ignore a11y_click_events_have_key_events -->
               <div
-                class="flex items-center gap-2 px-3 py-1.5 border-b border-line/10 last:border-b-0 hover:bg-bg-hover/40 cursor-pointer transition-fast {selectedQuests.has(q.id) ? 'bg-accent/5' : ''}"
+                class="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-bg-hover/40 transition-fast select-none"
                 role="button"
                 tabindex="0"
-                onclick={() => toggleQuest(q.id)}
-                onkeydown={(e) => e.key === 'Enter' && toggleQuest(q.id)}
+                onclick={() => toggleGroup(groupKey)}
+                onkeydown={(e) => e.key === 'Enter' && toggleGroup(groupKey)}
               >
-                <input type="checkbox" checked={selectedQuests.has(q.id)} disabled={saving} />
-                <span class="flex-1 text-xs text-ink-primary truncate">{q.name}</span>
-                {#if q.status === 'completed'}
-                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-status-success/20 text-status-success whitespace-nowrap">{$t('web.players.missions_status_completed')}</span>
-                {:else if q.status === 'active'}
-                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-accent/20 text-accent whitespace-nowrap">{$t('web.players.missions_status_active')}</span>
-                {:else}
-                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-ink-dim whitespace-nowrap">{$t('web.players.missions_status_not_started')}</span>
-                {/if}
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  indeterminate={!allSelected && entries.some(q => selectedQuests.has(q.id))}
+                  onchange={(e) => { e.stopPropagation(); toggleGroupAll(entries, (e.target as HTMLInputElement).checked); }}
+                  disabled={saving}
+                  onclick={(e) => e.stopPropagation()}
+                  class="shrink-0"
+                />
+                <Icon icon={GROUP_ICONS[groupKey] ?? 'lucide:help-circle'} width={16} class="text-ink-muted shrink-0" />
+                <span class="font-semibold text-xs uppercase tracking-wider text-ink-emphasis">
+                  {$t('web.players.missions_group_' + groupKey.toLowerCase())}
+                </span>
+                <Badge tone="neutral" class="!text-[9px] shrink-0">{entries.length}</Badge>
+                <!-- progress pill -->
+                <div class="flex-1" />
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-dim">
+                  <div class="h-1.5 w-16 rounded-full bg-bg-deep overflow-hidden">
+                    <div
+                      class="h-full rounded-full bg-status-success transition-all duration-300"
+                      style="width: {entries.length ? (completedCount / entries.length * 100) : 0}%"
+                    />
+                  </div>
+                  <span class="tabular-nums">{completedCount}/{entries.length}</span>
+                </div>
+                <Icon
+                  icon="lucide:chevron-down"
+                  width={14}
+                  class="text-ink-dim transition-transform duration-200 shrink-0 {collapsedGroups.has(groupKey) ? '' : 'rotate-180'}"
+                />
               </div>
-            {/each}
+
+              <!-- quest list — collapsible with slide animation -->
+              {#if !collapsedGroups.has(groupKey)}
+                {#each entries as q (q.id)}
+                  <div
+                    transition:slide={{ duration: 200 }}
+                    class="flex items-center gap-2 px-4 py-2 border-t border-line/10 last:border-b-0 hover:bg-bg-hover/30 cursor-pointer transition-fast {selectedQuests.has(q.id) ? 'bg-accent/5' : ''}"
+                    role="button"
+                    tabindex="0"
+                    onclick={() => toggleQuest(q.id)}
+                    onkeydown={(e) => e.key === 'Enter' && toggleQuest(q.id)}
+                  >
+                    <input type="checkbox" checked={selectedQuests.has(q.id)} disabled={saving} class="shrink-0" />
+                    <span class="flex-1 text-xs text-ink-primary truncate">{q.name}</span>
+                    {#if q.status === 'completed'}
+                      <span class="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-status-success/20 text-status-success whitespace-nowrap">
+                        <Icon icon="lucide:check" width={10} />
+                        {$t('web.players.missions_status_completed')}
+                      </span>
+                    {:else if q.status === 'active'}
+                      <span class="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-accent/20 text-accent whitespace-nowrap">
+                        <Icon icon="lucide:play" width={10} />
+                        {$t('web.players.missions_status_active')}
+                      </span>
+                    {:else}
+                      <span class="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-ink-dim whitespace-nowrap">
+                        <Icon icon="lucide:circle" width={10} />
+                        {$t('web.players.missions_status_not_started')}
+                      </span>
+                    {/if}
+                  </div>
+                {/each}
+              {/if}
+            </div>
           {/if}
         {/each}
+
+        {#if filteredQuests.length === 0}
+          <p class="text-xs text-ink-muted p-3 text-center">{$t('web.players.missions_no_results', 'No missions match your search.')}</p>
+        {/if}
       </div>
     {/if}
   </div>

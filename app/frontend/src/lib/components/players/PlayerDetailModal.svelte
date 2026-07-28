@@ -172,6 +172,19 @@
           <Button variant="secondary" onclick={() => doAction('cage', () => api.unlockViewingCage(uid))} disabled={actionLoading !== null} class="!text-xs">
             <Icon icon="lucide:unlock" width={13} class="mr-1" /> {$t('web.players.unlock_viewing_cage')}
           </Button>
+          <Button variant="secondary" onclick={() => doAction('unlock-techs', () => api.unlockPlayerTechnologies(uid))} disabled={actionLoading !== null} class="!text-xs">
+            <Icon icon="lucide:graduation-cap" width={13} class="mr-1" /> {$t('web.players.unlock_all_techs')}
+          </Button>
+          <Button variant="secondary" onclick={() => doAction('max-abs', () => api.maxPlayerAbilities({ uids: [uid] }))} disabled={actionLoading !== null} class="!text-xs">
+            <Icon icon="lucide:zap" width={13} class="mr-1" /> {$t('web.players.max_all_abilities')}
+          </Button>
+          <Button variant="danger" onclick={(e: MouseEvent) => {
+            e.stopPropagation();
+            if (!confirm($t('web.players.delete_confirm', { name: detail?.name ?? uid }))) return;
+            doAction('delete', () => api.deletePlayer(uid));
+          }} disabled={actionLoading !== null} class="!text-xs">
+            <Icon icon="lucide:trash-2" width={13} class="mr-1" /> {$t('web.players.delete_player')}
+          </Button>
         </div>
       </div>
 

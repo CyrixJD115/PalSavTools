@@ -1,7 +1,6 @@
 <script lang="ts">
-  // Effigies (Lifmunk / relic stat boosts) editor — reusable sub-tab panel.
-  // Renders inline in the Player Editor's Effigies tab. Self-loads the current
-  // relic state on mount and writes back via setPlayerAbilities.
+  // Effigies editor — compact row-per-relic layout.
+  // Matches StatsEditor's dense single-column style for efficient editing.
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import { api } from '$lib/api/client';
@@ -61,12 +60,13 @@
 {:else if error}
   <p class="text-sm text-status-error p-4">{error}</p>
 {:else}
-  <div class="p-5 space-y-4 max-w-2xl mx-auto">
+  <div class="p-5 max-w-2xl mx-auto space-y-4">
+    <!-- header -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
-      <div class="flex items-center gap-2">
-        <Icon icon="lucide:gem" width={16} class="text-accent" />
-        <h3 class="text-sm font-semibold text-ink-emphasis">{$t('web.players.edit_effigies', 'Effigies')}</h3>
-      </div>
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-dim">
+        <Icon icon="lucide:gem" width={12} class="inline mr-1.5 text-accent" />
+        {$t('web.players.edit_effigies', 'Effigies')}
+      </p>
       <Button variant="ghost" onclick={setAllToMax} disabled={!supported || saving} class="!text-xs">
         <Icon icon="lucide:zap" width={13} class="mr-1" />
         {$t('web.players.max_all_abilities', 'Max All')}
@@ -82,30 +82,31 @@
         <p class="text-xs">{$t('web.players.effigies_unsupported')}</p>
       </EmptyState>
     {:else}
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <!-- relic rows — dense single-column, like StatsEditor's stat rows -->
+      <div class="space-y-1">
         {#each relics as r (r.type)}
-          <label class="block p-3 rounded-4 bg-bg-deep/40 border border-line/30">
-            <div class="flex items-baseline justify-between mb-1.5">
-              <span class="text-xs font-medium text-ink-primary">{r.label}</span>
-              <span class="text-[10px] text-ink-dim">
-                {$t('web.players.effigies_rank_hint', { rank: r.rank, max: r.max_rank })} · max {r.cumulative_max}
-              </span>
+          <div class="flex items-center gap-2 py-1.5 px-1 rounded-2 hover:bg-bg-hover/40 transition-fast group">
+            <Icon icon="lucide:gem" width={12} class="text-accent shrink-0" />
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-ink-primary leading-tight truncate">{r.label}</p>
+              <p class="text-[9px] text-ink-dim leading-tight">
+                {$t('web.players.effigies_rank_hint', { rank: r.rank, max: r.max_rank })}
+              </p>
             </div>
-            <div class="flex items-center gap-2">
-              <input
-                class="input flex-1 text-sm"
-                type="number"
-                min="0"
-                max={r.cumulative_max}
-                bind:value={relicValues[r.type]}
-                disabled={!supported || saving}
-              />
-              <span class="text-[10px] text-ink-muted tabular-nums w-8 text-right">/{r.cumulative_max}</span>
-            </div>
-          </label>
+            <input
+              class="w-16 bg-bg-deep border border-line/40 rounded-2 px-1.5 py-1 text-xs text-center text-ink-primary tabular-nums focus:outline-none focus:border-accent transition-fast"
+              type="number"
+              min="0"
+              max={r.cumulative_max}
+              bind:value={relicValues[r.type]}
+              disabled={!supported || saving}
+            />
+            <span class="text-[9px] text-ink-dim tabular-nums w-6 text-right shrink-0">/{r.cumulative_max}</span>
+          </div>
         {/each}
       </div>
 
+      <!-- footer actions -->
       <div class="flex items-center gap-2 pt-2 border-t border-line/20">
         <Button variant="primary" onclick={apply} disabled={!supported || saving}>
           <Icon icon="lucide:check" width={14} class="mr-1" />

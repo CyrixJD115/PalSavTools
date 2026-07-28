@@ -1214,19 +1214,25 @@ def get_player_abilities(players_dir: str, uid: str) -> dict:
     if decoded is not None:
         player_dict, _ = decoded
         rd = world_service._k(_save_data(player_dict), "RecordData") or {}
+        # Rust uesave shape: MapProperty is a FLAT list of {key, value} entries.
+        # Fall back to the Python palsav shape ({value: [...]}) for legacy data.
         rmap = world_service._k(rd, "RelicPossessNumMap")
-        if isinstance(rmap, dict):
+        if isinstance(rmap, list):
+            entries = rmap
+        elif isinstance(rmap, dict):
             entries = world_service._k(rmap, "value")
-            if isinstance(entries, list):
-                for e in entries:
-                    if isinstance(e, dict):
-                        rk = world_service._k(e, "key")
-                        rv = world_service._k(e, "value")
-                        if rk is not None:
-                            try:
-                                counts[str(rk)] = int(rv)
-                            except (TypeError, ValueError):
-                                pass
+        else:
+            entries = None
+        if isinstance(entries, list):
+            for e in entries:
+                if isinstance(e, dict):
+                    rk = world_service._k(e, "key")
+                    rv = world_service._k(e, "value")
+                    if rk is not None:
+                        try:
+                            counts[str(rk)] = int(rv)
+                        except (TypeError, ValueError):
+                            pass
 
     # Also surface the rank the player currently holds in GotStatusPointList,
     # so the UI can show both. Requires the world save; safe to skip if absent.
@@ -1330,17 +1336,24 @@ def set_player_abilities(
     # CapturePower map entry when capture-power leveling edge cases surface.
     if "SaveData.RecordData.RelicPossessNumMap" in schema_props:
         rmap = world_service._k(rd, "RelicPossessNumMap")
-        if not isinstance(rmap, dict):
-            rmap = {
-                "key_type": "EnumProperty", "value_type": "IntProperty",
-                "key_struct_type": None, "value_struct_type": None,
-                "id": None, "value": [], "type": "MapProperty",
-            }
-            _k_set(rd, "RelicPossessNumMap", rmap)
-        inner = world_service._k(rmap, "value")
-        if not isinstance(inner, list):
+        # Handle both Rust shape (flat list) and Python shape ({value: [...]}).
+        if isinstance(rmap, list):
+            inner = rmap
+        elif isinstance(rmap, dict):
+            inner = world_service._k(rmap, "value")
+            if not isinstance(inner, list):
+                inner = []
+                _k_set(rmap, "value", inner)
+        else:
             inner = []
-            _k_set(rmap, "value", inner)
+            if "SaveData.RecordData.RelicPossessNumMap" in schema_props:
+                rmap = {
+                    "key_type": "EnumProperty", "value_type": "IntProperty",
+                    "key_struct_type": None, "value_struct_type": None,
+                    "id": None, "value": [], "type": "MapProperty",
+                }
+                _k_set(rd, "RelicPossessNumMap", rmap)
+                inner = world_service._k(rmap, "value")
         existing = {e["key"]: e for e in inner if isinstance(e, dict) and "key" in e}
         for rk, val in clamped.items():
             if rk in existing:

@@ -13,7 +13,7 @@
 
 <header class="flex items-center gap-3 h-14 px-4 border-b border-line/50 bg-header-gradient shrink-0">
   <div class="flex items-center gap-2 min-w-0">
-    <a href="https://github.com/deafdudecomputers/PalworldSaveTools" target="_blank" rel="noreferrer"
+    <a href="https://github.com/CyrixJD115/PalSavTools" target="_blank" rel="noreferrer"
        class="version-chip version-sky" title={$t('web.header.app_version')}>
       <Icon icon="simple-icons:github" width={15} />
       <span>v{h?.app_version ?? '?'}</span>

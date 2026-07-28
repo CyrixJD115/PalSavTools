@@ -53,8 +53,8 @@ def create_app(serve_frontend: bool | None = None) -> FastAPI:
     _sweep_stale_cache_files()
 
     app = FastAPI(
-        title="PalworldSaveTools WebUI",
-        description="Web frontend for PalworldSaveTools, backed by palsav.",
+        title="PalSavTools WebUI",
+        description="Web frontend for PalSavTools, backed by palsav.",
         version=__version__,
     )
 

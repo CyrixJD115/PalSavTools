@@ -18,6 +18,7 @@ class HealthResponse(BaseModel):
     status: str = "ok"
     version: str
     app_version: str
+    app_release_label: str = ""
     game_version: str
     save_loaded: bool
     # Server-side defaults mirrored to the frontend so both sides share the

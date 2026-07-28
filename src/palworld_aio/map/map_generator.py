@@ -359,8 +359,8 @@ def generate_world_map(output_path=None, map_type="world"):
     # Logo
     logo_candidates = [
         "logo.png",
-        "PalworldSaveTools_Blue.png",
-        "PalworldSaveTools_Black.png",
+        "PalSavTools_Blue.png",
+        "PalSavTools_Black.png",
     ]
     logo_path = None
     for name in logo_candidates:

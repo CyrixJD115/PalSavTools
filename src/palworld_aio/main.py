@@ -317,7 +317,7 @@ def run_aio():
         sys.exit(0)
 
     # No path argument — just print help
-    print("PalworldSaveTools — Headless Mode")
+    print("PalSavTools — Headless Mode")
     print()
     print("Usage:")
     print(f"  {sys.argv[0]} <path/to/Level.sav> [-logs] [-fix]")

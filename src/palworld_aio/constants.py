@@ -11,27 +11,27 @@ from resource_resolver import get_base_dir, get_src_dir, resource_path
 
 GITHUB_RAW_URL = (
     "https://raw.githubusercontent.com/"
-    "deafdudecomputers/PalworldSaveTools/main/src/common.py"
+    "CyrixJD115/PalSavTools/main/src/common.py"
 )
-GIT_REPO_URL = "https://github.com/deafdudecomputers/PalworldSaveTools.git"
+GIT_REPO_URL = "https://github.com/CyrixJD115/PalSavTools.git"
 STABLE_BRANCH = "main"
 BETA_BRANCH = "beta"
 STABLE_VERSION_URL = (
     "https://raw.githubusercontent.com/"
-    "deafdudecomputers/PalworldSaveTools/main/src/common.py"
+    "CyrixJD115/PalSavTools/main/src/common.py"
 )
 BETA_VERSION_URL = (
     "https://raw.githubusercontent.com/"
-    "deafdudecomputers/PalworldSaveTools/beta/src/common.py"
+    "CyrixJD115/PalSavTools/beta/src/common.py"
 )
 RELEASE_DOWNLOAD_URL = (
-    "https://github.com/deafdudecomputers/"
-    "PalworldSaveTools/releases/download/v{version}/"
+    "https://github.com/CyrixJD115/"
+    "PalSavTools/releases/download/v{version}/"
     "PST_standalone_v{version}.7z"
 )
 RELEASES_PAGE_URL = (
-    "https://github.com/deafdudecomputers/"
-    "PalworldSaveTools/releases/latest"
+    "https://github.com/CyrixJD115/"
+    "PalSavTools/releases/latest"
 )
 
 

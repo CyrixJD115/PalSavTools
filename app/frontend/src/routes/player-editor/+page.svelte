@@ -1,13 +1,16 @@
 <script lang="ts">
-  // Player Inventory — 4 sub-tabs (Inventory / Stats / Tech Tree / Pals).
+  // Player Editor — the full player management suite.
   //
-  // One section visible at a time, mirroring the breeding page's tab idiom.
-  // The header carries the player selector + quick-action buttons (Tech Tree
-  // modal, Party/Palbox modal) for users who prefer popups over tab switches.
+  // Renamed from "Player Inventory" since it now covers far more than bags:
+  // Inventory / Stats / Tech Tree / Pals / Effigies / Missions.
+  //
+  // Supports a deep-link via ?uid=<uid> query param: the Players-tab popup
+  // opens this page with a specific player pre-selected. Reads the param on
+  // mount via $page.url.searchParams.
   //
   // Inventory reads (bags + equipment + dynamic items) all flow through the
-  // world service's lazy `build_mini_wsd` path — no full `level_dict`
-  // materialization. Player .sav reads are cache-first via `player_savs` LRU.
+  // world service's lazy build_mini_wsd path — no full level_dict
+  // materialization. Player .sav reads are cache-first via player_savs LRU.
   import { saveLoaded, t } from '$stores/index';
   import { toast } from '$stores/toast';
   import { api } from '$lib/api/client';
@@ -18,6 +21,7 @@
   import Button from '$components/ui/Button.svelte';
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { loadItemMap } from '$lib/utils/items';
   import { loadTechnologies } from '$lib/utils/technologies';
   import BagTabs from '$components/inventory/BagTabs.svelte';
@@ -28,6 +32,8 @@
   import TechTreeModal from '$components/inventory/TechTreeModal.svelte';
   import PartyPalboxPanel from '$components/inventory/PartyPalboxPanel.svelte';
   import PartyPalboxModal from '$components/inventory/PartyPalboxModal.svelte';
+  import EffigiesPanel from '$components/players/EffigiesPanel.svelte';
+  import MissionsPanel from '$components/players/MissionsPanel.svelte';
   import ItemContextMenu from '$components/inventory/ItemContextMenu.svelte';
   import SetCountModal from '$components/inventory/SetCountModal.svelte';
   import type {
@@ -36,7 +42,7 @@
   } from '$types/index';
 
   // ---- top-level state ----
-  type Tab = 'inventory' | 'stats' | 'tech' | 'pals';
+  type Tab = 'inventory' | 'stats' | 'tech' | 'pals' | 'effigies' | 'missions';
   let activeTab = $state<Tab>('inventory');
 
   let players = $state<PlayerSummary[]>([]);
@@ -45,6 +51,14 @@
   let loading = $state(false);
   let playersLoading = $state(false);
   let error = $state<string | null>(null);
+
+  // ---- quick-action inline state ----
+  let showingActions = $state(false);
+  let renamingActive = $state(false);
+  let levelEditingActive = $state(false);
+  let renameValue = $state('');
+  let levelValue = $state(1);
+  let actionSaving = $state<string | null>(null);
 
   // ---- inventory-tab state ----
   let activeBag = $state<string>('common');
@@ -63,7 +77,6 @@
   let showTechTree = $state(false);
   let showPartyPalbox = $state(false);
 
-  // Guard against stale responses when switching players quickly.
   let loadReqId = 0;
 
   const TABS: { id: Tab; labelKey: string; fallback: string; icon: string }[] = [
@@ -71,6 +84,8 @@
     { id: 'stats',     labelKey: 'web.inventory.tab_stats',     fallback: 'Stats',     icon: 'lucide:activity' },
     { id: 'tech',      labelKey: 'web.inventory.tab_tech',      fallback: 'Tech Tree', icon: 'lucide:git-branch' },
     { id: 'pals',      labelKey: 'web.inventory.tab_pals',      fallback: 'Pals',      icon: 'lucide:paw-print' },
+    { id: 'effigies',  labelKey: 'web.players.edit_effigies',   fallback: 'Effigies',  icon: 'lucide:gem' },
+    { id: 'missions',  labelKey: 'web.players.edit_missions',   fallback: 'Missions',  icon: 'lucide:scroll-text' },
   ];
 
   $effect(() => {
@@ -84,7 +99,7 @@
 
   onMount(() => {
     void loadItemMap();
-    void loadTechnologies();  // pre-warm the tech catalog for instant tab switch
+    void loadTechnologies();
   });
 
   async function loadPlayers() {
@@ -92,8 +107,12 @@
     try {
       const res = await api.players({ limit: 200 });
       players = res.players;
-      const first = players[0];
-      if (first) await selectPlayer(first.uid);
+      // Check for deep-link: ?uid= from the Players-tab popup.
+      const deepUid = $page.url.searchParams.get('uid');
+      const target = deepUid
+        ? players.find((p) => p.uid === deepUid) ?? players[0]
+        : players[0];
+      if (target) await selectPlayer(target.uid);
       else loading = false;
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
@@ -105,6 +124,9 @@
 
   async function selectPlayer(uid: string) {
     selectedUid = uid;
+    renamingActive = false;
+    levelEditingActive = false;
+    showingActions = false;
     palGrouped = null;
     await loadInventory();
     void ensurePalGrouped();
@@ -115,14 +137,12 @@
     const reqId = ++loadReqId;
     loading = true; error = null;
     try {
-      // Parallel fetch: inventory snapshot + the sideband data the Stats tab
-      // needs. Single round-trip via Promise.all.
       const [data, stats, techPts] = await Promise.all([
         api.playerInventory(selectedUid),
         api.playerStats(selectedUid).catch(() => null),
         api.playerTechPoints(selectedUid).catch(() => null),
       ]);
-      if (reqId !== loadReqId) return;  // stale
+      if (reqId !== loadReqId) return;
       inv = data;
       statsData = stats;
       techPointsData = techPts;
@@ -158,6 +178,41 @@
     } catch { /* the Pals tab shows its own error */ }
   }
 
+  // ---- quick actions ----
+  async function act(label: string, fn: () => Promise<unknown>) {
+    if (!selectedUid) return;
+    actionSaving = label;
+    try {
+      await fn();
+      if (label === 'rename' || label === 'set-level') {
+        renamingActive = false; levelEditingActive = false;
+      }
+      if (label === 'delete') {
+        renamingActive = false; levelEditingActive = false;
+        await loadPlayers();
+        return;
+      }
+      await loadInventory();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : String(e));
+    } finally {
+      actionSaving = null;
+    }
+  }
+
+  function startRename() {
+    const p = players.find((x) => x.uid === selectedUid);
+    renameValue = p?.name ?? '';
+    renamingActive = !renamingActive;
+  }
+
+  function startLevel() {
+    const p = players.find((x) => x.uid === selectedUid);
+    levelValue = p?.level ?? 1;
+    levelEditingActive = !levelEditingActive;
+  }
+
+  // ---- inventory bag handlers ----
   const activeBagData = $derived(inv?.bags.find((b) => b.bag_type === activeBag) ?? null);
 
   const displayItems = $derived.by(() => {
@@ -173,8 +228,6 @@
   function sortBag() {
     bagSort = bagSort === 'slot' ? 'name' : bagSort === 'name' ? 'count' : 'slot';
   }
-
-  // ---- per-slot mutations ----
 
   function onSlotClick(slot: ContainerItemSlot) { setCountSlot = slot; }
   function onSlotContext(slot: ContainerItemSlot, e: MouseEvent) {
@@ -207,26 +260,26 @@
   }
 </script>
 
-<SaveGate icon="lucide:package">
+<SaveGate icon="lucide:user-cog">
   <div class="p-6 max-w-7xl mx-auto space-y-4 animate-fade-in">
-    <!-- header row: title + player select + quick-access modal buttons -->
+    <!-- header row: title + player select + quick-access modals -->
     <div class="flex items-center justify-between gap-4 flex-wrap">
       <div>
-        <h1 class="text-xl font-bold heading-gradient">{$t('web.inventory.title', 'Player Inventory')}</h1>
+        <h1 class="text-xl font-bold heading-gradient">{$t('web.inventory.title', 'Player Editor')}</h1>
         <p class="text-xs text-ink-muted">
           {#if loading || playersLoading}
-            {$t('web.common.loading', 'Loading…')}
+            {$t('web.common.loading', 'Loading\u2026')}
           {:else if inv}
             {$t('web.inventory.player_label', 'Player')}: <span class="text-ink-secondary font-medium">{inv.name}</span>
           {/if}
         </p>
       </div>
-      <div class="flex items-center gap-2">
-        <label for="inv-player" class="text-[10px] font-semibold text-ink-dim uppercase tracking-wider">
+      <div class="flex items-center gap-2 flex-wrap">
+        <label for="pe-player" class="text-[10px] font-semibold text-ink-dim uppercase tracking-wider">
           {$t('web.inventory.select_player', 'Player')}
         </label>
         <select
-          id="inv-player"
+          id="pe-player"
           class="input text-sm w-auto min-w-48"
           value={selectedUid ?? ''}
           onchange={(e) => selectPlayer((e.currentTarget as HTMLSelectElement).value)}
@@ -236,7 +289,18 @@
             <option value={p.uid}>{p.name}</option>
           {/each}
         </select>
+
         {#if inv}
+          <!-- quick-access action buttons -->
+          <Button variant="ghost" onclick={startRename} disabled={actionSaving !== null}>
+            <Icon icon="lucide:pencil" width={14} />
+          </Button>
+          <Button variant="ghost" onclick={startLevel} disabled={actionSaving !== null}>
+            <Icon icon="lucide:trending-up" width={14} />
+          </Button>
+
+          <div class="w-px h-5 bg-line/30"></div>
+
           <Button variant="secondary" onclick={() => (showTechTree = true)} class="!text-xs">
             <Icon icon="lucide:git-branch" width={13} class="mr-1" />
             {$t('web.inventory.tech_tree_button', 'Tech Tree')}
@@ -245,9 +309,68 @@
             <Icon icon="lucide:paw-print" width={13} class="mr-1" />
             {$t('web.inventory.party_palbox_button', 'Party')}
           </Button>
+
+          <div class="w-px h-5 bg-line/30"></div>
+
+          <Button variant="ghost" onclick={() => (showingActions = !showingActions)} disabled={actionSaving !== null}>
+            <Icon icon="lucide:more-horizontal" width={16} />
+          </Button>
         {/if}
       </div>
     </div>
+
+    <!-- inline rename/level editors -->
+    {#if renamingActive && selectedUid}
+      <div class="flex items-center gap-2 px-4 py-2 rounded-4 bg-bg-deep/40 border border-line/30">
+        <span class="text-xs text-ink-muted">{$t('web.players.rename_label')}</span>
+        <input class="input text-sm flex-1 max-w-xs" bind:value={renameValue} disabled={actionSaving !== null} />
+        <Button variant="primary" onclick={() => act('rename', () => api.renamePlayer(selectedUid!, { name: renameValue }))} disabled={actionSaving !== null} class="!text-xs">
+          {$t('web.common.save')}
+        </Button>
+        <Button variant="ghost" onclick={() => (renamingActive = false)} class="!text-xs">
+          {$t('web.common.cancel')}
+        </Button>
+      </div>
+    {/if}
+
+    {#if levelEditingActive && selectedUid}
+      <div class="flex items-center gap-2 px-4 py-2 rounded-4 bg-bg-deep/40 border border-line/30">
+        <span class="text-xs text-ink-muted">{$t('web.players.set_level')}</span>
+        <input class="input w-20 text-sm" type="number" min="1" max="80" bind:value={levelValue} disabled={actionSaving !== null} />
+        <Button variant="primary" onclick={() => act('set-level', () => api.setPlayerLevel(selectedUid!, { level: levelValue }))} disabled={actionSaving !== null} class="!text-xs">
+          {$t('web.common.save')}
+        </Button>
+        <Button variant="ghost" onclick={() => (levelEditingActive = false)} class="!text-xs">
+          {$t('web.common.cancel')}
+        </Button>
+      </div>
+    {/if}
+
+    <!-- expanded actions panel -->
+    {#if showingActions && selectedUid && inv}
+      <div class="card p-3 space-y-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <Button variant="secondary" onclick={() => act('reset-ts', () => api.resetPlayerTimestamp(selectedUid!))} disabled={actionSaving !== null} class="!text-xs">
+            <Icon icon="lucide:clock" width={13} class="mr-1" />{$t('web.players.reset_timestamp')}
+          </Button>
+          <Button variant="secondary" onclick={() => act('unlock-cage', () => api.unlockViewingCage(selectedUid!))} disabled={actionSaving !== null} class="!text-xs">
+            <Icon icon="lucide:unlock" width={13} class="mr-1" />{$t('web.players.unlock_viewing_cage')}
+          </Button>
+          <Button variant="secondary" onclick={() => act('unlock-techs', () => api.unlockPlayerTechnologies(selectedUid!))} disabled={actionSaving !== null} class="!text-xs">
+            <Icon icon="lucide:graduation-cap" width={13} class="mr-1" />{$t('web.players.unlock_all_techs')}
+          </Button>
+          <Button variant="secondary" onclick={() => act('max-abs', () => api.maxPlayerAbilities({ uids: [selectedUid!] }))} disabled={actionSaving !== null} class="!text-xs">
+            <Icon icon="lucide:zap" width={13} class="mr-1" />{$t('web.players.max_all_abilities')}
+          </Button>
+          <Button variant="danger" onclick={() => {
+            if (!confirm($t('web.players.delete_confirm', { name: inv?.name ?? selectedUid ?? '' }))) return;
+            act('delete', () => api.deletePlayer(selectedUid!));
+          }} disabled={actionSaving !== null} class="!text-xs">
+            <Icon icon="lucide:trash-2" width={13} class="mr-1" />{$t('web.players.delete_player')}
+          </Button>
+        </div>
+      </div>
+    {/if}
 
     {#if error}
       <p class="text-sm text-status-error p-3 rounded-4 bg-status-error/10 border border-status-error/30">{error}</p>
@@ -256,15 +379,15 @@
     {#if loading || playersLoading}
       <div class="flex justify-center py-16"><Spinner size={24} /></div>
     {:else if !inv}
-      <EmptyState icon="lucide:package-x" title={$t('web.inventory.no_data_title', 'No inventory data')}>
-        <p class="text-xs">{$t('web.inventory.no_data_body', 'Select a player to view their inventory.')}</p>
+      <EmptyState icon="lucide:user-cog" title={$t('web.inventory.no_data_title', 'No editor data')}>
+        <p class="text-xs">{$t('web.inventory.no_data_body', 'Select a player to view and edit.')}</p>
       </EmptyState>
     {:else}
       <!-- sub-tab strip -->
-      <div class="flex gap-1.5 border-b border-line/30 pb-2">
+      <div class="flex gap-1.5 border-b border-line/30 pb-2 overflow-x-auto">
         {#each TABS as tab (tab.id)}
           <button
-            class="flex items-center gap-1.5 px-3.5 py-2 rounded-4 text-sm font-medium transition-all
+            class="flex items-center gap-1.5 px-3.5 py-2 rounded-4 text-sm font-medium transition-all whitespace-nowrap
               {activeTab === tab.id
                 ? 'bg-accent/15 text-accent border border-accent/40'
                 : 'text-ink-secondary hover:bg-bg-hover border border-transparent'}"
@@ -289,11 +412,8 @@
             onclick={onSlotClick}
             oncontextmenu={onSlotContext}
           />
-
           <div class="border-t border-line/20"></div>
-
           <BagTabs bags={inv.bags} active={activeBag} onchange={(bt) => (activeBag = bt)} />
-
           {#if activeBagData}
             <div class="flex items-center justify-between gap-2 flex-wrap">
               <div class="flex items-center gap-2 text-xs text-ink-muted">
@@ -308,12 +428,7 @@
               <div class="flex items-center gap-2">
                 <div class="relative">
                   <Icon icon="lucide:search" width={12} class="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-dim" />
-                  <input
-                    type="text"
-                    class="input text-xs pl-7 w-32"
-                    placeholder={$t('web.inventory.bag_search', 'Filter…')}
-                    bind:value={bagSearch}
-                  />
+                  <input type="text" class="input text-xs pl-7 w-32" placeholder={$t('web.inventory.bag_search', 'Filter\u2026')} bind:value={bagSearch} />
                 </div>
                 <span title={$t('web.inventory.sort_by', 'Sort')}>
                   <Button variant="ghost" onclick={sortBag} class="!text-xs !py-1 !px-2">
@@ -325,24 +440,16 @@
                   <Icon icon="lucide:refresh-cw" width={13} class="mr-1" />
                   {$t('web.common.refresh', 'Refresh')}
                 </Button>
-                <Button
-                  variant="danger"
-                  onclick={handleClearBag}
-                  disabled={activeBagData.item_count === 0 || !activeBagData.container_id}
-                >
+                <Button variant="danger" onclick={handleClearBag} disabled={activeBagData.item_count === 0 || !activeBagData.container_id}>
                   <Icon icon="lucide:eraser" width={13} class="mr-1" />
                   {$t('web.inventory.clear_bag', 'Clear Bag')}
                 </Button>
               </div>
             </div>
-
             {#if activeBagData.container_id}
-              <ItemGrid
-                items={displayItems}
-                slotCount={activeBagData.slot_count}
+              <ItemGrid items={displayItems} slotCount={activeBagData.slot_count}
                 cols={activeBag === 'weapon' || activeBag === 'armor' || activeBag === 'food' ? 6 : 10}
-                onclick={onSlotClick}
-                oncontextmenu={onSlotContext}
+                onclick={onSlotClick} oncontextmenu={onSlotContext}
               />
             {:else}
               <EmptyState icon="lucide:package-x" title={$t('web.inventory.bag_not_allocated_title', 'Bag not allocated')}>
@@ -356,12 +463,7 @@
       <!-- ───── STATS TAB ───── -->
       {#if activeTab === 'stats'}
         <div class="card p-4 max-w-xl mx-auto">
-          <StatsEditor
-            uid={selectedUid ?? ''}
-            stats={statsData}
-            techPoints={techPointsData}
-            level={playerLevel}
-          />
+          <StatsEditor uid={selectedUid ?? ''} stats={statsData} techPoints={techPointsData} level={playerLevel} />
         </div>
       {/if}
 
@@ -375,49 +477,45 @@
       <!-- ───── PALS TAB ───── -->
       {#if activeTab === 'pals' && selectedUid}
         <div class="card p-0 max-h-[70vh] overflow-y-auto">
-          <PartyPalboxPanel
-            uid={selectedUid}
-            partyId={inv.party_id}
-            palboxId={inv.palbox_id}
-          />
+          <PartyPalboxPanel uid={selectedUid} partyId={inv.party_id} palboxId={inv.palbox_id} />
+        </div>
+      {/if}
+
+      <!-- ───── EFFIGIES TAB ───── -->
+      {#if activeTab === 'effigies' && selectedUid}
+        <div class="card p-0">
+          <EffigiesPanel uid={selectedUid} />
+        </div>
+      {/if}
+
+      <!-- ───── MISSIONS TAB ───── -->
+      {#if activeTab === 'missions' && selectedUid}
+        <div class="card p-0">
+          <MissionsPanel uid={selectedUid} />
         </div>
       {/if}
     {/if}
   </div>
 </SaveGate>
 
+<!-- modals -->
 {#if contextMenu}
-  <ItemContextMenu
-    slot={contextMenu.slot}
-    x={contextMenu.x}
-    y={contextMenu.y}
+  <ItemContextMenu slot={contextMenu.slot} x={contextMenu.x} y={contextMenu.y}
     onclose={() => (contextMenu = null)}
     onsetcount={(s) => (setCountSlot = s)}
     ondelete={handleDelete}
   />
 {/if}
-
 {#if setCountSlot}
-  <SetCountModal
-    slot={setCountSlot}
-    onclose={() => (setCountSlot = null)}
-    onsubmit={handleSetCount}
-  />
+  <SetCountModal slot={setCountSlot} onclose={() => (setCountSlot = null)} onsubmit={handleSetCount} />
 {/if}
-
 {#if showTechTree && selectedUid}
-  <TechTreeModal
-    uid={selectedUid}
-    playerName={inv?.name ?? selectedUid}
+  <TechTreeModal uid={selectedUid} playerName={inv?.name ?? selectedUid}
     onclose={() => { showTechTree = false; void refreshSideband(); }}
   />
 {/if}
-
 {#if showPartyPalbox && selectedUid}
-  <PartyPalboxModal
-    uid={selectedUid}
-    partyId={inv?.party_id ?? null}
-    palboxId={inv?.palbox_id ?? null}
+  <PartyPalboxModal uid={selectedUid} partyId={inv?.party_id ?? null} palboxId={inv?.palbox_id ?? null}
     onclose={() => { showPartyPalbox = false; }}
   />
 {/if}

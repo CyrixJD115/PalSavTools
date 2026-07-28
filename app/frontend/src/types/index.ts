@@ -5,6 +5,8 @@ export interface HealthResponse {
   status: string;
   version: string;
   app_version: string;
+  /** "July 2026 Update" — the month-year release label for the current version. */
+  app_release_label?: string;
   game_version: string;
   save_loaded: boolean;
   /** Server default for where the decoded save lives ("memory" | "disk"). */

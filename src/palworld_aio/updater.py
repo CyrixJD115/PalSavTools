@@ -12,13 +12,13 @@ import urllib.request
 from pathlib import Path
 from typing import Optional, Callable, Dict, Tuple
 from palworld_aio import constants
-GIT_REPO_URL = 'https://github.com/deafdudecomputers/PalworldSaveTools.git'
+GIT_REPO_URL = 'https://github.com/CyrixJD115/PalSavTools.git'
 STABLE_BRANCH = 'main'
 BETA_BRANCH = 'beta'
-STABLE_VERSION_URL = 'https://raw.githubusercontent.com/deafdudecomputers/PalworldSaveTools/main/src/common.py'
-RELEASE_DOWNLOAD_URL = 'https://github.com/deafdudecomputers/PalworldSaveTools/releases/download/v{version}/PST_standalone_v{version}.7z'
-RELEASES_PAGE_URL = 'https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest'
-CHANGELOG_URL = 'https://raw.githubusercontent.com/deafdudecomputers/PalworldSaveTools/main/CHANGELOG.md'
+STABLE_VERSION_URL = 'https://raw.githubusercontent.com/CyrixJD115/PalSavTools/main/src/common.py'
+RELEASE_DOWNLOAD_URL = 'https://github.com/CyrixJD115/PalSavTools/releases/download/v{version}/PST_standalone_v{version}.7z'
+RELEASES_PAGE_URL = 'https://github.com/CyrixJD115/PalSavTools/releases/latest'
+CHANGELOG_URL = 'https://raw.githubusercontent.com/CyrixJD115/PalSavTools/main/CHANGELOG.md'
 def get_update_settings() -> Dict:
     from common import get_src_directory, is_standalone
     config_path = os.path.join(get_src_directory(), 'data', 'configs', 'config.json')
@@ -220,7 +220,7 @@ class StandaloneUpdater:
         except:
             pass
     def create_helper_script(self) -> Path:
-        helper_code = f'''import os\nimport sys\nimport time\nimport shutil\nimport subprocess\n\nPARENT_PID = {os.getpid()}\nINSTALL_DIR = r"{self.install_dir}"\nTEMP_DIR = r"{self.extracted_dir}"\nNEW_EXE = r"{self.extracted_dir / 'PalworldSaveTools.exe'}" if os.path.exists(r"{self.extracted_dir / 'PalworldSaveTools.exe'}") else None\n\ndef wait_for_parent():\n    """Wait for parent process to exit"""\n    while True:\n        try:\n            os.kill(PARENT_PID, 0)\n            time.sleep(0.5)\n        except OSError:\n            break\n        except Exception:\n            break\n\ndef copy_files():\n    """Copy new files to install directory"""\n    if not TEMP_DIR or not os.path.exists(TEMP_DIR):\n        return False\n    \n    for item in os.listdir(TEMP_DIR):\n        src = os.path.join(TEMP_DIR, item)\n        dst = os.path.join(INSTALL_DIR, item)\n        \n        try:\n            if os.path.isdir(src):\n                if os.path.exists(dst):\n                    shutil.rmtree(dst, ignore_errors=True)\n                shutil.copytree(src, dst)\n            else:\n                shutil.copy2(src, dst)\n        except Exception as e:\n            print(f"Error copying {{item}}: {{e}}")\n    \n    return True\n\ndef cleanup():\n    """Remove temp directory"""\n    try:\n        parent_temp = os.path.dirname(TEMP_DIR)\n        if os.path.exists(parent_temp):\n            shutil.rmtree(parent_temp, ignore_errors=True)\n    except:\n        pass\n\ndef launch_new():\n    """Launch the new executable"""\n    exe_path = NEW_EXE or os.path.join(INSTALL_DIR, 'PalworldSaveTools.exe')\n    if os.path.exists(exe_path):\n        subprocess.Popen([exe_path], cwd=INSTALL_DIR)\n\nif __name__ == '__main__':\n    print("Update helper started...")\n    wait_for_parent()\n    print("Parent process exited, applying update...")\n    time.sleep(1)\n    copy_files()\n    cleanup()\n    print("Update applied, launching...")\n    launch_new()\n'''
+        helper_code = f'''import os\nimport sys\nimport time\nimport shutil\nimport subprocess\n\nPARENT_PID = {os.getpid()}\nINSTALL_DIR = r"{self.install_dir}"\nTEMP_DIR = r"{self.extracted_dir}"\nNEW_EXE = r"{self.extracted_dir / 'PalSavTools.exe'}" if os.path.exists(r"{self.extracted_dir / 'PalSavTools.exe'}") else None\n\ndef wait_for_parent():\n    """Wait for parent process to exit"""\n    while True:\n        try:\n            os.kill(PARENT_PID, 0)\n            time.sleep(0.5)\n        except OSError:\n            break\n        except Exception:\n            break\n\ndef copy_files():\n    """Copy new files to install directory"""\n    if not TEMP_DIR or not os.path.exists(TEMP_DIR):\n        return False\n    \n    for item in os.listdir(TEMP_DIR):\n        src = os.path.join(TEMP_DIR, item)\n        dst = os.path.join(INSTALL_DIR, item)\n        \n        try:\n            if os.path.isdir(src):\n                if os.path.exists(dst):\n                    shutil.rmtree(dst, ignore_errors=True)\n                shutil.copytree(src, dst)\n            else:\n                shutil.copy2(src, dst)\n        except Exception as e:\n            print(f"Error copying {{item}}: {{e}}")\n    \n    return True\n\ndef cleanup():\n    """Remove temp directory"""\n    try:\n        parent_temp = os.path.dirname(TEMP_DIR)\n        if os.path.exists(parent_temp):\n            shutil.rmtree(parent_temp, ignore_errors=True)\n    except:\n        pass\n\ndef launch_new():\n    """Launch the new executable"""\n    exe_path = NEW_EXE or os.path.join(INSTALL_DIR, 'PalSavTools.exe')\n    if os.path.exists(exe_path):\n        subprocess.Popen([exe_path], cwd=INSTALL_DIR)\n\nif __name__ == '__main__':\n    print("Update helper started...")\n    wait_for_parent()\n    print("Parent process exited, applying update...")\n    time.sleep(1)\n    copy_files()\n    cleanup()\n    print("Update applied, launching...")\n    launch_new()\n'''
         helper_path = self.temp_dir / 'update_helper.py'
         with open(helper_path, 'w', encoding='utf-8') as f:
             f.write(helper_code)

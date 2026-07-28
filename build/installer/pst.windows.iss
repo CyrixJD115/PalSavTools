@@ -1,7 +1,7 @@
-#define MyAppName "Palworld Save Tools"
-#define MyAppVersion "2.0.0"
+#define MyAppName "PalSavTools"
+#define MyAppVersion "3.0.0"
 #define MyAppPublisher "Pylar"
-#define MyAppExeName "PalworldSaveTools.exe"
+#define MyAppExeName "PalSavTools.exe"
 #define MyAppId "{B0E3F1A2-8C4D-4F9E-8B1A-3C5D7E9F1B2C}"
 
 [Setup]
@@ -15,7 +15,7 @@ UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma2/max
 SolidCompression=yes
 OutputDir=.
-OutputBaseFilename=PalworldSaveTools-{#MyAppVersion}-windows-setup
+OutputBaseFilename=PalSavTools-{#MyAppVersion}-windows-setup
 SetupIconFile=resources\assets\icons\app\icon.ico
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
 PrivilegesRequired=lowest

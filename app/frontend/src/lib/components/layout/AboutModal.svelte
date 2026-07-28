@@ -37,7 +37,12 @@
 
       <div class="space-y-4">
         <div>
-          <h3 class="text-lg font-bold heading-gradient">{$t('web.about.version', { app_version: h?.app_version ?? '?' })}</h3>
+          <h3 class="text-lg font-bold heading-gradient">
+            {$t('web.about.version', { app_version: h?.app_version ?? '?' })}
+            {#if h?.app_release_label}
+              <span class="text-accent/70 text-xs ml-2 font-mono tracking-tight">· {h.app_release_label}</span>
+            {/if}
+          </h3>
           <p class="text-sm text-ink-secondary mt-1">
             {$t('web.about.description')}
           </p>
@@ -66,9 +71,14 @@
           </div>
           <div class="flex items-center gap-2">
             <span class="text-ink-muted">{$t('web.about.github')}</span>
-            <a href="https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest" target="_blank" rel="noreferrer"
+            <a href="https://github.com/CyrixJD115/PalSavTools/releases/latest" target="_blank" rel="noreferrer"
                class="text-accent hover:text-accent-light underline underline-offset-2 transition-fast">
               {$t('web.about.view_on_github')}
+            </a>
+            <span class="text-ink-dim mx-1">·</span>
+            <a href="https://github.com/deafdudecomputers/PalworldSaveTools/releases/latest" target="_blank" rel="noreferrer"
+               class="text-ink-dim hover:text-ink-secondary underline underline-offset-2 transition-fast text-xs">
+              {$t('web.about.view_on_github_legacy')}
             </a>
           </div>
         </div>

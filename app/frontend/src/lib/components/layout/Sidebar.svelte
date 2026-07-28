@@ -22,7 +22,7 @@
     {
       labelKey: 'web.nav.editors',
       items: [
-        { href: '/inventory', labelKey: 'web.nav.player_inventory', icon: 'lucide:package', needsSave: true },
+        { href: '/player-editor', labelKey: 'web.nav.player_editor', icon: 'lucide:user-cog', needsSave: true },
         { href: '/base-inventory', labelKey: 'web.nav.base_inventory', icon: 'lucide:warehouse', needsSave: true },
         { href: '/pal-editor', labelKey: 'web.nav.pal_editor', icon: 'lucide:pencil', needsSave: true },
         { href: '/base-editor', labelKey: 'web.nav.base_editor', icon: 'lucide:boxes' },

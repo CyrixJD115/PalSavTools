@@ -9,6 +9,8 @@
   import Spinner from '$components/ui/Spinner.svelte';
   import Button from '$components/ui/Button.svelte';
   import EmptyState from '$components/ui/EmptyState.svelte';
+  import { assetUrl, imgOnError } from '$lib/utils/assetUrl';
+  import { relicIconPath } from '$lib/utils/relicIconMap';
   import type { RelicEntry } from '$types/index';
 
   let { uid }: { uid: string } = $props();
@@ -86,7 +88,7 @@
       <div class="space-y-1">
         {#each relics as r (r.type)}
           <div class="flex items-center gap-2 py-1.5 px-1 rounded-2 hover:bg-bg-hover/40 transition-fast group">
-            <Icon icon="lucide:gem" width={12} class="text-accent shrink-0" />
+            <img src={assetUrl(relicIconPath(r.type))} alt={r.label} onerror={imgOnError} class="w-6 h-6 rounded object-contain shrink-0" loading="lazy" />
             <div class="flex-1 min-w-0">
               <p class="text-xs text-ink-primary leading-tight truncate">{r.label}</p>
               <p class="text-[9px] text-ink-dim leading-tight">

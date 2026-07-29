@@ -628,6 +628,7 @@
   "web.toast.protection_removed": "Protection rule removed",
   "web.toast.protection_exists": "A protection rule already exists for this entity — edit it in the Protection tab.",
   "web.toast.loaded_drop": "Loaded {filename} from drop",
+  "web.toast.recent_save_missing": "That save file no longer exists. Removed it from your recents.",
   "web.toast.exported": "Exported {filename} ({mb} MB)",
   "web.toast.language_set": "Language set to {code}",
   "web.toast.load_failed_msg": "Load failed: {msg}",

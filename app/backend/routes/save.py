@@ -248,7 +248,14 @@ async def load_from_path(body: LoadPathRequest) -> LoadResponse:
     storage_mode = _normalize_storage_mode(body.storage_mode)
     p = Path(body.path).expanduser()
     if not p.is_file():
-        raise HTTPException(404, f"File not found: {p}")
+        # Structured 404 so the frontend can show a friendly message AND
+        # auto-prune the dead entry from recent saves. The path is included
+        # so the client knows which recents entry to remove.
+        raise HTTPException(404, {
+            "reason": "file_not_found",
+            "message": "This save file no longer exists. It may have been moved, renamed, or deleted.",
+            "path": str(p),
+        })
     name_lower = p.name.lower()
     await ws_manager.broadcast_load_progress("parse")
     with save_state.lock:

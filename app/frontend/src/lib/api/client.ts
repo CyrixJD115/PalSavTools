@@ -39,39 +39,77 @@ const API_BASE = '/api';
  * `[object Object]` toast bug).
  */
 function extractDetail(text: string): string {
+  return parseErrorBody(text).message;
+}
+
+/**
+ * Parse a backend error body into a friendly message + structured detail.
+ *
+ * Callers that need to react to a specific error reason (e.g. auto-prune a
+ * recent save on `file_not_found`) should use this; everyone else can use
+ * `extractDetail` which returns just the string.
+ */
+export interface ParsedError {
+  message: string;
+  reason?: string;       // structured reason from the backend (e.g. "file_not_found")
+  status?: number;       // HTTP status (set by request() before throwing)
+  detail?: unknown;      // raw structured detail, for callers that need more
+}
+
+function parseErrorBody(text: string): ParsedError {
   try {
     const j = JSON.parse(text);
     const d = j?.detail;
-    if (typeof d === 'string') return d;
+    if (typeof d === 'string') return { message: d, detail: d };
     if (Array.isArray(d) && d.length) {
       // Pydantic v2 validation errors: [{msg: "...", ...}]
       const first = d[0];
-      if (first?.msg) return String(first.msg);
-      return JSON.stringify(d[0]) ?? text;
+      return { message: first?.msg ? String(first.msg) : (JSON.stringify(d[0]) ?? text), detail: d };
     }
     if (d && typeof d === 'object') {
-      // Structured detail — protection gate returns {reason, target_type, ...}.
-      // Build a readable sentence from the known keys; fall back to JSON.
-      if (typeof d.reason === 'string') {
-        if (d.reason === 'save_edit_locked') {
-          return 'The save is edit-locked. Turn off the Edit Lock in the Protection tab to make changes.';
-        }
-        if (d.reason === 'rule_match') {
-          const tgt = d.target_type ? `${d.target_type} ` : '';
-          const id = d.target_id ? ` ${String(d.target_id).slice(0, 8)}` : '';
-          const act = d.action ? d.action : 'modify';
-          return `This ${tgt}${id ? id.trim() : ''}is protected from ${act}. Remove the rule in the Protection tab first.`;
-        }
-        return String(d.reason);
+      const obj = d as Record<string, unknown>;
+      const reason = typeof obj.reason === 'string' ? obj.reason : undefined;
+      // Build a readable sentence from known reasons; fall back to message/error.
+      if (reason === 'save_edit_locked') {
+        return { message: 'The save is edit-locked. Turn off the Edit Lock in the Protection tab to make changes.', reason, detail: d };
       }
-      if (typeof d.message === 'string') return d.message;
-      if (typeof d.error === 'string') return d.error;
-      return JSON.stringify(d);
+      if (reason === 'rule_match') {
+        const tgt = obj.target_type ? `${obj.target_type} ` : '';
+        const id = obj.target_id ? ` ${String(obj.target_id).slice(0, 8)}` : '';
+        const act = obj.action ? String(obj.action) : 'modify';
+        return { message: `This ${tgt}${id ? id.trim() : ''}is protected from ${act}. Remove the rule in the Protection tab first.`, reason, detail: d };
+      }
+      if (reason === 'file_not_found') {
+        return { message: typeof obj.message === 'string' ? obj.message : 'This save file no longer exists.', reason, detail: d };
+      }
+      if (typeof obj.message === 'string') return { message: obj.message, reason, detail: d };
+      if (typeof obj.error === 'string') return { message: obj.error, reason, detail: d };
+      return { message: JSON.stringify(d), reason, detail: d };
     }
-    if (typeof j?.message === 'string') return j.message;
-    return text;
+    if (typeof j?.message === 'string') return { message: j.message, detail: j };
+    return { message: text || 'Unknown error' };
   } catch {
-    return text || 'Unknown error';
+    return { message: text || 'Unknown error' };
+  }
+}
+
+/**
+ * Error thrown by `request()` on a non-2xx response. Extends `Error` so
+ * existing `e instanceof Error ? e.message : ...` catch sites keep working —
+ * `.message` is always the human-readable string. Callers that need to react
+ * to a specific backend reason (e.g. auto-prune on `file_not_found`) can read
+ * `.reason` and `.status`.
+ */
+export class ApiError extends Error {
+  readonly status: number;
+  readonly reason?: string;
+  readonly detail?: unknown;
+  constructor(parsed: ParsedError, status: number) {
+    super(`API ${status}: ${parsed.message}`);
+    this.name = 'ApiError';
+    this.status = status;
+    this.reason = parsed.reason;
+    this.detail = parsed.detail;
   }
 }
 
@@ -79,7 +117,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, init);
   const text = await res.text();
   if (!res.ok) {
-    throw new Error(`API ${res.status}: ${extractDetail(text)}`);
+    throw new ApiError(parseErrorBody(text), res.status);
   }
   return text ? (JSON.parse(text) as T) : (undefined as unknown as T);
 }
@@ -117,7 +155,7 @@ export const api = {
     const res = await fetch(`${API_BASE}/save/upload`, { method: 'POST', body: form });
     const text = await res.text();
     if (!res.ok) {
-      throw new Error(`API ${res.status}: ${extractDetail(text)}`);
+      throw new ApiError(parseErrorBody(text), res.status);
     }
     return JSON.parse(text) as LoadResponse;
   },

@@ -2,7 +2,7 @@
   import { saveLoaded, saveSummary, saveCounts, loadingSave, saveState, t } from '$stores/index';
   import { settings } from '$stores/settings';
   import { recentSaves, addRecentSave, removeRecentSave } from '$stores/recentSaves';
-  import { api } from '$lib/api/client';
+  import { api, ApiError } from '$lib/api/client';
   import { toast } from '$stores/toast';
   import type { LoadOptions, StorageMode, ToolInfo } from '$types/index';
   import Card from '$components/ui/Card.svelte';
@@ -253,6 +253,8 @@
       addRecentSave(path, res.summary.filename);
       toast.success($t('web.toast.loaded_drop', { filename: res.summary.filename }));
     } catch (e) {
+      // file_not_found from a stale "Enter Path..." / drag-drop is non-fatal:
+      // show the friendly message but don't prune (no recents entry for ad-hoc paths).
       toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'));
     } finally {
       loadingSave.set(false);
@@ -306,7 +308,15 @@
       addRecentSave(path, res.summary.filename);
       toast.success($t('web.toast.loaded', { filename: res.summary.filename, guilds: res.counts.guilds, players: res.counts.players }));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'));
+      // A 404 file_not_found on a recent-save click means the file is gone.
+      // Auto-prune the dead entry so it doesn't keep breaking, and surface a
+      // single friendly toast instead of the raw "File not found: <path>".
+      if (e instanceof ApiError && e.reason === 'file_not_found') {
+        removeRecentSave(path);
+        toast.warning($t('web.toast.recent_save_missing'));
+      } else {
+        toast.error(e instanceof Error ? e.message : $t('web.toast.load_failed'));
+      }
     } finally {
       loadingSave.set(false);
     }

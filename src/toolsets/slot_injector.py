@@ -26,9 +26,7 @@ from import_libs import backup_whole_directory
 logger = logging.getLogger("pst.slot_injector")
 
 
-# ---------------------------------------------------------------------------
 # Save file I/O
-# ---------------------------------------------------------------------------
 
 
 def sav_to_gvasfile(filepath: str) -> GvasFile:
@@ -60,9 +58,9 @@ def gvasfile_to_sav(gvas_file: GvasFile, output_filepath: str) -> None:
         f.write(sav_file)
 
 
-# ---------------------------------------------------------------------------
+
 # Player / container query helpers
-# ---------------------------------------------------------------------------
+
 
 
 def load_player_container_mapping(
@@ -296,9 +294,9 @@ def get_player_containers(
     return player_containers
 
 
-# ---------------------------------------------------------------------------
+
 # Slot modification logic
-# ---------------------------------------------------------------------------
+
 
 
 def _apply_slot_change_to_container(
@@ -686,9 +684,9 @@ def cleanup_excess_slots(
     return result
 
 
-# ---------------------------------------------------------------------------
+
 # High-level convenience
-# ---------------------------------------------------------------------------
+
 
 
 def load_save_file(
@@ -719,9 +717,9 @@ def slot_injector() -> None:
     )
 
 
-# ---------------------------------------------------------------------------
+
 # CLI entry point
-# ---------------------------------------------------------------------------
+
 
 
 def main(argv: list[str] | None = None) -> int:

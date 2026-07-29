@@ -27,9 +27,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["tools"])
 
-# ---------------------------------------------------------------------------
+
 # Tool registry — 11 tools in 3 categories
-# ---------------------------------------------------------------------------
+
 
 _TOOLS: list[ToolInfo] = [
     ToolInfo(
@@ -125,9 +125,9 @@ _TOOLS: list[ToolInfo] = [
 ]
 
 
-# ---------------------------------------------------------------------------
+
 # Stub handler for tools not yet implemented
-# ---------------------------------------------------------------------------
+
 
 def _not_implemented(tool_id: str | None = None, windows_only: bool = False) -> ToolResponse:
     msg = f"Tool '{tool_id}' is not yet available as a web API endpoint."
@@ -136,9 +136,9 @@ def _not_implemented(tool_id: str | None = None, windows_only: bool = False) -> 
     return ToolResponse(success=False, message=msg, details=None)
 
 
-# ---------------------------------------------------------------------------
+
 # Endpoints
-# ---------------------------------------------------------------------------
+
 
 
 @router.get("/tools", response_model=ToolsListResponse)

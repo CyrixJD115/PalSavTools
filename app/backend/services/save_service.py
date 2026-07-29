@@ -31,9 +31,9 @@ class SaveDecodeError(Exception):
     """Raised when a .sav cannot be decompressed/parsed."""
 
 
-# ---------------------------------------------------------------------------
+
 # Decode
-# ---------------------------------------------------------------------------
+
 
 def decode_bytes(data: bytes) -> tuple[dict[str, Any], int]:
     """Decode raw SAV bytes into ``(level_dict, save_type)``.
@@ -174,9 +174,9 @@ def decode_player_savs_from_bytes(
     return player_savs, player_save_types
 
 
-# ---------------------------------------------------------------------------
+
 # Encode
-# ---------------------------------------------------------------------------
+
 
 def encode_bytes(level_dict: dict[str, Any], save_type: int) -> bytes:
     """Re-encode a ``level_dict`` back into SAV bytes."""
@@ -191,9 +191,9 @@ def encode_to_stream(level_dict: dict[str, Any], save_type: int) -> io.BytesIO:
     return io.BytesIO(encode_bytes(level_dict, save_type))
 
 
-# ---------------------------------------------------------------------------
+
 # Helpers
-# ---------------------------------------------------------------------------
+
 
 def _save_game_type(level_dict: dict[str, Any]) -> str:
     """Read ``root.save_game_type`` (e.g. ``/Script/Pal.PalWorldSaveGame``)."""

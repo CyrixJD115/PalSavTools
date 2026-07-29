@@ -65,9 +65,9 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
+
 # Native (PyO3) backend
-# ---------------------------------------------------------------------------
+
 
 _HAS_NATIVE = False
 try:
@@ -78,9 +78,9 @@ try:
 except ImportError:
     logger.info("Native PyO3 module not available, falling back to subprocess CLI")
 
-# ---------------------------------------------------------------------------
+
 # Paths / binary resolution (subprocess fallback only)
-# ---------------------------------------------------------------------------
+
 
 _REPO_ROOT: Path = Path(__file__).resolve().parents[3]
 _PALSAV_RS_DIR: Path = _REPO_ROOT / "src" / "palsav-rs"
@@ -98,9 +98,9 @@ class PalsavRsError(Exception):
     """Raised when the uesave binary is missing or returns an error."""
 
 
-# ---------------------------------------------------------------------------
+
 # Save-type detection
-# ---------------------------------------------------------------------------
+
 
 def detect_save_type(data: bytes) -> int:
     """Detect the save format from the first bytes.
@@ -129,9 +129,9 @@ def detect_save_type(data: bytes) -> int:
     return SAVE_TYPE_GVAS
 
 
-# ---------------------------------------------------------------------------
+
 # Binary resolution (subprocess fallback only)
-# ---------------------------------------------------------------------------
+
 
 @lru_cache(maxsize=1)
 def _binary_path() -> Path:
@@ -169,10 +169,10 @@ def _binary_path() -> Path:
     return _BINARY_PATH
 
 
-# ---------------------------------------------------------------------------
+
 # PLZ (double-zlib) — for subprocess fallback *and* native backend
 # (uesave's from-json doesn't emit PlZ, so we wrap GVAS bytes here)
-# ---------------------------------------------------------------------------
+
 
 def _plz_compress(gvas: bytes) -> bytes:
     """Double-zlib compress GVAS bytes into a PlZ (type 0x32) SAV."""
@@ -184,9 +184,9 @@ def _plz_compress(gvas: bytes) -> bytes:
     return header + second
 
 
-# ---------------------------------------------------------------------------
+
 # Subprocess helpers
-# ---------------------------------------------------------------------------
+
 
 def _run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
     """Run a subprocess, raising PalsavRsError with stderr on failure."""
@@ -246,9 +246,9 @@ def _encode_subprocess(level_dict: dict[str, Any], save_type: int) -> bytes:
         return gvas
 
 
-# ---------------------------------------------------------------------------
+
 # Core decode / encode — unified API, chooses native or subprocess
-# ---------------------------------------------------------------------------
+
 
 def decode_sav(data: bytes | str | Path) -> tuple[dict[str, Any], int]:
     """Decode a ``.sav`` into ``(level_dict, save_type)``.
@@ -410,9 +410,9 @@ def encode_player_sav(player_dict: dict[str, Any], save_type: int) -> bytes:
     return encode_sav(player_dict, save_type)
 
 
-# ---------------------------------------------------------------------------
+
 # Helpers
-# ---------------------------------------------------------------------------
+
 
 def _as_bytes(data: bytes | str | Path) -> tuple[bytes, int]:
     """Coerce input to (bytes, detected_save_type)."""
@@ -423,9 +423,9 @@ def _as_bytes(data: bytes | str | Path) -> tuple[bytes, int]:
     return raw, detect_save_type(raw)
 
 
-# ---------------------------------------------------------------------------
+
 # Validation helpers
-# ---------------------------------------------------------------------------
+
 
 def roundtrip_sav(data: bytes | str | Path) -> tuple[bool, str]:
     """Decode → encode a ``.sav`` and report byte-faithfulness."""

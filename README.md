@@ -1,8 +1,22 @@
+> ## ⚠️ ARCHIVED — No Longer Maintained
+>
+> **PalworldSaveTools is no longer under active development.** The project has
+> been merged into [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal) —
+> the "one tool to rule them all." A large portion of PST's features (save
+> parsing/editing, breeding, map tools, converters, and more) are being folded
+> into PSP, which is now the single place where all Palworld save tooling lives.
+>
+> **Please use [Palworld Save Pal](https://github.com/oMaN-Rod/palworld-save-pal) instead.**
+>
+> This repository is kept online for **historical reference only** — the code is
+> incomplete and no longer maintained. Bugs will not be fixed and PRs will not
+> be merged. Do not build new work on top of this codebase.
+
 <div align="center">
 
 <img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST_Blue.png" alt="PalworldSaveTools" width="140" />
 
-# PalworldSaveTools
+# PalworldSaveTools <sub>*(archived)*</sub>
 
 **All-in-one save editor for Palworld — now a web app.**
 
@@ -19,6 +33,8 @@ A Rust-backed save engine, a thin FastAPI API layer, and a Svelte 5 + Tailwind U
 ---
 
 ## Overview
+
+> **This project is archived.** Development has moved to [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal). Everything below documents PST as it was — keep it as a historical reference, but use PSP for anything real.
 
 PalworldSaveTools (PST) is a cross-platform save editor for Palworld. v2.0 is a complete rewrite of the original PySide6 desktop app as a **local-first web app**: a Rust parser does the byte-level work, FastAPI exposes it over a small REST + WebSocket surface, and a Svelte SPA is the UI. You run it on your machine; nothing leaves your computer.
 
@@ -275,7 +291,9 @@ CI (in `.github/workflows/`) builds the Nuitka binaries on every release.
 
 ## Contributing
 
-Contributions are welcome — open a Pull Request.
+> **This repository is archived** — PRs will not be merged. Please contribute to [**Palworld Save Pal**](https://github.com/oMaN-Rod/palworld-save-pal) instead.
+
+The historical workflow (pre-archive):
 
 1. Fork → branch (`git checkout -b feature/AmazingFeature`).
 2. For new capabilities, add logic under `src/` first, then expose it via one thin endpoint in `app/backend/`, then the UI in `app/frontend/`. (See the "WebUI build contract" in [`AGENTS.md`](AGENTS.md).)
@@ -284,6 +302,8 @@ Contributions are welcome — open a Pull Request.
 ---
 
 ## The Palworld Team
+
+> Development continues in [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal), where PST features are being merged.
 
 ### Active Maintainers
 

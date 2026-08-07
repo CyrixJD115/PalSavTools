@@ -2,9 +2,8 @@
 >
 > **PalworldSaveTools is no longer under active development.** The project has
 > been merged into [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal) —
-> the "one tool to rule them all." A large portion of PST's features (save
-> parsing/editing, breeding, map tools, converters, and more) are being folded
-> into PSP, which is now the single place where all Palworld save tooling lives.
+> the "one tool to rule them all." A large portion of PST's features are being
+> folded into PSP, which is now the single place where all Palworld save tooling lives.
 >
 > **Please use [Palworld Save Pal](https://github.com/oMaN-Rod/palworld-save-pal) instead.**
 >

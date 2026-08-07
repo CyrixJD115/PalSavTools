@@ -1,6 +1,6 @@
 > ## ⚠️ ARCHIVED — No Longer Maintained
 >
-> **PalworldSaveTools is no longer under active development.** The project has
+> **PalSavTools is no longer under active development.** The project has
 > been merged into [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal) —
 > the "one tool to rule them all." A large portion of PST's features are being
 > folded into PSP, which is now the single place where all Palworld save tooling lives.
@@ -13,9 +13,9 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST_Blue.png" alt="PalworldSaveTools" width="140" />
+<img src="https://raw.githubusercontent.com/CyrixJD115/PalSavTools/master/src/_resources/assets/branding/PST_Blue.png" alt="PalSavTools" width="140" />
 
-# PalworldSaveTools <sub>*(archived)*</sub>
+# PalSavTools <sub>*(archived)*</sub>
 
 **All-in-one save editor for Palworld — now a web app.**
 
@@ -35,7 +35,7 @@ A Rust-backed save engine, a thin FastAPI API layer, and a Svelte 5 + Tailwind U
 
 > **This project is archived.** Development has moved to [**Palworld Save Pal (PSP)**](https://github.com/oMaN-Rod/palworld-save-pal). Everything below documents PST as it was — keep it as a historical reference, but use PSP for anything real.
 
-PalworldSaveTools (PST) is a cross-platform save editor for Palworld. v2.0 is a complete rewrite of the original PySide6 desktop app as a **local-first web app**: a Rust parser does the byte-level work, FastAPI exposes it over a small REST + WebSocket surface, and a Svelte SPA is the UI. You run it on your machine; nothing leaves your computer.
+PalSavTools (PST) is a cross-platform save editor for Palworld. v2.0 is a complete rewrite of the original PySide6 desktop app as a **local-first web app**: a Rust parser does the byte-level work, FastAPI exposes it over a small REST + WebSocket surface, and a Svelte SPA is the UI. You run it on your machine; nothing leaves your computer.
 
 **Why a web app?** The old Qt desktop app was hard to ship cross-platform and slow to iterate on. The new stack keeps the proven save logic, moves the heavy parsing into Rust (so even pre-V1 saves load cleanly without the old 4-byte header crashes), and puts a fast modern UI in front of it.
 
@@ -103,7 +103,7 @@ bash setup/macos.sh        # macOS
 
 ```bash
 git clone https://github.com/CyrixJD115/PalSavTools.git
-cd PalworldSaveTools
+cd PalSavTools
 ./start.sh                 # native Tauri window
 ./start.sh --web           # browser mode (no native window)
 ```
@@ -126,7 +126,7 @@ powershell -ExecutionPolicy Bypass -File setup\windows.ps1
 
 ```powershell
 git clone https://github.com/CyrixJD115/PalSavTools.git
-cd PalworldSaveTools
+cd PalSavTools
 .\start.cmd                # native Tauri window
 .\start.cmd --web          # browser mode (no native window)
 ```
@@ -235,7 +235,7 @@ Transfer characters between worlds/servers preserving characters, Pals, inventor
 | `VCRUNTIME140.dll was not found` (Windows) | Install the [VC++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (2015–2022). |
 | `struct.error` when parsing a save | The save format is outdated. Load it in-game once (Solo/Co-op/Dedicated) to trigger an auto structure update, then retry. |
 | GamePass converter not working | Fully close the GamePass Palworld, wait a few minutes for file handles to release, run the converter, then relaunch GamePass to verify. |
-| Linux binary won't launch | `chmod +x PalworldSaveTools-*-linux`. |
+| Linux binary won't launch | `chmod +x PalSavTools-*-linux`. |
 | macOS binary blocked by Gatekeeper | Right-click → **Open**, or `xattr -d com.apple.quarantine /path/to/app`. |
 | `uv not found` after `setup/*.sh` | **Open a new terminal** so PATH refreshes (the launchers also probe `~/.local/bin` and `~/.cargo/bin`). |
 | `gio-2.0` / `webkit2gtk-4.1 not found` (Linux build) | Missing GTK/WebKit headers — re-run `setup/linux.sh`. Full table in [`setup/README.md`](setup/README.md). |
@@ -276,7 +276,7 @@ uv run python build/nuitka/build_nuitka.py --onefile   # Windows / Linux
 uv run python build/nuitka/build_nuitka.py --onedir    # macOS (.app → .dmg)
 ```
 
-Output → `dist/` (`PalworldSaveTools-*.exe` / `*-linux` / `.app`).
+Output → `dist/` (`PalSavTools-*.exe` / `*-linux` / `.app`).
 
 **Tauri (WebUI desktop app)** — bundles the Svelte frontend + FastAPI backend into a native window:
 
@@ -319,11 +319,11 @@ The historical workflow (pre-archive):
 
 ## Disclaimer
 
-PalworldSaveTools is an unofficial, fan-made tool. It is not affiliated with, endorsed by, or connected to Pocketpair or any Palworld rights holder. "Palworld" is a trademark of its respective owner. Always back up your saves before editing — the tool creates automatic backups, but you are responsible for your data.
+PalSavTools is an unofficial, fan-made tool. It is not affiliated with, endorsed by, or connected to Pocketpair or any Palworld rights holder. "Palworld" is a trademark of its respective owner. Always back up your saves before editing — the tool creates automatic backups, but you are responsible for your data.
 
 ## License
 
-[GNU General Public License v3.0](LICENSE) — © PalworldSaveTools contributors.
+[GNU General Public License v3.0](LICENSE) — © PalSavTools contributors.
 
 ## Acknowledgments
 
